@@ -1,0 +1,87 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.util.cache
+module BaseCircularPool
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
+from "../../../../../org/allbinary/util/CircularIndexUtil.gr" include CircularIndexUtil
+use CircularIndexUtil.{ type CircularIndexUtil }
+from "./AllBinaryObjectFactoryInterface.gr" include AllBinaryObjectFactoryInterface
+use AllBinaryObjectFactoryInterface.{ type AllBinaryObjectFactoryInterface }
+
+provide record BaseCircularPool {
+  jobject: JObject,
+  mut f_circularIndexUtil: CircularIndexUtil,
+  mut f_OBJECT_ARRAY: Array<JObject>,
+}
+
+
+provide let rec jclassName = () => "BaseCircularPool"
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("BaseCircularPool"), f_circularIndexUtil: JR.nullOf(), f_OBJECT_ARRAY: [> ], }
+    this.f_circularIndexUtil = JR.cast(CircularIndexUtil.jstatic_NULL_CIRCULAR_INDEX_UTIL())
+    this.f_OBJECT_ARRAY = NullUtil.jm_getInstance().f_NULL_OBJECT_ARRAY
+    this
+}
+    
+and jm_getNextInstance = (this: BaseCircularPool) => {
+        let mut anyType: JObject = JR.cast(this.f_OBJECT_ARRAY[Int32.toNumber(CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil))])
+        ignore(CircularIndexUtil.jm_next(this.f_circularIndexUtil))
+        return anyType
+}
+    
+and jm_init = (this: BaseCircularPool, allBinaryObjectFactoryInterface: AllBinaryObjectFactoryInterface) => {
+        ignore(CircularIndexUtil.jm_setIndex(this.f_circularIndexUtil, 0l))
+        let mut size: Int32 = CircularIndexUtil.jm_getSize(this.f_circularIndexUtil)
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            this.f_OBJECT_ARRAY[Int32.toNumber(index)] = JR.cast(AllBinaryObjectFactoryInterface.jm_getInstance(allBinaryObjectFactoryInterface))
+            }
+        }
+}
+    
+and jm_getInstance = (this: BaseCircularPool, index: Int32) => {
+        return this.f_OBJECT_ARRAY[Int32.toNumber(index)]
+}
+
+JR.registerLateBound("BaseCircularPool.jnew_0", jnew_0)
+JR.registerLateBound("BaseCircularPool.jm_getNextInstance", jm_getNextInstance)
+JR.registerLateBound("BaseCircularPool.jm_init", jm_init)
+JR.registerLateBound("BaseCircularPool.jm_getInstance", jm_getInstance)
+JR.registerLateBound("BaseCircularPool.f_circularIndexUtil", (this: BaseCircularPool) => this.f_circularIndexUtil)
+JR.registerLateBound("BaseCircularPool.set_f_circularIndexUtil", (this: BaseCircularPool, jvalue) => { this.f_circularIndexUtil = jvalue; jvalue })
+JR.registerLateBound("BaseCircularPool.f_OBJECT_ARRAY", (this: BaseCircularPool) => this.f_OBJECT_ARRAY)
+JR.registerLateBound("BaseCircularPool.set_f_OBJECT_ARRAY", (this: BaseCircularPool, jvalue) => { this.f_OBJECT_ARRAY = jvalue; jvalue })
+
+

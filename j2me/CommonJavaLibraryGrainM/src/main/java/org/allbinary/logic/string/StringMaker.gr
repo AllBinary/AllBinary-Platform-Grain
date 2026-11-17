@@ -1,0 +1,162 @@
+// Generated Code Do Not Modify
+// package org.allbinary.logic.string
+module StringMaker
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/lang/System.gr" include System
+from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/lang/Long.gr" include Long
+from "../../../../java/lang/Float.gr" include Float
+
+provide record StringMaker {
+  jobject: JObject,
+  mut f_charArray: Array<Int32>,
+  mut f_currentLength: Int32,
+}
+
+
+provide let rec jclassName = () => "StringMaker"
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("StringMaker"), f_charArray: [> ], f_currentLength: 0l, }
+    this.jobject.toStringFunction = () => jm_toString(this)
+    
+    
+        this.f_charArray = Array.make(Int32.toNumber(20l), 0l)
+    this
+}
+    
+and jm_append = (this: StringMaker, string: String) => {
+        let mut stringLength: Int32 = JR.length(string)
+        ignore(jm_ensureCapacity(this, Int32.(+)(this.f_currentLength, stringLength)))
+        ignore(JR.getChars(string, 0l, stringLength, this.f_charArray, this.f_currentLength))
+        this.f_currentLength = Int32.(+)(this.f_currentLength, stringLength)
+        return this
+}
+    
+and jm_appendchar = (this: StringMaker, c: Int32) => {
+        ignore(jm_ensureCapacity(this, Int32.(+)(this.f_currentLength, 1l)))
+        this.f_charArray[Int32.toNumber({ let jold = this.f_currentLength; this.f_currentLength = Int32.(+)(jold, 1l); jold })] = c
+        return this
+}
+    
+and jm_appendCharArray = (this: StringMaker, charArray: Array<Int32>, start: Int32, end: Int32) => {
+        ignore(jm_ensureCapacity(this, Int32.(+)(this.f_currentLength, (Int32.(-)(end, start)))))
+        {
+            let mut index: Int32 = start
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, end))) break
+            this.f_charArray[Int32.toNumber({ let jold = this.f_currentLength; this.f_currentLength = Int32.(+)(jold, 1l); jold })] = charArray[Int32.toNumber(index)]
+            }
+        }
+        return this
+}
+    
+and jm_appendbyte = (this: StringMaker, b: Int32) => {
+        ignore(jm_append(this, toString(b)))
+        return this
+}
+    
+and jm_appendshort = (this: StringMaker, b: Int32) => {
+        ignore(jm_append(this, toString(b)))
+        return this
+}
+    
+and jm_appendint = (this: StringMaker, i: Int32) => {
+        ignore(jm_append(this, toString(i)))
+        return this
+}
+    
+and jm_appendlong = (this: StringMaker, l: Int64) => {
+        ignore(jm_append(this, toString(l)))
+        return this
+}
+    
+and jm_appendfloat = (this: StringMaker, f: Float32) => {
+        ignore(jm_append(this, toString(f)))
+        return this
+}
+    
+and jm_appendboolean = (this: StringMaker, bool: Bool) => {
+        if (bool) {
+            ignore(jm_ensureCapacity(this, Int32.(+)(this.f_currentLength, 4l)))
+            this.f_charArray[Int32.toNumber({ let jold = this.f_currentLength; this.f_currentLength = Int32.(+)(jold, 1l); jold })] = Int32.fromNumber(Char.code('t'))
+            this.f_charArray[Int32.toNumber({ let jold = this.f_currentLength; this.f_currentLength = Int32.(+)(jold, 1l); jold })] = Int32.fromNumber(Char.code('r'))
+            this.f_charArray[Int32.toNumber({ let jold = this.f_currentLength; this.f_currentLength = Int32.(+)(jold, 1l); jold })] = Int32.fromNumber(Char.code('u'))
+            this.f_charArray[Int32.toNumber({ let jold = this.f_currentLength; this.f_currentLength = Int32.(+)(jold, 1l); jold })] = Int32.fromNumber(Char.code('e'))
+        } else {
+            ignore(jm_ensureCapacity(this, Int32.(+)(this.f_currentLength, 5l)))
+            this.f_charArray[Int32.toNumber({ let jold = this.f_currentLength; this.f_currentLength = Int32.(+)(jold, 1l); jold })] = Int32.fromNumber(Char.code('f'))
+            this.f_charArray[Int32.toNumber({ let jold = this.f_currentLength; this.f_currentLength = Int32.(+)(jold, 1l); jold })] = Int32.fromNumber(Char.code('a'))
+            this.f_charArray[Int32.toNumber({ let jold = this.f_currentLength; this.f_currentLength = Int32.(+)(jold, 1l); jold })] = Int32.fromNumber(Char.code('l'))
+            this.f_charArray[Int32.toNumber({ let jold = this.f_currentLength; this.f_currentLength = Int32.(+)(jold, 1l); jold })] = Int32.fromNumber(Char.code('s'))
+            this.f_charArray[Int32.toNumber({ let jold = this.f_currentLength; this.f_currentLength = Int32.(+)(jold, 1l); jold })] = Int32.fromNumber(Char.code('e'))
+        }
+        return this
+}
+    
+and jm_ensureCapacity = (this: StringMaker, minSize: Int32) => {
+        let mut oldCapacity: Int32 = Int32.fromNumber(Array.length(this.f_charArray))
+        if (Int32.(>)(minSize, oldCapacity)) {
+            let mut newCapacity: Int32 = Int32.(*)(oldCapacity, 3l)
+            if (Int32.(<)(newCapacity, minSize)) {
+                newCapacity = minSize
+            }
+            let mut copy: Array<Int32> = Array.make(Int32.toNumber(newCapacity), 0l)
+            let mut min: Int32 = jm_min(this, Int32.fromNumber(Array.length(this.f_charArray)), newCapacity)
+            ignore(JR.arraycopy(this.f_charArray, 0l, copy, 0l, min))
+            this.f_charArray = copy
+        }
+}
+    
+and jm_min = (this: StringMaker, value: Int32, value2: Int32) => {
+        return (if ((Int32.(<=)(value, value2))) value else value2)
+}
+    
+and jm_delete = (this: StringMaker, start: Int32, end: Int32) => {
+        this.f_currentLength = Int32.(-)(this.f_currentLength, (Int32.(-)(end, start)))
+        return this
+}
+    
+and jm_length = (this: StringMaker) => {
+        return this.f_currentLength
+}
+    
+and jm_toString = (this: StringMaker) => {
+        return JR.fromChars(this.f_charArray, 0l, this.f_currentLength)
+}
+
+JR.registerLateBound("StringMaker.jnew_0", jnew_0)
+JR.registerLateBound("StringMaker.jm_append", jm_append)
+JR.registerLateBound("StringMaker.jm_appendchar", jm_appendchar)
+JR.registerLateBound("StringMaker.jm_appendCharArray", jm_appendCharArray)
+JR.registerLateBound("StringMaker.jm_appendbyte", jm_appendbyte)
+JR.registerLateBound("StringMaker.jm_appendshort", jm_appendshort)
+JR.registerLateBound("StringMaker.jm_appendint", jm_appendint)
+JR.registerLateBound("StringMaker.jm_appendlong", jm_appendlong)
+JR.registerLateBound("StringMaker.jm_appendfloat", jm_appendfloat)
+JR.registerLateBound("StringMaker.jm_appendboolean", jm_appendboolean)
+JR.registerLateBound("StringMaker.jm_ensureCapacity", jm_ensureCapacity)
+JR.registerLateBound("StringMaker.jm_min", jm_min)
+JR.registerLateBound("StringMaker.jm_delete", jm_delete)
+JR.registerLateBound("StringMaker.jm_length", jm_length)
+JR.registerLateBound("StringMaker.jm_toString", jm_toString)
+JR.registerLateBound("StringMaker.f_charArray", (this: StringMaker) => this.f_charArray)
+JR.registerLateBound("StringMaker.set_f_charArray", (this: StringMaker, jvalue) => { this.f_charArray = jvalue; jvalue })
+JR.registerLateBound("StringMaker.f_currentLength", (this: StringMaker) => this.f_currentLength)
+JR.registerLateBound("StringMaker.set_f_currentLength", (this: StringMaker, jvalue) => { this.f_currentLength = jvalue; jvalue })
+
+

@@ -1,0 +1,77 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.system.hardware
+module HardwareFactory
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/system/os/OperatingSystemInterface.gr" include OperatingSystemInterface
+use OperatingSystemInterface.{ type OperatingSystemInterface }
+from "./NoHardware.gr" include NoHardware
+use NoHardware.{ type NoHardware }
+from "./HardwareInterface.gr" include HardwareInterface
+use HardwareInterface.{ type HardwareInterface }
+
+provide record HardwareFactory {
+  jobject: JObject,
+  mut f_SINGLETON: HardwareInterface,
+}
+
+let mut jcell_instance: Option<HardwareFactory> = None
+
+provide let rec jclassName = () => "HardwareFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: HardwareFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+    
+and jm_getInstance_0 = () => {
+        return jstatic_instance()
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("HardwareFactory"), f_SINGLETON: JR.nullOf(), }
+    this.f_SINGLETON = JR.cast(NoHardware.jm_getInstance())
+        void
+    this
+}
+    
+and jm_getInstance_1 = (this: HardwareFactory, os: OperatingSystemInterface) => {
+        {
+            return this.f_SINGLETON
+        }
+    return JR.nullOf()
+}
+
+JR.registerLateBound("HardwareFactory.jnew_0", jnew_0)
+JR.registerLateBound("HardwareFactory.jm_getInstance_0", jm_getInstance_0)
+JR.registerLateBound("HardwareFactory.jm_getInstance_1", jm_getInstance_1)
+JR.registerLateBound("HardwareFactory.f_SINGLETON", (this: HardwareFactory) => this.f_SINGLETON)
+JR.registerLateBound("HardwareFactory.jstatic_instance", jstatic_instance)
+
+

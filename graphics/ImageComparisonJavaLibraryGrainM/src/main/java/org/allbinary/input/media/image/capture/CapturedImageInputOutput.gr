@@ -1,0 +1,66 @@
+(*
+ 
+  AllBinary Open License Version 1 
+  Copyright (c) 2011 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+*)
+(* Generated Code Do Not Modify *)
+(* package org.allbinary.input.media.image.capture *)
+
+open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import java.awt.image.BufferedImage *)
+(* import org.allbinary.input.automation.ImageOutputData *)
+(* import org.allbinary.logic.communication.log.LogUtil *)
+(* import org.allbinary.logic.java.number.LongUtil *)
+(* import org.allbinary.logic.string.StringMaker *)
+(* import org.allbinary.logic.util.cache.AutomaticCacheInterface *)
+(* import org.allbinary.logic.visual.media.MediaDataFactory *)
+(* import org.allbinary.media.image.ImagePersistanceUtil *)
+(* import org.allbinary.media.image.ImageUtil *)
+(* import org.allbinary.media.image.cache.BufferedImageFrameCacheable *)
+(* import org.allbinary.media.image.io.ImageIOInterface *)
+(* import org.allbinary.string.CommonStrings *)
+
+class capturedImageInputOutput () =
+  object (self)
+    val mutable logUtil : Obj.t = Obj.repr 0
+    method logUtil : 'r. 'r = Obj.magic logUtil
+    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+    
+
+    (* Java overload save(Long) is not converted: OCaml has one method per name *)
+    
+
+    method save : 'any1. 'any1 * int -> unit = fun (bufferedImage, (frame : int)) ->
+        let bufferedImage = Obj.repr bufferedImage in
+        begin
+        let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
+        let imageUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "ImageUtil.getInstance" (Obj.repr ()))))) in ();
+        let filePathStringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
+        ignore (!filePathStringBuffer#append ((ImageOutputData.get_sAVE_PATH ())));
+        ignore (!filePathStringBuffer#append ((LongUtil.fillIn ((string_of_int frame)))));
+        ignore (!filePathStringBuffer#append (((MediaDataFactory.getInstance ())#jPG#getExtension ())));
+        let filePath : string ref = ref ((java_string_of (Obj.repr !filePathStringBuffer))) in ();
+        ignore ((Obj.magic logUtil)#putF (((("Image File Path: " ^ !filePath) ^ ((Obj.magic !imageUtil)#toString ((Obj.magic bufferedImage))))), (Obj.magic self), !commonStrings#sAVE));
+        let imagePersistanceUtil : ImagePersistanceUtil.imagePersistanceUtil ref = ref (((ImagePersistanceUtil.getInstance ()) :> ImagePersistanceUtil.imagePersistanceUtil)) in ();
+        ignore (!imagePersistanceUtil#saveWithImageIO (!filePath, (Obj.magic bufferedImage)))
+        end [@@warning "-20"]
+
+    initializer
+      begin
+        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
+        ()
+      end
+  end [@@warning "-20"]
+let () = java_register_constructor "CapturedImageInputOutput" (fun arguments -> Obj.repr (new capturedImageInputOutput (Obj.obj arguments)))
+
+

@@ -1,0 +1,197 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.time
+module TimeDelayHelper
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../org/allbinary/string/CommonLabels.gr" include CommonLabels
+use CommonLabels.{ type CommonLabels }
+from "../../../java/lang/System.gr" include System
+from "../../../java/lang/Long.gr" include Long
+
+provide record TimeDelayHelper {
+  jobject: JObject,
+  mut f_startTime: Int64,
+  mut f_elapsedTimeAtPause: Int64,
+  mut f_delay: Int32,
+}
+
+
+provide let rec jclassName = () => "TimeDelayHelper"
+    
+and jnew_1 = (delay: Int32) => {
+    let this = { jobject: JR.newJObject("TimeDelayHelper"), f_startTime: 0L, f_elapsedTimeAtPause: 0L, f_delay: 0l, }
+    this.jobject.toStringFunction = () => jm_toString(this)
+    this.f_startTime = Int64.fromNumber(Int32.toNumber(Int32.(-)(1l, Int32.(+)(1l, 1l))))
+    this.f_elapsedTimeAtPause = Long.jstatic_MIN_VALUE()
+    
+        this.f_delay = delay
+        ignore(jm_setStartTimeTNT(this))
+    this
+}
+    
+and jm_isTimeTNT = (this: TimeDelayHelper) => {
+        let mut currentTime: Int64 = JR.currentTimeMillis()
+        if (Int64.(>)(Int64.(-)(currentTime, this.f_startTime), Int64.fromNumber(Int32.toNumber(this.f_delay)))) {
+            this.f_startTime = currentTime
+            return true
+        }
+        return false
+}
+    
+and jm_isTimeSinceTNT = (this: TimeDelayHelper, delay: Int32) => {
+        let mut currentTime: Int64 = JR.currentTimeMillis()
+        if (Int64.(>)(Int64.(-)(currentTime, this.f_startTime), Int64.fromNumber(Int32.toNumber(delay)))) {
+            this.f_startTime = currentTime
+            return true
+        }
+        return false
+}
+    
+and jm_isTime = (this: TimeDelayHelper, currentTime: Int64) => {
+        if (Int64.(>)(Int64.(-)(currentTime, this.f_startTime), Int64.fromNumber(Int32.toNumber(this.f_delay)))) {
+            this.f_startTime = currentTime
+            return true
+        }
+        return false
+}
+    
+and jm_isTimeWithoutReset = (this: TimeDelayHelper, currentTime: Int64) => {
+        if (Int64.(>)(Int64.(-)(currentTime, this.f_startTime), Int64.fromNumber(Int32.toNumber(this.f_delay)))) {
+            return true
+        }
+        return false
+}
+    
+and jm_isTimeSince = (this: TimeDelayHelper, delay: Int32, currentTime: Int64) => {
+        if (Int64.(>)(Int64.(-)(currentTime, this.f_startTime), Int64.fromNumber(Int32.toNumber(this.f_delay)))) {
+            this.f_startTime = currentTime
+            return true
+        }
+        return false
+}
+    
+and jm_getElapsedTNT = (this: TimeDelayHelper) => {
+        return Int64.(-)(JR.currentTimeMillis(), this.f_startTime)
+}
+    
+and jm_getElapsed = (this: TimeDelayHelper, currentTime: Int64) => {
+        return Int64.(-)(currentTime, this.f_startTime)
+}
+    
+and jm_isElapsed = (this: TimeDelayHelper, currentTime: Int64, time: Int64) => {
+        if (Int64.(>)(jm_getElapsed(this, currentTime), time)) {
+            return true
+        } else {
+            return false
+        }
+}
+    
+and jm_isElapsedTNT = (this: TimeDelayHelper, time: Int64) => {
+        if (Int64.(>)(jm_getElapsedTNT(this), time)) {
+            return true
+        } else {
+            return false
+        }
+}
+    
+and jm_setStartTime = (this: TimeDelayHelper, startTime: Int64) => {
+        this.f_startTime = startTime
+}
+    
+and jm_getStartTime = (this: TimeDelayHelper) => {
+        return this.f_startTime
+}
+    
+and jm_setStartTimeTNT = (this: TimeDelayHelper) => {
+        this.f_startTime = JR.currentTimeMillis()
+}
+    
+and jm_pause = (this: TimeDelayHelper) => {
+        this.f_elapsedTimeAtPause = jm_getElapsedTNT(this)
+        this.f_startTime = Long.jstatic_MAX_VALUE()
+}
+    
+and jm_resume = (this: TimeDelayHelper) => {
+        if ((this.f_elapsedTimeAtPause != Long.jstatic_MIN_VALUE())) {
+            this.f_startTime = Int64.(+)(JR.currentTimeMillis(), this.f_elapsedTimeAtPause)
+            this.f_elapsedTimeAtPause = Long.jstatic_MIN_VALUE()
+            ignore(jm_setStartTimeTNT(this))
+            return true
+        }
+        return false
+}
+    
+and jm_toStringAt = (this: TimeDelayHelper, currentTime: Int64) => {
+        let mut elapsed: Int64 = jm_getElapsed(this, currentTime)
+        if (Int64.(>)(elapsed, 0L)) {
+            let mut commonLabels: CommonLabels = JR.cast(CommonLabels.jm_getInstance())
+            let mut elapsedAsString: String = toString(elapsed)
+            return StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_appendlong(StringMaker.jm_append(StringMaker.jm_appendlong(StringMaker.jm_append(StringMaker.jnew_0(), commonLabels.f_START), this.f_startTime), commonLabels.f_CURRENT), currentTime), commonLabels.f_ELAPSED), elapsedAsString))
+        } else {
+            return StringUtil.jm_getInstance().f_EMPTY_STRING
+        }
+}
+    
+and jm_toString = (this: TimeDelayHelper) => {
+        let mut currentTime: Int64 = JR.currentTimeMillis()
+        let mut elapsed: Int64 = jm_getElapsed(this, currentTime)
+        if (Int64.(>)(elapsed, 0L)) {
+            let mut commonLabels: CommonLabels = JR.cast(CommonLabels.jm_getInstance())
+            let mut elapsedAsString: String = toString(elapsed)
+            return StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_appendlong(StringMaker.jm_append(StringMaker.jm_appendlong(StringMaker.jm_append(StringMaker.jnew_0(), commonLabels.f_START), this.f_startTime), commonLabels.f_CURRENT), currentTime), commonLabels.f_ELAPSED), elapsedAsString))
+        } else {
+            return StringUtil.jm_getInstance().f_EMPTY_STRING
+        }
+}
+
+JR.registerLateBound("TimeDelayHelper.jnew_1", jnew_1)
+JR.registerLateBound("TimeDelayHelper.jm_isTimeTNT", jm_isTimeTNT)
+JR.registerLateBound("TimeDelayHelper.jm_isTimeSinceTNT", jm_isTimeSinceTNT)
+JR.registerLateBound("TimeDelayHelper.jm_isTime", jm_isTime)
+JR.registerLateBound("TimeDelayHelper.jm_isTimeWithoutReset", jm_isTimeWithoutReset)
+JR.registerLateBound("TimeDelayHelper.jm_isTimeSince", jm_isTimeSince)
+JR.registerLateBound("TimeDelayHelper.jm_getElapsedTNT", jm_getElapsedTNT)
+JR.registerLateBound("TimeDelayHelper.jm_getElapsed", jm_getElapsed)
+JR.registerLateBound("TimeDelayHelper.jm_isElapsed", jm_isElapsed)
+JR.registerLateBound("TimeDelayHelper.jm_isElapsedTNT", jm_isElapsedTNT)
+JR.registerLateBound("TimeDelayHelper.jm_setStartTime", jm_setStartTime)
+JR.registerLateBound("TimeDelayHelper.jm_getStartTime", jm_getStartTime)
+JR.registerLateBound("TimeDelayHelper.jm_setStartTimeTNT", jm_setStartTimeTNT)
+JR.registerLateBound("TimeDelayHelper.jm_pause", jm_pause)
+JR.registerLateBound("TimeDelayHelper.jm_resume", jm_resume)
+JR.registerLateBound("TimeDelayHelper.jm_toStringAt", jm_toStringAt)
+JR.registerLateBound("TimeDelayHelper.jm_toString", jm_toString)
+JR.registerLateBound("TimeDelayHelper.f_startTime", (this: TimeDelayHelper) => this.f_startTime)
+JR.registerLateBound("TimeDelayHelper.set_f_startTime", (this: TimeDelayHelper, jvalue) => { this.f_startTime = jvalue; jvalue })
+JR.registerLateBound("TimeDelayHelper.f_elapsedTimeAtPause", (this: TimeDelayHelper) => this.f_elapsedTimeAtPause)
+JR.registerLateBound("TimeDelayHelper.set_f_elapsedTimeAtPause", (this: TimeDelayHelper, jvalue) => { this.f_elapsedTimeAtPause = jvalue; jvalue })
+JR.registerLateBound("TimeDelayHelper.f_delay", (this: TimeDelayHelper) => this.f_delay)
+JR.registerLateBound("TimeDelayHelper.set_f_delay", (this: TimeDelayHelper, jvalue) => { this.f_delay = jvalue; jvalue })
+
+

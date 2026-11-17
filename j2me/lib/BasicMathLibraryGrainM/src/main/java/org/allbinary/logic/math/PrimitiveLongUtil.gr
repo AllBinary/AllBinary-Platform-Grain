@@ -1,0 +1,144 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.math
+module PrimitiveLongUtil
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./PrimitiveLongSingleton.gr" include PrimitiveLongSingleton
+use PrimitiveLongSingleton.{ type PrimitiveLongSingleton }
+from "./MathUtil.gr" include MathUtil
+use MathUtil.{ type MathUtil }
+
+provide record PrimitiveLongUtil {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_powerOfTen: Int32,
+  mut f_maxValue: Int32,
+  mut f_maxDigits: Int32,
+  mut f_charArray: Array<Int32>,
+  mut f_currentTotalDigits: Int32,
+  mut f_primitiveLongSingleton: PrimitiveLongSingleton,
+}
+
+
+provide let rec jclassName = () => "PrimitiveLongUtil"
+    
+and jm_createPowerOfTen = (powerOfTen: Int32) => {
+        let mut primitiveLongUtil: PrimitiveLongUtil = jnew_2(powerOfTen, NullUtil.jm_getInstance().f_NULL_OBJECT)
+        if ((Int32.rem(powerOfTen, 10l) != 0l)) {
+            let mut logUtil: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+            let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_put"))
+JR.cast(jlate(JR.cast(logUtil), JR.cast(commonStrings.f_EXCEPTION), JR.cast(primitiveLongUtil), JR.cast(commonStrings.f_CONSTRUCTOR), JR.cast(JR.newJObject("Exception"))))
+})
+        }
+        return primitiveLongUtil
+}
+    
+and jnew_2 = (powerOfTen: Int32, unused: JObject) => {
+    let this = { jobject: JR.newJObject("PrimitiveLongUtil"), f_logUtil: JR.jnull, f_powerOfTen: 0l, f_maxValue: 0l, f_maxDigits: 0l, f_charArray: [> ], f_currentTotalDigits: 0l, f_primitiveLongSingleton: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    
+    
+    
+    
+    
+    this.f_primitiveLongSingleton = JR.cast(PrimitiveLongSingleton.jm_getInstance())
+        this.f_maxDigits = MathUtil.jm_getTotalDigits(MathUtil.jm_getInstance(), powerOfTen)
+        this.f_powerOfTen = powerOfTen
+        this.f_maxValue = Int32.(-)((Int32.(*)(powerOfTen, 10l)), 1l)
+        this.f_charArray = Array.make(Int32.toNumber(this.f_maxDigits), 0l)
+    this
+}
+    
+and jm_getCharArray = (this: PrimitiveLongUtil, value: Int32) => {
+        if (Int32.(<)(value, 10l)) {
+            ignore(jm_setCurrentTotalDigits(this, 1l))
+            return this.f_primitiveLongSingleton.f_NUMBER_CHAR_ARRAYS[Int32.toNumber(value)]
+        }
+        if (Int32.(>)(value, this.f_maxValue)) {
+            ignore(jm_setCurrentTotalDigits(this, 3l))
+            return this.f_primitiveLongSingleton.f_UNK
+        }
+        let mut index: Int32 = 0l
+        let mut div: Int32 = this.f_powerOfTen
+        let mut lastValue: Int32 = 0l
+        while (Int32.(>=)(div, 1l)) {
+            let mut digit: Int32 = Int32.(/)((Int32.(-)(value, lastValue)), div)
+            if ((Int32.(>=)(digit, 0l) && Int32.(<)(digit, 10l))) {
+                if (((digit == 0l) && (index == 0l))) {
+                    void
+                } else {
+                    this.f_charArray[Int32.toNumber({ let jold = index; index = Int32.(+)(jold, 1l); jold })] = this.f_primitiveLongSingleton.f_NUMBER_CHAR_ARRAY[Int32.toNumber(digit)]
+                }
+                lastValue = Int32.(+)(lastValue, Int32.(*)(digit, div))
+            }
+            div = Int32.(/)(div, 10l)
+        }
+        ignore(jm_setCurrentTotalDigits(this, index))
+        return this.f_charArray
+}
+    
+and jm_setCurrentTotalDigits = (this: PrimitiveLongUtil, currentTotalDigits: Int32) => {
+        this.f_currentTotalDigits = currentTotalDigits
+}
+    
+and jm_getCurrentTotalDigits = (this: PrimitiveLongUtil) => {
+        return this.f_currentTotalDigits
+}
+    
+and jm_getMaxDigits = (this: PrimitiveLongUtil) => {
+        return this.f_maxDigits
+}
+
+JR.registerLateBound("PrimitiveLongUtil.jnew_2", jnew_2)
+JR.registerLateBound("PrimitiveLongUtil.jm_createPowerOfTen", jm_createPowerOfTen)
+JR.registerLateBound("PrimitiveLongUtil.jm_getCharArray", jm_getCharArray)
+JR.registerLateBound("PrimitiveLongUtil.jm_setCurrentTotalDigits", jm_setCurrentTotalDigits)
+JR.registerLateBound("PrimitiveLongUtil.jm_getCurrentTotalDigits", jm_getCurrentTotalDigits)
+JR.registerLateBound("PrimitiveLongUtil.jm_getMaxDigits", jm_getMaxDigits)
+JR.registerLateBound("PrimitiveLongUtil.f_logUtil", (this: PrimitiveLongUtil) => this.f_logUtil)
+JR.registerLateBound("PrimitiveLongUtil.f_powerOfTen", (this: PrimitiveLongUtil) => this.f_powerOfTen)
+JR.registerLateBound("PrimitiveLongUtil.set_f_powerOfTen", (this: PrimitiveLongUtil, jvalue) => { this.f_powerOfTen = jvalue; jvalue })
+JR.registerLateBound("PrimitiveLongUtil.f_maxValue", (this: PrimitiveLongUtil) => this.f_maxValue)
+JR.registerLateBound("PrimitiveLongUtil.set_f_maxValue", (this: PrimitiveLongUtil, jvalue) => { this.f_maxValue = jvalue; jvalue })
+JR.registerLateBound("PrimitiveLongUtil.f_maxDigits", (this: PrimitiveLongUtil) => this.f_maxDigits)
+JR.registerLateBound("PrimitiveLongUtil.set_f_maxDigits", (this: PrimitiveLongUtil, jvalue) => { this.f_maxDigits = jvalue; jvalue })
+JR.registerLateBound("PrimitiveLongUtil.f_charArray", (this: PrimitiveLongUtil) => this.f_charArray)
+JR.registerLateBound("PrimitiveLongUtil.f_currentTotalDigits", (this: PrimitiveLongUtil) => this.f_currentTotalDigits)
+JR.registerLateBound("PrimitiveLongUtil.set_f_currentTotalDigits", (this: PrimitiveLongUtil, jvalue) => { this.f_currentTotalDigits = jvalue; jvalue })
+JR.registerLateBound("PrimitiveLongUtil.f_primitiveLongSingleton", (this: PrimitiveLongUtil) => this.f_primitiveLongSingleton)
+
+

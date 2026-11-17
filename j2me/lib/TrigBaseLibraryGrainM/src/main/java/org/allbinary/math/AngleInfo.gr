@@ -1,0 +1,114 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.math
+module AngleInfo
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "./AngleIncrementInfo.gr" include AngleIncrementInfo
+use AngleIncrementInfo.{ type AngleIncrementInfo }
+from "./AngleIncrementInfoFactory.gr" include AngleIncrementInfoFactory
+use AngleIncrementInfoFactory.{ type AngleIncrementInfoFactory }
+from "./FrameUtil.gr" include FrameUtil
+use FrameUtil.{ type FrameUtil }
+
+provide record AngleInfo {
+  jobject: JObject,
+  mut f_angleIncrementInfo: AngleIncrementInfo,
+  mut f_angle: Int32,
+  mut f_frameUtil: FrameUtil,
+}
+
+let mut jcell_ANGLE: Option<String> = None
+
+provide let rec jclassName = () => "AngleInfo"
+
+and jstatic_ANGLE = () => match (jcell_ANGLE) {
+  Some(value) => value,
+  None => {
+    let value: String = "Angle: "
+    jcell_ANGLE = Some(value)
+    value
+  },
+}
+    
+and jm_getInstance = (angleIncrement: Int32) => {
+        return jnew_1(AngleIncrementInfoFactory.jm_getAt(AngleIncrementInfoFactory.jm_getInstance(), angleIncrement))
+}
+    
+and jnew_1 = (angleIncrementInfo: AngleIncrementInfo) => {
+    let this = { jobject: JR.newJObject("AngleInfo"), f_angleIncrementInfo: JR.nullOf(), f_angle: 0l, f_frameUtil: JR.nullOf(), }
+    this.jobject.toStringFunction = () => jm_toString(this)
+    
+    this.f_angle = 0l
+    this.f_frameUtil = JR.cast(FrameUtil.jm_getInstance())
+        this.f_angleIncrementInfo = angleIncrementInfo
+    this
+}
+    
+and jm_adjustAngle = (this: AngleInfo, frame: Int32) => {
+        let mut newAngle: Int32 = Int32.(-)(Int32.(*)(AngleIncrementInfo.jm_getAngleIncrement(this.f_angleIncrementInfo), frame), 90l)
+        ignore(jm_setAngle(this, JR.i16(FrameUtil.jm_adjustAngleToFrameAngle(this.f_frameUtil, newAngle))))
+}
+    
+and jm_getAngle = (this: AngleInfo) => {
+        return this.f_angle
+}
+    
+and jm_setAngle = (this: AngleInfo, angle: Int32) => {
+        this.f_angle = angle
+}
+    
+and jm_getAngleIncrementInfo = (this: AngleInfo) => {
+        return this.f_angleIncrementInfo
+}
+    
+and jm_toString = (this: AngleInfo) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, jstatic_ANGLE()))
+        ignore(StringMaker.jm_appendshort(stringBuffer, this.f_angle))
+        ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
+        ignore(StringMaker.jm_append(stringBuffer, StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(jm_getAngleIncrementInfo(this)))))
+        return StringMaker.jm_toString(stringBuffer)
+}
+
+JR.registerLateBound("AngleInfo.jnew_1", jnew_1)
+JR.registerLateBound("AngleInfo.jm_getInstance", jm_getInstance)
+JR.registerLateBound("AngleInfo.jm_adjustAngle", jm_adjustAngle)
+JR.registerLateBound("AngleInfo.jm_getAngle", jm_getAngle)
+JR.registerLateBound("AngleInfo.jm_setAngle", jm_setAngle)
+JR.registerLateBound("AngleInfo.jm_getAngleIncrementInfo", jm_getAngleIncrementInfo)
+JR.registerLateBound("AngleInfo.jm_toString", jm_toString)
+JR.registerLateBound("AngleInfo.f_angleIncrementInfo", (this: AngleInfo) => this.f_angleIncrementInfo)
+JR.registerLateBound("AngleInfo.f_angle", (this: AngleInfo) => this.f_angle)
+JR.registerLateBound("AngleInfo.set_f_angle", (this: AngleInfo, jvalue) => { this.f_angle = jvalue; jvalue })
+JR.registerLateBound("AngleInfo.f_frameUtil", (this: AngleInfo) => this.f_frameUtil)
+JR.registerLateBound("AngleInfo.jstatic_ANGLE", jstatic_ANGLE)
+
+

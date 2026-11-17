@@ -1,0 +1,102 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.system.os.linux
+module LinuxOperatingSystemFactory
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/logic/system/os/GenericOperatingSystem.gr" include GenericOperatingSystem
+use GenericOperatingSystem.{ type GenericOperatingSystem }
+from "../../../../../../org/allbinary/logic/system/os/NoOperatingSystem.gr" include NoOperatingSystem
+use NoOperatingSystem.{ type NoOperatingSystem }
+from "../../../../../../org/allbinary/logic/system/os/OperatingSystems.gr" include OperatingSystems
+use OperatingSystems.{ type OperatingSystems }
+from "../../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./LinuxOS.gr" include LinuxOS
+use LinuxOS.{ type LinuxOS }
+
+provide record LinuxOperatingSystemFactory {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+}
+
+let mut jcell_instance: Option<LinuxOperatingSystemFactory> = None
+
+provide let rec jclassName = () => "LinuxOperatingSystemFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: LinuxOperatingSystemFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("LinuxOperatingSystemFactory"), f_logUtil: JR.jnull, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        void
+    this
+}
+    
+and jm_getOperatingSystemInstance = (this: LinuxOperatingSystemFactory) => {
+        {
+            let mut operatingSystems: OperatingSystems = JR.cast(OperatingSystems.jm_getInstance())
+            let mut osName: String = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SystemProperties.jm_getName"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("SystemProperties.jm_getInstance"))
+JR.cast(jlate())
+})))
+}
+            let mut operatingSystemInterface: GenericOperatingSystem = JR.nullOf()
+            if ((JR.compareTo(osName, operatingSystems.f_LINUX) == 0l)) {
+                operatingSystemInterface = JR.cast(LinuxOS.jnew_0())
+            } else {
+                if (OperatingSystems.jm_isUnknownSpecificOSAllowed(operatingSystems)) {
+                    operatingSystemInterface = JR.cast(LinuxOS.jnew_0())
+                } else {
+                    fail JR.toStringOf(JR.newJObject("Exception"))
+                }
+            }
+            return operatingSystemInterface
+        }
+    return JR.nullOf()
+}
+
+JR.registerLateBound("LinuxOperatingSystemFactory.jnew_0", jnew_0)
+JR.registerLateBound("LinuxOperatingSystemFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("LinuxOperatingSystemFactory.jm_getOperatingSystemInstance", jm_getOperatingSystemInstance)
+JR.registerLateBound("LinuxOperatingSystemFactory.f_logUtil", (this: LinuxOperatingSystemFactory) => this.f_logUtil)
+JR.registerLateBound("LinuxOperatingSystemFactory.jstatic_instance", jstatic_instance)
+
+

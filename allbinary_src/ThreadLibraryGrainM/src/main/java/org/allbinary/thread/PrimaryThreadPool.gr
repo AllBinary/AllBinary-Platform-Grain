@@ -1,0 +1,126 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.thread
+module PrimaryThreadPool
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../java/lang/System.gr" include System
+from "../../../java/lang/Runnable.gr" include Runnable
+use Runnable.{ type Runnable }
+
+provide record PrimaryThreadPool {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_NULL_RUNNABLE: JObject,
+  mut f_threadPoolStrings: JObject,
+  mut f_threadObjectUtil: JObject,
+  mut f_isAlive: Bool,
+  mut f_taskQueue: JObject,
+  mut f_numThreads: Int32,
+  mut f_runningTask: Bool,
+  mut f_currentPriorityRunnable: JObject,
+  mut f_poolName: String,
+  mut f_priority: Int32,
+  mut f_threadID: Int32,
+}
+
+let mut jcell_THREAD_POOL: Option<JObject> = None
+
+provide let rec jclassName = () => "PrimaryThreadPool"
+
+and jstatic_THREAD_POOL = () => match (jcell_THREAD_POOL) {
+  Some(value) => value,
+  None => {
+    let value: JObject = {
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.jnew_3"))
+JR.cast(jlate(JR.cast("Primary"), JR.cast(1l), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("ThreadPool.jstatic_NORMAL_PRIORITY"))
+JR.cast(jlate())
+})))
+}
+    jcell_THREAD_POOL = Some(value)
+    value
+  },
+}
+    
+and jm_getInstance = () => {
+        return jstatic_THREAD_POOL()
+}
+    
+and jnew_3 = (poolName: String, numThreads: Int32, priority: Int32) => {
+    let this = { jobject: JR.newJObject("PrimaryThreadPool"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_NULL_RUNNABLE: JR.jnull, f_threadPoolStrings: JR.jnull, f_threadObjectUtil: JR.jnull, f_isAlive: false, f_taskQueue: JR.jnull, f_numThreads: 0l, f_runningTask: false, f_currentPriorityRunnable: JR.jnull, f_poolName: "", f_priority: 0l, f_threadID: 0l, }
+        void
+    this
+}
+    
+and jm_runTask = (this: PrimaryThreadPool, task: Runnable) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendlong(StringMaker.jm_append(StringMaker.jnew_0(), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(task))), JR.currentTimeMillis()))), JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ThreadPoolStrings.f_ADD_TASK"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_threadPoolStrings))))
+})))
+})
+        ignore(jm_runTask(this, task))
+}
+    
+and jm_startTask = (this: PrimaryThreadPool, task: Runnable) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ThreadPoolStrings.f_START_TASK"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_threadPoolStrings))))
+}), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(task))))), JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_RUN"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+})))
+})
+}
+    
+and jm_completedTask = (this: PrimaryThreadPool, task: Runnable) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ThreadPoolStrings.f_COMPLETE_TASK"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_threadPoolStrings))))
+}), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(task))))), JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_RUN"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+})))
+})
+}
+
+JR.registerLateBound("PrimaryThreadPool.jnew_3", jnew_3)
+JR.registerLateBound("PrimaryThreadPool.jm_getInstance", jm_getInstance)
+JR.registerLateBound("PrimaryThreadPool.jm_runTask", jm_runTask)
+JR.registerLateBound("PrimaryThreadPool.jm_startTask", jm_startTask)
+JR.registerLateBound("PrimaryThreadPool.jm_completedTask", jm_completedTask)
+JR.registerLateBound("PrimaryThreadPool.jstatic_THREAD_POOL", jstatic_THREAD_POOL)
+
+

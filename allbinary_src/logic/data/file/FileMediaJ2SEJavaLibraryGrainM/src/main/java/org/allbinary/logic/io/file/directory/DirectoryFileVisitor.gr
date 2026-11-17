@@ -1,0 +1,60 @@
+(*
+ 
+  AllBinary Open License Version 1 
+  Copyright (c) 2002 AllBinary 
+   
+  By agreeing to this license you and any business entity you represent are 
+  legally bound to the AllBinary Open License Version 1 legal agreement. 
+   
+  You may obtain the AllBinary Open License Version 1 legal agreement from 
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+   
+  Created By: Travis Berthelot 
+    
+*)
+(* Generated Code Do Not Modify *)
+(* package org.allbinary.logic.io.file.directory *)
+
+open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import java.io.File *)
+(* import java.io.FileFilter *)
+(* import org.allbinary.logic.util.visitor.VisitorInterface *)
+
+class directoryFileVisitor () =
+  object (self)
+    
+    
+
+    method accept (arg0) : bool =
+        begin
+        (java_boolean_value (Obj.repr ((Obj.magic (self#visit ((Obj.magic arg0)))))))
+        end
+    
+
+    method visit : 'any1. 'any1 -> Obj.t = fun (anyType) ->
+        let anyType = Obj.repr anyType in
+        try
+        begin
+        let file : java_file ref = ref (((Obj.magic anyType) :> java_file)) in ();
+        let index : int ref = ref (1) in ();
+        let aFile : java_file ref = ref (((!file#getParentFile ()) :> java_file)) in ();
+        while (((aFile := (!aFile#getParentFile ()); !aFile)) != (Obj.magic 0)) do
+            index := !index + 1
+        done;
+        if ((!file#isDirectory ()) && (!index < 5)) then begin
+            raise (Java_return (Obj.repr (true)))
+        end;
+        (Obj.repr (false))
+        end
+        with Java_return value -> Obj.obj value
+
+    initializer
+      begin
+        ();
+        ()
+      end
+  end
+let () = java_register_constructor "DirectoryFileVisitor" (fun arguments -> Obj.repr (new directoryFileVisitor (Obj.obj arguments)))
+
+

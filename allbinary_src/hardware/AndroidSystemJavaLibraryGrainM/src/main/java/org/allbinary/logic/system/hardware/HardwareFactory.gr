@@ -1,0 +1,78 @@
+(*
+
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+*)
+(* Generated Code Do Not Modify *)
+(* package org.allbinary.logic.system.hardware *)
+
+open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import org.allbinary.TsUtil *)
+(* import org.allbinary.logic.communication.log.LogUtil *)
+(* import org.allbinary.logic.system.hardware.android.AndroidHardware *)
+(* import org.allbinary.logic.system.os.GenericOperatingSystem *)
+(* import org.allbinary.logic.system.os.OperatingSystems *)
+(* import org.allbinary.string.CommonStrings *)
+
+class hardwareFactory () =
+  object (self)
+    val mutable logUtil : Obj.t = Obj.repr 0
+    method logUtil : 'r. 'r = Obj.magic logUtil
+    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+    val mutable tsUtil : Obj.t = Obj.repr 0
+    method tsUtil : 'r. 'r = Obj.magic tsUtil
+    method set_tsUtil : 'v. 'v -> unit = fun value' -> tsUtil <- Obj.repr value'
+    
+    
+
+    method getInstance : 'any1 'return. 'any1 -> 'return = fun (os) ->
+        let os = Obj.repr os in
+        try
+        begin
+        (try
+            let operatingSystems : OperatingSystems.operatingSystems ref = ref (((OperatingSystems.getInstance ()) :> OperatingSystems.operatingSystems)) in ();
+            if (((Obj.magic tsUtil)#compareTo (((Obj.magic os)#getName ()), !operatingSystems#aNDROID)) = 0) then begin
+                raise (Java_return (Obj.repr ((new AndroidHardware.androidHardware ()))))
+            end else if (((Obj.magic tsUtil)#compareTo (((Obj.magic os)#getName ()), !operatingSystems#hARMONY)) = 0) then begin
+                raise (Java_return (Obj.repr ((new AndroidHardware.androidHardware ()))))
+            end;
+            raise (Failure (("No Hardware Imp for: " ^ ((Obj.magic os)#getName ()))))
+        with e -> begin
+            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
+            ignore ((Obj.magic logUtil)#put ("Ignoring Exception Returning NoHardware", (Obj.magic self), !commonStrings#gET_INSTANCE, e));
+            (Obj.magic ((new NoHardware.noHardware ())))
+        end)
+        end
+        with Java_return value -> Obj.obj value [@@warning "-20"]
+
+    initializer
+      begin
+        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
+        tsUtil <- (Obj.repr (Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ()))));
+        ();
+        ()
+      end
+  end [@@warning "-20"]
+let () = java_register_constructor "HardwareFactory" (fun arguments -> Obj.repr (new hardwareFactory (Obj.obj arguments)))
+
+let instance = (new hardwareFactory ())
+let get_instance () = instance
+let () = java_register_static "HardwareFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+
+let getInstance : 'return. unit -> 'return = fun () ->
+        begin
+        (Obj.magic (instance))
+        end
+let () = java_register_static "HardwareFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+

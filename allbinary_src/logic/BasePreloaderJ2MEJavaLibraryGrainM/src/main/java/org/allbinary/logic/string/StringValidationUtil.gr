@@ -1,0 +1,174 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.string
+module StringValidationUtil
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+
+provide record StringValidationUtil {
+  jobject: JObject,
+  mut f_stringUtil: StringUtil,
+  mut f_tsUtil: JObject,
+}
+
+let mut jcell_instance: Option<StringValidationUtil> = None
+
+provide let rec jclassName = () => "StringValidationUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: StringValidationUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("StringValidationUtil"), f_stringUtil: JR.nullOf(), f_tsUtil: JR.jnull, }
+    this.f_stringUtil = JR.cast(StringUtil.jm_getInstance())
+    this.f_tsUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        void
+    this
+}
+    
+and jm_containsSpaces = (this: StringValidationUtil, value: String) => {
+        if (Int32.(>=)(JR.indexOf(value, JR.chr(Int32.fromNumber(Char.code(' ')))), 0l)) {
+            return true
+        }
+        return false
+}
+    
+and jm_isNumber = (this: StringValidationUtil, value: String) => {
+        let mut numberOfDecimalPoints: Int32 = 0l
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, JR.length(value)))) break
+            let mut digit: Int32 = JR.charAt(value, index)
+            if ((!jm_isNumberFromChar(this, digit) && (digit != Int32.fromNumber(Char.code('.'))))) {
+                return false
+            }
+            if ((digit == Int32.fromNumber(Char.code('.')))) {
+                numberOfDecimalPoints = Int32.(+)(numberOfDecimalPoints, 1l)
+                if (Int32.(>)(numberOfDecimalPoints, 1l)) {
+                    return false
+                }
+            }
+            }
+        }
+        return true
+}
+    
+and jm_isNumberFromChar = (this: StringValidationUtil, digit: Int32) => {
+        if (((((((((((digit != Int32.fromNumber(Char.code('0'))) && (digit != Int32.fromNumber(Char.code('1')))) && (digit != Int32.fromNumber(Char.code('2')))) && (digit != Int32.fromNumber(Char.code('3')))) && (digit != Int32.fromNumber(Char.code('4')))) && (digit != Int32.fromNumber(Char.code('5')))) && (digit != Int32.fromNumber(Char.code('6')))) && (digit != Int32.fromNumber(Char.code('7')))) && (digit != Int32.fromNumber(Char.code('8')))) && (digit != Int32.fromNumber(Char.code('9'))))) {
+            return false
+        }
+        return true
+}
+    
+and jm_isValidRequired = (this: StringValidationUtil, value: String, min: Int32, max: Int32) => {
+        if ((Int32.(<)(JR.length(value), min) || Int32.(>)(JR.length(value), max))) {
+            return false
+        }
+        return true
+}
+    
+and jm_isValidRequiredNumber = (this: StringValidationUtil, value: String, min: Int32, max: Int32) => {
+        if (((jm_isEmpty(this, value) || Int32.(<)(JR.length(value), min)) || Int32.(>)(JR.length(value), max))) {
+            return false
+        }
+        if (!jm_isNumber(this, value)) {
+            return false
+        }
+        return true
+}
+    
+and jm_isValidNotRequired = (this: StringValidationUtil, value: String, min: Int32, max: Int32) => {
+        if (Int32.(>)(JR.length(value), 0l)) {
+            if ((Int32.(<)(JR.length(value), min) || Int32.(>)(JR.length(value), max))) {
+                return false
+            }
+        }
+        return true
+}
+    
+and jm_isValidNotRequiredNumber = (this: StringValidationUtil, value: String, min: Int32, max: Int32) => {
+        if (Int32.(>)(JR.length(value), 0l)) {
+            if (((({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_compareTo"))
+JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(value), JR.cast(this.f_stringUtil.f_NULL_STRING)))
+} == 0l) || Int32.(<)(JR.length(value), min)) || Int32.(>)(JR.length(value), max))) {
+                return false
+            }
+            if (!jm_isNumber(this, value)) {
+                return false
+            }
+        }
+        return true
+}
+    
+and jm_isEmpty = (this: StringValidationUtil, string: String) => {
+        if ((({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_compareTo"))
+JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(string), JR.cast(this.f_stringUtil.f_NULL_STRING)))
+} != 0l) && ({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_compareTo"))
+JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(string), JR.cast(this.f_stringUtil.f_EMPTY_STRING)))
+} != 0l))) {
+            return false
+        } else {
+            return true
+        }
+}
+
+JR.registerLateBound("StringValidationUtil.jnew_0", jnew_0)
+JR.registerLateBound("StringValidationUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("StringValidationUtil.jm_containsSpaces", jm_containsSpaces)
+JR.registerLateBound("StringValidationUtil.jm_isNumber", jm_isNumber)
+JR.registerLateBound("StringValidationUtil.jm_isNumberFromChar", jm_isNumberFromChar)
+JR.registerLateBound("StringValidationUtil.jm_isValidRequired", jm_isValidRequired)
+JR.registerLateBound("StringValidationUtil.jm_isValidRequiredNumber", jm_isValidRequiredNumber)
+JR.registerLateBound("StringValidationUtil.jm_isValidNotRequired", jm_isValidNotRequired)
+JR.registerLateBound("StringValidationUtil.jm_isValidNotRequiredNumber", jm_isValidNotRequiredNumber)
+JR.registerLateBound("StringValidationUtil.jm_isEmpty", jm_isEmpty)
+JR.registerLateBound("StringValidationUtil.f_stringUtil", (this: StringValidationUtil) => this.f_stringUtil)
+JR.registerLateBound("StringValidationUtil.f_tsUtil", (this: StringValidationUtil) => this.f_tsUtil)
+JR.registerLateBound("StringValidationUtil.jstatic_instance", jstatic_instance)
+
+

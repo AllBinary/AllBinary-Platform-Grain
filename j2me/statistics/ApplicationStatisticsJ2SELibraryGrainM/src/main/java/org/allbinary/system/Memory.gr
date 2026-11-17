@@ -1,0 +1,60 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.system
+module Memory
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../java/lang/Runtime.gr" include Runtime
+use Runtime.{ type Runtime }
+
+//ActualPlatform
+provide record Memory {
+  jobject: JObject,
+}
+
+
+provide let rec jclassName = () => "Memory"
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("Memory"), }
+    this
+}
+    
+and jm_getInfo = () => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, "Memory: Free: "))
+        ignore(StringMaker.jm_appendlong(stringBuffer, Runtime.jm_freeMemory_0(Runtime.jm_getRuntime())))
+        ignore(StringMaker.jm_append(stringBuffer, " Max: "))
+        ignore(StringMaker.jm_appendlong(stringBuffer, Runtime.jm_maxMemory_0(Runtime.jm_getRuntime())))
+        ignore(StringMaker.jm_append(stringBuffer, " Total: "))
+        ignore(StringMaker.jm_appendlong(stringBuffer, Runtime.jm_totalMemory_0(Runtime.jm_getRuntime())))
+        return StringMaker.jm_toString(stringBuffer)
+}
+
+JR.registerLateBound("Memory.jnew_0", jnew_0)
+JR.registerLateBound("Memory.jm_getInfo", jm_getInfo)
+
+

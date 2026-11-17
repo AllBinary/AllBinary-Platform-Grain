@@ -1,0 +1,105 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.math
+module FrameUtil
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+
+provide record FrameUtil {
+  jobject: JObject,
+}
+
+let mut jcell_instance: Option<FrameUtil> = None
+
+provide let rec jclassName = () => "FrameUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: FrameUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("FrameUtil"), }
+        void
+    this
+}
+    
+and jm_getFrameForAngle = (this: FrameUtil, angle: Int32, angleIncrement: Int32) => {
+        return Int32.(/)(jm_adjustAngleToFrameAngle(this, angle), angleIncrement)
+}
+    
+and jm_getFrameAngle = (this: FrameUtil, frame: Int32, angleIncrement: Int32) => {
+        let mut frameAngle: Int32 = Int32.(-)(Int32.(*)(angleIncrement, frame), 90l)
+        return jm_adjustAngleToFrameAngle(this, frameAngle)
+}
+    
+and jm_adjustAngleToFrameAngle = (this: FrameUtil, currentAngle: Int32) => {
+    let mut currentAngle = currentAngle
+        let mut angleFactory: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("AngleFactory.jm_getInstance"))
+JR.cast(jlate())
+})
+        if (Int32.(>)(currentAngle, 359l)) {
+            currentAngle = (Int32.(-)(currentAngle, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AngleFactory.f_TOTAL_ANGLE"))
+JR.cast(jlate(JR.cast(angleFactory)))
+}))
+            while (Int32.(>)(currentAngle, 359l)) {
+                currentAngle = (Int32.(-)(currentAngle, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AngleFactory.f_TOTAL_ANGLE"))
+JR.cast(jlate(JR.cast(angleFactory)))
+}))
+            }
+        }
+        if (Int32.(<)(currentAngle, 0l)) {
+            currentAngle = (Int32.(+)(currentAngle, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AngleFactory.f_TOTAL_ANGLE"))
+JR.cast(jlate(JR.cast(angleFactory)))
+}))
+            while (Int32.(<)(currentAngle, 0l)) {
+                currentAngle = (Int32.(+)(currentAngle, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AngleFactory.f_TOTAL_ANGLE"))
+JR.cast(jlate(JR.cast(angleFactory)))
+}))
+            }
+        }
+        return currentAngle
+}
+
+JR.registerLateBound("FrameUtil.jnew_0", jnew_0)
+JR.registerLateBound("FrameUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("FrameUtil.jm_getFrameForAngle", jm_getFrameForAngle)
+JR.registerLateBound("FrameUtil.jm_getFrameAngle", jm_getFrameAngle)
+JR.registerLateBound("FrameUtil.jm_adjustAngleToFrameAngle", jm_adjustAngleToFrameAngle)
+JR.registerLateBound("FrameUtil.jstatic_instance", jstatic_instance)
+
+

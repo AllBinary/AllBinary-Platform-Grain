@@ -1,0 +1,236 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.canvas
+module BaseGameStatistics
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/logic/math/PrimitiveLongSingleton.gr" include PrimitiveLongSingleton
+use PrimitiveLongSingleton.{ type PrimitiveLongSingleton }
+from "../../../org/allbinary/logic/math/ScaleFactorFactory.gr" include ScaleFactorFactory
+use ScaleFactorFactory.{ type ScaleFactorFactory }
+from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../org/allbinary/time/GameTickTimeDelayHelper.gr" include GameTickTimeDelayHelper
+use GameTickTimeDelayHelper.{ type GameTickTimeDelayHelper }
+from "../../../org/allbinary/time/GameTickTimeDelayHelperFactory.gr" include GameTickTimeDelayHelperFactory
+use GameTickTimeDelayHelperFactory.{ type GameTickTimeDelayHelperFactory }
+from "../../../org/allbinary/time/TimeDelayHelper.gr" include TimeDelayHelper
+use TimeDelayHelper.{ type TimeDelayHelper }
+from "../../../java/lang/Integer.gr" include Integer
+from "../../../java/lang/Long.gr" include Long
+
+provide record BaseGameStatistics {
+  jobject: JObject,
+  mut f_timeDelayHelper: TimeDelayHelper,
+  mut f_updateDelayHelper: TimeDelayHelper,
+  mut f_totalRefreshes: Int64,
+  mut f_totalFrames: Int64,
+  mut f_gameTickTimeDelayHelper: GameTickTimeDelayHelper,
+  mut f_DEFAULT_SCALE_FACTOR: Int32,
+  mut f_NOT: String,
+  mut f_EMPTY_STRING: String,
+  mut f_STRING_ARRAY: Array<String>,
+  mut f_SPACE_CHAR: Int32,
+  mut f_PLUS_CHAR: Int32,
+  mut f_X_CHAR: Int32,
+  mut f_CHAR_ARRAY: Array<Array<Int32>>,
+  mut f_primitiveLongSingleton: PrimitiveLongSingleton,
+}
+
+
+provide let rec jclassName = () => "BaseGameStatistics"
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("BaseGameStatistics"), f_timeDelayHelper: JR.nullOf(), f_updateDelayHelper: JR.nullOf(), f_totalRefreshes: 0L, f_totalFrames: 0L, f_gameTickTimeDelayHelper: JR.nullOf(), f_DEFAULT_SCALE_FACTOR: 0l, f_NOT: "", f_EMPTY_STRING: "", f_STRING_ARRAY: [> ], f_SPACE_CHAR: 0l, f_PLUS_CHAR: 0l, f_X_CHAR: 0l, f_CHAR_ARRAY: [> ], f_primitiveLongSingleton: JR.nullOf(), }
+    this.jobject.toStringFunction = () => jm_toString(this)
+    this.f_timeDelayHelper = TimeDelayHelper.jnew_1(Integer.jstatic_MAX_VALUE())
+    this.f_updateDelayHelper = TimeDelayHelper.jnew_1(2000l)
+    
+    
+    this.f_gameTickTimeDelayHelper = JR.cast(GameTickTimeDelayHelperFactory.jm_getInstance())
+    this.f_DEFAULT_SCALE_FACTOR = ScaleFactorFactory.jm_getInstance().f_DEFAULT_SCALE_FACTOR
+    this.f_NOT = "Not enough Time to Calculate"
+    this.f_EMPTY_STRING = StringUtil.jm_getInstance().f_EMPTY_STRING
+    this.f_STRING_ARRAY = [> " Total Time: ", this.f_EMPTY_STRING, " Total Frames: ", this.f_EMPTY_STRING, " Frames/10 Sec: ", this.f_EMPTY_STRING, " Total Paints: ", this.f_EMPTY_STRING, " Paints/10 Sec: ", this.f_EMPTY_STRING]
+    this.f_SPACE_CHAR = Int32.fromNumber(Char.code(' '))
+    this.f_PLUS_CHAR = Int32.fromNumber(Char.code('+'))
+    this.f_X_CHAR = Int32.fromNumber(Char.code('X'))
+    this.f_CHAR_ARRAY = [> [> Int32.fromNumber(Char.code('F')), Int32.fromNumber(Char.code('r')), Int32.fromNumber(Char.code('a')), Int32.fromNumber(Char.code('m')), Int32.fromNumber(Char.code('e')), Int32.fromNumber(Char.code('s')), Int32.fromNumber(Char.code('/')), Int32.fromNumber(Char.code('1')), Int32.fromNumber(Char.code('0')), Int32.fromNumber(Char.code(' ')), Int32.fromNumber(Char.code('S')), Int32.fromNumber(Char.code('e')), Int32.fromNumber(Char.code('c')), Int32.fromNumber(Char.code(':'))], [> Int32.fromNumber(Char.code('X')), Int32.fromNumber(Char.code('X'))], [> Int32.fromNumber(Char.code('P')), Int32.fromNumber(Char.code('a')), Int32.fromNumber(Char.code('i')), Int32.fromNumber(Char.code('n')), Int32.fromNumber(Char.code('t')), Int32.fromNumber(Char.code('s')), Int32.fromNumber(Char.code('/')), Int32.fromNumber(Char.code('1')), Int32.fromNumber(Char.code('0')), Int32.fromNumber(Char.code(' ')), Int32.fromNumber(Char.code('S')), Int32.fromNumber(Char.code('e')), Int32.fromNumber(Char.code('c')), Int32.fromNumber(Char.code(':'))], [> Int32.fromNumber(Char.code('X')), Int32.fromNumber(Char.code('X'))]]
+    this.f_primitiveLongSingleton = JR.cast(PrimitiveLongSingleton.jm_getInstance())
+        void
+    this
+}
+    
+and jm_init = (this: BaseGameStatistics) => {
+        ignore(TimeDelayHelper.jm_setStartTimeTNT(this.f_timeDelayHelper))
+        this.f_totalRefreshes = 0L
+        this.f_totalFrames = 0L
+}
+    
+and jm_add = (this: BaseGameStatistics, string: String) => {
+    void
+}
+    
+and jm_process = (this: BaseGameStatistics) => {
+    void
+}
+    
+and jm_nextFrame = (this: BaseGameStatistics) => {
+        this.f_totalFrames = Int64.(+)(this.f_totalFrames, 1L)
+}
+    
+and jm_nextRefresh = (this: BaseGameStatistics) => {
+        this.f_totalRefreshes = Int64.(+)(this.f_totalRefreshes, 1L)
+}
+    
+and jm_getRefreshRate = (this: BaseGameStatistics) => {
+        let mut elapsed: Int64 = TimeDelayHelper.jm_getElapsed(this.f_timeDelayHelper, this.f_gameTickTimeDelayHelper.f_startTime)
+        if (Int64.(>)(elapsed, 1L)) {
+            let mut time: Int32 = JR.i16(Int32.fromNumber(Int64.toNumber((Int64.(/)(this.f_totalRefreshes, (Int64.(>>)(elapsed, Int64.fromNumber(Int32.toNumber(this.f_DEFAULT_SCALE_FACTOR)))))))))
+            return time
+        } else {
+            return 0l
+        }
+}
+    
+and jm_getTimeDelayHelper = (this: BaseGameStatistics) => {
+        return this.f_timeDelayHelper
+}
+    
+and jm_to2DCharArray = (this: BaseGameStatistics) => {
+        let mut totalTime: Int64 = TimeDelayHelper.jm_getElapsed(this.f_timeDelayHelper, this.f_gameTickTimeDelayHelper.f_startTime)
+        totalTime = (Int64.(>>)(totalTime, Int64.fromNumber(Int32.toNumber(this.f_DEFAULT_SCALE_FACTOR))))
+        if ((Int64.(>)(totalTime, 0L) && TimeDelayHelper.jm_isTime(this.f_updateDelayHelper, this.f_gameTickTimeDelayHelper.f_startTime))) {
+            let mut framesPerSec: Int32 = Int32.fromNumber(Int64.toNumber((Int64.(/)(this.f_totalFrames, totalTime))))
+            if (Int32.(<)(framesPerSec, 10l)) {
+                this.f_CHAR_ARRAY[Int32.toNumber(1l)][Int32.toNumber(0l)] = this.f_SPACE_CHAR
+                this.f_CHAR_ARRAY[Int32.toNumber(1l)][Int32.toNumber(1l)] = this.f_primitiveLongSingleton.f_NUMBER_CHAR_ARRAY[Int32.toNumber(framesPerSec)]
+            } else if (Int32.(<)(framesPerSec, 100l)) {
+                let mut tens: Int32 = Int32.(/)(framesPerSec, 10l)
+                let mut removeTens: Int32 = Int32.(*)(tens, 10l)
+                this.f_CHAR_ARRAY[Int32.toNumber(1l)][Int32.toNumber(0l)] = this.f_primitiveLongSingleton.f_NUMBER_CHAR_ARRAY[Int32.toNumber(tens)]
+                this.f_CHAR_ARRAY[Int32.toNumber(1l)][Int32.toNumber(1l)] = this.f_primitiveLongSingleton.f_NUMBER_CHAR_ARRAY[Int32.toNumber(Int32.(-)(framesPerSec, removeTens))]
+            } else {
+                this.f_CHAR_ARRAY[Int32.toNumber(1l)][Int32.toNumber(0l)] = this.f_PLUS_CHAR
+                this.f_CHAR_ARRAY[Int32.toNumber(1l)][Int32.toNumber(1l)] = this.f_PLUS_CHAR
+            }
+            let mut refreshesPerSec: Int32 = Int32.fromNumber(Int64.toNumber((Int64.(/)(this.f_totalRefreshes, totalTime))))
+            if (Int32.(<)(refreshesPerSec, 10l)) {
+                this.f_CHAR_ARRAY[Int32.toNumber(3l)][Int32.toNumber(0l)] = this.f_X_CHAR
+                this.f_CHAR_ARRAY[Int32.toNumber(3l)][Int32.toNumber(1l)] = this.f_primitiveLongSingleton.f_NUMBER_CHAR_ARRAY[Int32.toNumber(refreshesPerSec)]
+            } else if (Int32.(<)(refreshesPerSec, 100l)) {
+                let mut tens: Int32 = Int32.(/)(refreshesPerSec, 10l)
+                let mut removeTens: Int32 = Int32.(*)(tens, 10l)
+                this.f_CHAR_ARRAY[Int32.toNumber(3l)][Int32.toNumber(0l)] = this.f_primitiveLongSingleton.f_NUMBER_CHAR_ARRAY[Int32.toNumber(Int32.(/)(refreshesPerSec, 10l))]
+                this.f_CHAR_ARRAY[Int32.toNumber(3l)][Int32.toNumber(1l)] = this.f_primitiveLongSingleton.f_NUMBER_CHAR_ARRAY[Int32.toNumber(Int32.(-)(refreshesPerSec, removeTens))]
+            } else {
+                this.f_CHAR_ARRAY[Int32.toNumber(3l)][Int32.toNumber(0l)] = this.f_PLUS_CHAR
+                this.f_CHAR_ARRAY[Int32.toNumber(3l)][Int32.toNumber(1l)] = this.f_PLUS_CHAR
+            }
+        }
+        return this.f_CHAR_ARRAY
+}
+    
+and jm_toStringArray = (this: BaseGameStatistics) => {
+        let mut totalTime: Int64 = TimeDelayHelper.jm_getElapsed(this.f_timeDelayHelper, this.f_gameTickTimeDelayHelper.f_startTime)
+        totalTime = (Int64.(/)(totalTime, 10000L))
+        if (Int64.(>)(totalTime, 0L)) {
+            this.f_STRING_ARRAY[Int32.toNumber(1l)] = JR.cast(toString(totalTime))
+            this.f_STRING_ARRAY[Int32.toNumber(3l)] = JR.cast(toString(this.f_totalFrames))
+            this.f_STRING_ARRAY[Int32.toNumber(5l)] = JR.cast(toString(Int64.(/)(this.f_totalFrames, totalTime)))
+            this.f_STRING_ARRAY[Int32.toNumber(7l)] = JR.cast(toString(this.f_totalRefreshes))
+            this.f_STRING_ARRAY[Int32.toNumber(9l)] = JR.cast(toString(Int64.(/)(this.f_totalRefreshes, totalTime)))
+        } else {
+            let mut string: String = this.f_EMPTY_STRING
+            this.f_STRING_ARRAY[Int32.toNumber(1l)] = JR.cast(string)
+            this.f_STRING_ARRAY[Int32.toNumber(3l)] = JR.cast(string)
+            this.f_STRING_ARRAY[Int32.toNumber(5l)] = JR.cast(string)
+            this.f_STRING_ARRAY[Int32.toNumber(7l)] = JR.cast(string)
+            this.f_STRING_ARRAY[Int32.toNumber(9l)] = JR.cast(string)
+        }
+        return this.f_STRING_ARRAY
+}
+    
+and jm_toStringAt = (this: BaseGameStatistics, totalTime: Int64) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, this.f_STRING_ARRAY[Int32.toNumber(0l)]))
+        ignore(StringMaker.jm_appendlong(stringBuffer, totalTime))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_STRING_ARRAY[Int32.toNumber(2l)]))
+        ignore(StringMaker.jm_appendlong(stringBuffer, this.f_totalFrames))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_STRING_ARRAY[Int32.toNumber(4l)]))
+        ignore(StringMaker.jm_appendlong(stringBuffer, Int64.(/)(this.f_totalFrames, totalTime)))
+        if (Int64.(>)(this.f_totalRefreshes, 0L)) {
+            ignore(StringMaker.jm_append(stringBuffer, this.f_STRING_ARRAY[Int32.toNumber(6l)]))
+            ignore(StringMaker.jm_appendlong(stringBuffer, this.f_totalRefreshes))
+            ignore(StringMaker.jm_append(stringBuffer, this.f_STRING_ARRAY[Int32.toNumber(8l)]))
+            ignore(StringMaker.jm_appendlong(stringBuffer, Int64.(/)(this.f_totalRefreshes, totalTime)))
+            ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_NEW_LINE))
+        }
+        return StringMaker.jm_toString(stringBuffer)
+}
+    
+and jm_toString = (this: BaseGameStatistics) => {
+        let mut totalTime: Int64 = TimeDelayHelper.jm_getElapsed(this.f_timeDelayHelper, this.f_gameTickTimeDelayHelper.f_startTime)
+        totalTime = (Int64.(/)(totalTime, 1000L))
+        if (Int64.(>)(totalTime, 0L)) {
+            return jm_toStringAt(this, totalTime)
+        } else {
+            return this.f_NOT
+        }
+}
+
+JR.registerLateBound("BaseGameStatistics.jnew_0", jnew_0)
+JR.registerLateBound("BaseGameStatistics.jm_init", jm_init)
+JR.registerLateBound("BaseGameStatistics.jm_add", jm_add)
+JR.registerLateBound("BaseGameStatistics.jm_process", jm_process)
+JR.registerLateBound("BaseGameStatistics.jm_nextFrame", jm_nextFrame)
+JR.registerLateBound("BaseGameStatistics.jm_nextRefresh", jm_nextRefresh)
+JR.registerLateBound("BaseGameStatistics.jm_getRefreshRate", jm_getRefreshRate)
+JR.registerLateBound("BaseGameStatistics.jm_getTimeDelayHelper", jm_getTimeDelayHelper)
+JR.registerLateBound("BaseGameStatistics.jm_to2DCharArray", jm_to2DCharArray)
+JR.registerLateBound("BaseGameStatistics.jm_toStringArray", jm_toStringArray)
+JR.registerLateBound("BaseGameStatistics.jm_toStringAt", jm_toStringAt)
+JR.registerLateBound("BaseGameStatistics.jm_toString", jm_toString)
+JR.registerLateBound("BaseGameStatistics.f_timeDelayHelper", (this: BaseGameStatistics) => this.f_timeDelayHelper)
+JR.registerLateBound("BaseGameStatistics.f_updateDelayHelper", (this: BaseGameStatistics) => this.f_updateDelayHelper)
+JR.registerLateBound("BaseGameStatistics.f_totalRefreshes", (this: BaseGameStatistics) => this.f_totalRefreshes)
+JR.registerLateBound("BaseGameStatistics.set_f_totalRefreshes", (this: BaseGameStatistics, jvalue) => { this.f_totalRefreshes = jvalue; jvalue })
+JR.registerLateBound("BaseGameStatistics.f_totalFrames", (this: BaseGameStatistics) => this.f_totalFrames)
+JR.registerLateBound("BaseGameStatistics.set_f_totalFrames", (this: BaseGameStatistics, jvalue) => { this.f_totalFrames = jvalue; jvalue })
+JR.registerLateBound("BaseGameStatistics.f_gameTickTimeDelayHelper", (this: BaseGameStatistics) => this.f_gameTickTimeDelayHelper)
+JR.registerLateBound("BaseGameStatistics.f_DEFAULT_SCALE_FACTOR", (this: BaseGameStatistics) => this.f_DEFAULT_SCALE_FACTOR)
+JR.registerLateBound("BaseGameStatistics.f_NOT", (this: BaseGameStatistics) => this.f_NOT)
+JR.registerLateBound("BaseGameStatistics.f_EMPTY_STRING", (this: BaseGameStatistics) => this.f_EMPTY_STRING)
+JR.registerLateBound("BaseGameStatistics.f_STRING_ARRAY", (this: BaseGameStatistics) => this.f_STRING_ARRAY)
+JR.registerLateBound("BaseGameStatistics.f_SPACE_CHAR", (this: BaseGameStatistics) => this.f_SPACE_CHAR)
+JR.registerLateBound("BaseGameStatistics.f_PLUS_CHAR", (this: BaseGameStatistics) => this.f_PLUS_CHAR)
+JR.registerLateBound("BaseGameStatistics.f_X_CHAR", (this: BaseGameStatistics) => this.f_X_CHAR)
+JR.registerLateBound("BaseGameStatistics.f_CHAR_ARRAY", (this: BaseGameStatistics) => this.f_CHAR_ARRAY)
+JR.registerLateBound("BaseGameStatistics.f_primitiveLongSingleton", (this: BaseGameStatistics) => this.f_primitiveLongSingleton)
+
+

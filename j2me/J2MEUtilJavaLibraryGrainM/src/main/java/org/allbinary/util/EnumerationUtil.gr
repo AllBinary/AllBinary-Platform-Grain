@@ -1,0 +1,85 @@
+/*
+ * 
+ * AllBinary Open License Version 1 
+ * Copyright (c) 2025 AllBinary 
+ *  
+ * By agreeing to this license you and any business entity you represent are 
+ * legally bound to the AllBinary Open License Version 1 legal agreement. 
+ *  
+ * You may obtain the AllBinary Open License Version 1 legal agreement from 
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+ *  
+ * Created By: Travis Berthelot 
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.util
+module EnumerationUtil
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../java/util/Enumeration.gr" include Enumeration
+use Enumeration.{ type Enumeration }
+from "./BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "./BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+
+//ArkTs does not have this.  So this is for the ArkTs build.
+provide record EnumerationUtil {
+  jobject: JObject,
+}
+
+let mut jcell_instance: Option<EnumerationUtil> = None
+
+provide let rec jclassName = () => "EnumerationUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: EnumerationUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("EnumerationUtil"), }
+    this
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jm_hasMoreElements = (this: EnumerationUtil, enumeration: Enumeration) => {
+        return Enumeration.jm_hasMoreElements_0(enumeration)
+}
+    
+and jm_nextElement = (this: EnumerationUtil, enumeration: Enumeration) => {
+        return Enumeration.jm_nextElement_0(enumeration)
+}
+    
+and jm_getAsArray = (this: EnumerationUtil, enumeration: Enumeration) => {
+        let mut basicArrayList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+        while (jm_hasMoreElements(this, enumeration)) {
+            ignore(BasicArrayList.jm_add(basicArrayList, jm_nextElement(this, enumeration)))
+        }
+        return BasicArrayList.jm_toArray(basicArrayList)
+}
+
+JR.registerLateBound("EnumerationUtil.jnew_0", jnew_0)
+JR.registerLateBound("EnumerationUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("EnumerationUtil.jm_hasMoreElements", jm_hasMoreElements)
+JR.registerLateBound("EnumerationUtil.jm_nextElement", jm_nextElement)
+JR.registerLateBound("EnumerationUtil.jm_getAsArray", jm_getAsArray)
+JR.registerLateBound("EnumerationUtil.jstatic_instance", jstatic_instance)
+
+

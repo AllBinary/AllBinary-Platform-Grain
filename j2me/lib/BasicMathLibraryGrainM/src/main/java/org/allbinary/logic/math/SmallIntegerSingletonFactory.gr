@@ -1,0 +1,248 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.math
+module SmallIntegerSingletonFactory
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/J2MEUtil.gr" include J2MEUtil
+use J2MEUtil.{ type J2MEUtil }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../java/lang/Integer.gr" include Integer
+
+provide record SmallIntegerSingletonFactory {
+  jobject: JObject,
+  mut f_NEGATIVE_MAX: Int32,
+  mut f_POSITIVE_MAX: Int32,
+  mut f_INTEGER_ARRAY: Array<Int32>,
+  mut f_STRING_ARRAY: Array<String>,
+  mut f_MIN: Int32,
+  mut f_lastMin: Int32,
+  mut f_lastNegativeMin: Int32,
+}
+
+let mut jcell_instance: Option<SmallIntegerSingletonFactory> = None
+
+provide let rec jclassName = () => "SmallIntegerSingletonFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: SmallIntegerSingletonFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jm_getMin = (this: SmallIntegerSingletonFactory) => {
+        let mut minAllowed: Int32 = jm_getMinAllowed(this)
+        if (Int32.(<=)(this.f_MIN, minAllowed)) {
+            if (J2MEUtil.jm_isJ2ME()) {
+                void
+            } else if ({
+let jlate: () => JObject = JR.cast(JR.lateBound("AndroidUtil.jm_isAndroid"))
+JR.cast(jlate())
+}) {
+                let mut logUtil: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), "Android InputFactory was initialized before GameMidlet: "), this.f_MIN))), JR.cast(this), JR.cast("getMin")))
+})
+                ignore(jm_initWithRange(this, 0x291l, 6l))
+            } else {
+                let mut logUtil: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), "InputFactory was initialized before GameMidlet or KeyFactoryInitializer - Currently this is occurs on JS build by TouchMotionGestureFactory constructor: "), this.f_MIN))), JR.cast(this), JR.cast("getMin")))
+})
+                ignore(jm_initWithRange(this, 0x2D0l, 6l))
+            }
+        }
+        if (Int32.(<=)(this.f_MIN, minAllowed)) {
+            let mut logUtil: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_put"))
+JR.cast(jlate(JR.cast(logUtil), JR.cast("This means you loaded the InputFactory before determining the platform input size requirements."), JR.cast(this), JR.cast("getMin"), JR.cast(JR.newJObject("Exception"))))
+})
+        }
+        return this.f_MIN
+}
+    
+and jm_getMinAllowed = (this: SmallIntegerSingletonFactory) => {
+        if (J2MEUtil.jm_isJ2ME()) {
+            return 0l
+        } else {
+            if ({
+let jlate: () => JObject = JR.cast(JR.lateBound("AndroidUtil.jm_isAndroid"))
+JR.cast(jlate())
+}) {
+                return 0x101l
+            } else {
+                return 23l
+            }
+        }
+}
+    
+and jm_initWithRange = (this: SmallIntegerSingletonFactory, value: Int32, negativeValue: Int32) => {
+        {
+            let mut index: Int32 = Int32.(-)(value, 1l)
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(-)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(>=)(index, this.f_lastMin))) break
+            this.f_INTEGER_ARRAY[Int32.toNumber(Int32.(+)(index, this.f_NEGATIVE_MAX))] = JR.cast(index)
+            }
+        }
+        {
+            let mut index: Int32 = Int32.(-)(negativeValue, 1l)
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(-)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(>=)(index, this.f_lastNegativeMin))) break
+            this.f_INTEGER_ARRAY[Int32.toNumber(index)] = JR.cast(Int32.(-)(1l, Int32.(+)(index, 1l)))
+            }
+        }
+        if (Int32.(<)(this.f_lastMin, value)) {
+            this.f_lastMin = value
+            this.f_MIN = value
+        }
+        if (Int32.(<)(this.f_lastNegativeMin, negativeValue)) {
+            this.f_lastNegativeMin = negativeValue
+        }
+}
+    
+and jm_init = (this: SmallIntegerSingletonFactory) => {
+        if ((Int32.(<)(this.f_lastMin, this.f_POSITIVE_MAX) || Int32.(<)(this.f_lastNegativeMin, this.f_NEGATIVE_MAX))) {
+            {
+                let mut index: Int32 = Int32.(-)(this.f_POSITIVE_MAX, 1l)
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(-)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(>=)(index, this.f_lastMin))) break
+                this.f_INTEGER_ARRAY[Int32.toNumber(Int32.(+)(index, this.f_NEGATIVE_MAX))] = JR.cast(index)
+                }
+            }
+            {
+                let mut index: Int32 = Int32.(-)(this.f_NEGATIVE_MAX, 1l)
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(-)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(>=)(index, this.f_lastNegativeMin))) break
+                this.f_INTEGER_ARRAY[Int32.toNumber(index)] = JR.cast(Int32.(-)(1l, Int32.(+)(index, 1l)))
+                }
+            }
+            this.f_lastMin = this.f_POSITIVE_MAX
+            this.f_MIN = this.f_lastMin
+            this.f_lastNegativeMin = this.f_NEGATIVE_MAX
+        }
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("SmallIntegerSingletonFactory"), f_NEGATIVE_MAX: 0l, f_POSITIVE_MAX: 0l, f_INTEGER_ARRAY: [> ], f_STRING_ARRAY: [> ], f_MIN: 0l, f_lastMin: 0l, f_lastNegativeMin: 0l, }
+    this.f_NEGATIVE_MAX = 500l
+    this.f_POSITIVE_MAX = 0x2D1l
+    this.f_INTEGER_ARRAY = Array.make(Int32.toNumber(Int32.(+)(this.f_NEGATIVE_MAX, this.f_POSITIVE_MAX)), 0l)
+    this.f_STRING_ARRAY = Array.make(Int32.toNumber(Int32.(+)(this.f_NEGATIVE_MAX, this.f_POSITIVE_MAX)), "")
+    this.f_MIN = 0l
+    this.f_lastMin = 0l
+    this.f_lastNegativeMin = 0l
+        ignore(jm_initWithRange(this, 23l, 0l))
+    this
+}
+    
+and jm_getAt = (this: SmallIntegerSingletonFactory, index: Int32) => {
+        return this.f_INTEGER_ARRAY[Int32.toNumber(Int32.(+)(index, this.f_NEGATIVE_MAX))]
+}
+    
+and jm_getAtNoThrow = (this: SmallIntegerSingletonFactory, index: Int32) => {
+        if (Int32.(>)(Int32.(+)(index, this.f_NEGATIVE_MAX), Int32.(-)(Int32.fromNumber(Array.length(this.f_INTEGER_ARRAY)), 1l))) {
+            return this.f_INTEGER_ARRAY[Int32.toNumber(Int32.(+)(Int32.(-)(1l, Int32.(+)(1l, 1l)), this.f_NEGATIVE_MAX))]
+        }
+        return this.f_INTEGER_ARRAY[Int32.toNumber(Int32.(+)(index, this.f_NEGATIVE_MAX))]
+}
+    
+and jm_createInstance = (this: SmallIntegerSingletonFactory, index: Int32) => {
+        let mut integer: Int32 = jm_getAt(this, index)
+        if (JR.isNull(integer)) {
+            integer = index
+        }
+        return integer
+}
+    
+and jm_getString = (this: SmallIntegerSingletonFactory, index: Int32) => {
+        let mut i: Int32 = Int32.(+)(index, this.f_NEGATIVE_MAX)
+        if (JR.isNull(this.f_STRING_ARRAY[Int32.toNumber(i)])) {
+            this.f_STRING_ARRAY[Int32.toNumber(i)] = JR.cast(toString(this.f_INTEGER_ARRAY[Int32.toNumber(i)]))
+        }
+        return this.f_STRING_ARRAY[Int32.toNumber(i)]
+}
+
+JR.registerLateBound("SmallIntegerSingletonFactory.jnew_0", jnew_0)
+JR.registerLateBound("SmallIntegerSingletonFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("SmallIntegerSingletonFactory.jm_getMin", jm_getMin)
+JR.registerLateBound("SmallIntegerSingletonFactory.jm_getMinAllowed", jm_getMinAllowed)
+JR.registerLateBound("SmallIntegerSingletonFactory.jm_initWithRange", jm_initWithRange)
+JR.registerLateBound("SmallIntegerSingletonFactory.jm_init", jm_init)
+JR.registerLateBound("SmallIntegerSingletonFactory.jm_getAt", jm_getAt)
+JR.registerLateBound("SmallIntegerSingletonFactory.jm_getAtNoThrow", jm_getAtNoThrow)
+JR.registerLateBound("SmallIntegerSingletonFactory.jm_createInstance", jm_createInstance)
+JR.registerLateBound("SmallIntegerSingletonFactory.jm_getString", jm_getString)
+JR.registerLateBound("SmallIntegerSingletonFactory.f_NEGATIVE_MAX", (this: SmallIntegerSingletonFactory) => this.f_NEGATIVE_MAX)
+JR.registerLateBound("SmallIntegerSingletonFactory.f_POSITIVE_MAX", (this: SmallIntegerSingletonFactory) => this.f_POSITIVE_MAX)
+JR.registerLateBound("SmallIntegerSingletonFactory.f_INTEGER_ARRAY", (this: SmallIntegerSingletonFactory) => this.f_INTEGER_ARRAY)
+JR.registerLateBound("SmallIntegerSingletonFactory.f_STRING_ARRAY", (this: SmallIntegerSingletonFactory) => this.f_STRING_ARRAY)
+JR.registerLateBound("SmallIntegerSingletonFactory.f_MIN", (this: SmallIntegerSingletonFactory) => this.f_MIN)
+JR.registerLateBound("SmallIntegerSingletonFactory.set_f_MIN", (this: SmallIntegerSingletonFactory, jvalue) => { this.f_MIN = jvalue; jvalue })
+JR.registerLateBound("SmallIntegerSingletonFactory.f_lastMin", (this: SmallIntegerSingletonFactory) => this.f_lastMin)
+JR.registerLateBound("SmallIntegerSingletonFactory.set_f_lastMin", (this: SmallIntegerSingletonFactory, jvalue) => { this.f_lastMin = jvalue; jvalue })
+JR.registerLateBound("SmallIntegerSingletonFactory.f_lastNegativeMin", (this: SmallIntegerSingletonFactory) => this.f_lastNegativeMin)
+JR.registerLateBound("SmallIntegerSingletonFactory.set_f_lastNegativeMin", (this: SmallIntegerSingletonFactory, jvalue) => { this.f_lastNegativeMin = jvalue; jvalue })
+JR.registerLateBound("SmallIntegerSingletonFactory.jstatic_instance", jstatic_instance)
+
+

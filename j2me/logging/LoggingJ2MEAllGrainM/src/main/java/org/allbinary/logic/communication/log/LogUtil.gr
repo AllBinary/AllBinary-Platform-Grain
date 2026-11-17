@@ -1,0 +1,141 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.communication.log
+module LogUtil
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../../java/lang/System.gr" include System
+from "../../../../../java/lang/Integer.gr" include Integer
+from "./Log.gr" include Log
+use Log.{ type Log }
+
+//ActualPlatform
+provide record LogUtil {
+  jobject: JObject,
+  mut f_logFormatUtil: JObject,
+  mut f_LOG_SUCCESS: String,
+}
+
+let mut jcell_instance: Option<LogUtil> = None
+
+provide let rec jclassName = () => "LogUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: LogUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("LogUtil"), f_logFormatUtil: JR.jnull, f_LOG_SUCCESS: "", }
+    this.f_logFormatUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogFormatUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_LOG_SUCCESS = "org.allbinary: "
+        void
+    this
+}
+    
+and jm_putL = (this: LogUtil, log: Log) => {
+        let mut specialMessage: String = Log.jm_getSpecialMessage(log)
+        let mut anyType: JObject = JR.cast(Log.jm_getObject(log))
+        let mut functionName: String = Log.jm_getFunctionName(log)
+        let mut exception_: JObject = JR.cast(Log.jm_getThrowable(log))
+        ignore(jm_put(this, specialMessage, anyType, functionName, exception_))
+}
+    
+and jm_putF = (this: LogUtil, specialMessage: String, anyType: JObject, functionName: String) => {
+        let mut className: String = CommonStrings.jm_getInstance().f_EMPTY
+        if (true) {
+            className = StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), JR.className(anyType)), CommonSeps.jm_getInstance().f_COLON), Integer.jm_toHexString({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_hashCode"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(anyType)))
+})))
+        }
+        let mut message: String = {
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogFormatUtil.jm_getS"))
+JR.cast(jlate(JR.cast(this.f_logFormatUtil), JR.cast(className), JR.cast(functionName), JR.cast(specialMessage)))
+}
+        ignore(print(this.f_LOG_SUCCESS))
+        ignore(print(message))
+}
+    
+and jm_putFS = (this: LogUtil, specialMessage: String, className: String, functionName: String) => {
+        let mut message: String = {
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogFormatUtil.jm_getS"))
+JR.cast(jlate(JR.cast(this.f_logFormatUtil), JR.cast(className), JR.cast(functionName), JR.cast(specialMessage)))
+}
+        ignore(print(this.f_LOG_SUCCESS))
+        ignore(print(message))
+}
+    
+and jm_put = (this: LogUtil, specialMessage: String, anyType: JObject, functionName: String, exception_: JObject) => {
+        let mut className: String = CommonStrings.jm_getInstance().f_EMPTY
+        if (true) {
+            let mut hashCodeValue: Int32 = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_hashCode"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(anyType)))
+}
+            let mut hexString: String = Integer.jm_toHexString(hashCodeValue)
+            className = StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), JR.className(anyType)), CommonSeps.jm_getInstance().f_COLON), hexString))
+        }
+        let mut message: String = {
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogFormatUtil.jm_get"))
+JR.cast(jlate(JR.cast(this.f_logFormatUtil), JR.cast(className), JR.cast(functionName), JR.cast(specialMessage), JR.cast(exception_)))
+}
+        ignore(print(this.f_LOG_SUCCESS))
+        ignore(print(message))
+}
+
+JR.registerLateBound("LogUtil.jnew_0", jnew_0)
+JR.registerLateBound("LogUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("LogUtil.jm_putL", jm_putL)
+JR.registerLateBound("LogUtil.jm_putF", jm_putF)
+JR.registerLateBound("LogUtil.jm_putFS", jm_putFS)
+JR.registerLateBound("LogUtil.jm_put", jm_put)
+JR.registerLateBound("LogUtil.f_logFormatUtil", (this: LogUtil) => this.f_logFormatUtil)
+JR.registerLateBound("LogUtil.f_LOG_SUCCESS", (this: LogUtil) => this.f_LOG_SUCCESS)
+JR.registerLateBound("LogUtil.jstatic_instance", jstatic_instance)
+
+

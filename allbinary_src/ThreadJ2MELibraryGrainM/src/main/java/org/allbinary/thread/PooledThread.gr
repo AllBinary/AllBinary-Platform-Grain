@@ -1,0 +1,122 @@
+/*
+ * 
+ * AllBinary Open License Version 1 
+ * Copyright (c) 2025 AllBinary 
+ *  
+ * By agreeing to this license you and any business entity you represent are 
+ * legally bound to the AllBinary Open License Version 1 legal agreement. 
+ *  
+ * You may obtain the AllBinary Open License Version 1 legal agreement from 
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+ *  
+ * Created By: Travis Berthelot 
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.thread
+module PooledThread
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../java/lang/Thread.gr" include Thread
+use Thread.{ type Thread }
+from "../../../java/lang/Runnable.gr" include Runnable
+use Runnable.{ type Runnable }
+from "./ThreadObjectUtil.gr" include ThreadObjectUtil
+use ThreadObjectUtil.{ type ThreadObjectUtil }
+
+provide record PooledThread {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_threadObjectUtil: ThreadObjectUtil,
+  mut f_threadPool: JObject,
+  mut f_INTERRUPT_EXCEPTION: String,
+}
+
+
+provide let rec jclassName = () => "PooledThread"
+    
+and jnew_1 = (threadPool: JObject) => {
+    let this = { jobject: JR.newJObject("PooledThread"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_threadObjectUtil: JR.nullOf(), f_threadPool: JR.jnull, f_INTERRUPT_EXCEPTION: "", }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this.f_threadObjectUtil = JR.cast(ThreadObjectUtil.jm_getInstance())
+    
+    this.f_INTERRUPT_EXCEPTION = "Exit InterruptedException"
+        void
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_CONSTRUCTOR), JR.cast(this), JR.cast(this.f_commonStrings.f_CONSTRUCTOR)))
+})
+        this.f_threadPool = threadPool
+    this
+}
+    
+and jm_run = (this: PooledThread) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.jm_threadStarted"))
+JR.cast(jlate(JR.cast(this.f_threadPool)))
+})
+        while (true) {
+            let mut task2: Runnable = JR.cast(this.f_threadObjectUtil.f_NULL_PRIORITY_RUNNABLE)
+            {
+                task2 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.jm_getTask"))
+JR.cast(jlate(JR.cast(this.f_threadPool)))
+}
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.set_f_runningTask"))
+JR.cast(jlate(JR.cast(this.f_threadPool), JR.cast(true)))
+})
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.jm_startTask"))
+JR.cast(jlate(JR.cast(this.f_threadPool), JR.cast(task2)))
+})
+            }
+            if (JR.isSame(task2, this.f_threadObjectUtil.f_NULL_PRIORITY_RUNNABLE)) {
+                break
+            }
+            {
+                ignore(Runnable.jm_run_0(task2))
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.jm_completedTask"))
+JR.cast(jlate(JR.cast(this.f_threadPool), JR.cast(task2)))
+})
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.set_f_runningTask"))
+JR.cast(jlate(JR.cast(this.f_threadPool), JR.cast(false)))
+})
+            }
+        }
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.jm_threadStopped"))
+JR.cast(jlate(JR.cast(this.f_threadPool)))
+})
+}
+
+JR.registerLateBound("PooledThread.jnew_1", jnew_1)
+JR.registerLateBound("PooledThread.jm_run", jm_run)
+JR.registerLateBound("PooledThread.f_logUtil", (this: PooledThread) => this.f_logUtil)
+JR.registerLateBound("PooledThread.f_commonStrings", (this: PooledThread) => this.f_commonStrings)
+JR.registerLateBound("PooledThread.f_threadObjectUtil", (this: PooledThread) => this.f_threadObjectUtil)
+JR.registerLateBound("PooledThread.f_threadPool", (this: PooledThread) => this.f_threadPool)
+JR.registerLateBound("PooledThread.f_INTERRUPT_EXCEPTION", (this: PooledThread) => this.f_INTERRUPT_EXCEPTION)
+
+

@@ -1,0 +1,164 @@
+(*
+
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+*)
+(* Generated Code Do Not Modify *)
+(* package views.admin.inventory.download *)
+
+open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import java.util.HashMap *)
+(* import org.allbinary.business.context.modules.storefront.StoreFrontFactory *)
+(* import org.allbinary.business.context.modules.storefront.StoreFrontInterface *)
+(* import org.allbinary.business.user.commerce.inventory.item.BasicItemData *)
+(* import org.allbinary.business.user.commerce.inventory.item.BasicItemValidation *)
+(* import org.allbinary.business.user.commerce.inventory.item.download.DownloadItemData *)
+(* import org.allbinary.business.user.commerce.inventory.item.download.DownloadableItem *)
+(* import org.allbinary.business.user.commerce.inventory.item.download.DownloadableItemValidation *)
+(* import org.allbinary.business.user.commerce.money.MoneyException *)
+(* import org.allbinary.data.tables.user.commerce.inventory.item.InventoryEntity *)
+(* import org.allbinary.data.tables.user.commerce.inventory.item.InventoryEntityFactory *)
+(* import org.allbinary.globals.GLOBALS2 *)
+(* import org.allbinary.globals.URLGLOBALS *)
+(* import org.allbinary.logic.communication.http.file.upload.HttpFileUploadUtil *)
+(* import org.allbinary.logic.communication.log.LogUtil *)
+(* import org.allbinary.logic.control.validate.ValidationComponentInterface *)
+(* import org.allbinary.logic.io.file.AbFile *)
+(* import org.allbinary.logic.io.file.FileData *)
+(* import org.allbinary.logic.string.StringMaker *)
+(* import org.allbinary.logic.string.StringUtil *)
+(* import org.allbinary.logic.string.StringValidationUtil *)
+(* import org.allbinary.logic.visual.transform.info.TransformInfoInterface *)
+(* import org.allbinary.string.CommonStrings *)
+(* import org.apache.commons.fileupload.FileItem *)
+(* import org.w3c.dom.Document *)
+(* import org.w3c.dom.Node *)
+
+class updateFileValidationView ((transformInfoInterface : TransformInfoInterface.transformInfoInterface)) =
+  object (self)
+    inherit DownloadableInventoryItemView.downloadableInventoryItemView (transformInfoInterface) as super
+    val mutable logUtil : Obj.t = Obj.repr 0
+    method logUtil : 'r. 'r = Obj.magic logUtil
+    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
+    method commonStrings = commonStrings
+    method set_commonStrings value' = commonStrings <- value'
+    
+    
+
+    (* Java overload isValid() is not converted: OCaml has one method per name *)
+    
+
+    method toValidationInfoDoc : 'return. unit -> 'return = fun () ->
+        begin
+        (Obj.magic ((Obj.magic 0)))
+        end [@@warning "-7"]
+    
+
+    method toValidationInfoNode : 'any1 'return. 'any1 -> 'return = fun (_document) ->
+        begin
+        (Obj.magic ((Obj.magic 0)))
+        end [@@warning "-7-20"]
+    
+
+    (* Java overload validationInfo() is not converted: OCaml has one method per name *)
+    
+
+    method isValid ((fileName : string), (size : int)) : bool =
+        try
+        begin
+        let fileData : FileData.fileData ref = ref (((FileData.getInstance ()) :> FileData.fileData)) in ();
+        if (size > !fileData#mINDOWNLOADABLEFILESIZE) then begin
+            if (size < !fileData#mAXDOWNLOADABLEFILESIZE) then begin
+                if (not ((StringValidationUtil.getInstance ())#isValidRequired (fileName, !fileData#mINLEN, !fileData#mAXLEN))) then begin
+                    if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
+                        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
+                        ignore (!stringBuffer#append ("File name is not valid: "));
+                        ignore (!stringBuffer#append (fileName));
+                        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), commonStrings#iS_VALID))
+                    end;
+                    raise (Java_return (Obj.repr (false)))
+                end else begin
+                    ()
+                end
+            end else begin
+                if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
+                    let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
+                    ignore (!stringBuffer#append ("File Size To Large: "));
+                    ignore (!stringBuffer#appendlong (size));
+                    ignore (!stringBuffer#append (">"));
+                    ignore (!stringBuffer#appendint (!fileData#mAXDOWNLOADABLEFILESIZE));
+                    ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), commonStrings#iS_VALID))
+                end;
+                raise (Java_return (Obj.repr (false)))
+            end
+        end else begin
+            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
+                let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
+                ignore (!stringBuffer#append ("File Size To Small: "));
+                ignore (!stringBuffer#appendlong (size));
+                ignore (!stringBuffer#append (">"));
+                ignore (!stringBuffer#appendint (!fileData#mINDOWNLOADABLEFILESIZE));
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), commonStrings#iS_VALID))
+            end;
+            raise (Java_return (Obj.repr (false)))
+        end;
+        true
+        end
+        with Java_return value -> Obj.obj value [@@warning "-7"]
+    
+
+    method validationInfo : 'any1. 'any1 * string * int -> unit = fun (stringBuffer, (fileName : string), (size : int)) ->
+        let stringBuffer = Obj.repr stringBuffer in
+        begin
+        let fileData : FileData.fileData ref = ref (((FileData.getInstance ()) :> FileData.fileData)) in ();
+        if (size > !fileData#mINDOWNLOADABLEFILESIZE) then begin
+            if (size < !fileData#mAXDOWNLOADABLEFILESIZE) then begin
+                if (not ((StringValidationUtil.getInstance ())#isValidRequired (fileName, !fileData#mINLEN, !fileData#mAXLEN))) then begin
+                    ignore ((Obj.magic stringBuffer)#append ("File Name must be more than "));
+                    ignore ((Obj.magic stringBuffer)#appendint (!fileData#mINLEN));
+                    ignore ((Obj.magic stringBuffer)#append (" and less than "));
+                    ignore ((Obj.magic stringBuffer)#appendint (!fileData#mAXLEN));
+                    ignore ((Obj.magic stringBuffer)#append (" characters in length: "));
+                    ignore ((Obj.magic stringBuffer)#append (fileName));
+                    ignore ((Obj.magic stringBuffer)#append ("<br/>"))
+                end else begin
+                    ()
+                end
+            end else begin
+                ignore ((Obj.magic stringBuffer)#append ("File Is Not The Right Size. "));
+                ignore ((Obj.magic stringBuffer)#appendint (!fileData#mINDOWNLOADABLEFILESIZE));
+                ignore ((Obj.magic stringBuffer)#append ("< >"));
+                ignore ((Obj.magic stringBuffer)#appendint (!fileData#mAXDOWNLOADABLEFILESIZE));
+                ignore ((Obj.magic stringBuffer)#append ("<br/>"))
+            end
+        end
+        end [@@warning "-7-20"]
+    
+
+    method getTransformInfoInterface : 'return. unit -> 'return = fun () ->
+        begin
+        (Obj.magic ((super#getTransformInfoInterface ())))
+        end [@@warning "-7"]
+
+    initializer
+      begin
+        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
+        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
+        ();
+        (* super(...) is the inherit clause *) ()
+      end
+  end [@@warning "-20"]
+let () = java_register_constructor "UpdateFileValidationView" (fun arguments -> Obj.repr (new updateFileValidationView (Obj.obj arguments)))
+
+

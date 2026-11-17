@@ -1,0 +1,94 @@
+(*
+
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+*)
+(* Generated Code Do Not Modify *)
+(* package org.allbinary.logic.visual.transform.generator *)
+
+open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import org.allbinary.util.BasicArrayList *)
+(* import org.allbinary.util.BasicArrayListD *)
+(* import org.allbinary.logic.communication.log.LogUtil *)
+(* import org.allbinary.logic.string.StringMaker *)
+(* import org.allbinary.logic.system.security.licensing.AbeClientInformationInterface *)
+(* import org.allbinary.logic.visual.transform.info.TransformInfoDomNode *)
+(* import org.allbinary.logic.visual.transform.info.TransformInfoInterface *)
+(* import org.allbinary.logic.visual.transform.info.objectConfig.TransformInfoObjectConfigInterface *)
+
+class transformsGeneratorUtil () =
+  object (self)
+    val mutable logUtil : Obj.t = Obj.repr 0
+    method logUtil : 'r. 'r = Obj.magic logUtil
+    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+    
+    
+
+    (* Java overload generateComponentsFromObjectConfig(AbeClientInformationInterface, TransformInfoInterface, String) is not converted: OCaml has one method per name *)
+    
+
+    method generateComponentsFromObjectConfig : 'any1 'any2 'any3. 'any1 * 'any2 * 'any3 * string -> string = fun (abeClientInformation, transformInfoObjectConfigInterface, transformInfoInterface, (group : string)) ->
+        let abeClientInformation = Obj.repr abeClientInformation in
+        let transformInfoObjectConfigInterface = Obj.repr transformInfoObjectConfigInterface in
+        let transformInfoInterface = Obj.repr transformInfoInterface in
+        begin
+        if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
+            ignore ((Obj.magic logUtil)#putF (("Started Group: " ^ group), (Obj.magic self), "generateComponentsFromObjectConfig()"))
+        end;
+        let transformInfoObjectConfigComponentVector : BasicArrayList.basicArrayList ref = ref ((((Obj.magic transformInfoObjectConfigInterface)#getTransformsGroup (group)) :> BasicArrayList.basicArrayList)) in ();
+        if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
+            let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
+            ignore (!stringBuffer#append ("Processing "));
+            ignore (!stringBuffer#appendint ((!transformInfoObjectConfigComponentVector#size ())));
+            ignore (!stringBuffer#append (" Components Group: "));
+            ignore (!stringBuffer#append (group));
+            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), "generateComponentsFromObjectConfig()"))
+        end;
+        if ((!transformInfoObjectConfigComponentVector#size ()) < 1) then begin
+            raise (Failure ("No Pages Generated For Template."))
+        end;
+        let size : int ref = ref ((!transformInfoObjectConfigComponentVector#size ())) in ();
+        for index = 0 to !size - 1 do
+            let transformInfoObjectConfigComponent : TransformInfoDomNode.transformInfoDomNode ref = ref (((Obj.magic (!transformInfoObjectConfigComponentVector#get (index))) :> TransformInfoDomNode.transformInfoDomNode)) in ();
+            ignore ((TransformGeneratorUtil.getInstance ())#generate ((Obj.magic abeClientInformation), !transformInfoObjectConfigComponent, (Obj.magic transformInfoInterface)))
+        done;
+        if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
+            ignore ((Obj.magic logUtil)#putF (("Done Group: " ^ group), (Obj.magic self), "generateComponentsFromObjectConfig()"))
+        end;
+        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
+        ignore (!stringBuffer#append ("<!-- Generated all template views successfully for View: "));
+        ignore (!stringBuffer#append (((Obj.magic transformInfoInterface)#getName ())));
+        ignore (!stringBuffer#append ("-->"));
+        (java_string_of (Obj.repr !stringBuffer))
+        end [@@warning "-20"]
+
+    initializer
+      begin
+        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
+        ();
+        ()
+      end
+  end [@@warning "-20"]
+let () = java_register_constructor "TransformsGeneratorUtil" (fun arguments -> Obj.repr (new transformsGeneratorUtil (Obj.obj arguments)))
+
+let instance = (new transformsGeneratorUtil ())
+let get_instance () = instance
+let () = java_register_static "TransformsGeneratorUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
+
+let getInstance : 'return. unit -> 'return = fun () ->
+        begin
+        (Obj.magic (instance))
+        end
+let () = java_register_static "TransformsGeneratorUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+

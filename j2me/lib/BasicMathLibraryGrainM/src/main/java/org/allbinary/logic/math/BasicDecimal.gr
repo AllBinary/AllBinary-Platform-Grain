@@ -1,0 +1,199 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.math
+module BasicDecimal
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/lang/Long.gr" include Long
+from "./ScaleFactorFactory.gr" include ScaleFactorFactory
+use ScaleFactorFactory.{ type ScaleFactorFactory }
+
+provide record BasicDecimal {
+  jobject: JObject,
+  mut f_units: Int64,
+  mut f_scaled: Int32,
+  mut f_factor: Int32,
+  mut f_factorValue: Int32,
+}
+
+let mut jcell_ZERO_BIGDECIMAL: Option<BasicDecimal> = None
+
+provide let rec jclassName = () => "BasicDecimal"
+
+and jstatic_ZERO_BIGDECIMAL = () => match (jcell_ZERO_BIGDECIMAL) {
+  Some(value) => value,
+  None => {
+    let value: BasicDecimal = jnew_1(0L)
+    jcell_ZERO_BIGDECIMAL = Some(value)
+    value
+  },
+}
+    
+and jm_createBigDecimal = (bigDecimal: BasicDecimal) => {
+        return jnew_1(jm_getUnscaled(bigDecimal))
+}
+    
+and jnew_1 = (units: Int64) => {
+    let this = { jobject: JR.newJObject("BasicDecimal"), f_units: 0L, f_scaled: 0l, f_factor: 0l, f_factorValue: 0l, }
+    this.jobject.toStringFunction = () => jm_toString(this)
+    
+    
+    this.f_factor = ScaleFactorFactory.jm_getInstance().f_DEFAULT_SCALE_FACTOR
+    this.f_factorValue = ScaleFactorFactory.jm_getInstance().f_DEFAULT_SCALE_VALUE
+        this.f_units = units
+        ignore(jm_updateScaled(this))
+    this
+}
+    
+and jm_setint = (this: BasicDecimal, value: Int32) => {
+        this.f_units = Int64.fromNumber(Int32.toNumber(value))
+        ignore(jm_updateScaled(this))
+}
+    
+and jm_setlong = (this: BasicDecimal, value: Int64) => {
+        this.f_units = value
+        ignore(jm_updateScaled(this))
+}
+    
+and jm_set = (this: BasicDecimal, bigDecimal: BasicDecimal) => {
+        this.f_units = jm_getUnscaled(bigDecimal)
+        ignore(jm_updateScaled(this))
+}
+    
+and jm_addint = (this: BasicDecimal, value: Int32) => {
+        this.f_units = Int64.(+)(this.f_units, Int64.fromNumber(Int32.toNumber(value)))
+        ignore(jm_updateScaled(this))
+}
+    
+and jm_addlong = (this: BasicDecimal, value: Int64) => {
+        this.f_units = Int64.(+)(this.f_units, value)
+        ignore(jm_updateScaled(this))
+}
+    
+and jm_add = (this: BasicDecimal, bigDecimal: BasicDecimal) => {
+        this.f_units = Int64.(+)(this.f_units, jm_getUnscaled(bigDecimal))
+        ignore(jm_updateScaled(this))
+}
+    
+and jm_subtractint = (this: BasicDecimal, value: Int32) => {
+        this.f_units = Int64.(-)(this.f_units, Int64.fromNumber(Int32.toNumber(value)))
+        ignore(jm_updateScaled(this))
+}
+    
+and jm_subtractlong = (this: BasicDecimal, value: Int64) => {
+        this.f_units = Int64.(-)(this.f_units, value)
+        ignore(jm_updateScaled(this))
+}
+    
+and jm_subtract = (this: BasicDecimal, bigDecimal: BasicDecimal) => {
+        this.f_units = Int64.(-)(this.f_units, jm_getUnscaled(bigDecimal))
+        ignore(jm_updateScaled(this))
+}
+    
+and jm_multiplyint = (this: BasicDecimal, value: Int32) => {
+        this.f_units = Int64.(*)(this.f_units, Int64.fromNumber(Int32.toNumber(value)))
+        ignore(jm_updateScaled(this))
+}
+    
+and jm_multiplylong = (this: BasicDecimal, value: Int64) => {
+        this.f_units = Int64.(*)(this.f_units, value)
+        ignore(jm_updateScaled(this))
+}
+    
+and jm_multiply = (this: BasicDecimal, bigDecimal: BasicDecimal) => {
+        this.f_units = Int64.(*)(this.f_units, jm_getUnscaled(bigDecimal))
+        ignore(jm_updateScaled(this))
+}
+    
+and jm_divideint = (this: BasicDecimal, value: Int32) => {
+        this.f_units = Int64.(/)(this.f_units, Int64.fromNumber(Int32.toNumber(value)))
+        ignore(jm_updateScaled(this))
+}
+    
+and jm_dividelong = (this: BasicDecimal, value: Int64) => {
+        this.f_units = Int64.(/)(this.f_units, value)
+        ignore(jm_updateScaled(this))
+}
+    
+and jm_divide = (this: BasicDecimal, bigDecimal: BasicDecimal) => {
+        this.f_units = Int64.(/)(this.f_units, jm_getUnscaled(bigDecimal))
+        ignore(jm_updateScaled(this))
+}
+    
+and jm_getUnscaled = (this: BasicDecimal) => {
+        return this.f_units
+}
+    
+and jm_updateScaled = (this: BasicDecimal) => {
+        this.f_scaled = Int32.fromNumber(Int64.toNumber((Int64.(/)(this.f_units, Int64.fromNumber(Int32.toNumber(this.f_factorValue))))))
+}
+    
+and jm_getScaled = (this: BasicDecimal) => {
+        return this.f_scaled
+}
+    
+and jm_toString = (this: BasicDecimal) => {
+        return toString(this.f_units)
+}
+    
+and jm_getScaledFactor = (this: BasicDecimal) => {
+        return this.f_factor
+}
+    
+and jm_getScaledFactorValue = (this: BasicDecimal) => {
+        return this.f_factorValue
+}
+
+JR.registerLateBound("BasicDecimal.jnew_1", jnew_1)
+JR.registerLateBound("BasicDecimal.jm_createBigDecimal", jm_createBigDecimal)
+JR.registerLateBound("BasicDecimal.jm_setint", jm_setint)
+JR.registerLateBound("BasicDecimal.jm_setlong", jm_setlong)
+JR.registerLateBound("BasicDecimal.jm_set", jm_set)
+JR.registerLateBound("BasicDecimal.jm_addint", jm_addint)
+JR.registerLateBound("BasicDecimal.jm_addlong", jm_addlong)
+JR.registerLateBound("BasicDecimal.jm_add", jm_add)
+JR.registerLateBound("BasicDecimal.jm_subtractint", jm_subtractint)
+JR.registerLateBound("BasicDecimal.jm_subtractlong", jm_subtractlong)
+JR.registerLateBound("BasicDecimal.jm_subtract", jm_subtract)
+JR.registerLateBound("BasicDecimal.jm_multiplyint", jm_multiplyint)
+JR.registerLateBound("BasicDecimal.jm_multiplylong", jm_multiplylong)
+JR.registerLateBound("BasicDecimal.jm_multiply", jm_multiply)
+JR.registerLateBound("BasicDecimal.jm_divideint", jm_divideint)
+JR.registerLateBound("BasicDecimal.jm_dividelong", jm_dividelong)
+JR.registerLateBound("BasicDecimal.jm_divide", jm_divide)
+JR.registerLateBound("BasicDecimal.jm_getUnscaled", jm_getUnscaled)
+JR.registerLateBound("BasicDecimal.jm_updateScaled", jm_updateScaled)
+JR.registerLateBound("BasicDecimal.jm_getScaled", jm_getScaled)
+JR.registerLateBound("BasicDecimal.jm_toString", jm_toString)
+JR.registerLateBound("BasicDecimal.jm_getScaledFactor", jm_getScaledFactor)
+JR.registerLateBound("BasicDecimal.jm_getScaledFactorValue", jm_getScaledFactorValue)
+JR.registerLateBound("BasicDecimal.f_units", (this: BasicDecimal) => this.f_units)
+JR.registerLateBound("BasicDecimal.set_f_units", (this: BasicDecimal, jvalue) => { this.f_units = jvalue; jvalue })
+JR.registerLateBound("BasicDecimal.f_scaled", (this: BasicDecimal) => this.f_scaled)
+JR.registerLateBound("BasicDecimal.set_f_scaled", (this: BasicDecimal, jvalue) => { this.f_scaled = jvalue; jvalue })
+JR.registerLateBound("BasicDecimal.f_factor", (this: BasicDecimal) => this.f_factor)
+JR.registerLateBound("BasicDecimal.f_factorValue", (this: BasicDecimal) => this.f_factorValue)
+JR.registerLateBound("BasicDecimal.jstatic_ZERO_BIGDECIMAL", jstatic_ZERO_BIGDECIMAL)
+
+

@@ -1,0 +1,95 @@
+(*
+
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+*)
+(* Generated Code Do Not Modify *)
+(* package org.allbinary.data.generator *)
+
+open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import java.io.IOException *)
+(* import org.allbinary.util.BasicArrayList *)
+(* import org.allbinary.util.BasicArrayListD *)
+(* import org.allbinary.data.tables.generator.IdGeneratorEntity *)
+(* import org.allbinary.data.tables.generator.IdGeneratorEntityFactory *)
+(* import org.allbinary.logic.StdUtil *)
+(* import org.allbinary.string.CommonStrings *)
+(* import org.allbinary.logic.communication.log.LogUtil *)
+
+let eXT : string = ".unq"
+let get_eXT () = eXT
+let () = java_register_static "UniqueIdGenerator.get_eXT" (fun _ -> Obj.repr (get_eXT ()))
+class uniqueIdGenerator () =
+  object (self)
+    val mutable logUtil : Obj.t = Obj.repr 0
+    method logUtil : 'r. 'r = Obj.magic logUtil
+    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+    val mutable idGeneratorEntity : IdGeneratorEntity.idGeneratorEntity = (Obj.magic 0)
+    method idGeneratorEntity = idGeneratorEntity
+    method set_idGeneratorEntity value' = idGeneratorEntity <- value'
+    val mutable name : string = ""
+    method name = name
+    method set_name value' = name <- value'
+    
+    
+
+    method initialize ((value : int)) : unit =
+        begin
+        (try
+            let vector : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
+            ignore (!vector#add (name));
+            ignore (!vector#add ((java_string_of (Obj.repr (value)))));
+            ignore (idGeneratorEntity#insert (!vector))
+        with e -> begin
+            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#iDLOGGING)) then begin
+                let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
+                ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), "initialize", e))
+            end
+        end)
+        end
+    
+
+    method setFile ((_filePathName : string), (name_arg : string)) : unit =
+        begin
+        name <- name_arg
+        end
+    
+
+    method getNext () : string =
+        begin
+        (try
+            let idLong : int ref = ref ((idGeneratorEntity#get (name))) in ();
+            let newValue : int ref = ref (((!idLong + 1))) in ();
+            ignore (idGeneratorEntity#update (name, !newValue));
+            (string_of_int !idLong)
+        with e -> begin
+            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#iDLOGGING)) then begin
+                let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
+                ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), "getNext", e))
+            end;
+            "Error"
+        end)
+        end
+
+    initializer
+      begin
+        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
+        ();
+        name <- "";
+        ();
+        idGeneratorEntity <- (Obj.magic (IdGeneratorEntityFactory.getInstance ()))
+      end
+  end [@@warning "-20"]
+let () = java_register_constructor "UniqueIdGenerator" (fun arguments -> Obj.repr (new uniqueIdGenerator (Obj.obj arguments)))
+
+

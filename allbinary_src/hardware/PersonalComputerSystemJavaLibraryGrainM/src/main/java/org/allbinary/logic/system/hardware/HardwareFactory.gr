@@ -1,0 +1,86 @@
+/*
+ * 
+ * AllBinary Open License Version 1 
+ * Copyright (c) 2011 AllBinary 
+ *  
+ * By agreeing to this license you and any business entity you represent are 
+ * legally bound to the AllBinary Open License Version 1 legal agreement. 
+ *  
+ * You may obtain the AllBinary Open License Version 1 legal agreement from 
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+ *  
+ * Created By: Travis Berthelot 
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.system.hardware
+module HardwareFactory
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/system/os/GenericOperatingSystem.gr" include GenericOperatingSystem
+use GenericOperatingSystem.{ type GenericOperatingSystem }
+from "../../../../../org/allbinary/logic/system/os/OperatingSystems.gr" include OperatingSystems
+use OperatingSystems.{ type OperatingSystems }
+from "./HardwareInterface.gr" include HardwareInterface
+use HardwareInterface.{ type HardwareInterface }
+
+provide record HardwareFactory {
+  jobject: JObject,
+}
+
+let mut jcell_instance: Option<HardwareFactory> = None
+
+provide let rec jclassName = () => "HardwareFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: HardwareFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+    
+and jm_getInstance_0 = () => {
+        return jstatic_instance()
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("HardwareFactory"), }
+        void
+    this
+}
+    
+and jm_getInstance_1 = (os: GenericOperatingSystem) => {
+        {
+            let mut operatingSystems: OperatingSystems = JR.cast(OperatingSystems.jm_getInstance())
+            if (JR.isSame(JR.compareTo(GenericOperatingSystem.jm_getName(os), operatingSystems.f_LINUX), 0l)) {
+                return JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LinuxHardware.jnew_0"))
+JR.cast(jlate())
+})
+            } else if (Int32.(>=)(JR.indexOf(GenericOperatingSystem.jm_getName(os), operatingSystems.f_WINDOWS), 0l)) {
+                return JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("WindowsHardware.jnew_0"))
+JR.cast(jlate())
+})
+            }
+            fail JR.toStringOf(JR.newJObject("Exception"))
+        }
+    return JR.nullOf()
+}
+
+JR.registerLateBound("HardwareFactory.jnew_0", jnew_0)
+JR.registerLateBound("HardwareFactory.jm_getInstance_0", jm_getInstance_0)
+JR.registerLateBound("HardwareFactory.jm_getInstance_1", jm_getInstance_1)
+JR.registerLateBound("HardwareFactory.jstatic_instance", jstatic_instance)
+
+

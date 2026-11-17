@@ -1,0 +1,121 @@
+(*
+ 
+  To change this license header, choose License Headers in Project Properties. 
+  To change this template file, choose Tools | Templates 
+  and open the template in the editor.  
+*)
+(* Generated Code Do Not Modify *)
+(* package org.allbinary.media.image *)
+
+open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import java.awt.image.BufferedImage *)
+(* import java.io.File *)
+(* import java.io.IOException *)
+(* import java.util.Iterator *)
+(* import javax.imageio.IIOImage *)
+(* import javax.imageio.ImageIO *)
+(* import javax.imageio.ImageWriteParam *)
+(* import javax.imageio.ImageWriter *)
+(* import javax.imageio.stream.ImageOutputStream *)
+(* import org.allbinary.logic.communication.log.LogUtil *)
+(* import org.allbinary.logic.io.AbFileOutputStream *)
+(* import org.allbinary.logic.io.StreamUtil *)
+(* import org.allbinary.logic.io.file.AbFile *)
+(* import org.allbinary.string.CommonStrings *)
+(* import org.apache.batik.ext.awt.image.codec.png.PNGImageWriter *)
+
+class imagePersistanceUtil () =
+  object (self)
+    val mutable logUtil : Obj.t = Obj.repr 0
+    method logUtil : 'r. 'r = Obj.magic logUtil
+    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
+    method commonStrings = commonStrings
+    method set_commonStrings value' = commonStrings <- value'
+    
+
+    method saveWithBatik : 'any1 'any2. 'any1 * 'any2 -> unit = fun (file, bufferedImage) ->
+        let file = Obj.repr file in
+        let bufferedImage = Obj.repr bufferedImage in
+        begin
+        let batikPNGImageWriter : Obj.t ref = ref ((Obj.repr (new PNGImageWriter.pNGImageWriter ()))) in ();
+        let fileOutputStream : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFileOutputStream.createFromAbFile" (Obj.repr ((Obj.magic file))))))) in ();
+        Fun.protect ~finally:(fun () -> 
+            ignore ((Obj.magic !fileOutputStream)#flush ());
+            ignore ((StreamUtil.getInstance ())#close ((Obj.magic !fileOutputStream)))
+        ) (fun () -> (try
+            ignore ((Obj.magic !batikPNGImageWriter)#writeImage ((Obj.magic bufferedImage), (Obj.magic !fileOutputStream)))
+        with exception_value -> raise exception_value));
+        ignore ((Obj.magic logUtil)#putF (("Wrote Image: " ^ java_string_of (Obj.repr (((Obj.magic file)#getAbsolutePath ())))), (Obj.magic self), commonStrings#sAVE))
+        end [@@warning "-20"]
+    
+
+    (* Java overload saveWithImageIO(String, BufferedImage) is not converted: OCaml has one method per name *)
+    
+
+    method saveWithImageIO : 'any2. java_file * 'any2 -> unit = fun ((file : java_file), bufferedImage) ->
+        let bufferedImage = Obj.repr bufferedImage in
+        try
+        begin
+        let writer : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
+        let ios : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
+        Fun.protect ~finally:(fun () -> 
+            (try
+                if ((Obj.magic !ios) != (Obj.magic 0)) then begin
+                    ignore ((Obj.magic !ios)#flush ());
+                    (try
+                        if ((Obj.magic !ios) != (Obj.magic 0)) then begin
+                            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (Obj.magic !ios))), (Obj.magic !ios), commonStrings#cLOSE));
+                            ignore ((Obj.magic !ios)#close ())
+                        end
+                    with e -> begin
+                        ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic !ios), commonStrings#cLOSE, e))
+                    end)
+                end;
+                if ((Obj.magic !writer) != (Obj.magic 0)) then begin
+                    ignore ((Obj.magic !writer)#dispose ())
+                end
+            with e2 -> begin
+                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#sAVE, e2))
+            end)
+        ) (fun () -> (try
+            let iter : Obj.t ref = ref ((Obj.repr (ImageIO.getImageWritersByFormatName ("jpeg")))) in ();
+            if (not ((Obj.magic !iter)#hasNext ())) then begin
+                ignore ((Obj.magic logUtil)#putF ("Unable to save image to jpeg file type.", (Obj.magic self), commonStrings#sAVE));
+                raise (Java_return (Obj.repr (())))
+            end;
+            writer := Obj.repr ((Obj.magic ((Obj.magic !iter)#next ())));
+            ios := Obj.repr ((ImageIO.createImageOutputStream (file)));
+            ignore ((Obj.magic !writer)#setOutput ((Obj.magic !ios)));
+            let iwp : Obj.t ref = ref ((Obj.repr ((Obj.magic !writer)#getDefaultWriteParam ()))) in ();
+            ignore ((Obj.magic !iwp)#setCompressionMode ((ImageWriteParam.get_mODE_EXPLICIT ())));
+            ignore ((Obj.magic !iwp)#setCompressionQuality (0.95));
+            ignore ((Obj.magic !writer)#write ((Obj.magic 0), (new IIOImage.iIOImage ((Obj.magic bufferedImage), (Obj.magic 0), (Obj.magic 0))), (Obj.magic !iwp)));
+            ignore ((Obj.magic logUtil)#putF (("Wrote Image: " ^ java_string_of (Obj.repr ((file#getAbsolutePath ())))), (Obj.magic self), commonStrings#sAVE))
+        with e -> begin
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#sAVE, e))
+        end))
+        end
+        with Java_return value -> Obj.obj value [@@warning "-20"]
+
+    initializer
+      begin
+        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
+        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
+        ()
+      end
+  end [@@warning "-20"]
+let () = java_register_constructor "ImagePersistanceUtil" (fun arguments -> Obj.repr (new imagePersistanceUtil (Obj.obj arguments)))
+
+let instance = (new imagePersistanceUtil ())
+let get_instance () = instance
+let () = java_register_static "ImagePersistanceUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
+
+let getInstance : 'return. unit -> 'return = fun () ->
+        begin
+        (Obj.magic (instance))
+        end
+let () = java_register_static "ImagePersistanceUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+

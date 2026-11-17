@@ -1,0 +1,97 @@
+(*
+
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+*)
+(* Generated Code Do Not Modify *)
+(* package views.business.context *)
+
+open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import org.allbinary.data.tree.dom.document.XmlDocumentHelper *)
+(* import org.allbinary.logic.communication.log.LogUtil *)
+(* import org.allbinary.logic.string.StringMaker *)
+(* import org.allbinary.logic.visual.transform.TransformFactory *)
+(* import org.allbinary.logic.visual.transform.TransformInterface *)
+(* import org.allbinary.logic.visual.transform.info.GeneratorTransformInfoData *)
+(* import org.allbinary.logic.visual.transform.info.RootTransformInfoData *)
+(* import org.allbinary.logic.visual.transform.info.TransformInfoHttp *)
+(* import org.allbinary.logic.visual.transform.info.TransformInfoInterface *)
+(* import org.allbinary.logic.visual.transform.info.objectConfig.TransformInfoObjectConfigAndManipulatorFactory *)
+(* import org.allbinary.logic.visual.transform.info.objectConfig.TransformInfoObjectConfigInterface *)
+(* import org.allbinary.logic.visual.transform.template.TransformTemplateInterface *)
+(* import org.allbinary.string.CommonSeps *)
+(* import org.w3c.dom.Document *)
+(* import views.business.context.modules.storefront.HttpStoreComponentView *)
+
+class overrideObjectConfigRootContextView ((transformInfoInterface : TransformInfoInterface.transformInfoInterface)) =
+  object (self)
+    inherit HttpStoreComponentView.httpStoreComponentView (transformInfoInterface)
+    val mutable logUtil : Obj.t = Obj.repr 0
+    method logUtil : 'r. 'r = Obj.magic logUtil
+    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+    
+    
+
+    method view () : string =
+        begin
+        (try
+            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
+                ignore ((Obj.magic logUtil)#putF (("View Name: " ^ ((self#getTransformInfoInterface ())#getName ())), (Obj.magic self), "view()"))
+            end;
+            let rootTransformInfoInterface : TransformInfoInterface.transformInfoInterface ref = ref (((Obj.magic (new TransformInfoHttp.transformInfoHttp ((Obj.magic (self#getTransformInfoInterface ()))))) :> TransformInfoInterface.transformInfoInterface)) in ();
+            let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
+            ignore (!stringBuffer#append (((self#getTransformInfoInterface ())#getStoreName ())));
+            ignore (!stringBuffer#append ((CommonSeps.getInstance ())#sPACE));
+            let nameStart : string ref = ref ((java_string_of (Obj.repr !stringBuffer))) in ();
+            if ((((self#getTransformInfoInterface ())#getName ())#indexOf ((GeneratorTransformInfoData.get_nAME ()))) > 0) then begin
+                ignore (!rootTransformInfoInterface#setName ((!nameStart ^ java_string_of (Obj.repr ((GeneratorTransformInfoData.get_nAME ()))))))
+            end else if ((((self#getTransformInfoInterface ())#getName ())#indexOf ((RootTransformInfoData.get_nAME ()))) > 0) then begin
+                ignore (!rootTransformInfoInterface#setName ((!nameStart ^ java_string_of (Obj.repr ((RootTransformInfoData.get_nAME ()))))))
+            end else begin
+                raise (Failure ("Override Currently Not Supported"))
+            end;
+            let overrideObjectConfigDocument : Obj.t ref = ref ((Obj.repr (((self#getTransformInfoInterface ())#getObjectConfigInterface ())#toXmlDoc ()))) in ();
+            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
+                ignore ((Obj.magic logUtil)#putF (("Retrieved OverrideObjectConfig: " ^ (XmlDocumentHelper.toString ((Obj.magic !overrideObjectConfigDocument)))), (Obj.magic self), "view()"))
+            end;
+            let transformFactory : TransformFactory.transformFactory ref = ref (((TransformFactory.getInstance ()) :> TransformFactory.transformFactory)) in ();
+            let rootComponentInterface : TransformInterface.transformInterface ref = ref (((!transformFactory#getInstance ((self#abeClientInformation), (!rootTransformInfoInterface#getName ()), !rootTransformInfoInterface)) :> TransformInterface.transformInterface)) in ();
+            let transformTemplateInterface : TransformTemplateInterface.transformTemplateInterface ref = ref (((Obj.magic !rootComponentInterface) :> TransformTemplateInterface.transformTemplateInterface)) in ();
+            let componentInterface : TransformInterface.transformInterface ref = ref (((!transformFactory#getInstance ((self#abeClientInformation), (!transformTemplateInterface#getName ()), (!rootComponentInterface#getTransformInfoInterface ()))) :> TransformInterface.transformInterface)) in ();
+            let transformInfoObjectConfigInterface : TransformInfoObjectConfigInterface.transformInfoObjectConfigInterface ref = ref ((((TransformInfoObjectConfigAndManipulatorFactory.getInstance ())#getInstance ((self#abeClientInformation), (!componentInterface#getTransformInfoInterface ()), (Obj.magic !overrideObjectConfigDocument))) :> TransformInfoObjectConfigInterface.transformInfoObjectConfigInterface)) in ();
+            ignore ((!componentInterface#getTransformInfoInterface ())#setObjectConfigInterface (!transformInfoObjectConfigInterface));
+            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
+                ignore ((Obj.magic logUtil)#putF (("Set OverrideObjectConfig: " ^ (java_string_of (Obj.repr ((!componentInterface#getTransformInfoInterface ())#getObjectConfigInterface ())))), (Obj.magic self), "view()"))
+            end;
+            (!componentInterface#view ())
+        with e -> begin
+            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAGHELPERERROR)) then begin
+                ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), "view()", e))
+            end;
+            raise e
+        end)
+        end [@@warning "-7"]
+
+    initializer
+      begin
+        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
+        ();
+        (* super(...) is the inherit clause *) ();
+        if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
+            ignore ((Obj.magic logUtil)#putF (("View Name: " ^ (transformInfoInterface#getName ())), (Obj.magic self), "OverrideObjectRootContextView()"))
+        end
+      end
+  end [@@warning "-20"]
+let () = java_register_constructor "OverrideObjectConfigRootContextView" (fun arguments -> Obj.repr (new overrideObjectConfigRootContextView (Obj.obj arguments)))
+
+

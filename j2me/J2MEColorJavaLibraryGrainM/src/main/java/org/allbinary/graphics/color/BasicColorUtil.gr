@@ -1,0 +1,100 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.color
+module BasicColorUtil
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+
+provide record BasicColorUtil {
+  jobject: JObject,
+  mut f_ZERO_ARRAY: Array<JObject>,
+  mut f_ALPHA: Int32,
+  mut f_isAlpha: Bool,
+  mut f_ffOpaque: Bool,
+}
+
+let mut jcell_instance: Option<BasicColorUtil> = None
+
+provide let rec jclassName = () => "BasicColorUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: BasicColorUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("BasicColorUtil"), f_ZERO_ARRAY: [> ], f_ALPHA: 0l, f_isAlpha: false, f_ffOpaque: false, }
+    this.f_ZERO_ARRAY = Array.make(Int32.toNumber(0l), JR.jnull)
+    this.f_ALPHA = 0xFF000000l
+    this.f_isAlpha = true
+    this.f_ffOpaque = true
+    this
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jm_getRGB = (this: BasicColorUtil, red: Int32, green: Int32, blue: Int32) => {
+        let mut value: Int32 = 0l
+        if (this.f_isAlpha) {
+            if (this.f_ffOpaque) {
+                value = this.f_ALPHA
+            }
+        }
+        value = Int32.(|)((Int32.(<<)(red, 16l)), value)
+        value = Int32.(|)((Int32.(<<)(green, 8l)), value)
+        value = Int32.(|)(blue, value)
+        return value
+}
+    
+and jm_getARGB = (this: BasicColorUtil, alphaValue: Int32, r: Int32, g: Int32, b: Int32) => {
+        return Int32.(+)(Int32.(+)(Int32.(+)((Int32.(&)((Int32.(<<)(alphaValue, 24l)), this.f_ALPHA)), (Int32.(&)((Int32.(<<)(r, 16l)), 0x00FF0000l))), (Int32.(&)((Int32.(<<)(g, 8l)), 0x0000FF00l))), (Int32.(&)(b, 0x000000FFl)))
+}
+    
+and jm_get = (this: BasicColorUtil, alphaValue: Int32, color: Int32) => {
+        return Int32.(+)((Int32.(&)((Int32.(<<)(alphaValue, 24l)), this.f_ALPHA)), color)
+}
+    
+and jm_invert = (this: BasicColorUtil, color: Int32) => {
+        return Int32.(|)((Int32.(-)(0xFFFFFFl, color)), this.f_ALPHA)
+}
+
+JR.registerLateBound("BasicColorUtil.jnew_0", jnew_0)
+JR.registerLateBound("BasicColorUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("BasicColorUtil.jm_getRGB", jm_getRGB)
+JR.registerLateBound("BasicColorUtil.jm_getARGB", jm_getARGB)
+JR.registerLateBound("BasicColorUtil.jm_get", jm_get)
+JR.registerLateBound("BasicColorUtil.jm_invert", jm_invert)
+JR.registerLateBound("BasicColorUtil.f_ZERO_ARRAY", (this: BasicColorUtil) => this.f_ZERO_ARRAY)
+JR.registerLateBound("BasicColorUtil.f_ALPHA", (this: BasicColorUtil) => this.f_ALPHA)
+JR.registerLateBound("BasicColorUtil.f_isAlpha", (this: BasicColorUtil) => this.f_isAlpha)
+JR.registerLateBound("BasicColorUtil.f_ffOpaque", (this: BasicColorUtil) => this.f_ffOpaque)
+JR.registerLateBound("BasicColorUtil.jstatic_instance", jstatic_instance)
+
+

@@ -1,0 +1,261 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.rand
+module MyRandomFactory
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/util/Random.gr" include Random
+use Random.{ type Random }
+from "../../../../org/allbinary/logic/math/MathUtil.gr" include MathUtil
+use MathUtil.{ type MathUtil }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../../java/lang/System.gr" include System
+from "../../../../java/lang/Integer.gr" include Integer
+
+//Do not use in client code for money related things.
+provide record MyRandomFactory {
+  jobject: JObject,
+  mut f_mathUtil: MathUtil,
+  mut f_rand: Random,
+}
+
+let mut jcell_instance: Option<MyRandomFactory> = None
+
+provide let rec jclassName = () => "MyRandomFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: MyRandomFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("MyRandomFactory"), f_mathUtil: JR.nullOf(), f_rand: JR.nullOf(), }
+    this.f_mathUtil = JR.cast(MathUtil.jm_getInstance())
+    
+        this.f_rand = Random.jnew_1(JR.currentTimeMillis())
+    this
+}
+    
+and jm_setSeed = (this: MyRandomFactory, seed: Int64) => {
+        this.f_rand = Random.jnew_1(seed)
+}
+    
+and jm_getNextInt = (this: MyRandomFactory, range: Int32) => {
+        let mut div: Int32 = Int32.(+)((Int32.(/)(Integer.jstatic_MAX_VALUE(), range)), 1l)
+        return (Int32.(/)(Random.jm_nextInt_0(this.f_rand), div))
+}
+    
+and jm_getAbsoluteNextInt = (this: MyRandomFactory, range: Int32) => {
+        return MathUtil.jm_abs(this.f_mathUtil, jm_getNextInt(this, range))
+}
+    
+and jm_getAbsoluteNextIntAllowZero = (this: MyRandomFactory, range: Int32) => {
+        if ((range == 0l)) {
+            return 0l
+        } else {
+            return MathUtil.jm_abs(this.f_mathUtil, jm_getNextInt(this, range))
+        }
+}
+    
+and jm_shuffle = (this: MyRandomFactory, intArray: Array<Int32>) => {
+        ignore(jm_shuffleTotal(this, intArray, Int32.(*)(Int32.fromNumber(Array.length(intArray)), 7l)))
+}
+    
+and jm_shuffleTotal = (this: MyRandomFactory, intArray: Array<Int32>, shuffleTotal: Int32) => {
+        let mut size: Int32 = Int32.fromNumber(Array.length(intArray))
+        let mut randomIndex: Int32 = 0l
+        let mut randomIndex2: Int32 = 0l
+        let mut value: Int32 = 0l
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, shuffleTotal))) break
+            randomIndex = jm_getAbsoluteNextIntAllowZero(this, size)
+            randomIndex2 = jm_getAbsoluteNextIntAllowZero(this, size)
+            value = intArray[Int32.toNumber(randomIndex)]
+            intArray[Int32.toNumber(randomIndex)] = intArray[Int32.toNumber(randomIndex2)]
+            intArray[Int32.toNumber(randomIndex2)] = value
+            }
+        }
+}
+    
+and jm_shuffle2 = (this: MyRandomFactory, intArray: Array<Int32>, intArray2: Array<Int32>) => {
+        ignore(jm_shuffle2Total(this, intArray, intArray2, Int32.(*)(Int32.fromNumber(Array.length(intArray)), 7l)))
+}
+    
+and jm_shuffle2Total = (this: MyRandomFactory, intArray: Array<Int32>, intArray2: Array<Int32>, shuffleTotal: Int32) => {
+        let mut size: Int32 = Int32.fromNumber(Array.length(intArray))
+        let mut randomIndex: Int32 = 0l
+        let mut randomIndex2: Int32 = 0l
+        let mut value: Int32 = 0l
+        let mut value2: Int32 = 0l
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, shuffleTotal))) break
+            randomIndex = jm_getAbsoluteNextIntAllowZero(this, size)
+            randomIndex2 = jm_getAbsoluteNextIntAllowZero(this, size)
+            value = intArray[Int32.toNumber(randomIndex)]
+            value2 = intArray2[Int32.toNumber(randomIndex)]
+            intArray[Int32.toNumber(randomIndex)] = intArray[Int32.toNumber(randomIndex2)]
+            intArray[Int32.toNumber(randomIndex2)] = value
+            intArray2[Int32.toNumber(randomIndex)] = intArray2[Int32.toNumber(randomIndex2)]
+            intArray2[Int32.toNumber(randomIndex2)] = value2
+            }
+        }
+}
+    
+and jm_main = (args: Array<String>) => {
+        let mut randomFactory: MyRandomFactory = JR.cast(jm_getInstance())
+        let mut stringBuilder: StringMaker = StringMaker.jnew_0()
+        let mut commonSeps: CommonSeps = JR.cast(CommonSeps.jm_getInstance())
+        let mut size2: Int32 = 100l
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size2))) break
+            ignore(StringMaker.jm_append(StringMaker.jm_appendint(stringBuilder, jm_getAbsoluteNextInt(randomFactory, 3l)), commonSeps.f_COMMA))
+            }
+        }
+        ignore(print(StringMaker.jm_toString(stringBuilder)))
+        ignore(StringMaker.jm_delete(stringBuilder, 0l, StringMaker.jm_length(stringBuilder)))
+        let mut intArray: Array<Int32> = Array.make(Int32.toNumber(52l), 0l)
+        let mut intArray2: Array<Int32> = Array.make(Int32.toNumber(52l), 0l)
+        let mut size: Int32 = Int32.fromNumber(Array.length(intArray))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            intArray[Int32.toNumber(index)] = index
+            intArray2[Int32.toNumber(index)] = index
+            }
+        }
+        ignore(jm_shuffle2(randomFactory, intArray, intArray2))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            ignore(StringMaker.jm_append(StringMaker.jm_appendint(stringBuilder, intArray[Int32.toNumber(index)]), commonSeps.f_COMMA))
+            }
+        }
+        ignore(print(StringMaker.jm_toString(stringBuilder)))
+        ignore(StringMaker.jm_delete(stringBuilder, 0l, StringMaker.jm_length(stringBuilder)))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            ignore(StringMaker.jm_append(StringMaker.jm_appendint(stringBuilder, intArray2[Int32.toNumber(index)]), commonSeps.f_COMMA))
+            }
+        }
+        ignore(print(StringMaker.jm_toString(stringBuilder)))
+        let mut found: Bool = false
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            found = false
+            {
+                let mut index2: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index2 = Int32.(+)(index2, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index2, size))) break
+                if ((intArray[Int32.toNumber(index2)] == index)) {
+                    found = true
+                }
+                }
+            }
+            if (!found) {
+                fail JR.toStringOf(JR.newJObject("RuntimeException"))
+            }
+            }
+        }
+}
+
+JR.registerLateBound("MyRandomFactory.jnew_0", jnew_0)
+JR.registerLateBound("MyRandomFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("MyRandomFactory.jm_setSeed", jm_setSeed)
+JR.registerLateBound("MyRandomFactory.jm_getNextInt", jm_getNextInt)
+JR.registerLateBound("MyRandomFactory.jm_getAbsoluteNextInt", jm_getAbsoluteNextInt)
+JR.registerLateBound("MyRandomFactory.jm_getAbsoluteNextIntAllowZero", jm_getAbsoluteNextIntAllowZero)
+JR.registerLateBound("MyRandomFactory.jm_shuffle", jm_shuffle)
+JR.registerLateBound("MyRandomFactory.jm_shuffleTotal", jm_shuffleTotal)
+JR.registerLateBound("MyRandomFactory.jm_shuffle2", jm_shuffle2)
+JR.registerLateBound("MyRandomFactory.jm_shuffle2Total", jm_shuffle2Total)
+JR.registerLateBound("MyRandomFactory.jm_main", jm_main)
+JR.registerLateBound("MyRandomFactory.f_mathUtil", (this: MyRandomFactory) => this.f_mathUtil)
+JR.registerLateBound("MyRandomFactory.f_rand", (this: MyRandomFactory) => this.f_rand)
+JR.registerLateBound("MyRandomFactory.set_f_rand", (this: MyRandomFactory, jvalue) => { this.f_rand = jvalue; jvalue })
+JR.registerLateBound("MyRandomFactory.jstatic_instance", jstatic_instance)
+
+

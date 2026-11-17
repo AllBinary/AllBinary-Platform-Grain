@@ -1,0 +1,171 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.java.byteutil
+module ByteUtil
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+
+provide record ByteUtil {
+  jobject: JObject,
+}
+
+let mut jcell_instance: Option<ByteUtil> = None
+
+provide let rec jclassName = () => "ByteUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: ByteUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ByteUtil"), }
+        void
+    this
+}
+    
+and jm_xor = (this: ByteUtil, array: Array<Int32>, mask: Int32) => {
+        let mut bytes: Array<Int32> = Array.make(Int32.toNumber(Int32.fromNumber(Array.length(array))), 0l)
+        let mut size: Int32 = Int32.fromNumber(Array.length(array))
+        let mut index: Int32 = 0l
+        let mut currentByte: Int32 = 0l
+        while (Int32.(<)(index, size)) {
+            currentByte = array[Int32.toNumber(index)]
+            bytes[Int32.toNumber(index)] = JR.i8((Int32.(^)(currentByte, mask)))
+            index = Int32.(+)(index, 1l)
+        }
+        return bytes
+}
+    
+and jm_not = (this: ByteUtil, array: Array<Int32>) => {
+        let mut bytes: Array<Int32> = Array.make(Int32.toNumber(Int32.fromNumber(Array.length(array))), 0l)
+        let mut size: Int32 = Int32.fromNumber(Array.length(array))
+        let mut index: Int32 = 0l
+        while (Int32.(<)(index, size)) {
+            bytes[Int32.toNumber(index)] = JR.i8(Int32.lnot(array[Int32.toNumber(index)]))
+            index = Int32.(+)(index, 1l)
+        }
+        return bytes
+}
+    
+and jm_xorByte = (this: ByteUtil, array: Array<Int32>, index: Int32) => {
+        let mut mask: Int32 = 0l
+        if ((index == 0l)) {
+            mask = 1l
+        }
+        if ((index == 1l)) {
+            mask = 2l
+        }
+        if ((index == 2l)) {
+            mask = 4l
+        }
+        if ((index == 3l)) {
+            mask = 8l
+        }
+        if ((index == 4l)) {
+            mask = 16l
+        }
+        if ((index == 5l)) {
+            mask = 32l
+        }
+        if ((index == 6l)) {
+            mask = 64l
+        }
+        if ((index == 7l)) {
+            mask = JR.i8(Int32.(-)(1l, Int32.(+)(127l, 1l)))
+        }
+        return jm_xor(this, array, mask)
+}
+    
+and jm_compare = (this: ByteUtil, newByteArray: Array<Int32>, oldByteArray: Array<Int32>) => {
+        if ((Int32.fromNumber(Array.length(newByteArray)) != Int32.fromNumber(Array.length(oldByteArray)))) {
+            return false
+        } else {
+            void
+        }
+        let mut size: Int32 = Int32.fromNumber(Array.length(newByteArray))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            if ((newByteArray[Int32.toNumber(index)] != oldByteArray[Int32.toNumber(index)])) {
+                return false
+            }
+            }
+        }
+        return true
+}
+    
+and jm_compareWithStats = (this: ByteUtil, newByteArray: Array<Int32>, newSize: Int32, oldByteArray: Array<Int32>, stats: Array<Int32>) => {
+        if ((newSize != Int32.fromNumber(Array.length(oldByteArray)))) {
+            stats[Int32.toNumber(0l)] = Int32.(-)(1l, Int32.(+)(1l, 1l))
+            stats[Int32.toNumber(2l)] = newSize
+            stats[Int32.toNumber(3l)] = Int32.fromNumber(Array.length(oldByteArray))
+            return false
+        } else {
+            stats[Int32.toNumber(0l)] = newSize
+        }
+        stats[Int32.toNumber(1l)] = 0l
+        let mut size: Int32 = newSize
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            if ((newByteArray[Int32.toNumber(index)] != oldByteArray[Int32.toNumber(index)])) {
+                return false
+            }
+            stats[Int32.toNumber(1l)] = Int32.(+)(stats[Int32.toNumber(1l)], 1l)
+            }
+        }
+        return true
+}
+
+JR.registerLateBound("ByteUtil.jnew_0", jnew_0)
+JR.registerLateBound("ByteUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("ByteUtil.jm_xor", jm_xor)
+JR.registerLateBound("ByteUtil.jm_not", jm_not)
+JR.registerLateBound("ByteUtil.jm_xorByte", jm_xorByte)
+JR.registerLateBound("ByteUtil.jm_compare", jm_compare)
+JR.registerLateBound("ByteUtil.jm_compareWithStats", jm_compareWithStats)
+JR.registerLateBound("ByteUtil.jstatic_instance", jstatic_instance)
+
+

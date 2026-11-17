@@ -1,0 +1,128 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.util
+module HashtableUtil
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../java/util/Enumeration.gr" include Enumeration
+use Enumeration.{ type Enumeration }
+from "./EnumerationUtil.gr" include EnumerationUtil
+use EnumerationUtil.{ type EnumerationUtil }
+from "./BasicArrayListS.gr" include BasicArrayListS
+use BasicArrayListS.{ type BasicArrayListS }
+from "./BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+
+provide record HashtableUtil {
+  jobject: JObject,
+  mut f_enumerationUtil: EnumerationUtil,
+}
+
+let mut jcell_instance: Option<HashtableUtil> = None
+
+provide let rec jclassName = () => "HashtableUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: HashtableUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("HashtableUtil"), f_enumerationUtil: JR.nullOf(), }
+    this.f_enumerationUtil = JR.cast(EnumerationUtil.jm_getInstance())
+    this
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jm_putAll = (this: HashtableUtil, fromHashtable: JObject, hashtable: JObject) => {
+        let mut enumeration: Enumeration = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_keys"))
+JR.cast(jlate(JR.cast(fromHashtable)))
+})
+        let mut keyCanBeNull: JObject = JR.jnull
+        let mut valueCanBeNull: JObject = JR.jnull
+        while (EnumerationUtil.jm_hasMoreElements(this.f_enumerationUtil, enumeration)) {
+            keyCanBeNull = EnumerationUtil.jm_nextElement(this.f_enumerationUtil, enumeration)
+            valueCanBeNull = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
+JR.cast(jlate(JR.cast(hashtable), JR.cast(keyCanBeNull)))
+}
+            if (JR.isNull(valueCanBeNull)) {
+                void
+            } else {
+                ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
+JR.cast(jlate(JR.cast(hashtable), JR.cast(keyCanBeNull), JR.cast(valueCanBeNull)))
+})
+            }
+        }
+}
+    
+and jm_getKeysAsArray = (this: HashtableUtil, hashtable: JObject) => {
+        let mut objectArray: Array<JObject> = Array.make(Int32.toNumber({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_size"))
+JR.cast(jlate(JR.cast(hashtable)))
+}), JR.jnull)
+        let mut index: Int32 = 0l
+        let mut enumeration: Enumeration = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_keys"))
+JR.cast(jlate(JR.cast(hashtable)))
+})
+        while (EnumerationUtil.jm_hasMoreElements(this.f_enumerationUtil, enumeration)) {
+            objectArray[Int32.toNumber({ let jold = index; index = Int32.(+)(jold, 1l); jold })] = JR.cast(EnumerationUtil.jm_nextElement(this.f_enumerationUtil, enumeration))
+        }
+        return objectArray
+}
+    
+and jm_getKeysAsList = (this: HashtableUtil, hashtable: JObject) => {
+        let mut list: BasicArrayList = JR.cast(BasicArrayListS.jnew_1({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_size"))
+JR.cast(jlate(JR.cast(hashtable)))
+}))
+        let mut enumeration: Enumeration = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_keys"))
+JR.cast(jlate(JR.cast(hashtable)))
+})
+        while (EnumerationUtil.jm_hasMoreElements(this.f_enumerationUtil, enumeration)) {
+            ignore(BasicArrayList.jm_add(list, EnumerationUtil.jm_nextElement(this.f_enumerationUtil, enumeration)))
+        }
+        return list
+}
+
+JR.registerLateBound("HashtableUtil.jnew_0", jnew_0)
+JR.registerLateBound("HashtableUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("HashtableUtil.jm_putAll", jm_putAll)
+JR.registerLateBound("HashtableUtil.jm_getKeysAsArray", jm_getKeysAsArray)
+JR.registerLateBound("HashtableUtil.jm_getKeysAsList", jm_getKeysAsList)
+JR.registerLateBound("HashtableUtil.f_enumerationUtil", (this: HashtableUtil) => this.f_enumerationUtil)
+JR.registerLateBound("HashtableUtil.jstatic_instance", jstatic_instance)
+
+

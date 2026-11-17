@@ -1,0 +1,168 @@
+(*
+
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+*)
+(* Generated Code Do Not Modify *)
+(* package org.allbinary.log *)
+
+open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import java.io.BufferedReader *)
+(* import java.io.BufferedWriter *)
+(* import java.io.File *)
+(* import java.io.FileReader *)
+(* import java.io.FileWriter *)
+(* import java.io.RandomAccessFile *)
+(* import org.allbinary.string.CommonSeps *)
+(* import org.allbinary.logic.string.StringUtil *)
+(* import org.allbinary.logic.communication.log.LogFormatUtil *)
+(* import org.allbinary.logic.string.StringMaker *)
+
+let stringUtil : StringUtil.stringUtil = ((StringUtil.getInstance ()) :> StringUtil.stringUtil)
+let get_stringUtil () = stringUtil
+let () = java_register_static "FileLog.get_stringUtil" (fun _ -> Obj.repr (get_stringUtil ()))
+let logLength : int = 33000000
+let get_logLength () = logLength
+let () = java_register_static "FileLog.get_logLength" (fun _ -> Obj.repr (get_logLength ()))
+let logPath : string = "g:\\log\\"
+let get_logPath () = logPath
+let () = java_register_static "FileLog.get_logPath" (fun _ -> Obj.repr (get_logPath ()))
+let extension_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_extension : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !extension_cell with Lazy.Undefined -> java_null)
+let set_extension value' = extension_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "FileLog.get_extension" (fun _ -> Obj.repr (get_extension ()))
+let () = java_register_static "FileLog.set_extension" (fun value' -> set_extension value'; Obj.repr ())
+let fileName_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
+let get_fileName : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !fileName_cell with Lazy.Undefined -> java_null)
+let set_fileName value' = fileName_cell := Lazy.from_val (Obj.repr value')
+let () = java_register_static "FileLog.get_fileName" (fun _ -> Obj.repr (get_fileName ()))
+let () = java_register_static "FileLog.set_fileName" (fun value' -> set_fileName value'; Obj.repr ())
+let backupFileName : string = ((Obj.obj (get_fileName ()) : string) ^ (".bak"))
+let get_backupFileName () = backupFileName
+let () = java_register_static "FileLog.get_backupFileName" (fun _ -> Obj.repr (get_backupFileName ()))
+let oRG_ALLBINARY : string = "org.allbinary: "
+let get_oRG_ALLBINARY () = oRG_ALLBINARY
+let () = java_register_static "FileLog.get_oRG_ALLBINARY" (fun _ -> Obj.repr (get_oRG_ALLBINARY ()))
+let firstTime : bool ref = ref (true)
+let get_firstTime () = !firstTime
+let set_firstTime value' = firstTime := value'
+let () = java_register_static "FileLog.get_firstTime" (fun _ -> Obj.repr (get_firstTime ()))
+let () = java_register_static "FileLog.set_firstTime" (fun value' -> set_firstTime (Obj.obj value'); Obj.repr ())
+let logFile : java_file ref = ref (((new java_file (Obj.repr (logPath, (Obj.obj (get_fileName ()) : string)))) :> java_file))
+let get_logFile () = !logFile
+let set_logFile value' = logFile := value'
+let () = java_register_static "FileLog.get_logFile" (fun _ -> Obj.repr (get_logFile ()))
+let () = java_register_static "FileLog.set_logFile" (fun value' -> set_logFile (Obj.obj value'); Obj.repr ())
+let logFileBak : java_file ref = ref (((Obj.magic 0) :> java_file))
+let get_logFileBak () = !logFileBak
+let set_logFileBak value' = logFileBak := value'
+let () = java_register_static "FileLog.get_logFileBak" (fun _ -> Obj.repr (get_logFileBak ()))
+let () = java_register_static "FileLog.set_logFileBak" (fun value' -> set_logFileBak (Obj.obj value'); Obj.repr ())
+let fileOut : java_buffered_writer ref = ref (((Obj.magic 0) :> java_buffered_writer))
+let get_fileOut () = !fileOut
+let set_fileOut value' = fileOut := value'
+let () = java_register_static "FileLog.get_fileOut" (fun _ -> Obj.repr (get_fileOut ()))
+let () = java_register_static "FileLog.set_fileOut" (fun value' -> set_fileOut (Obj.obj value'); Obj.repr ())
+let backupIndex : int ref = ref (0)
+let get_backupIndex () = !backupIndex
+let set_backupIndex value' = backupIndex := value'
+let () = java_register_static "FileLog.get_backupIndex" (fun _ -> Obj.repr (get_backupIndex ()))
+let () = java_register_static "FileLog.set_backupIndex" (fun value' -> set_backupIndex (Obj.obj value'); Obj.repr ())
+
+let rec put : 'any2. string * 'any2 * string -> string = fun ((specialMessage : string), anyType, (functionName : string)) ->
+        let anyType = Obj.repr anyType in
+        begin
+        (put (specialMessage, anyType, functionName, (Obj.magic 0)))
+        end
+
+(* Java overload put(String, String, String) is not converted: OCaml has one method per name *)
+
+let () = java_register_static "FileLog.put" (fun arguments -> Obj.repr (put (Obj.obj arguments)))
+class fileLog () =
+  object
+    
+
+    initializer
+      begin
+        ();
+        ()
+      end
+  end
+let () = java_register_constructor "FileLog" (fun arguments -> Obj.repr (new fileLog (Obj.obj arguments)))
+
+let rec createLogFile () : bool =
+        begin
+        (try
+            logFile := (new java_file (Obj.repr (logPath, (Obj.obj (get_fileName ()) : string))));
+            if (not !firstTime) then begin
+                fileOut := (new java_buffered_writer (Obj.repr ((new java_file_writer (Obj.repr (!logFile))))))
+            end else begin
+                firstTime := false;
+                let raFile : Obj.t ref = ref ((Obj.repr (new RandomAccessFile.randomAccessFile (!logFile, "rw")))) in ();
+                ignore ((Obj.magic !raFile)#seek (((Obj.magic !raFile)#length ())));
+                fileOut := (new java_buffered_writer (Obj.repr ((new java_file_writer (Obj.repr (((Obj.magic !raFile)#getFD ())))))))
+            end;
+            let canWrite : bool ref = ref ((!logFile#canWrite ())) in ();
+            !canWrite
+        with e -> begin
+            (print_endline (java_string_of (Obj.repr (("Error Creating Log: " ^ java_string_of (Obj.repr (e)))))));
+            false
+        end)
+        end
+
+and createLogFileBackup () : bool =
+        begin
+        (try
+            let stringMaker : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
+            logFileBak := (new java_file (Obj.repr (logPath, (java_string_of (Obj.repr (((!stringMaker#append (backupFileName))#append ((CommonSeps.getInstance ())#pERIOD))#appendint (!backupIndex)))))));
+            while (!logFileBak#isFile ()) do
+                backupIndex := !backupIndex + 1;
+                ignore (!stringMaker#delete (0, (!stringMaker#length ())));
+                logFileBak := (new java_file (Obj.repr (logPath, (java_string_of (Obj.repr (((!stringMaker#append (backupFileName))#append ((CommonSeps.getInstance ())#pERIOD))#appendint (!backupIndex)))))))
+            done;
+            let line : string ref = ref ("") in ();
+            let tmpOut : java_buffered_writer ref = ref (((new java_buffered_writer (Obj.repr ((new java_file_writer (Obj.repr (!logFileBak)))))) :> java_buffered_writer)) in ();
+            let tmpIn : java_buffered_reader ref = ref (((new java_buffered_reader (Obj.repr ((new java_file_reader (Obj.repr (!logFile)))))) :> java_buffered_reader)) in ();
+            while (!tmpIn#ready ()) do
+                line := (!tmpIn#readLine ());
+                ignore (!tmpOut#write (!line, 0, (String.length !line)));
+                ignore (!tmpOut#newLine ())
+            done;
+            ignore (!tmpOut#flush ());
+            ignore (!tmpOut#close ());
+            ignore (!tmpIn#close ());
+            ignore (!logFile#delete ());
+            true
+        with e -> begin
+            (print_endline (java_string_of (Obj.repr (("Error Creating Backup: " ^ java_string_of (Obj.repr (e)))))));
+            false
+        end)
+        end
+
+(* Java overload put(String, Any, String, Throwable) is not converted: OCaml has one method per name *)
+
+(* Java overload put(String, String, String, Exception) is not converted: OCaml has one method per name *)
+
+and getFilePath () : string =
+        begin
+        (java_string_of (Obj.repr (logPath)) ^ java_string_of (Obj.repr ((Obj.obj (get_fileName ()) : string))))
+        end
+let () = java_register_static "FileLog.createLogFile" (fun arguments -> Obj.repr (createLogFile (Obj.obj arguments)))
+let () = java_register_static "FileLog.createLogFileBackup" (fun arguments -> Obj.repr (createLogFileBackup (Obj.obj arguments)))
+let () = java_register_static "FileLog.getFilePath" (fun arguments -> Obj.repr (getFilePath (Obj.obj arguments)))
+
+let () = extension_cell := lazy (Obj.repr ((Obj.obj (java_new "String" (Obj.repr ("dat"))))))
+
+let () = fileName_cell := lazy (Obj.repr ((Obj.obj (java_new "String" (Obj.repr (("log." ^ java_string_of (Obj.repr ((Obj.obj (get_extension ()) : string))))))))))
+
+

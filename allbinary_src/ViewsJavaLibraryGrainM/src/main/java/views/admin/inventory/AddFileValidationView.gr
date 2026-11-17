@@ -1,0 +1,180 @@
+(*
+
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+*)
+(* Generated Code Do Not Modify *)
+(* package views.admin.inventory *)
+
+open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import org.allbinary.business.context.modules.storefront.StoreFrontFactory *)
+(* import org.allbinary.business.context.modules.storefront.StoreFrontInterface *)
+(* import org.allbinary.business.user.commerce.inventory.item.BasicItemData *)
+(* import org.allbinary.business.user.commerce.inventory.item.BasicItemValidation *)
+(* import org.allbinary.business.user.commerce.money.MoneyException *)
+(* import org.allbinary.data.tables.user.commerce.inventory.item.InventoryEntityFactory *)
+(* import org.allbinary.globals.GLOBALS2 *)
+(* import org.allbinary.globals.URLGLOBALS *)
+(* import org.allbinary.logic.communication.http.file.upload.HttpFileUploadUtil *)
+(* import org.allbinary.logic.communication.http.file.upload.media.UploadMediaSingleton *)
+(* import org.allbinary.logic.communication.log.LogUtil *)
+(* import org.allbinary.logic.control.validate.ValidationComponentInterface *)
+(* import org.allbinary.logic.io.file.AbFile *)
+(* import org.allbinary.logic.io.file.FileData *)
+(* import org.allbinary.logic.io.path.AbPathData *)
+(* import org.allbinary.logic.string.StringMaker *)
+(* import org.allbinary.logic.string.StringUtil *)
+(* import org.allbinary.logic.string.StringValidationUtil *)
+(* import org.allbinary.logic.visual.transform.info.TransformInfoInterface *)
+(* import org.allbinary.string.CommonLabels *)
+(* import org.apache.commons.fileupload.FileItem *)
+(* import org.w3c.dom.Document *)
+(* import org.w3c.dom.Node *)
+
+let aDDPRODUCT : string = "Add Product"
+let get_aDDPRODUCT () = aDDPRODUCT
+let () = java_register_static "AddFileValidationView.get_aDDPRODUCT" (fun _ -> Obj.repr (get_aDDPRODUCT ()))
+let nEXTSTEP : string = (java_string_of (Obj.repr ((CommonLabels.getInstance ())#nEXT)) ^ " Step")
+let get_nEXTSTEP () = nEXTSTEP
+let () = java_register_static "AddFileValidationView.get_nEXTSTEP" (fun _ -> Obj.repr (get_nEXTSTEP ()))
+class addFileValidationView ((transformInfoInterface : TransformInfoInterface.transformInfoInterface)) =
+  object (self)
+    inherit InventoryItemView.inventoryItemView (transformInfoInterface) as super
+    val mutable logUtil : Obj.t = Obj.repr 0
+    method logUtil : 'r. 'r = Obj.magic logUtil
+    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+    val mutable basicItemData : BasicItemData.basicItemData = (Obj.magic 0)
+    method basicItemData = basicItemData
+    method set_basicItemData value' = basicItemData <- value'
+    
+    
+
+    (* Java overload isValid() is not converted: OCaml has one method per name *)
+    
+
+    method toValidationInfoDoc : 'return. unit -> 'return = fun () ->
+        begin
+        (Obj.magic ((Obj.magic 0)))
+        end [@@warning "-7"]
+    
+
+    method toValidationInfoNode : 'any1 'return. 'any1 -> 'return = fun (_document) ->
+        begin
+        (Obj.magic ((Obj.magic 0)))
+        end [@@warning "-7-20"]
+    
+
+    (* Java overload validationInfo() is not converted: OCaml has one method per name *)
+    
+
+    method isValid ((fileName : string), (size : int)) : bool =
+        try
+        begin
+        let fileData : FileData.fileData ref = ref (((FileData.getInstance ()) :> FileData.fileData)) in ();
+        if (size > !fileData#mINIMAGEFILESIZE) then begin
+            if (size < !fileData#mAXIMAGEFILESIZE) then begin
+                if (not ((StringValidationUtil.getInstance ())#isValidRequired (fileName, !fileData#mINLEN, !fileData#mAXLEN))) then begin
+                    raise (Java_return (Obj.repr (false)))
+                end else begin
+                    let pathData : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ()))))) in ();
+                    let extension : string ref = ref (((Obj.magic !pathData)#getExtension (fileName))) in ();
+                    let uploadMedia : UploadMediaSingleton.uploadMediaSingleton ref = ref (((UploadMediaSingleton.getInstance ()) :> UploadMediaSingleton.uploadMediaSingleton)) in ();
+                    if ((not (!uploadMedia#isWriterSupported (!extension))) && (not (!uploadMedia#isReaderSupported (!extension)))) then begin
+                        raise (Java_return (Obj.repr (false)))
+                    end
+                end
+            end else begin
+                if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
+                    let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
+                    ignore (!stringBuffer#append ("File Size To Large: "));
+                    ignore (!stringBuffer#appendlong (size));
+                    ignore (!stringBuffer#append (">"));
+                    ignore (!stringBuffer#appendint (!fileData#mAXIMAGEFILESIZE));
+                    ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), (self#commonStrings)#iS_VALID))
+                end;
+                raise (Java_return (Obj.repr (false)))
+            end;
+            ignore (self#processImageFiles ())
+        end else begin
+            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#vIEW)) then begin
+                let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
+                ignore (!stringBuffer#append ("File Size To Small: "));
+                ignore (!stringBuffer#appendlong (size));
+                ignore (!stringBuffer#append (">"));
+                ignore (!stringBuffer#appendint (!fileData#mINIMAGEFILESIZE));
+                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), (self#commonStrings)#iS_VALID))
+            end;
+            raise (Java_return (Obj.repr (false)))
+        end;
+        true
+        end
+        with Java_return value -> Obj.obj value [@@warning "-7"]
+    
+
+    method validationInfo : 'any1. 'any1 * string * string * int -> unit = fun (stringBuffer, (fileName : string), (fileItemFieldName : string), (size : int)) ->
+        let stringBuffer = Obj.repr stringBuffer in
+        begin
+        let fileData : FileData.fileData ref = ref (((FileData.getInstance ()) :> FileData.fileData)) in ();
+        if (size > !fileData#mINIMAGEFILESIZE) then begin
+            if ((String.compare fileItemFieldName (basicItemData#iMAGE)) == 0) then begin
+                if (size < !fileData#mAXIMAGEFILESIZE) then begin
+                    if (not ((StringValidationUtil.getInstance ())#isValidRequired (fileName, !fileData#mINLEN, !fileData#mAXLEN))) then begin
+                        ignore ((Obj.magic stringBuffer)#append ("FileName must be >"));
+                        ignore ((Obj.magic stringBuffer)#appendint (!fileData#mINLEN));
+                        ignore ((Obj.magic stringBuffer)#append (" and <"));
+                        ignore ((Obj.magic stringBuffer)#appendint (!fileData#mAXLEN));
+                        ignore ((Obj.magic stringBuffer)#append ("<br/>"))
+                    end else begin
+                        let pathData : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ()))))) in ();
+                        let extension : string ref = ref (((Obj.magic !pathData)#getExtension (fileName))) in ();
+                        let uploadMedia : UploadMediaSingleton.uploadMediaSingleton ref = ref (((UploadMediaSingleton.getInstance ()) :> UploadMediaSingleton.uploadMediaSingleton)) in ();
+                        if ((not (!uploadMedia#isWriterSupported (!extension))) && (not (!uploadMedia#isReaderSupported (!extension)))) then begin
+                            ignore ((Obj.magic stringBuffer)#append ("Image type: "));
+                            ignore ((Obj.magic stringBuffer)#append (!extension));
+                            ignore ((Obj.magic stringBuffer)#append (" not supported.<br />"))
+                        end
+                    end
+                end else begin
+                    ignore ((Obj.magic stringBuffer)#append ("Image File Is To Large. "));
+                    ignore ((Obj.magic stringBuffer)#appendint (!fileData#mINIMAGEFILESIZE));
+                    ignore ((Obj.magic stringBuffer)#append (" < > "));
+                    ignore ((Obj.magic stringBuffer)#appendint (!fileData#mAXIMAGEFILESIZE));
+                    ignore ((Obj.magic stringBuffer)#append ("<br/>"))
+                end
+            end
+        end else begin
+            ignore ((Obj.magic stringBuffer)#append ("Image File Is To Small. "));
+            ignore ((Obj.magic stringBuffer)#appendint (!fileData#mINIMAGEFILESIZE));
+            ignore ((Obj.magic stringBuffer)#append (" < > "));
+            ignore ((Obj.magic stringBuffer)#appendint (!fileData#mAXIMAGEFILESIZE));
+            ignore ((Obj.magic stringBuffer)#append ("<br/>"))
+        end
+        end [@@warning "-7-20"]
+    
+
+    method getTransformInfoInterface : 'return. unit -> 'return = fun () ->
+        begin
+        (Obj.magic ((super#getTransformInfoInterface ())))
+        end [@@warning "-7"]
+
+    initializer
+      begin
+        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
+        basicItemData <- ((BasicItemData.getInstance ()) :> BasicItemData.basicItemData);
+        ();
+        (* super(...) is the inherit clause *) ()
+      end
+  end [@@warning "-20"]
+let () = java_register_constructor "AddFileValidationView" (fun arguments -> Obj.repr (new addFileValidationView (Obj.obj arguments)))
+
+

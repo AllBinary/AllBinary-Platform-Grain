@@ -1,0 +1,82 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics
+module ScreenListenerHandler
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./ScreenEmptyListener.gr" include ScreenEmptyListener
+use ScreenEmptyListener.{ type ScreenEmptyListener }
+from "./ScreenListenerInterface.gr" include ScreenListenerInterface
+use ScreenListenerInterface.{ type ScreenListenerInterface }
+
+provide record ScreenListenerHandler {
+  jobject: JObject,
+  mut f_screenListenerInterface: ScreenListenerInterface,
+}
+
+let mut jcell_instance: Option<ScreenListenerHandler> = None
+
+provide let rec jclassName = () => "ScreenListenerHandler"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: ScreenListenerHandler = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ScreenListenerHandler"), f_screenListenerInterface: JR.nullOf(), }
+    this.f_screenListenerInterface = JR.cast(ScreenEmptyListener.jnew_0())
+    this
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jm_setListener = (this: ScreenListenerHandler, screenListenerInterface: ScreenListenerInterface) => {
+        this.f_screenListenerInterface = screenListenerInterface
+}
+    
+and jm_fireWithState = (this: ScreenListenerHandler, isFullScreen: Bool) => {
+        ignore(ScreenListenerInterface.jm_onFullScreen(this.f_screenListenerInterface, isFullScreen))
+}
+    
+and jm_fire = (this: ScreenListenerHandler) => {
+        ignore(ScreenListenerInterface.jm_onFullScreenDisplay(this.f_screenListenerInterface))
+}
+
+JR.registerLateBound("ScreenListenerHandler.jnew_0", jnew_0)
+JR.registerLateBound("ScreenListenerHandler.jm_getInstance", jm_getInstance)
+JR.registerLateBound("ScreenListenerHandler.jm_setListener", jm_setListener)
+JR.registerLateBound("ScreenListenerHandler.jm_fireWithState", jm_fireWithState)
+JR.registerLateBound("ScreenListenerHandler.jm_fire", jm_fire)
+JR.registerLateBound("ScreenListenerHandler.f_screenListenerInterface", (this: ScreenListenerHandler) => this.f_screenListenerInterface)
+JR.registerLateBound("ScreenListenerHandler.set_f_screenListenerInterface", (this: ScreenListenerHandler, jvalue) => { this.f_screenListenerInterface = jvalue; jvalue })
+JR.registerLateBound("ScreenListenerHandler.jstatic_instance", jstatic_instance)
+
+

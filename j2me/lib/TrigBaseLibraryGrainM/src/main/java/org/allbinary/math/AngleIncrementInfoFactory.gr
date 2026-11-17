@@ -1,0 +1,81 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.math
+module AngleIncrementInfoFactory
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./AngleIncrementInfo.gr" include AngleIncrementInfo
+use AngleIncrementInfo.{ type AngleIncrementInfo }
+from "./AngleFactory.gr" include AngleFactory
+use AngleFactory.{ type AngleFactory }
+
+provide record AngleIncrementInfoFactory {
+  jobject: JObject,
+  mut f_angleIncrementInfo: Array<AngleIncrementInfo>,
+}
+
+let mut jcell_instance: Option<AngleIncrementInfoFactory> = None
+
+provide let rec jclassName = () => "AngleIncrementInfoFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: AngleIncrementInfoFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("AngleIncrementInfoFactory"), f_angleIncrementInfo: [> ], }
+    this.f_angleIncrementInfo = Array.make(Int32.toNumber(AngleFactory.jm_getInstance().f_TOTAL_ANGLE), JR.nullOf())
+    this
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jm_getAt = (this: AngleIncrementInfoFactory, angleIncrement: Int32) => {
+        let mut halfAngleIncrement: Int32 = (Int32.(>>)(angleIncrement, 1l))
+        let mut angleIncrementInfo: AngleIncrementInfo = JR.nullOf()
+        let mut angleIncrementInfoCanBeNull: AngleIncrementInfo = JR.cast(this.f_angleIncrementInfo[Int32.toNumber(halfAngleIncrement)])
+        if (JR.isNull(angleIncrementInfoCanBeNull)) {
+            angleIncrementInfo = AngleIncrementInfo.jnew_1(angleIncrement)
+            this.f_angleIncrementInfo[Int32.toNumber(halfAngleIncrement)] = JR.cast(angleIncrementInfo)
+            return angleIncrementInfo
+        } else {
+            angleIncrementInfo = angleIncrementInfoCanBeNull
+        }
+        return angleIncrementInfo
+}
+
+JR.registerLateBound("AngleIncrementInfoFactory.jnew_0", jnew_0)
+JR.registerLateBound("AngleIncrementInfoFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("AngleIncrementInfoFactory.jm_getAt", jm_getAt)
+JR.registerLateBound("AngleIncrementInfoFactory.f_angleIncrementInfo", (this: AngleIncrementInfoFactory) => this.f_angleIncrementInfo)
+JR.registerLateBound("AngleIncrementInfoFactory.jstatic_instance", jstatic_instance)
+
+

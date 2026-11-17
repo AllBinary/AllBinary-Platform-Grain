@@ -1,0 +1,132 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.util.cache
+module KeylessBasicArrayListCache
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../../org/allbinary/util/BasicArrayListUtil.gr" include BasicArrayListUtil
+use BasicArrayListUtil.{ type BasicArrayListUtil }
+from "./IndexedBasicArrayListCache.gr" include IndexedBasicArrayListCache
+use IndexedBasicArrayListCache.{ type IndexedBasicArrayListCache }
+
+provide record KeylessBasicArrayListCache {
+  jobject: JObject,
+  mut f_list: JObject,
+  mut f_commonStrings: JObject,
+  mut f_size: Int32,
+  mut f_index: Int32,
+  mut f_logUtil: JObject,
+  mut f_basicArrayListUtil: BasicArrayListUtil,
+}
+
+
+provide let rec jclassName = () => "KeylessBasicArrayListCache"
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("KeylessBasicArrayListCache"), f_list: JR.jnull, f_commonStrings: JR.jnull, f_size: 0l, f_index: 0l, f_logUtil: JR.jnull, f_basicArrayListUtil: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_basicArrayListUtil = JR.cast(BasicArrayListUtil.jm_getInstance())
+        void
+    this
+}
+    
+and jm_get = (this: KeylessBasicArrayListCache) => {
+        {
+            if (Int32.(>=)(JR.cast(this.f_index), BasicArrayList.jm_size(JR.cast(this.f_list)))) {
+                ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("IndexedBasicArrayListCache.jm_addDefault"))
+JR.cast(jlate(JR.cast(this)))
+})
+            }
+            let mut list: BasicArrayList = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("IndexedBasicArrayListCache.jm_getAt"))
+JR.cast(jlate(JR.cast(this), JR.cast({ let jold = this.f_index; this.f_index = Int32.(+)(jold, 1l); jold })))
+})
+            return list
+        }
+    return JR.nullOf()
+}
+    
+and jm_clear = (this: KeylessBasicArrayListCache) => {
+        ignore(jm_clear(this))
+        let mut basicArrayList: BasicArrayList = JR.nullOf()
+        {
+            let mut index: Int32 = Int32.(-)(BasicArrayList.jm_size(JR.cast(this.f_list)), 1l)
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(-)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(>=)(index, 0l))) break
+            basicArrayList = (JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.f_objectArray"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_list))))
+}[Int32.toNumber(index)]))
+            ignore(BasicArrayList.jm_clear(basicArrayList))
+            }
+        }
+}
+    
+and jm_log = (this: KeylessBasicArrayListCache) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, "S: "))
+        ignore(StringMaker.jm_appendint(stringBuffer, BasicArrayList.jm_size(JR.cast(this.f_list))))
+        let mut l_S_LABEL: String = " s: "
+        let mut basicArrayList: BasicArrayList = JR.nullOf()
+        {
+            let mut index: Int32 = Int32.(-)(BasicArrayList.jm_size(JR.cast(this.f_list)), 1l)
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(-)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(>=)(index, 0l))) break
+            ignore(StringMaker.jm_append(stringBuffer, l_S_LABEL))
+            basicArrayList = (JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.f_objectArray"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_list))))
+}[Int32.toNumber(index)]))
+            ignore(StringMaker.jm_appendint(stringBuffer, BasicArrayList.jm_size(basicArrayList)))
+            }
+        }
+        return StringMaker.jm_toString(stringBuffer)
+}
+
+JR.registerLateBound("KeylessBasicArrayListCache.jnew_0", jnew_0)
+JR.registerLateBound("KeylessBasicArrayListCache.jm_get", jm_get)
+JR.registerLateBound("KeylessBasicArrayListCache.jm_clear", jm_clear)
+JR.registerLateBound("KeylessBasicArrayListCache.jm_log", jm_log)
+JR.registerLateBound("KeylessBasicArrayListCache.f_logUtil", (this: KeylessBasicArrayListCache) => this.f_logUtil)
+JR.registerLateBound("KeylessBasicArrayListCache.f_basicArrayListUtil", (this: KeylessBasicArrayListCache) => this.f_basicArrayListUtil)
+
+

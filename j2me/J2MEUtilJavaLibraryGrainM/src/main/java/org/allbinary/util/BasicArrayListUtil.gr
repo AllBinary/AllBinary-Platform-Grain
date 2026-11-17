@@ -1,0 +1,163 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.util
+module BasicArrayListUtil
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/game/rand/MyRandomFactory.gr" include MyRandomFactory
+use MyRandomFactory.{ type MyRandomFactory }
+from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../org/allbinary/string/CommonLabels.gr" include CommonLabels
+use CommonLabels.{ type CommonLabels }
+from "../../../org/allbinary/string/CommonPhoneStrings.gr" include CommonPhoneStrings
+use CommonPhoneStrings.{ type CommonPhoneStrings }
+from "../../../java/lang/System.gr" include System
+from "./BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "./ImmutableBasicArrayList.gr" include ImmutableBasicArrayList
+use ImmutableBasicArrayList.{ type ImmutableBasicArrayList }
+from "./BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+
+provide record BasicArrayListUtil {
+  jobject: JObject,
+  mut f_NULL_ARRAY_OF_ARRAY: Array<Array<BasicArrayList>>,
+  mut f_myRandomFactory: MyRandomFactory,
+  mut f_immutableInstance: BasicArrayList,
+}
+
+let mut jcell_instance: Option<BasicArrayListUtil> = None
+
+provide let rec jclassName = () => "BasicArrayListUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: BasicArrayListUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("BasicArrayListUtil"), f_NULL_ARRAY_OF_ARRAY: [> ], f_myRandomFactory: JR.nullOf(), f_immutableInstance: JR.nullOf(), }
+    this.f_NULL_ARRAY_OF_ARRAY = Array.init(Int32.toNumber(0l), jindex1 => Array.make(Int32.toNumber(0l), JR.nullOf()))
+    this.f_myRandomFactory = JR.cast(MyRandomFactory.jm_getInstance())
+    this.f_immutableInstance = JR.cast(ImmutableBasicArrayList.jnew_2("Immutable", 0l))
+    this
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jm_getRandom = (this: BasicArrayListUtil, list: BasicArrayList) => {
+        let mut i_random: Int32 = jm_getRandomIndex(this, list)
+        return list.f_objectArray[Int32.toNumber(i_random)]
+}
+    
+and jm_getRandomIndex = (this: BasicArrayListUtil, list: BasicArrayList) => {
+        return MyRandomFactory.jm_getAbsoluteNextInt(this.f_myRandomFactory, BasicArrayList.jm_size(list))
+}
+    
+and jm_reverse = (this: BasicArrayListUtil, list: BasicArrayList) => {
+        let mut lastMinusOneIndex: Int32 = Int32.(-)(BasicArrayList.jm_size(list), 2l)
+        let mut temp: JObject = JR.jnull
+        let mut size: Int32 = Int32.(/)(lastMinusOneIndex, 2l)
+        let mut secondSwapIndex: Int32 = 0l
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<=)(index, size))) break
+            secondSwapIndex = Int32.(-)(lastMinusOneIndex, index)
+            temp = BasicArrayList.jm_removeAt(list, index)
+            ignore(BasicArrayList.jm_addAt(list, index, BasicArrayList.jm_removeAt(list, secondSwapIndex)))
+            ignore(BasicArrayList.jm_addAt(list, Int32.(+)(secondSwapIndex, 1l), temp))
+            }
+        }
+}
+    
+and jm_log = (this: BasicArrayListUtil, list: BasicArrayList) => {
+        let mut l_S_LABEL: String = " s: "
+        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, CommonLabels.jm_getInstance().f_TOTAL_LABEL))
+        ignore(StringMaker.jm_appendint(stringBuffer, size))
+        {
+            let mut index: Int32 = Int32.(-)(size, 1l)
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(-)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(>=)(index, 0l))) break
+            let mut usedList: BasicArrayList = JR.cast(list.f_objectArray[Int32.toNumber(index)])
+            ignore(StringMaker.jm_append(stringBuffer, l_S_LABEL))
+            ignore(StringMaker.jm_appendint(stringBuffer, BasicArrayList.jm_size(usedList)))
+            }
+        }
+        return StringMaker.jm_toString(stringBuffer)
+}
+    
+and jm_getImmutableInstance = (this: BasicArrayListUtil) => {
+        return this.f_immutableInstance
+}
+    
+and jm_main = (args: Array<String>) => {
+        let mut commonPhoneStrings: CommonPhoneStrings = JR.cast(CommonPhoneStrings.jm_getInstance())
+        let mut list: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+        ignore(BasicArrayList.jm_add(list, JR.cast(commonPhoneStrings.f_ONE)))
+        ignore(BasicArrayList.jm_add(list, JR.cast(commonPhoneStrings.f_TWO)))
+        ignore(BasicArrayList.jm_add(list, JR.cast(commonPhoneStrings.f_THREE)))
+        ignore(BasicArrayList.jm_add(list, JR.cast(commonPhoneStrings.f_FOUR)))
+        ignore(BasicArrayList.jm_add(list, JR.cast(commonPhoneStrings.f_FIVE)))
+        ignore(BasicArrayList.jm_add(list, JR.cast(commonPhoneStrings.f_SIX)))
+        ignore(BasicArrayList.jm_add(list, JR.cast(commonPhoneStrings.f_SEVEN)))
+        ignore(BasicArrayList.jm_add(list, JR.cast(commonPhoneStrings.f_EIGHT)))
+        ignore(BasicArrayList.jm_add(list, JR.cast(commonPhoneStrings.f_NINE)))
+        ignore(jm_reverse(jm_getInstance(), list))
+        ignore(print(BasicArrayList.jm_toString(list)))
+}
+
+JR.registerLateBound("BasicArrayListUtil.jnew_0", jnew_0)
+JR.registerLateBound("BasicArrayListUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("BasicArrayListUtil.jm_getRandom", jm_getRandom)
+JR.registerLateBound("BasicArrayListUtil.jm_getRandomIndex", jm_getRandomIndex)
+JR.registerLateBound("BasicArrayListUtil.jm_reverse", jm_reverse)
+JR.registerLateBound("BasicArrayListUtil.jm_log", jm_log)
+JR.registerLateBound("BasicArrayListUtil.jm_getImmutableInstance", jm_getImmutableInstance)
+JR.registerLateBound("BasicArrayListUtil.jm_main", jm_main)
+JR.registerLateBound("BasicArrayListUtil.f_NULL_ARRAY_OF_ARRAY", (this: BasicArrayListUtil) => this.f_NULL_ARRAY_OF_ARRAY)
+JR.registerLateBound("BasicArrayListUtil.f_myRandomFactory", (this: BasicArrayListUtil) => this.f_myRandomFactory)
+JR.registerLateBound("BasicArrayListUtil.f_immutableInstance", (this: BasicArrayListUtil) => this.f_immutableInstance)
+JR.registerLateBound("BasicArrayListUtil.jstatic_instance", jstatic_instance)
+
+

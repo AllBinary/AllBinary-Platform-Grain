@@ -1,0 +1,93 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.system.os
+module OperatingSystemFactory
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../../java/lang/System.gr" include System
+from "./NoOperatingSystem.gr" include NoOperatingSystem
+use NoOperatingSystem.{ type NoOperatingSystem }
+from "./GenericOperatingSystem.gr" include GenericOperatingSystem
+use GenericOperatingSystem.{ type GenericOperatingSystem }
+
+provide record OperatingSystemFactory {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_genericOperatingSystem: GenericOperatingSystem,
+}
+
+let mut jcell_instance: Option<OperatingSystemFactory> = None
+
+provide let rec jclassName = () => "OperatingSystemFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: OperatingSystemFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("OperatingSystemFactory"), f_logUtil: JR.jnull, f_genericOperatingSystem: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_genericOperatingSystem = JR.cast(NoOperatingSystem.jstatic_NO_OPERATING_SYSTEM())
+        void
+    this
+}
+    
+and jm_getOperatingSystemInstance = (this: OperatingSystemFactory) => {
+        let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
+        {
+            let mut osString: String = StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "OperatingSystem Info: "), GenericOperatingSystem.jm_toString(this.f_genericOperatingSystem)))
+            ignore(print(osString))
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(osString), JR.cast(this), JR.cast(commonStrings.f_GET_INSTANCE)))
+})
+        }
+        return this.f_genericOperatingSystem
+}
+
+JR.registerLateBound("OperatingSystemFactory.jnew_0", jnew_0)
+JR.registerLateBound("OperatingSystemFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("OperatingSystemFactory.jm_getOperatingSystemInstance", jm_getOperatingSystemInstance)
+JR.registerLateBound("OperatingSystemFactory.f_logUtil", (this: OperatingSystemFactory) => this.f_logUtil)
+JR.registerLateBound("OperatingSystemFactory.f_genericOperatingSystem", (this: OperatingSystemFactory) => this.f_genericOperatingSystem)
+JR.registerLateBound("OperatingSystemFactory.set_f_genericOperatingSystem", (this: OperatingSystemFactory, jvalue) => { this.f_genericOperatingSystem = jvalue; jvalue })
+JR.registerLateBound("OperatingSystemFactory.jstatic_instance", jstatic_instance)
+
+

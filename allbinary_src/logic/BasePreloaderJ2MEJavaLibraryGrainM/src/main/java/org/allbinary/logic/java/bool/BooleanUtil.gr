@@ -1,0 +1,124 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.java.bool
+module BooleanUtil
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/logic/string/StringValidationUtil.gr" include StringValidationUtil
+use StringValidationUtil.{ type StringValidationUtil }
+from "./BooleanFactory.gr" include BooleanFactory
+use BooleanFactory.{ type BooleanFactory }
+
+provide record BooleanUtil {
+  jobject: JObject,
+  mut f_tsUtil: JObject,
+}
+
+let mut jcell_instance: Option<BooleanUtil> = None
+
+provide let rec jclassName = () => "BooleanUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: BooleanUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("BooleanUtil"), f_tsUtil: JR.jnull, }
+    this.f_tsUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        void
+    this
+}
+    
+and jm_getFromString = (this: BooleanUtil, booleanString: String) => {
+        let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
+        let mut booleanFactory: BooleanFactory = JR.cast(BooleanFactory.jm_getInstance())
+        if (StringValidationUtil.jm_isEmpty(stringValidationUtil, booleanString)) {
+            return false
+        }
+        let mut booleanStringLowerCase: String = JR.toLowerCase(booleanString)
+        if (({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_compareTo"))
+JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(booleanStringLowerCase), JR.cast(booleanFactory.f_TRUE_STRING)))
+} == 0l)) {
+            return true
+        } else if (({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_compareTo"))
+JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(booleanStringLowerCase), JR.cast(booleanFactory.f_FALSE_STRING)))
+} == 0l)) {
+            return false
+        } else {
+            fail JR.toStringOf(JR.newJObject("Exception"))
+        }
+}
+    
+and jm_isStringBoolean = (this: BooleanUtil, booleanString: String) => {
+        let mut booleanFactory: BooleanFactory = JR.cast(BooleanFactory.jm_getInstance())
+        let mut booleanStringLowerCase: String = JR.toLowerCase(booleanString)
+        if (((JR.compareTo(booleanStringLowerCase, booleanFactory.f_TRUE_STRING) == 0l) || (JR.compareTo(booleanStringLowerCase, booleanFactory.f_FALSE_STRING) == 0l))) {
+            return true
+        }
+        return false
+}
+    
+and jm_toStringFromBooleanArray = (this: BooleanUtil, booleanArray: Array<Bool>) => {
+        let mut stringMaker: StringMaker = StringMaker.jnew_0()
+        let mut size: Int32 = Int32.fromNumber(Array.length(booleanArray))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            ignore(StringMaker.jm_appendboolean(stringMaker, booleanArray[Int32.toNumber(index)]))
+            }
+        }
+        return StringMaker.jm_toString(stringMaker)
+}
+
+JR.registerLateBound("BooleanUtil.jnew_0", jnew_0)
+JR.registerLateBound("BooleanUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("BooleanUtil.jm_getFromString", jm_getFromString)
+JR.registerLateBound("BooleanUtil.jm_isStringBoolean", jm_isStringBoolean)
+JR.registerLateBound("BooleanUtil.jm_toStringFromBooleanArray", jm_toStringFromBooleanArray)
+JR.registerLateBound("BooleanUtil.f_tsUtil", (this: BooleanUtil) => this.f_tsUtil)
+JR.registerLateBound("BooleanUtil.jstatic_instance", jstatic_instance)
+
+

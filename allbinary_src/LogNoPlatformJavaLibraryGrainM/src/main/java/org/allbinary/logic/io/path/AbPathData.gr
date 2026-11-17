@@ -1,0 +1,143 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io.path
+module AbPathData
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/io/file/FilePathData.gr" include FilePathData
+use FilePathData.{ type FilePathData }
+from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+
+provide record AbPathData {
+  jobject: JObject,
+  mut f_EXTENSION_SEP: String,
+  mut f_SEPARATORCHAR: Int32,
+  mut f_SEPARATOR: String,
+}
+
+let mut jcell_instance: Option<AbPathData> = None
+
+provide let rec jclassName = () => "AbPathData"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: AbPathData = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("AbPathData"), f_EXTENSION_SEP: "", f_SEPARATORCHAR: 0l, f_SEPARATOR: "", }
+    this.f_EXTENSION_SEP = CommonSeps.jm_getInstance().f_PERIOD
+    this.f_SEPARATORCHAR = Int32.fromNumber(Char.code('/'))
+    this.f_SEPARATOR = CommonSeps.jm_getInstance().f_FORWARD_SLASH
+        void
+    this
+}
+    
+and jm_getExtensionIndex = (this: AbPathData, filePath: String) => {
+        let mut indexOfFileExtensionDelmiter: Int32 = JR.lastIndexOf(filePath, this.f_EXTENSION_SEP)
+        let mut indexOfLatDelimiter: Int32 = JR.lastIndexOf(filePath, JR.chr(this.f_SEPARATORCHAR))
+        if (Int32.(<)(indexOfFileExtensionDelmiter, 0l)) {
+            return Int32.(-)(1l, Int32.(+)(1l, 1l))
+        }
+        if (Int32.(<)(indexOfFileExtensionDelmiter, indexOfLatDelimiter)) {
+            return Int32.(-)(1l, Int32.(+)(1l, 1l))
+        }
+        return indexOfFileExtensionDelmiter
+}
+    
+and jm_getExtensionWithDot = (this: AbPathData, filePath: String) => {
+        let mut indexOfFileExtensionDelmiter: Int32 = jm_getExtensionIndex(this, filePath)
+        let mut extension: String = StringUtil.jm_getInstance().f_EMPTY_STRING
+        if (Int32.(>=)(indexOfFileExtensionDelmiter, 0l)) {
+            extension = JR.substringFrom(filePath, indexOfFileExtensionDelmiter)
+        }
+        return extension
+}
+    
+and jm_getExtension = (this: AbPathData, filePath: String) => {
+        let mut indexOfFileExtensionDelmiter: Int32 = jm_getExtensionIndex(this, filePath)
+        let mut extension: String = StringUtil.jm_getInstance().f_EMPTY_STRING
+        if (Int32.(>=)(indexOfFileExtensionDelmiter, 0l)) {
+            extension = JR.substringFrom(filePath, Int32.(+)(indexOfFileExtensionDelmiter, 1l))
+        }
+        return extension
+}
+    
+and jm_getNameFromPath = (this: AbPathData, path: String) => {
+        let mut endIndex: Int32 = JR.lastIndexOf(path, JR.chr(this.f_SEPARATORCHAR))
+        if (Int32.(<)(endIndex, 0l)) {
+            endIndex = JR.lastIndexOf(path, JR.chr(FilePathData.jm_getInstance().f_SEPARATORCHAR))
+        }
+        if (Int32.(<)(endIndex, 0l)) {
+            return path
+        }
+        if ((JR.length(path) == Int32.(+)(endIndex, 1l))) {
+            let mut categoryName: String = JR.substring(path, 0l, endIndex)
+            return jm_getNameFromPath(this, categoryName)
+        } else {
+            let mut categoryName: String = JR.substringFrom(path, Int32.(+)(endIndex, 1l))
+            return categoryName
+        }
+}
+    
+and jm_removeNameFromPath = (this: AbPathData, path: String) => {
+        let mut endIndex: Int32 = JR.lastIndexOf(path, JR.chr(this.f_SEPARATORCHAR))
+        if (Int32.(<)(endIndex, 0l)) {
+            endIndex = JR.lastIndexOf(path, JR.chr(FilePathData.jm_getInstance().f_SEPARATORCHAR))
+        }
+        if (Int32.(<)(endIndex, 0l)) {
+            return StringUtil.jm_getInstance().f_EMPTY_STRING
+        }
+        if ((JR.length(path) == Int32.(+)(endIndex, 1l))) {
+            return jm_removeNameFromPath(this, JR.substring(path, 0l, Int32.(-)(endIndex, 1l)))
+        } else {
+            let mut pathWithoutName: String = JR.substring(path, 0l, endIndex)
+            return pathWithoutName
+        }
+}
+
+JR.registerLateBound("AbPathData.jnew_0", jnew_0)
+JR.registerLateBound("AbPathData.jm_getInstance", jm_getInstance)
+JR.registerLateBound("AbPathData.jm_getExtensionIndex", jm_getExtensionIndex)
+JR.registerLateBound("AbPathData.jm_getExtensionWithDot", jm_getExtensionWithDot)
+JR.registerLateBound("AbPathData.jm_getExtension", jm_getExtension)
+JR.registerLateBound("AbPathData.jm_getNameFromPath", jm_getNameFromPath)
+JR.registerLateBound("AbPathData.jm_removeNameFromPath", jm_removeNameFromPath)
+JR.registerLateBound("AbPathData.f_EXTENSION_SEP", (this: AbPathData) => this.f_EXTENSION_SEP)
+JR.registerLateBound("AbPathData.f_SEPARATORCHAR", (this: AbPathData) => this.f_SEPARATORCHAR)
+JR.registerLateBound("AbPathData.f_SEPARATOR", (this: AbPathData) => this.f_SEPARATOR)
+JR.registerLateBound("AbPathData.jstatic_instance", jstatic_instance)
+
+

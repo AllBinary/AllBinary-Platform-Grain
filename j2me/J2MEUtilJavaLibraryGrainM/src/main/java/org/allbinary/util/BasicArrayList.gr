@@ -1,0 +1,421 @@
+// Generated Code Do Not Modify
+// package org.allbinary.util
+module BasicArrayList
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../org/allbinary/string/CommonLabels.gr" include CommonLabels
+use CommonLabels.{ type CommonLabels }
+from "../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../java/lang/System.gr" include System
+from "./ArrayUtil.gr" include ArrayUtil
+use ArrayUtil.{ type ArrayUtil }
+
+//This is a very fast and simple resizable list.
+provide record BasicArrayList {
+  jobject: JObject,
+  mut f_arrayUtil: ArrayUtil,
+  mut f_objectArray: Array<JObject>,
+  mut f_currentIndex: Int32,
+}
+
+let mut jcell_SIZE: Option<String> = None
+
+provide let rec jclassName = () => "BasicArrayList"
+
+and jstatic_SIZE = () => match (jcell_SIZE) {
+  Some(value) => value,
+  None => {
+    let value: String = ", Size: "
+    jcell_SIZE = Some(value)
+    value
+  },
+}
+    
+and jnew_1 = (objectArray: Array<JObject>) => {
+    let this = { jobject: JR.newJObject("BasicArrayList"), f_arrayUtil: JR.nullOf(), f_objectArray: [> ], f_currentIndex: 0l, }
+    this.jobject.toStringFunction = () => jm_toString(this)
+    this.f_arrayUtil = ArrayUtil.jm_getInstance()
+    
+    this.f_currentIndex = 0l
+        this.f_objectArray = objectArray
+    this
+}
+    
+and jm_addAt = (this: BasicArrayList, index: Int32, element: JObject) => {
+        if ((Int32.(>)(index, this.f_currentIndex) || Int32.(<)(index, 0l))) {
+            let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+            ignore(StringMaker.jm_append(stringBuffer, CommonLabels.jm_getInstance().f_INDEX_LABEL))
+            ignore(StringMaker.jm_appendint(stringBuffer, index))
+            ignore(StringMaker.jm_append(stringBuffer, jstatic_SIZE()))
+            ignore(StringMaker.jm_appendint(stringBuffer, this.f_currentIndex))
+            fail JR.toStringOf(JR.newJObject("IndexOutOfBoundsException"))
+        }
+        ignore(jm_ensureCapacity(this, Int32.(+)(this.f_currentIndex, 1l)))
+        ignore(JR.arraycopy(this.f_objectArray, index, this.f_objectArray, Int32.(+)(index, 1l), Int32.(-)(this.f_currentIndex, index)))
+        this.f_objectArray[Int32.toNumber(index)] = JR.cast(element)
+        this.f_currentIndex = Int32.(+)(this.f_currentIndex, 1l)
+}
+    
+and jm_add = (this: BasicArrayList, anyType: JObject) => {
+        ignore(jm_ensureCapacity(this, Int32.(+)(this.f_currentIndex, 1l)))
+        this.f_objectArray[Int32.toNumber({ let jold = this.f_currentIndex; this.f_currentIndex = Int32.(+)(jold, 1l); jold })] = JR.cast(anyType)
+        return true
+}
+    
+and jm_removeAt = (this: BasicArrayList, index: Int32) => {
+        if (Int32.(>=)(index, this.f_currentIndex)) {
+            let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+            ignore(StringMaker.jm_append(stringBuffer, CommonLabels.jm_getInstance().f_INDEX_LABEL))
+            ignore(StringMaker.jm_appendint(stringBuffer, index))
+            ignore(StringMaker.jm_append(stringBuffer, jstatic_SIZE()))
+            ignore(StringMaker.jm_appendint(stringBuffer, this.f_currentIndex))
+            fail JR.toStringOf(JR.newJObject("IndexOutOfBoundsException"))
+        }
+        let mut oldValue: JObject = JR.cast(this.f_objectArray[Int32.toNumber(index)])
+        let mut numMoved: Int32 = Int32.(-)(Int32.(-)(this.f_currentIndex, index), 1l)
+        if (Int32.(>)(numMoved, 0l)) {
+            ignore(JR.arraycopy(this.f_objectArray, Int32.(+)(index, 1l), this.f_objectArray, index, numMoved))
+        }
+        this.f_objectArray[Int32.toNumber({ this.f_currentIndex = Int32.(-)(this.f_currentIndex, 1l); this.f_currentIndex })] = JR.nullOf()
+        return oldValue
+}
+    
+and jm_remove = (this: BasicArrayList, anyType: JObject) => {
+        if (JR.isNull(anyType)) {
+            {
+                let mut index: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(+)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index, this.f_currentIndex))) break
+                if (JR.isNull(this.f_objectArray[Int32.toNumber(index)])) {
+                    let mut numMoved: Int32 = Int32.(-)(Int32.(-)(this.f_currentIndex, index), 1l)
+                    if (Int32.(>)(numMoved, 0l)) {
+                        ignore(JR.arraycopy(this.f_objectArray, Int32.(+)(index, 1l), this.f_objectArray, index, numMoved))
+                    }
+                    this.f_objectArray[Int32.toNumber({ this.f_currentIndex = Int32.(-)(this.f_currentIndex, 1l); this.f_currentIndex })] = JR.nullOf()
+                    return true
+                }
+                }
+            }
+        } else {
+            {
+                let mut index: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(+)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index, this.f_currentIndex))) break
+                if ((JR.isSame(anyType, this.f_objectArray[Int32.toNumber(index)]) || (anyType == JR.cast(this.f_objectArray[Int32.toNumber(index)])))) {
+                    let mut numMoved: Int32 = Int32.(-)(Int32.(-)(this.f_currentIndex, index), 1l)
+                    if (Int32.(>)(numMoved, 0l)) {
+                        ignore(JR.arraycopy(this.f_objectArray, Int32.(+)(index, 1l), this.f_objectArray, index, numMoved))
+                    }
+                    this.f_objectArray[Int32.toNumber({ this.f_currentIndex = Int32.(-)(this.f_currentIndex, 1l); this.f_currentIndex })] = JR.nullOf()
+                    return true
+                }
+                }
+            }
+        }
+        return false
+}
+    
+and jm_removeAll2 = (this: BasicArrayList, list: BasicArrayList) => {
+        let mut result: Bool = true
+        let mut size: Int32 = jm_size(list)
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            if (jm_remove(this, jm_get(list, index))) {
+                void
+            } else {
+                result = false
+            }
+            }
+        }
+        return result
+}
+    
+and jm_addAll2 = (this: BasicArrayList, list: BasicArrayList) => {
+        ignore(jm_ensureCapacity(this, Int32.(+)(this.f_currentIndex, list.f_currentIndex)))
+        let mut listSize: Int32 = list.f_currentIndex
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, listSize))) break
+            this.f_objectArray[Int32.toNumber({ let jold = this.f_currentIndex; this.f_currentIndex = Int32.(+)(jold, 1l); jold })] = list.f_objectArray[Int32.toNumber(index)]
+            }
+        }
+        return true
+}
+    
+and jm_addAllList = (this: BasicArrayList, list: BasicArrayList) => {
+        let mut newObjectArray: Array<JObject> = jm_toArray(list)
+        return jm_addAll(this, newObjectArray)
+}
+    
+and jm_addAll = (this: BasicArrayList, newObjectArray: Array<JObject>) => {
+        let mut numSize: Int32 = Int32.fromNumber(Array.length(newObjectArray))
+        ignore(jm_ensureCapacity(this, Int32.(+)(this.f_currentIndex, numSize)))
+        ignore(JR.arraycopy(newObjectArray, 0l, this.f_objectArray, this.f_currentIndex, numSize))
+        this.f_currentIndex = Int32.(+)(this.f_currentIndex, numSize)
+        return (numSize != 0l)
+}
+    
+and jm_ensureCapacity = (this: BasicArrayList, minSize: Int32) => {
+        let mut oldCapacity: Int32 = Int32.fromNumber(Array.length(this.f_objectArray))
+        if (Int32.(>)(minSize, oldCapacity)) {
+            let mut newCapacity: Int32 = Int32.(+)((Int32.(>>)((Int32.(*)(oldCapacity, 3l)), 1l)), 1l)
+            if (Int32.(<)(newCapacity, minSize)) {
+                newCapacity = minSize
+            }
+            this.f_objectArray = ArrayUtil.jm_copyOf(this.f_arrayUtil, this.f_objectArray, newCapacity)
+        }
+}
+    
+and jm_trimToSize = (this: BasicArrayList) => {
+        let mut oldCapacity: Int32 = Int32.fromNumber(Array.length(this.f_objectArray))
+        if (Int32.(<)(this.f_currentIndex, oldCapacity)) {
+            this.f_objectArray = ArrayUtil.jm_copyOf(this.f_arrayUtil, this.f_objectArray, this.f_currentIndex)
+        }
+}
+    
+and jm_indexOf = (this: BasicArrayList, anyType: JObject) => {
+        if (JR.isNull(anyType)) {
+            {
+                let mut i: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        i = Int32.(+)(i, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(i, this.f_currentIndex))) break
+                if (JR.isNull(this.f_objectArray[Int32.toNumber(i)])) {
+                    return i
+                }
+                }
+            }
+        } else {
+            {
+                let mut i: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        i = Int32.(+)(i, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(i, this.f_currentIndex))) break
+                if ((anyType == JR.cast(this.f_objectArray[Int32.toNumber(i)]))) {
+                    return i
+                }
+                }
+            }
+        }
+        return Int32.(-)(1l, Int32.(+)(1l, 1l))
+}
+    
+and jm_lastIndexOf = (this: BasicArrayList, anyType: JObject) => {
+        if (JR.isNull(anyType)) {
+            {
+                let mut i: Int32 = Int32.(-)(this.f_currentIndex, 1l)
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        i = Int32.(-)(i, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(>=)(i, 0l))) break
+                if (JR.isNull(this.f_objectArray[Int32.toNumber(i)])) {
+                    return i
+                }
+                }
+            }
+        } else {
+            {
+                let mut i: Int32 = Int32.(-)(this.f_currentIndex, 1l)
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        i = Int32.(-)(i, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(>=)(i, 0l))) break
+                if ((anyType == JR.cast(this.f_objectArray[Int32.toNumber(i)]))) {
+                    return i
+                }
+                }
+            }
+        }
+        return Int32.(-)(1l, Int32.(+)(1l, 1l))
+}
+    
+and jm_get = (this: BasicArrayList, index: Int32) => {
+        if (Int32.(>=)(index, this.f_currentIndex)) {
+            let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+            ignore(StringMaker.jm_append(stringBuffer, CommonLabels.jm_getInstance().f_INDEX_LABEL))
+            ignore(StringMaker.jm_appendint(stringBuffer, index))
+            ignore(StringMaker.jm_append(stringBuffer, jstatic_SIZE()))
+            ignore(StringMaker.jm_appendint(stringBuffer, this.f_currentIndex))
+            fail JR.toStringOf(JR.newJObject("IndexOutOfBoundsException"))
+        }
+        return this.f_objectArray[Int32.toNumber(index)]
+}
+    
+and jm_set = (this: BasicArrayList, index: Int32, element: JObject) => {
+        if (Int32.(>=)(index, this.f_currentIndex)) {
+            let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+            ignore(StringMaker.jm_append(stringBuffer, CommonLabels.jm_getInstance().f_INDEX_LABEL))
+            ignore(StringMaker.jm_appendint(stringBuffer, index))
+            ignore(StringMaker.jm_append(stringBuffer, jstatic_SIZE()))
+            ignore(StringMaker.jm_appendint(stringBuffer, this.f_currentIndex))
+            fail JR.toStringOf(JR.newJObject("IndexOutOfBoundsException"))
+        }
+        let mut oldValue: JObject = JR.cast(this.f_objectArray[Int32.toNumber(index)])
+        this.f_objectArray[Int32.toNumber(index)] = JR.cast(element)
+        return oldValue
+}
+    
+and jm_clear = (this: BasicArrayList) => {
+        {
+            let mut i: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    i = Int32.(+)(i, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(i, this.f_currentIndex))) break
+            this.f_objectArray[Int32.toNumber(i)] = JR.nullOf()
+            }
+        }
+        this.f_currentIndex = 0l
+}
+    
+and jm_size = (this: BasicArrayList) => {
+        return this.f_currentIndex
+}
+    
+and jm_isEmpty = (this: BasicArrayList) => {
+        return (this.f_currentIndex == 0l)
+}
+    
+and jm_contains = (this: BasicArrayList, anyType: JObject) => {
+        return Int32.(>=)(jm_indexOf(this, anyType), 0l)
+}
+    
+and jm_toArray = (this: BasicArrayList) => {
+        return ArrayUtil.jm_copyOf(this.f_arrayUtil, this.f_objectArray, this.f_currentIndex)
+}
+    
+and jm_toArrayType = (this: BasicArrayList, objectArray: Array<JObject>) => {
+        if (Int32.(<)(Int32.fromNumber(Array.length(objectArray)), this.f_currentIndex)) {
+            return ArrayUtil.jm_copyOfType(this.f_arrayUtil, this.f_objectArray, this.f_currentIndex, "Array")
+        }
+        ignore(JR.arraycopy(this.f_objectArray, 0l, objectArray, 0l, this.f_currentIndex))
+        if (Int32.(>)(Int32.fromNumber(Array.length(objectArray)), this.f_currentIndex)) {
+            objectArray[Int32.toNumber(this.f_currentIndex)] = JR.nullOf()
+        }
+        return objectArray
+}
+    
+and jm_clone = (this: BasicArrayList) => {
+        let mut size: Int32 = jm_size(this)
+        let mut list: BasicArrayList = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayListS.jnew_1"))
+JR.cast(jlate(JR.cast(size)))
+}
+        let mut anyType: JObject = JR.jnull
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            anyType = this.f_objectArray[Int32.toNumber(index)]
+            ignore(jm_add(list, anyType))
+            }
+        }
+        return JR.cast(list)
+}
+    
+and jm_toString = (this: BasicArrayList) => {
+        let mut l_COMMA_SEP: String = CommonSeps.jm_getInstance().f_COMMA_SEP
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, this.f_currentIndex))) break
+            ignore(StringMaker.jm_append(stringBuffer, JR.toStringOf(JR.cast(this.f_objectArray[Int32.toNumber(index)]))))
+            ignore(StringMaker.jm_append(stringBuffer, l_COMMA_SEP))
+            }
+        }
+        return StringMaker.jm_toString(stringBuffer)
+}
+
+JR.registerLateBound("BasicArrayList.jnew_1", jnew_1)
+JR.registerLateBound("BasicArrayList.jm_addAt", jm_addAt)
+JR.registerLateBound("BasicArrayList.jm_add", jm_add)
+JR.registerLateBound("BasicArrayList.jm_removeAt", jm_removeAt)
+JR.registerLateBound("BasicArrayList.jm_remove", jm_remove)
+JR.registerLateBound("BasicArrayList.jm_removeAll2", jm_removeAll2)
+JR.registerLateBound("BasicArrayList.jm_addAll2", jm_addAll2)
+JR.registerLateBound("BasicArrayList.jm_addAllList", jm_addAllList)
+JR.registerLateBound("BasicArrayList.jm_addAll", jm_addAll)
+JR.registerLateBound("BasicArrayList.jm_ensureCapacity", jm_ensureCapacity)
+JR.registerLateBound("BasicArrayList.jm_trimToSize", jm_trimToSize)
+JR.registerLateBound("BasicArrayList.jm_indexOf", jm_indexOf)
+JR.registerLateBound("BasicArrayList.jm_lastIndexOf", jm_lastIndexOf)
+JR.registerLateBound("BasicArrayList.jm_get", jm_get)
+JR.registerLateBound("BasicArrayList.jm_set", jm_set)
+JR.registerLateBound("BasicArrayList.jm_clear", jm_clear)
+JR.registerLateBound("BasicArrayList.jm_size", jm_size)
+JR.registerLateBound("BasicArrayList.jm_isEmpty", jm_isEmpty)
+JR.registerLateBound("BasicArrayList.jm_contains", jm_contains)
+JR.registerLateBound("BasicArrayList.jm_toArray", jm_toArray)
+JR.registerLateBound("BasicArrayList.jm_toArrayType", jm_toArrayType)
+JR.registerLateBound("BasicArrayList.jm_clone", jm_clone)
+JR.registerLateBound("BasicArrayList.jm_toString", jm_toString)
+JR.registerLateBound("BasicArrayList.f_arrayUtil", (this: BasicArrayList) => this.f_arrayUtil)
+JR.registerLateBound("BasicArrayList.f_objectArray", (this: BasicArrayList) => this.f_objectArray)
+JR.registerLateBound("BasicArrayList.set_f_objectArray", (this: BasicArrayList, jvalue) => { this.f_objectArray = jvalue; jvalue })
+JR.registerLateBound("BasicArrayList.f_currentIndex", (this: BasicArrayList) => this.f_currentIndex)
+JR.registerLateBound("BasicArrayList.set_f_currentIndex", (this: BasicArrayList, jvalue) => { this.f_currentIndex = jvalue; jvalue })
+JR.registerLateBound("BasicArrayList.jstatic_SIZE", jstatic_SIZE)
+
+

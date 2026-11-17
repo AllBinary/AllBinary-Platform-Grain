@@ -1,0 +1,134 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.math
+module AngleIncrementInfo
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/logic/math/SmallIntegerSingletonFactory.gr" include SmallIntegerSingletonFactory
+use SmallIntegerSingletonFactory.{ type SmallIntegerSingletonFactory }
+from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../java/lang/Integer.gr" include Integer
+from "./AngleFactory.gr" include AngleFactory
+use AngleFactory.{ type AngleFactory }
+from "./FrameUtil.gr" include FrameUtil
+use FrameUtil.{ type FrameUtil }
+
+provide record AngleIncrementInfo {
+  jobject: JObject,
+  mut f_angleIncrement: Int32,
+  mut f_DOWN_FRAME: Int32,
+  mut f_UP_FRAME: Int32,
+  mut f_LEFT_FRAME: Int32,
+  mut f_RIGHT_FRAME: Int32,
+  mut f_frameUtil: FrameUtil,
+}
+
+let mut jcell_INCREMENT: Option<String> = None
+
+provide let rec jclassName = () => "AngleIncrementInfo"
+
+and jstatic_INCREMENT = () => match (jcell_INCREMENT) {
+  Some(value) => value,
+  None => {
+    let value: String = "Inc: "
+    jcell_INCREMENT = Some(value)
+    value
+  },
+}
+    
+and jnew_1 = (angleIncrement: Int32) => {
+    let this = { jobject: JR.newJObject("AngleIncrementInfo"), f_angleIncrement: 0l, f_DOWN_FRAME: 0l, f_UP_FRAME: 0l, f_LEFT_FRAME: 0l, f_RIGHT_FRAME: 0l, f_frameUtil: JR.nullOf(), }
+    this.jobject.toStringFunction = () => jm_toString(this)
+    
+    
+    
+    
+    
+    this.f_frameUtil = JR.cast(FrameUtil.jm_getInstance())
+        this.f_angleIncrement = angleIncrement
+        let mut angleFactory: AngleFactory = JR.cast(AngleFactory.jm_getInstance())
+        let mut smallIntegerSingletonFactory: SmallIntegerSingletonFactory = JR.cast(SmallIntegerSingletonFactory.jm_getInstance())
+        this.f_DOWN_FRAME = SmallIntegerSingletonFactory.jm_getAt(smallIntegerSingletonFactory, Int32.(/)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("NamedAngle.jm_getValue"))
+JR.cast(jlate(JR.cast(angleFactory.f_DOWN)))
+}, this.f_angleIncrement))
+        this.f_UP_FRAME = SmallIntegerSingletonFactory.jm_getAt(smallIntegerSingletonFactory, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("NamedAngle.jm_getValue"))
+JR.cast(jlate(JR.cast(angleFactory.f_UP)))
+})
+        this.f_LEFT_FRAME = SmallIntegerSingletonFactory.jm_getAt(smallIntegerSingletonFactory, Int32.(/)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("NamedAngle.jm_getValue"))
+JR.cast(jlate(JR.cast(angleFactory.f_LEFT)))
+}, this.f_angleIncrement))
+        this.f_RIGHT_FRAME = SmallIntegerSingletonFactory.jm_getAt(smallIntegerSingletonFactory, Int32.(/)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("NamedAngle.jm_getValue"))
+JR.cast(jlate(JR.cast(angleFactory.f_RIGHT)))
+}, this.f_angleIncrement))
+    this
+}
+    
+and jm_getFrameAngle = (this: AngleIncrementInfo, frame: Int32) => {
+        return FrameUtil.jm_getFrameAngle(this.f_frameUtil, frame, this.f_angleIncrement)
+}
+    
+and jm_getAngleIncrement = (this: AngleIncrementInfo) => {
+        return this.f_angleIncrement
+}
+    
+and jm_toString = (this: AngleIncrementInfo) => {
+        return StringMaker.jm_toString(StringMaker.jm_appendshort(StringMaker.jm_append(StringMaker.jnew_0(), jstatic_INCREMENT()), this.f_angleIncrement))
+}
+    
+and jm_getClosestGeneralDirection = (this: AngleIncrementInfo, angle: Int32) => {
+        let mut closestDirection: Int32 = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 360l)
+        if (Int32.(<)(Int32.(-)(Integer.jm_intValue(this.f_UP_FRAME), angle), Int32.(-)(Integer.jm_intValue(closestDirection), angle))) {
+            closestDirection = this.f_UP_FRAME
+        }
+        if (Int32.(<)(Int32.(-)(Integer.jm_intValue(this.f_DOWN_FRAME), angle), Int32.(-)(Integer.jm_intValue(closestDirection), angle))) {
+            closestDirection = this.f_DOWN_FRAME
+        }
+        if (Int32.(<)(Int32.(-)(Integer.jm_intValue(this.f_LEFT_FRAME), angle), Int32.(-)(Integer.jm_intValue(closestDirection), angle))) {
+            closestDirection = this.f_LEFT_FRAME
+        }
+        if (Int32.(<)(Int32.(-)(Integer.jm_intValue(this.f_RIGHT_FRAME), angle), Int32.(-)(Integer.jm_intValue(closestDirection), angle))) {
+            closestDirection = this.f_RIGHT_FRAME
+        }
+        return Integer.jm_intValue(closestDirection)
+}
+
+JR.registerLateBound("AngleIncrementInfo.jnew_1", jnew_1)
+JR.registerLateBound("AngleIncrementInfo.jm_getFrameAngle", jm_getFrameAngle)
+JR.registerLateBound("AngleIncrementInfo.jm_getAngleIncrement", jm_getAngleIncrement)
+JR.registerLateBound("AngleIncrementInfo.jm_toString", jm_toString)
+JR.registerLateBound("AngleIncrementInfo.jm_getClosestGeneralDirection", jm_getClosestGeneralDirection)
+JR.registerLateBound("AngleIncrementInfo.f_angleIncrement", (this: AngleIncrementInfo) => this.f_angleIncrement)
+JR.registerLateBound("AngleIncrementInfo.f_DOWN_FRAME", (this: AngleIncrementInfo) => this.f_DOWN_FRAME)
+JR.registerLateBound("AngleIncrementInfo.f_UP_FRAME", (this: AngleIncrementInfo) => this.f_UP_FRAME)
+JR.registerLateBound("AngleIncrementInfo.f_LEFT_FRAME", (this: AngleIncrementInfo) => this.f_LEFT_FRAME)
+JR.registerLateBound("AngleIncrementInfo.f_RIGHT_FRAME", (this: AngleIncrementInfo) => this.f_RIGHT_FRAME)
+JR.registerLateBound("AngleIncrementInfo.f_frameUtil", (this: AngleIncrementInfo) => this.f_frameUtil)
+JR.registerLateBound("AngleIncrementInfo.jstatic_INCREMENT", jstatic_INCREMENT)
+
+

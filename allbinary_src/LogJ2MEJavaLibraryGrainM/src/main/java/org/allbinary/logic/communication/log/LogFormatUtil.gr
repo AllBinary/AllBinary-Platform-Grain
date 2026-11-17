@@ -1,0 +1,173 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.communication.log
+module LogFormatUtil
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../../org/allbinary/string/CommonLabels.gr" include CommonLabels
+use CommonLabels.{ type CommonLabels }
+from "../../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../../../java/lang/Throwable.gr" include Throwable
+
+//ActualPlatform
+provide record LogFormatUtil {
+  jobject: JObject,
+  mut f_timeStampUtil: JObject,
+  mut f_commonSeps: CommonSeps,
+  mut f_NONE: String,
+  mut f_LOG_ERROR: String,
+  mut f_EMPTY: String,
+  mut f_STACK_TRACE: String,
+  mut f_TIME: String,
+  mut f_CLASS_NAME: String,
+  mut f_FUNCTION_CALL: String,
+  mut f_SPECIAL_MESSAGE: String,
+  mut f_stringUtil: StringUtil,
+  mut f_exceptionUtil: JObject,
+  mut f_nullUtil: NullUtil,
+}
+
+let mut jcell_instance: Option<LogFormatUtil> = None
+
+provide let rec jclassName = () => "LogFormatUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: LogFormatUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("LogFormatUtil"), f_timeStampUtil: JR.jnull, f_commonSeps: JR.nullOf(), f_NONE: "", f_LOG_ERROR: "", f_EMPTY: "", f_STACK_TRACE: "", f_TIME: "", f_CLASS_NAME: "", f_FUNCTION_CALL: "", f_SPECIAL_MESSAGE: "", f_stringUtil: JR.nullOf(), f_exceptionUtil: JR.jnull, f_nullUtil: JR.nullOf(), }
+    this.f_timeStampUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("TimeStampUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonSeps = JR.cast(CommonSeps.jm_getInstance())
+    this.f_NONE = "None"
+    this.f_LOG_ERROR = "\nLog-Error: "
+    this.f_EMPTY = "Empty"
+    this.f_STACK_TRACE = "\nStack Trace: "
+    this.f_TIME = "Time: "
+    this.f_CLASS_NAME = this.f_commonSeps.f_SPACE
+    this.f_FUNCTION_CALL = CommonLabels.jm_getInstance().f_COLON_SEP
+    this.f_SPECIAL_MESSAGE = "> "
+    this.f_stringUtil = JR.cast(StringUtil.jm_getInstance())
+    this.f_exceptionUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("ExceptionUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_nullUtil = JR.cast(NullUtil.jm_getInstance())
+        void
+    this
+}
+    
+and jm_get = (this: LogFormatUtil, className: String, functionName: String, specialMessage: String, exception_: JObject) => {
+        let mut stringBuffer: StringMaker = JR.cast(jm_getF(this, className, functionName))
+        ignore(StringMaker.jm_append(stringBuffer, jm_getO(this, exception_)))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_SPECIAL_MESSAGE))
+        ignore(StringMaker.jm_append(stringBuffer, specialMessage))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_commonSeps.f_NEW_LINE))
+        return StringMaker.jm_toString(stringBuffer)
+}
+    
+and jm_getS = (this: LogFormatUtil, className: String, functionName: String, specialMessage: String) => {
+        let mut stringBuffer: StringMaker = JR.cast(jm_getF(this, className, functionName))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_SPECIAL_MESSAGE))
+        ignore(StringMaker.jm_append(stringBuffer, specialMessage))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_commonSeps.f_NEW_LINE))
+        return StringMaker.jm_toString(stringBuffer)
+}
+    
+and jm_getF = (this: LogFormatUtil, className: String, functionName: String) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, this.f_TIME))
+        ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TimeStampUtil.jm_getAsString"))
+JR.cast(jlate(JR.cast(this.f_timeStampUtil)))
+}))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_CLASS_NAME))
+        ignore(StringMaker.jm_append(stringBuffer, className))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_FUNCTION_CALL))
+        ignore(StringMaker.jm_append(stringBuffer, functionName))
+        return stringBuffer
+}
+    
+and jm_getO = (this: LogFormatUtil, exception_: JObject) => {
+        if ((!JR.isSame(exception_, this.f_nullUtil.f_NULL_OBJECT))) {
+            let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+            ignore(StringMaker.jm_append(stringBuffer, this.f_LOG_ERROR))
+            let mut exceptionAsString: String = JR.toStringOf(JR.cast(exception_))
+            ignore(StringMaker.jm_append(stringBuffer, exceptionAsString))
+            ignore(StringMaker.jm_append(stringBuffer, this.f_STACK_TRACE))
+            if ((!JR.isSame(exception_, this.f_nullUtil.f_NULL_OBJECT))) {
+                ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ExceptionUtil.jm_getStackTrace"))
+JR.cast(jlate(JR.cast(this.f_exceptionUtil), JR.cast(JR.cast(exception_))))
+}))
+            } else {
+                ignore(StringMaker.jm_append(stringBuffer, this.f_stringUtil.f_NULL_STRING))
+            }
+            return StringMaker.jm_toString(stringBuffer)
+        } else {
+            return StringUtil.jm_getInstance().f_EMPTY_STRING
+        }
+}
+
+JR.registerLateBound("LogFormatUtil.jnew_0", jnew_0)
+JR.registerLateBound("LogFormatUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("LogFormatUtil.jm_get", jm_get)
+JR.registerLateBound("LogFormatUtil.jm_getS", jm_getS)
+JR.registerLateBound("LogFormatUtil.jm_getF", jm_getF)
+JR.registerLateBound("LogFormatUtil.jm_getO", jm_getO)
+JR.registerLateBound("LogFormatUtil.f_timeStampUtil", (this: LogFormatUtil) => this.f_timeStampUtil)
+JR.registerLateBound("LogFormatUtil.f_commonSeps", (this: LogFormatUtil) => this.f_commonSeps)
+JR.registerLateBound("LogFormatUtil.f_NONE", (this: LogFormatUtil) => this.f_NONE)
+JR.registerLateBound("LogFormatUtil.f_LOG_ERROR", (this: LogFormatUtil) => this.f_LOG_ERROR)
+JR.registerLateBound("LogFormatUtil.f_EMPTY", (this: LogFormatUtil) => this.f_EMPTY)
+JR.registerLateBound("LogFormatUtil.f_STACK_TRACE", (this: LogFormatUtil) => this.f_STACK_TRACE)
+JR.registerLateBound("LogFormatUtil.f_TIME", (this: LogFormatUtil) => this.f_TIME)
+JR.registerLateBound("LogFormatUtil.f_CLASS_NAME", (this: LogFormatUtil) => this.f_CLASS_NAME)
+JR.registerLateBound("LogFormatUtil.f_FUNCTION_CALL", (this: LogFormatUtil) => this.f_FUNCTION_CALL)
+JR.registerLateBound("LogFormatUtil.f_SPECIAL_MESSAGE", (this: LogFormatUtil) => this.f_SPECIAL_MESSAGE)
+JR.registerLateBound("LogFormatUtil.f_stringUtil", (this: LogFormatUtil) => this.f_stringUtil)
+JR.registerLateBound("LogFormatUtil.f_exceptionUtil", (this: LogFormatUtil) => this.f_exceptionUtil)
+JR.registerLateBound("LogFormatUtil.f_nullUtil", (this: LogFormatUtil) => this.f_nullUtil)
+JR.registerLateBound("LogFormatUtil.jstatic_instance", jstatic_instance)
+
+

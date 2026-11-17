@@ -1,0 +1,99 @@
+(*
+
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+    
+*)
+(* Generated Code Do Not Modify *)
+(* package org.allbinary.logic.visual.transform *)
+
+open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import java.util.HashMap *)
+(* import javax.servlet.jsp.PageContext *)
+(* import org.allbinary.data.tables.transform.info.TransformInfoEntity *)
+(* import org.allbinary.data.tables.transform.info.TransformInfoEntityBuilder *)
+(* import org.allbinary.logic.communication.log.LogUtil *)
+(* import org.allbinary.logic.string.StringMaker *)
+(* import org.allbinary.logic.system.security.licensing.AbeClientInformationInterface *)
+(* import org.allbinary.logic.visual.transform.info.TransformInfoData *)
+(* import org.allbinary.logic.visual.transform.info.TransformInfoHttpFactory *)
+(* import org.allbinary.logic.visual.transform.info.TransformInfoHttpInterface *)
+(* import org.allbinary.logic.visual.transform.info.TransformInfoInterface *)
+(* import org.allbinary.logic.visual.transform.info.TransformInfoObjectFactory *)
+(* import org.allbinary.string.CommonStrings *)
+
+class transformFactory () =
+  object (self)
+    val mutable logUtil : Obj.t = Obj.repr 0
+    method logUtil : 'r. 'r = Obj.magic logUtil
+    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
+    method commonStrings = commonStrings
+    method set_commonStrings value' = commonStrings <- value'
+    
+    
+
+    method getInstance : 'any1 'any3 'return. 'any1 * string * 'any3 -> 'return = fun (abeClientInformation, (viewName : string), ownerTransformInfoInterface) ->
+        let abeClientInformation = Obj.repr abeClientInformation in
+        let ownerTransformInfoInterface = Obj.repr ownerTransformInfoInterface in
+        begin
+        (try
+            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAGHELPERFACTORY)) then begin
+                ignore ((Obj.magic logUtil)#putF (("Creating Transform: " ^ viewName), (Obj.magic self), commonStrings#gET_INSTANCE))
+            end;
+            let ownerTransformInfoHttpInterface : TransformInfoHttpInterface.transformInfoHttpInterface ref = ref (((Obj.magic (Obj.magic ownerTransformInfoInterface)) :> TransformInfoHttpInterface.transformInfoHttpInterface)) in ();
+            let transformInfoEntity : TransformInfoEntity.transformInfoEntity ref = ref (((TransformInfoEntityBuilder.getInstance ()) :> TransformInfoEntity.transformInfoEntity)) in ();
+            let transformInfoInterface : TransformInfoInterface.transformInfoInterface ref = ref (((!transformInfoEntity#get (viewName, (!ownerTransformInfoHttpInterface#getPropertiesHashMap ()), (!ownerTransformInfoHttpInterface#getPageContext ()))) :> TransformInfoInterface.transformInfoInterface)) in ();
+            if (!transformInfoInterface == (Obj.magic 0)) then begin
+                raise (Failure (("No Such View In DB: " ^ viewName)))
+            end;
+            ignore (!transformInfoInterface#setChild ());
+            let anyType : Obj.t ref = ref ((Obj.repr ((TransformInfoObjectFactory.getInstance ())#getInstance ((Obj.magic abeClientInformation), !transformInfoInterface)))) in ();
+            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAGHELPERFACTORY)) then begin
+                ignore ((Obj.magic logUtil)#putF (("Created Transform: " ^ viewName), (Obj.magic self), commonStrings#gET_INSTANCE))
+            end;
+            (Obj.magic ((Obj.magic !anyType)))
+        with e -> begin
+            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAGHELPERFACTORYERROR)) then begin
+                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#gET_INSTANCE, e))
+            end;
+            raise e
+        end)
+        end [@@warning "-20"]
+    
+
+    (* Java overload getInstance(AbeClientInformationInterface, HashMap, PageContext) is not converted: OCaml has one method per name *)
+    
+
+    (* Java overload getInstance(AbeClientInformationInterface, TransformInfoInterface) is not converted: OCaml has one method per name *)
+
+    initializer
+      begin
+        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
+        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
+        ();
+        ()
+      end
+  end [@@warning "-20"]
+let () = java_register_constructor "TransformFactory" (fun arguments -> Obj.repr (new transformFactory (Obj.obj arguments)))
+
+let instance = (new transformFactory ())
+let get_instance () = instance
+let () = java_register_static "TransformFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+
+let getInstance : 'return. unit -> 'return = fun () ->
+        begin
+        (Obj.magic (instance))
+        end
+let () = java_register_static "TransformFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+

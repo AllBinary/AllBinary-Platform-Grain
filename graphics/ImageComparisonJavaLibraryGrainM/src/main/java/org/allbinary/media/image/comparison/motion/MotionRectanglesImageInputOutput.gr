@@ -1,0 +1,124 @@
+(*
+
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+*)
+(* Generated Code Do Not Modify *)
+(* package org.allbinary.media.image.comparison.motion *)
+
+open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import java.awt *)
+(* import java.awt.image.BufferedImage *)
+(* import org.allbinary.util.BasicArrayList *)
+(* import org.allbinary.util.BasicArrayListD *)
+(* import org.allbinary.input.automation.ImageOutputData *)
+(* import org.allbinary.logic.communication.log.LogUtil *)
+(* import org.allbinary.logic.java.number.LongUtil *)
+(* import org.allbinary.logic.string.StringMaker *)
+(* import org.allbinary.logic.util.cache.AutomaticCacheInterface *)
+(* import org.allbinary.logic.util.cache.PoolInterface *)
+(* import org.allbinary.logic.visual.media.MediaDataFactory *)
+(* import org.allbinary.media.image.ImagePersistanceUtil *)
+(* import org.allbinary.media.image.cache.BufferedImageCacheable *)
+(* import org.allbinary.media.image.cache.BufferedImageInfo *)
+(* import org.allbinary.media.image.cache.BufferedImageInfoFactory *)
+(* import org.allbinary.media.image.cache.BufferedImagePoolSingleton *)
+(* import org.allbinary.media.image.comparison.ImageComparisonResult *)
+(* import org.allbinary.media.image.io.ImageIOInterface *)
+(* import org.allbinary.string.CommonStrings *)
+
+class motionRectanglesImageInputOutput () =
+  object (self)
+    val mutable logUtil : Obj.t = Obj.repr 0
+    method logUtil : 'r. 'r = Obj.magic logUtil
+    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+    val mutable nUMBER_OF_IMAGES : int = 0
+    method nUMBER_OF_IMAGES = nUMBER_OF_IMAGES
+    method set_nUMBER_OF_IMAGES value' = nUMBER_OF_IMAGES <- value'
+    
+    
+
+    (* Java overload save(Long) is not converted: OCaml has one method per name *)
+    
+
+    method save : 'any1. 'any1 * int -> unit = fun (motionRectangles, (frame : int)) ->
+        let motionRectangles = Obj.repr motionRectangles in
+        begin
+        let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
+        let filePathStringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
+        ignore (!filePathStringBuffer#append ((ImageOutputData.get_sAVE_PATH ())));
+        ignore (!filePathStringBuffer#append ((LongUtil.fillIn ((string_of_int frame)))));
+        ignore (!filePathStringBuffer#append ("_"));
+        ignore (!filePathStringBuffer#append (((Obj.magic motionRectangles)#getName ())));
+        let filePathStringBuffer1 : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
+        ignore (!filePathStringBuffer1#append ((java_string_of (Obj.repr !filePathStringBuffer))));
+        ignore (!filePathStringBuffer1#append ("_1"));
+        ignore (!filePathStringBuffer1#append (((MediaDataFactory.getInstance ())#jPG#getExtension ())));
+        let filePathStringBuffer2 : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
+        ignore (!filePathStringBuffer2#append ((java_string_of (Obj.repr !filePathStringBuffer))));
+        ignore (!filePathStringBuffer2#append ("_2"));
+        ignore (!filePathStringBuffer2#append (((MediaDataFactory.getInstance ())#jPG#getExtension ())));
+        let filePathStringBuffer3 : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
+        ignore (!filePathStringBuffer3#append ((java_string_of (Obj.repr !filePathStringBuffer))));
+        ignore (!filePathStringBuffer3#append (((MediaDataFactory.getInstance ())#jPG#getExtension ())));
+        ignore ((Obj.magic logUtil)#putF (("Motion Image File Path 1: " ^ (java_string_of (Obj.repr !filePathStringBuffer1))), (Obj.magic self), !commonStrings#sAVE));
+        ignore ((Obj.magic logUtil)#putF (("Motion Image File Path 2: " ^ (java_string_of (Obj.repr !filePathStringBuffer2))), (Obj.magic self), !commonStrings#sAVE));
+        ignore ((Obj.magic logUtil)#putF (("Motion Image File Path 2: " ^ (java_string_of (Obj.repr !filePathStringBuffer3))), (Obj.magic self), !commonStrings#sAVE));
+        let bufferedImageCacheables : BufferedImageCacheable.bufferedImageCacheable array ref = ref ((Array.make (nUMBER_OF_IMAGES) (Obj.magic 0))) in ();
+        let imageComparisonInfo : ImageComparisonResult.imageComparisonResult ref = ref ((((Obj.magic motionRectangles)#getImageComparisonResult ()) :> ImageComparisonResult.imageComparisonResult)) in ();
+        let originalBufferedImage : Obj.t ref = ref ((Obj.repr (!imageComparisonInfo#getBufferedImages ()).(0))) in ();
+        let bufferedImageInfo : BufferedImageInfo.bufferedImageInfo ref = ref (((BufferedImageInfoFactory.getInstance (!imageComparisonInfo#imageWidth, !imageComparisonInfo#imageHeight, ((Obj.magic !originalBufferedImage)#getType ()))) :> BufferedImageInfo.bufferedImageInfo)) in ();
+        let poolInterface : PoolInterface.poolInterface ref = ref (((BufferedImagePoolSingleton.getInstance ()) :> PoolInterface.poolInterface)) in ();
+        for index = 0 to nUMBER_OF_IMAGES - 1 do
+            !bufferedImageCacheables.(index) <- ((Obj.magic (!poolInterface#remove (!bufferedImageInfo))) :> BufferedImageCacheable.bufferedImageCacheable)
+        done;
+        ignore ((!bufferedImageCacheables.(0)#getBufferedImage ())#setData (((!imageComparisonInfo#getBufferedImages ()).(1)#getData ())));
+        if (nUMBER_OF_IMAGES > 1) then begin
+            ignore ((!bufferedImageCacheables.(1)#getBufferedImage ())#setData (((!imageComparisonInfo#getBufferedImages ()).(1)#getData ())))
+        end;
+        let bufferedImageGraphicsArray : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
+        bufferedImageGraphicsArray := Obj.repr ((Array.make (nUMBER_OF_IMAGES) (Obj.magic 0)));
+        for index = 0 to nUMBER_OF_IMAGES - 1 do
+            (Obj.magic !bufferedImageGraphicsArray).(index) <- ((!bufferedImageCacheables.(index)#getBufferedImage ())#getGraphics ())
+        done;
+        let rectangelList : BasicArrayList.basicArrayList ref = ref ((((Obj.magic motionRectangles)#getVector ()) :> BasicArrayList.basicArrayList)) in ();
+        let size : int ref = ref ((!rectangelList#size ())) in ();
+        for index2 = 0 to !size - 1 do
+            let motionRectangle : Obj.t ref = ref ((Obj.repr (Obj.magic (!rectangelList#get (index2))))) in ();
+            let rectangle : Obj.t ref = ref ((Obj.repr ((Obj.magic !motionRectangle)#getRectangle ()))) in ();
+            for index = 0 to nUMBER_OF_IMAGES - 1 do
+                ignore ((Obj.magic !bufferedImageGraphicsArray).(index)#setColor ((Color.get_oRANGE ())));
+                ignore ((Obj.magic !bufferedImageGraphicsArray).(index)#drawRect ((Obj.magic !rectangle)#x, (Obj.magic !rectangle)#y, (Obj.magic !rectangle)#width, (Obj.magic !rectangle)#height))
+            done
+        done;
+        let imagePersistanceUtil : ImagePersistanceUtil.imagePersistanceUtil ref = ref (((ImagePersistanceUtil.getInstance ()) :> ImagePersistanceUtil.imagePersistanceUtil)) in ();
+        if (nUMBER_OF_IMAGES > 1) then begin
+            ignore (!imagePersistanceUtil#saveWithImageIO ((java_string_of (Obj.repr !filePathStringBuffer1)), (!bufferedImageCacheables.(1)#getBufferedImage ())))
+        end;
+        ignore (!imagePersistanceUtil#saveWithImageIO ((java_string_of (Obj.repr !filePathStringBuffer2)), (!bufferedImageCacheables.(0)#getBufferedImage ())));
+        if (nUMBER_OF_IMAGES > 2) then begin
+            ignore (!imagePersistanceUtil#saveWithImageIO ((java_string_of (Obj.repr !filePathStringBuffer3)), (!bufferedImageCacheables.(2)#getBufferedImage ())))
+        end
+        end [@@warning "-20"]
+
+    initializer
+      begin
+        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
+        nUMBER_OF_IMAGES <- 1;
+        ();
+        ()
+      end
+  end [@@warning "-20"]
+let () = java_register_constructor "MotionRectanglesImageInputOutput" (fun arguments -> Obj.repr (new motionRectanglesImageInputOutput (Obj.obj arguments)))
+
+

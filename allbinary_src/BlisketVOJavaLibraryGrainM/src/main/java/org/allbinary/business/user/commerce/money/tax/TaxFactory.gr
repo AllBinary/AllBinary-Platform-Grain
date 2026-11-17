@@ -1,0 +1,120 @@
+(*
+
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+*)
+(* Generated Code Do Not Modify *)
+(* package org.allbinary.business.user.commerce.money.tax *)
+
+open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import org.allbinary.business.DynamicObjectData *)
+(* import org.allbinary.business.context.modules.storefront.StoreFrontInterface *)
+(* import org.allbinary.business.user.commerce.money.tax.components.TaxData *)
+(* import org.allbinary.business.user.commerce.money.tax.modules.SimpleStateTaxModule *)
+(* import org.allbinary.business.user.commerce.money.tax.modules.TaxModuleInterface *)
+(* import org.allbinary.data.tree.dom.DomNodeHelper *)
+(* import org.allbinary.data.tree.dom.DomSearchHelper *)
+(* import org.allbinary.data.tree.dom.document.DomDocumentHelper *)
+(* import org.allbinary.globals.FREEBLISKET_PATH_GLOBALS *)
+(* import org.allbinary.globals.URLGLOBALS *)
+(* import org.allbinary.logic.communication.log.LogUtil *)
+(* import org.allbinary.logic.control.crypt.file.CryptFileReader *)
+(* import org.allbinary.logic.io.path.AbPath *)
+(* import org.allbinary.logic.io.path.AbPathData *)
+(* import org.allbinary.logic.string.StringMaker *)
+(* import org.allbinary.logic.system.loader.AbeFactory *)
+(* import org.allbinary.logic.system.security.licensing.AbeClientInformationInterface *)
+(* import org.allbinary.logic.visual.transform.info.objectConfig.TransformInfoObjectConfigData *)
+(* import org.allbinary.string.CommonStrings *)
+(* import org.w3c.dom.Document *)
+(* import org.w3c.dom.Node *)
+(* import org.w3c.dom.NodeList *)
+
+class taxFactory () =
+  object (self)
+    val mutable logUtil : Obj.t = Obj.repr 0
+    method logUtil : 'r. 'r = Obj.magic logUtil
+    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
+    method commonStrings = commonStrings
+    method set_commonStrings value' = commonStrings <- value'
+    val mutable tAXATIONFILENAME : string = ""
+    method tAXATIONFILENAME = tAXATIONFILENAME
+    method set_tAXATIONFILENAME value' = tAXATIONFILENAME <- value'
+    
+    
+
+    method getInstance : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (abeClientInformation, storeFrontInterface) ->
+        let abeClientInformation = Obj.repr abeClientInformation in
+        let storeFrontInterface = Obj.repr storeFrontInterface in
+        try
+        begin
+        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
+        ignore (!stringBuffer#append ((URLGLOBALS.getMainPath ())));
+        ignore (!stringBuffer#append ((FREEBLISKET_PATH_GLOBALS.getInstance ())#xSLPATH));
+        ignore (!stringBuffer#append (((Obj.magic storeFrontInterface)#getName ())));
+        ignore (!stringBuffer#append ((Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ())))#sEPARATOR));
+        ignore (!stringBuffer#append ("generic"));
+        ignore (!stringBuffer#append ((Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ())))#sEPARATOR));
+        ignore (!stringBuffer#append ("taxes"));
+        ignore (!stringBuffer#append ((Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ())))#sEPARATOR));
+        let abPath : AbPath.abPath ref = ref (((new AbPath.abPath ((java_string_of (Obj.repr !stringBuffer)), tAXATIONFILENAME)) :> AbPath.abPath)) in ();
+        let transformInfoObjectConfigData : TransformInfoObjectConfigData.transformInfoObjectConfigData ref = ref (((TransformInfoObjectConfigData.getInstance ()) :> TransformInfoObjectConfigData.transformInfoObjectConfigData)) in ();
+        let data : string ref = ref (((Obj.obj (java_new "CryptFileReader" (Obj.repr (!transformInfoObjectConfigData#uNCRYPTED_EXTENSION, !transformInfoObjectConfigData#eNCRYPTED_EXTENSION))))#get (!abPath))) in ();
+        let document : Obj.t ref = ref ((Obj.repr (DomDocumentHelper.create (!data)))) in ();
+        let taxNameNodeList : Obj.t ref = ref ((Obj.repr ((Obj.magic !document)#getElementsByTagName ((TaxData.get_nAME ()))))) in ();
+        for index = 0 to ((Obj.magic !taxNameNodeList)#getLength ()) - 1 do
+            let node : Obj.t ref = ref ((Obj.repr ((Obj.magic !taxNameNodeList)#item (index)))) in ();
+            let nodeList : Obj.t ref = ref ((Obj.repr ((Obj.magic !node)#getChildNodes ()))) in ();
+            if ((Obj.magic !nodeList) != (Obj.magic 0)) then begin
+                let classNameNode : Obj.t ref = ref ((Obj.repr (DomSearchHelper.getNode ((DynamicObjectData.get_nAME ()), (Obj.magic !nodeList))))) in ();
+                if ((Obj.magic !classNameNode) != (Obj.magic 0)) then begin
+                    let className : string ref = ref ((DomNodeHelper.getTextNodeValue ((Obj.magic !classNameNode)))) in ();
+                    raise (Java_return (Obj.repr ((Obj.magic ((AbeFactory.getInstance ())#getInstance ((Obj.magic abeClientInformation), !className))))))
+                end else begin
+                    if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAX)) then begin
+                        ignore ((Obj.magic logUtil)#putF ("Class Node Null", (Obj.magic self), commonStrings#gET_INSTANCE))
+                    end
+                end
+            end else begin
+                if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#tAX)) then begin
+                    ignore ((Obj.magic logUtil)#putF ("Tax Name Node Node Children", (Obj.magic self), commonStrings#gET_INSTANCE))
+                end
+            end
+        done;
+        (Obj.magic ((Obj.magic (new SimpleStateTaxModule.simpleStateTaxModule ()))))
+        end
+        with Java_return value -> Obj.obj value [@@warning "-20"]
+
+    initializer
+      begin
+        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
+        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
+        tAXATIONFILENAME <- "taxationMethod.xml";
+        ();
+        ()
+      end
+  end [@@warning "-20"]
+let () = java_register_constructor "TaxFactory" (fun arguments -> Obj.repr (new taxFactory (Obj.obj arguments)))
+
+let instance = (new taxFactory ())
+let get_instance () = instance
+let () = java_register_static "TaxFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+
+let getInstance : 'return. unit -> 'return = fun () ->
+        begin
+        (Obj.magic (instance))
+        end
+let () = java_register_static "TaxFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+
+

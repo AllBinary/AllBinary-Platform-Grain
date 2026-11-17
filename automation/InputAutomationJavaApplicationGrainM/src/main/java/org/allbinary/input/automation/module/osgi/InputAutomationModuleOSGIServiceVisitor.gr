@@ -1,0 +1,73 @@
+(*
+
+  AllBinary Open License Version 1
+  Copyright (c) 2011 AllBinary
+  
+  By agreeing to this license you and any business entity you represent are
+  legally bound to the AllBinary Open License Version 1 legal agreement.
+  
+  You may obtain the AllBinary Open License Version 1 legal agreement from
+  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+  
+  Created By: Travis Berthelot
+   
+*)
+(* Generated Code Do Not Modify *)
+(* package org.allbinary.input.automation.module.osgi *)
+
+open Allbinary_java [@@warning "-33"]
+[@@@warning "-20"]
+(* import bundle.input.automation.module.InputAutomationModuleService *)
+(* import org.allbinary.input.automation.InputAutomationJFrame *)
+(* import org.allbinary.input.automation.configuration.InputAutomationConfigurationUtil *)
+(* import org.allbinary.input.automation.module.InputAutomationModuleFactoryInterface *)
+(* import org.allbinary.logic.communication.log.LogUtil *)
+(* import org.allbinary.osgi.OSGIServiceInterface *)
+(* import org.allbinary.osgi.OSGIServiceVisitorInterface *)
+(* import org.allbinary.string.CommonStrings *)
+
+class inputAutomationModuleOSGIServiceVisitor () =
+  object (self)
+    val mutable logUtil : Obj.t = Obj.repr 0
+    method logUtil : 'r. 'r = Obj.magic logUtil
+    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
+    method commonStrings = commonStrings
+    method set_commonStrings value' = commonStrings <- value'
+    
+    
+
+    method visit : 'any1. 'any1 -> Obj.t = fun (anyType) ->
+        let anyType = Obj.repr anyType in
+        begin
+        (Obj.repr ((self#visit ((Obj.magic anyType)))))
+        end
+    
+
+    method visit : 'any1. 'any1 -> bool = fun (osgiServiceInterface) ->
+        let osgiServiceInterface = Obj.repr osgiServiceInterface in
+        begin
+        (try
+            let inputAutomationModuleService : Obj.t ref = ref ((Obj.repr (Obj.magic (Obj.magic osgiServiceInterface)))) in ();
+            let inputAutomationModuleInterfaceArray : InputAutomationModuleFactoryInterface.inputAutomationModuleFactoryInterface array ref = ref (((Obj.magic !inputAutomationModuleService)#getInputAutomationModuleInterfaceArray ())) in ();
+            for index = 0 to (Array.length !inputAutomationModuleInterfaceArray) - 1 do
+                ignore ((Obj.magic (java_call_static "InputAutomationJFrame.getInstance" (Obj.repr ())))#onAdd ((InputAutomationConfigurationUtil.getChangeEvent (!inputAutomationModuleInterfaceArray.(index)))))
+            done;
+            true
+        with e -> begin
+            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "visit", e));
+            false
+        end)
+        end [@@warning "-20"]
+
+    initializer
+      begin
+        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
+        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
+        ();
+        ()
+      end
+  end [@@warning "-20"]
+let () = java_register_constructor "InputAutomationModuleOSGIServiceVisitor" (fun arguments -> Obj.repr (new inputAutomationModuleOSGIServiceVisitor (Obj.obj arguments)))
+
+

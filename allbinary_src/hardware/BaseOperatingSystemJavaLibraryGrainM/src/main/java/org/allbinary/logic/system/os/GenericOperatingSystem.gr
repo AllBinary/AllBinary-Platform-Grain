@@ -1,0 +1,172 @@
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.system.os
+module GenericOperatingSystem
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/java/character/CharacterSet.gr" include CharacterSet
+use CharacterSet.{ type CharacterSet }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../../org/allbinary/logic/string/StringValidationUtil.gr" include StringValidationUtil
+use StringValidationUtil.{ type StringValidationUtil }
+from "../../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "./OperatingSystemInterface.gr" include OperatingSystemInterface
+use OperatingSystemInterface.{ type OperatingSystemInterface }
+
+provide record GenericOperatingSystem {
+  jobject: JObject,
+  mut f_osName: String,
+  mut f_osArch: String,
+  mut f_osVersion: String,
+  mut f_characterSet: CharacterSet,
+  mut f_scalable: Bool,
+}
+
+
+provide let rec jclassName = () => "GenericOperatingSystem"
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("GenericOperatingSystem"), f_osName: "", f_osArch: "", f_osVersion: "", f_characterSet: JR.nullOf(), f_scalable: false, }
+    this.jobject.toStringFunction = () => jm_toString(this)
+    
+    
+    
+    this.f_characterSet = CharacterSet.jnew_0()
+    this.f_scalable = false
+        let mut systemProperties: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("SystemProperties.jm_getInstance"))
+JR.cast(jlate())
+})
+        let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
+        let mut l_EMPTY_STRING: String = StringUtil.jm_getInstance().f_EMPTY_STRING
+        if (StringValidationUtil.jm_isEmpty(stringValidationUtil, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SystemProperties.jm_getName"))
+JR.cast(jlate(JR.cast(systemProperties)))
+})) {
+            this.f_osName = l_EMPTY_STRING
+        } else {
+            this.f_osName = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SystemProperties.jm_getName"))
+JR.cast(jlate(JR.cast(systemProperties)))
+}
+        }
+        if (StringValidationUtil.jm_isEmpty(stringValidationUtil, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SystemProperties.jm_getArch"))
+JR.cast(jlate(JR.cast(systemProperties)))
+})) {
+            this.f_osArch = l_EMPTY_STRING
+        } else {
+            this.f_osArch = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SystemProperties.jm_getArch"))
+JR.cast(jlate(JR.cast(systemProperties)))
+}
+        }
+        if (StringValidationUtil.jm_isEmpty(stringValidationUtil, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SystemProperties.jm_getVersion"))
+JR.cast(jlate(JR.cast(systemProperties)))
+})) {
+            this.f_osVersion = l_EMPTY_STRING
+        } else {
+            this.f_osVersion = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SystemProperties.jm_getVersion"))
+JR.cast(jlate(JR.cast(systemProperties)))
+}
+        }
+    this
+}
+    
+and jm_getName = (this: GenericOperatingSystem) => {
+        return this.f_osName
+}
+    
+and jm_getVersion = (this: GenericOperatingSystem) => {
+        return this.f_osVersion
+}
+    
+and jm_getArch = (this: GenericOperatingSystem) => {
+        return this.f_osArch
+}
+    
+and jm_getCharacterSet = (this: GenericOperatingSystem) => {
+        return this.f_characterSet
+}
+    
+and jm_isOverScan = (this: GenericOperatingSystem) => {
+        return false
+}
+    
+and jm_getOverScanXPercent = (this: GenericOperatingSystem) => {
+        return 100l
+}
+    
+and jm_getOverScanYPercent = (this: GenericOperatingSystem) => {
+        return 100l
+}
+    
+and jm_isScalable = (this: GenericOperatingSystem) => {
+        return this.f_scalable
+}
+    
+and jm_isAutoHide = (this: GenericOperatingSystem) => {
+        return false
+}
+    
+and jm_toString = (this: GenericOperatingSystem) => {
+        let mut l_NEW_LINE: String = CommonSeps.jm_getInstance().f_NEW_LINE
+        let mut osBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(osBuffer, "Operating System Info: \n"))
+        ignore(StringMaker.jm_append(osBuffer, jm_getName(this)))
+        ignore(StringMaker.jm_append(osBuffer, l_NEW_LINE))
+        ignore(StringMaker.jm_append(osBuffer, jm_getArch(this)))
+        ignore(StringMaker.jm_append(osBuffer, l_NEW_LINE))
+        ignore(StringMaker.jm_append(osBuffer, jm_getVersion(this)))
+        ignore(StringMaker.jm_append(osBuffer, l_NEW_LINE))
+        ignore(StringMaker.jm_append(osBuffer, StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(jm_getCharacterSet(this)))))
+        ignore(StringMaker.jm_append(osBuffer, l_NEW_LINE))
+        return StringMaker.jm_toString(osBuffer)
+}
+
+JR.registerLateBound("GenericOperatingSystem.jnew_0", jnew_0)
+JR.registerLateBound("GenericOperatingSystem.jm_getName", jm_getName)
+JR.registerLateBound("GenericOperatingSystem.jm_getVersion", jm_getVersion)
+JR.registerLateBound("GenericOperatingSystem.jm_getArch", jm_getArch)
+JR.registerLateBound("GenericOperatingSystem.jm_getCharacterSet", jm_getCharacterSet)
+JR.registerLateBound("GenericOperatingSystem.jm_isOverScan", jm_isOverScan)
+JR.registerLateBound("GenericOperatingSystem.jm_getOverScanXPercent", jm_getOverScanXPercent)
+JR.registerLateBound("GenericOperatingSystem.jm_getOverScanYPercent", jm_getOverScanYPercent)
+JR.registerLateBound("GenericOperatingSystem.jm_isScalable", jm_isScalable)
+JR.registerLateBound("GenericOperatingSystem.jm_isAutoHide", jm_isAutoHide)
+JR.registerLateBound("GenericOperatingSystem.jm_toString", jm_toString)
+JR.registerLateBound("GenericOperatingSystem.f_osName", (this: GenericOperatingSystem) => this.f_osName)
+JR.registerLateBound("GenericOperatingSystem.f_osArch", (this: GenericOperatingSystem) => this.f_osArch)
+JR.registerLateBound("GenericOperatingSystem.f_osVersion", (this: GenericOperatingSystem) => this.f_osVersion)
+JR.registerLateBound("GenericOperatingSystem.f_characterSet", (this: GenericOperatingSystem) => this.f_characterSet)
+JR.registerLateBound("GenericOperatingSystem.f_scalable", (this: GenericOperatingSystem) => this.f_scalable)
+JR.registerLateBound("GenericOperatingSystem.set_f_scalable", (this: GenericOperatingSystem, jvalue) => { this.f_scalable = jvalue; jvalue })
+
+
