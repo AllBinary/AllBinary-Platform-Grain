@@ -1,97 +1,155 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.input.motion.button
+module TouchButtonsMappingPaintable
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.input.motion.button *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/graphics/CellPositionFactory.gr" include CellPositionFactory
+use CellPositionFactory.{ type CellPositionFactory }
+from "../../../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
+use BasicColor.{ type BasicColor }
+from "../../../../../org/allbinary/graphics/paint/Paintable.gr" include Paintable
+use Paintable.{ type Paintable }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./TouchButtonLocationHelper.gr" include TouchButtonLocationHelper
+use TouchButtonLocationHelper.{ type TouchButtonLocationHelper }
+from "./CommonButtons.gr" include CommonButtons
+use CommonButtons.{ type CommonButtons }
+from "./TouchButtonBlankResource.gr" include TouchButtonBlankResource
+use TouchButtonBlankResource.{ type TouchButtonBlankResource }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Graphics *)
-(* import org.allbinary.graphics.CellPositionFactory *)
-(* import org.allbinary.graphics.color.BasicColor *)
-(* import org.allbinary.graphics.paint.Paintable *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record TouchButtonsMappingPaintable {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_foregroundColor: Int32,
+  mut f_paintableTable: Array<Array<Paintable>>,
+  mut f_touchButtonLocationHelper: TouchButtonLocationHelper,
+}
 
-class touchButtonsMappingPaintable ((basicColor : BasicColor.basicColor)) =
-  object (self)
-    inherit Paintable.paintable ()
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable foregroundColor : int = 0
-    method foregroundColor = foregroundColor
-    method set_foregroundColor value' = foregroundColor <- value'
-    val mutable paintableTable : Paintable.paintable array array = (Obj.magic 0)
-    method paintableTable = paintableTable
-    method set_paintableTable value' = paintableTable <- value'
-    val mutable touchButtonLocationHelper : TouchButtonLocationHelper.touchButtonLocationHelper = (Obj.magic 0)
-    method touchButtonLocationHelper = touchButtonLocationHelper
-    method set_touchButtonLocationHelper value' = touchButtonLocationHelper <- value'
+
+provide let rec jclassName = () => "TouchButtonsMappingPaintable"
     
+and jnew_1 = (basicColor: BasicColor) => {
+    let this = { jobject: JR.newJObject("TouchButtonsMappingPaintable"), f_logUtil: JR.jnull, f_foregroundColor: 0l, f_paintableTable: [> ], f_touchButtonLocationHelper: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
     
-
-    method init () : unit =
-        begin
-        (try
-            paintableTable <- (self#createPaintableTable ())
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), "updateRectangle", e))
-        end)
-        end [@@warning "-7"]
+    this.f_paintableTable = Array.init(Int32.toNumber(0l), jindex1 => Array.make(Int32.toNumber(0l), JR.nullOf()))
+    this.f_touchButtonLocationHelper = TouchButtonLocationHelper.jnew_0()
+        this.f_foregroundColor = BasicColor.jm_intValue(basicColor)
+        ignore(jm_init(this))
+    this
+}
     
-
-    method createPaintableTable : 'return. unit -> 'return = fun () ->
-        begin
-        let totalColumns : int ref = ref ((touchButtonLocationHelper#getTotalColumns ())) in ();
-        let totalRows : int ref = ref ((touchButtonLocationHelper#getTotalRows ())) in ();
-        let paintableTable_arg : Paintable.paintable array array ref = ref ((Array.make_matrix (!totalColumns) (!totalRows) (Obj.magic 0))) in ();
-        let cellPositionFactory : CellPositionFactory.cellPositionFactory ref = ref (((CellPositionFactory.getInstance ()) :> CellPositionFactory.cellPositionFactory)) in ();
-        let commonButtons : CommonButtons.commonButtons ref = ref (((CommonButtons.getInstance ()) :> CommonButtons.commonButtons)) in ();
-        for index = (!totalColumns - 1) downto 0 do
-            for rowIndex = (!totalRows - 1) downto 0 do
-                paintableTable.(index).(rowIndex) <- (Obj.magic (java_call_static "TouchButton.createButton" (Obj.repr ((Obj.magic (java_call_static "BasicTouchInputFactory.getInstance" (Obj.repr ())))#nONE, (TouchButtonBlankResource.getInstance ()), !commonButtons#nORMAL_BUTTON, (!cellPositionFactory#getInstanceColRow (index, rowIndex)), (touchButtonLocationHelper#getColumnsRemainderHalf ()), (touchButtonLocationHelper#getRowsRemainderHalf ())))))
-            done
-        done;
-        (Obj.magic (!paintableTable_arg))
-        end [@@warning "-7"]
+and jm_init = (this: TouchButtonsMappingPaintable) => {
+        {
+            this.f_paintableTable = jm_createPaintableTable(this)
+        }
+}
     
+and jm_createPaintableTable = (this: TouchButtonsMappingPaintable) => {
+        let mut totalColumns: Int32 = TouchButtonLocationHelper.jm_getTotalColumns(this.f_touchButtonLocationHelper)
+        let mut totalRows: Int32 = TouchButtonLocationHelper.jm_getTotalRows(this.f_touchButtonLocationHelper)
+        let mut paintableTable: Array<Array<Paintable>> = Array.init(Int32.toNumber(totalColumns), jindex1 => Array.make(Int32.toNumber(totalRows), JR.nullOf()))
+        let mut cellPositionFactory: CellPositionFactory = JR.cast(CellPositionFactory.jm_getInstance())
+        let mut commonButtons: CommonButtons = JR.cast(CommonButtons.jm_getInstance())
+        {
+            let mut index: Int32 = Int32.(-)(totalColumns, 1l)
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(-)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(>=)(index, 0l))) break
+            {
+                let mut rowIndex: Int32 = Int32.(-)(totalRows, 1l)
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        rowIndex = Int32.(-)(rowIndex, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(>=)(rowIndex, 0l))) break
+                this.f_paintableTable[Int32.toNumber(index)][Int32.toNumber(rowIndex)] = JR.cast({
+let jlate: (JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TouchButton.jm_createButton"))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicTouchInputFactory.f_NONE"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("BasicTouchInputFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+}), JR.cast(TouchButtonBlankResource.jm_getInstance()), JR.cast(commonButtons.f_NORMAL_BUTTON), JR.cast(CellPositionFactory.jm_getInstanceColRow(cellPositionFactory, index, rowIndex)), JR.cast(TouchButtonLocationHelper.jm_getColumnsRemainderHalf(this.f_touchButtonLocationHelper)), JR.cast(TouchButtonLocationHelper.jm_getRowsRemainderHalf(this.f_touchButtonLocationHelper))))
+})
+                }
+            }
+            }
+        }
+        return paintableTable
+}
+    
+and jm_paint = (this: TouchButtonsMappingPaintable, graphics: JObject) => {
+        let mut totalColumns: Int32 = TouchButtonLocationHelper.jm_getTotalColumns(this.f_touchButtonLocationHelper)
+        let mut totalRows: Int32 = TouchButtonLocationHelper.jm_getTotalRows(this.f_touchButtonLocationHelper)
+        {
+            let mut index: Int32 = Int32.(-)(totalColumns, 1l)
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(-)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(>=)(index, 0l))) break
+            {
+                let mut rowIndex: Int32 = Int32.(-)(totalRows, 1l)
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        rowIndex = Int32.(-)(rowIndex, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(>=)(rowIndex, 0l))) break
+                ignore(JR.className(JR.cast(this.f_paintableTable[Int32.toNumber(index)][Int32.toNumber(rowIndex)])))
+                }
+            }
+            }
+        }
+}
 
-    method paint : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        let totalColumns : int ref = ref ((touchButtonLocationHelper#getTotalColumns ())) in ();
-        let totalRows : int ref = ref ((touchButtonLocationHelper#getTotalRows ())) in ();
-        for index = (!totalColumns - 1) downto 0 do
-            for rowIndex = (!totalRows - 1) downto 0 do
-                ignore (paintableTable.(index).(rowIndex)#paint ((Obj.magic graphics)))
-            done
-        done
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ();
-        paintableTable <- (Array.make_matrix (0) (0) (Obj.magic 0));
-        touchButtonLocationHelper <- ((new TouchButtonLocationHelper.touchButtonLocationHelper ()) :> TouchButtonLocationHelper.touchButtonLocationHelper);
-        ();
-        foregroundColor <- (basicColor#intValue ());
-        (self#init ())
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "TouchButtonsMappingPaintable" (fun arguments -> Obj.repr (new touchButtonsMappingPaintable (Obj.obj arguments)))
+JR.registerLateBound("TouchButtonsMappingPaintable.jnew_1", jnew_1)
+JR.registerLateBound("TouchButtonsMappingPaintable.jm_init", jm_init)
+JR.registerLateBound("TouchButtonsMappingPaintable.jm_createPaintableTable", jm_createPaintableTable)
+JR.registerLateBound("TouchButtonsMappingPaintable.jm_paint", jm_paint)
+JR.registerLateBound("TouchButtonsMappingPaintable.f_logUtil", (this: TouchButtonsMappingPaintable) => this.f_logUtil)
+JR.registerLateBound("TouchButtonsMappingPaintable.f_foregroundColor", (this: TouchButtonsMappingPaintable) => this.f_foregroundColor)
+JR.registerLateBound("TouchButtonsMappingPaintable.set_f_foregroundColor", (this: TouchButtonsMappingPaintable, jvalue) => { this.f_foregroundColor = jvalue; jvalue })
+JR.registerLateBound("TouchButtonsMappingPaintable.f_paintableTable", (this: TouchButtonsMappingPaintable) => this.f_paintableTable)
+JR.registerLateBound("TouchButtonsMappingPaintable.set_f_paintableTable", (this: TouchButtonsMappingPaintable, jvalue) => { this.f_paintableTable = jvalue; jvalue })
+JR.registerLateBound("TouchButtonsMappingPaintable.f_touchButtonLocationHelper", (this: TouchButtonsMappingPaintable) => this.f_touchButtonLocationHelper)
+JR.registerLateBound("TouchButtonsMappingPaintable.set_f_touchButtonLocationHelper", (this: TouchButtonsMappingPaintable, jvalue) => { this.f_touchButtonLocationHelper = jvalue; jvalue })
 
 

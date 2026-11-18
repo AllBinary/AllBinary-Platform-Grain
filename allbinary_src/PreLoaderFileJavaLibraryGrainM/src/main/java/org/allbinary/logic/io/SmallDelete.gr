@@ -1,108 +1,113 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io
+module SmallDelete
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/io/DataOutputStream.gr" include DataOutputStream
+use DataOutputStream.{ type DataOutputStream }
+from "../../../../java/io/FileOutputStream.gr" include FileOutputStream
+use FileOutputStream.{ type FileOutputStream }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.DataOutputStream *)
-(* import java.io.FileOutputStream *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.io.file.AbFileSystem *)
-(* import org.allbinary.string.CommonStrings *)
+provide record SmallDelete {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_fileName: String,
+  mut f_string: String,
+}
 
-class smallDelete ((fileName_arg : string)) =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable fileName : string = ""
-    method fileName = fileName
-    method set_fileName value' = fileName <- value'
-    val mutable string : string = ""
-    method string = string
-    method set_string value' = string <- value'
+
+provide let rec jclassName = () => "SmallDelete"
+    
+and jnew_1 = (fileName: String) => {
+    let this = { jobject: JR.newJObject("SmallDelete"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_fileName: "", f_string: "", }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
     
     
-
-    method deleteAtStart ((start : string), (end_ : string)) : bool =
-        try
-        begin
-        (try
-            let beginIndex : int ref = ref (0) in ();
-            let endIndex : int ref = ref (0) in ();
-            beginIndex := (java_string_index_of string (Obj.repr (start)));
-            endIndex := (java_string_index_of string (Obj.repr (end_)));
-            if (((((!endIndex > !beginIndex) && (!beginIndex >= 0)) && (!endIndex >= 0)) && (!beginIndex < 10)) && (!endIndex < 525)) then begin
-                let text : string ref = ref ((String.sub string (!endIndex) (((String.length string)) - (!endIndex)))) in ();
-                let idFile : java_file_output_stream ref = ref (((new java_file_output_stream (Obj.repr (fileName))) :> java_file_output_stream)) in ();
-                let idOutData : java_data_output_stream ref = ref (((Obj.obj (java_new "DataOutputStream" (Obj.repr (!idFile)))) :> java_data_output_stream)) in ();
-                ignore (!idOutData#writeBytes (!text));
-                raise (Java_return (Obj.repr (true)))
-            end;
-            false
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#iDLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "deleteAtStart", e))
-            end;
-            false
-        end)
-        end
-        with Java_return value -> Obj.obj value
+        this.f_fileName = fileName
+        this.f_string = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbFileSystem.jm_readAsString"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("AbFileSystem.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(fileName)))
+}
+    this
+}
     
+and jm_deleteAtStart = (this: SmallDelete, start: String, end: String) => {
+        {
+            let mut beginIndex: Int32 = 0l
+            let mut endIndex: Int32 = 0l
+            beginIndex = JR.indexOf(this.f_string, start)
+            endIndex = JR.indexOf(this.f_string, end)
+            if (((((Int32.(>)(endIndex, beginIndex) && Int32.(>=)(beginIndex, 0l)) && Int32.(>=)(endIndex, 0l)) && Int32.(<)(beginIndex, 10l)) && Int32.(<)(endIndex, 525l))) {
+                let mut text: String = JR.substring(this.f_string, endIndex, JR.length(this.f_string))
+                let mut idFile: FileOutputStream = FileOutputStream.jnew_1(this.f_fileName)
+                let mut idOutData: DataOutputStream = DataOutputStream.jnew_1(idFile)
+                ignore(DataOutputStream.jm_writeBytes_1(idOutData, text))
+                return true
+            }
+            return false
+        }
+    return false
+}
+    
+and jm_deleteBetween = (this: SmallDelete, start: String, end: String, newText: String) => {
+        {
+            let mut beginIndex: Int32 = 0l
+            let mut endIndex: Int32 = 0l
+            beginIndex = JR.indexOf(this.f_string, start)
+            endIndex = JR.indexOf(this.f_string, end)
+            if (((((Int32.(>)(endIndex, beginIndex) && Int32.(>=)(beginIndex, 0l)) && Int32.(>=)(endIndex, 0l)) && Int32.(<)(beginIndex, 50l)) && Int32.(<)(endIndex, 425l))) {
+                let mut newStart: String = JR.substring(this.f_string, 0l, beginIndex)
+                let mut text: String = JR.substring(this.f_string, Int32.(+)(endIndex, JR.length(end)), JR.length(this.f_string))
+                let mut idFile: FileOutputStream = FileOutputStream.jnew_1(this.f_fileName)
+                let mut idOutData: DataOutputStream = DataOutputStream.jnew_1(idFile)
+                ignore(DataOutputStream.jm_writeBytes_1(idOutData, newStart ++ newText ++ text))
+                return true
+            }
+            return false
+        }
+    return false
+}
 
-    method deleteBetween ((start : string), (end_ : string), (newText : string)) : bool =
-        try
-        begin
-        (try
-            let beginIndex : int ref = ref (0) in ();
-            let endIndex : int ref = ref (0) in ();
-            beginIndex := (java_string_index_of string (Obj.repr (start)));
-            endIndex := (java_string_index_of string (Obj.repr (end_)));
-            if (((((!endIndex > !beginIndex) && (!beginIndex >= 0)) && (!endIndex >= 0)) && (!beginIndex < 50)) && (!endIndex < 425)) then begin
-                let newStart : string ref = ref ((String.sub string (0) ((!beginIndex) - (0)))) in ();
-                let text : string ref = ref ((String.sub string ((!endIndex + (String.length end_))) (((String.length string)) - ((!endIndex + (String.length end_)))))) in ();
-                let idFile : java_file_output_stream ref = ref (((new java_file_output_stream (Obj.repr (fileName))) :> java_file_output_stream)) in ();
-                let idOutData : java_data_output_stream ref = ref (((Obj.obj (java_new "DataOutputStream" (Obj.repr (!idFile)))) :> java_data_output_stream)) in ();
-                ignore (!idOutData#writeBytes (((!newStart ^ newText) ^ !text)));
-                raise (Java_return (Obj.repr (true)))
-            end;
-            false
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#iDLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "deleteAtStart", e))
-            end;
-            false
-        end)
-        end
-        with Java_return value -> Obj.obj value
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        ();
-        ();
-        ();
-        fileName <- fileName_arg;
-        string <- ((Obj.magic (java_call_static "AbFileSystem.getInstance" (Obj.repr ())))#readAsString (fileName_arg))
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "SmallDelete" (fun arguments -> Obj.repr (new smallDelete (Obj.obj arguments)))
+JR.registerLateBound("SmallDelete.jnew_1", jnew_1)
+JR.registerLateBound("SmallDelete.jm_deleteAtStart", jm_deleteAtStart)
+JR.registerLateBound("SmallDelete.jm_deleteBetween", jm_deleteBetween)
+JR.registerLateBound("SmallDelete.f_logUtil", (this: SmallDelete) => this.f_logUtil)
+JR.registerLateBound("SmallDelete.f_commonStrings", (this: SmallDelete) => this.f_commonStrings)
+JR.registerLateBound("SmallDelete.f_fileName", (this: SmallDelete) => this.f_fileName)
+JR.registerLateBound("SmallDelete.set_f_fileName", (this: SmallDelete, jvalue) => { this.f_fileName = jvalue; jvalue })
+JR.registerLateBound("SmallDelete.f_string", (this: SmallDelete) => this.f_string)
+JR.registerLateBound("SmallDelete.set_f_string", (this: SmallDelete, jvalue) => { this.f_string = jvalue; jvalue })
 
 

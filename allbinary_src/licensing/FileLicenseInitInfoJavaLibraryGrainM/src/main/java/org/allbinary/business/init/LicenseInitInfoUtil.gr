@@ -1,165 +1,233 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.business.init
+module LicenseInitInfoUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.business.init *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/globals/PATH_GLOBALS.gr" include PATH_GLOBALS
+use PATH_GLOBALS.{ type PATH_GLOBALS }
+from "../../../../org/allbinary/globals/URLGLOBALS.gr" include URLGLOBALS
+use URLGLOBALS.{ type URLGLOBALS }
+from "../../../../org/allbinary/logic/io/AbDataInputStream.gr" include AbDataInputStream
+use AbDataInputStream.{ type AbDataInputStream }
+from "../../../../org/allbinary/logic/io/AbDataOutputStream.gr" include AbDataOutputStream
+use AbDataOutputStream.{ type AbDataOutputStream }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../org/allbinary/logic/system/security/crypt/DatabaseEncoder.gr" include DatabaseEncoder
+use DatabaseEncoder.{ type DatabaseEncoder }
+from "../../../../org/allbinary/logic/system/security/crypt/WeakCrypt.gr" include WeakCrypt
+use WeakCrypt.{ type WeakCrypt }
+from "../../../../org/allbinary/string/CommonLabels.gr" include CommonLabels
+use CommonLabels.{ type CommonLabels }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.TsUtil *)
-(* import org.allbinary.globals.PATH_GLOBALS *)
-(* import org.allbinary.globals.URLGLOBALS *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.io.AbDataInputStream *)
-(* import org.allbinary.logic.io.AbDataOutputStream *)
-(* import org.allbinary.logic.io.AbFileInputStream *)
-(* import org.allbinary.logic.io.DataOutputStreamFactory *)
-(* import org.allbinary.logic.io.FileStreamFactory *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.logic.system.security.crypt.DatabaseEncoder *)
-(* import org.allbinary.logic.system.security.crypt.WeakCrypt *)
-(* import org.allbinary.string.CommonLabels *)
+provide record LicenseInitInfoUtil {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_stringUtil: StringUtil,
+  mut f_INITFILENAME: String,
+  mut f_ABOUT: String,
+  mut f_PRIVACY_POLICY: String,
+  mut f_filePath: String,
+}
 
-class licenseInitInfoUtil () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable stringUtil : StringUtil.stringUtil = (Obj.magic 0)
-    method stringUtil = stringUtil
-    method set_stringUtil value' = stringUtil <- value'
-    val mutable iNITFILENAME : string = ""
-    method iNITFILENAME = iNITFILENAME
-    method set_iNITFILENAME value' = iNITFILENAME <- value'
-    val mutable aBOUT : string = ""
-    method aBOUT = aBOUT
-    method set_aBOUT value' = aBOUT <- value'
-    val mutable pRIVACY_POLICY : string = ""
-    method pRIVACY_POLICY = pRIVACY_POLICY
-    method set_pRIVACY_POLICY value' = pRIVACY_POLICY <- value'
-    val mutable filePath : string = ""
-    method filePath = filePath
-    method set_filePath value' = filePath <- value'
+let mut jcell_instance: Option<LicenseInitInfoUtil> = None
+
+provide let rec jclassName = () => "LicenseInitInfoUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: LicenseInitInfoUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("LicenseInitInfoUtil"), f_logUtil: JR.jnull, f_stringUtil: JR.nullOf(), f_INITFILENAME: "", f_ABOUT: "", f_PRIVACY_POLICY: "", f_filePath: "", }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_stringUtil = JR.cast(StringUtil.jm_getInstance())
+    this.f_INITFILENAME = "licenseinitdata.dat"
+    this.f_ABOUT = "about"
+    this.f_PRIVACY_POLICY = "privacy_policy"
+    this.f_filePath = this.f_stringUtil.f_EMPTY_STRING
+    this
+}
     
-
-    method setFilePath ((filePath_arg : string)) : unit =
-        begin
-        filePath <- filePath_arg
-        end
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method write : 'any1. 'any1 -> unit = fun (initData) ->
-        let initData = Obj.repr initData in
-        begin
-        if (filePath = stringUtil#eMPTY_STRING) then begin
-            filePath <- (java_string_of (Obj.repr ((URLGLOBALS.getMainPath ()))) ^ java_string_of (Obj.repr ((PATH_GLOBALS.getInstance ())#iNIT_PATH)))
-        end;
-        (try
-            let tsUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ()))))) in ();
-            let dataOutputStream : AbDataOutputStream.abDataOutputStream ref = ref ((((Obj.magic (java_call_static "DataOutputStreamFactory.getInstance" (Obj.repr ())))#getInstance (filePath, iNITFILENAME)) :> AbDataOutputStream.abDataOutputStream)) in ();
-            let licenseIdCrypted : int array ref = ref (((Obj.magic !tsUtil)#getByteArray (((new WeakCrypt.weakCrypt (1))#encrypt (((Obj.magic initData)#getLicenseId ())))))) in ();
-            ignore (!dataOutputStream#writeUTF ((DatabaseEncoder.encode (!licenseIdCrypted))));
-            let numberOfLicenseServers : int ref = ref (((Obj.magic initData)#getNumberOfServers ())) in ();
-            ignore (!dataOutputStream#writeInt (!numberOfLicenseServers));
-            let licenseServerCrypted : int array ref = ref ((Obj.magic 0)) in ();
-            for index = 0 to !numberOfLicenseServers - 1 do
-                licenseServerCrypted := ((Obj.magic !tsUtil)#getByteArray (((new WeakCrypt.weakCrypt (3))#encrypt (((Obj.magic initData)#getServer (index))))));
-                ignore (!dataOutputStream#writeUTF ((DatabaseEncoder.encode (!licenseServerCrypted))))
-            done
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put (("Command Failed: " ^ iNITFILENAME), (Obj.magic self), "write", e));
-            ignore ((Obj.magic (java_call_static "FileStreamFactory.getInstance" (Obj.repr ())))#delete (filePath, iNITFILENAME));
-            raise e
-        end)
-        end [@@warning "-20"]
+and jm_setFilePath = (this: LicenseInitInfoUtil, filePath: String) => {
+        this.f_filePath = filePath
+}
     
-
-    method read : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((self#readAgain (0))))
-        end
+and jm_write = (this: LicenseInitInfoUtil, initData: JObject) => {
+        if ((this.f_filePath == this.f_stringUtil.f_EMPTY_STRING)) {
+            this.f_filePath = URLGLOBALS.jm_getMainPath() ++ PATH_GLOBALS.jm_getInstance().f_INIT_PATH
+        }
+        {
+            let mut tsUtil: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+            let mut dataOutputStream: AbDataOutputStream = JR.cast({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getInstance"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(this.f_filePath), JR.cast(this.f_INITFILENAME)))
+})
+            let mut licenseIdCrypted: Array<Int32> = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_getByteArray"))
+JR.cast(jlate(JR.cast(tsUtil), JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(1l), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LicenseInitInfo.jm_getLicenseId"))
+JR.cast(jlate(JR.cast(initData)))
+}))))
+}
+            ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(licenseIdCrypted)))
+            let mut numberOfLicenseServers: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LicenseInitInfo.jm_getNumberOfServers"))
+JR.cast(jlate(JR.cast(initData)))
+}
+            ignore(AbDataOutputStream.jm_writeInt(dataOutputStream, numberOfLicenseServers))
+            let mut licenseServerCrypted: Array<Int32> = [> ]
+            {
+                let mut index: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(+)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index, numberOfLicenseServers))) break
+                licenseServerCrypted = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_getByteArray"))
+JR.cast(jlate(JR.cast(tsUtil), JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(3l), {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("LicenseInitInfo.jm_getServer"))
+JR.cast(jlate(JR.cast(initData), JR.cast(index)))
+}))))
+}
+                ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(licenseServerCrypted)))
+                }
+            }
+        }
+}
     
-
-    method readAgain : 'return. int -> 'return = fun ((_initializeCounter : int)) ->
-        try
-        begin
-        let mETHOD_NAME : string ref = ref ("readAgain") in ();
-        if (filePath = stringUtil#eMPTY_STRING) then begin
-            filePath <- (java_string_of (Obj.repr ((URLGLOBALS.getMainPath ()))) ^ java_string_of (Obj.repr ((PATH_GLOBALS.getInstance ())#iNIT_PATH)))
-        end;
-        (try
-            ignore ((Obj.magic logUtil)#putF (("LicenseInitInfo File: " ^ iNITFILENAME), (Obj.magic self), !mETHOD_NAME));
-            let fileStreamFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "FileStreamFactory.getInstance" (Obj.repr ()))))) in ();
-            let iFile : Obj.t ref = ref ((Obj.repr ((Obj.magic !fileStreamFactory)#getFileInputStreamInstance (filePath, iNITFILENAME)))) in ();
-            if ((Obj.magic !iFile) != (Obj.magic 0)) then begin
-                let iData : AbDataInputStream.abDataInputStream ref = ref (((new AbDataInputStream.abDataInputStream ((Obj.magic !iFile))) :> AbDataInputStream.abDataInputStream)) in ();
-                let initInfo : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "LicenseInitInfo" (Obj.repr ()))))) in ();
-                let decodedByteArray : int array ref = ref ((DatabaseEncoder.decode ((!iData#readUTF ())))) in ();
-                let licenseIdDecoded : string ref = ref ((Obj.obj (java_new "String" (Obj.repr (!decodedByteArray))))) in ();
-                ignore ((Obj.magic !initInfo)#setLicenseId (((new WeakCrypt.weakCrypt (1))#decrypt (!licenseIdDecoded))));
-                let numberOfLicenseServers : int ref = ref ((!iData#readInt ())) in ();
-                let nEXT_FILE : string ref = ref ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#nEXT))#append (" License Server From File: "))))) in ();
-                let licenseServerDecoded : string ref = ref ("") in ();
-                for index = 0 to !numberOfLicenseServers - 1 do
-                    decodedByteArray := (DatabaseEncoder.decode ((!iData#readUTF ())));
-                    licenseServerDecoded := (Obj.obj (java_new "String" (Obj.repr (!decodedByteArray))));
-                    ignore ((Obj.magic !initInfo)#setServer (((new WeakCrypt.weakCrypt (3))#decrypt (!licenseServerDecoded)), index));
-                    ignore ((Obj.magic logUtil)#putF ((!nEXT_FILE ^ java_string_of (Obj.repr (((Obj.magic !initInfo)#getServer (index))))), (Obj.magic self), !mETHOD_NAME))
-                done;
-                raise (Java_return (Obj.repr ((Obj.magic !initInfo))))
-            end else begin
-                raise (Failure (("Could Not Load License InitInfo: " ^ iNITFILENAME)))
-            end
-        with e -> begin
-            (try
-                ignore ((Obj.magic logUtil)#put (("Command Failed: " ^ iNITFILENAME), (Obj.magic self), !mETHOD_NAME, e))
-            with e2 -> begin
-                ignore ((Obj.magic logUtil)#put (("LicenseInitInfo Read Retry: " ^ iNITFILENAME), (Obj.magic self), "readAgain()", e2))
-            end);
-            raise (Failure (("LicenseInitInfo Read Error: " ^ iNITFILENAME)))
-        end)
-        end
-        with Java_return value -> Obj.obj value
+and jm_read = (this: LicenseInitInfoUtil) => {
+        return jm_readAgain(this, 0l)
+}
     
+and jm_readAgain = (this: LicenseInitInfoUtil, initializeCounter: Int32) => {
+        let mut l_METHOD_NAME: String = "readAgain"
+        if ((this.f_filePath == this.f_stringUtil.f_EMPTY_STRING)) {
+            this.f_filePath = URLGLOBALS.jm_getMainPath() ++ PATH_GLOBALS.jm_getInstance().f_INIT_PATH
+        }
+        {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("LicenseInitInfo File: " ++ this.f_INITFILENAME), JR.cast(this), JR.cast(l_METHOD_NAME)))
+})
+            let mut fileStreamFactory: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("FileStreamFactory.jm_getInstance"))
+JR.cast(jlate())
+})
+            let mut iFile: JObject = JR.cast({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("FileStreamFactory.jm_getFileInputStreamInstance"))
+JR.cast(jlate(JR.cast(fileStreamFactory), JR.cast(this.f_filePath), JR.cast(this.f_INITFILENAME)))
+})
+            if (!JR.isNull(iFile)) {
+                let mut iData: AbDataInputStream = AbDataInputStream.jnew_1(iFile)
+                let mut initInfo: JObject = {
+let jlate: () => JObject = JR.cast(JR.lateBound("LicenseInitInfo.jnew_0"))
+JR.cast(jlate())
+}
+                let mut decodedByteArray: Array<Int32> = DatabaseEncoder.jm_decode(AbDataInputStream.jm_readUTF(iData))
+                let mut licenseIdDecoded: String = decodedByteArray
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("LicenseInitInfo.jm_setLicenseId"))
+JR.cast(jlate(JR.cast(initInfo), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(1l), licenseIdDecoded))))
+})
+                let mut numberOfLicenseServers: Int32 = AbDataInputStream.jm_readInt(iData)
+                let mut l_NEXT_FILE: String = StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), CommonLabels.jm_getInstance().f_NEXT), " License Server From File: "))
+                let mut licenseServerDecoded: String = ""
+                {
+                    let mut index: Int32 = 0l
+                    let mut jfirst = true
+                    while (true) {
+                        if (!jfirst) {
+                            index = Int32.(+)(index, 1l)
+                        }
+                        jfirst = false
+                        if (!(Int32.(<)(index, numberOfLicenseServers))) break
+                    decodedByteArray = DatabaseEncoder.jm_decode(AbDataInputStream.jm_readUTF(iData))
+                    licenseServerDecoded = decodedByteArray
+                    ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LicenseInitInfo.jm_setServer"))
+JR.cast(jlate(JR.cast(initInfo), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(3l), licenseServerDecoded)), JR.cast(index)))
+})
+                    ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(l_NEXT_FILE ++ {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("LicenseInitInfo.jm_getServer"))
+JR.cast(jlate(JR.cast(initInfo), JR.cast(index)))
+}), JR.cast(this), JR.cast(l_METHOD_NAME)))
+})
+                    }
+                }
+                return initInfo
+            } else {
+                fail JR.toStringOf(JR.newJObject("Exception"))
+            }
+        }
+    return JR.jnull
+}
+    
+and jm_getFilePath = (this: LicenseInitInfoUtil) => {
+        return this.f_filePath
+}
 
-    method getFilePath () : string =
-        begin
-        filePath
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        stringUtil <- ((StringUtil.getInstance ()) :> StringUtil.stringUtil);
-        iNITFILENAME <- "licenseinitdata.dat";
-        aBOUT <- "about";
-        pRIVACY_POLICY <- "privacy_policy";
-        filePath <- stringUtil#eMPTY_STRING;
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "LicenseInitInfoUtil" (fun arguments -> Obj.repr (new licenseInitInfoUtil (Obj.obj arguments)))
-
-let instance = (new licenseInitInfoUtil ())
-let get_instance () = instance
-let () = java_register_static "LicenseInitInfoUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "LicenseInitInfoUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("LicenseInitInfoUtil.jnew_0", jnew_0)
+JR.registerLateBound("LicenseInitInfoUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("LicenseInitInfoUtil.jm_setFilePath", jm_setFilePath)
+JR.registerLateBound("LicenseInitInfoUtil.jm_write", jm_write)
+JR.registerLateBound("LicenseInitInfoUtil.jm_read", jm_read)
+JR.registerLateBound("LicenseInitInfoUtil.jm_readAgain", jm_readAgain)
+JR.registerLateBound("LicenseInitInfoUtil.jm_getFilePath", jm_getFilePath)
+JR.registerLateBound("LicenseInitInfoUtil.f_logUtil", (this: LicenseInitInfoUtil) => this.f_logUtil)
+JR.registerLateBound("LicenseInitInfoUtil.f_stringUtil", (this: LicenseInitInfoUtil) => this.f_stringUtil)
+JR.registerLateBound("LicenseInitInfoUtil.f_INITFILENAME", (this: LicenseInitInfoUtil) => this.f_INITFILENAME)
+JR.registerLateBound("LicenseInitInfoUtil.f_ABOUT", (this: LicenseInitInfoUtil) => this.f_ABOUT)
+JR.registerLateBound("LicenseInitInfoUtil.f_PRIVACY_POLICY", (this: LicenseInitInfoUtil) => this.f_PRIVACY_POLICY)
+JR.registerLateBound("LicenseInitInfoUtil.f_filePath", (this: LicenseInitInfoUtil) => this.f_filePath)
+JR.registerLateBound("LicenseInitInfoUtil.set_f_filePath", (this: LicenseInitInfoUtil, jvalue) => { this.f_filePath = jvalue; jvalue })
+JR.registerLateBound("LicenseInitInfoUtil.jstatic_instance", jstatic_instance)
 
 

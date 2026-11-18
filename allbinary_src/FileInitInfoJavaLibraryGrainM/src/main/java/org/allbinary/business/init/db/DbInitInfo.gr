@@ -1,242 +1,351 @@
-(*
- 
-  AllBinary Open License Version 1 
-  Copyright (c) 2011 AllBinary 
-   
-  By agreeing to this license you and any business entity you represent are 
-  legally bound to the AllBinary Open License Version 1 legal agreement. 
-   
-  You may obtain the AllBinary Open License Version 1 legal agreement from 
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-   
-  Created By: Travis Berthelot 
+/*
+ * 
+ * AllBinary Open License Version 1 
+ * Copyright (c) 2011 AllBinary 
+ *  
+ * By agreeing to this license you and any business entity you represent are 
+ * legally bound to the AllBinary Open License Version 1 legal agreement. 
+ *  
+ * You may obtain the AllBinary Open License Version 1 legal agreement from 
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+ *  
+ * Created By: Travis Berthelot 
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.business.init.db
+module DbInitInfo
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/globals/FREEBLISKET_PATH_GLOBALS.gr" include FREEBLISKET_PATH_GLOBALS
+use FREEBLISKET_PATH_GLOBALS.{ type FREEBLISKET_PATH_GLOBALS }
+from "../../../../../org/allbinary/globals/URLGLOBALS.gr" include URLGLOBALS
+use URLGLOBALS.{ type URLGLOBALS }
+from "../../../../../org/allbinary/logic/communication/http/HttpData.gr" include HttpData
+use HttpData.{ type HttpData }
+from "../../../../../org/allbinary/logic/io/AbDataInputStream.gr" include AbDataInputStream
+use AbDataInputStream.{ type AbDataInputStream }
+from "../../../../../org/allbinary/logic/io/AbDataOutputStream.gr" include AbDataOutputStream
+use AbDataOutputStream.{ type AbDataOutputStream }
+from "../../../../../org/allbinary/logic/io/StreamUtil.gr" include StreamUtil
+use StreamUtil.{ type StreamUtil }
+from "../../../../../org/allbinary/logic/io/file/directory/Directory.gr" include Directory
+use Directory.{ type Directory }
+from "../../../../../org/allbinary/logic/io/path/AbPath.gr" include AbPath
+use AbPath.{ type AbPath }
+from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../../org/allbinary/logic/system/security/crypt/DatabaseEncoder.gr" include DatabaseEncoder
+use DatabaseEncoder.{ type DatabaseEncoder }
+from "../../../../../org/allbinary/logic/system/security/crypt/WeakCrypt.gr" include WeakCrypt
+use WeakCrypt.{ type WeakCrypt }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./DbConnectionInfo.gr" include DbConnectionInfo
+use DbConnectionInfo.{ type DbConnectionInfo }
+
+provide record DbInitInfo {
+  jobject: JObject,
+  mut f_jdbcDriver: String,
+  mut f_name: String,
+  mut f_userName: String,
+  mut f_password: String,
+  mut f_schema: String,
+  mut f_server: String,
+  mut f_port: String,
+  mut f_url: String,
+  mut f_host: String,
+  mut f_SCHEMA_SEP: String,
+  mut f_USER_NAME_KEY: String,
+  mut f_PASSWORD_KEY: String,
+  mut f_commonStrings: CommonStrings,
+  mut f_directory: Directory,
+  mut f_httpData: HttpData,
+  mut f_GET_URL: String,
+  mut f_PACKAGE: String,
+  mut f_initFileName: String,
+  mut f_hasRead: Bool,
+}
+
+
+provide let rec jclassName = () => "DbInitInfo"
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.business.init.db *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.globals.FREEBLISKET_PATH_GLOBALS *)
-(* import org.allbinary.globals.URLGLOBALS *)
-(* import org.allbinary.logic.communication.http.HttpData *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.logic.communication.log.config.type.LogConfigTypeFactory *)
-(* import org.allbinary.logic.communication.log.config.type.LogConfigTypes *)
-(* import org.allbinary.logic.io.AbDataInputStream *)
-(* import org.allbinary.logic.io.AbDataOutputStream *)
-(* import org.allbinary.logic.io.AbFileInputStream *)
-(* import org.allbinary.logic.io.DataOutputStreamFactory *)
-(* import org.allbinary.logic.io.StreamUtil *)
-(* import org.allbinary.logic.io.file.AbFile *)
-(* import org.allbinary.logic.io.file.directory.Directory *)
-(* import org.allbinary.logic.io.path.AbPath *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.logic.system.security.crypt.DatabaseEncoder *)
-(* import org.allbinary.logic.system.security.crypt.WeakCrypt *)
-(* import org.allbinary.string.CommonStrings *)
-
-class dbInitInfo ((initFileName_arg : string), (read : bool)) =
-  object (self)
-    inherit DbConnectionInfo.dbConnectionInfo () as super
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable directory : Directory.directory = (Obj.magic 0)
-    method directory = directory
-    method set_directory value' = directory <- value'
-    val mutable httpData : HttpData.httpData = (Obj.magic 0)
-    method httpData = httpData
-    method set_httpData value' = httpData <- value'
-    val mutable gET_URL : string = ""
-    method gET_URL = gET_URL
-    method set_gET_URL value' = gET_URL <- value'
-    val mutable pACKAGE : string = ""
-    method pACKAGE = pACKAGE
-    method set_pACKAGE value' = pACKAGE <- value'
-    val mutable initFileName : string = ""
-    method initFileName = initFileName
-    method set_initFileName value' = initFileName <- value'
-    val mutable hasRead : bool = false
-    method hasRead = hasRead
-    method set_hasRead value' = hasRead <- value'
+and jnew_2 = (initFileName: String, read: Bool) => {
+    let this = { jobject: JR.newJObject("DbInitInfo"), f_jdbcDriver: "", f_name: "", f_userName: "", f_password: "", f_schema: "", f_server: "", f_port: "", f_url: "", f_host: "", f_SCHEMA_SEP: "", f_USER_NAME_KEY: "", f_PASSWORD_KEY: "", f_commonStrings: JR.nullOf(), f_directory: JR.nullOf(), f_httpData: JR.nullOf(), f_GET_URL: "", f_PACKAGE: "", f_initFileName: "", f_hasRead: false, }
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this.f_directory = JR.cast(Directory.jm_getInstance())
+    this.f_httpData = JR.cast(HttpData.jm_getInstance())
+    this.f_GET_URL = "getUrl"
+    this.f_PACKAGE = FREEBLISKET_PATH_GLOBALS.jm_getInstance().f_DBINITPATH
     
+    this.f_hasRead = false
+        void
+        this.f_initFileName = initFileName
+        if (read) {
+            ignore(jm_updateIfNeeded(this))
+        } else {
+            ignore(jm_setHasRead(this, true))
+        }
+    this
+}
     
-
-    method getUrl () : string =
-        begin
-        let url : string ref = ref ((super#getUrl ())) in ();
-        if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#pRELOADER)) then begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (httpData#uRL_LABEL)) ^ !url), (Obj.magic self), gET_URL))))
-        end;
-        !url
-        end [@@warning "-7"]
+and jm_getUrl = (this: DbInitInfo) => {
+        let mut url: String = jm_getUrl(this)
+        if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypes.jstatic_LOGGING"))
+JR.cast(jlate())
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_PRELOADER"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+}) {
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(this.f_httpData.f_URL_LABEL ++ url), JR.cast(this), JR.cast(this.f_GET_URL)))
+})
+        }
+        return url
+}
     
-
-    method write () : unit =
-        begin
-        let pATH : AbPath.abPath ref = ref (((new AbPath.abPath ((java_string_of (Obj.repr ((URLGLOBALS.getWebappPath ()))) ^ pACKAGE), (StringUtil.getInstance ())#eMPTY_STRING)) :> AbPath.abPath)) in ();
-        ignore (directory#create (!pATH));
-        let fILEABPATH : AbPath.abPath ref = ref (((new AbPath.abPath ((java_string_of (Obj.repr ((URLGLOBALS.getWebappPath ()))) ^ pACKAGE), initFileName)) :> AbPath.abPath)) in ();
-        (try
-            let newFile : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFile.createAbFileFromAbPath" (Obj.repr (!fILEABPATH)))))) in ();
-            ignore ((Obj.magic !newFile)#createNewFile ());
-            let dataOutputStream : AbDataOutputStream.abDataOutputStream ref = ref ((((Obj.magic (java_call_static "DataOutputStreamFactory.getInstance" (Obj.repr ())))#getInstanceForAbFile ((Obj.magic !newFile))) :> AbDataOutputStream.abDataOutputStream)) in ();
-            Fun.protect ~finally:(fun () -> 
-                ignore ((StreamUtil.getInstance ())#close (!dataOutputStream))
-            ) (fun () -> (try
-                let cryptedJdbcDriver : int array ref = ref ((((new WeakCrypt.weakCrypt (1))#encrypt ((self#getJdbcDriver ())))#getBytes ())) in ();
-                let cryptedName : int array ref = ref ((((new WeakCrypt.weakCrypt (2))#encrypt ((self#getName ())))#getBytes ())) in ();
-                let cryptedUserName : int array ref = ref ((((new WeakCrypt.weakCrypt (3))#encrypt ((self#getUserName ())))#getBytes ())) in ();
-                let cryptedPassword : int array ref = ref ((((new WeakCrypt.weakCrypt (4))#encrypt ((self#getPassword ())))#getBytes ())) in ();
-                let cryptedSchema : int array ref = ref ((((new WeakCrypt.weakCrypt (5))#encrypt ((self#getSchema ())))#getBytes ())) in ();
-                let cryptedServer : int array ref = ref ((((new WeakCrypt.weakCrypt (6))#encrypt ((self#getServer ())))#getBytes ())) in ();
-                let cryptedPort : int array ref = ref ((((new WeakCrypt.weakCrypt (7))#encrypt ((self#getPort ())))#getBytes ())) in ();
-                ignore (!dataOutputStream#writeUTF ((DatabaseEncoder.encode (!cryptedJdbcDriver))));
-                ignore (!dataOutputStream#writeUTF ((DatabaseEncoder.encode (!cryptedName))));
-                ignore (!dataOutputStream#writeUTF ((DatabaseEncoder.encode (!cryptedUserName))));
-                ignore (!dataOutputStream#writeUTF ((DatabaseEncoder.encode (!cryptedPassword))));
-                ignore (!dataOutputStream#writeUTF ((DatabaseEncoder.encode (!cryptedSchema))));
-                ignore (!dataOutputStream#writeUTF ((DatabaseEncoder.encode (!cryptedServer))));
-                ignore (!dataOutputStream#writeUTF ((DatabaseEncoder.encode (!cryptedPort))));
-                hasRead <- false
-            with exception_value -> raise exception_value))
-        with e -> begin
-            if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#pRELOADERERROR)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (("Failed Write: " ^ (java_string_of (Obj.repr !fILEABPATH))), (Obj.magic self), "write", e))))
-            end
-        end)
-        end [@@warning "-7"]
+and jm_write = (this: DbInitInfo) => {
+        let mut l_PATH: AbPath = AbPath.jnew_2(URLGLOBALS.jm_getWebappPath() ++ this.f_PACKAGE, StringUtil.jm_getInstance().f_EMPTY_STRING)
+        ignore(Directory.jm_create(this.f_directory, l_PATH))
+        let mut l_FILEABPATH: AbPath = AbPath.jnew_2(URLGLOBALS.jm_getWebappPath() ++ this.f_PACKAGE, this.f_initFileName)
+        {
+            let mut newFile: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
+JR.cast(jlate(JR.cast(l_FILEABPATH)))
+})
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createNewFile"))
+JR.cast(jlate(JR.cast(newFile)))
+})
+            let mut dataOutputStream: AbDataOutputStream = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getInstanceForAbFile"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(newFile)))
+})
+            {
+                let mut cryptedJdbcDriver: Array<Int32> = JR.className(JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(1l), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DbConnectionInfo.jm_getJdbcDriver"))
+JR.cast(jlate(JR.cast(this)))
+})))
+                let mut cryptedName: Array<Int32> = JR.className(JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(2l), jm_getName(this))))
+                let mut cryptedUserName: Array<Int32> = JR.className(JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(3l), jm_getUserName(this))))
+                let mut cryptedPassword: Array<Int32> = JR.className(JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(4l), jm_getPassword(this))))
+                let mut cryptedSchema: Array<Int32> = JR.className(JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(5l), jm_getSchema(this))))
+                let mut cryptedServer: Array<Int32> = JR.className(JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(6l), jm_getServer(this))))
+                let mut cryptedPort: Array<Int32> = JR.className(JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(7l), jm_getPort(this))))
+                ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(cryptedJdbcDriver)))
+                ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(cryptedName)))
+                ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(cryptedUserName)))
+                ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(cryptedPassword)))
+                ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(cryptedSchema)))
+                ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(cryptedServer)))
+                ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(cryptedPort)))
+                this.f_hasRead = false
+            }
+            {
+                ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), JR.cast(dataOutputStream)))
+            }
+        }
+}
     
-
-    method load () : unit =
-        begin
-        let fILEABPATH : AbPath.abPath ref = ref (((new AbPath.abPath ((java_string_of (Obj.repr ((URLGLOBALS.getWebappPath ()))) ^ pACKAGE), initFileName)) :> AbPath.abPath)) in ();
-        (try
-            let file : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFile.createAbFileFromAbPath" (Obj.repr (!fILEABPATH)))))) in ();
-            if ((Obj.magic !file)#isFile ()) then begin
-                let iFile : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFileInputStream.createFromAbFile" (Obj.repr ((Obj.magic !file))))))) in ();
-                let iData : AbDataInputStream.abDataInputStream ref = ref (((new AbDataInputStream.abDataInputStream ((Obj.magic !iFile))) :> AbDataInputStream.abDataInputStream)) in ();
-                Fun.protect ~finally:(fun () -> 
-                    ignore ((StreamUtil.getInstance ())#close (!iData))
-                ) (fun () -> (try
-                    let decryptedJdbcDriver : string ref = ref ((Obj.obj (java_new "String" (Obj.repr ((DatabaseEncoder.decode ((!iData#readUTF ())))))))) in ();
-                    let decryptedName : string ref = ref ((Obj.obj (java_new "String" (Obj.repr ((DatabaseEncoder.decode ((!iData#readUTF ())))))))) in ();
-                    let decryptedUserName : string ref = ref ((Obj.obj (java_new "String" (Obj.repr ((DatabaseEncoder.decode ((!iData#readUTF ())))))))) in ();
-                    let decryptedPassword : string ref = ref ((Obj.obj (java_new "String" (Obj.repr ((DatabaseEncoder.decode ((!iData#readUTF ())))))))) in ();
-                    let decryptedSchema : string ref = ref ((Obj.obj (java_new "String" (Obj.repr ((DatabaseEncoder.decode ((!iData#readUTF ())))))))) in ();
-                    let decryptedServer : string ref = ref ((Obj.obj (java_new "String" (Obj.repr ((DatabaseEncoder.decode ((!iData#readUTF ())))))))) in ();
-                    let decryptedPort : string ref = ref ((Obj.obj (java_new "String" (Obj.repr ((DatabaseEncoder.decode ((!iData#readUTF ())))))))) in ();
-                    ignore (self#setJdbcDriver (((new WeakCrypt.weakCrypt (1))#decrypt (!decryptedJdbcDriver))));
-                    ignore (self#setName (((new WeakCrypt.weakCrypt (2))#decrypt (!decryptedName))));
-                    ignore (self#setUserName (((new WeakCrypt.weakCrypt (3))#decrypt (!decryptedUserName))));
-                    ignore (self#setPassword (((new WeakCrypt.weakCrypt (4))#decrypt (!decryptedPassword))));
-                    ignore (self#setSchema (((new WeakCrypt.weakCrypt (5))#decrypt (!decryptedSchema))));
-                    ignore (self#setServer (((new WeakCrypt.weakCrypt (6))#decrypt (!decryptedServer))));
-                    ignore (self#setPort (((new WeakCrypt.weakCrypt (7))#decrypt (!decryptedPort))));
-                    let stringUtil : StringUtil.stringUtil ref = ref (((StringUtil.getInstance ()) :> StringUtil.stringUtil)) in ()
-                with exception_value -> raise exception_value))
-            end else begin
-                hasRead <- false;
-                if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#pRELOADER)) then begin
-                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (("Not a File - Failed Loading: " ^ (java_string_of (Obj.repr !fILEABPATH))), (Obj.magic self), commonStrings#lOAD))))
-                end
-            end
-        with e -> begin
-            if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#pRELOADERERROR)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (("Failed Loading: " ^ (java_string_of (Obj.repr !fILEABPATH))), (Obj.magic self), commonStrings#lOAD, e))))
-            end
-        end)
-        end [@@warning "-7"]
+and jm_load = (this: DbInitInfo) => {
+        let mut l_FILEABPATH: AbPath = AbPath.jnew_2(URLGLOBALS.jm_getWebappPath() ++ this.f_PACKAGE, this.f_initFileName)
+        {
+            let mut file: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
+JR.cast(jlate(JR.cast(l_FILEABPATH)))
+})
+            if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isFile"))
+JR.cast(jlate(JR.cast(file)))
+}) {
+                let mut iFile: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFileInputStream.jm_createFromAbFile"))
+JR.cast(jlate(JR.cast(file)))
+})
+                let mut iData: AbDataInputStream = AbDataInputStream.jnew_1(iFile)
+                {
+                    let mut decryptedJdbcDriver: String = DatabaseEncoder.jm_decode(AbDataInputStream.jm_readUTF(iData))
+                    let mut decryptedName: String = DatabaseEncoder.jm_decode(AbDataInputStream.jm_readUTF(iData))
+                    let mut decryptedUserName: String = DatabaseEncoder.jm_decode(AbDataInputStream.jm_readUTF(iData))
+                    let mut decryptedPassword: String = DatabaseEncoder.jm_decode(AbDataInputStream.jm_readUTF(iData))
+                    let mut decryptedSchema: String = DatabaseEncoder.jm_decode(AbDataInputStream.jm_readUTF(iData))
+                    let mut decryptedServer: String = DatabaseEncoder.jm_decode(AbDataInputStream.jm_readUTF(iData))
+                    let mut decryptedPort: String = DatabaseEncoder.jm_decode(AbDataInputStream.jm_readUTF(iData))
+                    ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DbConnectionInfo.jm_setJdbcDriver"))
+JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(1l), decryptedJdbcDriver))))
+})
+                    ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DbConnectionInfo.jm_setName"))
+JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(2l), decryptedName))))
+})
+                    ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DbConnectionInfo.jm_setUserName"))
+JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(3l), decryptedUserName))))
+})
+                    ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DbConnectionInfo.jm_setPassword"))
+JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(4l), decryptedPassword))))
+})
+                    ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DbConnectionInfo.jm_setSchema"))
+JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(5l), decryptedSchema))))
+})
+                    ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DbConnectionInfo.jm_setServer"))
+JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(6l), decryptedServer))))
+})
+                    ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DbConnectionInfo.jm_setPort"))
+JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(7l), decryptedPort))))
+})
+                    let mut stringUtil: StringUtil = JR.cast(StringUtil.jm_getInstance())
+                }
+                {
+                    ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), JR.cast(iData)))
+                }
+            } else {
+                this.f_hasRead = false
+                if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypes.jstatic_LOGGING"))
+JR.cast(jlate())
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_PRELOADER"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+}) {
+                    ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast("Not a File - Failed Loading: " ++ AbPath.jm_toString(l_FILEABPATH)), JR.cast(this), JR.cast(this.f_commonStrings.f_LOAD)))
+})
+                }
+            }
+        }
+}
     
-
-    method setHasRead ((value : bool)) : unit =
-        begin
-        hasRead <- value
-        end [@@warning "-7"]
+and jm_setHasRead = (this: DbInitInfo, value: Bool) => {
+        this.f_hasRead = value
+}
     
-
-    method updateIfNeeded () : unit =
-        begin
-        (try
-            if (not hasRead) then begin
-                hasRead <- true;
-                (self#load ())
-            end
-        with e -> begin
-            if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#pRELOADERERROR)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, (Obj.magic self), "updateIfNeeded", e))))
-            end
-        end)
-        end [@@warning "-7"]
+and jm_updateIfNeeded = (this: DbInitInfo) => {
+        {
+            if (!this.f_hasRead) {
+                this.f_hasRead = true
+                ignore(jm_load(this))
+            }
+        }
+}
     
-
-    method getName () : string =
-        begin
-        (self#updateIfNeeded ());
-        if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#pRELOADER)) then begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (("Name: " ^ (super#getName ())), (Obj.magic self), "getName"))))
-        end;
-        (super#getName ())
-        end [@@warning "-7"]
+and jm_getName = (this: DbInitInfo) => {
+        ignore(jm_updateIfNeeded(this))
+        if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypes.jstatic_LOGGING"))
+JR.cast(jlate())
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_PRELOADER"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+}) {
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast("Name: " ++ jm_getName(this)), JR.cast(this), JR.cast("getName")))
+})
+        }
+        return jm_getName(this)
+}
     
-
-    method getUserName () : string =
-        begin
-        (self#updateIfNeeded ());
-        if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#pRELOADER)) then begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (("Name: " ^ java_string_of (Obj.repr ((super#getUserName ())))), (Obj.magic self), "getUserName"))))
-        end;
-        (super#getUserName ())
-        end [@@warning "-7"]
+and jm_getUserName = (this: DbInitInfo) => {
+        ignore(jm_updateIfNeeded(this))
+        if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypes.jstatic_LOGGING"))
+JR.cast(jlate())
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_PRELOADER"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+}) {
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast("Name: " ++ toString(jm_getUserName(this))), JR.cast(this), JR.cast("getUserName")))
+})
+        }
+        return jm_getUserName(this)
+}
     
-
-    method getPassword () : string =
-        begin
-        (self#updateIfNeeded ());
-        (super#getPassword ())
-        end [@@warning "-7"]
+and jm_getPassword = (this: DbInitInfo) => {
+        ignore(jm_updateIfNeeded(this))
+        return jm_getPassword(this)
+}
     
-
-    method getSchema () : string =
-        begin
-        (self#updateIfNeeded ());
-        (super#getSchema ())
-        end [@@warning "-7"]
+and jm_getSchema = (this: DbInitInfo) => {
+        ignore(jm_updateIfNeeded(this))
+        return jm_getSchema(this)
+}
     
-
-    method getServer () : string =
-        begin
-        (self#updateIfNeeded ());
-        (super#getServer ())
-        end [@@warning "-7"]
+and jm_getServer = (this: DbInitInfo) => {
+        ignore(jm_updateIfNeeded(this))
+        return jm_getServer(this)
+}
     
+and jm_getPort = (this: DbInitInfo) => {
+        ignore(jm_updateIfNeeded(this))
+        return jm_getPort(this)
+}
 
-    method getPort () : string =
-        begin
-        (self#updateIfNeeded ());
-        (super#getPort ())
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        directory <- ((Directory.getInstance ()) :> Directory.directory);
-        httpData <- ((HttpData.getInstance ()) :> HttpData.httpData);
-        gET_URL <- "getUrl";
-        pACKAGE <- (FREEBLISKET_PATH_GLOBALS.getInstance ())#dBINITPATH;
-        ();
-        hasRead <- false;
-        ();
-        (* super(...) is the inherit clause *) ();
-        initFileName <- initFileName_arg;
-        if read then begin
-            (self#updateIfNeeded ())
-        end else begin
-            (self#setHasRead (true))
-        end
-      end
-  end
-let () = java_register_constructor "DbInitInfo" (fun arguments -> Obj.repr (new dbInitInfo (Obj.obj arguments)))
+JR.registerLateBound("DbInitInfo.jnew_2", jnew_2)
+JR.registerLateBound("DbInitInfo.jm_getUrl", jm_getUrl)
+JR.registerLateBound("DbInitInfo.jm_write", jm_write)
+JR.registerLateBound("DbInitInfo.jm_load", jm_load)
+JR.registerLateBound("DbInitInfo.jm_setHasRead", jm_setHasRead)
+JR.registerLateBound("DbInitInfo.jm_updateIfNeeded", jm_updateIfNeeded)
+JR.registerLateBound("DbInitInfo.jm_getName", jm_getName)
+JR.registerLateBound("DbInitInfo.jm_getUserName", jm_getUserName)
+JR.registerLateBound("DbInitInfo.jm_getPassword", jm_getPassword)
+JR.registerLateBound("DbInitInfo.jm_getSchema", jm_getSchema)
+JR.registerLateBound("DbInitInfo.jm_getServer", jm_getServer)
+JR.registerLateBound("DbInitInfo.jm_getPort", jm_getPort)
+JR.registerLateBound("DbInitInfo.f_commonStrings", (this: DbInitInfo) => this.f_commonStrings)
+JR.registerLateBound("DbInitInfo.f_directory", (this: DbInitInfo) => this.f_directory)
+JR.registerLateBound("DbInitInfo.f_httpData", (this: DbInitInfo) => this.f_httpData)
+JR.registerLateBound("DbInitInfo.f_GET_URL", (this: DbInitInfo) => this.f_GET_URL)
+JR.registerLateBound("DbInitInfo.f_PACKAGE", (this: DbInitInfo) => this.f_PACKAGE)
+JR.registerLateBound("DbInitInfo.f_initFileName", (this: DbInitInfo) => this.f_initFileName)
+JR.registerLateBound("DbInitInfo.set_f_initFileName", (this: DbInitInfo, jvalue) => { this.f_initFileName = jvalue; jvalue })
+JR.registerLateBound("DbInitInfo.f_hasRead", (this: DbInitInfo) => this.f_hasRead)
+JR.registerLateBound("DbInitInfo.set_f_hasRead", (this: DbInitInfo, jvalue) => { this.f_hasRead = jvalue; jvalue })
 
 

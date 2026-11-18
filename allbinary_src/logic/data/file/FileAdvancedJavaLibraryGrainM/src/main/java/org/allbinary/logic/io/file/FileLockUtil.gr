@@ -1,121 +1,180 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io.file
+module FileLockUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io.file *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../java/nio/channels/FileChannel.gr" include FileChannel
+use FileChannel.{ type FileChannel }
+from "../../../../../java/nio/channels/FileLock.gr" include FileLock
+use FileLock.{ type FileLock }
+from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../../org/allbinary/logic/io/StreamUtil.gr" include StreamUtil
+use StreamUtil.{ type StreamUtil }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.nio.channels.FileChannel *)
-(* import java.nio.channels.FileLock *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
-(* import org.allbinary.logic.StdUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.io.AbFileOutputStream *)
-(* import org.allbinary.logic.io.StreamUtil *)
+provide record FileLockUtil {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+}
 
-class fileLockUtil () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+let mut jcell_instance: Option<FileLockUtil> = None
+
+provide let rec jclassName = () => "FileLockUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: FileLockUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method getAll : 'any1 'return. 'any1 * bool -> 'return = fun (vector, (isReturnOnFailure : bool)) ->
-        let vector = Obj.repr vector in
-        try
-        begin
-        let fileLockVector : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-        let size : int ref = ref (((Obj.magic vector)#size ())) in ();
-        for index = 0 to !size - 1 do
-            let file : Obj.t ref = ref ((Obj.repr (Obj.magic ((Obj.magic vector)#get (index))))) in ();
-            let fileLock : Obj.t ref = ref ((Obj.repr (self#getLock ((Obj.magic !file))))) in ();
-            if ((Obj.magic !fileLock) != (Obj.magic 0)) then begin
-                ignore ((Obj.magic logUtil)#putF (("File Lock Obtained: " ^ java_string_of (Obj.repr (((Obj.magic !file)#getAbsolutePath ())))), (Obj.magic self), "getAll"));
-                ignore (!fileLockVector#add ((Obj.magic !fileLock)))
-            end else if isReturnOnFailure then begin
-                ignore ((Obj.magic logUtil)#putF (("Total Locks Obtained: " ^ java_string_of (Obj.repr ((!fileLockVector#size ())))), (Obj.magic self), "getAll"));
-                raise (Java_return (Obj.repr (!fileLockVector)))
-            end
-        done;
-        ignore ((Obj.magic logUtil)#putF (("Total Locks Obtained: " ^ java_string_of (Obj.repr ((!fileLockVector#size ())))), (Obj.magic self), "getAll"));
-        (Obj.magic (!fileLockVector))
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("FileLockUtil"), f_logUtil: JR.jnull, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        void
+    this
+}
     
-
-    method getAllPossible : 'any1 'return. 'any1 -> 'return = fun (vector) ->
-        let vector = Obj.repr vector in
-        begin
-        (Obj.magic ((self#getAll ((Obj.magic vector), false))))
-        end [@@warning "-20"]
+and jm_getAll = (this: FileLockUtil, vector: BasicArrayList, isReturnOnFailure: Bool) => {
+        let mut fileLockVector: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+        let mut size: Int32 = BasicArrayList.jm_size(vector)
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            let mut file: JObject = JR.cast(BasicArrayList.jm_get(vector, index))
+            let mut fileLock: FileLock = JR.cast(jm_getLock_1(this, file))
+            if (!JR.isNull(fileLock)) {
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("File Lock Obtained: " ++ {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getAbsolutePath"))
+JR.cast(jlate(JR.cast(file)))
+}), JR.cast(this), JR.cast("getAll")))
+})
+                ignore(BasicArrayList.jm_add(fileLockVector, JR.cast(fileLock)))
+            } else if (isReturnOnFailure) {
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Total Locks Obtained: " ++ toString(BasicArrayList.jm_size(fileLockVector))), JR.cast(this), JR.cast("getAll")))
+})
+                return fileLockVector
+            }
+            }
+        }
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Total Locks Obtained: " ++ toString(BasicArrayList.jm_size(fileLockVector))), JR.cast(this), JR.cast("getAll")))
+})
+        return fileLockVector
+}
     
-
-    method getAllOrNone : 'any1 'return. 'any1 -> 'return = fun (vector) ->
-        let vector = Obj.repr vector in
-        try
-        begin
-        let fileLockVector : BasicArrayList.basicArrayList ref = ref (((self#getAll ((Obj.magic vector), true)) :> BasicArrayList.basicArrayList)) in ();
-        if (((Obj.magic vector)#size ()) <> (!fileLockVector#size ())) then begin
-            raise (Java_return (Obj.repr ((new BasicArrayListD.basicArrayListD ()))))
-        end else begin
-            raise (Java_return (Obj.repr (!fileLockVector)))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
+and jm_getAllPossible = (this: FileLockUtil, vector: BasicArrayList) => {
+        return jm_getAll(this, vector, false)
+}
     
-
-    (* Java overload getLock(AbFile) is not converted: OCaml has one method per name *)
+and jm_getAllOrNone = (this: FileLockUtil, vector: BasicArrayList) => {
+        let mut fileLockVector: BasicArrayList = JR.cast(jm_getAll(this, vector, true))
+        if ((BasicArrayList.jm_size(vector) != BasicArrayList.jm_size(fileLockVector))) {
+            return JR.cast(BasicArrayListD.jnew_0())
+        } else {
+            return fileLockVector
+        }
+}
     
-
-    (* Java overload getLock(AbFileOutputStream) is not converted: OCaml has one method per name *)
+and jm_getLock_1 = (this: FileLockUtil, file: JObject) => {
+        {
+            return jm_getLock_1(this, {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbFileOutputStream.jm_createFromAbFileAppend"))
+JR.cast(jlate(JR.cast(file), JR.cast(true)))
+})
+        }
+        {
+            void
+        }
+    return JR.nullOf()
+}
     
+and jm_getLock_1 = (this: FileLockUtil, fileOutputStream: JObject) => {
+        {
+            let mut fileLock: FileLock = JR.cast(jm_getLock_1(this, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFileOutputStream.jm_getChannel"))
+JR.cast(jlate(JR.cast(fileOutputStream)))
+}))
+            return fileLock
+        }
+        {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Finally - Closing FileOutputStream"), JR.cast(this), JR.cast("getLock")))
+})
+            ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), JR.cast(fileOutputStream)))
+        }
+    return JR.nullOf()
+}
+    
+and jm_getLock_1 = (this: FileLockUtil, fileChannel: FileChannel) => {
+        {
+            let mut fileLock: FileLock = JR.cast(FileChannel.jm_tryLock(fileChannel))
+            return fileLock
+        }
+        {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Finally - Closing FileChannel"), JR.cast(this), JR.cast("getLock")))
+})
+            ignore(FileChannel.jm_close(fileChannel))
+        }
+    return JR.nullOf()
+}
 
-    method getLock : 'any1 'return. 'any1 -> 'return = fun (fileChannel) ->
-        let fileChannel = Obj.repr fileChannel in
-        begin
-        Fun.protect ~finally:(fun () -> 
-            ignore ((Obj.magic logUtil)#putF ("Finally - Closing FileChannel", (Obj.magic self), "getLock"));
-            ignore ((Obj.magic fileChannel)#close ())
-        ) (fun () -> (try
-            let fileLock : Obj.t ref = ref ((Obj.repr ((Obj.magic fileChannel)#tryLock ()))) in ();
-            (Obj.magic ((Obj.magic !fileLock)))
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put ("Exception returns null", (Obj.magic self), "getLock", e));
-            (Obj.magic ((Obj.magic 0)))
-        end))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "FileLockUtil" (fun arguments -> Obj.repr (new fileLockUtil (Obj.obj arguments)))
-
-let instance = (new fileLockUtil ())
-let get_instance () = instance
-let () = java_register_static "FileLockUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "FileLockUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("FileLockUtil.jnew_0", jnew_0)
+JR.registerLateBound("FileLockUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("FileLockUtil.jm_getAll", jm_getAll)
+JR.registerLateBound("FileLockUtil.jm_getAllPossible", jm_getAllPossible)
+JR.registerLateBound("FileLockUtil.jm_getAllOrNone", jm_getAllOrNone)
+JR.registerLateBound("FileLockUtil.jm_getLock_1", jm_getLock_1)
+JR.registerLateBound("FileLockUtil.jm_getLock_1", jm_getLock_1)
+JR.registerLateBound("FileLockUtil.jm_getLock_1", jm_getLock_1)
+JR.registerLateBound("FileLockUtil.f_logUtil", (this: FileLockUtil) => this.f_logUtil)
+JR.registerLateBound("FileLockUtil.jstatic_instance", jstatic_instance)
 
 

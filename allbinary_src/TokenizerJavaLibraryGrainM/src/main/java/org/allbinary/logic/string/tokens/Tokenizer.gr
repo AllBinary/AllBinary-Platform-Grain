@@ -1,122 +1,150 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.string.tokens
+module Tokenizer
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+
+provide record Tokenizer {
+  jobject: JObject,
+  mut f_sep: String,
+  mut f_endSep: String,
+}
+
+
+provide let rec jclassName = () => "Tokenizer"
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.string.tokens *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.TsUtil *)
-(* import org.allbinary.logic.StdUtil *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.util.ABHashtable *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
-
-class tokenizer ((sep_arg : string)) =
-  object
-    val mutable sep : string = ""
-    method sep = sep
-    method set_sep value' = sep <- value'
-    val mutable endSep : string = ""
-    method endSep = endSep
-    method set_endSep value' = endSep <- value'
+and jnew_1 = (sep: String) => {
+    let this = { jobject: JR.newJObject("Tokenizer"), f_sep: "", f_endSep: "", }
     
+    this.f_endSep = StringUtil.jm_getInstance().f_EMPTY_STRING
+        if (({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_compareTo"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(sep), JR.cast(StringUtil.jm_getInstance().f_EMPTY_STRING)))
+} == 0l)) {
+            fail JR.toStringOf(JR.newJObject("Exception"))
+        }
+        this.f_sep = sep
+    this
+}
     
-
-    method setSep ((sep_arg : string)) : unit =
-        begin
-        sep <- sep_arg
-        end
+and jm_setSep = (this: Tokenizer, sep: String) => {
+        this.f_sep = sep
+}
     
-
-    method setEndSep ((endSep_arg : string)) : unit =
-        begin
-        endSep <- endSep_arg
-        end
+and jm_setEndSep = (this: Tokenizer, endSep: String) => {
+        this.f_endSep = endSep
+}
     
-
-    method getInsideSep : 'return. string -> 'return = fun ((string : string)) ->
-        begin
-        let tokenList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-        let index : int ref = ref (0) in ();
-        let size : int ref = ref ((String.length string)) in ();
-        while (!index < !size) do
-            index := (java_string_index_of_from string (Obj.repr (sep)) (!index));
-            if (!index <> (- 1)) then begin
-                let end_ : int ref = ref ((java_string_index_of_from string (Obj.repr (endSep)) ((!index + (String.length sep))))) in ();
-                if (!end_ <> (- 1)) then begin
-                    ignore (!tokenList#add ((String.sub string ((!index + (String.length sep))) (((!end_ - (((String.length endSep) - 1)))) - ((!index + (String.length sep)))))));
-                    index := (!end_ + (String.length endSep))
-                end else begin
-                    ()
-                end
-            end else begin
-                raise Java_break
-            end
-        done;
-        (Obj.magic (!tokenList))
-        end
+and jm_getInsideSep = (this: Tokenizer, string: String) => {
+        let mut tokenList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+        let mut index: Int32 = 0l
+        let mut size: Int32 = JR.length(string)
+        while (Int32.(<)(index, size)) {
+            index = JR.indexOf(string, this.f_sep, index)
+            if ((index != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
+                let mut end: Int32 = JR.indexOf(string, this.f_endSep, Int32.(+)(index, JR.length(this.f_sep)))
+                if ((end != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
+                    ignore(BasicArrayList.jm_add(tokenList, JR.cast(JR.substring(string, Int32.(+)(index, JR.length(this.f_sep)), Int32.(-)(end, (Int32.(-)(JR.length(this.f_endSep), 1l)))))))
+                    index = Int32.(+)(end, JR.length(this.f_endSep))
+                } else {
+                    void
+                }
+            } else {
+                break
+            }
+        }
+        return tokenList
+}
     
-
-    method getTokensFromString : 'any2 'return. string * 'any2 -> 'return = fun ((string : string), tokenVector) ->
-        let tokenVector = Obj.repr tokenVector in
-        begin
-        let index : int ref = ref (0) in ();
-        let end_ : int ref = ref (0) in ();
-        while (!index < (String.length string)) do
-            end_ := (java_string_index_of_from string (Obj.repr (sep)) (!index));
-            if (!end_ <> (- 1)) then begin
-                ignore ((Obj.magic tokenVector)#add ((String.sub string (!index) ((!end_) - (!index)))));
-                index := (!end_ + (String.length sep))
-            end else begin
-                ignore ((Obj.magic tokenVector)#add ((String.sub string (!index) (((String.length string)) - (!index)))));
-                raise Java_break
-            end
-        done;
-        (Obj.magic ((Obj.magic tokenVector)))
-        end [@@warning "-20"]
+and jm_getTokensFromString = (this: Tokenizer, string: String, tokenVector: BasicArrayList) => {
+        let mut index: Int32 = 0l
+        let mut end: Int32 = 0l
+        while (Int32.(<)(index, JR.length(string))) {
+            end = JR.indexOf(string, this.f_sep, index)
+            if ((end != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
+                ignore(BasicArrayList.jm_add(tokenVector, JR.cast(JR.substring(string, index, end))))
+                index = Int32.(+)(end, JR.length(this.f_sep))
+            } else {
+                ignore(BasicArrayList.jm_add(tokenVector, JR.cast(JR.substring(string, index, JR.length(string)))))
+                break
+            }
+        }
+        return tokenVector
+}
     
+and jm_getTokens = (this: Tokenizer, stringVector: BasicArrayList) => {
+        let mut tokenHashtable: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashtable"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+})
+        let mut string: String = StringUtil.jm_getInstance().f_EMPTY_STRING
+        let mut end: Int32 = 0l
+        let mut size: Int32 = BasicArrayList.jm_size(stringVector)
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            string = JR.cast(stringVector.f_objectArray[Int32.toNumber(index)])
+            end = JR.indexOf(string, this.f_sep)
+            if (Int32.(>=)(end, 0l)) {
+                ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
+JR.cast(jlate(JR.cast(tokenHashtable), JR.cast(JR.substring(string, 0l, end)), JR.cast(JR.substring(string, Int32.(+)(end, 1l), JR.length(string)))))
+})
+            }
+            }
+        }
+        return tokenHashtable
+}
 
-    method getTokens : 'any1 'return. 'any1 -> 'return = fun (stringVector) ->
-        let stringVector = Obj.repr stringVector in
-        begin
-        let tokenHashtable : Obj.t ref = ref ((Obj.repr ((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashtable ()))) in ();
-        let string : string ref = ref ((StringUtil.getInstance ())#eMPTY_STRING) in ();
-        let end_ : int ref = ref (0) in ();
-        let size : int ref = ref (((Obj.magic stringVector)#size ())) in ();
-        for index = 0 to !size - 1 do
-            string := (Obj.magic (Obj.magic stringVector)#objectArray.(index));
-            end_ := (java_string_index_of !string (Obj.repr (sep)));
-            if (!end_ >= 0) then begin
-                ignore ((Obj.magic !tokenHashtable)#put ((String.sub !string (0) ((!end_) - (0))), (String.sub !string ((!end_ + 1)) (((String.length !string)) - ((!end_ + 1))))))
-            end
-        done;
-        (Obj.magic ((Obj.magic !tokenHashtable)))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        ();
-        endSep <- (StringUtil.getInstance ())#eMPTY_STRING;
-        ();
-        if (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#compareTo (sep_arg, (StringUtil.getInstance ())#eMPTY_STRING)) == 0) then begin
-            raise (Failure ("Sep provided is not valid"))
-        end;
-        sep <- sep_arg
-      end
-  end
-let () = java_register_constructor "Tokenizer" (fun arguments -> Obj.repr (new tokenizer (Obj.obj arguments)))
+JR.registerLateBound("Tokenizer.jnew_1", jnew_1)
+JR.registerLateBound("Tokenizer.jm_setSep", jm_setSep)
+JR.registerLateBound("Tokenizer.jm_setEndSep", jm_setEndSep)
+JR.registerLateBound("Tokenizer.jm_getInsideSep", jm_getInsideSep)
+JR.registerLateBound("Tokenizer.jm_getTokensFromString", jm_getTokensFromString)
+JR.registerLateBound("Tokenizer.jm_getTokens", jm_getTokens)
+JR.registerLateBound("Tokenizer.f_sep", (this: Tokenizer) => this.f_sep)
+JR.registerLateBound("Tokenizer.set_f_sep", (this: Tokenizer, jvalue) => { this.f_sep = jvalue; jvalue })
+JR.registerLateBound("Tokenizer.f_endSep", (this: Tokenizer) => this.f_endSep)
+JR.registerLateBound("Tokenizer.set_f_endSep", (this: Tokenizer, jvalue) => { this.f_endSep = jvalue; jvalue })
 
 

@@ -1,64 +1,81 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.business.context.modules.storefronts
+module BasicStoreFrontFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.business.context.modules.storefronts *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./BasicStoreFrontsEntity.gr" include BasicStoreFrontsEntity
+use BasicStoreFrontsEntity.{ type BasicStoreFrontsEntity }
+from "./BasicStoreFrontInterface.gr" include BasicStoreFrontInterface
+use BasicStoreFrontInterface.{ type BasicStoreFrontInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record BasicStoreFrontFactory {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+}
 
-class basicStoreFrontFactory () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+let mut jcell_instance: Option<BasicStoreFrontFactory> = None
+
+provide let rec jclassName = () => "BasicStoreFrontFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: BasicStoreFrontFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance_0 = () => {
+        return jstatic_instance()
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("BasicStoreFrontFactory"), f_logUtil: JR.jnull, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance_0"))
+JR.cast(jlate())
+})
+        void
+    this
+}
+    
+and jm_getInstance_1 = (this: BasicStoreFrontFactory, storeName: String) => {
+        {
+            let mut storeFronts: BasicStoreFrontsEntity = BasicStoreFrontsEntity.jnew_0()
+            return BasicStoreFrontsEntity.jm_getStoreFrontInterface(storeFronts, storeName)
+        }
+    return JR.nullOf()
+}
 
-    method getInstance : 'return. string -> 'return = fun ((storeName : string)) ->
-        begin
-        (try
-            let storeFronts : BasicStoreFrontsEntity.basicStoreFrontsEntity ref = ref (((new BasicStoreFrontsEntity.basicStoreFrontsEntity ()) :> BasicStoreFrontsEntity.basicStoreFrontsEntity)) in ();
-            (Obj.magic ((!storeFronts#getStoreFrontInterface (storeName))))
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#fACTORYERROR)) then begin
-                let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-                ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#gET_INSTANCE, e))
-            end;
-            (Obj.magic ((Obj.magic 0)))
-        end)
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "BasicStoreFrontFactory" (fun arguments -> Obj.repr (new basicStoreFrontFactory (Obj.obj arguments)))
-
-let instance = (new basicStoreFrontFactory ())
-let get_instance () = instance
-let () = java_register_static "BasicStoreFrontFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "BasicStoreFrontFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("BasicStoreFrontFactory.jnew_0", jnew_0)
+JR.registerLateBound("BasicStoreFrontFactory.jm_getInstance_0", jm_getInstance_0)
+JR.registerLateBound("BasicStoreFrontFactory.jm_getInstance_1", jm_getInstance_1)
+JR.registerLateBound("BasicStoreFrontFactory.f_logUtil", (this: BasicStoreFrontFactory) => this.f_logUtil)
+JR.registerLateBound("BasicStoreFrontFactory.jstatic_instance", jstatic_instance)
 
 

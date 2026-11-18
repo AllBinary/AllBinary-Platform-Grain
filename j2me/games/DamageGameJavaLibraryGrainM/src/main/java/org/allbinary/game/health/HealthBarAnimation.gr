@@ -1,104 +1,131 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.health
+module HealthBarAnimation
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.health *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/animation/Animation.gr" include Animation
+use Animation.{ type Animation }
+from "../../../../org/allbinary/game/graphics/hud/BasicHudFactory.gr" include BasicHudFactory
+use BasicHudFactory.{ type BasicHudFactory }
+from "../../../../org/allbinary/graphics/color/BasicColorFactory.gr" include BasicColorFactory
+use BasicColorFactory.{ type BasicColorFactory }
+from "../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.animation.Animation *)
-(* import org.allbinary.game.graphics.hud.BasicHudFactory *)
-(* import org.allbinary.graphics.color.BasicColorFactory *)
-(* import org.allbinary.layer.AllBinaryLayer *)
+provide record HealthBarAnimation {
+  jobject: JObject,
+  mut f_basicSetColorUtil: JObject,
+  mut f_basicColor: JObject,
+  mut f_colorP: Int32,
+  mut f_changeBasicColorP: JObject,
+  mut f_changeColorP: Int32,
+  mut f_alphaP: Int32,
+  mut f_basicColorFactory: BasicColorFactory,
+  mut f_x2: Int32,
+  mut f_thickness: Int32,
+  mut f_location: Int32,
+  mut f_allbinaryLayer: AllBinaryLayer,
+}
 
-class healthBarAnimation ((layerInterface : AllBinaryLayer.allBinaryLayer), (location_arg : int)) =
-  object (self)
-    inherit Animation.animation ()
-    val mutable basicColorFactory : BasicColorFactory.basicColorFactory = (Obj.magic 0)
-    method basicColorFactory = basicColorFactory
-    method set_basicColorFactory value' = basicColorFactory <- value'
-    val mutable x2 : int = 0
-    method x2 = x2
-    method set_x2 value' = x2 <- value'
-    val mutable thickness : int = 0
-    method thickness = thickness
-    method set_thickness value' = thickness <- value'
-    val mutable location : int = 0
-    method location = location
-    method set_location value' = location <- value'
-    val mutable allbinaryLayer : AllBinaryLayer.allBinaryLayer = (Obj.magic 0)
-    method allbinaryLayer = allbinaryLayer
-    method set_allbinaryLayer value' = allbinaryLayer <- value'
+
+provide let rec jclassName = () => "HealthBarAnimation"
+    
+and jnew_2 = (layerInterface: AllBinaryLayer, location: Int32) => {
+    let this = { jobject: JR.newJObject("HealthBarAnimation"), f_basicSetColorUtil: JR.jnull, f_basicColor: JR.jnull, f_colorP: 0l, f_changeBasicColorP: JR.jnull, f_changeColorP: 0l, f_alphaP: 0l, f_basicColorFactory: JR.nullOf(), f_x2: 0l, f_thickness: 0l, f_location: 0l, f_allbinaryLayer: JR.nullOf(), }
+    this.f_basicColorFactory = JR.cast(BasicColorFactory.jm_getInstance())
     
     
-
-    method onHealthChange ((newX2 : int)) : unit =
-        begin
-        x2 <- newX2;
-        let quarter : int ref = ref ((((allbinaryLayer#getWidth ()) asr 2))) in ();
-        if (x2 > (!quarter * 3)) then begin
-            (self#set_basicColor) (basicColorFactory#gREEN);
-            (self#set_colorP) ((java_int_value (Obj.repr (self#basicColor))))
-        end else if (x2 > (!quarter * 2)) then begin
-            (self#set_basicColor) (basicColorFactory#yELLOW);
-            (self#set_colorP) ((java_int_value (Obj.repr (self#basicColor))))
-        end else if (x2 > !quarter) then begin
-            (self#set_basicColor) (basicColorFactory#oRANGE);
-            (self#set_colorP) ((java_int_value (Obj.repr (self#basicColor))))
-        end else begin
-            (self#set_basicColor) (basicColorFactory#rED);
-            (self#set_colorP) ((java_int_value (Obj.repr (self#basicColor))))
-        end
-        end [@@warning "-7"]
     
+    
+        this.f_allbinaryLayer = layerInterface
+        this.f_location = location
+        let mut basicHudFactory: BasicHudFactory = JR.cast(BasicHudFactory.jm_getInstance())
+        if (((this.f_location != basicHudFactory.f_TOPLEFT) && (this.f_location != basicHudFactory.f_BOTTOMLEFT))) {
+            fail JR.toStringOf(JR.newJObject("Exception"))
+        }
+        if (Int32.(>)(AllBinaryLayer.jm_getWidth(layerInterface), 40l)) {
+            this.f_thickness = 3l
+        } else if (Int32.(>)(AllBinaryLayer.jm_getWidth(layerInterface), 20l)) {
+            this.f_thickness = 2l
+        } else {
+            this.f_thickness = 1l
+        }
+    this
+}
+    
+and jm_onHealthChange = (this: HealthBarAnimation, newX2: Int32) => {
+        this.f_x2 = newX2
+        let mut quarter: Int32 = (Int32.(>>)(AllBinaryLayer.jm_getWidth(this.f_allbinaryLayer), 2l))
+        if (Int32.(>)(this.f_x2, Int32.(*)(quarter, 3l))) {
+            this.f_basicColor = JR.cast(this.f_basicColorFactory.f_GREEN)
+            this.f_colorP = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicColor.jm_intValue"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_basicColor))))
+})
+        } else if (Int32.(>)(this.f_x2, Int32.(*)(quarter, 2l))) {
+            this.f_basicColor = JR.cast(this.f_basicColorFactory.f_YELLOW)
+            this.f_colorP = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicColor.jm_intValue"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_basicColor))))
+})
+        } else if (Int32.(>)(this.f_x2, quarter)) {
+            this.f_basicColor = JR.cast(this.f_basicColorFactory.f_ORANGE)
+            this.f_colorP = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicColor.jm_intValue"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_basicColor))))
+})
+        } else {
+            this.f_basicColor = JR.cast(this.f_basicColorFactory.f_RED)
+            this.f_colorP = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicColor.jm_intValue"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_basicColor))))
+})
+        }
+}
+    
+and jm_getY = (this: HealthBarAnimation) => {
+        let mut basicHudFactory: BasicHudFactory = JR.cast(BasicHudFactory.jm_getInstance())
+        if ((this.f_location == basicHudFactory.f_TOPLEFT)) {
+            return Int32.(-)(JR.className(JR.cast(AllBinaryLayer.jm_getViewPosition(this.f_allbinaryLayer))), 4l)
+        } else if ((this.f_location == basicHudFactory.f_BOTTOMLEFT)) {
+            return Int32.(+)(JR.className(JR.cast(AllBinaryLayer.jm_getViewPosition(this.f_allbinaryLayer))), 4l)
+        }
+        return Int32.(-)(1l, Int32.(+)(1l, 1l))
+}
 
-    method getY () : int =
-        try
-        begin
-        let basicHudFactory : BasicHudFactory.basicHudFactory ref = ref (((BasicHudFactory.getInstance ()) :> BasicHudFactory.basicHudFactory)) in ();
-        if (location = !basicHudFactory#tOPLEFT) then begin
-            raise (Java_return (Obj.repr ((((allbinaryLayer#getViewPosition ())#getY ()) - 4))))
-        end else if (location = !basicHudFactory#bOTTOMLEFT) then begin
-            raise (Java_return (Obj.repr ((((allbinaryLayer#getViewPosition ())#getY2 ()) + 4))))
-        end;
-        (- 1)
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7"]
-
-    initializer
-      begin
-        basicColorFactory <- ((BasicColorFactory.getInstance ()) :> BasicColorFactory.basicColorFactory);
-        x2 <- 0;
-        thickness <- 0;
-        ();
-        ();
-        ();
-        allbinaryLayer <- layerInterface;
-        location <- location_arg;
-        let basicHudFactory : BasicHudFactory.basicHudFactory ref = ref (((BasicHudFactory.getInstance ()) :> BasicHudFactory.basicHudFactory)) in ();
-        if ((location <> !basicHudFactory#tOPLEFT) && (location <> !basicHudFactory#bOTTOMLEFT)) then begin
-            raise (Failure ("Location Not Valid"))
-        end;
-        if ((layerInterface#getWidth ()) > 40) then begin
-            thickness <- 3
-        end else if ((layerInterface#getWidth ()) > 20) then begin
-            thickness <- 2
-        end else begin
-            thickness <- 1
-        end
-      end
-  end
-let () = java_register_constructor "HealthBarAnimation" (fun arguments -> Obj.repr (new healthBarAnimation (Obj.obj arguments)))
+JR.registerLateBound("HealthBarAnimation.jnew_2", jnew_2)
+JR.registerLateBound("HealthBarAnimation.jm_onHealthChange", jm_onHealthChange)
+JR.registerLateBound("HealthBarAnimation.jm_getY", jm_getY)
+JR.registerLateBound("HealthBarAnimation.f_basicColorFactory", (this: HealthBarAnimation) => this.f_basicColorFactory)
+JR.registerLateBound("HealthBarAnimation.f_x2", (this: HealthBarAnimation) => this.f_x2)
+JR.registerLateBound("HealthBarAnimation.set_f_x2", (this: HealthBarAnimation, jvalue) => { this.f_x2 = jvalue; jvalue })
+JR.registerLateBound("HealthBarAnimation.f_thickness", (this: HealthBarAnimation) => this.f_thickness)
+JR.registerLateBound("HealthBarAnimation.set_f_thickness", (this: HealthBarAnimation, jvalue) => { this.f_thickness = jvalue; jvalue })
+JR.registerLateBound("HealthBarAnimation.f_location", (this: HealthBarAnimation) => this.f_location)
+JR.registerLateBound("HealthBarAnimation.set_f_location", (this: HealthBarAnimation, jvalue) => { this.f_location = jvalue; jvalue })
+JR.registerLateBound("HealthBarAnimation.f_allbinaryLayer", (this: HealthBarAnimation) => this.f_allbinaryLayer)
+JR.registerLateBound("HealthBarAnimation.set_f_allbinaryLayer", (this: HealthBarAnimation, jvalue) => { this.f_allbinaryLayer = jvalue; jvalue })
 
 

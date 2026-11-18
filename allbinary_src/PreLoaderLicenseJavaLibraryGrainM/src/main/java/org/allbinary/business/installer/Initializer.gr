@@ -1,508 +1,649 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.business.installer
+module Initializer
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.business.installer *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/util/HashMap.gr" include HashMap
+use HashMap.{ type HashMap }
+from "../../../../java/util/Map.gr" include Map
+use Map.{ type Map }
+from "../../../../java/util/Set.gr" include Set
+use Set.{ type Set }
+from "../../../../org/allbinary/business/init/db/HistoryDbInitInfo.gr" include HistoryDbInitInfo
+use HistoryDbInitInfo.{ type HistoryDbInitInfo }
+from "../../../../org/allbinary/business/init/db/InventoryDbInitInfo.gr" include InventoryDbInitInfo
+use InventoryDbInitInfo.{ type InventoryDbInitInfo }
+from "../../../../org/allbinary/business/init/db/LogDbInitInfo.gr" include LogDbInitInfo
+use LogDbInitInfo.{ type LogDbInitInfo }
+from "../../../../org/allbinary/business/init/db/StaticPagesDbInitInfo.gr" include StaticPagesDbInitInfo
+use StaticPagesDbInitInfo.{ type StaticPagesDbInitInfo }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/logic/string/StringValidationUtil.gr" include StringValidationUtil
+use StringValidationUtil.{ type StringValidationUtil }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./InitializerData.gr" include InitializerData
+use InitializerData.{ type InitializerData }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.util.HashMap *)
-(* import java.util.Map *)
-(* import java.util.Set *)
-(* import org.allbinary.business.init.db.HistoryDbInitInfo *)
-(* import org.allbinary.business.init.db.InventoryDbInitInfo *)
-(* import org.allbinary.business.init.db.LogDbInitInfo *)
-(* import org.allbinary.business.init.db.StaticPagesDbInitInfo *)
-(* import org.allbinary.business.init.db.UserDbInitInfo *)
-(* import org.allbinary.logic.StdUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringValidationUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record Initializer {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_userJdbcDriver: String,
+  mut f_userName: String,
+  mut f_userUserName: String,
+  mut f_userPassword: String,
+  mut f_userSchema: String,
+  mut f_userServer: String,
+  mut f_userPort: String,
+  mut f_historyJdbcDriver: String,
+  mut f_historyName: String,
+  mut f_historyUserName: String,
+  mut f_historyPassword: String,
+  mut f_historySchema: String,
+  mut f_historyServer: String,
+  mut f_historyPort: String,
+  mut f_logJdbcDriver: String,
+  mut f_logName: String,
+  mut f_logUserName: String,
+  mut f_logPassword: String,
+  mut f_logSchema: String,
+  mut f_logServer: String,
+  mut f_logPort: String,
+  mut f_inventoryJdbcDriver: String,
+  mut f_inventoryName: String,
+  mut f_inventoryUserName: String,
+  mut f_inventoryPassword: String,
+  mut f_inventorySchema: String,
+  mut f_inventoryServer: String,
+  mut f_inventoryPort: String,
+  mut f_staticPagesJdbcDriver: String,
+  mut f_staticPagesName: String,
+  mut f_staticPagesUserName: String,
+  mut f_staticPagesPassword: String,
+  mut f_staticPagesSchema: String,
+  mut f_staticPagesServer: String,
+  mut f_staticPagesPort: String,
+}
 
-let mAXDB : int = 30
-let get_mAXDB () = mAXDB
-let () = java_register_static "Initializer.get_mAXDB" (fun _ -> Obj.repr (get_mAXDB ()))
-let mAX : int = 16
-let get_mAX () = mAX
-let () = java_register_static "Initializer.get_mAX" (fun _ -> Obj.repr (get_mAX ()))
-let mIN : int = 4
-let get_mIN () = mIN
-let () = java_register_static "Initializer.get_mIN" (fun _ -> Obj.repr (get_mIN ()))
-let mINPASSWORD : int = 0
-let get_mINPASSWORD () = mINPASSWORD
-let () = java_register_static "Initializer.get_mINPASSWORD" (fun _ -> Obj.repr (get_mINPASSWORD ()))
-class initializer (map) =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable userJdbcDriver : string = ""
-    method userJdbcDriver = userJdbcDriver
-    method set_userJdbcDriver value' = userJdbcDriver <- value'
-    val mutable userName : string = ""
-    method userName = userName
-    method set_userName value' = userName <- value'
-    val mutable userUserName : string = ""
-    method userUserName = userUserName
-    method set_userUserName value' = userUserName <- value'
-    val mutable userPassword : string = ""
-    method userPassword = userPassword
-    method set_userPassword value' = userPassword <- value'
-    val mutable userSchema : string = ""
-    method userSchema = userSchema
-    method set_userSchema value' = userSchema <- value'
-    val mutable userServer : string = ""
-    method userServer = userServer
-    method set_userServer value' = userServer <- value'
-    val mutable userPort : string = ""
-    method userPort = userPort
-    method set_userPort value' = userPort <- value'
-    val mutable historyJdbcDriver : string = ""
-    method historyJdbcDriver = historyJdbcDriver
-    method set_historyJdbcDriver value' = historyJdbcDriver <- value'
-    val mutable historyName : string = ""
-    method historyName = historyName
-    method set_historyName value' = historyName <- value'
-    val mutable historyUserName : string = ""
-    method historyUserName = historyUserName
-    method set_historyUserName value' = historyUserName <- value'
-    val mutable historyPassword : string = ""
-    method historyPassword = historyPassword
-    method set_historyPassword value' = historyPassword <- value'
-    val mutable historySchema : string = ""
-    method historySchema = historySchema
-    method set_historySchema value' = historySchema <- value'
-    val mutable historyServer : string = ""
-    method historyServer = historyServer
-    method set_historyServer value' = historyServer <- value'
-    val mutable historyPort : string = ""
-    method historyPort = historyPort
-    method set_historyPort value' = historyPort <- value'
-    val mutable logJdbcDriver : string = ""
-    method logJdbcDriver = logJdbcDriver
-    method set_logJdbcDriver value' = logJdbcDriver <- value'
-    val mutable logName : string = ""
-    method logName = logName
-    method set_logName value' = logName <- value'
-    val mutable logUserName : string = ""
-    method logUserName = logUserName
-    method set_logUserName value' = logUserName <- value'
-    val mutable logPassword : string = ""
-    method logPassword = logPassword
-    method set_logPassword value' = logPassword <- value'
-    val mutable logSchema : string = ""
-    method logSchema = logSchema
-    method set_logSchema value' = logSchema <- value'
-    val mutable logServer : string = ""
-    method logServer = logServer
-    method set_logServer value' = logServer <- value'
-    val mutable logPort : string = ""
-    method logPort = logPort
-    method set_logPort value' = logPort <- value'
-    val mutable inventoryJdbcDriver : string = ""
-    method inventoryJdbcDriver = inventoryJdbcDriver
-    method set_inventoryJdbcDriver value' = inventoryJdbcDriver <- value'
-    val mutable inventoryName : string = ""
-    method inventoryName = inventoryName
-    method set_inventoryName value' = inventoryName <- value'
-    val mutable inventoryUserName : string = ""
-    method inventoryUserName = inventoryUserName
-    method set_inventoryUserName value' = inventoryUserName <- value'
-    val mutable inventoryPassword : string = ""
-    method inventoryPassword = inventoryPassword
-    method set_inventoryPassword value' = inventoryPassword <- value'
-    val mutable inventorySchema : string = ""
-    method inventorySchema = inventorySchema
-    method set_inventorySchema value' = inventorySchema <- value'
-    val mutable inventoryServer : string = ""
-    method inventoryServer = inventoryServer
-    method set_inventoryServer value' = inventoryServer <- value'
-    val mutable inventoryPort : string = ""
-    method inventoryPort = inventoryPort
-    method set_inventoryPort value' = inventoryPort <- value'
-    val mutable staticPagesJdbcDriver : string = ""
-    method staticPagesJdbcDriver = staticPagesJdbcDriver
-    method set_staticPagesJdbcDriver value' = staticPagesJdbcDriver <- value'
-    val mutable staticPagesName : string = ""
-    method staticPagesName = staticPagesName
-    method set_staticPagesName value' = staticPagesName <- value'
-    val mutable staticPagesUserName : string = ""
-    method staticPagesUserName = staticPagesUserName
-    method set_staticPagesUserName value' = staticPagesUserName <- value'
-    val mutable staticPagesPassword : string = ""
-    method staticPagesPassword = staticPagesPassword
-    method set_staticPagesPassword value' = staticPagesPassword <- value'
-    val mutable staticPagesSchema : string = ""
-    method staticPagesSchema = staticPagesSchema
-    method set_staticPagesSchema value' = staticPagesSchema <- value'
-    val mutable staticPagesServer : string = ""
-    method staticPagesServer = staticPagesServer
-    method set_staticPagesServer value' = staticPagesServer <- value'
-    val mutable staticPagesPort : string = ""
-    method staticPagesPort = staticPagesPort
-    method set_staticPagesPort value' = staticPagesPort <- value'
+let mut jcell_MAXDB: Option<Int32> = None
+let mut jcell_MAX: Option<Int32> = None
+let mut jcell_MIN: Option<Int32> = None
+let mut jcell_MINPASSWORD: Option<Int32> = None
+
+provide let rec jclassName = () => "Initializer"
+
+and jstatic_MAXDB = () => match (jcell_MAXDB) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = 30l
+    jcell_MAXDB = Some(value)
+    value
+  },
+}
+
+and jstatic_MAX = () => match (jcell_MAX) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = 16l
+    jcell_MAX = Some(value)
+    value
+  },
+}
+
+and jstatic_MIN = () => match (jcell_MIN) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = 4l
+    jcell_MIN = Some(value)
+    value
+  },
+}
+
+and jstatic_MINPASSWORD = () => match (jcell_MINPASSWORD) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = 0l
+    jcell_MINPASSWORD = Some(value)
+    value
+  },
+}
+    
+and jnew_1 = (map: Map) => {
+    let this = { jobject: JR.newJObject("Initializer"), f_logUtil: JR.jnull, f_userJdbcDriver: "", f_userName: "", f_userUserName: "", f_userPassword: "", f_userSchema: "", f_userServer: "", f_userPort: "", f_historyJdbcDriver: "", f_historyName: "", f_historyUserName: "", f_historyPassword: "", f_historySchema: "", f_historyServer: "", f_historyPort: "", f_logJdbcDriver: "", f_logName: "", f_logUserName: "", f_logPassword: "", f_logSchema: "", f_logServer: "", f_logPort: "", f_inventoryJdbcDriver: "", f_inventoryName: "", f_inventoryUserName: "", f_inventoryPassword: "", f_inventorySchema: "", f_inventoryServer: "", f_inventoryPort: "", f_staticPagesJdbcDriver: "", f_staticPagesName: "", f_staticPagesUserName: "", f_staticPagesPassword: "", f_staticPagesSchema: "", f_staticPagesServer: "", f_staticPagesPort: "", }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
     
     
     
-
-    method getFormData ((hashMap : java_hash_map)) : unit =
-        begin
-        (try
-            let initializerData : InitializerData.initializerData ref = ref (((InitializerData.getInstance ()) :> InitializerData.initializerData)) in ();
-            userJdbcDriver <- (Obj.magic (hashMap#get (!initializerData#cUSTOMERJDBCDRIVER)));
-            userName <- (Obj.magic (hashMap#get (!initializerData#cUSTOMERNAME)));
-            userUserName <- (Obj.magic (hashMap#get (!initializerData#cUSTOMERUSERNAME)));
-            userPassword <- (Obj.magic (hashMap#get (!initializerData#cUSTOMERPASSWORD)));
-            userSchema <- (Obj.magic (hashMap#get (!initializerData#cUSTOMERSCHEMA)));
-            userServer <- (Obj.magic (hashMap#get (!initializerData#cUSTOMERSERVER)));
-            userPort <- (Obj.magic (hashMap#get (!initializerData#cUSTOMERPORT)));
-            historyJdbcDriver <- (Obj.magic (hashMap#get (!initializerData#hISTORYJDBCDRIVER)));
-            historyName <- (Obj.magic (hashMap#get (!initializerData#hISTORYNAME)));
-            historyUserName <- (Obj.magic (hashMap#get (!initializerData#hISTORYUSERNAME)));
-            historyPassword <- (Obj.magic (hashMap#get (!initializerData#hISTORYPASSWORD)));
-            historySchema <- (Obj.magic (hashMap#get (!initializerData#hISTORYSCHEMA)));
-            historyServer <- (Obj.magic (hashMap#get (!initializerData#hISTORYSERVER)));
-            historyPort <- (Obj.magic (hashMap#get (!initializerData#hISTORYPORT)));
-            logJdbcDriver <- (Obj.magic (hashMap#get (!initializerData#lOGJDBCDRIVER)));
-            logName <- (Obj.magic (hashMap#get (!initializerData#lOGNAME)));
-            logUserName <- (Obj.magic (hashMap#get (!initializerData#lOGUSERNAME)));
-            logPassword <- (Obj.magic (hashMap#get (!initializerData#lOGPASSWORD)));
-            logSchema <- (Obj.magic (hashMap#get (!initializerData#lOGSCHEMA)));
-            logServer <- (Obj.magic (hashMap#get (!initializerData#lOGSERVER)));
-            logPort <- (Obj.magic (hashMap#get (!initializerData#lOGPORT)));
-            inventoryJdbcDriver <- (Obj.magic (hashMap#get (!initializerData#iNVENTORYJDBCDRIVER)));
-            inventoryName <- (Obj.magic (hashMap#get (!initializerData#iNVENTORYNAME)));
-            inventoryUserName <- (Obj.magic (hashMap#get (!initializerData#iNVENTORYUSERNAME)));
-            inventoryPassword <- (Obj.magic (hashMap#get (!initializerData#iNVENTORYPASSWORD)));
-            inventorySchema <- (Obj.magic (hashMap#get (!initializerData#iNVENTORYSCHEMA)));
-            inventoryServer <- (Obj.magic (hashMap#get (!initializerData#iNVENTORYSERVER)));
-            inventoryPort <- (Obj.magic (hashMap#get (!initializerData#iNVENTORYPORT)));
-            staticPagesJdbcDriver <- (Obj.magic (hashMap#get (!initializerData#sTATICPAGESJDBCDRIVER)));
-            staticPagesName <- (Obj.magic (hashMap#get (!initializerData#sTATICPAGESNAME)));
-            staticPagesUserName <- (Obj.magic (hashMap#get (!initializerData#sTATICPAGESUSERNAME)));
-            staticPagesPassword <- (Obj.magic (hashMap#get (!initializerData#sTATICPAGESPASSWORD)));
-            staticPagesSchema <- (Obj.magic (hashMap#get (!initializerData#sTATICPAGESSCHEMA)));
-            staticPagesServer <- (Obj.magic (hashMap#get (!initializerData#sTATICPAGESSERVER)));
-            staticPagesPort <- (Obj.magic (hashMap#get (!initializerData#sTATICPAGESPORT)))
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put ("Unable to get form data", (Obj.magic self), "getFormData()", e))
-        end)
-        end
     
-
-    method isJdbcDriverValid ((jdbcDriverClassPathString : string)) : bool =
-        begin
-        (try
-            ignore ((Obj.magic (java_call_static "Class.forName" (Obj.repr (jdbcDriverClassPathString))))#newInstance ());
-            true
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#pRELOADERERROR)) then begin
-                let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-                ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#iS_VALID, e))
-            end;
-            false
-        end)
-        end
     
-
-    method isValid () : bool =
-        begin
-        let isValid : bool ref = ref (true) in ();
-        if (not (self#isJdbcDriverValid (userJdbcDriver))) then begin
-            isValid := false
-        end;
-        let stringValidationUtil : StringValidationUtil.stringValidationUtil ref = ref (((StringValidationUtil.getInstance ()) :> StringValidationUtil.stringValidationUtil)) in ();
-        if (not (!stringValidationUtil#isValidRequired (userName, mIN, mAXDB))) then begin
-            isValid := false
-        end;
-        if (not (!stringValidationUtil#isValidRequired (userUserName, mIN, mAX))) then begin
-            isValid := false
-        end;
-        if (not (!stringValidationUtil#isValidNotRequired (userPassword, mINPASSWORD, mAX))) then begin
-            isValid := false
-        end;
-        if (not (self#isJdbcDriverValid (historyJdbcDriver))) then begin
-            isValid := false
-        end;
-        if (not (!stringValidationUtil#isValidRequired (historyName, mIN, mAXDB))) then begin
-            isValid := false
-        end;
-        if (not (!stringValidationUtil#isValidRequired (historyUserName, mIN, mAX))) then begin
-            isValid := false
-        end;
-        if (not (!stringValidationUtil#isValidNotRequired (historyPassword, mINPASSWORD, mAX))) then begin
-            isValid := false
-        end;
-        if (not (self#isJdbcDriverValid (logJdbcDriver))) then begin
-            isValid := false
-        end;
-        if (not (!stringValidationUtil#isValidRequired (logName, mIN, mAXDB))) then begin
-            isValid := false
-        end;
-        if (not (!stringValidationUtil#isValidRequired (logUserName, mIN, mAX))) then begin
-            isValid := false
-        end;
-        if (not (!stringValidationUtil#isValidNotRequired (logPassword, mINPASSWORD, mAX))) then begin
-            isValid := false
-        end;
-        if (not (self#isJdbcDriverValid (inventoryJdbcDriver))) then begin
-            isValid := false
-        end;
-        if (not (!stringValidationUtil#isValidRequired (inventoryName, mIN, mAXDB))) then begin
-            isValid := false
-        end;
-        if (not (!stringValidationUtil#isValidRequired (inventoryUserName, mIN, mAX))) then begin
-            isValid := false
-        end;
-        if (not (!stringValidationUtil#isValidNotRequired (inventoryPassword, mINPASSWORD, mAX))) then begin
-            isValid := false
-        end;
-        if (not (self#isJdbcDriverValid (staticPagesJdbcDriver))) then begin
-            isValid := false
-        end;
-        if (not (!stringValidationUtil#isValidRequired (staticPagesName, mIN, mAXDB))) then begin
-            isValid := false
-        end;
-        if (not (!stringValidationUtil#isValidRequired (staticPagesUserName, mIN, mAX))) then begin
-            isValid := false
-        end;
-        if (not (!stringValidationUtil#isValidNotRequired (staticPagesPassword, mINPASSWORD, mAX))) then begin
-            isValid := false
-        end;
-        !isValid
-        end
     
-
-    method getJdbcDriverValidationInfo ((jdbcDriver : string)) : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ("The JDBC driver ("));
-        ignore (!stringBuffer#append (jdbcDriver));
-        ignore (!stringBuffer#append (") you have provided is not valid.<br/>"));
-        (java_string_of (Obj.repr !stringBuffer))
-        end
     
-
-    method getJdbcDriverSolutionInfo () : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ("The following describes the possible problems and solutions regarding the Jdbc Driver error(s):<p/>"));
-        ignore (!stringBuffer#append ("1. A JDBC driver you specified is not in your classpath.<br/>"));
-        ignore (!stringBuffer#append ("Solution 1: Move the JDBC driver into any directory specified in the existing classpath. <br/>"));
-        ignore (!stringBuffer#append ("Solution 2: Add the directory that contains the JDBC driver to the classpath.<br/>"));
-        ignore (!stringBuffer#append ("Solution 3: Add the JDBC driver to the WEB-INF/lib directory where you installed this webapp.<br/>"));
-        ignore (!stringBuffer#append ("2. The JDBC driver you specified does not exit.<br/>"));
-        ignore (!stringBuffer#append ("Solution: Get a JDBC driver. <br/>"));
-        ignore (!stringBuffer#append ("3. The JDBC driver you specified is not valid.<br/>"));
-        ignore (!stringBuffer#append ("Solution: Use a valid JDBC driver.<p/>"));
-        (java_string_of (Obj.repr !stringBuffer))
-        end
     
-
-    method getInvalidInfo () : string =
-        begin
-        let isJdbcDriversValid : bool ref = ref (true) in ();
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        if (not (self#isJdbcDriverValid (userJdbcDriver))) then begin
-            isJdbcDriversValid := false;
-            ignore (!stringBuffer#append ((self#getJdbcDriverValidationInfo (userJdbcDriver))))
-        end;
-        let stringValidationUtil : StringValidationUtil.stringValidationUtil ref = ref (((StringValidationUtil.getInstance ()) :> StringValidationUtil.stringValidationUtil)) in ();
-        if (not (!stringValidationUtil#isValidRequired (userName, mIN, mAXDB))) then begin
-            ignore (!stringBuffer#append ((((("User db name should be < " ^ java_string_of (Obj.repr (mAXDB))) ^ " and > ") ^ java_string_of (Obj.repr (mIN))) ^ " characters in length.<br />")))
-        end;
-        if (not (!stringValidationUtil#isValidRequired (userUserName, mIN, mAX))) then begin
-            ignore (!stringBuffer#append ((((("User db username should be < " ^ java_string_of (Obj.repr (mAX))) ^ " and > ") ^ java_string_of (Obj.repr (mIN))) ^ " characters in length.<br />")))
-        end;
-        if (not (!stringValidationUtil#isValidNotRequired (userPassword, mINPASSWORD, mAX))) then begin
-            ignore (!stringBuffer#append ((((("User DB password should be < " ^ java_string_of (Obj.repr (mAX))) ^ " and > ") ^ java_string_of (Obj.repr (mINPASSWORD))) ^ " characters in length.<br />")))
-        end;
-        if (not (self#isJdbcDriverValid (historyJdbcDriver))) then begin
-            isJdbcDriversValid := false;
-            ignore (!stringBuffer#append ((self#getJdbcDriverValidationInfo (historyJdbcDriver))))
-        end;
-        if (not (!stringValidationUtil#isValidRequired (historyName, mIN, mAXDB))) then begin
-            ignore (!stringBuffer#append ((((("History db should be < " ^ java_string_of (Obj.repr (mAXDB))) ^ " and > ") ^ java_string_of (Obj.repr (mIN))) ^ " characters in length.<br />")))
-        end;
-        if (not (!stringValidationUtil#isValidRequired (historyUserName, mIN, mAX))) then begin
-            ignore (!stringBuffer#append ((((("History db username should be < " ^ java_string_of (Obj.repr (mAX))) ^ " and > ") ^ java_string_of (Obj.repr (mIN))) ^ " characters in length.<br />")))
-        end;
-        if (not (!stringValidationUtil#isValidNotRequired (historyPassword, mINPASSWORD, mAX))) then begin
-            ignore (!stringBuffer#append ((((("History db password should be < " ^ java_string_of (Obj.repr (mAX))) ^ " and > ") ^ java_string_of (Obj.repr (mINPASSWORD))) ^ " characters in length.<br />")))
-        end;
-        if (not (self#isJdbcDriverValid (logJdbcDriver))) then begin
-            isJdbcDriversValid := false;
-            ignore (!stringBuffer#append ((self#getJdbcDriverValidationInfo (logJdbcDriver))))
-        end;
-        if (not (!stringValidationUtil#isValidRequired (logName, mIN, mAXDB))) then begin
-            ignore (!stringBuffer#append ((((("Log db should be < " ^ java_string_of (Obj.repr (mAXDB))) ^ " and > ") ^ java_string_of (Obj.repr (mIN))) ^ " characters in length.<br />")))
-        end;
-        if (not (!stringValidationUtil#isValidRequired (logUserName, mIN, mAX))) then begin
-            ignore (!stringBuffer#append ((((("Log db username should be < " ^ java_string_of (Obj.repr (mAX))) ^ " and > ") ^ java_string_of (Obj.repr (mIN))) ^ " characters in length.<br />")))
-        end;
-        if (not (!stringValidationUtil#isValidNotRequired (logPassword, mINPASSWORD, mAX))) then begin
-            ignore (!stringBuffer#append ((((("Log db password should be < " ^ java_string_of (Obj.repr (mAX))) ^ " and > ") ^ java_string_of (Obj.repr (mINPASSWORD))) ^ " characters in length.<br />")))
-        end;
-        if (not (self#isJdbcDriverValid (inventoryJdbcDriver))) then begin
-            isJdbcDriversValid := false;
-            ignore (!stringBuffer#append ((self#getJdbcDriverValidationInfo (inventoryJdbcDriver))))
-        end;
-        if (not (!stringValidationUtil#isValidRequired (inventoryName, mIN, mAXDB))) then begin
-            ignore (!stringBuffer#append ((((("Inventory db should be < " ^ java_string_of (Obj.repr (mAXDB))) ^ " and > ") ^ java_string_of (Obj.repr (mIN))) ^ " characters in length.<br />")))
-        end;
-        if (not (!stringValidationUtil#isValidRequired (inventoryUserName, mIN, mAX))) then begin
-            ignore (!stringBuffer#append ((((("Inventory db username should be < " ^ java_string_of (Obj.repr (mAX))) ^ " and > ") ^ java_string_of (Obj.repr (mIN))) ^ " characters in length.<br />")))
-        end;
-        if (not (!stringValidationUtil#isValidNotRequired (inventoryPassword, mINPASSWORD, mAX))) then begin
-            ignore (!stringBuffer#append ((((("Inventory DB password should be < " ^ java_string_of (Obj.repr (mAX))) ^ " and > ") ^ java_string_of (Obj.repr (mINPASSWORD))) ^ " characters in length.<br />")))
-        end;
-        if (not (self#isJdbcDriverValid (staticPagesJdbcDriver))) then begin
-            isJdbcDriversValid := false;
-            ignore (!stringBuffer#append ((self#getJdbcDriverValidationInfo (staticPagesJdbcDriver))))
-        end;
-        if (not (!stringValidationUtil#isValidRequired (staticPagesName, mIN, mAXDB))) then begin
-            ignore (!stringBuffer#append ((((("Static Pages db should be < " ^ java_string_of (Obj.repr (mAXDB))) ^ " and > ") ^ java_string_of (Obj.repr (mIN))) ^ " characters in length.<br />")))
-        end;
-        if (not (!stringValidationUtil#isValidRequired (staticPagesUserName, mIN, mAX))) then begin
-            ignore (!stringBuffer#append ((((("Static Pages db username should be < " ^ java_string_of (Obj.repr (mAX))) ^ " and > ") ^ java_string_of (Obj.repr (mIN))) ^ " characters in length.<br />")))
-        end;
-        if (not (!stringValidationUtil#isValidNotRequired (staticPagesPassword, mINPASSWORD, mAX))) then begin
-            ignore (!stringBuffer#append ((((("Static Pages DB password should be < " ^ java_string_of (Obj.repr (mAX))) ^ " and > ") ^ java_string_of (Obj.repr (mINPASSWORD))) ^ " characters in length.<br />")))
-        end;
-        if (not !isJdbcDriversValid) then begin
-            ignore (!stringBuffer#append ((self#getJdbcDriverSolutionInfo ())))
-        end;
-        (java_string_of (Obj.repr !stringBuffer))
-        end
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        let mut hashMap: HashMap = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashMap"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+})
+        let mut keys: Set = JR.cast(Map.jm_keySet(map))
+        let mut keyArray: Array<JObject> = Set.jm_toArray_0(keys)
+        let mut size: Int32 = Int32.fromNumber(Array.length(keyArray))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            let mut key: String = JR.cast(keyArray[Int32.toNumber(index)])
+            let mut values: Array<String> = Map.jm_get(map, key)
+            ignore(HashMap.jm_put_2(hashMap, key, values[Int32.toNumber(0l)]))
+            ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
+            ignore(StringMaker.jm_append(stringBuffer, "key: "))
+            ignore(StringMaker.jm_append(stringBuffer, key))
+            ignore(StringMaker.jm_append(stringBuffer, " Value: "))
+            ignore(StringMaker.jm_append(stringBuffer, values[Int32.toNumber(0l)]))
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast("getFormData()")))
+})
+            }
+        }
+        ignore(jm_getFormData(this, hashMap))
+    this
+}
+    
+and jnew_1 = (initHashMap: HashMap) => {
+    let this = { jobject: JR.newJObject("Initializer"), f_logUtil: JR.jnull, f_userJdbcDriver: "", f_userName: "", f_userUserName: "", f_userPassword: "", f_userSchema: "", f_userServer: "", f_userPort: "", f_historyJdbcDriver: "", f_historyName: "", f_historyUserName: "", f_historyPassword: "", f_historySchema: "", f_historyServer: "", f_historyPort: "", f_logJdbcDriver: "", f_logName: "", f_logUserName: "", f_logPassword: "", f_logSchema: "", f_logServer: "", f_logPort: "", f_inventoryJdbcDriver: "", f_inventoryName: "", f_inventoryUserName: "", f_inventoryPassword: "", f_inventorySchema: "", f_inventoryServer: "", f_inventoryPort: "", f_staticPagesJdbcDriver: "", f_staticPagesName: "", f_staticPagesUserName: "", f_staticPagesPassword: "", f_staticPagesSchema: "", f_staticPagesServer: "", f_staticPagesPort: "", }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        ignore(jm_getFormData(this, initHashMap))
+    this
+}
+    
+and jm_getFormData = (this: Initializer, hashMap: HashMap) => {
+        {
+            let mut initializerData: InitializerData = JR.cast(InitializerData.jm_getInstance())
+            this.f_userJdbcDriver = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_CUSTOMERJDBCDRIVER))
+            this.f_userName = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_CUSTOMERNAME))
+            this.f_userUserName = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_CUSTOMERUSERNAME))
+            this.f_userPassword = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_CUSTOMERPASSWORD))
+            this.f_userSchema = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_CUSTOMERSCHEMA))
+            this.f_userServer = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_CUSTOMERSERVER))
+            this.f_userPort = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_CUSTOMERPORT))
+            this.f_historyJdbcDriver = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_HISTORYJDBCDRIVER))
+            this.f_historyName = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_HISTORYNAME))
+            this.f_historyUserName = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_HISTORYUSERNAME))
+            this.f_historyPassword = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_HISTORYPASSWORD))
+            this.f_historySchema = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_HISTORYSCHEMA))
+            this.f_historyServer = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_HISTORYSERVER))
+            this.f_historyPort = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_HISTORYPORT))
+            this.f_logJdbcDriver = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_LOGJDBCDRIVER))
+            this.f_logName = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_LOGNAME))
+            this.f_logUserName = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_LOGUSERNAME))
+            this.f_logPassword = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_LOGPASSWORD))
+            this.f_logSchema = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_LOGSCHEMA))
+            this.f_logServer = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_LOGSERVER))
+            this.f_logPort = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_LOGPORT))
+            this.f_inventoryJdbcDriver = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_INVENTORYJDBCDRIVER))
+            this.f_inventoryName = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_INVENTORYNAME))
+            this.f_inventoryUserName = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_INVENTORYUSERNAME))
+            this.f_inventoryPassword = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_INVENTORYPASSWORD))
+            this.f_inventorySchema = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_INVENTORYSCHEMA))
+            this.f_inventoryServer = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_INVENTORYSERVER))
+            this.f_inventoryPort = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_INVENTORYPORT))
+            this.f_staticPagesJdbcDriver = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_STATICPAGESJDBCDRIVER))
+            this.f_staticPagesName = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_STATICPAGESNAME))
+            this.f_staticPagesUserName = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_STATICPAGESUSERNAME))
+            this.f_staticPagesPassword = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_STATICPAGESPASSWORD))
+            this.f_staticPagesSchema = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_STATICPAGESSCHEMA))
+            this.f_staticPagesServer = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_STATICPAGESSERVER))
+            this.f_staticPagesPort = JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_STATICPAGESPORT))
+        }
+}
+    
+and jm_isJdbcDriverValid = (this: Initializer, jdbcDriverClassPathString: String) => {
+        {
+            ignore(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Class.jm_forName"))
+JR.cast(jlate(JR.cast(jdbcDriverClassPathString)))
+})))
+            return true
+        }
+    return false
+}
+    
+and jm_isValid = (this: Initializer) => {
+        let mut isValid: Bool = true
+        if (!jm_isJdbcDriverValid(this, this.f_userJdbcDriver)) {
+            isValid = false
+        }
+        let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_userName, jstatic_MIN(), jstatic_MAXDB())) {
+            isValid = false
+        }
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_userUserName, jstatic_MIN(), jstatic_MAX())) {
+            isValid = false
+        }
+        if (!StringValidationUtil.jm_isValidNotRequired(stringValidationUtil, this.f_userPassword, jstatic_MINPASSWORD(), jstatic_MAX())) {
+            isValid = false
+        }
+        if (!jm_isJdbcDriverValid(this, this.f_historyJdbcDriver)) {
+            isValid = false
+        }
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_historyName, jstatic_MIN(), jstatic_MAXDB())) {
+            isValid = false
+        }
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_historyUserName, jstatic_MIN(), jstatic_MAX())) {
+            isValid = false
+        }
+        if (!StringValidationUtil.jm_isValidNotRequired(stringValidationUtil, this.f_historyPassword, jstatic_MINPASSWORD(), jstatic_MAX())) {
+            isValid = false
+        }
+        if (!jm_isJdbcDriverValid(this, this.f_logJdbcDriver)) {
+            isValid = false
+        }
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_logName, jstatic_MIN(), jstatic_MAXDB())) {
+            isValid = false
+        }
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_logUserName, jstatic_MIN(), jstatic_MAX())) {
+            isValid = false
+        }
+        if (!StringValidationUtil.jm_isValidNotRequired(stringValidationUtil, this.f_logPassword, jstatic_MINPASSWORD(), jstatic_MAX())) {
+            isValid = false
+        }
+        if (!jm_isJdbcDriverValid(this, this.f_inventoryJdbcDriver)) {
+            isValid = false
+        }
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_inventoryName, jstatic_MIN(), jstatic_MAXDB())) {
+            isValid = false
+        }
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_inventoryUserName, jstatic_MIN(), jstatic_MAX())) {
+            isValid = false
+        }
+        if (!StringValidationUtil.jm_isValidNotRequired(stringValidationUtil, this.f_inventoryPassword, jstatic_MINPASSWORD(), jstatic_MAX())) {
+            isValid = false
+        }
+        if (!jm_isJdbcDriverValid(this, this.f_staticPagesJdbcDriver)) {
+            isValid = false
+        }
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_staticPagesName, jstatic_MIN(), jstatic_MAXDB())) {
+            isValid = false
+        }
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_staticPagesUserName, jstatic_MIN(), jstatic_MAX())) {
+            isValid = false
+        }
+        if (!StringValidationUtil.jm_isValidNotRequired(stringValidationUtil, this.f_staticPagesPassword, jstatic_MINPASSWORD(), jstatic_MAX())) {
+            isValid = false
+        }
+        return isValid
+}
+    
+and jm_getJdbcDriverValidationInfo = (this: Initializer, jdbcDriver: String) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, "The JDBC driver ("))
+        ignore(StringMaker.jm_append(stringBuffer, jdbcDriver))
+        ignore(StringMaker.jm_append(stringBuffer, ") you have provided is not valid.<br/>"))
+        return StringMaker.jm_toString(stringBuffer)
+}
+    
+and jm_getJdbcDriverSolutionInfo = (this: Initializer) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, "The following describes the possible problems and solutions regarding the Jdbc Driver error(s):<p/>"))
+        ignore(StringMaker.jm_append(stringBuffer, "1. A JDBC driver you specified is not in your classpath.<br/>"))
+        ignore(StringMaker.jm_append(stringBuffer, "Solution 1: Move the JDBC driver into any directory specified in the existing classpath. <br/>"))
+        ignore(StringMaker.jm_append(stringBuffer, "Solution 2: Add the directory that contains the JDBC driver to the classpath.<br/>"))
+        ignore(StringMaker.jm_append(stringBuffer, "Solution 3: Add the JDBC driver to the WEB-INF/lib directory where you installed this webapp.<br/>"))
+        ignore(StringMaker.jm_append(stringBuffer, "2. The JDBC driver you specified does not exit.<br/>"))
+        ignore(StringMaker.jm_append(stringBuffer, "Solution: Get a JDBC driver. <br/>"))
+        ignore(StringMaker.jm_append(stringBuffer, "3. The JDBC driver you specified is not valid.<br/>"))
+        ignore(StringMaker.jm_append(stringBuffer, "Solution: Use a valid JDBC driver.<p/>"))
+        return StringMaker.jm_toString(stringBuffer)
+}
+    
+and jm_getInvalidInfo = (this: Initializer) => {
+        let mut isJdbcDriversValid: Bool = true
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        if (!jm_isJdbcDriverValid(this, this.f_userJdbcDriver)) {
+            isJdbcDriversValid = false
+            ignore(StringMaker.jm_append(stringBuffer, jm_getJdbcDriverValidationInfo(this, this.f_userJdbcDriver)))
+        }
+        let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_userName, jstatic_MIN(), jstatic_MAXDB())) {
+            ignore(StringMaker.jm_append(stringBuffer, "User db name should be < " ++ toString(jstatic_MAXDB()) ++ " and > " ++ toString(jstatic_MIN()) ++ " characters in length.<br />"))
+        }
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_userUserName, jstatic_MIN(), jstatic_MAX())) {
+            ignore(StringMaker.jm_append(stringBuffer, "User db username should be < " ++ toString(jstatic_MAX()) ++ " and > " ++ toString(jstatic_MIN()) ++ " characters in length.<br />"))
+        }
+        if (!StringValidationUtil.jm_isValidNotRequired(stringValidationUtil, this.f_userPassword, jstatic_MINPASSWORD(), jstatic_MAX())) {
+            ignore(StringMaker.jm_append(stringBuffer, "User DB password should be < " ++ toString(jstatic_MAX()) ++ " and > " ++ toString(jstatic_MINPASSWORD()) ++ " characters in length.<br />"))
+        }
+        if (!jm_isJdbcDriverValid(this, this.f_historyJdbcDriver)) {
+            isJdbcDriversValid = false
+            ignore(StringMaker.jm_append(stringBuffer, jm_getJdbcDriverValidationInfo(this, this.f_historyJdbcDriver)))
+        }
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_historyName, jstatic_MIN(), jstatic_MAXDB())) {
+            ignore(StringMaker.jm_append(stringBuffer, "History db should be < " ++ toString(jstatic_MAXDB()) ++ " and > " ++ toString(jstatic_MIN()) ++ " characters in length.<br />"))
+        }
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_historyUserName, jstatic_MIN(), jstatic_MAX())) {
+            ignore(StringMaker.jm_append(stringBuffer, "History db username should be < " ++ toString(jstatic_MAX()) ++ " and > " ++ toString(jstatic_MIN()) ++ " characters in length.<br />"))
+        }
+        if (!StringValidationUtil.jm_isValidNotRequired(stringValidationUtil, this.f_historyPassword, jstatic_MINPASSWORD(), jstatic_MAX())) {
+            ignore(StringMaker.jm_append(stringBuffer, "History db password should be < " ++ toString(jstatic_MAX()) ++ " and > " ++ toString(jstatic_MINPASSWORD()) ++ " characters in length.<br />"))
+        }
+        if (!jm_isJdbcDriverValid(this, this.f_logJdbcDriver)) {
+            isJdbcDriversValid = false
+            ignore(StringMaker.jm_append(stringBuffer, jm_getJdbcDriverValidationInfo(this, this.f_logJdbcDriver)))
+        }
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_logName, jstatic_MIN(), jstatic_MAXDB())) {
+            ignore(StringMaker.jm_append(stringBuffer, "Log db should be < " ++ toString(jstatic_MAXDB()) ++ " and > " ++ toString(jstatic_MIN()) ++ " characters in length.<br />"))
+        }
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_logUserName, jstatic_MIN(), jstatic_MAX())) {
+            ignore(StringMaker.jm_append(stringBuffer, "Log db username should be < " ++ toString(jstatic_MAX()) ++ " and > " ++ toString(jstatic_MIN()) ++ " characters in length.<br />"))
+        }
+        if (!StringValidationUtil.jm_isValidNotRequired(stringValidationUtil, this.f_logPassword, jstatic_MINPASSWORD(), jstatic_MAX())) {
+            ignore(StringMaker.jm_append(stringBuffer, "Log db password should be < " ++ toString(jstatic_MAX()) ++ " and > " ++ toString(jstatic_MINPASSWORD()) ++ " characters in length.<br />"))
+        }
+        if (!jm_isJdbcDriverValid(this, this.f_inventoryJdbcDriver)) {
+            isJdbcDriversValid = false
+            ignore(StringMaker.jm_append(stringBuffer, jm_getJdbcDriverValidationInfo(this, this.f_inventoryJdbcDriver)))
+        }
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_inventoryName, jstatic_MIN(), jstatic_MAXDB())) {
+            ignore(StringMaker.jm_append(stringBuffer, "Inventory db should be < " ++ toString(jstatic_MAXDB()) ++ " and > " ++ toString(jstatic_MIN()) ++ " characters in length.<br />"))
+        }
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_inventoryUserName, jstatic_MIN(), jstatic_MAX())) {
+            ignore(StringMaker.jm_append(stringBuffer, "Inventory db username should be < " ++ toString(jstatic_MAX()) ++ " and > " ++ toString(jstatic_MIN()) ++ " characters in length.<br />"))
+        }
+        if (!StringValidationUtil.jm_isValidNotRequired(stringValidationUtil, this.f_inventoryPassword, jstatic_MINPASSWORD(), jstatic_MAX())) {
+            ignore(StringMaker.jm_append(stringBuffer, "Inventory DB password should be < " ++ toString(jstatic_MAX()) ++ " and > " ++ toString(jstatic_MINPASSWORD()) ++ " characters in length.<br />"))
+        }
+        if (!jm_isJdbcDriverValid(this, this.f_staticPagesJdbcDriver)) {
+            isJdbcDriversValid = false
+            ignore(StringMaker.jm_append(stringBuffer, jm_getJdbcDriverValidationInfo(this, this.f_staticPagesJdbcDriver)))
+        }
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_staticPagesName, jstatic_MIN(), jstatic_MAXDB())) {
+            ignore(StringMaker.jm_append(stringBuffer, "Static Pages db should be < " ++ toString(jstatic_MAXDB()) ++ " and > " ++ toString(jstatic_MIN()) ++ " characters in length.<br />"))
+        }
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_staticPagesUserName, jstatic_MIN(), jstatic_MAX())) {
+            ignore(StringMaker.jm_append(stringBuffer, "Static Pages db username should be < " ++ toString(jstatic_MAX()) ++ " and > " ++ toString(jstatic_MIN()) ++ " characters in length.<br />"))
+        }
+        if (!StringValidationUtil.jm_isValidNotRequired(stringValidationUtil, this.f_staticPagesPassword, jstatic_MINPASSWORD(), jstatic_MAX())) {
+            ignore(StringMaker.jm_append(stringBuffer, "Static Pages DB password should be < " ++ toString(jstatic_MAX()) ++ " and > " ++ toString(jstatic_MINPASSWORD()) ++ " characters in length.<br />"))
+        }
+        if (!isJdbcDriversValid) {
+            ignore(StringMaker.jm_append(stringBuffer, jm_getJdbcDriverSolutionInfo(this)))
+        }
+        return StringMaker.jm_toString(stringBuffer)
+}
+    
+and jm_set = (this: Initializer) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Creating DB connection files"), JR.cast(this), JR.cast("set()")))
+})
+        let mut userDbInitInfo: JObject = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UserDbInitInfo.jnew_1"))
+JR.cast(jlate(JR.cast(false)))
+}
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UserDbInitInfo.jm_setJdbcDriver"))
+JR.cast(jlate(JR.cast(userDbInitInfo), JR.cast(this.f_userJdbcDriver)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UserDbInitInfo.jm_setName"))
+JR.cast(jlate(JR.cast(userDbInitInfo), JR.cast(this.f_userName)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UserDbInitInfo.jm_setUserName"))
+JR.cast(jlate(JR.cast(userDbInitInfo), JR.cast(this.f_userUserName)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UserDbInitInfo.jm_setPassword"))
+JR.cast(jlate(JR.cast(userDbInitInfo), JR.cast(this.f_userPassword)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UserDbInitInfo.jm_setSchema"))
+JR.cast(jlate(JR.cast(userDbInitInfo), JR.cast(this.f_userSchema)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UserDbInitInfo.jm_setServer"))
+JR.cast(jlate(JR.cast(userDbInitInfo), JR.cast(this.f_userServer)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UserDbInitInfo.jm_setPort"))
+JR.cast(jlate(JR.cast(userDbInitInfo), JR.cast(this.f_userPort)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UserDbInitInfo.jm_setHasRead"))
+JR.cast(jlate(JR.cast(userDbInitInfo), JR.cast(true)))
+})
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UserDbInitInfo.jm_write"))
+JR.cast(jlate(JR.cast(userDbInitInfo)))
+})
+        let mut historyDbInitInfo: HistoryDbInitInfo = HistoryDbInitInfo.jnew_1(false)
+        ignore(HistoryDbInitInfo.jm_setJdbcDriver(historyDbInitInfo, this.f_historyJdbcDriver))
+        ignore(HistoryDbInitInfo.jm_setName(historyDbInitInfo, this.f_historyName))
+        ignore(HistoryDbInitInfo.jm_setUserName(historyDbInitInfo, this.f_historyUserName))
+        ignore(HistoryDbInitInfo.jm_setPassword(historyDbInitInfo, this.f_historyPassword))
+        ignore(HistoryDbInitInfo.jm_setSchema(historyDbInitInfo, this.f_historySchema))
+        ignore(HistoryDbInitInfo.jm_setServer(historyDbInitInfo, this.f_historyServer))
+        ignore(HistoryDbInitInfo.jm_setPort(historyDbInitInfo, this.f_historyPort))
+        ignore(HistoryDbInitInfo.jm_setHasRead(historyDbInitInfo, true))
+        ignore(HistoryDbInitInfo.jm_write(historyDbInitInfo))
+        let mut logDbInitInfo: LogDbInitInfo = LogDbInitInfo.jnew_1(false)
+        ignore(LogDbInitInfo.jm_setJdbcDriver(logDbInitInfo, this.f_logJdbcDriver))
+        ignore(LogDbInitInfo.jm_setName(logDbInitInfo, this.f_logName))
+        ignore(LogDbInitInfo.jm_setUserName(logDbInitInfo, this.f_logUserName))
+        ignore(LogDbInitInfo.jm_setPassword(logDbInitInfo, this.f_logPassword))
+        ignore(LogDbInitInfo.jm_setSchema(logDbInitInfo, this.f_logSchema))
+        ignore(LogDbInitInfo.jm_setServer(logDbInitInfo, this.f_logServer))
+        ignore(LogDbInitInfo.jm_setPort(logDbInitInfo, this.f_logPort))
+        ignore(LogDbInitInfo.jm_setHasRead(logDbInitInfo, true))
+        ignore(LogDbInitInfo.jm_write(logDbInitInfo))
+        let mut staticPagesDbInitInfo: StaticPagesDbInitInfo = StaticPagesDbInitInfo.jnew_1(false)
+        ignore(StaticPagesDbInitInfo.jm_setJdbcDriver(staticPagesDbInitInfo, this.f_staticPagesJdbcDriver))
+        ignore(StaticPagesDbInitInfo.jm_setName(staticPagesDbInitInfo, this.f_staticPagesName))
+        ignore(StaticPagesDbInitInfo.jm_setUserName(staticPagesDbInitInfo, this.f_staticPagesUserName))
+        ignore(StaticPagesDbInitInfo.jm_setPassword(staticPagesDbInitInfo, this.f_staticPagesPassword))
+        ignore(StaticPagesDbInitInfo.jm_setSchema(staticPagesDbInitInfo, this.f_staticPagesSchema))
+        ignore(StaticPagesDbInitInfo.jm_setServer(staticPagesDbInitInfo, this.f_staticPagesServer))
+        ignore(StaticPagesDbInitInfo.jm_setPort(staticPagesDbInitInfo, this.f_staticPagesPort))
+        ignore(StaticPagesDbInitInfo.jm_setHasRead(staticPagesDbInitInfo, true))
+        ignore(StaticPagesDbInitInfo.jm_write(staticPagesDbInitInfo))
+        let mut inventoryDbInitInfo: InventoryDbInitInfo = InventoryDbInitInfo.jnew_1(false)
+        ignore(InventoryDbInitInfo.jm_setJdbcDriver(inventoryDbInitInfo, this.f_inventoryJdbcDriver))
+        ignore(InventoryDbInitInfo.jm_setName(inventoryDbInitInfo, this.f_inventoryName))
+        ignore(InventoryDbInitInfo.jm_setUserName(inventoryDbInitInfo, this.f_inventoryUserName))
+        ignore(InventoryDbInitInfo.jm_setPassword(inventoryDbInitInfo, this.f_inventoryPassword))
+        ignore(InventoryDbInitInfo.jm_setSchema(inventoryDbInitInfo, this.f_inventorySchema))
+        ignore(InventoryDbInitInfo.jm_setServer(inventoryDbInitInfo, this.f_inventoryServer))
+        ignore(InventoryDbInitInfo.jm_setPort(inventoryDbInitInfo, this.f_inventoryPort))
+        ignore(InventoryDbInitInfo.jm_setHasRead(inventoryDbInitInfo, true))
+        ignore(InventoryDbInitInfo.jm_write(inventoryDbInitInfo))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Created DB connection files"), JR.cast(this), JR.cast("set()")))
+})
+}
 
-    method set () : unit =
-        begin
-        ignore ((Obj.magic logUtil)#putF ("Creating DB connection files", (Obj.magic self), "set()"));
-        let userDbInitInfo : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "UserDbInitInfo" (Obj.repr (false)))))) in ();
-        ignore ((Obj.magic !userDbInitInfo)#setJdbcDriver (userJdbcDriver));
-        ignore ((Obj.magic !userDbInitInfo)#setName (userName));
-        ignore ((Obj.magic !userDbInitInfo)#setUserName (userUserName));
-        ignore ((Obj.magic !userDbInitInfo)#setPassword (userPassword));
-        ignore ((Obj.magic !userDbInitInfo)#setSchema (userSchema));
-        ignore ((Obj.magic !userDbInitInfo)#setServer (userServer));
-        ignore ((Obj.magic !userDbInitInfo)#setPort (userPort));
-        ignore ((Obj.magic !userDbInitInfo)#setHasRead (true));
-        ignore ((Obj.magic !userDbInitInfo)#write ());
-        let historyDbInitInfo : HistoryDbInitInfo.historyDbInitInfo ref = ref (((new HistoryDbInitInfo.historyDbInitInfo (false)) :> HistoryDbInitInfo.historyDbInitInfo)) in ();
-        ignore (!historyDbInitInfo#setJdbcDriver (historyJdbcDriver));
-        ignore (!historyDbInitInfo#setName (historyName));
-        ignore (!historyDbInitInfo#setUserName (historyUserName));
-        ignore (!historyDbInitInfo#setPassword (historyPassword));
-        ignore (!historyDbInitInfo#setSchema (historySchema));
-        ignore (!historyDbInitInfo#setServer (historyServer));
-        ignore (!historyDbInitInfo#setPort (historyPort));
-        ignore (!historyDbInitInfo#setHasRead (true));
-        ignore (!historyDbInitInfo#write ());
-        let logDbInitInfo : LogDbInitInfo.logDbInitInfo ref = ref (((new LogDbInitInfo.logDbInitInfo (false)) :> LogDbInitInfo.logDbInitInfo)) in ();
-        ignore (!logDbInitInfo#setJdbcDriver (logJdbcDriver));
-        ignore (!logDbInitInfo#setName (logName));
-        ignore (!logDbInitInfo#setUserName (logUserName));
-        ignore (!logDbInitInfo#setPassword (logPassword));
-        ignore (!logDbInitInfo#setSchema (logSchema));
-        ignore (!logDbInitInfo#setServer (logServer));
-        ignore (!logDbInitInfo#setPort (logPort));
-        ignore (!logDbInitInfo#setHasRead (true));
-        ignore (!logDbInitInfo#write ());
-        let staticPagesDbInitInfo : StaticPagesDbInitInfo.staticPagesDbInitInfo ref = ref (((new StaticPagesDbInitInfo.staticPagesDbInitInfo (false)) :> StaticPagesDbInitInfo.staticPagesDbInitInfo)) in ();
-        ignore (!staticPagesDbInitInfo#setJdbcDriver (staticPagesJdbcDriver));
-        ignore (!staticPagesDbInitInfo#setName (staticPagesName));
-        ignore (!staticPagesDbInitInfo#setUserName (staticPagesUserName));
-        ignore (!staticPagesDbInitInfo#setPassword (staticPagesPassword));
-        ignore (!staticPagesDbInitInfo#setSchema (staticPagesSchema));
-        ignore (!staticPagesDbInitInfo#setServer (staticPagesServer));
-        ignore (!staticPagesDbInitInfo#setPort (staticPagesPort));
-        ignore (!staticPagesDbInitInfo#setHasRead (true));
-        ignore (!staticPagesDbInitInfo#write ());
-        let inventoryDbInitInfo : InventoryDbInitInfo.inventoryDbInitInfo ref = ref (((new InventoryDbInitInfo.inventoryDbInitInfo (false)) :> InventoryDbInitInfo.inventoryDbInitInfo)) in ();
-        ignore (!inventoryDbInitInfo#setJdbcDriver (inventoryJdbcDriver));
-        ignore (!inventoryDbInitInfo#setName (inventoryName));
-        ignore (!inventoryDbInitInfo#setUserName (inventoryUserName));
-        ignore (!inventoryDbInitInfo#setPassword (inventoryPassword));
-        ignore (!inventoryDbInitInfo#setSchema (inventorySchema));
-        ignore (!inventoryDbInitInfo#setServer (inventoryServer));
-        ignore (!inventoryDbInitInfo#setPort (inventoryPort));
-        ignore (!inventoryDbInitInfo#setHasRead (true));
-        ignore (!inventoryDbInitInfo#write ());
-        ignore ((Obj.magic logUtil)#putF ("Created DB connection files", (Obj.magic self), "set()"))
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        userJdbcDriver <- "";
-        userName <- "";
-        userUserName <- "";
-        userPassword <- "";
-        userSchema <- "";
-        userServer <- "";
-        userPort <- "";
-        historyJdbcDriver <- "";
-        historyName <- "";
-        historyUserName <- "";
-        historyPassword <- "";
-        historySchema <- "";
-        historyServer <- "";
-        historyPort <- "";
-        logJdbcDriver <- "";
-        logName <- "";
-        logUserName <- "";
-        logPassword <- "";
-        logSchema <- "";
-        logServer <- "";
-        logPort <- "";
-        inventoryJdbcDriver <- "";
-        inventoryName <- "";
-        inventoryUserName <- "";
-        inventoryPassword <- "";
-        inventorySchema <- "";
-        inventoryServer <- "";
-        inventoryPort <- "";
-        staticPagesJdbcDriver <- "";
-        staticPagesName <- "";
-        staticPagesUserName <- "";
-        staticPagesPassword <- "";
-        staticPagesSchema <- "";
-        staticPagesServer <- "";
-        staticPagesPort <- "";
-        ();
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        let hashMap : java_hash_map ref = ref ((((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashMap ()) :> java_hash_map)) in ();
-        let keys : Obj.t ref = ref ((Obj.repr (map#keySet ()))) in ();
-        let keyArray : Obj.t array ref = ref (((Obj.magic !keys)#toArray ())) in ();
-        let size : int ref = ref ((Array.length !keyArray)) in ();
-        for index = 0 to !size - 1 do
-            let key : string ref = ref ((Obj.magic !keyArray.(index))) in ();
-            let values : string array ref = ref ((Obj.magic (map#get (!key)))) in ();
-            ignore (!hashMap#put ((Obj.obj (java_new "String" (Obj.repr (!key)))), (Obj.obj (java_new "String" (Obj.repr (!values.(0)))))));
-            ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-            ignore (!stringBuffer#append ("key: "));
-            ignore (!stringBuffer#append (!key));
-            ignore (!stringBuffer#append (" Value: "));
-            ignore (!stringBuffer#append (!values.(0)));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), "getFormData()"))
-        done;
-        (self#getFormData (!hashMap))
-      end
-  end [@@warning "-20"]
-(* Java overloaded constructors: an OCaml class has one constructor *)
-let () = java_register_constructor "Initializer" (fun arguments -> Obj.repr (new initializer (Obj.obj arguments)))
+JR.registerLateBound("Initializer.jnew_1", jnew_1)
+JR.registerLateBound("Initializer.jnew_1", jnew_1)
+JR.registerLateBound("Initializer.jm_getFormData", jm_getFormData)
+JR.registerLateBound("Initializer.jm_isJdbcDriverValid", jm_isJdbcDriverValid)
+JR.registerLateBound("Initializer.jm_isValid", jm_isValid)
+JR.registerLateBound("Initializer.jm_getJdbcDriverValidationInfo", jm_getJdbcDriverValidationInfo)
+JR.registerLateBound("Initializer.jm_getJdbcDriverSolutionInfo", jm_getJdbcDriverSolutionInfo)
+JR.registerLateBound("Initializer.jm_getInvalidInfo", jm_getInvalidInfo)
+JR.registerLateBound("Initializer.jm_set", jm_set)
+JR.registerLateBound("Initializer.f_logUtil", (this: Initializer) => this.f_logUtil)
+JR.registerLateBound("Initializer.f_userJdbcDriver", (this: Initializer) => this.f_userJdbcDriver)
+JR.registerLateBound("Initializer.set_f_userJdbcDriver", (this: Initializer, jvalue) => { this.f_userJdbcDriver = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_userName", (this: Initializer) => this.f_userName)
+JR.registerLateBound("Initializer.set_f_userName", (this: Initializer, jvalue) => { this.f_userName = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_userUserName", (this: Initializer) => this.f_userUserName)
+JR.registerLateBound("Initializer.set_f_userUserName", (this: Initializer, jvalue) => { this.f_userUserName = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_userPassword", (this: Initializer) => this.f_userPassword)
+JR.registerLateBound("Initializer.set_f_userPassword", (this: Initializer, jvalue) => { this.f_userPassword = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_userSchema", (this: Initializer) => this.f_userSchema)
+JR.registerLateBound("Initializer.set_f_userSchema", (this: Initializer, jvalue) => { this.f_userSchema = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_userServer", (this: Initializer) => this.f_userServer)
+JR.registerLateBound("Initializer.set_f_userServer", (this: Initializer, jvalue) => { this.f_userServer = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_userPort", (this: Initializer) => this.f_userPort)
+JR.registerLateBound("Initializer.set_f_userPort", (this: Initializer, jvalue) => { this.f_userPort = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_historyJdbcDriver", (this: Initializer) => this.f_historyJdbcDriver)
+JR.registerLateBound("Initializer.set_f_historyJdbcDriver", (this: Initializer, jvalue) => { this.f_historyJdbcDriver = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_historyName", (this: Initializer) => this.f_historyName)
+JR.registerLateBound("Initializer.set_f_historyName", (this: Initializer, jvalue) => { this.f_historyName = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_historyUserName", (this: Initializer) => this.f_historyUserName)
+JR.registerLateBound("Initializer.set_f_historyUserName", (this: Initializer, jvalue) => { this.f_historyUserName = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_historyPassword", (this: Initializer) => this.f_historyPassword)
+JR.registerLateBound("Initializer.set_f_historyPassword", (this: Initializer, jvalue) => { this.f_historyPassword = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_historySchema", (this: Initializer) => this.f_historySchema)
+JR.registerLateBound("Initializer.set_f_historySchema", (this: Initializer, jvalue) => { this.f_historySchema = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_historyServer", (this: Initializer) => this.f_historyServer)
+JR.registerLateBound("Initializer.set_f_historyServer", (this: Initializer, jvalue) => { this.f_historyServer = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_historyPort", (this: Initializer) => this.f_historyPort)
+JR.registerLateBound("Initializer.set_f_historyPort", (this: Initializer, jvalue) => { this.f_historyPort = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_logJdbcDriver", (this: Initializer) => this.f_logJdbcDriver)
+JR.registerLateBound("Initializer.set_f_logJdbcDriver", (this: Initializer, jvalue) => { this.f_logJdbcDriver = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_logName", (this: Initializer) => this.f_logName)
+JR.registerLateBound("Initializer.set_f_logName", (this: Initializer, jvalue) => { this.f_logName = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_logUserName", (this: Initializer) => this.f_logUserName)
+JR.registerLateBound("Initializer.set_f_logUserName", (this: Initializer, jvalue) => { this.f_logUserName = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_logPassword", (this: Initializer) => this.f_logPassword)
+JR.registerLateBound("Initializer.set_f_logPassword", (this: Initializer, jvalue) => { this.f_logPassword = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_logSchema", (this: Initializer) => this.f_logSchema)
+JR.registerLateBound("Initializer.set_f_logSchema", (this: Initializer, jvalue) => { this.f_logSchema = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_logServer", (this: Initializer) => this.f_logServer)
+JR.registerLateBound("Initializer.set_f_logServer", (this: Initializer, jvalue) => { this.f_logServer = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_logPort", (this: Initializer) => this.f_logPort)
+JR.registerLateBound("Initializer.set_f_logPort", (this: Initializer, jvalue) => { this.f_logPort = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_inventoryJdbcDriver", (this: Initializer) => this.f_inventoryJdbcDriver)
+JR.registerLateBound("Initializer.set_f_inventoryJdbcDriver", (this: Initializer, jvalue) => { this.f_inventoryJdbcDriver = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_inventoryName", (this: Initializer) => this.f_inventoryName)
+JR.registerLateBound("Initializer.set_f_inventoryName", (this: Initializer, jvalue) => { this.f_inventoryName = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_inventoryUserName", (this: Initializer) => this.f_inventoryUserName)
+JR.registerLateBound("Initializer.set_f_inventoryUserName", (this: Initializer, jvalue) => { this.f_inventoryUserName = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_inventoryPassword", (this: Initializer) => this.f_inventoryPassword)
+JR.registerLateBound("Initializer.set_f_inventoryPassword", (this: Initializer, jvalue) => { this.f_inventoryPassword = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_inventorySchema", (this: Initializer) => this.f_inventorySchema)
+JR.registerLateBound("Initializer.set_f_inventorySchema", (this: Initializer, jvalue) => { this.f_inventorySchema = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_inventoryServer", (this: Initializer) => this.f_inventoryServer)
+JR.registerLateBound("Initializer.set_f_inventoryServer", (this: Initializer, jvalue) => { this.f_inventoryServer = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_inventoryPort", (this: Initializer) => this.f_inventoryPort)
+JR.registerLateBound("Initializer.set_f_inventoryPort", (this: Initializer, jvalue) => { this.f_inventoryPort = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_staticPagesJdbcDriver", (this: Initializer) => this.f_staticPagesJdbcDriver)
+JR.registerLateBound("Initializer.set_f_staticPagesJdbcDriver", (this: Initializer, jvalue) => { this.f_staticPagesJdbcDriver = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_staticPagesName", (this: Initializer) => this.f_staticPagesName)
+JR.registerLateBound("Initializer.set_f_staticPagesName", (this: Initializer, jvalue) => { this.f_staticPagesName = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_staticPagesUserName", (this: Initializer) => this.f_staticPagesUserName)
+JR.registerLateBound("Initializer.set_f_staticPagesUserName", (this: Initializer, jvalue) => { this.f_staticPagesUserName = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_staticPagesPassword", (this: Initializer) => this.f_staticPagesPassword)
+JR.registerLateBound("Initializer.set_f_staticPagesPassword", (this: Initializer, jvalue) => { this.f_staticPagesPassword = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_staticPagesSchema", (this: Initializer) => this.f_staticPagesSchema)
+JR.registerLateBound("Initializer.set_f_staticPagesSchema", (this: Initializer, jvalue) => { this.f_staticPagesSchema = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_staticPagesServer", (this: Initializer) => this.f_staticPagesServer)
+JR.registerLateBound("Initializer.set_f_staticPagesServer", (this: Initializer, jvalue) => { this.f_staticPagesServer = jvalue; jvalue })
+JR.registerLateBound("Initializer.f_staticPagesPort", (this: Initializer) => this.f_staticPagesPort)
+JR.registerLateBound("Initializer.set_f_staticPagesPort", (this: Initializer, jvalue) => { this.f_staticPagesPort = jvalue; jvalue })
+JR.registerLateBound("Initializer.jstatic_MAXDB", jstatic_MAXDB)
+JR.registerLateBound("Initializer.jstatic_MAX", jstatic_MAX)
+JR.registerLateBound("Initializer.jstatic_MIN", jstatic_MIN)
+JR.registerLateBound("Initializer.jstatic_MINPASSWORD", jstatic_MINPASSWORD)
 
 

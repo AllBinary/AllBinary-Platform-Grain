@@ -1,71 +1,88 @@
-(*
- 
-  AllBinary Open License Version 1 
-  Copyright (c) 2022 AllBinary 
-   
-  By agreeing to this license you and any business entity you represent are 
-  legally bound to the AllBinary Open License Version 1 legal agreement. 
-   
-  You may obtain the AllBinary Open License Version 1 legal agreement from 
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-   
-  Created By: Travis Berthelot 
+/*
+ * 
+ * AllBinary Open License Version 1 
+ * Copyright (c) 2022 AllBinary 
+ *  
+ * By agreeing to this license you and any business entity you represent are 
+ * legally bound to the AllBinary Open License Version 1 legal agreement. 
+ *  
+ * You may obtain the AllBinary Open License Version 1 legal agreement from 
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+ *  
+ * Created By: Travis Berthelot 
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.animation.image
+module ScaleProcessor
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./ScaleBaseProcessor.gr" include ScaleBaseProcessor
+use ScaleBaseProcessor.{ type ScaleBaseProcessor }
+
+provide record ScaleProcessor {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_imageScaleUtil: JObject,
+}
+
+let mut jcell_instanceC: Option<ScaleProcessor> = None
+
+provide let rec jclassName = () => "ScaleProcessor"
+
+and jstatic_instanceC = () => match (jcell_instanceC) {
+  Some(value) => value,
+  None => {
+    let value: ScaleProcessor = jnew_0()
+    jcell_instanceC = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ScaleProcessor"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_imageScaleUtil: JR.jnull, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this.f_imageScaleUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("ImageScaleUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.animation.image *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Image *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.media.image.ImageScaleUtil *)
-(* import org.allbinary.string.CommonStrings *)
-
-class scaleProcessor () =
-  object (self)
-    inherit ScaleBaseProcessor.scaleBaseProcessor ()
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable imageScaleUtil : Obj.t = Obj.repr 0
-    method imageScaleUtil : 'r. 'r = Obj.magic imageScaleUtil
-    method set_imageScaleUtil : 'v. 'v -> unit = fun value' -> imageScaleUtil <- Obj.repr value'
+and jm_getInstance = () => {
+        return jstatic_instanceC()
+}
     
+and jm_update = (this: ScaleProcessor, originalImage: JObject, originalImageArray: Array<JObject>, ximageToShowArray: Array<JObject>, unused: Int32, scaleX: Float32, scaleY: Float32, maxScaleX: Float32, maxScaleY: Float32) => {
+        {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageScaleUtil.jm_scale2"))
+JR.cast(jlate(JR.cast(this.f_imageScaleUtil), JR.cast(originalImage), JR.cast(originalImageArray), JR.cast(ximageToShowArray), JR.cast(unused), JR.cast(scaleX), JR.cast(scaleY), JR.cast(maxScaleX), JR.cast(maxScaleY)))
+})
+        }
+}
 
-    method update : 'any1 'any2 'any3. 'any1 * 'any2 * 'any3 * int * float * float * float * float -> unit = fun (originalImage, originalImageArray, ximageToShowArray, (unused : int), (scaleX : float), (scaleY : float), (maxScaleX : float), (maxScaleY : float)) ->
-        let originalImage = Obj.repr originalImage in
-        let originalImageArray = Obj.repr originalImageArray in
-        let ximageToShowArray = Obj.repr ximageToShowArray in
-        begin
-        (try
-            ignore ((Obj.magic imageScaleUtil)#scale2 ((Obj.magic originalImage), (Obj.magic originalImageArray), (Obj.magic ximageToShowArray), unused, scaleX, scaleY, maxScaleX, maxScaleY))
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#uPDATE, e))
-        end)
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        imageScaleUtil <- (Obj.repr (Obj.magic (java_call_static "ImageScaleUtil.getInstance" (Obj.repr ()))));
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "ScaleProcessor" (fun arguments -> Obj.repr (new scaleProcessor (Obj.obj arguments)))
-
-let instanceC = (new scaleProcessor ())
-let get_instanceC () = instanceC
-let () = java_register_static "ScaleProcessor.get_instanceC" (fun _ -> Obj.repr (get_instanceC ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instanceC))
-        end
-let () = java_register_static "ScaleProcessor.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("ScaleProcessor.jnew_0", jnew_0)
+JR.registerLateBound("ScaleProcessor.jm_getInstance", jm_getInstance)
+JR.registerLateBound("ScaleProcessor.jm_update", jm_update)
+JR.registerLateBound("ScaleProcessor.f_logUtil", (this: ScaleProcessor) => this.f_logUtil)
+JR.registerLateBound("ScaleProcessor.f_commonStrings", (this: ScaleProcessor) => this.f_commonStrings)
+JR.registerLateBound("ScaleProcessor.f_imageScaleUtil", (this: ScaleProcessor) => this.f_imageScaleUtil)
+JR.registerLateBound("ScaleProcessor.jstatic_instanceC", jstatic_instanceC)
 
 

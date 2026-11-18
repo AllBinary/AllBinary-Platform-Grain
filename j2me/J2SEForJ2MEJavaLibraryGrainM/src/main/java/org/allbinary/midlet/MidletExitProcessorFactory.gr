@@ -1,58 +1,77 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.midlet
+module MidletExitProcessorFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.midlet *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/J2MEUtil.gr" include J2MEUtil
+use J2MEUtil.{ type J2MEUtil }
+from "../../../org/allbinary/canvas/Processor.gr" include Processor
+use Processor.{ type Processor }
+from "./MidletExitProcessor.gr" include MidletExitProcessor
+use MidletExitProcessor.{ type MidletExitProcessor }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.midlet.MIDlet *)
-(* import org.allbinary.AppletUtil *)
-(* import org.allbinary.J2MEUtil *)
-(* import org.allbinary.canvas.Processor *)
+provide record MidletExitProcessorFactory {
+  jobject: JObject,
+}
 
-class midletExitProcessorFactory () =
-  object
+let mut jcell_instance: Option<MidletExitProcessorFactory> = None
+
+provide let rec jclassName = () => "MidletExitProcessorFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: MidletExitProcessorFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("MidletExitProcessorFactory"), }
+    this
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jm_getExitInstance = (this: MidletExitProcessorFactory, midlet: JObject) => {
+        if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AppletUtil.jm_isAppletLoader"))
+JR.cast(jlate(JR.cast(midlet)))
+} || J2MEUtil.jm_isJ2ME())) {
+            return Processor.jm_getInstance()
+        } else {
+            return JR.cast(MidletExitProcessor.jnew_1(midlet))
+        }
+}
 
-    method getExitInstance : 'any1 'return. 'any1 -> 'return = fun (midlet) ->
-        let midlet = Obj.repr midlet in
-        try
-        begin
-        if ((Obj.magic (java_call_static "AppletUtil.isAppletLoader" (Obj.repr ((Obj.magic midlet))))) || (J2MEUtil.isJ2ME ())) then begin
-            raise (Java_return (Obj.repr ((Processor.getInstance ()))))
-        end else begin
-            raise (Java_return (Obj.repr ((new MidletExitProcessor.midletExitProcessor ((Obj.magic midlet))))))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "MidletExitProcessorFactory" (fun arguments -> Obj.repr (new midletExitProcessorFactory (Obj.obj arguments)))
-
-let instance = (new midletExitProcessorFactory ())
-let get_instance () = instance
-let () = java_register_static "MidletExitProcessorFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "MidletExitProcessorFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("MidletExitProcessorFactory.jnew_0", jnew_0)
+JR.registerLateBound("MidletExitProcessorFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("MidletExitProcessorFactory.jm_getExitInstance", jm_getExitInstance)
+JR.registerLateBound("MidletExitProcessorFactory.jstatic_instance", jstatic_instance)
 
 

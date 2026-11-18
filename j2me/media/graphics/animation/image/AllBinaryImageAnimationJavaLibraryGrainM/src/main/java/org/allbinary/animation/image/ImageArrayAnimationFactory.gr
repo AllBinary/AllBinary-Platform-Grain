@@ -1,77 +1,89 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.animation.image
+module ImageArrayAnimationFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.animation.image *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/animation/Animation.gr" include Animation
+use Animation.{ type Animation }
+from "../../../../org/allbinary/animation/AnimationBehavior.gr" include AnimationBehavior
+use AnimationBehavior.{ type AnimationBehavior }
+from "../../../../org/allbinary/animation/AnimationBehaviorFactory.gr" include AnimationBehaviorFactory
+use AnimationBehaviorFactory.{ type AnimationBehaviorFactory }
+from "../../../../org/allbinary/animation/AnimationInterfaceFactoryInterface.gr" include AnimationInterfaceFactoryInterface
+use AnimationInterfaceFactoryInterface.{ type AnimationInterfaceFactoryInterface }
+from "../../../../org/allbinary/media/ScaleProperties.gr" include ScaleProperties
+use ScaleProperties.{ type ScaleProperties }
+from "./ImageArrayAnimation.gr" include ImageArrayAnimation
+use ImageArrayAnimation.{ type ImageArrayAnimation }
+from "./AdjustedImageArrayAnimation.gr" include AdjustedImageArrayAnimation
+use AdjustedImageArrayAnimation.{ type AdjustedImageArrayAnimation }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Image *)
-(* import org.allbinary.animation.Animation *)
-(* import org.allbinary.animation.AnimationBehavior *)
-(* import org.allbinary.animation.AnimationBehaviorFactory *)
-(* import org.allbinary.animation.AnimationInterfaceFactoryInterface *)
-(* import org.allbinary.logic.communication.log.ForcedLogUtil *)
-(* import org.allbinary.media.ScaleProperties *)
+provide record ImageArrayAnimationFactory {
+  jobject: JObject,
+  mut f_dx: Int32,
+  mut f_dy: Int32,
+  mut f_imageArray: Array<JObject>,
+  mut f_animationBehaviorFactory: AnimationBehaviorFactory,
+}
 
-class imageArrayAnimationFactory (imageArray_arg, (dx_arg : int), (dy_arg : int), (animationBehaviorFactory_arg : AnimationBehaviorFactory.animationBehaviorFactory)) =
-  object
-    val mutable dx : int = 0
-    method dx = dx
-    method set_dx value' = dx <- value'
-    val mutable dy : int = 0
-    method dy = dy
-    method set_dy value' = dy <- value'
-    val mutable imageArray : Obj.t = Obj.repr 0
-    method imageArray : 'r. 'r = Obj.magic imageArray
-    method set_imageArray : 'v. 'v -> unit = fun value' -> imageArray <- Obj.repr value'
-    val mutable animationBehaviorFactory : AnimationBehaviorFactory.animationBehaviorFactory = (Obj.magic 0)
-    method animationBehaviorFactory = animationBehaviorFactory
-    method set_animationBehaviorFactory value' = animationBehaviorFactory <- value'
+
+provide let rec jclassName = () => "ImageArrayAnimationFactory"
+    
+and jnew_4 = (imageArray: Array<JObject>, dx: Int32, dy: Int32, animationBehaviorFactory: AnimationBehaviorFactory) => {
+    let this = { jobject: JR.newJObject("ImageArrayAnimationFactory"), f_dx: 0l, f_dy: 0l, f_imageArray: [> ], f_animationBehaviorFactory: JR.nullOf(), }
+    this.f_dx = 0l
+    this.f_dy = 0l
     
     
-
-    method getInstance : 'return. int -> 'return = fun ((_instanceId : int)) ->
-        try
-        begin
-        if ((dx <> 0) || (dy <> 0)) then begin
-            raise (Java_return (Obj.repr ((new AdjustedImageArrayAnimation.adjustedImageArrayAnimation ((Obj.magic imageArray), dx, dy, (animationBehaviorFactory#getOrCreateInstance ()))))))
-        end else begin
-            raise (Java_return (Obj.repr ((new ImageArrayAnimation.imageArrayAnimation ((Obj.magic imageArray), (AnimationBehavior.getInstance ()))))))
-        end
-        end
-        with Java_return value -> Obj.obj value
+        this.f_imageArray = imageArray
+        this.f_animationBehaviorFactory = animationBehaviorFactory
+        this.f_dx = dx
+        this.f_dy = dy
+    this
+}
     
+and jm_getInstance = (this: ImageArrayAnimationFactory, instanceId: Int32) => {
+        if (((this.f_dx != 0l) || (this.f_dy != 0l))) {
+            return JR.cast(AdjustedImageArrayAnimation.jnew_4(this.f_imageArray, this.f_dx, this.f_dy, AnimationBehaviorFactory.jm_getOrCreateInstance(this.f_animationBehaviorFactory)))
+        } else {
+            return JR.cast(ImageArrayAnimation.jnew_2(this.f_imageArray, AnimationBehavior.jm_getInstance()))
+        }
+}
+    
+and jm_setInitialScale = (this: ImageArrayAnimationFactory, scaleProperties: ScaleProperties) => {
+    void
+}
 
-    method setInitialScale : 'any1. 'any1 -> unit = fun (_scaleProperties) ->
-        begin
-        ()
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        dx <- 0;
-        dy <- 0;
-        ();
-        ();
-        ();
-        imageArray <- Obj.repr (imageArray_arg);
-        animationBehaviorFactory <- animationBehaviorFactory_arg;
-        dx <- dx_arg;
-        dy <- dy_arg
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "ImageArrayAnimationFactory" (fun arguments -> Obj.repr (new imageArrayAnimationFactory (Obj.obj arguments)))
+JR.registerLateBound("ImageArrayAnimationFactory.jnew_4", jnew_4)
+JR.registerLateBound("ImageArrayAnimationFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("ImageArrayAnimationFactory.jm_setInitialScale", jm_setInitialScale)
+JR.registerLateBound("ImageArrayAnimationFactory.f_dx", (this: ImageArrayAnimationFactory) => this.f_dx)
+JR.registerLateBound("ImageArrayAnimationFactory.set_f_dx", (this: ImageArrayAnimationFactory, jvalue) => { this.f_dx = jvalue; jvalue })
+JR.registerLateBound("ImageArrayAnimationFactory.f_dy", (this: ImageArrayAnimationFactory) => this.f_dy)
+JR.registerLateBound("ImageArrayAnimationFactory.set_f_dy", (this: ImageArrayAnimationFactory, jvalue) => { this.f_dy = jvalue; jvalue })
+JR.registerLateBound("ImageArrayAnimationFactory.f_imageArray", (this: ImageArrayAnimationFactory) => this.f_imageArray)
+JR.registerLateBound("ImageArrayAnimationFactory.f_animationBehaviorFactory", (this: ImageArrayAnimationFactory) => this.f_animationBehaviorFactory)
 
 

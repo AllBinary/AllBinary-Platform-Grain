@@ -1,163 +1,230 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.draw
+module DrawVerticalStringUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.draw *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/J2MEUtil.gr" include J2MEUtil
+use J2MEUtil.{ type J2MEUtil }
+from "../../../../org/allbinary/graphics/Anchor.gr" include Anchor
+use Anchor.{ type Anchor }
+from "../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Font *)
-(* import javax.microedition.lcdui.Graphics *)
-(* import org.allbinary.AndroidUtil *)
-(* import org.allbinary.J2MEUtil *)
-(* import org.allbinary.graphics.Anchor *)
-(* import org.allbinary.graphics.opengles.OpenGLFeatureUtil *)
-(* import org.allbinary.logic.NullUtil *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
+provide record DrawVerticalStringUtil {
+  jobject: JObject,
+  mut f_EMPTY_STRING: String,
+  mut f_anchor: Int32,
+  mut f_charHeight: Int32,
+  mut f_offsetY: Int32,
+  mut f_offsetXArray: Array<Int32>,
+}
 
-class drawVerticalStringUtil () =
-  object (self)
-    val mutable eMPTY_STRING : string = ""
-    method eMPTY_STRING = eMPTY_STRING
-    method set_eMPTY_STRING value' = eMPTY_STRING <- value'
-    val mutable anchor : int = 0
-    method anchor = anchor
-    method set_anchor value' = anchor <- value'
-    val mutable charHeight : int = 0
-    method charHeight = charHeight
-    method set_charHeight value' = charHeight <- value'
-    val mutable offsetY : int = 0
-    method offsetY = offsetY
-    method set_offsetY value' = offsetY <- value'
-    val mutable offsetXArray : int array = (Obj.magic 0)
-    method offsetXArray = offsetXArray
-    method set_offsetXArray value' = offsetXArray <- value'
+let mut jcell_instance: Option<DrawVerticalStringUtil> = None
+
+provide let rec jclassName = () => "DrawVerticalStringUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: DrawVerticalStringUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("DrawVerticalStringUtil"), f_EMPTY_STRING: "", f_anchor: 0l, f_charHeight: 0l, f_offsetY: 0l, f_offsetXArray: [> ], }
+    this.f_EMPTY_STRING = StringUtil.jm_getInstance().f_EMPTY_STRING
+    this.f_anchor = Anchor.jstatic_TOP_LEFT()
     
-
-    method updateMeasurement : 'any1. 'any1 * string -> unit = fun (graphics, (string : string)) ->
-        let graphics = Obj.repr graphics in
-        begin
-        let openGLFeatureUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "OpenGLFeatureUtil.getInstance" (Obj.repr ()))))) in ();
-        let font : Obj.t ref = ref ((Obj.repr ((Obj.magic graphics)#getFont ()))) in ();
-        charHeight <- ((Obj.magic !font)#getHeight ());
-        offsetY <- 0;
-        if (J2MEUtil.isHTML ()) then begin
-            charHeight <- (charHeight + 1)
-        end else if ((Obj.magic !openGLFeatureUtil)#isAnyThreed ()) then begin
-            charHeight <- (charHeight + 2);
-            if (Obj.magic (java_call_static "AndroidUtil.isAndroid" (Obj.repr ()))) then begin
-                ()
-            end else begin
-                offsetY <- (2 + (((charHeight * 2) / 3)))
-            end
-        end;
-        let size : int ref = ref ((String.length string)) in ();
-        let aChar : char ref = ref ('\000') in ();
-        let offsetXArray_arg : int array ref = ref ((Array.make (!size) 0)) in ();
-        for index = (!size - 1) downto 0 do
-            aChar := (String.get string (index));
-            if ((Obj.magic !openGLFeatureUtil)#isAnyThreed ()) then begin
-                !offsetXArray_arg.(index) <- (((Obj.magic !font)#charWidth (!aChar)) / 2)
-            end
-        done;
-        offsetXArray <- !offsetXArray_arg
-        end [@@warning "-20"]
     
-
-    method paintVerticle : 'any1. 'any1 * string * int * int * int -> unit = fun (graphics, (string : string), (x : int), (y : int), (anchor_arg : int)) ->
-        let graphics = Obj.repr graphics in
-        begin
-        let size : int ref = ref ((String.length string)) in ();
-        let aChar : char ref = ref ('\000') in ();
-        for index = (!size - 1) downto 0 do
-            aChar := (String.get string (index));
-            ignore ((Obj.magic graphics)#drawChar (!aChar, (x + offsetXArray.(index)), ((y + ((charHeight * index))) + offsetY), anchor_arg))
-        done
-        end [@@warning "-20"]
+    this.f_offsetXArray = NullUtil.jm_getInstance().f_NULL_INT_ARRAY
+    this
+}
     
-
-    method drawCenterString : 'any1. 'any1 * string * int * int * int * int -> unit = fun (graphics, (string : string), (offset : int), (length : int), (x : int), (y : int)) ->
-        let graphics = Obj.repr graphics in
-        begin
-        let width : int ref = ref ((((((Obj.magic graphics)#getFont ())#substringWidth (string, offset, length)) asr 1))) in ();
-        (try
-            ignore ((Obj.magic graphics)#drawSubstring (string, offset, length, (x - !width), y, anchor))
-        with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((((((new StringMaker.stringMaker ())#append ("Exception: stringLength: "))#appendint ((String.length string)))#append (" offset: "))#appendint (offset))#append (" currentLength: "))#appendint (length)))), (Obj.magic self), "drawCenterString"))))
-        end)
-        end [@@warning "-20"]
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jm_updateMeasurement = (this: DrawVerticalStringUtil, graphics: JObject, string: String) => {
+        let mut openGLFeatureUtil: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("OpenGLFeatureUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        let mut font: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_getFont"))
+JR.cast(jlate(JR.cast(graphics)))
+})
+        this.f_charHeight = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Font.jm_getHeight"))
+JR.cast(jlate(JR.cast(font)))
+}
+        this.f_offsetY = 0l
+        if (J2MEUtil.jm_isHTML()) {
+            this.f_charHeight = Int32.(+)(this.f_charHeight, 1l)
+        } else if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("OpenGLFeatureUtil.jm_isAnyThreed"))
+JR.cast(jlate(JR.cast(openGLFeatureUtil)))
+}) {
+            this.f_charHeight = Int32.(+)(this.f_charHeight, 2l)
+            if ({
+let jlate: () => JObject = JR.cast(JR.lateBound("AndroidUtil.jm_isAndroid"))
+JR.cast(jlate())
+}) {
+                void
+            } else {
+                this.f_offsetY = Int32.(+)(2l, (Int32.(/)(Int32.(*)(this.f_charHeight, 2l), 3l)))
+            }
+        }
+        let mut size: Int32 = JR.length(string)
+        let mut aChar: Int32 = 0l
+        let mut offsetXArray: Array<Int32> = Array.make(Int32.toNumber(size), 0l)
+        {
+            let mut index: Int32 = Int32.(-)(size, 1l)
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(-)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(>=)(index, 0l))) break
+            aChar = JR.charAt(string, index)
+            if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("OpenGLFeatureUtil.jm_isAnyThreed"))
+JR.cast(jlate(JR.cast(openGLFeatureUtil)))
+}) {
+                offsetXArray[Int32.toNumber(index)] = Int32.(/)({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Font.jm_charWidth"))
+JR.cast(jlate(JR.cast(font), JR.cast(aChar)))
+}, 2l)
+            }
+            }
+        }
+        this.f_offsetXArray = offsetXArray
+}
+    
+and jm_paintVerticle = (this: DrawVerticalStringUtil, graphics: JObject, string: String, x: Int32, y: Int32, anchor: Int32) => {
+        let mut size: Int32 = JR.length(string)
+        let mut aChar: Int32 = 0l
+        {
+            let mut index: Int32 = Int32.(-)(size, 1l)
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(-)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(>=)(index, 0l))) break
+            aChar = JR.charAt(string, index)
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawChar"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(aChar), JR.cast(Int32.(+)(x, this.f_offsetXArray[Int32.toNumber(index)])), JR.cast(Int32.(+)(Int32.(+)(y, (Int32.(*)(this.f_charHeight, index))), this.f_offsetY)), JR.cast(anchor)))
+})
+            }
+        }
+}
+    
+and jm_drawCenterString = (this: DrawVerticalStringUtil, graphics: JObject, string: String, offset: Int32, length: Int32, x: Int32, y: Int32) => {
+        let mut width: Int32 = (Int32.(>>)(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_getFont"))
+JR.cast(jlate(JR.cast(graphics)))
+})), 1l))
+        {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawSubstring"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(string), JR.cast(offset), JR.cast(length), JR.cast(Int32.(-)(x, width)), JR.cast(y), JR.cast(this.f_anchor)))
+})
+        }
+}
+    
+and jm_drawCenterStrings = (this: DrawVerticalStringUtil, graphics: JObject, stringArray: Array<String>, maxWidth: Int32, x: Int32, y: Int32) => {
+        let mut extraLines: Int32 = 0l
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, Int32.fromNumber(Array.length(stringArray))))) break
+            let mut string: String = stringArray[Int32.toNumber(index)]
+            if ((string != this.f_EMPTY_STRING)) {
+                let mut width: Int32 = JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_getFont"))
+JR.cast(jlate(JR.cast(graphics)))
+}))
+                let mut minTotalLines: Int32 = 1l
+                if (Int32.(>)(width, maxWidth)) {
+                    minTotalLines = Int32.(+)((Int32.(/)(width, maxWidth)), 1l)
+                }
+                let mut linePortion: Int32 = Int32.(/)(JR.length(string), minTotalLines)
+                let mut offset: Int32 = 0l
+                let mut currentLength: Int32 = linePortion
+                let mut size: Int32 = JR.length(string)
+                while (Int32.(<)(offset, size)) {
+                    if (Int32.(>)(Int32.(+)(offset, currentLength), size)) {
+                        currentLength = Int32.(-)(size, offset)
+                    }
+                    if ((Int32.(+)(offset, currentLength) != size)) {
+                        while ((Int32.(>)(currentLength, 0l) && (JR.className(JR.cast(stringArray[Int32.toNumber(index)])) != Int32.fromNumber(Char.code(' '))))) {
+                            currentLength = Int32.(-)(currentLength, 1l)
+                        }
+                        if (Int32.(<=)(currentLength, 4l)) {
+                            currentLength = linePortion
+                        }
+                    }
+                    ignore(jm_drawCenterString(this, graphics, string, offset, currentLength, x, Int32.(+)(y, (Int32.(*)((Int32.(+)(index, { let jold = extraLines; extraLines = Int32.(+)(jold, 1l); jold })), this.f_charHeight)))))
+                    offset = Int32.(+)(offset, currentLength)
+                    currentLength = linePortion
+                }
+                extraLines = Int32.(-)(extraLines, 1l)
+            }
+            }
+        }
+}
 
-    method drawCenterStrings : 'any1. 'any1 * string array * int * int * int -> unit = fun (graphics, (stringArray : string array), (maxWidth : int), (x : int), (y : int)) ->
-        let graphics = Obj.repr graphics in
-        begin
-        let extraLines : int ref = ref (0) in ();
-        for index = 0 to (Array.length stringArray) - 1 do
-            let string : string ref = ref (stringArray.(index)) in ();
-            if (!string <> eMPTY_STRING) then begin
-                let width : int ref = ref ((((Obj.magic graphics)#getFont ())#stringWidth (!string))) in ();
-                let minTotalLines : int ref = ref (1) in ();
-                if (!width > maxWidth) then begin
-                    minTotalLines := (((!width / maxWidth)) + 1)
-                end;
-                let linePortion : int ref = ref (((String.length !string) / !minTotalLines)) in ();
-                let offset : int ref = ref (0) in ();
-                let currentLength : int ref = ref (!linePortion) in ();
-                let size : int ref = ref ((String.length !string)) in ();
-                while (!offset < !size) do
-                    if ((!offset + !currentLength) > !size) then begin
-                        currentLength := (!size - !offset)
-                    end;
-                    if ((!offset + !currentLength) <> !size) then begin
-                        while ((!currentLength > 0) && ((String.get stringArray.(index) ((!offset + !currentLength))) != ' ')) do
-                            currentLength := !currentLength - 1
-                        done;
-                        if (!currentLength <= 4) then begin
-                            currentLength := !linePortion
-                        end
-                    end;
-                    (self#drawCenterString ((Obj.magic graphics), !string, !offset, !currentLength, x, (y + ((((index + (let value = !extraLines in extraLines := !extraLines + 1; value))) * charHeight)))));
-                    offset := (!offset + !currentLength);
-                    currentLength := !linePortion
-                done;
-                extraLines := !extraLines - 1
-            end
-        done
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        eMPTY_STRING <- (StringUtil.getInstance ())#eMPTY_STRING;
-        anchor <- (Anchor.get_tOP_LEFT ());
-        charHeight <- 0;
-        offsetY <- 0;
-        offsetXArray <- (NullUtil.getInstance ())#nULL_INT_ARRAY;
-        ()
-      end
-  end
-let () = java_register_constructor "DrawVerticalStringUtil" (fun arguments -> Obj.repr (new drawVerticalStringUtil (Obj.obj arguments)))
-
-let instance = (new drawVerticalStringUtil ())
-let get_instance () = instance
-let () = java_register_static "DrawVerticalStringUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "DrawVerticalStringUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("DrawVerticalStringUtil.jnew_0", jnew_0)
+JR.registerLateBound("DrawVerticalStringUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("DrawVerticalStringUtil.jm_updateMeasurement", jm_updateMeasurement)
+JR.registerLateBound("DrawVerticalStringUtil.jm_paintVerticle", jm_paintVerticle)
+JR.registerLateBound("DrawVerticalStringUtil.jm_drawCenterString", jm_drawCenterString)
+JR.registerLateBound("DrawVerticalStringUtil.jm_drawCenterStrings", jm_drawCenterStrings)
+JR.registerLateBound("DrawVerticalStringUtil.f_EMPTY_STRING", (this: DrawVerticalStringUtil) => this.f_EMPTY_STRING)
+JR.registerLateBound("DrawVerticalStringUtil.f_anchor", (this: DrawVerticalStringUtil) => this.f_anchor)
+JR.registerLateBound("DrawVerticalStringUtil.set_f_anchor", (this: DrawVerticalStringUtil, jvalue) => { this.f_anchor = jvalue; jvalue })
+JR.registerLateBound("DrawVerticalStringUtil.f_charHeight", (this: DrawVerticalStringUtil) => this.f_charHeight)
+JR.registerLateBound("DrawVerticalStringUtil.set_f_charHeight", (this: DrawVerticalStringUtil, jvalue) => { this.f_charHeight = jvalue; jvalue })
+JR.registerLateBound("DrawVerticalStringUtil.f_offsetY", (this: DrawVerticalStringUtil) => this.f_offsetY)
+JR.registerLateBound("DrawVerticalStringUtil.set_f_offsetY", (this: DrawVerticalStringUtil, jvalue) => { this.f_offsetY = jvalue; jvalue })
+JR.registerLateBound("DrawVerticalStringUtil.f_offsetXArray", (this: DrawVerticalStringUtil) => this.f_offsetXArray)
+JR.registerLateBound("DrawVerticalStringUtil.set_f_offsetXArray", (this: DrawVerticalStringUtil, jvalue) => { this.f_offsetXArray = jvalue; jvalue })
+JR.registerLateBound("DrawVerticalStringUtil.jstatic_instance", jstatic_instance)
 
 

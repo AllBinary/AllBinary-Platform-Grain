@@ -1,49 +1,74 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.android.input.motion
+module AllAnalogControllerVisitor
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.android.input.motion *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/input/analog/AnalogLocationInput.gr" include AnalogLocationInput
+use AnalogLocationInput.{ type AnalogLocationInput }
+from "../../../../../org/allbinary/game/input/analog/AnalogLocationInputFactory.gr" include AnalogLocationInputFactory
+use AnalogLocationInputFactory.{ type AnalogLocationInputFactory }
+from "../../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
+from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "./AnalogControllerVisitor.gr" include AnalogControllerVisitor
+use AnalogControllerVisitor.{ type AnalogControllerVisitor }
+from "./AnalogLocationInputProcessor.gr" include AnalogLocationInputProcessor
+use AnalogLocationInputProcessor.{ type AnalogLocationInputProcessor }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.input.analog.AnalogLocationInput *)
-(* import org.allbinary.game.input.analog.AnalogLocationInputFactory *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
-(* import org.allbinary.util.BasicArrayList *)
+provide record AllAnalogControllerVisitor {
+  jobject: JObject,
+}
 
-class allAnalogControllerVisitor () =
-  object
-    inherit AnalogControllerVisitor.analogControllerVisitor ()
+
+provide let rec jclassName = () => "AllAnalogControllerVisitor"
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("AllAnalogControllerVisitor"), }
+    this
+}
     
+and jm_process = (this: AllAnalogControllerVisitor, allbinaryLayerManager: AllBinaryLayerManager, analogLocationInputProcessor: AnalogLocationInputProcessor) => {
+        let mut analogLocationInputList: BasicArrayList = JR.cast(AnalogLocationInputFactory.jm_getList(AnalogLocationInputFactory.jm_getInstance()))
+        let mut analogLocationInput: AnalogLocationInput = JR.nullOf()
+        {
+            let mut index: Int32 = Int32.(-)(BasicArrayList.jm_size(analogLocationInputList), 1l)
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(-)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(>=)(index, 0l))) break
+            analogLocationInput = JR.cast(BasicArrayList.jm_get(analogLocationInputList, index))
+            ignore(AnalogLocationInputProcessor.jm_process(analogLocationInputProcessor, allbinaryLayerManager, analogLocationInput))
+            }
+        }
+}
 
-    method process : 'any1 'any2. 'any1 * 'any2 -> unit = fun (allbinaryLayerManager, analogLocationInputProcessor) ->
-        let allbinaryLayerManager = Obj.repr allbinaryLayerManager in
-        let analogLocationInputProcessor = Obj.repr analogLocationInputProcessor in
-        begin
-        let analogLocationInputList : BasicArrayList.basicArrayList ref = ref ((((AnalogLocationInputFactory.getInstance ())#getList ()) :> BasicArrayList.basicArrayList)) in ();
-        let analogLocationInput : AnalogLocationInput.analogLocationInput ref = ref (((Obj.magic 0) :> AnalogLocationInput.analogLocationInput)) in ();
-        for index = ((!analogLocationInputList#size ()) - 1) downto 0 do
-            analogLocationInput := (Obj.magic (!analogLocationInputList#get (index)));
-            ignore ((Obj.magic analogLocationInputProcessor)#process ((Obj.magic allbinaryLayerManager), !analogLocationInput))
-        done
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "AllAnalogControllerVisitor" (fun arguments -> Obj.repr (new allAnalogControllerVisitor (Obj.obj arguments)))
+JR.registerLateBound("AllAnalogControllerVisitor.jnew_0", jnew_0)
+JR.registerLateBound("AllAnalogControllerVisitor.jm_process", jm_process)
 
 

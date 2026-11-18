@@ -1,1103 +1,1516 @@
-(*
-
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.displayable.canvas *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Command *)
-(* import javax.microedition.lcdui.CommandListener *)
-(* import javax.microedition.lcdui.Graphics *)
-(* import javax.microedition.lcdui.Item *)
-(* import org.allbinary.J2MEUtil *)
-(* import org.allbinary.animation.Animation *)
-(* import org.allbinary.animation.IndexedAnimationBehavior *)
-(* import org.allbinary.animation.special.SpecialAnimation *)
-(* import org.allbinary.business.advertisement.GameAdStateFactory *)
-(* import org.allbinary.canvas.BaseGameStatistics *)
-(* import org.allbinary.canvas.CustomGameMenuUtil *)
-(* import org.allbinary.canvas.FullScreenUtil *)
-(* import org.allbinary.canvas.GameStatisticsFactory *)
-(* import org.allbinary.canvas.RunnableCanvas *)
-(* import org.allbinary.game.GameAdState *)
-(* import org.allbinary.game.GameInfo *)
-(* import org.allbinary.game.commands.GameCommandsFactory *)
-(* import org.allbinary.game.configuration.event.ChangedGameFeatureListener *)
-(* import org.allbinary.game.configuration.feature.Features *)
-(* import org.allbinary.game.configuration.feature.GameFeatureFactory *)
-(* import org.allbinary.game.configuration.feature.InputFeatureFactory *)
-(* import org.allbinary.game.configuration.feature.MainFeatureFactory *)
-(* import org.allbinary.game.init.BasicBuildGameInitializerFactory *)
-(* import org.allbinary.game.init.GameInitializationUtil *)
-(* import org.allbinary.game.input.GameInputStrings *)
-(* import org.allbinary.game.input.GameKey *)
-(* import org.allbinary.game.input.GameKeyFactory *)
-(* import org.allbinary.game.input.PlatformInputMappingFactory *)
-(* import org.allbinary.game.input.event.DownGameKeyEventHandler *)
-(* import org.allbinary.game.input.event.GameKeyEvent *)
-(* import org.allbinary.game.input.event.GameKeyEventFactory *)
-(* import org.allbinary.game.input.event.GameKeyEventHandler *)
-(* import org.allbinary.game.input.event.UpGameKeyEventHandler *)
-(* import org.allbinary.game.input.mapping.InputToGameKeyMapping *)
-(* import org.allbinary.game.layer.AllBinaryGameLayerManager *)
-(* import org.allbinary.game.layer.SWTUtil *)
-(* import org.allbinary.game.midlet.DemoGameMidlet *)
-(* import org.allbinary.game.score.HighScoreCommands *)
-(* import org.allbinary.game.score.HighScores *)
-(* import org.allbinary.game.score.HighScoresFactoryInterface *)
-(* import org.allbinary.game.score.HighScoresHelper *)
-(* import org.allbinary.game.score.HighScoresHelperBase *)
-(* import org.allbinary.game.score.HighScoresPaintable *)
-(* import org.allbinary.game.score.NullHighScoresSingletonFactory *)
-(* import org.allbinary.game.state.GameState *)
-(* import org.allbinary.game.state.GameStateFactory *)
-(* import org.allbinary.graphics.Rectangle *)
-(* import org.allbinary.graphics.ResizableListenerHandler *)
-(* import org.allbinary.graphics.canvas.transition.progress.ProgressCanvas *)
-(* import org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory *)
-(* import org.allbinary.graphics.color.BasicColor *)
-(* import org.allbinary.graphics.color.BasicColorFactory *)
-(* import org.allbinary.graphics.displayable.command.MyCommandsFactory *)
-(* import org.allbinary.graphics.displayable.event.DisplayChangeEvent *)
-(* import org.allbinary.graphics.displayable.event.DisplayChangeEventHandler *)
-(* import org.allbinary.graphics.displayable.event.DisplayChangeEventListener *)
-(* import org.allbinary.graphics.displayable.screen.FullScreenPaintableFactory *)
-(* import org.allbinary.graphics.form.CommandCurrentSelectionFormFactory *)
-(* import org.allbinary.graphics.form.FormType *)
-(* import org.allbinary.graphics.form.FormTypeFactory *)
-(* import org.allbinary.graphics.form.ScrollSelectionForm *)
-(* import org.allbinary.graphics.form.ScrollSelectionFormNoneFactory *)
-(* import org.allbinary.graphics.form.item.CommandTextItemArrayFactory *)
-(* import org.allbinary.graphics.form.item.ABCustomItem *)
-(* import org.allbinary.graphics.opengles.CurrentDisplayableFactory *)
-(* import org.allbinary.graphics.opengles.OpenGLFeatureFactory *)
-(* import org.allbinary.graphics.opengles.OpenGLFeatureUtil *)
-(* import org.allbinary.graphics.opengles.OpenGLThreadUtil *)
-(* import org.allbinary.graphics.paint.InitUpdatePaintable *)
-(* import org.allbinary.graphics.paint.NullPaintable *)
-(* import org.allbinary.graphics.paint.Paintable *)
-(* import org.allbinary.graphics.paint.PaintableInterface *)
-(* import org.allbinary.graphics.paint.StatePaintable *)
-(* import org.allbinary.graphics.paint.StatePaintableFactory *)
-(* import org.allbinary.input.motion.gesture.observer.BasicMotionGesturesHandler *)
-(* import org.allbinary.logic.communication.log.ForcedLogUtil *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.logic.math.SmallIntegerSingletonFactory *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.logic.system.os.OperatingSystemFactory *)
-(* import org.allbinary.logic.system.security.licensing.AbeClientInformationInterface *)
-(* import org.allbinary.logic.system.security.licensing.InApplicationPurchaseFactory *)
-(* import org.allbinary.logic.system.security.licensing.LockableFeature *)
-(* import org.allbinary.logic.system.security.licensing.LockableFeatureFactory *)
-(* import org.allbinary.logic.util.event.AllBinaryEventObject *)
-(* import org.allbinary.logic.util.event.EventStrings *)
-(* import org.allbinary.media.audio.AllBinaryMediaManager *)
-(* import org.allbinary.media.audio.EarlySoundsFactory *)
-(* import org.allbinary.media.audio.PrimaryPlayerQueueFactory *)
-(* import org.allbinary.media.audio.SecondaryPlayerQueueFactory *)
-(* import org.allbinary.string.CommonSeps *)
-(* import org.allbinary.thread.NullThread *)
-(* import org.allbinary.thread.ThreadFactoryUtil *)
-(* import org.allbinary.thread.ThreadUtil *)
-(* import org.allbinary.time.TimeDelayHelper *)
-(* import org.allbinary.util.ABHashtable *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
-
-let id : int = 0
-let get_id () = id
-let () = java_register_static "DemoCanvas.get_id" (fun _ -> Obj.repr (get_id ()))
-let bOT_GAME_STATS : string = "Bot Game Statistics: "
-let get_bOT_GAME_STATS () = bOT_GAME_STATS
-let () = java_register_static "DemoCanvas.get_bOT_GAME_STATS" (fun _ -> Obj.repr (get_bOT_GAME_STATS ()))
-let tYPE : int = 3
-let get_tYPE () = tYPE
-let () = java_register_static "DemoCanvas.get_tYPE" (fun _ -> Obj.repr (get_tYPE ()))
-class demoCanvas ((abeClientInformation_arg : AbeClientInformationInterface.abeClientInformationInterface), commandListener, (highScoresFactoryInterface_arg : HighScoresFactoryInterface.highScoresFactoryInterface), (paintable : Paintable.paintable), (overlayPaintable_arg : InitUpdatePaintable.initUpdatePaintable), (gameInitializationInterfaceFactoryInterface_arg : BasicBuildGameInitializerFactory.basicBuildGameInitializerFactory), (isContinue : bool)) =
-  object (self)
-    inherit RunnableCanvas.runnableCanvas (commandListener, (Obj.magic (java_call_static "CurrentDisplayableFactory.getInstance" (Obj.repr ())))#dEFAULT_CHILD_NAME_LIST, true) as super
-    val mutable basicColorFactory : BasicColorFactory.basicColorFactory = (Obj.magic 0)
-    method basicColorFactory = basicColorFactory
-    method set_basicColorFactory value' = basicColorFactory <- value'
-    val mutable myCommandsFactory : MyCommandsFactory.myCommandsFactory = (Obj.magic 0)
-    method myCommandsFactory = myCommandsFactory
-    method set_myCommandsFactory value' = myCommandsFactory <- value'
-    val mutable gameAdStateFactory : GameAdStateFactory.gameAdStateFactory = (Obj.magic 0)
-    method gameAdStateFactory = gameAdStateFactory
-    method set_gameAdStateFactory value' = gameAdStateFactory <- value'
-    val mutable gameInputStrings : GameInputStrings.gameInputStrings = (Obj.magic 0)
-    method gameInputStrings = gameInputStrings
-    method set_gameInputStrings value' = gameInputStrings <- value'
-    val mutable gameStateFactory : GameStateFactory.gameStateFactory = (Obj.magic 0)
-    method gameStateFactory = gameStateFactory
-    method set_gameStateFactory value' = gameStateFactory <- value'
-    val mutable threadFactoryUtil : Obj.t = Obj.repr 0
-    method threadFactoryUtil : 'r. 'r = Obj.magic threadFactoryUtil
-    method set_threadFactoryUtil : 'v. 'v -> unit = fun value' -> threadFactoryUtil <- Obj.repr value'
-    val mutable formUtil : FormUtil.formUtil = (Obj.magic 0)
-    method formUtil = formUtil
-    method set_formUtil value' = formUtil <- value'
-    val mutable fullscreenPaintable : Paintable.paintable = (Obj.magic 0)
-    method fullscreenPaintable = fullscreenPaintable
-    method set_fullscreenPaintable value' = fullscreenPaintable <- value'
-    val mutable basicGameDemoPaintable : StatePaintable.statePaintable = (Obj.magic 0)
-    method basicGameDemoPaintable = basicGameDemoPaintable
-    method set_basicGameDemoPaintable value' = basicGameDemoPaintable <- value'
-    val mutable specialAnimationInterface : SpecialAnimation.specialAnimation = (Obj.magic 0)
-    method specialAnimationInterface = specialAnimationInterface
-    method set_specialAnimationInterface value' = specialAnimationInterface <- value'
-    val mutable paintedSpecialAnimationInterface : Animation.animation = (Obj.magic 0)
-    method paintedSpecialAnimationInterface = paintedSpecialAnimationInterface
-    method set_paintedSpecialAnimationInterface value' = paintedSpecialAnimationInterface <- value'
-    val mutable fullScreenUtil : Obj.t = Obj.repr 0
-    method fullScreenUtil : 'r. 'r = Obj.magic fullScreenUtil
-    method set_fullScreenUtil : 'v. 'v -> unit = fun value' -> fullScreenUtil <- Obj.repr value'
-    val mutable gameCanvas : Obj.t = Obj.repr 0
-    method gameCanvas : 'r. 'r = Obj.magic gameCanvas
-    method set_gameCanvas : 'v. 'v -> unit = fun value' -> gameCanvas <- Obj.repr value'
-    val mutable highScoresHelper : HighScoresHelperBase.highScoresHelperBase = (Obj.magic 0)
-    method highScoresHelper = highScoresHelper
-    method set_highScoresHelper value' = highScoresHelper <- value'
-    val mutable realHighScoresPaintable : HighScoresPaintable.highScoresPaintable = (Obj.magic 0)
-    method realHighScoresPaintable = realHighScoresPaintable
-    method set_realHighScoresPaintable value' = realHighScoresPaintable <- value'
-    val mutable highScoresPaintable : Paintable.paintable = (Obj.magic 0)
-    method highScoresPaintable = highScoresPaintable
-    method set_highScoresPaintable value' = highScoresPaintable <- value'
-    val mutable state : int = 0
-    method state = state
-    method set_state value' = state <- value'
-    val mutable canvasThread : java_thread = (Obj.magic 0)
-    method canvasThread = canvasThread
-    method set_canvasThread value' = canvasThread <- value'
-    val mutable timeDelayHelper : TimeDelayHelper.timeDelayHelper = (Obj.magic 0)
-    method timeDelayHelper = timeDelayHelper
-    method set_timeDelayHelper value' = timeDelayHelper <- value'
-    val mutable basicColor : BasicColor.basicColor = (Obj.magic 0)
-    method basicColor = basicColor
-    method set_basicColor value' = basicColor <- value'
-    val mutable abeClientInformation : AbeClientInformationInterface.abeClientInformationInterface = (Obj.magic 0)
-    method abeClientInformation = abeClientInformation
-    method set_abeClientInformation value' = abeClientInformation <- value'
-    val mutable highScoresFactoryInterface : HighScoresFactoryInterface.highScoresFactoryInterface = (Obj.magic 0)
-    method highScoresFactoryInterface = highScoresFactoryInterface
-    method set_highScoresFactoryInterface value' = highScoresFactoryInterface <- value'
-    val mutable menuInputProcessor : BasicMenuInputProcessor.basicMenuInputProcessor = (Obj.magic 0)
-    method menuInputProcessor = menuInputProcessor
-    method set_menuInputProcessor value' = menuInputProcessor <- value'
-    val mutable menuForm : ScrollSelectionForm.scrollSelectionForm = (Obj.magic 0)
-    method menuForm = menuForm
-    method set_menuForm value' = menuForm <- value'
-    val mutable gameInitializationInterfaceFactoryInterface : BasicBuildGameInitializerFactory.basicBuildGameInitializerFactory = (Obj.magic 0)
-    method gameInitializationInterfaceFactoryInterface = gameInitializationInterfaceFactoryInterface
-    method set_gameInitializationInterfaceFactoryInterface value' = gameInitializationInterfaceFactoryInterface <- value'
-    val mutable initialized : bool = false
-    method initialized = initialized
-    method set_initialized value' = initialized <- value'
-    val mutable demoGameRunnable : Obj.t = Obj.repr 0
-    method demoGameRunnable : 'r. 'r = Obj.magic demoGameRunnable
-    method set_demoGameRunnable : 'v. 'v -> unit = fun value' -> demoGameRunnable <- Obj.repr value'
-    val mutable defaultPaintableInterface : Paintable.paintable = (Obj.magic 0)
-    method defaultPaintableInterface = defaultPaintableInterface
-    method set_defaultPaintableInterface value' = defaultPaintableInterface <- value'
-    val mutable paintableInterface : PaintableInterface.paintableInterface = (Obj.magic 0)
-    method paintableInterface = paintableInterface
-    method set_paintableInterface value' = paintableInterface <- value'
-    val mutable overlayPaintable : InitUpdatePaintable.initUpdatePaintable = (Obj.magic 0)
-    method overlayPaintable = overlayPaintable
-    method set_overlayPaintable value' = overlayPaintable <- value'
-    val mutable progressPaintable : PaintableInterface.paintableInterface = (Obj.magic 0)
-    method progressPaintable = progressPaintable
-    method set_progressPaintable value' = progressPaintable <- value'
-    val mutable tempWait : int = 0
-    method tempWait = tempWait
-    method set_tempWait value' = tempWait <- value'
-    val mutable inputToGameKeyMapping : InputToGameKeyMapping.inputToGameKeyMapping = (Obj.magic 0)
-    method inputToGameKeyMapping = inputToGameKeyMapping
-    method set_inputToGameKeyMapping value' = inputToGameKeyMapping <- value'
-    val mutable gameRunnable : GameRunnable.gameRunnable = (Obj.magic 0)
-    method gameRunnable = gameRunnable
-    method set_gameRunnable value' = gameRunnable <- value'
-    val mutable isSingleKeyRepeatableProcessing : bool = false
-    method isSingleKeyRepeatableProcessing = isSingleKeyRepeatableProcessing
-    method set_isSingleKeyRepeatableProcessing value' = isSingleKeyRepeatableProcessing <- value'
-    val mutable nONE : GameKey.gameKey = (Obj.magic 0)
-    method nONE = nONE
-    method set_nONE value' = nONE <- value'
-    val mutable gameKeyEventFactory : GameKeyEventFactory.gameKeyEventFactory = (Obj.magic 0)
-    method gameKeyEventFactory = gameKeyEventFactory
-    method set_gameKeyEventFactory value' = gameKeyEventFactory <- value'
-    val mutable lastKeyNotMapped : int = 0
-    method lastKeyNotMapped = lastKeyNotMapped
-    method set_lastKeyNotMapped value' = lastKeyNotMapped <- value'
-    val mutable sET_STATE : string = ""
-    method sET_STATE = sET_STATE
-    method set_sET_STATE value' = sET_STATE <- value'
-    val mutable baseGameStatistics : BaseGameStatistics.baseGameStatistics = (Obj.magic 0)
-    method baseGameStatistics = baseGameStatistics
-    method set_baseGameStatistics value' = baseGameStatistics <- value'
-    
-    
-
-    method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
-        begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
-        end [@@warning "-7-20"]
-    
-
-    method onDisplayChangeEvent : 'any1. 'any1 -> unit = fun (_displayChangeEvent) ->
-        begin
-        (try
-            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonLabels)#sTART_LABEL))#append ((java_string_of (Obj.repr (self#displayInfo))))))), (Obj.magic self), (self#canvasStrings)#oN_DISPLAY_CHANGE_EVENT));
-            let scrollSelectionForm : ScrollSelectionForm.scrollSelectionForm ref = ref (((self#getMenuForm ()) :> ScrollSelectionForm.scrollSelectionForm)) in ();
-            if (!scrollSelectionForm != (Obj.magic 0)) then begin
-                let formType : FormType.formType ref = ref ((((FormTypeFactory.getInstance ())#getFormType ()) :> FormType.formType)) in ();
-                let rectangle : Rectangle.rectangle ref = ref (((formUtil#createFormRectangle ()) :> Rectangle.rectangle)) in ();
-                ignore (!scrollSelectionForm#init (!rectangle, !formType))
-            end;
-            ignore (overlayPaintable#init ())
-        with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#canvasStrings)#oN_DISPLAY_CHANGE_EVENT, e))
-        end)
-        end [@@warning "-7-20"]
-    
-
-    method getCustomCommands : 'return. unit -> 'return = fun () ->
-        try
-        begin
-        let gameCommandsFactory : GameCommandsFactory.gameCommandsFactory ref = ref (((GameCommandsFactory.getInstance ()) :> GameCommandsFactory.gameCommandsFactory)) in ();
-        if (J2MEUtil.isHTML ()) then begin
-            let commandArray : Obj.t array ref = ref ([| !gameCommandsFactory#sTART_COMMAND; (HighScoreCommands.getInstance ())#dISPLAY; (GameInputMappingCanvas.get_dISPLAY ()); !gameCommandsFactory#dISPLAY_ABOUT |]) in ();
-            raise (Java_return (Obj.repr (!commandArray)))
-        end else begin
-            let commandList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-            ignore (!commandList#add (!gameCommandsFactory#sTART_COMMAND));
-            let inApplicationPurchaseFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "InApplicationPurchaseFactory.getInstance" (Obj.repr ()))))) in ();
-            if ((Obj.magic !inApplicationPurchaseFactory)#isEnabled ()) then begin
-                let list : BasicArrayList.basicArrayList ref = ref ((((LockableFeatureFactory.getInstance ())#getList ()) :> BasicArrayList.basicArrayList)) in ();
-                if (((!list#size ()) > 0) && (not ((Obj.magic !inApplicationPurchaseFactory)#isPurchased ((Obj.magic (!list#get (0))))))) then begin
-                    ignore (!commandList#add (!gameCommandsFactory#bUY_COMMAND))
-                end
-            end;
-            ignore (!commandList#add ((HighScoreCommands.getInstance ())#dISPLAY));
-            (try
-                let isOverScan : bool ref = ref ((((Obj.magic (java_call_static "OperatingSystemFactory.getInstance" (Obj.repr ())))#getOperatingSystemInstance ())#isOverScan ())) in ();
-                if (SWTUtil.get_isSWT ()) then begin
-                    ignore (!commandList#add ((GameInputMappingCanvas.get_dISPLAY ())))
-                end else if (not !isOverScan) then begin
-                    ignore (!commandList#add (!gameCommandsFactory#dISPLAY_OPTIONS));
-                    ignore (!commandList#add (!gameCommandsFactory#dISPLAY_LOAD_FORM));
-                    ignore (!commandList#add ((GameInputMappingCanvas.get_dISPLAY ())))
-                end
-            with e -> begin
-                ()
-            end);
-            ignore (!commandList#add (!gameCommandsFactory#dISPLAY_ABOUT));
-            let commandArray : Obj.t array ref = ref ((!commandList#toArray ())) in ();
-            raise (Java_return (Obj.repr (!commandArray)))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7"]
-    
-
-    method initCommands : 'any1. 'any1 -> unit = fun (cmdListener) ->
-        let cmdListener = Obj.repr cmdListener in
-        begin
-        ignore (self#removeAllCommands ());
-        let commandArray : Obj.t array ref = ref ((self#getCustomCommands ())) in ();
-        let size : int ref = ref ((Array.length !commandArray)) in ();
-        for index = 0 to !size - 1 do
-            ignore (self#addCommand ((Obj.magic !commandArray.(index))))
-        done;
-        ignore (CustomGameMenuUtil.add ((Obj.magic self)));
-        ignore (self#setCommandListener ((Obj.magic cmdListener)))
-        end [@@warning "-7-20"]
-    
-
-    method initPostPaint () : unit =
-        begin
-        ()
-        end [@@warning "-7"]
-    
-
-    method mediaInit () : unit =
-        begin
-        ignore (Obj.magic (java_call_static "AllBinaryMediaManager.init" (Obj.repr ((EarlySoundsFactory.getInstance ())))))
-        end [@@warning "-7"]
-    
-
-    method itemStateChanged : 'any1. 'any1 -> unit = fun (_item) ->
-        begin
-        ignore (ForcedLogUtil.log ((self#commonStrings)#nOT_IMPLEMENTED, (Obj.magic self)))
-        end [@@warning "-7-20"]
-    
-
-    method initMenu () : unit =
-        begin
-        (self#close ());
-        let commandTextItemArrayFactory : CommandTextItemArrayFactory.commandTextItemArrayFactory ref = ref ((((DemoLimitedCommandTextItemArrayFactory.getInstance ())#getCommandTextItemArrayFactory ()) :> CommandTextItemArrayFactory.commandTextItemArrayFactory)) in ();
-        let items : Obj.t ref = ref ((Obj.repr (!commandTextItemArrayFactory#getInstance ((self#getCommandStack ()), basicColorFactory#bLACK, basicColorFactory#wHITE)))) in ();
-        let formType : FormType.formType ref = ref ((((FormTypeFactory.getInstance ())#getFormType ()) :> FormType.formType)) in ();
-        let rectangle : Rectangle.rectangle ref = ref (((formUtil#createFormRectangle ()) :> Rectangle.rectangle)) in ();
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonLabels)#sTART_LABEL))#append ((java_string_of (Obj.repr (self#displayInfo))))))), (Obj.magic self), "initMenu"))));
-        let scrollSelectionForm : ScrollSelectionForm.scrollSelectionForm ref = ref (((CommandCurrentSelectionFormFactory.getInstance ((StringUtil.getInstance ())#eMPTY_STRING, (Obj.magic !items), !rectangle, !formType, 15, true, basicColorFactory#bLACK, basicColorFactory#wHITE)) :> ScrollSelectionForm.scrollSelectionForm)) in ();
-        (self#setMenuForm (!scrollSelectionForm));
-        let formType2 : FormType.formType ref = ref ((((FormTypeFactory.getInstance ())#getFormType ()) :> FormType.formType)) in ();
-        let rectangle2 : Rectangle.rectangle ref = ref (((formUtil#createFormRectangle ()) :> Rectangle.rectangle)) in ();
-        ignore (!scrollSelectionForm#init (!rectangle2, !formType2));
-        if ((Obj.repr (self#getMenuForm ())) != (Obj.repr (ScrollSelectionFormNoneFactory.getInstance ()))) then begin
-            (self#setMenuInputProcessor ((new CommandFormInputProcessor.commandFormInputProcessor (((new BasicArrayListD.basicArrayListD ()) : BasicArrayListD.basicArrayListD :> BasicArrayList.basicArrayList), (- 1), (Obj.magic self), (self#getMenuForm ())))))
-        end;
-        (self#open_ ())
-        end [@@warning "-7"]
-    
-
-    method open_ () : unit =
-        begin
-        ignore ((Obj.magic (java_call_static "BasicMotionGesturesHandler.getInstance" (Obj.repr ())))#addListenerInterface ((self#getMenuInputProcessor ())));
-        ignore ((GameKeyEventHandler.getInstance ())#addListener ((self#getMenuInputProcessor ())))
-        end [@@warning "-7"]
-    
-
-    method close () : unit =
-        begin
-        ignore ((Obj.magic (java_call_static "BasicMotionGesturesHandler.getInstance" (Obj.repr ())))#removeListener ((self#getMenuInputProcessor ())));
-        ignore ((GameKeyEventHandler.getInstance ())#removeListener ((self#getMenuInputProcessor ())))
-        end [@@warning "-7"]
-    
-
-    method getSourceId () : int =
-        begin
-        id
-        end [@@warning "-7"]
-    
-
-    method keyPressed ((keyCode : int)) : unit =
-        begin
-        (self#keyPressedByDevice (keyCode, 0))
-        end [@@warning "-7"]
-    
-
-    method keyReleased ((keyCode : int)) : unit =
-        begin
-        (self#keyReleasedByDevice (keyCode, 0))
-        end [@@warning "-7"]
-    
-
-    method keyRepeated ((keyCode : int)) : unit =
-        begin
-        (self#keyRepeatedByDevice (keyCode, 0))
-        end [@@warning "-7"]
-    
-
-    method keyPressedByDevice ((keyCode : int), (_deviceId : int)) : unit =
-        begin
-        (self#addGameKeyEvent (keyCode, false))
-        end [@@warning "-7"]
-    
-
-    method keyReleasedByDevice ((keyCode : int), (_deviceId : int)) : unit =
-        begin
-        (self#removeGameKeyEvent (keyCode, false))
-        end [@@warning "-7"]
-    
-
-    method keyRepeatedByDevice ((keyCode : int), (_deviceId : int)) : unit =
-        begin
-        if isSingleKeyRepeatableProcessing then begin
-            (self#addGameKeyEvent (keyCode, true))
-        end
-        end [@@warning "-7"]
-    
-
-    method addGameKeyEvent ((keyCode : int), (_repeated : bool)) : unit =
-        begin
-        (try
-            let gameKey : GameKey.gameKey ref = ref (((inputToGameKeyMapping#getInstanceForCanvas ((Obj.magic self), keyCode)) :> GameKey.gameKey)) in ();
-            if ((Obj.repr !gameKey) != (Obj.repr nONE)) then begin
-                let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((gameKeyEventFactory#getInstanceForInput ((Obj.magic self), !gameKey)) :> GameKeyEvent.gameKeyEvent)) in ();
-                ignore ((DownGameKeyEventHandler.getInstance ())#fireEvent (!gameKeyEvent))
-            end else begin
-                if (lastKeyNotMapped <> keyCode) then begin
-                    lastKeyNotMapped <- keyCode;
-                    ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), (Obj.magic self), gameInputStrings#aDD_KEY_EVENT))
-                end
-            end
-        with e -> begin
-            ignore ((self#logUtil)#put ("Key Event Error", (Obj.magic self), gameInputStrings#aDD_KEY_EVENT, e))
-        end)
-        end [@@warning "-7"]
-    
-
-    method removeGameKeyEvent ((keyCode : int), (_repeated : bool)) : unit =
-        begin
-        (try
-            let gameKey : GameKey.gameKey ref = ref (((inputToGameKeyMapping#getInstanceForCanvas ((Obj.magic self), keyCode)) :> GameKey.gameKey)) in ();
-            if ((Obj.repr !gameKey) != (Obj.repr nONE)) then begin
-                let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((gameKeyEventFactory#getInstanceForInput ((Obj.magic self), !gameKey)) :> GameKeyEvent.gameKeyEvent)) in ();
-                ignore ((UpGameKeyEventHandler.getInstance ())#fireEvent (!gameKeyEvent))
-            end else begin
-                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), (Obj.magic self), gameInputStrings#rEMOVE_KEY_EVENT))
-            end
-        with e -> begin
-            ignore ((self#logUtil)#put ("Key Event Error", (Obj.magic self), gameInputStrings#rEMOVE_KEY_EVENT, e))
-        end)
-        end [@@warning "-7"]
-    
-
-    method pause () : unit =
-        begin
-        (self#close ());
-        ignore (self#setPaused (true));
-        gameRunnable <- (NullWaitGameRunnable.getInstance ());
-        ignore ((Obj.magic gameCanvas)#pause ())
-        end [@@warning "-7"]
-    
-
-    method unPause () : unit =
-        begin
-        (self#open_ ());
-        ignore ((Obj.magic gameCanvas)#unPause ());
-        gameRunnable <- (Obj.magic gameCanvas)#gameRunnable;
-        ignore (self#setPaused (false))
-        end [@@warning "-7"]
-    
-
-    method isPausable () : bool =
-        try
-        begin
-        if ((Obj.repr ((Obj.magic (java_call_static "CurrentDisplayableFactory.getInstance" (Obj.repr ())))#getUsedRunnable ())) == (Obj.repr (NullWaitGameRunnable.getInstance ()))) then begin
-            raise (Java_return (Obj.repr (true)))
-        end else begin
-            raise (Java_return (Obj.repr (false)))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7"]
-    
-
-    method isGameOver () : bool =
-        begin
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonStrings)#nOT_IMPLEMENTED))#append (" since not a game")))), (Obj.magic self), "isGameOver"));
-        false
-        end [@@warning "-7"]
-    
-
-    method setLoadStateHashtable : 'any1. 'any1 -> unit = fun (_hashtable) ->
-        begin
-        ignore ((self#logUtil)#putF ("Trying to continue a demo lol - only continue a game canvas not the demo", (Obj.magic self), "setLoadStateHashtable"))
-        end [@@warning "-7-20"]
-    
-
-    method getLoadStateHashtable : 'return. unit -> 'return = fun () ->
-        begin
-        ignore ((self#logUtil)#putF ("Trying to continue a demo lol - only continue a game canvas not the demo", (Obj.magic self), "getLoadStateHashtable"));
-        (Obj.magic ((self#stdUtil)#nULL_TABLE))
-        end [@@warning "-7"]
-    
-
-    method getCurrentStateHashtable : 'return. unit -> 'return = fun () ->
-        begin
-        ignore ((self#logUtil)#putF ("Trying to save the AI lol", (Obj.magic self), "getCurrentStateHashtable"));
-        (Obj.magic ((self#stdUtil)#nULL_TABLE))
-        end [@@warning "-7"]
-    
-
-    method setHighScoreSubmitted ((_isNotUsed : bool)) : unit =
-        begin
-        ()
-        end [@@warning "-7"]
-    
-
-    method paint : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore (paintableInterface#paint ((Obj.magic graphics)));
-        ignore (paintedSpecialAnimationInterface#paintXY ((Obj.magic graphics), 0, 0));
-        ignore (highScoresPaintable#paint ((Obj.magic graphics)));
-        ignore ((self#getBasicGameDemoPaintable ())#paint ((Obj.magic graphics)));
-        ignore (overlayPaintable#paint ((Obj.magic graphics)));
-        ignore (fullscreenPaintable#paint ((Obj.magic graphics)));
-        ignore (progressPaintable#paint ((Obj.magic graphics)))
-        end [@@warning "-7-20"]
-    
-
-    method paintThreed : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore (paintableInterface#paintThreed ((Obj.magic graphics)));
-        ignore (paintedSpecialAnimationInterface#paintThreedXYZ ((Obj.magic graphics), 0, 0, 0))
-        end [@@warning "-7-20"]
-    
-
-    method processGameOver () : unit =
-        begin
-        ignore ((self#logUtil)#putF ("Not Implemented since not a game", (Obj.magic self), "setGameOver"))
-        end [@@warning "-7"]
-    
-
-    method demoStateChange () : unit =
-        begin
-        let newState : int ref = ref ((state + 1)) in ();
-        if (!newState > 2) then begin
-            newState := 0
-        end else if (!newState = 2) then begin
-            if (not (highScoresHelper#isAnyHighScores ())) then begin
-                newState := 0
-            end else begin
-                let highScores : Obj.t ref = ref ((Obj.repr (highScoresHelper#getNextHighScores ()))) in ();
-                if ((Obj.repr (Obj.magic !highScores)) == (Obj.repr (NullHighScoresSingletonFactory.getInstance ()))) then begin
-                    newState := 0
-                end else begin
-                    ignore ((self#getRealHighScoresPaintable ())#setHighScores ((Obj.magic !highScores)))
-                end
-            end
-        end;
-        (self#setState (!newState));
-        (self#updateDemoState ())
-        end [@@warning "-7"]
-    
-
-    method updateDemoState () : unit =
-        begin
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr ((SmallIntegerSingletonFactory.getInstance ())#createInstance (state)))), (Obj.magic self), sET_STATE))));
-        ignore ((self#getBasicGameDemoPaintable ())#setState (state));
-        if (state = 0) then begin
-            highScoresPaintable <- (NullPaintable.getInstance ());
-            paintedSpecialAnimationInterface <- (self#getSpecialAnimationInterface ());
-            if ((not ((Obj.magic demoGameRunnable)#isRunning ())) && ((Obj.magic gameCanvas)#isInitialized ())) then begin
-                ignore ((self#getSpecialAnimationInterface ())#reset ())
-            end
-        end else if (state = 1) then begin
-            paintedSpecialAnimationInterface <- (SpecialAnimation.getInstance ())
-        end else if (state = 2) then begin
-            highScoresPaintable <- (self#getRealHighScoresPaintable ())
-        end;
-        let gameAdState : Obj.t ref = ref ((Obj.repr (gameAdStateFactory#getCurrentInstance ()))) in ();
-        ignore ((Obj.magic !gameAdState)#processPageAdState ())
-        end [@@warning "-7"]
-    
-
-    method getNextRandom () : int =
-        begin
-        raise (Failure ((self#commonStrings)#nOT_IMPLEMENTED))
-        end [@@warning "-7"]
-    
-
-    method createGameLayerManager : 'return. int -> 'return = fun ((_randomValue : int)) ->
-        begin
-        raise (Failure ((self#commonStrings)#nOT_IMPLEMENTED))
-        end [@@warning "-7"]
-    
-
-    method createRunnable : 'return. int -> 'return = fun ((_randomLevel : int)) ->
-        begin
-        raise (Failure ((self#commonStrings)#nOT_IMPLEMENTED))
-        end [@@warning "-7"]
-    
-
-    method create () : unit =
-        begin
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#commonStrings)#sTART, (Obj.magic self), "create"))));
-        highScoresPaintable <- (NullPaintable.getInstance ());
-        let randomLevel : int ref = ref ((self#getNextRandom ())) in ();
-        gameCanvas <- Obj.repr ((Obj.magic (self#createRunnable (!randomLevel))));
-        basicColor <- (((Obj.magic gameCanvas)#getLayerManager ())#getForegroundBasicColor ());
-        ignore ((self#getRealHighScoresPaintable ())#setBasicColorP (basicColor));
-        ignore ((Obj.magic gameCanvas)#setGameCanvasStartListener ((Obj.magic self)));
-        let gameInfo : GameInfo.gameInfo ref = ref (((((Obj.magic gameCanvas)#getLayerManager ())#getGameInfo ()) :> GameInfo.gameInfo)) in ();
-        ignore ((self#getHighScoresFactoryInterface ())#fetchHighScores (!gameInfo, highScoresHelper))
-        end [@@warning "-7"]
-    
-
-    method start () : unit =
-        begin
-        let gameCanvas_arg : Obj.t ref = ref ((Obj.repr (Obj.magic gameCanvas))) in ();
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Game Thread in DemoCanvas: "))#append (((self#stringUtil)#toString ((Obj.magic !gameCanvas_arg))))))), (Obj.magic self), (self#commonStrings)#sTART))));
-        canvasThread <- ((Obj.magic threadFactoryUtil)#getInstanceGameCanvasRunnable ((Obj.magic !gameCanvas_arg)));
-        ignore ((Obj.magic gameCanvas)#setThread (canvasThread));
-        ignore ((Obj.magic threadFactoryUtil)#start (canvasThread));
-        if ((Obj.repr (self#getWait ())) == (Obj.repr (NullWaitGameRunnable.getInstance ())#wAIT)) then begin
-            ignore (self#setWait ((self#getTempWait ())))
-        end
-        end [@@warning "-7"]
-    
-
-    method preDemoProcess () : unit =
-        begin
-        if ((not ((Obj.magic gameCanvas)#isInitialized ())) || ((Obj.repr ((Obj.magic gameCanvas)#getTitle ())) == (Obj.repr (Obj.magic (java_call_static "NullGameCanvas.get_nO_GAME" (Obj.repr ())))))) then begin
-            if (Obj.magic (java_call_static "AllBinaryMediaManager.update" (Obj.repr ()))) then begin
-                if (not ((PrimaryPlayerQueueFactory.getInstance ())#process ())) then begin
-                    ignore ((SecondaryPlayerQueueFactory.getInstance ())#process ())
-                end
-            end
-        end;
-        ignore (overlayPaintable#update ())
-        end [@@warning "-7"]
-    
-
-    method process () : unit =
-        begin
-        ignore (super#process ());
-        ignore ((self#getMenuInputProcessor ())#processInputList ());
-        (self#preDemoProcess ());
-        if (state = 0) then begin
-            let indexedAnimationBehavior : IndexedAnimationBehavior.indexedAnimationBehavior ref = ref ((((Obj.magic ((self#getSpecialAnimationInterface ())#getAnimationBehavior ()))) :> IndexedAnimationBehavior.indexedAnimationBehavior)) in ();
-            if (!indexedAnimationBehavior#loopIndex < 1) then begin
-                ignore (timeDelayHelper#setStartTimeTNT ())
-            end;
-            let demoGameMidlet : Obj.t ref = ref ((Obj.repr (Obj.magic (self#getCustomCommandListener ())))) in ();
-            if (((Obj.repr (Obj.magic gameCanvas)) != (Obj.repr (Obj.magic (java_call_static "NullGameCanvas.getInstance" (Obj.repr ()))))) && ((Obj.magic gameCanvas)#isGameOver ())) then begin
-                (self#stopGameDemo ());
-                let randomLevel : int ref = ref ((self#getNextRandom ())) in ();
-                let gameInfo : GameInfo.gameInfo ref = ref (((((Obj.magic gameCanvas)#getLayerManager ())#getGameInfo ()) :> GameInfo.gameInfo)) in ();
-                ignore (!gameInfo#setCurrentLevel (!randomLevel));
-                ignore ((Obj.magic gameCanvas)#setGameOver (false));
-                (self#start ())
-            end else if (((Obj.repr (Obj.magic gameCanvas)) == (Obj.repr (Obj.magic (java_call_static "NullGameCanvas.getInstance" (Obj.repr ()))))) && ((Obj.magic !demoGameMidlet)#isReady ())) then begin
-                if (not ((Obj.magic demoGameRunnable)#isRunning ())) then begin
-                    (self#startDemoGame ());
-                    ignore ((Obj.magic demoGameRunnable)#setRunning (true));
-                    let thread : java_thread ref = ref ((((Obj.magic threadFactoryUtil)#getInstanceForRunnable ((Obj.magic demoGameRunnable))) :> java_thread)) in ();
-                    ignore ((Obj.magic demoGameRunnable)#setThread (!thread));
-                    ignore ((Obj.magic threadFactoryUtil)#start (!thread))
-                end
-            end
-        end
-        end [@@warning "-7"]
-    
-
-    method startDemoGame () : unit =
-        begin
-        ignore (Obj.magic (java_call_static "DemoCanvasProgressUtil.showProgress" (Obj.repr ((Obj.magic self)))))
-        end [@@warning "-7"]
-    
-
-    method stopGameDemo () : unit =
-        begin
-        if ((Obj.repr (Obj.magic gameCanvas)) != (Obj.repr (Obj.magic (java_call_static "NullGameCanvas.getInstance" (Obj.repr ()))))) then begin
-            ignore ((self#logUtil)#putF ("Set Running False", (Obj.magic self), "stopGameDemo"));
-            ignore ((Obj.magic gameCanvas)#setRunning (false))
-        end;
-        ignore ((ThreadUtil.getInstance ())#join (canvasThread))
-        end [@@warning "-7"]
-    
-
-    method showGamePaintable () : unit =
-        begin
-        let mETHOD_NAME : string ref = ref ("showGamePaintable") in ();
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((self#commonStrings)#sTART, (Obj.magic self), !mETHOD_NAME))));
-        let isDefault : bool ref = ref ((J2MEUtil.isHTML ())) in ();
-        if ((((Obj.repr (Obj.magic gameCanvas)) != (Obj.repr (Obj.magic (java_call_static "NullGameCanvas.getInstance" (Obj.repr ()))))) && (((((Obj.magic gameCanvas)#isRunning ()) || !isDefault) || (SWTUtil.get_isSWT ())))) && (not ((((Obj.magic gameCanvas)#getType ()) = (Obj.magic (java_call_static "NullGameCanvas.get_tYPE" (Obj.repr ()))))))) then begin
-            gameRunnable <- (Obj.magic gameCanvas)#gameRunnable;
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Showing Game", (Obj.magic self), !mETHOD_NAME))));
-            (self#setPaintableInterface ((Obj.magic gameCanvas)))
-        end else begin
-            gameRunnable <- (NullWaitGameRunnable.getInstance ());
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Not Showing Game", (Obj.magic self), !mETHOD_NAME))));
-            (self#setPaintableInterface ((self#getDefaultPaintableInterface ())))
-        end
-        end [@@warning "-7"]
-    
-
-    method isReadyForStateChange () : bool =
-        begin
-        ((not ((Obj.magic demoGameRunnable)#isRunning ())) && ((Obj.magic gameCanvas)#isInitialized ()))
-        end [@@warning "-7"]
-    
-
-    method processGame () : unit =
-        begin
-        ignore (gameRunnable#run ());
-        if ((not (specialAnimationInterface#isComplete ())) && (self#isReadyForStateChange ())) then begin
-            ignore (specialAnimationInterface#nextFrame ())
-        end;
-        if ((timeDelayHelper#isTimeTNT ()) && (self#isReadyForStateChange ())) then begin
-            (self#demoStateChange ())
-        end else begin
-            (self#process ())
-        end
-        end [@@warning "-7"]
-    
-
-    method run () : unit =
-        begin
-        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART_RUNNABLE, (Obj.magic self), (self#commonStrings)#rUN));
-        (try
-            let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
-            let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
-            let openGLFeatureFactory : OpenGLFeatureFactory.openGLFeatureFactory ref = ref (((OpenGLFeatureFactory.getInstance ()) :> OpenGLFeatureFactory.openGLFeatureFactory)) in ();
-            ignore (!progressCanvas#addNormalPortion (50, "Demo Thread"));
-            ignore (self#setCurrentThread ());
-            (self#setRunning (true));
-            if (!features#isFeature ((MainFeatureFactory.getInstance ())#lOAD_ONDEMAND)) then begin
-                ignore (!progressCanvas#end_ ())
-            end else begin
-                ignore (!progressCanvas#addNormalPortion (50, "Demo Thread Running"))
-            end;
-            ignore ((Obj.magic fullScreenUtil)#initOnRun ((Obj.magic self), (self#getCustomCommandListener ())));
-            (self#initMenu ());
-            (self#initPostPaint ());
-            (self#updateDemoState ());
-            if (!features#isDefault (!openGLFeatureFactory#oPENGL_AS_GAME_THREAD)) then begin
-                while (((Obj.repr (Obj.magic gameCanvas)) == (Obj.repr (Obj.magic (java_call_static "NullGameCanvas.getInstance" (Obj.repr ()))))) || (not ((Obj.magic gameCanvas)#isInitialized ()))) do
-                    ignore ((self#loopTimeHelper)#setStartTimeTNT ());
-                    (self#processGame ());
-                    ignore (self#processLoopSleep ())
-                done;
-                let demoGameRunnable_arg : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "DemoGameRunnable" (Obj.repr ((Obj.magic self))))))) in ();
-                let currentDisplayableFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "CurrentDisplayableFactory.getInstance" (Obj.repr ()))))) in ();
-                ignore ((Obj.magic !currentDisplayableFactory)#setRunnable ((Obj.magic !demoGameRunnable_arg)));
-                ignore ((Obj.magic !currentDisplayableFactory)#setMyCanvas ((Obj.magic self)));
-                ignore ((Obj.magic (java_call_static "OpenGLThreadUtil.getInstance" (Obj.repr ())))#onResume ())
-            end;
-            if ((!features#isDefault (!openGLFeatureFactory#oPENGL_AS_GAME_THREAD)) || (J2MEUtil.isHTML ())) then begin
-                let demoGameRunnable_arg : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "DemoGameRunnable" (Obj.repr ((Obj.magic self))))))) in ();
-                let currentDisplayableFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "CurrentDisplayableFactory.getInstance" (Obj.repr ()))))) in ();
-                ignore ((Obj.magic !currentDisplayableFactory)#setRunnable ((Obj.magic !demoGameRunnable_arg)));
-                ignore ((Obj.magic !currentDisplayableFactory)#setMyCanvas ((Obj.magic self)))
-            end else begin
-                while (self#isRunning ()) do
-                    (self#run3 ())
-                done;
-                (self#end_ ())
-            end
-        with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#commonStrings)#rUN, e))
-        end);
-        ignore ((self#logUtil)#putF ((self#commonStrings)#eND_RUNNABLE, (Obj.magic self), (self#commonStrings)#rUN))
-        end [@@warning "-7"]
-    
-
-    method run3 () : unit =
-        begin
-        ignore ((self#loopTimeHelper)#setStartTimeTNT ());
-        (self#processGame ());
-        ignore (self#processLoopSleep ())
-        end [@@warning "-7"]
-    
-
-    method setRunning ((running : bool)) : unit =
-        begin
-        ignore (super#setRunning (running));
-        (try
-            let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
-            let openGLFeatureFactory : OpenGLFeatureFactory.openGLFeatureFactory ref = ref (((OpenGLFeatureFactory.getInstance ()) :> OpenGLFeatureFactory.openGLFeatureFactory)) in ();
-            if running then begin
-                ()
-            end else begin
-                if ((((!features#isDefault (!openGLFeatureFactory#oPENGL)) || (J2MEUtil.isHTML ()))) || (SWTUtil.get_isSWT ())) then begin
-                    let currentDisplayableFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "CurrentDisplayableFactory.getInstance" (Obj.repr ()))))) in ();
-                    ignore ((Obj.magic !currentDisplayableFactory)#clearRunnable ());
-                    (self#end_ ())
-                end
-            end
-        with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#sET_RUNNING), e))
-        end)
-        end [@@warning "-7"]
-    
-
-    method end_ () : unit =
-        begin
-        let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
-        let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
-        ignore (baseGameStatistics#add ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append (bOT_GAME_STATS))#append ((java_string_of (Obj.repr baseGameStatistics))))#append ((CommonSeps.getInstance ())#nEW_LINE))))));
-        ignore (baseGameStatistics#init ());
-        if (!features#isFeature ((MainFeatureFactory.getInstance ())#lOAD_ONDEMAND)) then begin
-            ignore (!progressCanvas#start ())
-        end;
-        ignore ((self#logUtil)#putF ("Demo End", (Obj.magic self), (self#commonStrings)#rUN));
-        (self#close ());
-        ignore ((DisplayChangeEventHandler.getInstance ())#removeListener ((Obj.magic self)));
-        (self#stopGameDemo ())
-        end [@@warning "-7"]
-    
-
-    method setGameState : 'any1. 'any1 -> unit = fun (_gameState) ->
-        begin
-        ()
-        end [@@warning "-7-20"]
-    
-
-    method getGameState : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (gameStateFactory#pLAYING_GAME_STATE))
-        end [@@warning "-7"]
-    
-
-    method getGameCanvasRunnableInterface : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic gameCanvas)))
-        end [@@warning "-7"]
-    
-
-    method isDemoLoading () : bool =
-        try
-        begin
-        let gameCanvas_arg : Obj.t ref = ref ((Obj.repr (Obj.magic gameCanvas))) in ();
-        if ((Obj.repr (Obj.magic !gameCanvas_arg)) == (Obj.repr (Obj.magic (java_call_static "NullGameCanvas.getInstance" (Obj.repr ()))))) then begin
-            raise (Java_return (Obj.repr (true)))
-        end else if ((Obj.magic !gameCanvas_arg)#isInitialized ()) then begin
-            raise (Java_return (Obj.repr (false)))
-        end;
-        true
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7"]
-    
-
-    method getState () : int =
-        begin
-        state
-        end [@@warning "-7"]
-    
-
-    method setState ((state_arg : int)) : unit =
-        begin
-        state <- state_arg
-        end [@@warning "-7"]
-    
-
-    method isHighScoreSubmitted () : bool =
-        begin
-        ignore ((self#logUtil)#putF ("Wow the AI got a high score!", (Obj.magic self), "isHighScoreSubmitted"));
-        false
-        end [@@warning "-7"]
-    
-
-    method getRealHighScoresPaintable : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (realHighScoresPaintable))
-        end [@@warning "-7"]
-    
-
-    method setSpecialAnimationInterface : 'any1. 'any1 -> unit = fun (specialAnimationInterface_arg) ->
-        let specialAnimationInterface_arg = Obj.repr specialAnimationInterface_arg in
-        begin
-        ignore ((Obj.magic specialAnimationInterface_arg)#setFrame (0));
-        specialAnimationInterface <- (Obj.magic specialAnimationInterface_arg)
-        end [@@warning "-7-20"]
-    
-
-    method getSpecialAnimationInterface : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (specialAnimationInterface))
-        end [@@warning "-7"]
-    
-
-    method setPaintableInterface : 'any1. 'any1 -> unit = fun (paintableInterface_arg) ->
-        let paintableInterface_arg = Obj.repr paintableInterface_arg in
-        begin
-        paintableInterface <- (Obj.magic paintableInterface_arg)
-        end [@@warning "-7-20"]
-    
-
-    method getPaintableInterface : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (paintableInterface))
-        end [@@warning "-7"]
-    
-
-    method setDefaultPaintableInterface : 'any1. 'any1 -> unit = fun (defaultPaintableInterface_arg) ->
-        let defaultPaintableInterface_arg = Obj.repr defaultPaintableInterface_arg in
-        begin
-        defaultPaintableInterface <- (Obj.magic defaultPaintableInterface_arg)
-        end [@@warning "-7-20"]
-    
-
-    method getDefaultPaintableInterface : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (defaultPaintableInterface))
-        end [@@warning "-7"]
-    
-
-    method getHighScoresFactoryInterface : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (highScoresFactoryInterface))
-        end [@@warning "-7"]
-    
-
-    method setMenuInputProcessor : 'any1. 'any1 -> unit = fun (menuInputProcessor_arg) ->
-        let menuInputProcessor_arg = Obj.repr menuInputProcessor_arg in
-        begin
-        menuInputProcessor <- (Obj.magic menuInputProcessor_arg)
-        end [@@warning "-7-20"]
-    
-
-    method getMenuInputProcessor : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (menuInputProcessor))
-        end [@@warning "-7"]
-    
-
-    method getMenuForm : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (menuForm))
-        end [@@warning "-7"]
-    
-
-    method setMenuForm : 'any1. 'any1 -> unit = fun (menuForm_arg) ->
-        let menuForm_arg = Obj.repr menuForm_arg in
-        begin
-        menuForm <- (Obj.magic menuForm_arg)
-        end [@@warning "-7-20"]
-    
-
-    method isInitialized () : bool =
-        begin
-        initialized
-        end [@@warning "-7"]
-    
-
-    method getOverlayPaintable : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (overlayPaintable))
-        end [@@warning "-7"]
-    
-
-    method setBasicGameDemoPaintable : 'any1. 'any1 -> unit = fun (basicGameDemoPaintable_arg) ->
-        let basicGameDemoPaintable_arg = Obj.repr basicGameDemoPaintable_arg in
-        begin
-        basicGameDemoPaintable <- (Obj.magic basicGameDemoPaintable_arg)
-        end [@@warning "-7-20"]
-    
-
-    method getBasicGameDemoPaintable : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (basicGameDemoPaintable))
-        end [@@warning "-7"]
-    
-
-    method setTempWait ((tempWait_arg : int)) : unit =
-        begin
-        tempWait <- tempWait_arg
-        end [@@warning "-7"]
-    
-
-    method getTempWait () : int =
-        begin
-        tempWait
-        end [@@warning "-7"]
-    
-
-    method isSingleThread () : bool =
-        begin
-        (((Obj.magic (java_call_static "OpenGLFeatureUtil.getInstance" (Obj.repr ())))#isAnyThreed ()) || (SWTUtil.get_isSWT ()))
-        end [@@warning "-7"]
-    
-
-    method isRunningInAnotherThread () : bool =
-        try
-        begin
-        let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
-        let openGLFeatureFactory : OpenGLFeatureFactory.openGLFeatureFactory ref = ref (((OpenGLFeatureFactory.getInstance ()) :> OpenGLFeatureFactory.openGLFeatureFactory)) in ();
-        if (!features#isDefault (!openGLFeatureFactory#oPENGL_AS_GAME_THREAD)) then begin
-            raise (Java_return (Obj.repr (true)))
-        end else begin
-            raise (Java_return (Obj.repr ((self#isRunning ()))))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7"]
-    
-
-    method getGameInitializationInterfaceFactoryInterface : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (gameInitializationInterfaceFactoryInterface))
-        end [@@warning "-7"]
-    
-
-    method getType () : int =
-        begin
-        tYPE
-        end [@@warning "-7"]
-    
-
-    method getTitle () : string =
-        begin
-        (super#getTitle ())
-        end [@@warning "-7"]
-    
-
-    method isPaused () : bool =
-        begin
-        (super#isPaused ())
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        basicColorFactory <- ((BasicColorFactory.getInstance ()) :> BasicColorFactory.basicColorFactory);
-        myCommandsFactory <- ((MyCommandsFactory.getInstance ()) :> MyCommandsFactory.myCommandsFactory);
-        gameAdStateFactory <- ((GameAdStateFactory.getInstance ()) :> GameAdStateFactory.gameAdStateFactory);
-        gameInputStrings <- ((GameInputStrings.getInstance ()) :> GameInputStrings.gameInputStrings);
-        gameStateFactory <- ((GameStateFactory.getInstance ()) :> GameStateFactory.gameStateFactory);
-        threadFactoryUtil <- (Obj.repr (Obj.magic (java_call_static "ThreadFactoryUtil.getInstance" (Obj.repr ()))));
-        formUtil <- ((FormUtil.getInstance ()) :> FormUtil.formUtil);
-        fullscreenPaintable <- ((FullScreenPaintableFactory.getInstance ())#paintable :> Paintable.paintable);
-        basicGameDemoPaintable <- ((StatePaintableFactory.getInstance ()) :> StatePaintable.statePaintable);
-        specialAnimationInterface <- ((SpecialAnimation.getInstance ()) :> SpecialAnimation.specialAnimation);
-        paintedSpecialAnimationInterface <- ((SpecialAnimation.getInstance ()) :> Animation.animation);
-        fullScreenUtil <- (Obj.repr (Obj.magic (java_call_static "FullScreenUtil.getInstance" (Obj.repr ()))));
-        gameCanvas <- (Obj.repr (Obj.magic (java_call_static "NullGameCanvas.getInstance" (Obj.repr ()))));
-        highScoresHelper <- ((new HighScoresHelper.highScoresHelper ()) :> HighScoresHelperBase.highScoresHelperBase);
-        realHighScoresPaintable <- ((new HighScoresPaintable.highScoresPaintable ()) :> HighScoresPaintable.highScoresPaintable);
-        highScoresPaintable <- ((NullPaintable.getInstance ()) :> Paintable.paintable);
-        state <- 0;
-        canvasThread <- ((NullThread.get_nULL_THREAD ()) :> java_thread);
-        timeDelayHelper <- ((new TimeDelayHelper.timeDelayHelper (6000)) :> TimeDelayHelper.timeDelayHelper);
-        basicColor <- (basicColorFactory#rED :> BasicColor.basicColor);
-        ();
-        ();
-        menuInputProcessor <- ((NoMenuInputProcessor.getInstance ()) :> BasicMenuInputProcessor.basicMenuInputProcessor);
-        menuForm <- ((ScrollSelectionForm.getNullScrollSelectionForm ()) :> ScrollSelectionForm.scrollSelectionForm);
-        ();
-        initialized <- false;
-        ();
-        defaultPaintableInterface <- ((NullPaintable.getInstance ()) :> Paintable.paintable);
-        paintableInterface <- ((NullPaintable.getInstance ()) :> PaintableInterface.paintableInterface);
-        ();
-        progressPaintable <- ((ProgressCanvasFactory.getLazyInstance ()) :> PaintableInterface.paintableInterface);
-        tempWait <- (NullWaitGameRunnable.getInstance ())#wAIT;
-        inputToGameKeyMapping <- ((((Obj.magic (java_call_static "PlatformInputMappingFactory.getInstance" (Obj.repr ())))#getPersistentInputMappingInstance ())#getInputMapping ()) :> InputToGameKeyMapping.inputToGameKeyMapping);
-        gameRunnable <- ((NullWaitGameRunnable.getInstance ()) :> GameRunnable.gameRunnable);
-        isSingleKeyRepeatableProcessing <- ((Features.getInstance ())#isFeature ((InputFeatureFactory.getInstance ())#sINGLE_KEY_REPEAT_PRESS));
-        nONE <- ((GameKeyFactory.getInstance ())#nONE :> GameKey.gameKey);
-        gameKeyEventFactory <- ((GameKeyEventFactory.getInstance ()) :> GameKeyEventFactory.gameKeyEventFactory);
-        lastKeyNotMapped <- (- 1);
-        sET_STATE <- "setState";
-        baseGameStatistics <- ((Obj.magic (java_call_static "GameStatisticsFactory.getInstance" (Obj.repr ()))) :> BaseGameStatistics.baseGameStatistics);
-        ();
-        (* super(...) is the inherit clause *) ();
-        abeClientInformation <- abeClientInformation_arg;
-        ignore (self#setWait ((NullWaitGameRunnable.getInstance ())#wAIT));
-        gameInitializationInterfaceFactoryInterface <- gameInitializationInterfaceFactoryInterface_arg;
-        ignore ((GameInitializationUtil.getInstance ())#initDemo (abeClientInformation_arg, (Obj.magic self), gameInitializationInterfaceFactoryInterface_arg));
-        ignore ((ResizableListenerHandler.getInstance ())#fireEvent (false));
-        overlayPaintable <- overlayPaintable_arg;
-        highScoresFactoryInterface <- highScoresFactoryInterface_arg;
-        (self#setDefaultPaintableInterface (paintable));
-        (self#setPaintableInterface ((self#getDefaultPaintableInterface ())));
-        if isContinue then begin
-            ignore (self#addCommand ((GameCommandsFactory.getInstance ())#cONTINUE_COMMAND))
-        end;
-        if ((ChangedGameFeatureListener.getInstance ())#isChangedFeature ((GameFeatureFactory.getInstance ())#sOUND)) then begin
-            (self#mediaInit ())
-        end;
-        demoGameRunnable <- Obj.repr ((Obj.obj (java_new "DemoGameStartupRunnable" (Obj.repr ((Obj.magic self))))));
-        ignore ((DisplayChangeEventHandler.getInstance ())#addListenerInterface ((Obj.magic self)))
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "DemoCanvas" (fun arguments -> Obj.repr (new demoCanvas (Obj.obj arguments)))
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.displayable.canvas
+module DemoCanvas
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/J2MEUtil.gr" include J2MEUtil
+use J2MEUtil.{ type J2MEUtil }
+from "../../../../../org/allbinary/animation/Animation.gr" include Animation
+use Animation.{ type Animation }
+from "../../../../../org/allbinary/animation/IndexedAnimationBehavior.gr" include IndexedAnimationBehavior
+use IndexedAnimationBehavior.{ type IndexedAnimationBehavior }
+from "../../../../../org/allbinary/animation/special/SpecialAnimation.gr" include SpecialAnimation
+use SpecialAnimation.{ type SpecialAnimation }
+from "../../../../../org/allbinary/business/advertisement/GameAdStateFactory.gr" include GameAdStateFactory
+use GameAdStateFactory.{ type GameAdStateFactory }
+from "../../../../../org/allbinary/canvas/BaseGameStatistics.gr" include BaseGameStatistics
+use BaseGameStatistics.{ type BaseGameStatistics }
+from "../../../../../org/allbinary/canvas/CustomGameMenuUtil.gr" include CustomGameMenuUtil
+use CustomGameMenuUtil.{ type CustomGameMenuUtil }
+from "../../../../../org/allbinary/canvas/RunnableCanvas.gr" include RunnableCanvas
+use RunnableCanvas.{ type RunnableCanvas }
+from "../../../../../org/allbinary/game/GameInfo.gr" include GameInfo
+use GameInfo.{ type GameInfo }
+from "../../../../../org/allbinary/game/commands/GameCommandsFactory.gr" include GameCommandsFactory
+use GameCommandsFactory.{ type GameCommandsFactory }
+from "../../../../../org/allbinary/game/configuration/event/ChangedGameFeatureListener.gr" include ChangedGameFeatureListener
+use ChangedGameFeatureListener.{ type ChangedGameFeatureListener }
+from "../../../../../org/allbinary/game/configuration/feature/Features.gr" include Features
+use Features.{ type Features }
+from "../../../../../org/allbinary/game/configuration/feature/GameFeatureFactory.gr" include GameFeatureFactory
+use GameFeatureFactory.{ type GameFeatureFactory }
+from "../../../../../org/allbinary/game/configuration/feature/InputFeatureFactory.gr" include InputFeatureFactory
+use InputFeatureFactory.{ type InputFeatureFactory }
+from "../../../../../org/allbinary/game/configuration/feature/MainFeatureFactory.gr" include MainFeatureFactory
+use MainFeatureFactory.{ type MainFeatureFactory }
+from "../../../../../org/allbinary/game/init/BasicBuildGameInitializerFactory.gr" include BasicBuildGameInitializerFactory
+use BasicBuildGameInitializerFactory.{ type BasicBuildGameInitializerFactory }
+from "../../../../../org/allbinary/game/init/GameInitializationUtil.gr" include GameInitializationUtil
+use GameInitializationUtil.{ type GameInitializationUtil }
+from "../../../../../org/allbinary/game/input/GameInputStrings.gr" include GameInputStrings
+use GameInputStrings.{ type GameInputStrings }
+from "../../../../../org/allbinary/game/input/GameKey.gr" include GameKey
+use GameKey.{ type GameKey }
+from "../../../../../org/allbinary/game/input/GameKeyFactory.gr" include GameKeyFactory
+use GameKeyFactory.{ type GameKeyFactory }
+from "../../../../../org/allbinary/game/input/event/DownGameKeyEventHandler.gr" include DownGameKeyEventHandler
+use DownGameKeyEventHandler.{ type DownGameKeyEventHandler }
+from "../../../../../org/allbinary/game/input/event/GameKeyEvent.gr" include GameKeyEvent
+use GameKeyEvent.{ type GameKeyEvent }
+from "../../../../../org/allbinary/game/input/event/GameKeyEventFactory.gr" include GameKeyEventFactory
+use GameKeyEventFactory.{ type GameKeyEventFactory }
+from "../../../../../org/allbinary/game/input/event/GameKeyEventHandler.gr" include GameKeyEventHandler
+use GameKeyEventHandler.{ type GameKeyEventHandler }
+from "../../../../../org/allbinary/game/input/event/UpGameKeyEventHandler.gr" include UpGameKeyEventHandler
+use UpGameKeyEventHandler.{ type UpGameKeyEventHandler }
+from "../../../../../org/allbinary/game/input/mapping/InputToGameKeyMapping.gr" include InputToGameKeyMapping
+use InputToGameKeyMapping.{ type InputToGameKeyMapping }
+from "../../../../../org/allbinary/game/layer/AllBinaryGameLayerManager.gr" include AllBinaryGameLayerManager
+use AllBinaryGameLayerManager.{ type AllBinaryGameLayerManager }
+from "../../../../../org/allbinary/game/layer/SWTUtil.gr" include SWTUtil
+use SWTUtil.{ type SWTUtil }
+from "../../../../../org/allbinary/game/score/HighScoreCommands.gr" include HighScoreCommands
+use HighScoreCommands.{ type HighScoreCommands }
+from "../../../../../org/allbinary/game/score/HighScoresFactoryInterface.gr" include HighScoresFactoryInterface
+use HighScoresFactoryInterface.{ type HighScoresFactoryInterface }
+from "../../../../../org/allbinary/game/score/HighScoresHelper.gr" include HighScoresHelper
+use HighScoresHelper.{ type HighScoresHelper }
+from "../../../../../org/allbinary/game/score/HighScoresHelperBase.gr" include HighScoresHelperBase
+use HighScoresHelperBase.{ type HighScoresHelperBase }
+from "../../../../../org/allbinary/game/score/HighScoresPaintable.gr" include HighScoresPaintable
+use HighScoresPaintable.{ type HighScoresPaintable }
+from "../../../../../org/allbinary/game/score/NullHighScoresSingletonFactory.gr" include NullHighScoresSingletonFactory
+use NullHighScoresSingletonFactory.{ type NullHighScoresSingletonFactory }
+from "../../../../../org/allbinary/game/state/GameState.gr" include GameState
+use GameState.{ type GameState }
+from "../../../../../org/allbinary/game/state/GameStateFactory.gr" include GameStateFactory
+use GameStateFactory.{ type GameStateFactory }
+from "../../../../../org/allbinary/graphics/Rectangle.gr" include Rectangle
+use Rectangle.{ type Rectangle }
+from "../../../../../org/allbinary/graphics/ResizableListenerHandler.gr" include ResizableListenerHandler
+use ResizableListenerHandler.{ type ResizableListenerHandler }
+from "../../../../../org/allbinary/graphics/canvas/transition/progress/ProgressCanvas.gr" include ProgressCanvas
+use ProgressCanvas.{ type ProgressCanvas }
+from "../../../../../org/allbinary/graphics/canvas/transition/progress/ProgressCanvasFactory.gr" include ProgressCanvasFactory
+use ProgressCanvasFactory.{ type ProgressCanvasFactory }
+from "../../../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
+use BasicColor.{ type BasicColor }
+from "../../../../../org/allbinary/graphics/color/BasicColorFactory.gr" include BasicColorFactory
+use BasicColorFactory.{ type BasicColorFactory }
+from "../../../../../org/allbinary/graphics/displayable/command/MyCommandsFactory.gr" include MyCommandsFactory
+use MyCommandsFactory.{ type MyCommandsFactory }
+from "../../../../../org/allbinary/graphics/displayable/event/DisplayChangeEvent.gr" include DisplayChangeEvent
+use DisplayChangeEvent.{ type DisplayChangeEvent }
+from "../../../../../org/allbinary/graphics/displayable/event/DisplayChangeEventHandler.gr" include DisplayChangeEventHandler
+use DisplayChangeEventHandler.{ type DisplayChangeEventHandler }
+from "../../../../../org/allbinary/graphics/displayable/event/DisplayChangeEventListener.gr" include DisplayChangeEventListener
+use DisplayChangeEventListener.{ type DisplayChangeEventListener }
+from "../../../../../org/allbinary/graphics/displayable/screen/FullScreenPaintableFactory.gr" include FullScreenPaintableFactory
+use FullScreenPaintableFactory.{ type FullScreenPaintableFactory }
+from "../../../../../org/allbinary/graphics/form/CommandCurrentSelectionFormFactory.gr" include CommandCurrentSelectionFormFactory
+use CommandCurrentSelectionFormFactory.{ type CommandCurrentSelectionFormFactory }
+from "../../../../../org/allbinary/graphics/form/FormType.gr" include FormType
+use FormType.{ type FormType }
+from "../../../../../org/allbinary/graphics/form/FormTypeFactory.gr" include FormTypeFactory
+use FormTypeFactory.{ type FormTypeFactory }
+from "../../../../../org/allbinary/graphics/form/ScrollSelectionForm.gr" include ScrollSelectionForm
+use ScrollSelectionForm.{ type ScrollSelectionForm }
+from "../../../../../org/allbinary/graphics/form/ScrollSelectionFormNoneFactory.gr" include ScrollSelectionFormNoneFactory
+use ScrollSelectionFormNoneFactory.{ type ScrollSelectionFormNoneFactory }
+from "../../../../../org/allbinary/graphics/form/item/CommandTextItemArrayFactory.gr" include CommandTextItemArrayFactory
+use CommandTextItemArrayFactory.{ type CommandTextItemArrayFactory }
+from "../../../../../org/allbinary/graphics/opengles/OpenGLFeatureFactory.gr" include OpenGLFeatureFactory
+use OpenGLFeatureFactory.{ type OpenGLFeatureFactory }
+from "../../../../../org/allbinary/graphics/paint/InitUpdatePaintable.gr" include InitUpdatePaintable
+use InitUpdatePaintable.{ type InitUpdatePaintable }
+from "../../../../../org/allbinary/graphics/paint/NullPaintable.gr" include NullPaintable
+use NullPaintable.{ type NullPaintable }
+from "../../../../../org/allbinary/graphics/paint/Paintable.gr" include Paintable
+use Paintable.{ type Paintable }
+from "../../../../../org/allbinary/graphics/paint/PaintableInterface.gr" include PaintableInterface
+use PaintableInterface.{ type PaintableInterface }
+from "../../../../../org/allbinary/graphics/paint/StatePaintable.gr" include StatePaintable
+use StatePaintable.{ type StatePaintable }
+from "../../../../../org/allbinary/graphics/paint/StatePaintableFactory.gr" include StatePaintableFactory
+use StatePaintableFactory.{ type StatePaintableFactory }
+from "../../../../../org/allbinary/logic/communication/log/ForcedLogUtil.gr" include ForcedLogUtil
+use ForcedLogUtil.{ type ForcedLogUtil }
+from "../../../../../org/allbinary/logic/math/SmallIntegerSingletonFactory.gr" include SmallIntegerSingletonFactory
+use SmallIntegerSingletonFactory.{ type SmallIntegerSingletonFactory }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../../org/allbinary/logic/system/security/licensing/AbeClientInformationInterface.gr" include AbeClientInformationInterface
+use AbeClientInformationInterface.{ type AbeClientInformationInterface }
+from "../../../../../org/allbinary/logic/system/security/licensing/LockableFeature.gr" include LockableFeature
+use LockableFeature.{ type LockableFeature }
+from "../../../../../org/allbinary/logic/system/security/licensing/LockableFeatureFactory.gr" include LockableFeatureFactory
+use LockableFeatureFactory.{ type LockableFeatureFactory }
+from "../../../../../org/allbinary/logic/util/event/AllBinaryEventObject.gr" include AllBinaryEventObject
+use AllBinaryEventObject.{ type AllBinaryEventObject }
+from "../../../../../org/allbinary/logic/util/event/EventStrings.gr" include EventStrings
+use EventStrings.{ type EventStrings }
+from "../../../../../org/allbinary/media/audio/EarlySoundsFactory.gr" include EarlySoundsFactory
+use EarlySoundsFactory.{ type EarlySoundsFactory }
+from "../../../../../org/allbinary/media/audio/PrimaryPlayerQueueFactory.gr" include PrimaryPlayerQueueFactory
+use PrimaryPlayerQueueFactory.{ type PrimaryPlayerQueueFactory }
+from "../../../../../org/allbinary/media/audio/SecondaryPlayerQueueFactory.gr" include SecondaryPlayerQueueFactory
+use SecondaryPlayerQueueFactory.{ type SecondaryPlayerQueueFactory }
+from "../../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../../../org/allbinary/thread/NullThread.gr" include NullThread
+use NullThread.{ type NullThread }
+from "../../../../../org/allbinary/thread/ThreadUtil.gr" include ThreadUtil
+use ThreadUtil.{ type ThreadUtil }
+from "../../../../../org/allbinary/time/TimeDelayHelper.gr" include TimeDelayHelper
+use TimeDelayHelper.{ type TimeDelayHelper }
+from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../../java/lang/Thread.gr" include Thread
+use Thread.{ type Thread }
+from "./GameCanvasRunnableInterface.gr" include GameCanvasRunnableInterface
+use GameCanvasRunnableInterface.{ type GameCanvasRunnableInterface }
+from "./MenuListener.gr" include MenuListener
+use MenuListener.{ type MenuListener }
+from "./DemoPaintableInterface.gr" include DemoPaintableInterface
+use DemoPaintableInterface.{ type DemoPaintableInterface }
+from "./FormUtil.gr" include FormUtil
+use FormUtil.{ type FormUtil }
+from "./NoMenuInputProcessor.gr" include NoMenuInputProcessor
+use NoMenuInputProcessor.{ type NoMenuInputProcessor }
+from "./BasicMenuInputProcessor.gr" include BasicMenuInputProcessor
+use BasicMenuInputProcessor.{ type BasicMenuInputProcessor }
+from "./NullWaitGameRunnable.gr" include NullWaitGameRunnable
+use NullWaitGameRunnable.{ type NullWaitGameRunnable }
+from "./GameRunnable.gr" include GameRunnable
+use GameRunnable.{ type GameRunnable }
+from "./GameInputMappingCanvas.gr" include GameInputMappingCanvas
+use GameInputMappingCanvas.{ type GameInputMappingCanvas }
+from "./DemoLimitedCommandTextItemArrayFactory.gr" include DemoLimitedCommandTextItemArrayFactory
+use DemoLimitedCommandTextItemArrayFactory.{ type DemoLimitedCommandTextItemArrayFactory }
+from "./CommandFormInputProcessor.gr" include CommandFormInputProcessor
+use CommandFormInputProcessor.{ type CommandFormInputProcessor }
+
+provide record DemoCanvas {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_canvasStrings: JObject,
+  mut f_stringUtil: JObject,
+  mut f_displayInfo: JObject,
+  mut f_name: String,
+  mut f_childNameList: JObject,
+  mut f_commandStack: JObject,
+  mut f_commandListener: JObject,
+  mut f_paused: Bool,
+  mut f_touchME: JObject,
+  mut f_nullUtil: JObject,
+  mut f_stdUtil: JObject,
+  mut f_systemWrapper: JObject,
+  mut f_tsUtil: JObject,
+  mut f_thread: JObject,
+  mut f_currentThread: JObject,
+  mut f_running: Bool,
+  mut f_loopTimeHelper: JObject,
+  mut f_runnableCanvasRefreshHelper: JObject,
+  mut f_commonLabels: JObject,
+  mut f_threadObjectUtil: JObject,
+  mut f_SET_RUNNING: String,
+  mut f_IS_RUNNING: String,
+  mut f_THREAD: String,
+  mut f_NOT_EQUAL: String,
+  mut f_PAUSE_SLEEP: String,
+  mut f_START_PAUSE: String,
+  mut f_END_PAUSE: String,
+  mut f_PROCESS_LOOP_SLEEP: String,
+  mut f_pauseWait: Int64,
+  mut f_notified: Bool,
+  mut f_basicColorFactory: BasicColorFactory,
+  mut f_myCommandsFactory: MyCommandsFactory,
+  mut f_gameAdStateFactory: GameAdStateFactory,
+  mut f_gameInputStrings: GameInputStrings,
+  mut f_gameStateFactory: GameStateFactory,
+  mut f_threadFactoryUtil: JObject,
+  mut f_formUtil: FormUtil,
+  mut f_fullscreenPaintable: Paintable,
+  mut f_basicGameDemoPaintable: StatePaintable,
+  mut f_specialAnimationInterface: SpecialAnimation,
+  mut f_paintedSpecialAnimationInterface: Animation,
+  mut f_fullScreenUtil: JObject,
+  mut f_gameCanvas: JObject,
+  mut f_highScoresHelper: HighScoresHelperBase,
+  mut f_realHighScoresPaintable: HighScoresPaintable,
+  mut f_highScoresPaintable: Paintable,
+  mut f_state: Int32,
+  mut f_canvasThread: Thread,
+  mut f_timeDelayHelper: TimeDelayHelper,
+  mut f_basicColor: BasicColor,
+  mut f_abeClientInformation: AbeClientInformationInterface,
+  mut f_highScoresFactoryInterface: HighScoresFactoryInterface,
+  mut f_menuInputProcessor: BasicMenuInputProcessor,
+  mut f_menuForm: ScrollSelectionForm,
+  mut f_gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory,
+  mut f_initialized: Bool,
+  mut f_demoGameRunnable: JObject,
+  mut f_defaultPaintableInterface: Paintable,
+  mut f_paintableInterface: PaintableInterface,
+  mut f_overlayPaintable: InitUpdatePaintable,
+  mut f_progressPaintable: PaintableInterface,
+  mut f_tempWait: Int32,
+  mut f_inputToGameKeyMapping: InputToGameKeyMapping,
+  mut f_gameRunnable: GameRunnable,
+  mut f_isSingleKeyRepeatableProcessing: Bool,
+  mut f_NONE: GameKey,
+  mut f_gameKeyEventFactory: GameKeyEventFactory,
+  mut f_lastKeyNotMapped: Int32,
+  mut f_SET_STATE: String,
+  mut f_baseGameStatistics: BaseGameStatistics,
+}
+
+let mut jcell_id: Option<Int32> = None
+let mut jcell_BOT_GAME_STATS: Option<String> = None
+let mut jcell_TYPE: Option<Int32> = None
+
+provide let rec jclassName = () => "DemoCanvas"
+
+and jstatic_id = () => match (jcell_id) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = 0l
+    jcell_id = Some(value)
+    value
+  },
+}
+
+and jstatic_BOT_GAME_STATS = () => match (jcell_BOT_GAME_STATS) {
+  Some(value) => value,
+  None => {
+    let value: String = "Bot Game Statistics: "
+    jcell_BOT_GAME_STATS = Some(value)
+    value
+  },
+}
+
+and jstatic_TYPE = () => match (jcell_TYPE) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = 3l
+    jcell_TYPE = Some(value)
+    value
+  },
+}
+    
+and jnew_7 = (abeClientInformation: AbeClientInformationInterface, commandListener: CommandListener, highScoresFactoryInterface: HighScoresFactoryInterface, paintable: Paintable, overlayPaintable: InitUpdatePaintable, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory, isContinue: Bool) => {
+    let this = { jobject: JR.newJObject("DemoCanvas"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_canvasStrings: JR.jnull, f_stringUtil: JR.jnull, f_displayInfo: JR.jnull, f_name: "", f_childNameList: JR.jnull, f_commandStack: JR.jnull, f_commandListener: JR.jnull, f_paused: false, f_touchME: JR.jnull, f_nullUtil: JR.jnull, f_stdUtil: JR.jnull, f_systemWrapper: JR.jnull, f_tsUtil: JR.jnull, f_thread: JR.jnull, f_currentThread: JR.jnull, f_running: false, f_loopTimeHelper: JR.jnull, f_runnableCanvasRefreshHelper: JR.jnull, f_commonLabels: JR.jnull, f_threadObjectUtil: JR.jnull, f_SET_RUNNING: "", f_IS_RUNNING: "", f_THREAD: "", f_NOT_EQUAL: "", f_PAUSE_SLEEP: "", f_START_PAUSE: "", f_END_PAUSE: "", f_PROCESS_LOOP_SLEEP: "", f_pauseWait: 0L, f_notified: false, f_basicColorFactory: JR.nullOf(), f_myCommandsFactory: JR.nullOf(), f_gameAdStateFactory: JR.nullOf(), f_gameInputStrings: JR.nullOf(), f_gameStateFactory: JR.nullOf(), f_threadFactoryUtil: JR.jnull, f_formUtil: JR.nullOf(), f_fullscreenPaintable: JR.nullOf(), f_basicGameDemoPaintable: JR.nullOf(), f_specialAnimationInterface: JR.nullOf(), f_paintedSpecialAnimationInterface: JR.nullOf(), f_fullScreenUtil: JR.jnull, f_gameCanvas: JR.jnull, f_highScoresHelper: JR.nullOf(), f_realHighScoresPaintable: JR.nullOf(), f_highScoresPaintable: JR.nullOf(), f_state: 0l, f_canvasThread: JR.nullOf(), f_timeDelayHelper: JR.nullOf(), f_basicColor: JR.nullOf(), f_abeClientInformation: JR.nullOf(), f_highScoresFactoryInterface: JR.nullOf(), f_menuInputProcessor: JR.nullOf(), f_menuForm: JR.nullOf(), f_gameInitializationInterfaceFactoryInterface: JR.nullOf(), f_initialized: false, f_demoGameRunnable: JR.jnull, f_defaultPaintableInterface: JR.nullOf(), f_paintableInterface: JR.nullOf(), f_overlayPaintable: JR.nullOf(), f_progressPaintable: JR.nullOf(), f_tempWait: 0l, f_inputToGameKeyMapping: JR.nullOf(), f_gameRunnable: JR.nullOf(), f_isSingleKeyRepeatableProcessing: false, f_NONE: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_lastKeyNotMapped: 0l, f_SET_STATE: "", f_baseGameStatistics: JR.nullOf(), }
+    this.f_basicColorFactory = JR.cast(BasicColorFactory.jm_getInstance())
+    this.f_myCommandsFactory = JR.cast(MyCommandsFactory.jm_getInstance())
+    this.f_gameAdStateFactory = JR.cast(GameAdStateFactory.jm_getInstance())
+    this.f_gameInputStrings = JR.cast(GameInputStrings.jm_getInstance())
+    this.f_gameStateFactory = JR.cast(GameStateFactory.jm_getInstance())
+    this.f_threadFactoryUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("ThreadFactoryUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_formUtil = JR.cast(FormUtil.jm_getInstance())
+    this.f_fullscreenPaintable = JR.cast(FullScreenPaintableFactory.jm_getInstance().f_paintable)
+    this.f_basicGameDemoPaintable = JR.cast(StatePaintableFactory.jm_getInstance())
+    this.f_specialAnimationInterface = JR.cast(SpecialAnimation.jm_getInstance())
+    this.f_paintedSpecialAnimationInterface = JR.cast(SpecialAnimation.jm_getInstance())
+    this.f_fullScreenUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("FullScreenUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_gameCanvas = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("NullGameCanvas.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_highScoresHelper = JR.cast(HighScoresHelper.jnew_0())
+    this.f_realHighScoresPaintable = HighScoresPaintable.jnew_0()
+    this.f_highScoresPaintable = JR.cast(NullPaintable.jm_getInstance())
+    this.f_state = 0l
+    this.f_canvasThread = JR.cast(NullThread.jstatic_NULL_THREAD())
+    this.f_timeDelayHelper = TimeDelayHelper.jnew_1(6000l)
+    this.f_basicColor = JR.cast(this.f_basicColorFactory.f_RED)
+    
+    
+    this.f_menuInputProcessor = JR.cast(NoMenuInputProcessor.jm_getInstance())
+    this.f_menuForm = JR.cast(ScrollSelectionForm.jm_getNullScrollSelectionForm())
+    
+    
+    
+    this.f_defaultPaintableInterface = JR.cast(NullPaintable.jm_getInstance())
+    this.f_paintableInterface = JR.cast(NullPaintable.jm_getInstance())
+    
+    this.f_progressPaintable = JR.cast(ProgressCanvasFactory.jm_getLazyInstance())
+    this.f_tempWait = NullWaitGameRunnable.jm_getInstance().f_WAIT
+    this.f_inputToGameKeyMapping = JR.cast(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PlatformInputMappingFactory.jm_getPersistentInputMappingInstance"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("PlatformInputMappingFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+    this.f_gameRunnable = JR.cast(NullWaitGameRunnable.jm_getInstance())
+    this.f_isSingleKeyRepeatableProcessing = Features.jm_isFeature(Features.jm_getInstance(), JR.cast(InputFeatureFactory.jm_getInstance().f_SINGLE_KEY_REPEAT_PRESS))
+    this.f_NONE = JR.cast(GameKeyFactory.jm_getInstance().f_NONE)
+    this.f_gameKeyEventFactory = JR.cast(GameKeyEventFactory.jm_getInstance())
+    this.f_lastKeyNotMapped = Int32.(-)(1l, Int32.(+)(1l, 1l))
+    this.f_SET_STATE = "setState"
+    this.f_baseGameStatistics = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("GameStatisticsFactory.jm_getInstance"))
+JR.cast(jlate())
+})
+        void
+        this.f_abeClientInformation = abeClientInformation
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RunnableCanvas.jm_setWait"))
+JR.cast(jlate(JR.cast(this), JR.cast(NullWaitGameRunnable.jm_getInstance().f_WAIT)))
+})
+        this.f_gameInitializationInterfaceFactoryInterface = gameInitializationInterfaceFactoryInterface
+        ignore(GameInitializationUtil.jm_initDemo(GameInitializationUtil.jm_getInstance(), abeClientInformation, JR.cast(this), gameInitializationInterfaceFactoryInterface))
+        ignore(ResizableListenerHandler.jm_fireEvent(ResizableListenerHandler.jm_getInstance(), false))
+        this.f_overlayPaintable = overlayPaintable
+        this.f_highScoresFactoryInterface = highScoresFactoryInterface
+        ignore(jm_setDefaultPaintableInterface(this, paintable))
+        ignore(jm_setPaintableInterface(this, JR.cast(jm_getDefaultPaintableInterface(this))))
+        if (isContinue) {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("MyCanvas.jm_addCommand"))
+JR.cast(jlate(JR.cast(this), JR.cast(GameCommandsFactory.jm_getInstance().f_CONTINUE_COMMAND)))
+})
+        }
+        if (ChangedGameFeatureListener.jm_isChangedFeature(ChangedGameFeatureListener.jm_getInstance(), GameFeatureFactory.jm_getInstance().f_SOUND)) {
+            ignore(jm_mediaInit(this))
+        }
+        this.f_demoGameRunnable = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DemoGameStartupRunnable.jnew_1"))
+JR.cast(jlate(JR.cast(this)))
+}
+        ignore(DisplayChangeEventHandler.jm_addListenerInterface(DisplayChangeEventHandler.jm_getInstance(), this))
+    this
+}
+    
+and jm_onEvent = (this: DemoCanvas, eventObject: AllBinaryEventObject) => {
+        ignore(ForcedLogUtil.jm_log(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE, JR.cast(this)))
+}
+    
+and jm_onDisplayChangeEvent = (this: DemoCanvas, displayChangeEvent: DisplayChangeEvent) => {
+        {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonLabels.f_START_LABEL"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonLabels))))
+}), JR.toStringOf(JR.cast(JR.cast(this.f_displayInfo)))))), JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CanvasStrings.f_ON_DISPLAY_CHANGE_EVENT"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_canvasStrings))))
+})))
+})
+            let mut scrollSelectionForm: ScrollSelectionForm = JR.cast(jm_getMenuForm(this))
+            if (!JR.isNull(scrollSelectionForm)) {
+                let mut formType: FormType = JR.cast(FormTypeFactory.jm_getFormType(FormTypeFactory.jm_getInstance()))
+                let mut rectangle: Rectangle = JR.cast(FormUtil.jm_createFormRectangle(this.f_formUtil))
+                ignore(ScrollSelectionForm.jm_init(scrollSelectionForm, rectangle, formType))
+            }
+            ignore(InitUpdatePaintable.jm_init(this.f_overlayPaintable))
+        }
+}
+    
+and jm_getCustomCommands = (this: DemoCanvas) => {
+        let mut gameCommandsFactory: GameCommandsFactory = JR.cast(GameCommandsFactory.jm_getInstance())
+        if (J2MEUtil.jm_isHTML()) {
+            let mut commandArray: Array<JObject> = [> gameCommandsFactory.f_START_COMMAND, HighScoreCommands.jm_getInstance().f_DISPLAY, GameInputMappingCanvas.jstatic_DISPLAY(), gameCommandsFactory.f_DISPLAY_ABOUT]
+            return commandArray
+        } else {
+            let mut commandList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+            ignore(BasicArrayList.jm_add(commandList, JR.cast(gameCommandsFactory.f_START_COMMAND)))
+            let mut inApplicationPurchaseFactory: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("InApplicationPurchaseFactory.jm_getInstance"))
+JR.cast(jlate())
+})
+            if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("InApplicationPurchaseFactory.jm_isEnabled"))
+JR.cast(jlate(JR.cast(inApplicationPurchaseFactory)))
+}) {
+                let mut list: BasicArrayList = JR.cast(LockableFeatureFactory.jm_getList(LockableFeatureFactory.jm_getInstance()))
+                if ((Int32.(>)(BasicArrayList.jm_size(list), 0l) && !{
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("InApplicationPurchaseFactory.jm_isPurchased"))
+JR.cast(jlate(JR.cast(inApplicationPurchaseFactory), JR.cast(JR.cast(BasicArrayList.jm_get(list, 0l)))))
+})) {
+                    ignore(BasicArrayList.jm_add(commandList, JR.cast(gameCommandsFactory.f_BUY_COMMAND)))
+                }
+            }
+            ignore(BasicArrayList.jm_add(commandList, JR.cast(HighScoreCommands.jm_getInstance().f_DISPLAY)))
+            {
+                let mut isOverScan: Bool = JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("OperatingSystemFactory.jm_getOperatingSystemInstance"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("OperatingSystemFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+}))
+                if (SWTUtil.jstatic_isSWT()) {
+                    ignore(BasicArrayList.jm_add(commandList, JR.cast(GameInputMappingCanvas.jstatic_DISPLAY())))
+                } else if (!isOverScan) {
+                    ignore(BasicArrayList.jm_add(commandList, JR.cast(gameCommandsFactory.f_DISPLAY_OPTIONS)))
+                    ignore(BasicArrayList.jm_add(commandList, JR.cast(gameCommandsFactory.f_DISPLAY_LOAD_FORM)))
+                    ignore(BasicArrayList.jm_add(commandList, JR.cast(GameInputMappingCanvas.jstatic_DISPLAY())))
+                }
+            }
+            ignore(BasicArrayList.jm_add(commandList, JR.cast(gameCommandsFactory.f_DISPLAY_ABOUT)))
+            let mut commandArray: Array<JObject> = BasicArrayList.jm_toArray(commandList)
+            return commandArray
+        }
+}
+    
+and jm_initCommands = (this: DemoCanvas, cmdListener: CommandListener) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MyCanvas.jm_removeAllCommands"))
+JR.cast(jlate(JR.cast(this)))
+})
+        let mut commandArray: Array<JObject> = jm_getCustomCommands(this)
+        let mut size: Int32 = Int32.fromNumber(Array.length(commandArray))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("MyCanvas.jm_addCommand"))
+JR.cast(jlate(JR.cast(this), JR.cast(JR.cast(commandArray[Int32.toNumber(index)]))))
+})
+            }
+        }
+        ignore(CustomGameMenuUtil.jm_add(JR.cast(this)))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("MyCanvas.jm_setCommandListener"))
+JR.cast(jlate(JR.cast(this), JR.cast(cmdListener)))
+})
+}
+    
+and jm_initPostPaint = (this: DemoCanvas) => {
+    void
+}
+    
+and jm_mediaInit = (this: DemoCanvas) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryMediaManager.jm_init"))
+JR.cast(jlate(JR.cast(EarlySoundsFactory.jm_getInstance())))
+})
+}
+    
+and jm_itemStateChanged = (this: DemoCanvas, item: JObject) => {
+        ignore(ForcedLogUtil.jm_log({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_NOT_IMPLEMENTED"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+}, JR.cast(this)))
+}
+    
+and jm_initMenu = (this: DemoCanvas) => {
+        ignore(jm_close(this))
+        let mut commandTextItemArrayFactory: CommandTextItemArrayFactory = JR.cast(DemoLimitedCommandTextItemArrayFactory.jm_getCommandTextItemArrayFactory(DemoLimitedCommandTextItemArrayFactory.jm_getInstance()))
+        let mut items: Array<JObject> = CommandTextItemArrayFactory.jm_getInstance(commandTextItemArrayFactory, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MyCanvas.jm_getCommandStack"))
+JR.cast(jlate(JR.cast(this)))
+}, this.f_basicColorFactory.f_BLACK, this.f_basicColorFactory.f_WHITE)
+        let mut formType: FormType = JR.cast(FormTypeFactory.jm_getFormType(FormTypeFactory.jm_getInstance()))
+        let mut rectangle: Rectangle = JR.cast(FormUtil.jm_createFormRectangle(this.f_formUtil))
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonLabels.f_START_LABEL"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonLabels))))
+}), JR.toStringOf(JR.cast(JR.cast(this.f_displayInfo)))))), JR.cast(this), JR.cast("initMenu")))
+})
+        let mut scrollSelectionForm: ScrollSelectionForm = JR.cast(CommandCurrentSelectionFormFactory.jm_getInstance(StringUtil.jm_getInstance().f_EMPTY_STRING, items, rectangle, formType, 15l, true, this.f_basicColorFactory.f_BLACK, this.f_basicColorFactory.f_WHITE))
+        ignore(jm_setMenuForm(this, scrollSelectionForm))
+        let mut formType2: FormType = JR.cast(FormTypeFactory.jm_getFormType(FormTypeFactory.jm_getInstance()))
+        let mut rectangle2: Rectangle = JR.cast(FormUtil.jm_createFormRectangle(this.f_formUtil))
+        ignore(ScrollSelectionForm.jm_init(scrollSelectionForm, rectangle2, formType2))
+        if ((!JR.isSame(jm_getMenuForm(this), ScrollSelectionFormNoneFactory.jm_getInstance()))) {
+            ignore(jm_setMenuInputProcessor(this, JR.cast(CommandFormInputProcessor.jnew_4(BasicArrayListD.jnew_0(), Int32.(-)(1l, Int32.(+)(1l, 1l)), this, jm_getMenuForm(this)))))
+        }
+        ignore(jm_open(this))
+}
+    
+and jm_open = (this: DemoCanvas) => {
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicMotionGesturesHandler.jm_addListenerInterface"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("BasicMotionGesturesHandler.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(jm_getMenuInputProcessor(this))))
+})
+        ignore(GameKeyEventHandler.jm_addListener(GameKeyEventHandler.jm_getInstance(), JR.cast(jm_getMenuInputProcessor(this))))
+}
+    
+and jm_close = (this: DemoCanvas) => {
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicMotionGesturesHandler.jm_removeListener"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("BasicMotionGesturesHandler.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(jm_getMenuInputProcessor(this))))
+})
+        ignore(GameKeyEventHandler.jm_removeListener(GameKeyEventHandler.jm_getInstance(), JR.cast(jm_getMenuInputProcessor(this))))
+}
+    
+and jm_getSourceId = (this: DemoCanvas) => {
+        return jstatic_id()
+}
+    
+and jm_keyPressed = (this: DemoCanvas, keyCode: Int32) => {
+        ignore(jm_keyPressedByDevice(this, keyCode, 0l))
+}
+    
+and jm_keyReleased = (this: DemoCanvas, keyCode: Int32) => {
+        ignore(jm_keyReleasedByDevice(this, keyCode, 0l))
+}
+    
+and jm_keyRepeated = (this: DemoCanvas, keyCode: Int32) => {
+        ignore(jm_keyRepeatedByDevice(this, keyCode, 0l))
+}
+    
+and jm_keyPressedByDevice = (this: DemoCanvas, keyCode: Int32, deviceId: Int32) => {
+        ignore(jm_addGameKeyEvent(this, keyCode, false))
+}
+    
+and jm_keyReleasedByDevice = (this: DemoCanvas, keyCode: Int32, deviceId: Int32) => {
+        ignore(jm_removeGameKeyEvent(this, keyCode, false))
+}
+    
+and jm_keyRepeatedByDevice = (this: DemoCanvas, keyCode: Int32, deviceId: Int32) => {
+        if (this.f_isSingleKeyRepeatableProcessing) {
+            ignore(jm_addGameKeyEvent(this, keyCode, true))
+        }
+}
+    
+and jm_addGameKeyEvent = (this: DemoCanvas, keyCode: Int32, repeated: Bool) => {
+        {
+            let mut gameKey: GameKey = JR.cast(InputToGameKeyMapping.jm_getInstanceForCanvas(this.f_inputToGameKeyMapping, JR.cast(this), keyCode))
+            if ((!JR.isSame(gameKey, this.f_NONE))) {
+                let mut gameKeyEvent: GameKeyEvent = JR.cast(GameKeyEventFactory.jm_getInstanceForInput(this.f_gameKeyEventFactory, JR.cast(this), JR.cast(gameKey)))
+                ignore(DownGameKeyEventHandler.jm_fireEvent(DownGameKeyEventHandler.jm_getInstance(), gameKeyEvent))
+            } else {
+                if ((this.f_lastKeyNotMapped != keyCode)) {
+                    this.f_lastKeyNotMapped = keyCode
+                    ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), this.f_gameInputStrings.f_NO_KEY), keyCode))), JR.cast(this), JR.cast(this.f_gameInputStrings.f_ADD_KEY_EVENT)))
+})
+                }
+            }
+        }
+}
+    
+and jm_removeGameKeyEvent = (this: DemoCanvas, keyCode: Int32, repeated: Bool) => {
+        {
+            let mut gameKey: GameKey = JR.cast(InputToGameKeyMapping.jm_getInstanceForCanvas(this.f_inputToGameKeyMapping, JR.cast(this), keyCode))
+            if ((!JR.isSame(gameKey, this.f_NONE))) {
+                let mut gameKeyEvent: GameKeyEvent = JR.cast(GameKeyEventFactory.jm_getInstanceForInput(this.f_gameKeyEventFactory, JR.cast(this), JR.cast(gameKey)))
+                ignore(UpGameKeyEventHandler.jm_fireEvent(UpGameKeyEventHandler.jm_getInstance(), gameKeyEvent))
+            } else {
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), this.f_gameInputStrings.f_NO_KEY), keyCode))), JR.cast(this), JR.cast(this.f_gameInputStrings.f_REMOVE_KEY_EVENT)))
+})
+            }
+        }
+}
+    
+and jm_pause = (this: DemoCanvas) => {
+        ignore(jm_close(this))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("MyCanvas.jm_setPaused"))
+JR.cast(jlate(JR.cast(this), JR.cast(true)))
+})
+        this.f_gameRunnable = NullWaitGameRunnable.jm_getInstance()
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_pause"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+})
+}
+    
+and jm_unPause = (this: DemoCanvas) => {
+        ignore(jm_open(this))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_unPause"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+})
+        this.f_gameRunnable = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.f_gameRunnable"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+}
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("MyCanvas.jm_setPaused"))
+JR.cast(jlate(JR.cast(this), JR.cast(false)))
+})
+}
+    
+and jm_isPausable = (this: DemoCanvas) => {
+        if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CurrentDisplayableFactory.jm_getUsedRunnable"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("CurrentDisplayableFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+} == NullWaitGameRunnable.jm_getInstance())) {
+            return true
+        } else {
+            return false
+        }
+}
+    
+and jm_isGameOver = (this: DemoCanvas) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_NOT_IMPLEMENTED"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+}), " since not a game"))), JR.cast(this), JR.cast("isGameOver")))
+})
+        return false
+}
+    
+and jm_setLoadStateHashtable = (this: DemoCanvas, hashtable: JObject) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast("Trying to continue a demo lol - only continue a game canvas not the demo"), JR.cast(this), JR.cast("setLoadStateHashtable")))
+})
+}
+    
+and jm_getLoadStateHashtable = (this: DemoCanvas) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast("Trying to continue a demo lol - only continue a game canvas not the demo"), JR.cast(this), JR.cast("getLoadStateHashtable")))
+})
+        return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.f_NULL_TABLE"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_stdUtil))))
+}
+}
+    
+and jm_getCurrentStateHashtable = (this: DemoCanvas) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast("Trying to save the AI lol"), JR.cast(this), JR.cast("getCurrentStateHashtable")))
+})
+        return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.f_NULL_TABLE"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_stdUtil))))
+}
+}
+    
+and jm_setHighScoreSubmitted = (this: DemoCanvas, isNotUsed: Bool) => {
+    void
+}
+    
+and jm_paint = (this: DemoCanvas, graphics: JObject) => {
+        ignore(PaintableInterface.jm_paint(this.f_paintableInterface, graphics))
+        ignore(Animation.jm_paintXY(this.f_paintedSpecialAnimationInterface, graphics, 0l, 0l))
+        ignore(Paintable.jm_paint(this.f_highScoresPaintable, graphics))
+        ignore(StatePaintable.jm_paint(jm_getBasicGameDemoPaintable(this), graphics))
+        ignore(InitUpdatePaintable.jm_paint(this.f_overlayPaintable, graphics))
+        ignore(Paintable.jm_paint(this.f_fullscreenPaintable, graphics))
+        ignore(PaintableInterface.jm_paint(this.f_progressPaintable, graphics))
+}
+    
+and jm_paintThreed = (this: DemoCanvas, graphics: JObject) => {
+        ignore(PaintableInterface.jm_paintThreed(this.f_paintableInterface, graphics))
+        ignore(Animation.jm_paintThreedXYZ(this.f_paintedSpecialAnimationInterface, graphics, 0l, 0l, 0l))
+}
+    
+and jm_processGameOver = (this: DemoCanvas) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast("Not Implemented since not a game"), JR.cast(this), JR.cast("setGameOver")))
+})
+}
+    
+and jm_demoStateChange = (this: DemoCanvas) => {
+        let mut newState: Int32 = Int32.(+)(this.f_state, 1l)
+        if (Int32.(>)(newState, 2l)) {
+            newState = 0l
+        } else if ((newState == 2l)) {
+            if (!HighScoresHelperBase.jm_isAnyHighScores(this.f_highScoresHelper)) {
+                newState = 0l
+            } else {
+                let mut highScores: JObject = JR.cast(HighScoresHelperBase.jm_getNextHighScores(this.f_highScoresHelper))
+                if (JR.isSame(highScores, NullHighScoresSingletonFactory.jm_getInstance())) {
+                    newState = 0l
+                } else {
+                    ignore(HighScoresPaintable.jm_setHighScores(jm_getRealHighScoresPaintable(this), highScores))
+                }
+            }
+        }
+        ignore(jm_setState(this, newState))
+        ignore(jm_updateDemoState(this))
+}
+    
+and jm_updateDemoState = (this: DemoCanvas) => {
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(JR.toStringOf(JR.cast(SmallIntegerSingletonFactory.jm_createInstance(SmallIntegerSingletonFactory.jm_getInstance(), this.f_state)))), JR.cast(this), JR.cast(this.f_SET_STATE)))
+})
+        ignore(StatePaintable.jm_setState(jm_getBasicGameDemoPaintable(this), this.f_state))
+        if ((this.f_state == 0l)) {
+            this.f_highScoresPaintable = NullPaintable.jm_getInstance()
+            this.f_paintedSpecialAnimationInterface = jm_getSpecialAnimationInterface(this)
+            if ((!{
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DemoGameStartupRunnable.jm_isRunning"))
+JR.cast(jlate(JR.cast(this.f_demoGameRunnable)))
+} && {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_isInitialized"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+})) {
+                ignore(SpecialAnimation.jm_reset(jm_getSpecialAnimationInterface(this)))
+            }
+        } else if ((this.f_state == 1l)) {
+            this.f_paintedSpecialAnimationInterface = SpecialAnimation.jm_getInstance()
+        } else if ((this.f_state == 2l)) {
+            this.f_highScoresPaintable = jm_getRealHighScoresPaintable(this)
+        }
+        let mut gameAdState: JObject = JR.cast(GameAdStateFactory.jm_getCurrentInstance(this.f_gameAdStateFactory))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameAdState.jm_processPageAdState"))
+JR.cast(jlate(JR.cast(gameAdState)))
+})
+}
+    
+and jm_getNextRandom = (this: DemoCanvas) => {
+        fail JR.toStringOf(JR.newJObject("Exception"))
+}
+    
+and jm_createGameLayerManager = (this: DemoCanvas, randomValue: Int32) => {
+        fail JR.toStringOf(JR.newJObject("Exception"))
+}
+    
+and jm_createRunnable = (this: DemoCanvas, randomLevel: Int32) => {
+        fail JR.toStringOf(JR.newJObject("Exception"))
+}
+    
+and jm_create = (this: DemoCanvas) => {
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_START"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+}), JR.cast(this), JR.cast("create")))
+})
+        this.f_highScoresPaintable = NullPaintable.jm_getInstance()
+        let mut randomLevel: Int32 = jm_getNextRandom(this)
+        this.f_gameCanvas = JR.cast(jm_createRunnable(this, randomLevel))
+        this.f_basicColor = JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_getLayerManager"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+}))
+        ignore(HighScoresPaintable.jm_setBasicColorP(jm_getRealHighScoresPaintable(this), this.f_basicColor))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_setGameCanvasStartListener"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas), JR.cast(this)))
+})
+        let mut gameInfo: GameInfo = JR.cast(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_getLayerManager"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+})))
+        ignore(HighScoresFactoryInterface.jm_fetchHighScores(jm_getHighScoresFactoryInterface(this), gameInfo, JR.cast(this.f_highScoresHelper)))
+}
+    
+and jm_start = (this: DemoCanvas) => {
+        let mut gameCanvas: JObject = JR.cast(this.f_gameCanvas)
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Game Thread in DemoCanvas: "), JR.toStringOf(JR.cast(JR.cast(this.f_stringUtil)))))), JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_START"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+})))
+})
+        this.f_canvasThread = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ThreadFactoryUtil.jm_getInstanceGameCanvasRunnable"))
+JR.cast(jlate(JR.cast(this.f_threadFactoryUtil), JR.cast(gameCanvas)))
+}
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_setThread"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas), JR.cast(this.f_canvasThread)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ThreadFactoryUtil.jm_start"))
+JR.cast(jlate(JR.cast(this.f_threadFactoryUtil), JR.cast(this.f_canvasThread)))
+})
+        if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RunnableCanvas.jm_getWait"))
+JR.cast(jlate(JR.cast(this)))
+} == NullWaitGameRunnable.jm_getInstance().f_WAIT)) {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RunnableCanvas.jm_setWait"))
+JR.cast(jlate(JR.cast(this), JR.cast(jm_getTempWait(this))))
+})
+        }
+}
+    
+and jm_preDemoProcess = (this: DemoCanvas) => {
+        if ((!{
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_isInitialized"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+} || ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_getTitle"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+} == {
+let jlate: () => JObject = JR.cast(JR.lateBound("NullGameCanvas.jstatic_NO_GAME"))
+JR.cast(jlate())
+}))) {
+            if ({
+let jlate: () => JObject = JR.cast(JR.lateBound("AllBinaryMediaManager.jm_update"))
+JR.cast(jlate())
+}) {
+                if (!PrimaryPlayerQueueFactory.jm_process(PrimaryPlayerQueueFactory.jm_getInstance())) {
+                    ignore(SecondaryPlayerQueueFactory.jm_process(SecondaryPlayerQueueFactory.jm_getInstance()))
+                }
+            }
+        }
+        ignore(InitUpdatePaintable.jm_update(this.f_overlayPaintable))
+}
+    
+and jm_process = (this: DemoCanvas) => {
+        ignore(jm_process(this))
+        ignore(BasicMenuInputProcessor.jm_processInputList(jm_getMenuInputProcessor(this)))
+        ignore(jm_preDemoProcess(this))
+        if ((this.f_state == 0l)) {
+            let mut indexedAnimationBehavior: IndexedAnimationBehavior = (JR.cast(SpecialAnimation.jm_getAnimationBehavior(jm_getSpecialAnimationInterface(this))))
+            if (Int32.(<)(indexedAnimationBehavior.f_loopIndex, 1l)) {
+                ignore(TimeDelayHelper.jm_setStartTimeTNT(this.f_timeDelayHelper))
+            }
+            let mut demoGameMidlet: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MyCanvas.jm_getCustomCommandListener"))
+JR.cast(jlate(JR.cast(this)))
+})
+            if (((!JR.isSame(this.f_gameCanvas, {
+let jlate: () => JObject = JR.cast(JR.lateBound("NullGameCanvas.jm_getInstance"))
+JR.cast(jlate())
+})) && {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_isGameOver"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+})) {
+                ignore(jm_stopGameDemo(this))
+                let mut randomLevel: Int32 = jm_getNextRandom(this)
+                let mut gameInfo: GameInfo = JR.cast(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_getLayerManager"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+})))
+                ignore(GameInfo.jm_setCurrentLevel(gameInfo, randomLevel))
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_setGameOver"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas), JR.cast(false)))
+})
+                ignore(jm_start(this))
+            } else if ((JR.isSame(this.f_gameCanvas, {
+let jlate: () => JObject = JR.cast(JR.lateBound("NullGameCanvas.jm_getInstance"))
+JR.cast(jlate())
+}) && {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DemoGameMidlet.jm_isReady"))
+JR.cast(jlate(JR.cast(demoGameMidlet)))
+})) {
+                if (!{
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DemoGameStartupRunnable.jm_isRunning"))
+JR.cast(jlate(JR.cast(this.f_demoGameRunnable)))
+}) {
+                    ignore(jm_startDemoGame(this))
+                    ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DemoGameStartupRunnable.jm_setRunning"))
+JR.cast(jlate(JR.cast(this.f_demoGameRunnable), JR.cast(true)))
+})
+                    let mut thread: Thread = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ThreadFactoryUtil.jm_getInstanceForRunnable"))
+JR.cast(jlate(JR.cast(this.f_threadFactoryUtil), JR.cast(this.f_demoGameRunnable)))
+})
+                    ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DemoGameStartupRunnable.jm_setThread"))
+JR.cast(jlate(JR.cast(this.f_demoGameRunnable), JR.cast(thread)))
+})
+                    ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ThreadFactoryUtil.jm_start"))
+JR.cast(jlate(JR.cast(this.f_threadFactoryUtil), JR.cast(thread)))
+})
+                }
+            }
+        }
+}
+    
+and jm_startDemoGame = (this: DemoCanvas) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DemoCanvasProgressUtil.jm_showProgress"))
+JR.cast(jlate(JR.cast(this)))
+})
+}
+    
+and jm_stopGameDemo = (this: DemoCanvas) => {
+        if ((!JR.isSame(this.f_gameCanvas, {
+let jlate: () => JObject = JR.cast(JR.lateBound("NullGameCanvas.jm_getInstance"))
+JR.cast(jlate())
+}))) {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast("Set Running False"), JR.cast(this), JR.cast("stopGameDemo")))
+})
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_setRunning"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas), JR.cast(false)))
+})
+        }
+        ignore(ThreadUtil.jm_join(ThreadUtil.jm_getInstance(), this.f_canvasThread))
+}
+    
+and jm_showGamePaintable = (this: DemoCanvas) => {
+        let mut l_METHOD_NAME: String = "showGamePaintable"
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_START"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+}), JR.cast(this), JR.cast(l_METHOD_NAME)))
+})
+        let mut isDefault: Bool = J2MEUtil.jm_isHTML()
+        if ((((!JR.isSame(this.f_gameCanvas, {
+let jlate: () => JObject = JR.cast(JR.lateBound("NullGameCanvas.jm_getInstance"))
+JR.cast(jlate())
+})) && ((({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_isRunning"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+} || isDefault) || SWTUtil.jstatic_isSWT()))) && !(({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_getType"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+} == {
+let jlate: () => JObject = JR.cast(JR.lateBound("NullGameCanvas.jstatic_TYPE"))
+JR.cast(jlate())
+})))) {
+            this.f_gameRunnable = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.f_gameRunnable"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+}
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast("Showing Game"), JR.cast(this), JR.cast(l_METHOD_NAME)))
+})
+            ignore(jm_setPaintableInterface(this, JR.cast(this.f_gameCanvas)))
+        } else {
+            this.f_gameRunnable = NullWaitGameRunnable.jm_getInstance()
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast("Not Showing Game"), JR.cast(this), JR.cast(l_METHOD_NAME)))
+})
+            ignore(jm_setPaintableInterface(this, JR.cast(jm_getDefaultPaintableInterface(this))))
+        }
+}
+    
+and jm_isReadyForStateChange = (this: DemoCanvas) => {
+        return (!{
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DemoGameStartupRunnable.jm_isRunning"))
+JR.cast(jlate(JR.cast(this.f_demoGameRunnable)))
+} && {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_isInitialized"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+})
+}
+    
+and jm_processGame = (this: DemoCanvas) => {
+        ignore(GameRunnable.jm_run(this.f_gameRunnable))
+        if ((!SpecialAnimation.jm_isComplete(this.f_specialAnimationInterface) && jm_isReadyForStateChange(this))) {
+            ignore(SpecialAnimation.jm_nextFrame(this.f_specialAnimationInterface))
+        }
+        if ((TimeDelayHelper.jm_isTimeTNT(this.f_timeDelayHelper) && jm_isReadyForStateChange(this))) {
+            ignore(jm_demoStateChange(this))
+        } else {
+            ignore(jm_process(this))
+        }
+}
+    
+and jm_run = (this: DemoCanvas) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_START_RUNNABLE"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+}), JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_RUN"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+})))
+})
+        {
+            let mut progressCanvas: ProgressCanvas = JR.cast(ProgressCanvasFactory.jm_getInstance())
+            let mut features: Features = JR.cast(Features.jm_getInstance())
+            let mut openGLFeatureFactory: OpenGLFeatureFactory = JR.cast(OpenGLFeatureFactory.jm_getInstance())
+            ignore(ProgressCanvas.jm_addNormalPortion(progressCanvas, 50l, "Demo Thread"))
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RunnableCanvas.jm_setCurrentThread"))
+JR.cast(jlate(JR.cast(this)))
+})
+            ignore(jm_setRunning(this, true))
+            if (Features.jm_isFeature(features, MainFeatureFactory.jm_getInstance().f_LOAD_ONDEMAND)) {
+                ignore(ProgressCanvas.jm_end(progressCanvas))
+            } else {
+                ignore(ProgressCanvas.jm_addNormalPortion(progressCanvas, 50l, "Demo Thread Running"))
+            }
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("FullScreenUtil.jm_initOnRun"))
+JR.cast(jlate(JR.cast(this.f_fullScreenUtil), JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MyCanvas.jm_getCustomCommandListener"))
+JR.cast(jlate(JR.cast(this)))
+})))
+})
+            ignore(jm_initMenu(this))
+            ignore(jm_initPostPaint(this))
+            ignore(jm_updateDemoState(this))
+            if (Features.jm_isDefault(features, JR.cast(openGLFeatureFactory.f_OPENGL_AS_GAME_THREAD))) {
+                while ((JR.isSame(this.f_gameCanvas, {
+let jlate: () => JObject = JR.cast(JR.lateBound("NullGameCanvas.jm_getInstance"))
+JR.cast(jlate())
+}) || !{
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_isInitialized"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+})) {
+                    ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TimeDelayHelper.jm_setStartTimeTNT"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_loopTimeHelper))))
+})
+                    ignore(jm_processGame(this))
+                    ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RunnableCanvas.jm_processLoopSleep"))
+JR.cast(jlate(JR.cast(this)))
+})
+                }
+                let mut demoGameRunnable: JObject = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DemoGameRunnable.jnew_1"))
+JR.cast(jlate(JR.cast(this)))
+}
+                let mut currentDisplayableFactory: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("CurrentDisplayableFactory.jm_getInstance"))
+JR.cast(jlate())
+})
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CurrentDisplayableFactory.jm_setRunnable"))
+JR.cast(jlate(JR.cast(currentDisplayableFactory), JR.cast(demoGameRunnable)))
+})
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CurrentDisplayableFactory.jm_setMyCanvas"))
+JR.cast(jlate(JR.cast(currentDisplayableFactory), JR.cast(this)))
+})
+                ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("OpenGLThreadUtil.jm_onResume"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("OpenGLThreadUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+})
+            }
+            if ((Features.jm_isDefault(features, JR.cast(openGLFeatureFactory.f_OPENGL_AS_GAME_THREAD)) || J2MEUtil.jm_isHTML())) {
+                let mut demoGameRunnable: JObject = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DemoGameRunnable.jnew_1"))
+JR.cast(jlate(JR.cast(this)))
+}
+                let mut currentDisplayableFactory: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("CurrentDisplayableFactory.jm_getInstance"))
+JR.cast(jlate())
+})
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CurrentDisplayableFactory.jm_setRunnable"))
+JR.cast(jlate(JR.cast(currentDisplayableFactory), JR.cast(demoGameRunnable)))
+})
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CurrentDisplayableFactory.jm_setMyCanvas"))
+JR.cast(jlate(JR.cast(currentDisplayableFactory), JR.cast(this)))
+})
+            } else {
+                while ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RunnableCanvas.jm_isRunning"))
+JR.cast(jlate(JR.cast(this)))
+}) {
+                    ignore(jm_run3(this))
+                }
+                ignore(jm_end(this))
+            }
+        }
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_END_RUNNABLE"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+}), JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_RUN"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+})))
+})
+}
+    
+and jm_run3 = (this: DemoCanvas) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TimeDelayHelper.jm_setStartTimeTNT"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_loopTimeHelper))))
+})
+        ignore(jm_processGame(this))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RunnableCanvas.jm_processLoopSleep"))
+JR.cast(jlate(JR.cast(this)))
+})
+}
+    
+and jm_setRunning = (this: DemoCanvas, running: Bool) => {
+        ignore(jm_setRunning(this, running))
+        {
+            let mut features: Features = JR.cast(Features.jm_getInstance())
+            let mut openGLFeatureFactory: OpenGLFeatureFactory = JR.cast(OpenGLFeatureFactory.jm_getInstance())
+            if (running) {
+                void
+            } else {
+                if ((((Features.jm_isDefault(features, JR.cast(openGLFeatureFactory.f_OPENGL)) || J2MEUtil.jm_isHTML())) || SWTUtil.jstatic_isSWT())) {
+                    let mut currentDisplayableFactory: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("CurrentDisplayableFactory.jm_getInstance"))
+JR.cast(jlate())
+})
+                    ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CurrentDisplayableFactory.jm_clearRunnable"))
+JR.cast(jlate(JR.cast(currentDisplayableFactory)))
+})
+                    ignore(jm_end(this))
+                }
+            }
+        }
+}
+    
+and jm_end = (this: DemoCanvas) => {
+        let mut progressCanvas: ProgressCanvas = JR.cast(ProgressCanvasFactory.jm_getInstance())
+        let mut features: Features = JR.cast(Features.jm_getInstance())
+        ignore(BaseGameStatistics.jm_add(this.f_baseGameStatistics, StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), jstatic_BOT_GAME_STATS()), BaseGameStatistics.jm_toString(this.f_baseGameStatistics)), CommonSeps.jm_getInstance().f_NEW_LINE))))
+        ignore(BaseGameStatistics.jm_init(this.f_baseGameStatistics))
+        if (Features.jm_isFeature(features, MainFeatureFactory.jm_getInstance().f_LOAD_ONDEMAND)) {
+            ignore(ProgressCanvas.jm_start(progressCanvas))
+        }
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast("Demo End"), JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_RUN"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+})))
+})
+        ignore(jm_close(this))
+        ignore(DisplayChangeEventHandler.jm_removeListener(DisplayChangeEventHandler.jm_getInstance(), this))
+        ignore(jm_stopGameDemo(this))
+}
+    
+and jm_setGameState = (this: DemoCanvas, gameState: GameState) => {
+    void
+}
+    
+and jm_getGameState = (this: DemoCanvas) => {
+        return this.f_gameStateFactory.f_PLAYING_GAME_STATE
+}
+    
+and jm_getGameCanvasRunnableInterface = (this: DemoCanvas) => {
+        return this.f_gameCanvas
+}
+    
+and jm_isDemoLoading = (this: DemoCanvas) => {
+        let mut gameCanvas: JObject = JR.cast(this.f_gameCanvas)
+        if (JR.isSame(gameCanvas, {
+let jlate: () => JObject = JR.cast(JR.lateBound("NullGameCanvas.jm_getInstance"))
+JR.cast(jlate())
+})) {
+            return true
+        } else if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_isInitialized"))
+JR.cast(jlate(JR.cast(gameCanvas)))
+}) {
+            return false
+        }
+        return true
+}
+    
+and jm_getState = (this: DemoCanvas) => {
+        return this.f_state
+}
+    
+and jm_setState = (this: DemoCanvas, state: Int32) => {
+        this.f_state = state
+}
+    
+and jm_isHighScoreSubmitted = (this: DemoCanvas) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast("Wow the AI got a high score!"), JR.cast(this), JR.cast("isHighScoreSubmitted")))
+})
+        return false
+}
+    
+and jm_getRealHighScoresPaintable = (this: DemoCanvas) => {
+        return this.f_realHighScoresPaintable
+}
+    
+and jm_setSpecialAnimationInterface = (this: DemoCanvas, specialAnimationInterface: SpecialAnimation) => {
+        ignore(SpecialAnimation.jm_setFrame(specialAnimationInterface, 0l))
+        this.f_specialAnimationInterface = specialAnimationInterface
+}
+    
+and jm_getSpecialAnimationInterface = (this: DemoCanvas) => {
+        return this.f_specialAnimationInterface
+}
+    
+and jm_setPaintableInterface = (this: DemoCanvas, paintableInterface: PaintableInterface) => {
+        this.f_paintableInterface = paintableInterface
+}
+    
+and jm_getPaintableInterface = (this: DemoCanvas) => {
+        return this.f_paintableInterface
+}
+    
+and jm_setDefaultPaintableInterface = (this: DemoCanvas, defaultPaintableInterface: Paintable) => {
+        this.f_defaultPaintableInterface = defaultPaintableInterface
+}
+    
+and jm_getDefaultPaintableInterface = (this: DemoCanvas) => {
+        return this.f_defaultPaintableInterface
+}
+    
+and jm_getHighScoresFactoryInterface = (this: DemoCanvas) => {
+        return this.f_highScoresFactoryInterface
+}
+    
+and jm_setMenuInputProcessor = (this: DemoCanvas, menuInputProcessor: BasicMenuInputProcessor) => {
+        this.f_menuInputProcessor = menuInputProcessor
+}
+    
+and jm_getMenuInputProcessor = (this: DemoCanvas) => {
+        return this.f_menuInputProcessor
+}
+    
+and jm_getMenuForm = (this: DemoCanvas) => {
+        return this.f_menuForm
+}
+    
+and jm_setMenuForm = (this: DemoCanvas, menuForm: ScrollSelectionForm) => {
+        this.f_menuForm = menuForm
+}
+    
+and jm_isInitialized = (this: DemoCanvas) => {
+        return this.f_initialized
+}
+    
+and jm_getOverlayPaintable = (this: DemoCanvas) => {
+        return JR.cast(this.f_overlayPaintable)
+}
+    
+and jm_setBasicGameDemoPaintable = (this: DemoCanvas, basicGameDemoPaintable: StatePaintable) => {
+        this.f_basicGameDemoPaintable = basicGameDemoPaintable
+}
+    
+and jm_getBasicGameDemoPaintable = (this: DemoCanvas) => {
+        return this.f_basicGameDemoPaintable
+}
+    
+and jm_setTempWait = (this: DemoCanvas, tempWait: Int32) => {
+        this.f_tempWait = tempWait
+}
+    
+and jm_getTempWait = (this: DemoCanvas) => {
+        return this.f_tempWait
+}
+    
+and jm_isSingleThread = (this: DemoCanvas) => {
+        return ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("OpenGLFeatureUtil.jm_isAnyThreed"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("OpenGLFeatureUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+} || SWTUtil.jstatic_isSWT())
+}
+    
+and jm_isRunningInAnotherThread = (this: DemoCanvas) => {
+        let mut features: Features = JR.cast(Features.jm_getInstance())
+        let mut openGLFeatureFactory: OpenGLFeatureFactory = JR.cast(OpenGLFeatureFactory.jm_getInstance())
+        if (Features.jm_isDefault(features, JR.cast(openGLFeatureFactory.f_OPENGL_AS_GAME_THREAD))) {
+            return true
+        } else {
+            return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RunnableCanvas.jm_isRunning"))
+JR.cast(jlate(JR.cast(this)))
+}
+        }
+}
+    
+and jm_getGameInitializationInterfaceFactoryInterface = (this: DemoCanvas) => {
+        return this.f_gameInitializationInterfaceFactoryInterface
+}
+    
+and jm_getType = (this: DemoCanvas) => {
+        return jstatic_TYPE()
+}
+    
+and jm_getTitle = (this: DemoCanvas) => {
+        return jm_getTitle(this)
+}
+    
+and jm_isPaused = (this: DemoCanvas) => {
+        return jm_isPaused(this)
+}
+
+JR.registerLateBound("DemoCanvas.jnew_7", jnew_7)
+JR.registerLateBound("DemoCanvas.jm_onEvent", jm_onEvent)
+JR.registerLateBound("DemoCanvas.jm_onDisplayChangeEvent", jm_onDisplayChangeEvent)
+JR.registerLateBound("DemoCanvas.jm_getCustomCommands", jm_getCustomCommands)
+JR.registerLateBound("DemoCanvas.jm_initCommands", jm_initCommands)
+JR.registerLateBound("DemoCanvas.jm_initPostPaint", jm_initPostPaint)
+JR.registerLateBound("DemoCanvas.jm_mediaInit", jm_mediaInit)
+JR.registerLateBound("DemoCanvas.jm_itemStateChanged", jm_itemStateChanged)
+JR.registerLateBound("DemoCanvas.jm_initMenu", jm_initMenu)
+JR.registerLateBound("DemoCanvas.jm_open", jm_open)
+JR.registerLateBound("DemoCanvas.jm_close", jm_close)
+JR.registerLateBound("DemoCanvas.jm_getSourceId", jm_getSourceId)
+JR.registerLateBound("DemoCanvas.jm_keyPressed", jm_keyPressed)
+JR.registerLateBound("DemoCanvas.jm_keyReleased", jm_keyReleased)
+JR.registerLateBound("DemoCanvas.jm_keyRepeated", jm_keyRepeated)
+JR.registerLateBound("DemoCanvas.jm_keyPressedByDevice", jm_keyPressedByDevice)
+JR.registerLateBound("DemoCanvas.jm_keyReleasedByDevice", jm_keyReleasedByDevice)
+JR.registerLateBound("DemoCanvas.jm_keyRepeatedByDevice", jm_keyRepeatedByDevice)
+JR.registerLateBound("DemoCanvas.jm_addGameKeyEvent", jm_addGameKeyEvent)
+JR.registerLateBound("DemoCanvas.jm_removeGameKeyEvent", jm_removeGameKeyEvent)
+JR.registerLateBound("DemoCanvas.jm_pause", jm_pause)
+JR.registerLateBound("DemoCanvas.jm_unPause", jm_unPause)
+JR.registerLateBound("DemoCanvas.jm_isPausable", jm_isPausable)
+JR.registerLateBound("DemoCanvas.jm_isGameOver", jm_isGameOver)
+JR.registerLateBound("DemoCanvas.jm_setLoadStateHashtable", jm_setLoadStateHashtable)
+JR.registerLateBound("DemoCanvas.jm_getLoadStateHashtable", jm_getLoadStateHashtable)
+JR.registerLateBound("DemoCanvas.jm_getCurrentStateHashtable", jm_getCurrentStateHashtable)
+JR.registerLateBound("DemoCanvas.jm_setHighScoreSubmitted", jm_setHighScoreSubmitted)
+JR.registerLateBound("DemoCanvas.jm_paint", jm_paint)
+JR.registerLateBound("DemoCanvas.jm_paintThreed", jm_paintThreed)
+JR.registerLateBound("DemoCanvas.jm_processGameOver", jm_processGameOver)
+JR.registerLateBound("DemoCanvas.jm_demoStateChange", jm_demoStateChange)
+JR.registerLateBound("DemoCanvas.jm_updateDemoState", jm_updateDemoState)
+JR.registerLateBound("DemoCanvas.jm_getNextRandom", jm_getNextRandom)
+JR.registerLateBound("DemoCanvas.jm_createGameLayerManager", jm_createGameLayerManager)
+JR.registerLateBound("DemoCanvas.jm_createRunnable", jm_createRunnable)
+JR.registerLateBound("DemoCanvas.jm_create", jm_create)
+JR.registerLateBound("DemoCanvas.jm_start", jm_start)
+JR.registerLateBound("DemoCanvas.jm_preDemoProcess", jm_preDemoProcess)
+JR.registerLateBound("DemoCanvas.jm_process", jm_process)
+JR.registerLateBound("DemoCanvas.jm_startDemoGame", jm_startDemoGame)
+JR.registerLateBound("DemoCanvas.jm_stopGameDemo", jm_stopGameDemo)
+JR.registerLateBound("DemoCanvas.jm_showGamePaintable", jm_showGamePaintable)
+JR.registerLateBound("DemoCanvas.jm_isReadyForStateChange", jm_isReadyForStateChange)
+JR.registerLateBound("DemoCanvas.jm_processGame", jm_processGame)
+JR.registerLateBound("DemoCanvas.jm_run", jm_run)
+JR.registerLateBound("DemoCanvas.jm_run3", jm_run3)
+JR.registerLateBound("DemoCanvas.jm_setRunning", jm_setRunning)
+JR.registerLateBound("DemoCanvas.jm_end", jm_end)
+JR.registerLateBound("DemoCanvas.jm_setGameState", jm_setGameState)
+JR.registerLateBound("DemoCanvas.jm_getGameState", jm_getGameState)
+JR.registerLateBound("DemoCanvas.jm_getGameCanvasRunnableInterface", jm_getGameCanvasRunnableInterface)
+JR.registerLateBound("DemoCanvas.jm_isDemoLoading", jm_isDemoLoading)
+JR.registerLateBound("DemoCanvas.jm_getState", jm_getState)
+JR.registerLateBound("DemoCanvas.jm_setState", jm_setState)
+JR.registerLateBound("DemoCanvas.jm_isHighScoreSubmitted", jm_isHighScoreSubmitted)
+JR.registerLateBound("DemoCanvas.jm_getRealHighScoresPaintable", jm_getRealHighScoresPaintable)
+JR.registerLateBound("DemoCanvas.jm_setSpecialAnimationInterface", jm_setSpecialAnimationInterface)
+JR.registerLateBound("DemoCanvas.jm_getSpecialAnimationInterface", jm_getSpecialAnimationInterface)
+JR.registerLateBound("DemoCanvas.jm_setPaintableInterface", jm_setPaintableInterface)
+JR.registerLateBound("DemoCanvas.jm_getPaintableInterface", jm_getPaintableInterface)
+JR.registerLateBound("DemoCanvas.jm_setDefaultPaintableInterface", jm_setDefaultPaintableInterface)
+JR.registerLateBound("DemoCanvas.jm_getDefaultPaintableInterface", jm_getDefaultPaintableInterface)
+JR.registerLateBound("DemoCanvas.jm_getHighScoresFactoryInterface", jm_getHighScoresFactoryInterface)
+JR.registerLateBound("DemoCanvas.jm_setMenuInputProcessor", jm_setMenuInputProcessor)
+JR.registerLateBound("DemoCanvas.jm_getMenuInputProcessor", jm_getMenuInputProcessor)
+JR.registerLateBound("DemoCanvas.jm_getMenuForm", jm_getMenuForm)
+JR.registerLateBound("DemoCanvas.jm_setMenuForm", jm_setMenuForm)
+JR.registerLateBound("DemoCanvas.jm_isInitialized", jm_isInitialized)
+JR.registerLateBound("DemoCanvas.jm_getOverlayPaintable", jm_getOverlayPaintable)
+JR.registerLateBound("DemoCanvas.jm_setBasicGameDemoPaintable", jm_setBasicGameDemoPaintable)
+JR.registerLateBound("DemoCanvas.jm_getBasicGameDemoPaintable", jm_getBasicGameDemoPaintable)
+JR.registerLateBound("DemoCanvas.jm_setTempWait", jm_setTempWait)
+JR.registerLateBound("DemoCanvas.jm_getTempWait", jm_getTempWait)
+JR.registerLateBound("DemoCanvas.jm_isSingleThread", jm_isSingleThread)
+JR.registerLateBound("DemoCanvas.jm_isRunningInAnotherThread", jm_isRunningInAnotherThread)
+JR.registerLateBound("DemoCanvas.jm_getGameInitializationInterfaceFactoryInterface", jm_getGameInitializationInterfaceFactoryInterface)
+JR.registerLateBound("DemoCanvas.jm_getType", jm_getType)
+JR.registerLateBound("DemoCanvas.jm_getTitle", jm_getTitle)
+JR.registerLateBound("DemoCanvas.jm_isPaused", jm_isPaused)
+JR.registerLateBound("DemoCanvas.f_basicColorFactory", (this: DemoCanvas) => this.f_basicColorFactory)
+JR.registerLateBound("DemoCanvas.f_myCommandsFactory", (this: DemoCanvas) => this.f_myCommandsFactory)
+JR.registerLateBound("DemoCanvas.f_gameAdStateFactory", (this: DemoCanvas) => this.f_gameAdStateFactory)
+JR.registerLateBound("DemoCanvas.f_gameInputStrings", (this: DemoCanvas) => this.f_gameInputStrings)
+JR.registerLateBound("DemoCanvas.f_gameStateFactory", (this: DemoCanvas) => this.f_gameStateFactory)
+JR.registerLateBound("DemoCanvas.f_threadFactoryUtil", (this: DemoCanvas) => this.f_threadFactoryUtil)
+JR.registerLateBound("DemoCanvas.f_formUtil", (this: DemoCanvas) => this.f_formUtil)
+JR.registerLateBound("DemoCanvas.f_fullscreenPaintable", (this: DemoCanvas) => this.f_fullscreenPaintable)
+JR.registerLateBound("DemoCanvas.set_f_fullscreenPaintable", (this: DemoCanvas, jvalue) => { this.f_fullscreenPaintable = jvalue; jvalue })
+JR.registerLateBound("DemoCanvas.f_basicGameDemoPaintable", (this: DemoCanvas) => this.f_basicGameDemoPaintable)
+JR.registerLateBound("DemoCanvas.set_f_basicGameDemoPaintable", (this: DemoCanvas, jvalue) => { this.f_basicGameDemoPaintable = jvalue; jvalue })
+JR.registerLateBound("DemoCanvas.f_specialAnimationInterface", (this: DemoCanvas) => this.f_specialAnimationInterface)
+JR.registerLateBound("DemoCanvas.set_f_specialAnimationInterface", (this: DemoCanvas, jvalue) => { this.f_specialAnimationInterface = jvalue; jvalue })
+JR.registerLateBound("DemoCanvas.f_paintedSpecialAnimationInterface", (this: DemoCanvas) => this.f_paintedSpecialAnimationInterface)
+JR.registerLateBound("DemoCanvas.set_f_paintedSpecialAnimationInterface", (this: DemoCanvas, jvalue) => { this.f_paintedSpecialAnimationInterface = jvalue; jvalue })
+JR.registerLateBound("DemoCanvas.f_fullScreenUtil", (this: DemoCanvas) => this.f_fullScreenUtil)
+JR.registerLateBound("DemoCanvas.f_gameCanvas", (this: DemoCanvas) => this.f_gameCanvas)
+JR.registerLateBound("DemoCanvas.set_f_gameCanvas", (this: DemoCanvas, jvalue) => { this.f_gameCanvas = jvalue; jvalue })
+JR.registerLateBound("DemoCanvas.f_highScoresHelper", (this: DemoCanvas) => this.f_highScoresHelper)
+JR.registerLateBound("DemoCanvas.f_realHighScoresPaintable", (this: DemoCanvas) => this.f_realHighScoresPaintable)
+JR.registerLateBound("DemoCanvas.f_highScoresPaintable", (this: DemoCanvas) => this.f_highScoresPaintable)
+JR.registerLateBound("DemoCanvas.set_f_highScoresPaintable", (this: DemoCanvas, jvalue) => { this.f_highScoresPaintable = jvalue; jvalue })
+JR.registerLateBound("DemoCanvas.f_state", (this: DemoCanvas) => this.f_state)
+JR.registerLateBound("DemoCanvas.set_f_state", (this: DemoCanvas, jvalue) => { this.f_state = jvalue; jvalue })
+JR.registerLateBound("DemoCanvas.f_canvasThread", (this: DemoCanvas) => this.f_canvasThread)
+JR.registerLateBound("DemoCanvas.set_f_canvasThread", (this: DemoCanvas, jvalue) => { this.f_canvasThread = jvalue; jvalue })
+JR.registerLateBound("DemoCanvas.f_timeDelayHelper", (this: DemoCanvas) => this.f_timeDelayHelper)
+JR.registerLateBound("DemoCanvas.f_basicColor", (this: DemoCanvas) => this.f_basicColor)
+JR.registerLateBound("DemoCanvas.set_f_basicColor", (this: DemoCanvas, jvalue) => { this.f_basicColor = jvalue; jvalue })
+JR.registerLateBound("DemoCanvas.f_abeClientInformation", (this: DemoCanvas) => this.f_abeClientInformation)
+JR.registerLateBound("DemoCanvas.f_highScoresFactoryInterface", (this: DemoCanvas) => this.f_highScoresFactoryInterface)
+JR.registerLateBound("DemoCanvas.f_menuInputProcessor", (this: DemoCanvas) => this.f_menuInputProcessor)
+JR.registerLateBound("DemoCanvas.set_f_menuInputProcessor", (this: DemoCanvas, jvalue) => { this.f_menuInputProcessor = jvalue; jvalue })
+JR.registerLateBound("DemoCanvas.f_menuForm", (this: DemoCanvas) => this.f_menuForm)
+JR.registerLateBound("DemoCanvas.set_f_menuForm", (this: DemoCanvas, jvalue) => { this.f_menuForm = jvalue; jvalue })
+JR.registerLateBound("DemoCanvas.f_gameInitializationInterfaceFactoryInterface", (this: DemoCanvas) => this.f_gameInitializationInterfaceFactoryInterface)
+JR.registerLateBound("DemoCanvas.f_initialized", (this: DemoCanvas) => this.f_initialized)
+JR.registerLateBound("DemoCanvas.set_f_initialized", (this: DemoCanvas, jvalue) => { this.f_initialized = jvalue; jvalue })
+JR.registerLateBound("DemoCanvas.f_demoGameRunnable", (this: DemoCanvas) => this.f_demoGameRunnable)
+JR.registerLateBound("DemoCanvas.f_defaultPaintableInterface", (this: DemoCanvas) => this.f_defaultPaintableInterface)
+JR.registerLateBound("DemoCanvas.set_f_defaultPaintableInterface", (this: DemoCanvas, jvalue) => { this.f_defaultPaintableInterface = jvalue; jvalue })
+JR.registerLateBound("DemoCanvas.f_paintableInterface", (this: DemoCanvas) => this.f_paintableInterface)
+JR.registerLateBound("DemoCanvas.set_f_paintableInterface", (this: DemoCanvas, jvalue) => { this.f_paintableInterface = jvalue; jvalue })
+JR.registerLateBound("DemoCanvas.f_overlayPaintable", (this: DemoCanvas) => this.f_overlayPaintable)
+JR.registerLateBound("DemoCanvas.f_progressPaintable", (this: DemoCanvas) => this.f_progressPaintable)
+JR.registerLateBound("DemoCanvas.f_tempWait", (this: DemoCanvas) => this.f_tempWait)
+JR.registerLateBound("DemoCanvas.set_f_tempWait", (this: DemoCanvas, jvalue) => { this.f_tempWait = jvalue; jvalue })
+JR.registerLateBound("DemoCanvas.f_inputToGameKeyMapping", (this: DemoCanvas) => this.f_inputToGameKeyMapping)
+JR.registerLateBound("DemoCanvas.f_gameRunnable", (this: DemoCanvas) => this.f_gameRunnable)
+JR.registerLateBound("DemoCanvas.set_f_gameRunnable", (this: DemoCanvas, jvalue) => { this.f_gameRunnable = jvalue; jvalue })
+JR.registerLateBound("DemoCanvas.f_isSingleKeyRepeatableProcessing", (this: DemoCanvas) => this.f_isSingleKeyRepeatableProcessing)
+JR.registerLateBound("DemoCanvas.set_f_isSingleKeyRepeatableProcessing", (this: DemoCanvas, jvalue) => { this.f_isSingleKeyRepeatableProcessing = jvalue; jvalue })
+JR.registerLateBound("DemoCanvas.f_NONE", (this: DemoCanvas) => this.f_NONE)
+JR.registerLateBound("DemoCanvas.f_gameKeyEventFactory", (this: DemoCanvas) => this.f_gameKeyEventFactory)
+JR.registerLateBound("DemoCanvas.f_lastKeyNotMapped", (this: DemoCanvas) => this.f_lastKeyNotMapped)
+JR.registerLateBound("DemoCanvas.set_f_lastKeyNotMapped", (this: DemoCanvas, jvalue) => { this.f_lastKeyNotMapped = jvalue; jvalue })
+JR.registerLateBound("DemoCanvas.f_SET_STATE", (this: DemoCanvas) => this.f_SET_STATE)
+JR.registerLateBound("DemoCanvas.f_baseGameStatistics", (this: DemoCanvas) => this.f_baseGameStatistics)
+JR.registerLateBound("DemoCanvas.jstatic_id", jstatic_id)
+JR.registerLateBound("DemoCanvas.jstatic_BOT_GAME_STATS", jstatic_BOT_GAME_STATS)
+JR.registerLateBound("DemoCanvas.jstatic_TYPE", jstatic_TYPE)
 
 

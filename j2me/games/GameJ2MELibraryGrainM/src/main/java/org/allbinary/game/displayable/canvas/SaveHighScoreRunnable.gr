@@ -1,68 +1,79 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ *
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ *
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ *
+ * Created By: Travis Berthelot
+ * 
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.displayable.canvas
+module SaveHighScoreRunnable
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
- 
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
- 
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
- 
-  Created By: Travis Berthelot
-  
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.displayable.canvas *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/score/displayable/HighScoreTextBox.gr" include HighScoreTextBox
+use HighScoreTextBox.{ type HighScoreTextBox }
+from "../../../../../org/allbinary/graphics/canvas/transition/progress/ProgressCanvas.gr" include ProgressCanvas
+use ProgressCanvas.{ type ProgressCanvas }
+from "../../../../../org/allbinary/graphics/canvas/transition/progress/ProgressCanvasFactory.gr" include ProgressCanvasFactory
+use ProgressCanvasFactory.{ type ProgressCanvasFactory }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../../java/lang/Runnable.gr" include Runnable
+use Runnable.{ type Runnable }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.score.displayable.HighScoreTextBox *)
-(* import org.allbinary.graphics.canvas.transition.progress.ProgressCanvas *)
-(* import org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record SaveHighScoreRunnable {
+  jobject: JObject,
+  mut f_progressCanvas: ProgressCanvas,
+  mut f_isLast: Bool,
+  mut f_textBox: HighScoreTextBox,
+}
 
-class saveHighScoreRunnable ((isLast_arg : bool), (textBox_arg : HighScoreTextBox.highScoreTextBox)) =
-  object (self)
-    val mutable progressCanvas : ProgressCanvas.progressCanvas = (Obj.magic 0)
-    method progressCanvas = progressCanvas
-    method set_progressCanvas value' = progressCanvas <- value'
-    val mutable isLast : bool = false
-    method isLast = isLast
-    method set_isLast value' = isLast <- value'
-    val mutable textBox : HighScoreTextBox.highScoreTextBox = (Obj.magic 0)
-    method textBox = textBox
-    method set_textBox value' = textBox <- value'
+
+provide let rec jclassName = () => "SaveHighScoreRunnable"
+    
+and jnew_2 = (isLast: Bool, textBox: HighScoreTextBox) => {
+    let this = { jobject: JR.newJObject("SaveHighScoreRunnable"), f_progressCanvas: JR.nullOf(), f_isLast: false, f_textBox: JR.nullOf(), }
+    this.f_progressCanvas = JR.cast(ProgressCanvasFactory.jm_getInstance())
     
     
+        this.f_isLast = isLast
+        this.f_textBox = textBox
+    this
+}
+    
+and jm_run = (this: SaveHighScoreRunnable) => {
+        let mut logUtil: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        {
+            if (this.f_isLast) {
+                ignore(HighScoreTextBox.jm_submit(this.f_textBox))
+            } else {
+                ignore(HighScoreTextBox.jm_saveHighScore(this.f_textBox))
+            }
+        }
+}
 
-    method run () : unit =
-        begin
-        let logUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
-        (try
-            if isLast then begin
-                ignore (textBox#submit ())
-            end else begin
-                ignore (textBox#saveHighScore ())
-            end
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic !logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), "run", e));
-            ignore (progressCanvas#end_ ())
-        end)
-        end
-
-    initializer
-      begin
-        progressCanvas <- ((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas);
-        ();
-        ();
-        ();
-        isLast <- isLast_arg;
-        textBox <- textBox_arg
-      end
-  end
-let () = java_register_constructor "SaveHighScoreRunnable" (fun arguments -> Obj.repr (new saveHighScoreRunnable (Obj.obj arguments)))
+JR.registerLateBound("SaveHighScoreRunnable.jnew_2", jnew_2)
+JR.registerLateBound("SaveHighScoreRunnable.jm_run", jm_run)
+JR.registerLateBound("SaveHighScoreRunnable.f_progressCanvas", (this: SaveHighScoreRunnable) => this.f_progressCanvas)
+JR.registerLateBound("SaveHighScoreRunnable.f_isLast", (this: SaveHighScoreRunnable) => this.f_isLast)
+JR.registerLateBound("SaveHighScoreRunnable.f_textBox", (this: SaveHighScoreRunnable) => this.f_textBox)
 
 

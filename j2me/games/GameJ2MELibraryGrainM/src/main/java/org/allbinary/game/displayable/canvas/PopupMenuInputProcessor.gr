@@ -1,154 +1,214 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.displayable.canvas
+module PopupMenuInputProcessor
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.displayable.canvas *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/input/GameInputStrings.gr" include GameInputStrings
+use GameInputStrings.{ type GameInputStrings }
+from "../../../../../org/allbinary/game/input/event/GameKeyEvent.gr" include GameKeyEvent
+use GameKeyEvent.{ type GameKeyEvent }
+from "../../../../../org/allbinary/graphics/GPoint.gr" include GPoint
+use GPoint.{ type GPoint }
+from "../../../../../org/allbinary/graphics/Rectangle.gr" include Rectangle
+use Rectangle.{ type Rectangle }
+from "../../../../../org/allbinary/graphics/displayable/MyCanvas.gr" include MyCanvas
+use MyCanvas.{ type MyCanvas }
+from "../../../../../org/allbinary/input/motion/gesture/MotionGestureInput.gr" include MotionGestureInput
+use MotionGestureInput.{ type MotionGestureInput }
+from "../../../../../org/allbinary/input/motion/gesture/observer/MotionGestureEvent.gr" include MotionGestureEvent
+use MotionGestureEvent.{ type MotionGestureEvent }
+from "../../../../../org/allbinary/math/RectangleCollisionUtil.gr" include RectangleCollisionUtil
+use RectangleCollisionUtil.{ type RectangleCollisionUtil }
+from "../../../../../org/allbinary/time/TimeDelayHelper.gr" include TimeDelayHelper
+use TimeDelayHelper.{ type TimeDelayHelper }
+from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "./BasicMenuInputProcessor.gr" include BasicMenuInputProcessor
+use BasicMenuInputProcessor.{ type BasicMenuInputProcessor }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Canvas *)
-(* import org.allbinary.game.input.GameInputStrings *)
-(* import org.allbinary.game.input.event.GameKeyEvent *)
-(* import org.allbinary.graphics.GPoint *)
-(* import org.allbinary.graphics.Rectangle *)
-(* import org.allbinary.graphics.displayable.MyCanvas *)
-(* import org.allbinary.input.motion.gesture.MotionGestureInput *)
-(* import org.allbinary.input.motion.gesture.TouchMotionGestureFactory *)
-(* import org.allbinary.input.motion.gesture.observer.MotionGestureEvent *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.math.RectangleCollisionUtil *)
-(* import org.allbinary.string.CommonSeps *)
-(* import org.allbinary.time.TimeDelayHelper *)
-(* import org.allbinary.util.BasicArrayList *)
+provide record PopupMenuInputProcessor {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_gameKeyEventList: JObject,
+  mut f_removalGameKeyEventList: JObject,
+  mut f_isRemoveDuplicateKeyPresses: Bool,
+  mut f_gameInputStrings: JObject,
+  mut f_playerInputId: Int32,
+  mut f_motionGestureEventList: JObject,
+  mut f_canvas: JObject,
+  mut f_rectangleCollisionUtil: RectangleCollisionUtil,
+  mut f_CLICK_DELAY: Int32,
+  mut f_clickTimeHelper: TimeDelayHelper,
+  mut f_rectangle: Rectangle,
+}
 
-class popupMenuInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayList), (playerInputId : int), (gameCanvas : MyCanvas.myCanvas), (rectangle_arg : Rectangle.rectangle)) =
-  object (self)
-    inherit BasicMenuInputProcessor.basicMenuInputProcessor (gameKeyEventList, playerInputId, gameCanvas)
-    val mutable rectangleCollisionUtil : RectangleCollisionUtil.rectangleCollisionUtil = (Obj.magic 0)
-    method rectangleCollisionUtil = rectangleCollisionUtil
-    method set_rectangleCollisionUtil value' = rectangleCollisionUtil <- value'
-    val mutable cLICK_DELAY : int = 0
-    method cLICK_DELAY = cLICK_DELAY
-    method set_cLICK_DELAY value' = cLICK_DELAY <- value'
-    val mutable clickTimeHelper : TimeDelayHelper.timeDelayHelper = (Obj.magic 0)
-    method clickTimeHelper = clickTimeHelper
-    method set_clickTimeHelper value' = clickTimeHelper <- value'
-    val mutable rectangle : Rectangle.rectangle = (Obj.magic 0)
-    method rectangle = rectangle
-    method set_rectangle value' = rectangle <- value'
+
+provide let rec jclassName = () => "PopupMenuInputProcessor"
     
+and jnew_4 = (gameKeyEventList: BasicArrayList, playerInputId: Int32, gameCanvas: MyCanvas, rectangle: Rectangle) => {
+    let this = { jobject: JR.newJObject("PopupMenuInputProcessor"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventList: JR.jnull, f_removalGameKeyEventList: JR.jnull, f_isRemoveDuplicateKeyPresses: false, f_gameInputStrings: JR.jnull, f_playerInputId: 0l, f_motionGestureEventList: JR.jnull, f_canvas: JR.jnull, f_rectangleCollisionUtil: JR.nullOf(), f_CLICK_DELAY: 0l, f_clickTimeHelper: JR.nullOf(), f_rectangle: JR.nullOf(), }
+    this.f_rectangleCollisionUtil = JR.cast(RectangleCollisionUtil.jm_getInstance())
+    this.f_CLICK_DELAY = 120l
+    this.f_clickTimeHelper = TimeDelayHelper.jnew_1(this.f_CLICK_DELAY)
     
-
-    method init : 'any1. 'any1 -> unit = fun (rectangle_arg) ->
-        let rectangle_arg = Obj.repr rectangle_arg in
-        begin
-        rectangle <- (Obj.magic rectangle_arg)
-        end [@@warning "-7-20"]
+        void
+        this.f_rectangle = rectangle
+    this
+}
     
-
-    method processInput ((key : int)) : int =
-        try
-        begin
-        if (key = (Obj.magic (java_call_static "Canvas.get_kEY_STAR" (Obj.repr ())))) then begin
-            let gameCanvas : Obj.t ref = ref ((Obj.repr (Obj.magic (self#getCanvas ())))) in ();
-            ignore ((Obj.magic !gameCanvas)#toggleMenu ());
-            raise (Java_return (Obj.repr (1)))
-        end;
-        0
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7"]
+and jm_init = (this: PopupMenuInputProcessor, rectangle: Rectangle) => {
+        this.f_rectangle = rectangle
+}
     
-
-    method processInputList () : int =
-        try
-        begin
-        (try
-            let motionInputsIndex : int ref = ref ((self#processMotionInputs ())) in ();
-            let list : BasicArrayList.basicArrayList ref = ref (((self#getGameKeyEventList ()) :> BasicArrayList.basicArrayList)) in ();
-            let size : int ref = ref ((!list#size ())) in ();
-            let key : int ref = ref (0) in ();
-            let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((Obj.magic 0) :> GameKeyEvent.gameKeyEvent)) in ();
-            for index = 0 to !size - 1 do
-                gameKeyEvent := (Obj.magic !list#objectArray.(index));
-                if (!gameKeyEvent != (Obj.magic 0)) then begin
-                    key := (!gameKeyEvent#getKey ());
-                    if ((self#processInput (!key)) = 1) then begin
-                        raise Java_break
-                    end
-                end
-            done;
-            ignore (self#clear ());
-            if ((!size > 0) || (!motionInputsIndex >= 0)) then begin
-                raise (Java_return (Obj.repr (1)))
-            end else begin
-                raise (Java_return (Obj.repr ((- 1))))
-            end
-        with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (GameInputStrings.getInstance ())#pROCESS_INPUT, e));
-            (- 1)
-        end)
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7"]
+and jm_processInput = (this: PopupMenuInputProcessor, key: Int32) => {
+        if ((key == {
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_KEY_STAR"))
+JR.cast(jlate())
+})) {
+            let mut gameCanvas: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicMenuInputProcessor.jm_getCanvas"))
+JR.cast(jlate(JR.cast(this)))
+})
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_toggleMenu"))
+JR.cast(jlate(JR.cast(gameCanvas)))
+})
+            return 1l
+        }
+        return 0l
+}
     
-
-    method processMotionInputs () : int =
-        begin
-        let lastIndex : int ref = ref ((((self#motionGestureEventList)#size ()) - 1)) in ();
-        if (!lastIndex >= 0) then begin
-            let motionGestureEvent : MotionGestureEvent.motionGestureEvent ref = ref (((Obj.magic (self#motionGestureEventList)#objectArray.(!lastIndex)) :> MotionGestureEvent.motionGestureEvent)) in ();
-            (self#processMotionInput (!motionGestureEvent))
-        end;
-        ignore ((self#motionGestureEventList)#clear ());
-        !lastIndex
-        end [@@warning "-7"]
+and jm_processInputList = (this: PopupMenuInputProcessor) => {
+        {
+            let mut motionInputsIndex: Int32 = jm_processMotionInputs(this)
+            let mut list: BasicArrayList = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInput.jm_getGameKeyEventList"))
+JR.cast(jlate(JR.cast(this)))
+})
+            let mut size: Int32 = BasicArrayList.jm_size(list)
+            let mut key: Int32 = 0l
+            let mut gameKeyEvent: GameKeyEvent = JR.nullOf()
+            {
+                let mut index: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(+)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index, size))) break
+                gameKeyEvent = JR.cast(list.f_objectArray[Int32.toNumber(index)])
+                if (!JR.isNull(gameKeyEvent)) {
+                    key = GameKeyEvent.jm_getKey(gameKeyEvent)
+                    if ((jm_processInput(this, key) == 1l)) {
+                        break
+                    }
+                }
+                }
+            }
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInput.jm_clear"))
+JR.cast(jlate(JR.cast(this)))
+})
+            if ((Int32.(>)(size, 0l) || Int32.(>=)(motionInputsIndex, 0l))) {
+                return 1l
+            } else {
+                return Int32.(-)(1l, Int32.(+)(1l, 1l))
+            }
+        }
+    return 0l
+}
     
+and jm_processMotionInputs = (this: PopupMenuInputProcessor) => {
+        let mut lastIndex: Int32 = Int32.(-)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_motionGestureEventList))))
+}, 1l)
+        if (Int32.(>=)(lastIndex, 0l)) {
+            let mut motionGestureEvent: MotionGestureEvent = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.f_objectArray"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_motionGestureEventList))))
+}[Int32.toNumber(lastIndex)])
+            ignore(jm_processMotionInput(this, motionGestureEvent))
+        }
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_clear"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_motionGestureEventList))))
+})
+        return lastIndex
+}
+    
+and jm_processMotionInput = (this: PopupMenuInputProcessor, motionGestureEvent: MotionGestureEvent) => {
+        if (JR.isNull(motionGestureEvent)) {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast("Exception: Bug"), JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInputStrings.f_PROCESS_MOTION_INPUT"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_gameInputStrings))))
+})))
+})
+            return void
+        }
+        let mut touchMotionGestureFactory: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.jm_getInstance"))
+JR.cast(jlate())
+})
+        let mut motionGestureInput: MotionGestureInput = JR.cast(MotionGestureEvent.jm_getMotionGesture(motionGestureEvent))
+        if (JR.isSame(motionGestureInput, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.f_RELEASED"))
+JR.cast(jlate(JR.cast(touchMotionGestureFactory)))
+})) {
+            let mut point: GPoint = JR.cast(MotionGestureEvent.jm_getCurrentPoint(motionGestureEvent))
+            let mut rectPoint: GPoint = JR.cast(Rectangle.jm_getPoint(this.f_rectangle))
+            if (RectangleCollisionUtil.jm_isInside(this.f_rectangleCollisionUtil, GPoint.jm_getX(rectPoint), GPoint.jm_getY(rectPoint), Int32.(+)(Rectangle.jm_getMaxX(this.f_rectangle), 20l), Rectangle.jm_getMaxY(this.f_rectangle), GPoint.jm_getX(point), GPoint.jm_getY(point))) {
+                if (TimeDelayHelper.jm_isTimeTNT(this.f_clickTimeHelper)) {
+                    let mut gameCanvas: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicMenuInputProcessor.jm_getCanvas"))
+JR.cast(jlate(JR.cast(this)))
+})
+                    ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_toggleMenu"))
+JR.cast(jlate(JR.cast(gameCanvas)))
+})
+                }
+            }
+        }
+    return void
+}
 
-    method processMotionInput : 'any1. 'any1 -> unit = fun (motionGestureEvent) ->
-        let motionGestureEvent = Obj.repr motionGestureEvent in
-        try
-        begin
-        if ((Obj.magic motionGestureEvent) == (Obj.magic 0)) then begin
-            ignore ((self#logUtil)#putF ("Exception: Bug", (Obj.magic self), (self#gameInputStrings)#pROCESS_MOTION_INPUT));
-            raise (Java_return (Obj.repr (())))
-        end;
-        let touchMotionGestureFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "TouchMotionGestureFactory.getInstance" (Obj.repr ()))))) in ();
-        let motionGestureInput : MotionGestureInput.motionGestureInput ref = ref ((((Obj.magic motionGestureEvent)#getMotionGesture ()) :> MotionGestureInput.motionGestureInput)) in ();
-        if ((Obj.repr !motionGestureInput) == (Obj.repr (Obj.magic !touchMotionGestureFactory)#rELEASED)) then begin
-            let point : GPoint.gPoint ref = ref ((((Obj.magic motionGestureEvent)#getCurrentPoint ()) :> GPoint.gPoint)) in ();
-            let rectPoint : GPoint.gPoint ref = ref (((rectangle#getPoint ()) :> GPoint.gPoint)) in ();
-            if (rectangleCollisionUtil#isInside ((!rectPoint#getX ()), (!rectPoint#getY ()), ((rectangle#getMaxX ()) + 20), (rectangle#getMaxY ()), (!point#getX ()), (!point#getY ()))) then begin
-                if (clickTimeHelper#isTimeTNT ()) then begin
-                    let gameCanvas : Obj.t ref = ref ((Obj.repr (Obj.magic (self#getCanvas ())))) in ();
-                    ignore ((Obj.magic !gameCanvas)#toggleMenu ())
-                end
-            end
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7-20"]
-
-    initializer
-      begin
-        rectangleCollisionUtil <- ((RectangleCollisionUtil.getInstance ()) :> RectangleCollisionUtil.rectangleCollisionUtil);
-        cLICK_DELAY <- 120;
-        clickTimeHelper <- ((new TimeDelayHelper.timeDelayHelper (cLICK_DELAY)) :> TimeDelayHelper.timeDelayHelper);
-        ();
-        ();
-        (* super(...) is the inherit clause *) ();
-        rectangle <- rectangle_arg
-      end
-  end
-let () = java_register_constructor "PopupMenuInputProcessor" (fun arguments -> Obj.repr (new popupMenuInputProcessor (Obj.obj arguments)))
+JR.registerLateBound("PopupMenuInputProcessor.jnew_4", jnew_4)
+JR.registerLateBound("PopupMenuInputProcessor.jm_init", jm_init)
+JR.registerLateBound("PopupMenuInputProcessor.jm_processInput", jm_processInput)
+JR.registerLateBound("PopupMenuInputProcessor.jm_processInputList", jm_processInputList)
+JR.registerLateBound("PopupMenuInputProcessor.jm_processMotionInputs", jm_processMotionInputs)
+JR.registerLateBound("PopupMenuInputProcessor.jm_processMotionInput", jm_processMotionInput)
+JR.registerLateBound("PopupMenuInputProcessor.f_rectangleCollisionUtil", (this: PopupMenuInputProcessor) => this.f_rectangleCollisionUtil)
+JR.registerLateBound("PopupMenuInputProcessor.f_CLICK_DELAY", (this: PopupMenuInputProcessor) => this.f_CLICK_DELAY)
+JR.registerLateBound("PopupMenuInputProcessor.f_clickTimeHelper", (this: PopupMenuInputProcessor) => this.f_clickTimeHelper)
+JR.registerLateBound("PopupMenuInputProcessor.f_rectangle", (this: PopupMenuInputProcessor) => this.f_rectangle)
+JR.registerLateBound("PopupMenuInputProcessor.set_f_rectangle", (this: PopupMenuInputProcessor, jvalue) => { this.f_rectangle = jvalue; jvalue })
 
 

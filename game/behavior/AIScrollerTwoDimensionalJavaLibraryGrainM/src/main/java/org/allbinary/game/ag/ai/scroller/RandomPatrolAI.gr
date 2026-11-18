@@ -1,70 +1,104 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.ai.scroller
+module RandomPatrolAI
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.ai.scroller *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/game/input/GameInput.gr" include GameInput
+use GameInput.{ type GameInput }
+from "../../../../../../org/allbinary/game/rand/MyRandomFactory.gr" include MyRandomFactory
+use MyRandomFactory.{ type MyRandomFactory }
+from "../../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
+from "./BasePatrolAI.gr" include BasePatrolAI
+use BasePatrolAI.{ type BasePatrolAI }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Canvas *)
-(* import org.allbinary.game.input.GameInput *)
-(* import org.allbinary.game.rand.MyRandomFactory *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
-(* import org.allbinary.util.ABHashtable *)
+provide record RandomPatrolAI {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_gameKeyEventFactory: JObject,
+  mut f_ownerLayerInterface: JObject,
+  mut f_gameInput: JObject,
+  mut f_lastKey: Int32,
+  mut f_maxDistance: JObject,
+  mut f_currentDistance: Int32,
+  mut f_xTotalDistance: Int32,
+  mut f_lastKeyDirection: Int32,
+  mut f_keyDirection: Int32,
+  mut f_changedDirection: Bool,
+}
 
-class randomPatrolAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gameInput : GameInput.gameInput)) =
-  object (self)
-    inherit BasePatrolAI.basePatrolAI (hashtable, ownerLayerInterface, gameInput) as super
-    val mutable changedDirection : bool = false
-    method changedDirection = changedDirection
-    method set_changedDirection value' = changedDirection <- value'
+
+provide let rec jclassName = () => "RandomPatrolAI"
     
+and jnew_3 = (hashtable: JObject, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
+    let this = { jobject: JR.newJObject("RandomPatrolAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_maxDistance: JR.jnull, f_currentDistance: 0l, f_xTotalDistance: 0l, f_lastKeyDirection: 0l, f_keyDirection: 0l, f_changedDirection: false, }
+    this.f_changedDirection = true
+        void
+        ignore(jm_updateRandomDistance(this))
+    this
+}
     
-
-    method updateRandomDistance () : unit =
-        begin
-        (self#set_currentDistance) (((MyRandomFactory.getInstance ())#getAbsoluteNextInt ((java_int_value (Obj.repr (self#maxDistance))))))
-        end [@@warning "-7"]
+and jm_updateRandomDistance = (this: RandomPatrolAI) => {
+        this.f_currentDistance = JR.cast(MyRandomFactory.jm_getAbsoluteNextInt(MyRandomFactory.jm_getInstance(), JR.className(JR.cast(JR.cast(this.f_maxDistance)))))
+}
     
-
-    method processAI : 'any1. 'any1 -> unit = fun (_allBinaryLayerManager) ->
-        begin
-        ignore (super#update ());
-        ignore (super#processKeyAI ((self#keyDirection)));
-        if changedDirection then begin
-            ignore (super#processKeyAI ((Obj.magic (java_call_static "Canvas.get_kEY_NUM1" (Obj.repr ())))));
-            (self#updateRandomDistance ());
-            changedDirection <- false
-        end
-        end [@@warning "-7-20"]
+and jm_processAI = (this: RandomPatrolAI, allBinaryLayerManager: AllBinaryLayerManager) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasePatrolAI.jm_update"))
+JR.cast(jlate(JR.cast(this)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
+JR.cast(jlate(JR.cast(this), JR.cast(JR.cast(this.f_keyDirection))))
+})
+        if (this.f_changedDirection) {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_KEY_NUM1"))
+JR.cast(jlate())
+})))
+})
+            ignore(jm_updateRandomDistance(this))
+            this.f_changedDirection = false
+        }
+}
     
+and jm_nextDirection = (this: RandomPatrolAI) => {
+        ignore(jm_nextDirection(this))
+        this.f_changedDirection = true
+}
 
-    method nextDirection () : unit =
-        begin
-        ignore (super#nextDirection ());
-        changedDirection <- true
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        changedDirection <- true;
-        ();
-        (* super(...) is the inherit clause *) ();
-        (self#updateRandomDistance ())
-      end
-  end
-let () = java_register_constructor "RandomPatrolAI" (fun arguments -> Obj.repr (new randomPatrolAI (Obj.obj arguments)))
+JR.registerLateBound("RandomPatrolAI.jnew_3", jnew_3)
+JR.registerLateBound("RandomPatrolAI.jm_updateRandomDistance", jm_updateRandomDistance)
+JR.registerLateBound("RandomPatrolAI.jm_processAI", jm_processAI)
+JR.registerLateBound("RandomPatrolAI.jm_nextDirection", jm_nextDirection)
+JR.registerLateBound("RandomPatrolAI.f_changedDirection", (this: RandomPatrolAI) => this.f_changedDirection)
+JR.registerLateBound("RandomPatrolAI.set_f_changedDirection", (this: RandomPatrolAI, jvalue) => { this.f_changedDirection = jvalue; jvalue })
 
 

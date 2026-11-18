@@ -1,61 +1,85 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.layer.special
+module CollidableCharacterBehavior
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.layer.special *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/collision/CollidableInterfaceCompositeInterface.gr" include CollidableInterfaceCompositeInterface
+use CollidableInterfaceCompositeInterface.{ type CollidableInterfaceCompositeInterface }
+from "../../../../../org/allbinary/game/collision/CollisionType.gr" include CollisionType
+use CollisionType.{ type CollisionType }
+from "../../../../../org/allbinary/game/collision/CollisionTypeFactory.gr" include CollisionTypeFactory
+use CollisionTypeFactory.{ type CollisionTypeFactory }
+from "../../../../../org/allbinary/game/layer/CollidableCompositeLayer.gr" include CollidableCompositeLayer
+use CollidableCompositeLayer.{ type CollidableCompositeLayer }
+from "../../../../../org/allbinary/game/layer/pickup/PickedUpLayerInterface.gr" include PickedUpLayerInterface
+use PickedUpLayerInterface.{ type PickedUpLayerInterface }
+from "../../../../../org/allbinary/logic/communication/log/ForcedLogUtil.gr" include ForcedLogUtil
+use ForcedLogUtil.{ type ForcedLogUtil }
+from "./CollidableDestroyableDamageableBehavior.gr" include CollidableDestroyableDamageableBehavior
+use CollidableDestroyableDamageableBehavior.{ type CollidableDestroyableDamageableBehavior }
+from "./CollidableDestroyableDamageableLayer.gr" include CollidableDestroyableDamageableLayer
+use CollidableDestroyableDamageableLayer.{ type CollidableDestroyableDamageableLayer }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.collision.CollidableInterfaceCompositeInterface *)
-(* import org.allbinary.game.collision.CollisionType *)
-(* import org.allbinary.game.collision.CollisionTypeFactory *)
-(* import org.allbinary.game.layer.CollidableCompositeLayer *)
-(* import org.allbinary.game.layer.pickup.PickedUpLayerInterface *)
-(* import org.allbinary.logic.communication.log.ForcedLogUtil *)
+provide record CollidableCharacterBehavior {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_layerCollisionUtil: JObject,
+  mut f_collidable: Bool,
+  mut f_damageUtil: JObject,
+}
 
-class collidableCharacterBehavior ((collidable : bool)) =
-  object (self)
-    inherit CollidableDestroyableDamageableBehavior.collidableDestroyableDamageableBehavior (collidable) as super
+
+provide let rec jclassName = () => "CollidableCharacterBehavior"
     
+and jnew_1 = (collidable: Bool) => {
+    let this = { jobject: JR.newJObject("CollidableCharacterBehavior"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_layerCollisionUtil: JR.jnull, f_collidable: false, f_damageUtil: JR.jnull, }
+        void
+    this
+}
     
-
-    method collide : 'any1 'any2. 'any1 * 'any2 -> unit = fun (ownerLayer, collidableInterfaceCompositeInterface) ->
-        let ownerLayer = Obj.repr ownerLayer in
-        let collidableInterfaceCompositeInterface = Obj.repr collidableInterfaceCompositeInterface in
-        begin
-        let collisionTypeFactory : CollisionTypeFactory.collisionTypeFactory ref = ref (((CollisionTypeFactory.getInstance ()) :> CollisionTypeFactory.collisionTypeFactory)) in ();
-        let collisionType : CollisionType.collisionType ref = ref (((((Obj.magic collidableInterfaceCompositeInterface)#getCollidableInferface ())#getCollisionTypeWith ((Obj.magic ownerLayer))) :> CollisionType.collisionType)) in ();
-        if ((Obj.repr !collisionType) == (Obj.repr !collisionTypeFactory#pICKUP)) then begin
-            let collidableDestroyableDamageableLayer : CollidableDestroyableDamageableLayer.collidableDestroyableDamageableLayer ref = ref (((Obj.magic (Obj.magic ownerLayer)) :> CollidableDestroyableDamageableLayer.collidableDestroyableDamageableLayer)) in ();
-            ignore ((!collidableDestroyableDamageableLayer#getPickupBehavior ())#doPickupLayer ((Obj.magic (Obj.magic collidableInterfaceCompositeInterface))))
-        end else begin
-            ignore (super#collide ((Obj.magic ownerLayer), (Obj.magic collidableInterfaceCompositeInterface)))
-        end
-        end [@@warning "-7-20"]
+and jm_collide = (this: CollidableCharacterBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableCompositeLayer) => {
+        let mut collisionTypeFactory: CollisionTypeFactory = JR.cast(CollisionTypeFactory.jm_getInstance())
+        let mut collisionType: CollisionType = JR.cast(JR.className(JR.cast(CollidableCompositeLayer.jm_getCollidableInferface(collidableInterfaceCompositeInterface))))
+        if (JR.isSame(collisionType, collisionTypeFactory.f_PICKUP)) {
+            let mut collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer = JR.cast(ownerLayer)
+            ignore(JR.className(JR.cast(CollidableDestroyableDamageableLayer.jm_getPickupBehavior(collidableDestroyableDamageableLayer))))
+        } else {
+            ignore(jm_collide(this, ownerLayer, collidableInterfaceCompositeInterface))
+        }
+}
     
+and jm_collideInterface = (this: CollidableCharacterBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) => {
+        ignore(ForcedLogUtil.jm_log({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_NOT_IMPLEMENTED"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+}, JR.cast(this)))
+}
 
-    method collideInterface : 'any1 'any2. 'any1 * 'any2 -> unit = fun (_ownerLayer, _collidableInterfaceCompositeInterface) ->
-        begin
-        ignore (ForcedLogUtil.log ((self#commonStrings)#nOT_IMPLEMENTED, (Obj.magic self)))
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "CollidableCharacterBehavior" (fun arguments -> Obj.repr (new collidableCharacterBehavior (Obj.obj arguments)))
+JR.registerLateBound("CollidableCharacterBehavior.jnew_1", jnew_1)
+JR.registerLateBound("CollidableCharacterBehavior.jm_collide", jm_collide)
+JR.registerLateBound("CollidableCharacterBehavior.jm_collideInterface", jm_collideInterface)
 
 

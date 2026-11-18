@@ -1,53 +1,75 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.configuration.event
+module ChangedGameFeatureListener
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.configuration.event *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/configuration/GameConfiguration.gr" include GameConfiguration
+use GameConfiguration.{ type GameConfiguration }
+from "./BaseChangedGameFeatureListener.gr" include BaseChangedGameFeatureListener
+use BaseChangedGameFeatureListener.{ type BaseChangedGameFeatureListener }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.configuration.GameConfiguration *)
+provide record ChangedGameFeatureListener {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_gameFeatureUtil: JObject,
+  mut f_list: JObject,
+  mut f_changed: Bool,
+}
 
-let gameFeatureListener_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
-let get_gameFeatureListener : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !gameFeatureListener_cell with Lazy.Undefined -> java_null)
-let set_gameFeatureListener value' = gameFeatureListener_cell := Lazy.from_val (Obj.repr value')
-let () = java_register_static "ChangedGameFeatureListener.get_gameFeatureListener" (fun _ -> Obj.repr (get_gameFeatureListener ()))
-let () = java_register_static "ChangedGameFeatureListener.set_gameFeatureListener" (fun value' -> set_gameFeatureListener value'; Obj.repr ())
-class changedGameFeatureListener () =
-  object (self)
-    inherit BaseChangedGameFeatureListener.baseChangedGameFeatureListener ()
+let mut jcell_gameFeatureListener: Option<ChangedGameFeatureListener> = None
+
+provide let rec jclassName = () => "ChangedGameFeatureListener"
+
+and jstatic_gameFeatureListener = () => match (jcell_gameFeatureListener) {
+  Some(value) => value,
+  None => {
+    let value: ChangedGameFeatureListener = jnew_0()
+    jcell_gameFeatureListener = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ChangedGameFeatureListener"), f_logUtil: JR.jnull, f_gameFeatureUtil: JR.jnull, f_list: JR.jnull, f_changed: false, }
+    this
+}
     
+and jm_getInstance = () => {
+        return jstatic_gameFeatureListener()
+}
+    
+and jm_isChangedGameConfiguration = (this: ChangedGameFeatureListener, gameConfiguration: GameConfiguration) => {
+        return {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_list)), JR.cast(gameConfiguration)))
+}
+}
 
-    method isChangedGameConfiguration : 'any1. 'any1 -> bool = fun (gameConfiguration) ->
-        let gameConfiguration = Obj.repr gameConfiguration in
-        begin
-        ((self#list)#contains ((Obj.magic gameConfiguration)))
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "ChangedGameFeatureListener" (fun arguments -> Obj.repr (new changedGameFeatureListener (Obj.obj arguments)))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic (get_gameFeatureListener ()))))
-        end
-let () = java_register_static "ChangedGameFeatureListener.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-
-let () = gameFeatureListener_cell := lazy (Obj.repr ((new changedGameFeatureListener ())))
+JR.registerLateBound("ChangedGameFeatureListener.jnew_0", jnew_0)
+JR.registerLateBound("ChangedGameFeatureListener.jm_getInstance", jm_getInstance)
+JR.registerLateBound("ChangedGameFeatureListener.jm_isChangedGameConfiguration", jm_isChangedGameConfiguration)
+JR.registerLateBound("ChangedGameFeatureListener.jstatic_gameFeatureListener", jstatic_gameFeatureListener)
 
 

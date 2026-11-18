@@ -1,214 +1,252 @@
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.configuration *)
+// Generated Code Do Not Modify
+// package org.allbinary.configuration
+module ApplicationConfiguration
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.Closeable *)
-(* import java.io.InputStream *)
-(* import java.io.OutputStream *)
-(* import org.allbinary.game.configuration.feature.Feature *)
-(* import org.allbinary.game.configuration.feature.Features *)
-(* import org.allbinary.game.configuration.feature.MainFeatureFactory *)
-(* import org.allbinary.logic.NullUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.io.AbDataInputStream *)
-(* import org.allbinary.logic.io.AbDataOutputStream *)
-(* import org.allbinary.logic.io.FileStreamFactory *)
-(* import org.allbinary.logic.io.NullCloseable *)
-(* import org.allbinary.logic.io.StreamUtil *)
-(* import org.allbinary.logic.io.file.FileFactory *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.string.CommonStrings *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../java/io/Closeable.gr" include Closeable
+use Closeable.{ type Closeable }
+from "../../../java/io/InputStream.gr" include InputStream
+use InputStream.{ type InputStream }
+from "../../../java/io/OutputStream.gr" include OutputStream
+use OutputStream.{ type OutputStream }
+from "../../../org/allbinary/game/configuration/feature/Feature.gr" include Feature
+use Feature.{ type Feature }
+from "../../../org/allbinary/game/configuration/feature/Features.gr" include Features
+use Features.{ type Features }
+from "../../../org/allbinary/game/configuration/feature/MainFeatureFactory.gr" include MainFeatureFactory
+use MainFeatureFactory.{ type MainFeatureFactory }
+from "../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
+from "../../../org/allbinary/logic/io/AbDataInputStream.gr" include AbDataInputStream
+use AbDataInputStream.{ type AbDataInputStream }
+from "../../../org/allbinary/logic/io/AbDataOutputStream.gr" include AbDataOutputStream
+use AbDataOutputStream.{ type AbDataOutputStream }
+from "../../../org/allbinary/logic/io/NullCloseable.gr" include NullCloseable
+use NullCloseable.{ type NullCloseable }
+from "../../../org/allbinary/logic/io/StreamUtil.gr" include StreamUtil
+use StreamUtil.{ type StreamUtil }
+from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
 
-let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT))
-let get_instance () = !instance
-let set_instance value' = instance := value'
-let () = java_register_static "ApplicationConfiguration.get_instance" (fun _ -> Obj.repr (get_instance ()))
-let () = java_register_static "ApplicationConfiguration.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
-class applicationConfiguration () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable fullscreen : bool = false
-    method fullscreen = fullscreen
-    method set_fullscreen value' = fullscreen <- value'
-    val mutable showTitleBar : bool = false
-    method showTitleBar = showTitleBar
-    method set_showTitleBar value' = showTitleBar <- value'
-    val mutable progressBarView : bool = false
-    method progressBarView = progressBarView
-    method set_progressBarView value' = progressBarView <- value'
-    val mutable fILE : string = ""
-    method fILE = fILE
-    method set_fILE value' = fILE <- value'
+provide record ApplicationConfiguration {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_fullscreen: Bool,
+  mut f_showTitleBar: Bool,
+  mut f_progressBarView: Bool,
+  mut f_FILE: String,
+}
+
+let mut jcell_instance: Option<JObject> = None
+
+provide let rec jclassName = () => "ApplicationConfiguration"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        if (JR.isSame(jstatic_instance(), NullUtil.jm_getInstance().f_NULL_OBJECT)) {
+            jstatic_instance() = JR.cast(jnew_0())
+        }
+        return JR.cast(jstatic_instance())
+}
     
-
-    method read () : unit =
-        begin
-        let fileInputStreamFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "FileStreamFactory.getInstance" (Obj.repr ()))))) in ();
-        let fileInputStream : Obj.t ref = ref ((Obj.repr ((Obj.magic !fileInputStreamFactory)#getFileInputStreamInstance ((StringUtil.getInstance ())#eMPTY_STRING, fILE)))) in ();
-        let dataInputStream : AbDataInputStream.abDataInputStream ref = ref (((new AbDataInputStream.abDataInputStream ((Obj.magic !fileInputStream))) :> AbDataInputStream.abDataInputStream)) in ();
-        let fullScreen : int ref = ref ((!dataInputStream#readInt ())) in ();
-        if (!fullScreen = 0) then begin
-            (self#setFullscreen (false))
-        end else if (!fullScreen = 1) then begin
-            (self#setFullscreen (true))
-        end else begin
-            raise (Failure ("Invalid FullScreen ActivityConfiguration"))
-        end;
-        let progressBarView_arg : int ref = ref ((!dataInputStream#readInt ())) in ();
-        if (!progressBarView_arg = 0) then begin
-            (self#setProgressBarView (false))
-        end else if (!progressBarView_arg = 1) then begin
-            (self#setProgressBarView (true))
-        end else begin
-            raise (Failure ("Invalid ProgressBarView ActivityConfiguration"))
-        end;
-        let showTitleBar_arg : int ref = ref ((!dataInputStream#readInt ())) in ();
-        if (!showTitleBar_arg = 0) then begin
-            (self#setShowTitleBar (false))
-        end else if (!showTitleBar_arg = 1) then begin
-            (self#setShowTitleBar (true))
-        end else begin
-            raise (Failure ("Invalid ShowTitleBar ActivityConfiguration"))
-        end;
-        ignore ((Obj.magic logUtil)#putF (("Read Configuration: " ^ (java_string_of (Obj.repr self))), (Obj.magic self), "read"))
-        end
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ApplicationConfiguration"), f_logUtil: JR.jnull, f_fullscreen: false, f_showTitleBar: false, f_progressBarView: false, f_FILE: "", }
+    this.jobject.toStringFunction = () => jm_toString(this)
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_fullscreen = true
+    this.f_showTitleBar = false
+    this.f_progressBarView = false
+    this.f_FILE = "ReloadConfiguration.dat"
+        {
+            if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("FileFactory.jm_isFile"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("FileFactory.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(this.f_FILE)))
+}) {
+                ignore(jm_read(this))
+            } else {
+                ignore(jm_write(this))
+            }
+        }
+    this
+}
     
-
-    method write () : unit =
-        begin
-        let closeable : Obj.t ref = ref ((Obj.repr (NullCloseable.get_nULL_CLOSEABLE ()))) in ();
-        Fun.protect ~finally:(fun () -> 
-            ignore ((StreamUtil.getInstance ())#close ((Obj.magic !closeable)))
-        ) (fun () -> (try
-            ignore ((Obj.magic logUtil)#putF (("Write Configuration: " ^ (java_string_of (Obj.repr self))), (Obj.magic self), "write"));
-            let fileInputStreamFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "FileStreamFactory.getInstance" (Obj.repr ()))))) in ();
-            let fileOutputStream : Obj.t ref = ref ((Obj.repr ((Obj.magic !fileInputStreamFactory)#getFileOutputStreamInstance ((StringUtil.getInstance ())#eMPTY_STRING, fILE)))) in ();
-            let dataOutputStream : AbDataOutputStream.abDataOutputStream ref = ref (((new AbDataOutputStream.abDataOutputStream ((Obj.magic !fileOutputStream))) :> AbDataOutputStream.abDataOutputStream)) in ();
-            closeable := Obj.repr (!dataOutputStream);
-            if (self#isFullscreen ()) then begin
-                ignore (!dataOutputStream#writeInt (1))
-            end else begin
-                ignore (!dataOutputStream#writeInt (0))
-            end;
-            if (self#isProgressBarView ()) then begin
-                ignore (!dataOutputStream#writeInt (1))
-            end else begin
-                ignore (!dataOutputStream#writeInt (0))
-            end;
-            if (self#isShowTitleBar ()) then begin
-                ignore (!dataOutputStream#writeInt (1))
-            end else begin
-                ignore (!dataOutputStream#writeInt (0))
-            end;
-            ignore (!dataOutputStream#flush ())
-        with e -> begin
-            raise e
-        end))
-        end
+and jm_read = (this: ApplicationConfiguration) => {
+        let mut fileInputStreamFactory: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("FileStreamFactory.jm_getInstance"))
+JR.cast(jlate())
+})
+        let mut fileInputStream: InputStream = JR.cast({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("FileStreamFactory.jm_getFileInputStreamInstance"))
+JR.cast(jlate(JR.cast(fileInputStreamFactory), JR.cast(StringUtil.jm_getInstance().f_EMPTY_STRING), JR.cast(this.f_FILE)))
+})
+        let mut dataInputStream: AbDataInputStream = AbDataInputStream.jnew_1(fileInputStream)
+        let mut fullScreen: Int32 = AbDataInputStream.jm_readInt(dataInputStream)
+        if ((fullScreen == 0l)) {
+            ignore(jm_setFullscreen(this, false))
+        } else if ((fullScreen == 1l)) {
+            ignore(jm_setFullscreen(this, true))
+        } else {
+            fail JR.toStringOf(JR.newJObject("Exception"))
+        }
+        let mut progressBarView: Int32 = AbDataInputStream.jm_readInt(dataInputStream)
+        if ((progressBarView == 0l)) {
+            ignore(jm_setProgressBarView(this, false))
+        } else if ((progressBarView == 1l)) {
+            ignore(jm_setProgressBarView(this, true))
+        } else {
+            fail JR.toStringOf(JR.newJObject("Exception"))
+        }
+        let mut showTitleBar: Int32 = AbDataInputStream.jm_readInt(dataInputStream)
+        if ((showTitleBar == 0l)) {
+            ignore(jm_setShowTitleBar(this, false))
+        } else if ((showTitleBar == 1l)) {
+            ignore(jm_setShowTitleBar(this, true))
+        } else {
+            fail JR.toStringOf(JR.newJObject("Exception"))
+        }
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Read Configuration: " ++ jm_toString(this)), JR.cast(this), JR.cast("read")))
+})
+}
     
-
-    method update : 'any1. 'any1 -> unit = fun (gameFeature) ->
-        let gameFeature = Obj.repr gameFeature in
-        begin
-        if ((Obj.repr (Obj.magic gameFeature)) == (Obj.repr (MainFeatureFactory.getInstance ())#fULL_SCREEN)) then begin
-            let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
-            if (!features#isFeature ((Obj.magic gameFeature))) then begin
-                if (not (self#isFullscreen ())) then begin
-                    (self#setFullscreen (true));
-                    (self#write ())
-                end
-            end else begin
-                if (self#isFullscreen ()) then begin
-                    (self#setFullscreen (false));
-                    (self#write ())
-                end
-            end
-        end
-        end [@@warning "-20"]
+and jm_write = (this: ApplicationConfiguration) => {
+        let mut closeable: Closeable = JR.cast(NullCloseable.jstatic_NULL_CLOSEABLE())
+        {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Write Configuration: " ++ jm_toString(this)), JR.cast(this), JR.cast("write")))
+})
+            let mut fileInputStreamFactory: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("FileStreamFactory.jm_getInstance"))
+JR.cast(jlate())
+})
+            let mut fileOutputStream: OutputStream = JR.cast({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("FileStreamFactory.jm_getFileOutputStreamInstance"))
+JR.cast(jlate(JR.cast(fileInputStreamFactory), JR.cast(StringUtil.jm_getInstance().f_EMPTY_STRING), JR.cast(this.f_FILE)))
+})
+            let mut dataOutputStream: AbDataOutputStream = AbDataOutputStream.jnew_1(fileOutputStream)
+            closeable = dataOutputStream
+            if (jm_isFullscreen(this)) {
+                ignore(AbDataOutputStream.jm_writeInt(dataOutputStream, 1l))
+            } else {
+                ignore(AbDataOutputStream.jm_writeInt(dataOutputStream, 0l))
+            }
+            if (jm_isProgressBarView(this)) {
+                ignore(AbDataOutputStream.jm_writeInt(dataOutputStream, 1l))
+            } else {
+                ignore(AbDataOutputStream.jm_writeInt(dataOutputStream, 0l))
+            }
+            if (jm_isShowTitleBar(this)) {
+                ignore(AbDataOutputStream.jm_writeInt(dataOutputStream, 1l))
+            } else {
+                ignore(AbDataOutputStream.jm_writeInt(dataOutputStream, 0l))
+            }
+            ignore(AbDataOutputStream.jm_flush(dataOutputStream))
+        }
+        {
+            ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), closeable))
+        }
+}
     
-
-    method setFullscreen ((fullscreen_arg : bool)) : unit =
-        begin
-        fullscreen <- fullscreen_arg
-        end
+and jm_update = (this: ApplicationConfiguration, gameFeature: Feature) => {
+        if (JR.isSame(gameFeature, MainFeatureFactory.jm_getInstance().f_FULL_SCREEN)) {
+            let mut features: Features = JR.cast(Features.jm_getInstance())
+            if (Features.jm_isFeature(features, gameFeature)) {
+                if (!jm_isFullscreen(this)) {
+                    ignore(jm_setFullscreen(this, true))
+                    ignore(jm_write(this))
+                }
+            } else {
+                if (jm_isFullscreen(this)) {
+                    ignore(jm_setFullscreen(this, false))
+                    ignore(jm_write(this))
+                }
+            }
+        }
+}
     
-
-    method isFullscreen () : bool =
-        begin
-        fullscreen
-        end
+and jm_setFullscreen = (this: ApplicationConfiguration, fullscreen: Bool) => {
+        this.f_fullscreen = fullscreen
+}
     
-
-    method setShowTitleBar ((showTitleBar_arg : bool)) : unit =
-        begin
-        showTitleBar <- showTitleBar_arg
-        end
+and jm_isFullscreen = (this: ApplicationConfiguration) => {
+        return this.f_fullscreen
+}
     
-
-    method isShowTitleBar () : bool =
-        begin
-        showTitleBar
-        end
+and jm_setShowTitleBar = (this: ApplicationConfiguration, showTitleBar: Bool) => {
+        this.f_showTitleBar = showTitleBar
+}
     
-
-    method setProgressBarView ((progressBarView_arg : bool)) : unit =
-        begin
-        progressBarView <- progressBarView_arg
-        end
+and jm_isShowTitleBar = (this: ApplicationConfiguration) => {
+        return this.f_showTitleBar
+}
     
-
-    method isProgressBarView () : bool =
-        begin
-        progressBarView
-        end
+and jm_setProgressBarView = (this: ApplicationConfiguration, progressBarView: Bool) => {
+        this.f_progressBarView = progressBarView
+}
     
+and jm_isProgressBarView = (this: ApplicationConfiguration) => {
+        return this.f_progressBarView
+}
+    
+and jm_toString = (this: ApplicationConfiguration) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, "isFullscreen: "))
+        ignore(StringMaker.jm_appendboolean(stringBuffer, jm_isFullscreen(this)))
+        ignore(StringMaker.jm_append(stringBuffer, " isProgressBarView: "))
+        ignore(StringMaker.jm_appendboolean(stringBuffer, jm_isProgressBarView(this)))
+        ignore(StringMaker.jm_append(stringBuffer, " isShowTitleBar: "))
+        ignore(StringMaker.jm_appendboolean(stringBuffer, jm_isShowTitleBar(this)))
+        return StringMaker.jm_toString(stringBuffer)
+}
 
-    method toString () : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ("isFullscreen: "));
-        ignore (!stringBuffer#appendboolean ((self#isFullscreen ())));
-        ignore (!stringBuffer#append (" isProgressBarView: "));
-        ignore (!stringBuffer#appendboolean ((self#isProgressBarView ())));
-        ignore (!stringBuffer#append (" isShowTitleBar: "));
-        ignore (!stringBuffer#appendboolean ((self#isShowTitleBar ())));
-        (java_string_of (Obj.repr !stringBuffer))
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        fullscreen <- true;
-        showTitleBar <- false;
-        progressBarView <- false;
-        fILE <- "ReloadConfiguration.dat";
-        ();
-        (try
-            if ((Obj.magic (java_call_static "FileFactory.getInstance" (Obj.repr ())))#isFile (fILE)) then begin
-                (self#read ())
-            end else begin
-                (self#write ())
-            end
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#cONSTRUCTOR, e))
-        end)
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "ApplicationConfiguration" (fun arguments -> Obj.repr (new applicationConfiguration (Obj.obj arguments)))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (Obj.repr ((new applicationConfiguration ())))
-        end;
-        (Obj.magic ((Obj.magic !instance)))
-        end
-let () = java_register_static "ApplicationConfiguration.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("ApplicationConfiguration.jnew_0", jnew_0)
+JR.registerLateBound("ApplicationConfiguration.jm_getInstance", jm_getInstance)
+JR.registerLateBound("ApplicationConfiguration.jm_read", jm_read)
+JR.registerLateBound("ApplicationConfiguration.jm_write", jm_write)
+JR.registerLateBound("ApplicationConfiguration.jm_update", jm_update)
+JR.registerLateBound("ApplicationConfiguration.jm_setFullscreen", jm_setFullscreen)
+JR.registerLateBound("ApplicationConfiguration.jm_isFullscreen", jm_isFullscreen)
+JR.registerLateBound("ApplicationConfiguration.jm_setShowTitleBar", jm_setShowTitleBar)
+JR.registerLateBound("ApplicationConfiguration.jm_isShowTitleBar", jm_isShowTitleBar)
+JR.registerLateBound("ApplicationConfiguration.jm_setProgressBarView", jm_setProgressBarView)
+JR.registerLateBound("ApplicationConfiguration.jm_isProgressBarView", jm_isProgressBarView)
+JR.registerLateBound("ApplicationConfiguration.jm_toString", jm_toString)
+JR.registerLateBound("ApplicationConfiguration.f_logUtil", (this: ApplicationConfiguration) => this.f_logUtil)
+JR.registerLateBound("ApplicationConfiguration.f_fullscreen", (this: ApplicationConfiguration) => this.f_fullscreen)
+JR.registerLateBound("ApplicationConfiguration.set_f_fullscreen", (this: ApplicationConfiguration, jvalue) => { this.f_fullscreen = jvalue; jvalue })
+JR.registerLateBound("ApplicationConfiguration.f_showTitleBar", (this: ApplicationConfiguration) => this.f_showTitleBar)
+JR.registerLateBound("ApplicationConfiguration.set_f_showTitleBar", (this: ApplicationConfiguration, jvalue) => { this.f_showTitleBar = jvalue; jvalue })
+JR.registerLateBound("ApplicationConfiguration.f_progressBarView", (this: ApplicationConfiguration) => this.f_progressBarView)
+JR.registerLateBound("ApplicationConfiguration.set_f_progressBarView", (this: ApplicationConfiguration, jvalue) => { this.f_progressBarView = jvalue; jvalue })
+JR.registerLateBound("ApplicationConfiguration.f_FILE", (this: ApplicationConfiguration) => this.f_FILE)
+JR.registerLateBound("ApplicationConfiguration.jstatic_instance", jstatic_instance)
 
 

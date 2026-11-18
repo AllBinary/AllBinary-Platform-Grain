@@ -1,82 +1,97 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.system.security.crypt.jcehelper
+module KeySpecFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.system.security.crypt.jcehelper *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../../java/security/spec/KeySpec.gr" include KeySpec
+use KeySpec.{ type KeySpec }
+from "../../../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.security.spec.KeySpec *)
-(* import javax.crypto.spec.DESKeySpec *)
-(* import javax.crypto.spec.DESedeKeySpec *)
-(* import org.allbinary.TsUtil *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record KeySpecFactory {
+  jobject: JObject,
+  mut f_DES: String,
+  mut f_DESEDE: String,
+  mut f_BLOWFISH: String,
+}
 
-class keySpecFactory () =
-  object (self)
-    val mutable dES : string = ""
-    method dES = dES
-    method set_dES value' = dES <- value'
-    val mutable dESEDE : string = ""
-    method dESEDE = dESEDE
-    method set_dESEDE value' = dESEDE <- value'
-    val mutable bLOWFISH : string = ""
-    method bLOWFISH = bLOWFISH
-    method set_bLOWFISH value' = bLOWFISH <- value'
+let mut jcell_instance: Option<KeySpecFactory> = None
+
+provide let rec jclassName = () => "KeySpecFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: KeySpecFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance_0 = () => {
+        return jstatic_instance()
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("KeySpecFactory"), f_DES: "", f_DESEDE: "", f_BLOWFISH: "", }
+    this.f_DES = "DES"
+    this.f_DESEDE = "DESede"
+    this.f_BLOWFISH = "Blowfish"
+        void
+    this
+}
+    
+and jm_getInstance_2 = (this: KeySpecFactory, algorithm: String, keyData: Array<Int32>) => {
+        {
+            let mut tsUtil: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance_0"))
+JR.cast(jlate())
+})
+            if (({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_compareTo"))
+JR.cast(jlate(JR.cast(tsUtil), JR.cast(algorithm), JR.cast(this.f_DES)))
+} == 0l)) {
+                return JR.cast(DESKeySpec.jnew_1(keyData))
+            } else if (({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_compareTo"))
+JR.cast(jlate(JR.cast(tsUtil), JR.cast(algorithm), JR.cast(this.f_DESEDE)))
+} == 0l)) {
+                return JR.cast(DESedeKeySpec.jnew_1(keyData))
+            } else {
+                fail JR.toStringOf(JR.newJObject("RuntimeException"))
+            }
+        }
+    return JR.nullOf()
+}
 
-    method getInstance : 'return. string * int array -> 'return = fun ((algorithm : string), (keyData : int array)) ->
-        try
-        begin
-        (try
-            let tsUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ()))))) in ();
-            if (((Obj.magic !tsUtil)#compareTo (algorithm, dES)) = 0) then begin
-                raise (Java_return (Obj.repr ((new java_des_key_spec (keyData)))))
-            end else if (((Obj.magic !tsUtil)#compareTo (algorithm, dESEDE)) = 0) then begin
-                raise (Java_return (Obj.repr ((new java_des_key_spec (keyData)))))
-            end else begin
-                raise (Failure ("RuntimeException"))
-            end
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#gET_INSTANCE, e))));
-            raise (Failure ("RuntimeException"))
-        end)
-        end
-        with Java_return value -> Obj.obj value
-
-    initializer
-      begin
-        dES <- "DES";
-        dESEDE <- "DESede";
-        bLOWFISH <- "Blowfish";
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "KeySpecFactory" (fun arguments -> Obj.repr (new keySpecFactory (Obj.obj arguments)))
-
-let instance = (new keySpecFactory ())
-let get_instance () = instance
-let () = java_register_static "KeySpecFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "KeySpecFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("KeySpecFactory.jnew_0", jnew_0)
+JR.registerLateBound("KeySpecFactory.jm_getInstance_0", jm_getInstance_0)
+JR.registerLateBound("KeySpecFactory.jm_getInstance_2", jm_getInstance_2)
+JR.registerLateBound("KeySpecFactory.f_DES", (this: KeySpecFactory) => this.f_DES)
+JR.registerLateBound("KeySpecFactory.f_DESEDE", (this: KeySpecFactory) => this.f_DESEDE)
+JR.registerLateBound("KeySpecFactory.f_BLOWFISH", (this: KeySpecFactory) => this.f_BLOWFISH)
+JR.registerLateBound("KeySpecFactory.jstatic_instance", jstatic_instance)
 
 

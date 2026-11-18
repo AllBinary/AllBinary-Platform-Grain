@@ -1,92 +1,102 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.physics.movement
+module ConstantVelocityNotifyViewChangeMovement
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.physics.movement *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/layer/AllBinaryGameLayer.gr" include AllBinaryGameLayer
+use AllBinaryGameLayer.{ type AllBinaryGameLayer }
+from "../../../../org/allbinary/game/physics/velocity/BasicVelocityProperties.gr" include BasicVelocityProperties
+use BasicVelocityProperties.{ type BasicVelocityProperties }
+from "../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../org/allbinary/logic/math/BasicDecimal.gr" include BasicDecimal
+use BasicDecimal.{ type BasicDecimal }
+from "../../../../org/allbinary/logic/math/vector/AxisMathVectorUtil.gr" include AxisMathVectorUtil
+use AxisMathVectorUtil.{ type AxisMathVectorUtil }
+from "../../../../org/allbinary/math/AngleFactory.gr" include AngleFactory
+use AngleFactory.{ type AngleFactory }
+from "./Movement.gr" include Movement
+use Movement.{ type Movement }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.layer.AllBinaryGameLayer *)
-(* import org.allbinary.game.physics.velocity.BasicVelocityProperties *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.logic.math.BasicDecimal *)
-(* import org.allbinary.logic.math.vector.AxisMathVectorUtil *)
-(* import org.allbinary.math.AngleFactory *)
+provide record ConstantVelocityNotifyViewChangeMovement {
+  jobject: JObject,
+  mut f_basicVelocityProperties: BasicVelocityProperties,
+  mut f_speedBasicDecimal: BasicDecimal,
+  mut f_axisMathVectorUtil: AxisMathVectorUtil,
+}
 
-class constantVelocityNotifyViewChangeMovement () =
-  object
-    inherit Movement.movement ()
-    val mutable basicVelocityProperties : BasicVelocityProperties.basicVelocityProperties = (Obj.magic 0)
-    method basicVelocityProperties = basicVelocityProperties
-    method set_basicVelocityProperties value' = basicVelocityProperties <- value'
-    val mutable speedBasicDecimal : BasicDecimal.basicDecimal = (Obj.magic 0)
-    method speedBasicDecimal = speedBasicDecimal
-    method set_speedBasicDecimal value' = speedBasicDecimal <- value'
-    val mutable axisMathVectorUtil : AxisMathVectorUtil.axisMathVectorUtil = (Obj.magic 0)
-    method axisMathVectorUtil = axisMathVectorUtil
-    method set_axisMathVectorUtil value' = axisMathVectorUtil <- value'
+
+provide let rec jclassName = () => "ConstantVelocityNotifyViewChangeMovement"
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ConstantVelocityNotifyViewChangeMovement"), f_basicVelocityProperties: JR.nullOf(), f_speedBasicDecimal: JR.nullOf(), f_axisMathVectorUtil: JR.nullOf(), }
     
     
-
-    method init : 'any1. 'any1 * int * int -> unit = fun (speedBasicDecimal_arg, (angle : int), (otherAngle : int)) ->
-        let speedBasicDecimal_arg = Obj.repr speedBasicDecimal_arg in
-        begin
-        speedBasicDecimal <- (Obj.magic speedBasicDecimal_arg);
-        let angleFactory : AngleFactory.angleFactory ref = ref (((AngleFactory.getInstance ()) :> AngleFactory.angleFactory)) in ();
-        ignore (basicVelocityProperties#setVelocityWithBigDecimal ((Obj.magic speedBasicDecimal_arg), (!angleFactory#getAt (angle)), (!angleFactory#getAt (otherAngle))))
-        end [@@warning "-7-20"]
+    this.f_axisMathVectorUtil = JR.cast(AxisMathVectorUtil.jm_getInstance())
+        this.f_speedBasicDecimal = BasicDecimal.jstatic_ZERO_BIGDECIMAL()
+        this.f_basicVelocityProperties = BasicVelocityProperties.jnew_0()
+    this
+}
     
-
-    method moveOutsideRadius : 'any1. 'any1 * int * int * int -> unit = fun (layer, (radius : int), (angle : int), (otherAngle : int)) ->
-        let layer = Obj.repr layer in
-        begin
-        let scaleFactorValue : int ref = ref ((speedBasicDecimal#getScaledFactorValue ())) in ();
-        let xVector : int ref = ref ((((axisMathVectorUtil#calculateX (radius, angle)) / !scaleFactorValue))) in ();
-        let yVector : int ref = ref ((((axisMathVectorUtil#calculateY (radius, angle)) / !scaleFactorValue))) in ();
-        let zVector : int ref = ref ((((axisMathVectorUtil#calculateZ (radius, otherAngle)) / !scaleFactorValue))) in ();
-        ignore ((Obj.magic layer)#moveDXYZ (!xVector, !yVector, !zVector))
-        end [@@warning "-7-20"]
+and jm_init = (this: ConstantVelocityNotifyViewChangeMovement, speedBasicDecimal: BasicDecimal, angle: Int32, otherAngle: Int32) => {
+        this.f_speedBasicDecimal = speedBasicDecimal
+        let mut angleFactory: AngleFactory = JR.cast(AngleFactory.jm_getInstance())
+        ignore(BasicVelocityProperties.jm_setVelocityWithBigDecimal(this.f_basicVelocityProperties, speedBasicDecimal, AngleFactory.jm_getAt(angleFactory, angle), AngleFactory.jm_getAt(angleFactory, otherAngle)))
+}
     
-
-    method process : 'any1. 'any1 -> unit = fun (layer) ->
-        let layer = Obj.repr layer in
-        begin
-        let x : int ref = ref (((basicVelocityProperties#getVelocityXBasicDecimalP ())#getScaled ())) in ();
-        let y : int ref = ref (((basicVelocityProperties#getVelocityYBasicDecimalP ())#getScaled ())) in ();
-        let z : int ref = ref (((basicVelocityProperties#getVelocityZBasicDecimalP ())#getScaled ())) in ();
-        ignore ((Obj.magic layer)#moveDXYZ (!x, !y, !z));
-        if (((!x <> 0) || (!y <> 0)) || (!z <> 0)) then begin
-            ignore ((Obj.magic layer)#onViewPositionChangeEvent ())
-        end
-        end [@@warning "-7-20"]
+and jm_moveOutsideRadius = (this: ConstantVelocityNotifyViewChangeMovement, layer: AllBinaryLayer, radius: Int64, angle: Int32, otherAngle: Int32) => {
+        let mut scaleFactorValue: Int32 = BasicDecimal.jm_getScaledFactorValue(this.f_speedBasicDecimal)
+        let mut xVector: Int32 = Int32.fromNumber(Int64.toNumber((Int64.(/)(AxisMathVectorUtil.jm_calculateX(this.f_axisMathVectorUtil, radius, angle), Int64.fromNumber(Int32.toNumber(scaleFactorValue))))))
+        let mut yVector: Int32 = Int32.fromNumber(Int64.toNumber((Int64.(/)(AxisMathVectorUtil.jm_calculateY(this.f_axisMathVectorUtil, radius, angle), Int64.fromNumber(Int32.toNumber(scaleFactorValue))))))
+        let mut zVector: Int32 = Int32.fromNumber(Int64.toNumber((Int64.(/)(AxisMathVectorUtil.jm_calculateZ(this.f_axisMathVectorUtil, radius, otherAngle), Int64.fromNumber(Int32.toNumber(scaleFactorValue))))))
+        ignore(AllBinaryLayer.jm_moveDXYZ(layer, xVector, yVector, zVector))
+}
     
+and jm_process = (this: ConstantVelocityNotifyViewChangeMovement, layer: AllBinaryGameLayer) => {
+        let mut x: Int32 = JR.className(JR.cast(BasicVelocityProperties.jm_getVelocityXBasicDecimalP(this.f_basicVelocityProperties)))
+        let mut y: Int32 = JR.className(JR.cast(BasicVelocityProperties.jm_getVelocityYBasicDecimalP(this.f_basicVelocityProperties)))
+        let mut z: Int32 = JR.className(JR.cast(BasicVelocityProperties.jm_getVelocityZBasicDecimalP(this.f_basicVelocityProperties)))
+        ignore(AllBinaryGameLayer.jm_moveDXYZ(layer, x, y, z))
+        if ((((x != 0l) || (y != 0l)) || (z != 0l))) {
+            ignore(AllBinaryGameLayer.jm_onViewPositionChangeEvent(layer))
+        }
+}
+    
+and jm_stop = (this: ConstantVelocityNotifyViewChangeMovement) => {
+        ignore(BasicVelocityProperties.jm_zero(this.f_basicVelocityProperties))
+}
 
-    method stop () : unit =
-        begin
-        ignore (basicVelocityProperties#zero ())
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        ();
-        axisMathVectorUtil <- ((AxisMathVectorUtil.getInstance ()) :> AxisMathVectorUtil.axisMathVectorUtil);
-        ();
-        speedBasicDecimal <- (BasicDecimal.get_zERO_BIGDECIMAL ());
-        basicVelocityProperties <- (new BasicVelocityProperties.basicVelocityProperties ())
-      end
-  end
-let () = java_register_constructor "ConstantVelocityNotifyViewChangeMovement" (fun arguments -> Obj.repr (new constantVelocityNotifyViewChangeMovement (Obj.obj arguments)))
+JR.registerLateBound("ConstantVelocityNotifyViewChangeMovement.jnew_0", jnew_0)
+JR.registerLateBound("ConstantVelocityNotifyViewChangeMovement.jm_init", jm_init)
+JR.registerLateBound("ConstantVelocityNotifyViewChangeMovement.jm_moveOutsideRadius", jm_moveOutsideRadius)
+JR.registerLateBound("ConstantVelocityNotifyViewChangeMovement.jm_process", jm_process)
+JR.registerLateBound("ConstantVelocityNotifyViewChangeMovement.jm_stop", jm_stop)
+JR.registerLateBound("ConstantVelocityNotifyViewChangeMovement.f_basicVelocityProperties", (this: ConstantVelocityNotifyViewChangeMovement) => this.f_basicVelocityProperties)
+JR.registerLateBound("ConstantVelocityNotifyViewChangeMovement.set_f_basicVelocityProperties", (this: ConstantVelocityNotifyViewChangeMovement, jvalue) => { this.f_basicVelocityProperties = jvalue; jvalue })
+JR.registerLateBound("ConstantVelocityNotifyViewChangeMovement.f_speedBasicDecimal", (this: ConstantVelocityNotifyViewChangeMovement) => this.f_speedBasicDecimal)
+JR.registerLateBound("ConstantVelocityNotifyViewChangeMovement.set_f_speedBasicDecimal", (this: ConstantVelocityNotifyViewChangeMovement, jvalue) => { this.f_speedBasicDecimal = jvalue; jvalue })
+JR.registerLateBound("ConstantVelocityNotifyViewChangeMovement.f_axisMathVectorUtil", (this: ConstantVelocityNotifyViewChangeMovement) => this.f_axisMathVectorUtil)
 
 

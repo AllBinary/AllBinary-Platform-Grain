@@ -1,106 +1,155 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.ai
+module MultiKeyPressesAI
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.ai *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/input/GameInput.gr" include GameInput
+use GameInput.{ type GameInput }
+from "../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
+from "../../../../../org/allbinary/time/GameTickTimeDelayHelper.gr" include GameTickTimeDelayHelper
+use GameTickTimeDelayHelper.{ type GameTickTimeDelayHelper }
+from "../../../../../org/allbinary/time/GameTickTimeDelayHelperFactory.gr" include GameTickTimeDelayHelperFactory
+use GameTickTimeDelayHelperFactory.{ type GameTickTimeDelayHelperFactory }
+from "../../../../../org/allbinary/time/TimeDelayHelper.gr" include TimeDelayHelper
+use TimeDelayHelper.{ type TimeDelayHelper }
+from "../../../../../java/lang/Integer.gr" include Integer
+from "./KeyPressesAI.gr" include KeyPressesAI
+use KeyPressesAI.{ type KeyPressesAI }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.input.GameInput *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
-(* import org.allbinary.time.GameTickTimeDelayHelper *)
-(* import org.allbinary.time.GameTickTimeDelayHelperFactory *)
-(* import org.allbinary.time.TimeDelayHelper *)
-(* import org.allbinary.util.ABHashtable *)
+provide record MultiKeyPressesAI {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_gameKeyEventFactory: JObject,
+  mut f_ownerLayerInterface: JObject,
+  mut f_gameInput: JObject,
+  mut f_lastKey: Int32,
+  mut f_on: Bool,
+  mut f_keys: Array<JObject>,
+  mut f_toggleTimeHelper: TimeDelayHelper,
+  mut f_gameTickTimeDelayHelper: GameTickTimeDelayHelper,
+}
 
-class multiKeyPressesAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gameInput : GameInput.gameInput)) =
-  object (self)
-    inherit KeyPressesAI.keyPressesAI (hashtable, ownerLayerInterface, gameInput) as super
-    val mutable toggleTimeHelper : TimeDelayHelper.timeDelayHelper = (Obj.magic 0)
-    method toggleTimeHelper = toggleTimeHelper
-    method set_toggleTimeHelper value' = toggleTimeHelper <- value'
-    val mutable gameTickTimeDelayHelper : GameTickTimeDelayHelper.gameTickTimeDelayHelper = (Obj.magic 0)
-    method gameTickTimeDelayHelper = gameTickTimeDelayHelper
-    method set_gameTickTimeDelayHelper value' = gameTickTimeDelayHelper <- value'
+
+provide let rec jclassName = () => "MultiKeyPressesAI"
     
+and jnew_3 = (hashtable: JObject, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
+    let this = { jobject: JR.newJObject("MultiKeyPressesAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_on: false, f_keys: [> ], f_toggleTimeHelper: JR.nullOf(), f_gameTickTimeDelayHelper: JR.nullOf(), }
+    this.f_toggleTimeHelper = TimeDelayHelper.jnew_1(600l)
+    this.f_gameTickTimeDelayHelper = JR.cast(GameTickTimeDelayHelperFactory.jm_getInstance())
+        void
+        ignore(jm_update(this))
+    this
+}
     
-
-    method processAI : 'any1. 'any1 -> unit = fun (_allBinaryLayerManager) ->
-        begin
-        ()
-        end [@@warning "-7-20"]
+and jm_processAI = (this: MultiKeyPressesAI, allBinaryLayerManager: AllBinaryLayerManager) => {
+    void
+}
     
-
-    method update () : unit =
-        begin
-        let gameInput : GameInput.gameInput ref = ref (((self#getGameInput ()) :> GameInput.gameInput)) in ();
-        let keys : int array ref = ref ((self#keys)) in ();
-        let size : int ref = ref ((Array.length !keys)) in ();
-        if (self#isOn ()) then begin
-            for index = 0 to !size - 1 do
-                let key : int ref = ref ((java_int_value (Obj.repr !keys.(index)))) in ();
-                if (!key <> (- 1)) then begin
-                    ignore (!gameInput#add (((self#gameKeyEventFactory)#getInstanceForKey ((Obj.magic self), !key))))
-                end
-            done
-        end else begin
-            for index = 0 to !size - 1 do
-                let key : int ref = ref ((java_int_value (Obj.repr !keys.(index)))) in ();
-                if (!key <> (- 1)) then begin
-                    ignore (!gameInput#addForRemoval (((self#gameKeyEventFactory)#getInstanceForKey ((Obj.magic self), !key))))
-                end
-            done
-        end
-        end [@@warning "-7"]
+and jm_update = (this: MultiKeyPressesAI) => {
+        let mut gameInput: GameInput = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getGameInput"))
+JR.cast(jlate(JR.cast(this)))
+})
+        let mut keys: Array<Int32> = JR.cast(this.f_keys)
+        let mut size: Int32 = Int32.fromNumber(Array.length(keys))
+        if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("KeyPressesAI.jm_isOn"))
+JR.cast(jlate(JR.cast(this)))
+}) {
+            {
+                let mut index: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(+)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index, size))) break
+                let mut key: Int32 = JR.className(JR.cast(keys[Int32.toNumber(index)]))
+                if ((key != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
+                    ignore(GameInput.jm_add(gameInput, {
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("GameKeyEventFactory.jm_getInstanceForKey"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_gameKeyEventFactory)), JR.cast(this), JR.cast(key)))
+}))
+                }
+                }
+            }
+        } else {
+            {
+                let mut index: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(+)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index, size))) break
+                let mut key: Int32 = JR.className(JR.cast(keys[Int32.toNumber(index)]))
+                if ((key != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
+                    ignore(GameInput.jm_addForRemoval(gameInput, {
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("GameKeyEventFactory.jm_getInstanceForKey"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_gameKeyEventFactory)), JR.cast(this), JR.cast(key)))
+}))
+                }
+                }
+            }
+        }
+}
     
-
-    method toggle () : unit =
-        begin
-        if (toggleTimeHelper#isTime (gameTickTimeDelayHelper#startTime)) then begin
-            ignore (super#toggle ());
-            (self#update ())
-        end
-        end [@@warning "-7"]
+and jm_toggle = (this: MultiKeyPressesAI) => {
+        if (TimeDelayHelper.jm_isTime(this.f_toggleTimeHelper, this.f_gameTickTimeDelayHelper.f_startTime)) {
+            ignore(jm_toggle(this))
+            ignore(jm_update(this))
+        }
+}
     
-
-    method disable () : unit =
-        begin
-        if (toggleTimeHelper#isTime (gameTickTimeDelayHelper#startTime)) then begin
-            ignore (super#disable ());
-            (self#update ())
-        end
-        end [@@warning "-7"]
+and jm_disable = (this: MultiKeyPressesAI) => {
+        if (TimeDelayHelper.jm_isTime(this.f_toggleTimeHelper, this.f_gameTickTimeDelayHelper.f_startTime)) {
+            ignore(jm_disable(this))
+            ignore(jm_update(this))
+        }
+}
     
+and jm_enable = (this: MultiKeyPressesAI) => {
+        if (TimeDelayHelper.jm_isTime(this.f_toggleTimeHelper, this.f_gameTickTimeDelayHelper.f_startTime)) {
+            ignore(jm_enable(this))
+            ignore(jm_update(this))
+        }
+}
 
-    method enable () : unit =
-        begin
-        if (toggleTimeHelper#isTime (gameTickTimeDelayHelper#startTime)) then begin
-            ignore (super#enable ());
-            (self#update ())
-        end
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        toggleTimeHelper <- ((new TimeDelayHelper.timeDelayHelper (600)) :> TimeDelayHelper.timeDelayHelper);
-        gameTickTimeDelayHelper <- ((GameTickTimeDelayHelperFactory.getInstance ()) :> GameTickTimeDelayHelper.gameTickTimeDelayHelper);
-        ();
-        (* super(...) is the inherit clause *) ();
-        (self#update ())
-      end
-  end
-let () = java_register_constructor "MultiKeyPressesAI" (fun arguments -> Obj.repr (new multiKeyPressesAI (Obj.obj arguments)))
+JR.registerLateBound("MultiKeyPressesAI.jnew_3", jnew_3)
+JR.registerLateBound("MultiKeyPressesAI.jm_processAI", jm_processAI)
+JR.registerLateBound("MultiKeyPressesAI.jm_update", jm_update)
+JR.registerLateBound("MultiKeyPressesAI.jm_toggle", jm_toggle)
+JR.registerLateBound("MultiKeyPressesAI.jm_disable", jm_disable)
+JR.registerLateBound("MultiKeyPressesAI.jm_enable", jm_enable)
+JR.registerLateBound("MultiKeyPressesAI.f_toggleTimeHelper", (this: MultiKeyPressesAI) => this.f_toggleTimeHelper)
+JR.registerLateBound("MultiKeyPressesAI.f_gameTickTimeDelayHelper", (this: MultiKeyPressesAI) => this.f_gameTickTimeDelayHelper)
 
 

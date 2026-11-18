@@ -1,108 +1,151 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.media.audio
+module AllBinaryMediaManager
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.media.audio *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/configuration/feature/Features.gr" include Features
+use Features.{ type Features }
+from "../../../../org/allbinary/game/configuration/feature/GameFeatureFactory.gr" include GameFeatureFactory
+use GameFeatureFactory.{ type GameFeatureFactory }
+from "../../../../org/allbinary/graphics/canvas/transition/progress/ProgressCanvasFactory.gr" include ProgressCanvasFactory
+use ProgressCanvasFactory.{ type ProgressCanvasFactory }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./Sounds.gr" include Sounds
+use Sounds.{ type Sounds }
+from "./SoundsFactoryInterface.gr" include SoundsFactoryInterface
+use SoundsFactoryInterface.{ type SoundsFactoryInterface }
+from "./NoPlayer.gr" include NoPlayer
+use NoPlayer.{ type NoPlayer }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.media.Manager *)
-(* import javax.microedition.media.MediaException *)
-(* import javax.microedition.media.Player *)
-(* import org.allbinary.TsUtil *)
-(* import org.allbinary.game.configuration.feature.Features *)
-(* import org.allbinary.game.configuration.feature.GameFeatureFactory *)
-(* import org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+//MediaMIDP2ForHTMLJavaLibrary
+provide record AllBinaryMediaManager {
+  jobject: JObject,
+}
 
-let tHIS : string = "AllBinaryMediaManagerHTML5"
-let get_tHIS () = tHIS
-let () = java_register_static "AllBinaryMediaManager.get_tHIS" (fun _ -> Obj.repr (get_tHIS ()))
+let mut jcell_THIS: Option<String> = None
 
-let isMuted () : bool =
-        begin
-        false
-        end
+provide let rec jclassName = () => "AllBinaryMediaManager"
 
-and setMuted ((_aMuted : bool)) : unit =
-        begin
-        ()
-        end
-
-and update () : bool =
-        begin
-        true
-        end
-
-and init : 'any1. 'any1 -> unit = fun (soundsFactoryInterface) ->
-        let soundsFactoryInterface = Obj.repr soundsFactoryInterface in
-        begin
-        let logUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
-        let commonString : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        ignore ((Obj.magic !logUtil)#putF (!commonString#sTART, tHIS, !commonString#iNIT));
-        ignore ((ProgressCanvasFactory.getInstance ())#addNormalPortion (50, "Media Manager"));
-        ignore ((new Sounds.sounds ((Obj.magic soundsFactoryInterface)))#init ())
-        end [@@warning "-20"]
-
-and shutdown : 'any1. 'any1 -> unit = fun (soundsFactoryInterface) ->
-        let soundsFactoryInterface = Obj.repr soundsFactoryInterface in
-        begin
-        ignore ((new Sounds.sounds ((Obj.magic soundsFactoryInterface)))#stopAll ());
-        ignore ((new Sounds.sounds ((Obj.magic soundsFactoryInterface)))#closeAll ());
-        ignore ((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#gc ())
-        end [@@warning "-20"]
-
-and createPlayer : 'return. string -> 'return = fun ((resource : string)) ->
-        try
-        begin
-        if ((Features.getInstance ())#isFeature ((GameFeatureFactory.getInstance ())#sOUND)) then begin
-            if (((Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ())))#compareTo (resource, (Obj.magic (java_call_static "Manager.get_tONE_DEVICE_LOCATOR" (Obj.repr ()))))) == 0) then begin
-                raise (Java_return (Obj.repr ((Obj.magic (java_call_static "Manager.createPlayer" (Obj.repr (resource)))))))
-            end else begin
-                raise (Java_return (Obj.repr ((Obj.magic (java_call_static "Manager.createPlayer" (Obj.repr ((String.sub resource (0) ((((String.length resource) - 4)) - (0))))))))))
-            end
-        end else begin
-            raise (Java_return (Obj.repr ((NoPlayer.get_nO_PLAYER ()))))
-        end
-        end
-        with Java_return value -> Obj.obj value
-
-and playTone ((frequency : int), (time : int), (volume : int)) : unit =
-        begin
-        if ((Features.getInstance ())#isFeature ((GameFeatureFactory.getInstance ())#sOUND)) then begin
-            ignore (Obj.magic (java_call_static "Manager.playTone" (Obj.repr (frequency, time, volume))))
-        end
-        end
-
-let () = java_register_static "AllBinaryMediaManager.isMuted" (fun arguments -> Obj.repr (isMuted (Obj.obj arguments)))
-let () = java_register_static "AllBinaryMediaManager.setMuted" (fun arguments -> Obj.repr (setMuted (Obj.obj arguments)))
-let () = java_register_static "AllBinaryMediaManager.update" (fun arguments -> Obj.repr (update (Obj.obj arguments)))
-let () = java_register_static "AllBinaryMediaManager.init" (fun arguments -> Obj.repr (init (Obj.obj arguments)))
-let () = java_register_static "AllBinaryMediaManager.shutdown" (fun arguments -> Obj.repr (shutdown (Obj.obj arguments)))
-let () = java_register_static "AllBinaryMediaManager.createPlayer" (fun arguments -> Obj.repr (createPlayer (Obj.obj arguments)))
-let () = java_register_static "AllBinaryMediaManager.playTone" (fun arguments -> Obj.repr (playTone (Obj.obj arguments)))
-class allBinaryMediaManager () =
-  object
+and jstatic_THIS = () => match (jcell_THIS) {
+  Some(value) => value,
+  None => {
+    let value: String = "AllBinaryMediaManagerHTML5"
+    jcell_THIS = Some(value)
+    value
+  },
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("AllBinaryMediaManager"), }
+        void
+    this
+}
+    
+and jm_isMuted = () => {
+        return false
+}
+    
+and jm_setMuted = (aMuted: Bool) => {
+    void
+}
+    
+and jm_update = () => {
+        return true
+}
+    
+and jm_init = (soundsFactoryInterface: SoundsFactoryInterface) => {
+        let mut logUtil: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        let mut commonString: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(logUtil), JR.cast(commonString.f_START), JR.cast(jstatic_THIS()), JR.cast(commonString.f_INIT)))
+})
+        ignore(ProgressCanvasFactory.jm_addNormalPortion(ProgressCanvasFactory.jm_getInstance(), 50l, "Media Manager"))
+        ignore(Sounds.jm_init(Sounds.jnew_1(soundsFactoryInterface)))
+}
+    
+and jm_shutdown = (soundsFactoryInterface: SoundsFactoryInterface) => {
+        ignore(Sounds.jm_stopAll(Sounds.jnew_1(soundsFactoryInterface)))
+        ignore(Sounds.jm_closeAll(Sounds.jnew_1(soundsFactoryInterface)))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_gc"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+})
+}
+    
+and jm_createPlayer = (resource: String) => {
+        if (Features.jm_isFeature(Features.jm_getInstance(), JR.cast(GameFeatureFactory.jm_getInstance().f_SOUND))) {
+            if (({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_compareTo"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(resource), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("Manager.jstatic_TONE_DEVICE_LOCATOR"))
+JR.cast(jlate())
+})))
+} == 0l)) {
+                return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Manager.jm_createPlayer"))
+JR.cast(jlate(JR.cast(resource)))
+}
+            } else {
+                return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Manager.jm_createPlayer"))
+JR.cast(jlate(JR.cast(JR.substring(resource, 0l, Int32.(-)(JR.length(resource), 4l)))))
+}
+            }
+        } else {
+            return NoPlayer.jstatic_NO_PLAYER()
+        }
+}
+    
+and jm_playTone = (frequency: Int32, time: Int32, volume: Int32) => {
+        if (Features.jm_isFeature(Features.jm_getInstance(), JR.cast(GameFeatureFactory.jm_getInstance().f_SOUND))) {
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Manager.jm_playTone"))
+JR.cast(jlate(JR.cast(frequency), JR.cast(time), JR.cast(volume)))
+})
+        }
+}
 
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "AllBinaryMediaManager" (fun arguments -> Obj.repr (new allBinaryMediaManager (Obj.obj arguments)))
+JR.registerLateBound("AllBinaryMediaManager.jnew_0", jnew_0)
+JR.registerLateBound("AllBinaryMediaManager.jm_isMuted", jm_isMuted)
+JR.registerLateBound("AllBinaryMediaManager.jm_setMuted", jm_setMuted)
+JR.registerLateBound("AllBinaryMediaManager.jm_update", jm_update)
+JR.registerLateBound("AllBinaryMediaManager.jm_init", jm_init)
+JR.registerLateBound("AllBinaryMediaManager.jm_shutdown", jm_shutdown)
+JR.registerLateBound("AllBinaryMediaManager.jm_createPlayer", jm_createPlayer)
+JR.registerLateBound("AllBinaryMediaManager.jm_playTone", jm_playTone)
+JR.registerLateBound("AllBinaryMediaManager.jstatic_THIS", jstatic_THIS)
 
 

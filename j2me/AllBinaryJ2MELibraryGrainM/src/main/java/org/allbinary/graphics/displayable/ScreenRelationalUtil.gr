@@ -1,68 +1,87 @@
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.displayable *)
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.displayable
+module ScreenRelationalUtil
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Image *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./DisplayInfoSingleton.gr" include DisplayInfoSingleton
+use DisplayInfoSingleton.{ type DisplayInfoSingleton }
 
-class screenRelationalUtil () =
-  object (self)
+provide record ScreenRelationalUtil {
+  jobject: JObject,
+}
+
+let mut jcell_instance: Option<ScreenRelationalUtil> = None
+
+provide let rec jclassName = () => "ScreenRelationalUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: ScreenRelationalUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ScreenRelationalUtil"), }
+    this
+}
     
-
-    method getScaleImage : 'any1. 'any1 -> float = fun (image) ->
-        let image = Obj.repr image in
-        begin
-        (self#getScaleWH (((Obj.magic image)#getWidth ()), ((Obj.magic image)#getHeight ())))
-        end [@@warning "-20"]
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method getScaleWH ((aWidth : int), (aHeight : int)) : float =
-        begin
-        (self#getScaleWHA (aWidth, aHeight, 20))
-        end
+and jm_getScaleImage = (this: ScreenRelationalUtil, image: JObject) => {
+        return jm_getScaleWH(this, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
+JR.cast(jlate(JR.cast(image)))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
+JR.cast(jlate(JR.cast(image)))
+})
+}
     
-
-    method getScaleWHA ((aWidth : int), (_aHeight : int), (_add : int)) : float =
-        begin
-        let displayInfoSingleton : DisplayInfoSingleton.displayInfoSingleton ref = ref (((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton)) in ();
-        let last : int array ref = ref ((!displayInfoSingleton#getLast ())) in ();
-        let width : float ref = ref ((float_of_int (!last.(!displayInfoSingleton#wIDTH)))) in ();
-        let height : float ref = ref ((float_of_int (!last.(!displayInfoSingleton#hEIGHT)))) in ();
-        let largestSize : float ref = ref (!width) in ();
-        if (!largestSize < !height) then begin
-            largestSize := !height
-        end;
-        let scale : float ref = ref (((!largestSize) /. (float_of_int (aWidth)))) in ();
-        !scale
-        end
+and jm_getScaleWH = (this: ScreenRelationalUtil, aWidth: Int32, aHeight: Int32) => {
+        return jm_getScaleWHA(this, aWidth, aHeight, 20l)
+}
     
-
-    method getScaledHeight ((aWidth : int), (aHeight : int)) : int =
-        begin
-        (int_of_float ((((self#getScaleWH (aWidth, aHeight)) *. (float_of_int (aHeight))))))
-        end
+and jm_getScaleWHA = (this: ScreenRelationalUtil, aWidth: Int32, aHeight: Int32, add: Int32) => {
+        let mut displayInfoSingleton: DisplayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
+        let mut last: Array<Int32> = DisplayInfoSingleton.jm_getLast(displayInfoSingleton)
+        let mut width: Float32 = Float32.fromNumber(Int32.toNumber(last[Int32.toNumber(displayInfoSingleton.f_WIDTH)]))
+        let mut height: Float32 = Float32.fromNumber(Int32.toNumber(last[Int32.toNumber(displayInfoSingleton.f_HEIGHT)]))
+        let mut largestSize: Float32 = width
+        if (Float32.(<)(largestSize, height)) {
+            largestSize = height
+        }
+        let mut scale: Float32 = Float32.(/)((largestSize), Float32.fromNumber(Int32.toNumber(aWidth)))
+        return scale
+}
     
+and jm_getScaledHeight = (this: ScreenRelationalUtil, aWidth: Int32, aHeight: Int32) => {
+        return JR.d2i(Float32.toNumber((Float32.(*)(jm_getScaleWH(this, aWidth, aHeight), Float32.fromNumber(Int32.toNumber(aHeight))))))
+}
+    
+and jm_getScaledHeightAdd = (this: ScreenRelationalUtil, aWidth: Int32, aHeight: Int32, add: Int32) => {
+        return JR.d2i(Float32.toNumber((Float32.(*)(jm_getScaleWHA(this, aWidth, aHeight, add), Float32.fromNumber(Int32.toNumber(aHeight))))))
+}
 
-    method getScaledHeightAdd ((aWidth : int), (aHeight : int), (add : int)) : int =
-        begin
-        (int_of_float ((((self#getScaleWHA (aWidth, aHeight, add)) *. (float_of_int (aHeight))))))
-        end
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "ScreenRelationalUtil" (fun arguments -> Obj.repr (new screenRelationalUtil (Obj.obj arguments)))
-
-let instance = (new screenRelationalUtil ())
-let get_instance () = instance
-let () = java_register_static "ScreenRelationalUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "ScreenRelationalUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("ScreenRelationalUtil.jnew_0", jnew_0)
+JR.registerLateBound("ScreenRelationalUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("ScreenRelationalUtil.jm_getScaleImage", jm_getScaleImage)
+JR.registerLateBound("ScreenRelationalUtil.jm_getScaleWH", jm_getScaleWH)
+JR.registerLateBound("ScreenRelationalUtil.jm_getScaleWHA", jm_getScaleWHA)
+JR.registerLateBound("ScreenRelationalUtil.jm_getScaledHeight", jm_getScaledHeight)
+JR.registerLateBound("ScreenRelationalUtil.jm_getScaledHeightAdd", jm_getScaledHeightAdd)
+JR.registerLateBound("ScreenRelationalUtil.jstatic_instance", jstatic_instance)
 
 

@@ -1,63 +1,87 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.ai
+module ScrollOverXImmediateYStopAI
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.ai *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/ai/BasicAI.gr" include BasicAI
+use BasicAI.{ type BasicAI }
+from "../../../../../org/allbinary/game/input/GameInput.gr" include GameInput
+use GameInput.{ type GameInput }
+from "../../../../../org/allbinary/graphics/displayable/DisplayInfoSingleton.gr" include DisplayInfoSingleton
+use DisplayInfoSingleton.{ type DisplayInfoSingleton }
+from "../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
 
-open Allbinary_java [@@warning "-33"]
-(* import org.allbinary.game.ai.BasicAI *)
-(* import org.allbinary.game.input.GameInput *)
-(* import org.allbinary.graphics.displayable.DisplayInfoSingleton *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
+provide record ScrollOverXImmediateYStopAI {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_gameKeyEventFactory: JObject,
+  mut f_ownerLayerInterface: JObject,
+  mut f_gameInput: JObject,
+  mut f_lastKey: Int32,
+}
 
-class scrollOverXImmediateYStopAI ((ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gameInput : GameInput.gameInput)) =
-  object (self)
-    inherit BasicAI.basicAI (ownerLayerInterface, gameInput)
+
+provide let rec jclassName = () => "ScrollOverXImmediateYStopAI"
     
+and jnew_2 = (ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
+    let this = { jobject: JR.newJObject("ScrollOverXImmediateYStopAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, }
+        void
+    this
+}
     
+and jm_processAI = (this: ScrollOverXImmediateYStopAI, allBinaryLayerManager: AllBinaryLayerManager) => {
+        let mut ownerLayerInterface: AllBinaryLayer = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
+JR.cast(jlate(JR.cast(this)))
+})
+        let mut x: Int32 = AllBinaryLayer.jm_getXP(ownerLayerInterface)
+        let mut y: Int32 = AllBinaryLayer.jm_getYP(ownerLayerInterface)
+        let mut x2: Int32 = AllBinaryLayer.jm_getX2(ownerLayerInterface)
+        let mut y2: Int32 = AllBinaryLayer.jm_getY2(ownerLayerInterface)
+        let mut width: Int32 = AllBinaryLayer.jm_getWidth(ownerLayerInterface)
+        let mut height: Int32 = AllBinaryLayer.jm_getHeight(ownerLayerInterface)
+        let mut displayInfo: DisplayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
+        if (Int32.(>)(x2, DisplayInfoSingleton.jm_getLastWidth(displayInfo))) {
+            ignore(AllBinaryLayer.jm_setPosition(ownerLayerInterface, 0l, y, AllBinaryLayer.jm_getZP(ownerLayerInterface)))
+        }
+        if (Int32.(>)(y2, DisplayInfoSingleton.jm_getLastHeight(displayInfo))) {
+            ignore(AllBinaryLayer.jm_setPosition(ownerLayerInterface, x, Int32.(-)(DisplayInfoSingleton.jm_getLastHeight(displayInfo), height), AllBinaryLayer.jm_getZP(ownerLayerInterface)))
+        }
+        if (Int32.(<)(x, 0l)) {
+            ignore(AllBinaryLayer.jm_setPosition(ownerLayerInterface, Int32.(-)(DisplayInfoSingleton.jm_getLastWidth(displayInfo), width), y, AllBinaryLayer.jm_getZP(ownerLayerInterface)))
+        }
+        if (Int32.(<)(y, 0l)) {
+            ignore(AllBinaryLayer.jm_setPosition(ownerLayerInterface, x, 0l, AllBinaryLayer.jm_getZP(ownerLayerInterface)))
+        }
+}
 
-    method processAI : 'any1. 'any1 -> unit = fun (_allBinaryLayerManager) ->
-        begin
-        let ownerLayerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((self#getOwnerLayerInterface ()) :> AllBinaryLayer.allBinaryLayer)) in ();
-        let x : int ref = ref ((!ownerLayerInterface#getXP ())) in ();
-        let y : int ref = ref ((!ownerLayerInterface#getYP ())) in ();
-        let x2 : int ref = ref ((!ownerLayerInterface#getX2 ())) in ();
-        let y2 : int ref = ref ((!ownerLayerInterface#getY2 ())) in ();
-        let width : int ref = ref ((!ownerLayerInterface#getWidth ())) in ();
-        let height : int ref = ref ((!ownerLayerInterface#getHeight ())) in ();
-        let displayInfo : DisplayInfoSingleton.displayInfoSingleton ref = ref (((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton)) in ();
-        if (!x2 > (!displayInfo#getLastWidth ())) then begin
-            ignore (!ownerLayerInterface#setPosition (0, !y, (!ownerLayerInterface#getZP ())))
-        end;
-        if (!y2 > (!displayInfo#getLastHeight ())) then begin
-            ignore (!ownerLayerInterface#setPosition (!x, ((!displayInfo#getLastHeight ()) - !height), (!ownerLayerInterface#getZP ())))
-        end;
-        if (!x < 0) then begin
-            ignore (!ownerLayerInterface#setPosition (((!displayInfo#getLastWidth ()) - !width), !y, (!ownerLayerInterface#getZP ())))
-        end;
-        if (!y < 0) then begin
-            ignore (!ownerLayerInterface#setPosition (!x, 0, (!ownerLayerInterface#getZP ())))
-        end
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "ScrollOverXImmediateYStopAI" (fun arguments -> Obj.repr (new scrollOverXImmediateYStopAI (Obj.obj arguments)))
+JR.registerLateBound("ScrollOverXImmediateYStopAI.jnew_2", jnew_2)
+JR.registerLateBound("ScrollOverXImmediateYStopAI.jm_processAI", jm_processAI)
 
 

@@ -1,124 +1,190 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.media.audio
+module Sounds
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.media.audio *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/graphics/canvas/transition/progress/ProgressCanvas.gr" include ProgressCanvas
+use ProgressCanvas.{ type ProgressCanvas }
+from "../../../../org/allbinary/graphics/canvas/transition/progress/ProgressCanvasFactory.gr" include ProgressCanvasFactory
+use ProgressCanvasFactory.{ type ProgressCanvasFactory }
+from "../../../../org/allbinary/logic/math/SmallIntegerSingletonFactory.gr" include SmallIntegerSingletonFactory
+use SmallIntegerSingletonFactory.{ type SmallIntegerSingletonFactory }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/string/CommonLabels.gr" include CommonLabels
+use CommonLabels.{ type CommonLabels }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../java/lang/Integer.gr" include Integer
+from "./SoundStrings.gr" include SoundStrings
+use SoundStrings.{ type SoundStrings }
+from "./SoundsFactoryInterface.gr" include SoundsFactoryInterface
+use SoundsFactoryInterface.{ type SoundsFactoryInterface }
+from "./Sound.gr" include Sound
+use Sound.{ type Sound }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.media.Player *)
-(* import org.allbinary.graphics.canvas.transition.progress.ProgressCanvas *)
-(* import org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.math.SmallIntegerSingletonFactory *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.string.CommonLabels *)
-(* import org.allbinary.string.CommonStrings *)
+provide record Sounds {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_soundStrings: SoundStrings,
+  mut f_soundsFactoryInterface: SoundsFactoryInterface,
+}
 
-class sounds ((soundsFactoryInterface_arg : SoundsFactoryInterface.soundsFactoryInterface)) =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable soundStrings : SoundStrings.soundStrings = (Obj.magic 0)
-    method soundStrings = soundStrings
-    method set_soundStrings value' = soundStrings <- value'
-    val mutable soundsFactoryInterface : SoundsFactoryInterface.soundsFactoryInterface = (Obj.magic 0)
-    method soundsFactoryInterface = soundsFactoryInterface
-    method set_soundsFactoryInterface value' = soundsFactoryInterface <- value'
+
+provide let rec jclassName = () => "Sounds"
     
+and jnew_1 = (soundsFactoryInterface: SoundsFactoryInterface) => {
+    let this = { jobject: JR.newJObject("Sounds"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_soundStrings: JR.nullOf(), f_soundsFactoryInterface: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this.f_soundStrings = JR.cast(SoundStrings.jm_getInstance())
     
-
-    method init () : unit =
-        begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), commonStrings#iNIT));
-        let commonLabels : CommonLabels.commonLabels ref = ref (((CommonLabels.getInstance ()) :> CommonLabels.commonLabels)) in ();
-        let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
-        ignore (soundsFactoryInterface#init ());
-        let soundInterfaceArray : Sound.sound array ref = ref ((soundsFactoryInterface#getSoundInterfaceArray ())) in ();
-        let smallIntegerSingletonFactory : SmallIntegerSingletonFactory.smallIntegerSingletonFactory ref = ref (((SmallIntegerSingletonFactory.getInstance ()) :> SmallIntegerSingletonFactory.smallIntegerSingletonFactory)) in ();
-        let indexInteger : int ref = ref ((Obj.magic 0)) in ();
-        let indexString : string ref = ref ("") in ();
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        for i = 0 to (Array.length !soundInterfaceArray) - 1 do
-            let soundInterface : Sound.sound ref = ref ((!soundInterfaceArray.(i) :> Sound.sound)) in ();
-            if (!soundInterface != (Obj.magic 0)) then begin
-                indexInteger := (!smallIntegerSingletonFactory#getAt (i));
-                indexString := (string_of_int !indexInteger);
-                ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-                ignore (!stringBuffer#append (!commonLabels#iNDEX_LABEL));
-                ignore (!stringBuffer#append (!indexString));
-                ignore (!stringBuffer#append (soundStrings#sOUND));
-                ignore (!stringBuffer#append ((java_get_class (Obj.repr !soundInterface))));
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), commonStrings#iNIT));
-                ignore (!soundInterface#init ());
-                ignore (!progressCanvas#addNormalPortion (100, (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (soundStrings#iNIT_SOUND))#append (!indexString))))))
-            end
-        done;
-        ignore (soundsFactoryInterface#setInitialized (true));
-        ignore ((Obj.magic logUtil)#putF (commonStrings#eND, (Obj.magic self), commonStrings#iNIT))
-        end
+        this.f_soundsFactoryInterface = soundsFactoryInterface
+    this
+}
     
-
-    method stopAll () : unit =
-        begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), soundStrings#sTOP_ALL));
-        let soundInterfaceArray : Sound.sound array ref = ref ((soundsFactoryInterface#getSoundInterfaceArray ())) in ();
-        let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
-        let player : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        for index = 0 to (Array.length !soundInterfaceArray) - 1 do
-            if (!soundInterfaceArray.(index) != (Obj.magic 0)) then begin
-                player := Obj.repr ((!soundInterfaceArray.(index)#getPlayerP ()));
-                if ((Obj.magic !player) != (Obj.magic 0)) then begin
-                    ignore ((Obj.magic !player)#stop ());
-                    ignore (!progressCanvas#addPortion (100, soundStrings#sTOPPING_SOUND, index))
-                end
-            end
-        done
-        end
+and jm_init = (this: Sounds) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_START), JR.cast(this), JR.cast(this.f_commonStrings.f_INIT)))
+})
+        let mut commonLabels: CommonLabels = JR.cast(CommonLabels.jm_getInstance())
+        let mut progressCanvas: ProgressCanvas = JR.cast(ProgressCanvasFactory.jm_getInstance())
+        ignore(SoundsFactoryInterface.jm_init(this.f_soundsFactoryInterface))
+        let mut soundInterfaceArray: Array<Sound> = SoundsFactoryInterface.jm_getSoundInterfaceArray(this.f_soundsFactoryInterface)
+        let mut smallIntegerSingletonFactory: SmallIntegerSingletonFactory = JR.cast(SmallIntegerSingletonFactory.jm_getInstance())
+        let mut indexInteger: Int32 = 0l
+        let mut indexString: String = ""
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        {
+            let mut i: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    i = Int32.(+)(i, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(i, Int32.fromNumber(Array.length(soundInterfaceArray))))) break
+            let mut soundInterface: Sound = JR.cast(soundInterfaceArray[Int32.toNumber(i)])
+            if (!JR.isNull(soundInterface)) {
+                indexInteger = SmallIntegerSingletonFactory.jm_getAt(smallIntegerSingletonFactory, i)
+                indexString = Integer.jm_toString(indexInteger)
+                ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
+                ignore(StringMaker.jm_append(stringBuffer, commonLabels.f_INDEX_LABEL))
+                ignore(StringMaker.jm_append(stringBuffer, indexString))
+                ignore(StringMaker.jm_append(stringBuffer, this.f_soundStrings.f_SOUND))
+                ignore(StringMaker.jm_append(stringBuffer, soundInterface.jobject.cls))
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast(this.f_commonStrings.f_INIT)))
+})
+                ignore(Sound.jm_init(soundInterface))
+                ignore(ProgressCanvas.jm_addNormalPortion(progressCanvas, 100l, StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), this.f_soundStrings.f_INIT_SOUND), indexString))))
+            }
+            }
+        }
+        ignore(SoundsFactoryInterface.jm_setInitialized(this.f_soundsFactoryInterface, true))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_END), JR.cast(this), JR.cast(this.f_commonStrings.f_INIT)))
+})
+}
     
+and jm_stopAll = (this: Sounds) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_START), JR.cast(this), JR.cast(this.f_soundStrings.f_STOP_ALL)))
+})
+        let mut soundInterfaceArray: Array<Sound> = SoundsFactoryInterface.jm_getSoundInterfaceArray(this.f_soundsFactoryInterface)
+        let mut progressCanvas: ProgressCanvas = JR.cast(ProgressCanvasFactory.jm_getInstance())
+        let mut player: JObject = JR.jnull
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, Int32.fromNumber(Array.length(soundInterfaceArray))))) break
+            if (!JR.isNull(soundInterfaceArray[Int32.toNumber(index)])) {
+                player = JR.className(JR.cast(soundInterfaceArray[Int32.toNumber(index)]))
+                if (!JR.isNull(player)) {
+                    ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Player.jm_stop"))
+JR.cast(jlate(JR.cast(player)))
+})
+                    ignore(ProgressCanvas.jm_addPortion(progressCanvas, 100l, this.f_soundStrings.f_STOPPING_SOUND, index))
+                }
+            }
+            }
+        }
+}
+    
+and jm_closeAll = (this: Sounds) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_START), JR.cast(this), JR.cast(this.f_soundStrings.f_CLOSE_ALL)))
+})
+        let mut soundInterfaceArray: Array<Sound> = SoundsFactoryInterface.jm_getSoundInterfaceArray(this.f_soundsFactoryInterface)
+        let mut progressCanvas: ProgressCanvas = JR.cast(ProgressCanvasFactory.jm_getInstance())
+        let mut player: JObject = JR.jnull
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, Int32.fromNumber(Array.length(soundInterfaceArray))))) break
+            if (!JR.isNull(soundInterfaceArray[Int32.toNumber(index)])) {
+                player = JR.className(JR.cast(soundInterfaceArray[Int32.toNumber(index)]))
+                if (!JR.isNull(player)) {
+                    ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Player.jm_close"))
+JR.cast(jlate(JR.cast(player)))
+})
+                    ignore(ProgressCanvas.jm_addPortion(progressCanvas, 100l, this.f_soundStrings.f_CLOSING_SOUND, index))
+                }
+            }
+            }
+        }
+}
 
-    method closeAll () : unit =
-        begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), soundStrings#cLOSE_ALL));
-        let soundInterfaceArray : Sound.sound array ref = ref ((soundsFactoryInterface#getSoundInterfaceArray ())) in ();
-        let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
-        let player : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        for index = 0 to (Array.length !soundInterfaceArray) - 1 do
-            if (!soundInterfaceArray.(index) != (Obj.magic 0)) then begin
-                player := Obj.repr ((!soundInterfaceArray.(index)#getPlayerP ()));
-                if ((Obj.magic !player) != (Obj.magic 0)) then begin
-                    ignore ((Obj.magic !player)#close ());
-                    ignore (!progressCanvas#addPortion (100, soundStrings#cLOSING_SOUND, index))
-                end
-            end
-        done
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        soundStrings <- ((SoundStrings.getInstance ()) :> SoundStrings.soundStrings);
-        ();
-        ();
-        soundsFactoryInterface <- soundsFactoryInterface_arg
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "Sounds" (fun arguments -> Obj.repr (new sounds (Obj.obj arguments)))
+JR.registerLateBound("Sounds.jnew_1", jnew_1)
+JR.registerLateBound("Sounds.jm_init", jm_init)
+JR.registerLateBound("Sounds.jm_stopAll", jm_stopAll)
+JR.registerLateBound("Sounds.jm_closeAll", jm_closeAll)
+JR.registerLateBound("Sounds.f_logUtil", (this: Sounds) => this.f_logUtil)
+JR.registerLateBound("Sounds.f_commonStrings", (this: Sounds) => this.f_commonStrings)
+JR.registerLateBound("Sounds.f_soundStrings", (this: Sounds) => this.f_soundStrings)
+JR.registerLateBound("Sounds.f_soundsFactoryInterface", (this: Sounds) => this.f_soundsFactoryInterface)
 
 

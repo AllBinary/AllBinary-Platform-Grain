@@ -1,48 +1,59 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.collision
+module SourceCollisionHelper
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.collision *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/layer/CollidableCompositeLayer.gr" include CollidableCompositeLayer
+use CollidableCompositeLayer.{ type CollidableCompositeLayer }
+from "../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "./CollisionHelper.gr" include CollisionHelper
+use CollisionHelper.{ type CollisionHelper }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.layer.CollidableCompositeLayer *)
-(* import org.allbinary.layer.AllBinaryLayer *)
+provide record SourceCollisionHelper {
+  jobject: JObject,
+  mut f_sourceLayerInterface: JObject,
+}
 
-class sourceCollisionHelper ((layerInterface : AllBinaryLayer.allBinaryLayer)) =
-  object (self)
-    inherit CollisionHelper.collisionHelper (layerInterface)
+
+provide let rec jclassName = () => "SourceCollisionHelper"
     
+and jnew_1 = (layerInterface: AllBinaryLayer) => {
+    let this = { jobject: JR.newJObject("SourceCollisionHelper"), f_sourceLayerInterface: JR.jnull, }
+        void
+    this
+}
     
+and jm_isCollidable = (this: SourceCollisionHelper, layerInterface: CollidableCompositeLayer) => {
+        if ((!JR.isSame(JR.cast(this.f_sourceLayerInterface), layerInterface))) {
+            return true
+        }
+        return false
+}
 
-    method isCollidable : 'any1. 'any1 -> bool = fun (layerInterface) ->
-        let layerInterface = Obj.repr layerInterface in
-        try
-        begin
-        if ((Obj.repr (self#sourceLayerInterface)) != (Obj.repr (Obj.magic layerInterface))) then begin
-            raise (Java_return (Obj.repr (true)))
-        end;
-        false
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "SourceCollisionHelper" (fun arguments -> Obj.repr (new sourceCollisionHelper (Obj.obj arguments)))
+JR.registerLateBound("SourceCollisionHelper.jnew_1", jnew_1)
+JR.registerLateBound("SourceCollisionHelper.jm_isCollidable", jm_isCollidable)
 
 

@@ -1,81 +1,114 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.input.motion
+module GestureOnlyMotionRecognizer
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.input.motion *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/graphics/CustomGPoint.gr" include CustomGPoint
+use CustomGPoint.{ type CustomGPoint }
+from "../../../../org/allbinary/graphics/GPointCircularPool.gr" include GPointCircularPool
+use GPointCircularPool.{ type GPointCircularPool }
+from "../../../../org/allbinary/input/motion/gesture/MotionGestureRecognizer.gr" include MotionGestureRecognizer
+use MotionGestureRecognizer.{ type MotionGestureRecognizer }
+from "./MotionRecognizer.gr" include MotionRecognizer
+use MotionRecognizer.{ type MotionRecognizer }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.graphics.CustomGPoint *)
-(* import org.allbinary.graphics.GPointCircularPool *)
-(* import org.allbinary.input.motion.gesture.MotionGestureRecognizer *)
+provide record GestureOnlyMotionRecognizer {
+  jobject: JObject,
+  mut f_motionGestureRecognizer: MotionGestureRecognizer,
+  mut f_id: Int32,
+}
 
-let index : int ref = ref (0)
-let get_index () = !index
-let set_index value' = index := value'
-let () = java_register_static "GestureOnlyMotionRecognizer.get_index" (fun _ -> Obj.repr (get_index ()))
-let () = java_register_static "GestureOnlyMotionRecognizer.set_index" (fun value' -> set_index (Obj.obj value'); Obj.repr ())
-let pointCircularPool : GPointCircularPool.gPointCircularPool = ((new GPointCircularPool.gPointCircularPool (40)) :> GPointCircularPool.gPointCircularPool)
-let get_pointCircularPool () = pointCircularPool
-let () = java_register_static "GestureOnlyMotionRecognizer.get_pointCircularPool" (fun _ -> Obj.repr (get_pointCircularPool ()))
-class gestureOnlyMotionRecognizer () =
-  object
-    inherit MotionRecognizer.motionRecognizer ()
-    val mutable motionGestureRecognizer : MotionGestureRecognizer.motionGestureRecognizer = (Obj.magic 0)
-    method motionGestureRecognizer = motionGestureRecognizer
-    method set_motionGestureRecognizer value' = motionGestureRecognizer <- value'
-    val mutable id : int = 0
-    method id = id
-    method set_id value' = id <- value'
+let mut jcell_index: Option<Int32> = None
+let mut jcell_pointCircularPool: Option<GPointCircularPool> = None
+
+provide let rec jclassName = () => "GestureOnlyMotionRecognizer"
+
+and jstatic_index = () => match (jcell_index) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = 0l
+    jcell_index = Some(value)
+    value
+  },
+}
+
+and jstatic_pointCircularPool = () => match (jcell_pointCircularPool) {
+  Some(value) => value,
+  None => {
+    let value: GPointCircularPool = GPointCircularPool.jnew_1(40l)
+    jcell_pointCircularPool = Some(value)
+    value
+  },
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("GestureOnlyMotionRecognizer"), f_motionGestureRecognizer: JR.nullOf(), f_id: 0l, }
     
     
-
-    method processStartMotionEvent ((x : int), (y : int), (deviceId : int), (modifiers : int)) : unit =
-        begin
-        let point : CustomGPoint.customGPoint ref = ref (((Obj.magic (pointCircularPool#getNextInstance ())) :> CustomGPoint.customGPoint)) in ();
-        ignore (!point#setX (x));
-        ignore (!point#setY (y));
-        ignore (motionGestureRecognizer#processPressedMotionEvent (!point, deviceId, modifiers))
-        end [@@warning "-7"]
+        this.f_id = { let jold = jstatic_index(); jstatic_index() = Int32.(+)(jold, 1l); jold }
+        this.f_motionGestureRecognizer = MotionGestureRecognizer.jnew_1(this.f_id)
+    this
+}
     
-
-    method processEndMotionEvent ((x : int), (y : int), (deviceId : int), (modifiers : int)) : unit =
-        begin
-        let point : CustomGPoint.customGPoint ref = ref (((Obj.magic (pointCircularPool#getNextInstance ())) :> CustomGPoint.customGPoint)) in ();
-        ignore (!point#setX (x));
-        ignore (!point#setY (y));
-        ignore (motionGestureRecognizer#processReleasedMotionEvent (!point, deviceId, modifiers))
-        end [@@warning "-7"]
+and jm_processStartMotionEvent = (this: GestureOnlyMotionRecognizer, x: Int32, y: Int32, deviceId: Int32, modifiers: Int32) => {
+        let mut point: CustomGPoint = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPointCircularPool.jm_getNextInstance"))
+JR.cast(jlate(JR.cast(jstatic_pointCircularPool())))
+})
+        ignore(CustomGPoint.jm_setX(point, x))
+        ignore(CustomGPoint.jm_setY(point, y))
+        ignore(MotionGestureRecognizer.jm_processPressedMotionEvent(this.f_motionGestureRecognizer, JR.cast(point), deviceId, modifiers))
+}
     
+and jm_processEndMotionEvent = (this: GestureOnlyMotionRecognizer, x: Int32, y: Int32, deviceId: Int32, modifiers: Int32) => {
+        let mut point: CustomGPoint = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPointCircularPool.jm_getNextInstance"))
+JR.cast(jlate(JR.cast(jstatic_pointCircularPool())))
+})
+        ignore(CustomGPoint.jm_setX(point, x))
+        ignore(CustomGPoint.jm_setY(point, y))
+        ignore(MotionGestureRecognizer.jm_processReleasedMotionEvent(this.f_motionGestureRecognizer, JR.cast(point), deviceId, modifiers))
+}
+    
+and jm_processDraggedMotionEvent = (this: GestureOnlyMotionRecognizer, x: Int32, y: Int32, deviceId: Int32, modifiers: Int32) => {
+        let mut point: CustomGPoint = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPointCircularPool.jm_getNextInstance"))
+JR.cast(jlate(JR.cast(jstatic_pointCircularPool())))
+})
+        ignore(CustomGPoint.jm_setX(point, x))
+        ignore(CustomGPoint.jm_setY(point, y))
+        ignore(MotionGestureRecognizer.jm_processDraggedMotionEvent(this.f_motionGestureRecognizer, JR.cast(point), deviceId, modifiers))
+}
 
-    method processDraggedMotionEvent ((x : int), (y : int), (deviceId : int), (modifiers : int)) : unit =
-        begin
-        let point : CustomGPoint.customGPoint ref = ref (((Obj.magic (pointCircularPool#getNextInstance ())) :> CustomGPoint.customGPoint)) in ();
-        ignore (!point#setX (x));
-        ignore (!point#setY (y));
-        ignore (motionGestureRecognizer#processDraggedMotionEvent (!point, deviceId, modifiers))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        ();
-        ();
-        id <- (let value = !index in index := !index + 1; value);
-        motionGestureRecognizer <- (new MotionGestureRecognizer.motionGestureRecognizer (id))
-      end
-  end
-let () = java_register_constructor "GestureOnlyMotionRecognizer" (fun arguments -> Obj.repr (new gestureOnlyMotionRecognizer (Obj.obj arguments)))
+JR.registerLateBound("GestureOnlyMotionRecognizer.jnew_0", jnew_0)
+JR.registerLateBound("GestureOnlyMotionRecognizer.jm_processStartMotionEvent", jm_processStartMotionEvent)
+JR.registerLateBound("GestureOnlyMotionRecognizer.jm_processEndMotionEvent", jm_processEndMotionEvent)
+JR.registerLateBound("GestureOnlyMotionRecognizer.jm_processDraggedMotionEvent", jm_processDraggedMotionEvent)
+JR.registerLateBound("GestureOnlyMotionRecognizer.f_motionGestureRecognizer", (this: GestureOnlyMotionRecognizer) => this.f_motionGestureRecognizer)
+JR.registerLateBound("GestureOnlyMotionRecognizer.f_id", (this: GestureOnlyMotionRecognizer) => this.f_id)
+JR.registerLateBound("GestureOnlyMotionRecognizer.jstatic_index", jstatic_index)
+JR.registerLateBound("GestureOnlyMotionRecognizer.jstatic_pointCircularPool", jstatic_pointCircularPool)
 
 

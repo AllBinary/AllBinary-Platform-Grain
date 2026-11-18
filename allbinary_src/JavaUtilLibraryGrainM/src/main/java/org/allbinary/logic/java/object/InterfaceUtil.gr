@@ -1,101 +1,160 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.java.anyType
+module InterfaceUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.java.anyType *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.string.CommonSeps *)
+provide record InterfaceUtil {
+  jobject: JObject,
+}
 
 
-let viewAll ((myClass : string), (lineBreak : string)) : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        let interfaces : string array ref = ref ((myClass#getInterfaces ())) in ();
-        ignore (!stringBuffer#append (lineBreak));
-        ignore (!stringBuffer#append ("Interfaces: "));
-        ignore (!stringBuffer#append (lineBreak));
-        for index = 0 to (Array.length !interfaces) - 1 do
-            ignore (!stringBuffer#append ("Interface: "));
-            ignore (!stringBuffer#append ((!interfaces.(index)#getName ())));
-            ignore (!stringBuffer#append (lineBreak))
-        done;
-        (java_string_of (Obj.repr !stringBuffer))
-        end
-
-and getClass ((interfaceName : string), (interfaces : string array)) : string =
-        try
-        begin
-        if (((interfaceName <> (Obj.magic 0)) && (interfaces != (Obj.magic 0))) && ((Array.length interfaces) > 0)) then begin
-            for index = 0 to (Array.length interfaces) - 1 do
-                if (((interfaces.(index)#getName ())#indexOf (interfaceName)) >= 0) then begin
-                    raise (Java_return (Obj.repr (interfaces.(index))))
-                end
-            done
-        end;
-        (Obj.magic 0)
-        end
-        with Java_return value -> Obj.obj value
-
-and isImplemented : 'any2. string * 'any2 -> bool = fun ((clazz : string), anyType) ->
-        let anyType = Obj.repr anyType in
-        try
-        begin
-        let classes : string array ref = ref (((java_get_class (Obj.repr anyType))#getInterfaces ())) in ();
-        for index = 0 to (Array.length !classes) - 1 do
-            if ((clazz#compareTo ((!classes.(index)#getName ()))) == 0) then begin
-                raise (Java_return (Obj.repr (true)))
-            end
-        done;
-        false
-        end
-        with Java_return value -> Obj.obj value
-
-(* Java overload isImplemented(String, Any) is not converted: OCaml has one method per name *)
-
-and isImplementedView : 'any2. string * 'any2 -> string = fun ((clazz : string), anyType) ->
-        let anyType = Obj.repr anyType in
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        let classes : string array ref = ref (((java_get_class (Obj.repr anyType))#getInterfaces ())) in ();
-        ignore (!stringBuffer#append ("isImplementedView: \n"));
-        for index = 0 to (Array.length !classes) - 1 do
-            ignore (!stringBuffer#append (clazz));
-            ignore (!stringBuffer#append (" should be = "));
-            ignore (!stringBuffer#append ((!classes.(index)#getName ())));
-            ignore (!stringBuffer#append ((!classes.(index)#getName ())));
-            ignore (!stringBuffer#append ((CommonSeps.getInstance ())#nEW_LINE))
-        done;
-        (java_string_of (Obj.repr !stringBuffer))
-        end
-
-let () = java_register_static "InterfaceUtil.viewAll" (fun arguments -> Obj.repr (viewAll (Obj.obj arguments)))
-let () = java_register_static "InterfaceUtil.getClass" (fun arguments -> Obj.repr (getClass (Obj.obj arguments)))
-let () = java_register_static "InterfaceUtil.isImplemented" (fun arguments -> Obj.repr (isImplemented (Obj.obj arguments)))
-let () = java_register_static "InterfaceUtil.isImplementedView" (fun arguments -> Obj.repr (isImplementedView (Obj.obj arguments)))
-class interfaceUtil () =
-  object
+provide let rec jclassName = () => "InterfaceUtil"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("InterfaceUtil"), }
+        void
+    this
+}
+    
+and jm_viewAll = (myClass: String, lineBreak: String) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        let mut interfaces: Array<String> = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Class.jm_getInterfaces"))
+JR.cast(jlate(JR.cast(myClass)))
+}
+        ignore(StringMaker.jm_append(stringBuffer, lineBreak))
+        ignore(StringMaker.jm_append(stringBuffer, "Interfaces: "))
+        ignore(StringMaker.jm_append(stringBuffer, lineBreak))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, Int32.fromNumber(Array.length(interfaces))))) break
+            ignore(StringMaker.jm_append(stringBuffer, "Interface: "))
+            ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(interfaces[Int32.toNumber(index)]))))
+            ignore(StringMaker.jm_append(stringBuffer, lineBreak))
+            }
+        }
+        return StringMaker.jm_toString(stringBuffer)
+}
+    
+and jm_getClass = (interfaceName: String, interfaces: Array<String>) => {
+        if (((true && !JR.isNull(interfaces)) && Int32.(>)(Int32.fromNumber(Array.length(interfaces)), 0l))) {
+            {
+                let mut index: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(+)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index, Int32.fromNumber(Array.length(interfaces))))) break
+                if (Int32.(>=)(JR.indexOf(JR.className(JR.cast(interfaces[Int32.toNumber(index)])), interfaceName), 0l)) {
+                    return interfaces[Int32.toNumber(index)]
+                }
+                }
+            }
+        }
+        return JR.nullOf()
+}
+    
+and jm_isImplemented_2 = (clazz: String, anyType: JObject) => {
+        let mut classes: Array<String> = JR.className(JR.cast(JR.className(anyType)))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, Int32.fromNumber(Array.length(classes))))) break
+            if ((JR.compareTo(clazz, JR.className(JR.cast(classes[Int32.toNumber(index)]))) == 0l)) {
+                return true
+            }
+            }
+        }
+        return false
+}
+    
+and jm_isImplemented_2 = (className: String, anyType: JObject) => {
+        let mut classes: Array<String> = JR.className(JR.cast(JR.className(anyType)))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, Int32.fromNumber(Array.length(classes))))) break
+            if ((JR.indexOf(JR.className(JR.cast(classes[Int32.toNumber(index)])), className) == 0l)) {
+                return true
+            }
+            }
+        }
+        return false
+}
+    
+and jm_isImplementedView = (clazz: String, anyType: JObject) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        let mut classes: Array<String> = JR.className(JR.cast(JR.className(anyType)))
+        ignore(StringMaker.jm_append(stringBuffer, "isImplementedView: \n"))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, Int32.fromNumber(Array.length(classes))))) break
+            ignore(StringMaker.jm_append(stringBuffer, clazz))
+            ignore(StringMaker.jm_append(stringBuffer, " should be = "))
+            ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(classes[Int32.toNumber(index)]))))
+            ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(classes[Int32.toNumber(index)]))))
+            ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_NEW_LINE))
+            }
+        }
+        return StringMaker.jm_toString(stringBuffer)
+}
 
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "InterfaceUtil" (fun arguments -> Obj.repr (new interfaceUtil (Obj.obj arguments)))
+JR.registerLateBound("InterfaceUtil.jnew_0", jnew_0)
+JR.registerLateBound("InterfaceUtil.jm_viewAll", jm_viewAll)
+JR.registerLateBound("InterfaceUtil.jm_getClass", jm_getClass)
+JR.registerLateBound("InterfaceUtil.jm_isImplemented_2", jm_isImplemented_2)
+JR.registerLateBound("InterfaceUtil.jm_isImplemented_2", jm_isImplemented_2)
+JR.registerLateBound("InterfaceUtil.jm_isImplementedView", jm_isImplementedView)
 
 

@@ -1,64 +1,103 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.ai.scroller
+module TimedFireAI
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.ai.scroller *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/game/ai/BasicAI.gr" include BasicAI
+use BasicAI.{ type BasicAI }
+from "../../../../../../org/allbinary/game/input/GameInput.gr" include GameInput
+use GameInput.{ type GameInput }
+from "../../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
+from "../../../../../../org/allbinary/logic/math/SmallIntegerSingletonFactory.gr" include SmallIntegerSingletonFactory
+use SmallIntegerSingletonFactory.{ type SmallIntegerSingletonFactory }
+from "../../../../../../org/allbinary/time/GameTickTimeDelayHelperFactory.gr" include GameTickTimeDelayHelperFactory
+use GameTickTimeDelayHelperFactory.{ type GameTickTimeDelayHelperFactory }
+from "../../../../../../org/allbinary/time/TimeDelayHelper.gr" include TimeDelayHelper
+use TimeDelayHelper.{ type TimeDelayHelper }
+from "../../../../../../java/lang/Integer.gr" include Integer
+from "./TimeFiredInterface.gr" include TimeFiredInterface
+use TimeFiredInterface.{ type TimeFiredInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Canvas *)
-(* import org.allbinary.game.ai.BasicAI *)
-(* import org.allbinary.game.input.GameInput *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
-(* import org.allbinary.logic.math.SmallIntegerSingletonFactory *)
-(* import org.allbinary.time.GameTickTimeDelayHelperFactory *)
-(* import org.allbinary.time.TimeDelayHelper *)
+provide record TimedFireAI {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_gameKeyEventFactory: JObject,
+  mut f_ownerLayerInterface: JObject,
+  mut f_gameInput: JObject,
+  mut f_lastKey: Int32,
+  mut f_maxFireDelayTimeHelper: TimeDelayHelper,
+  mut f_delay: Int32,
+}
 
-let tIME : int = ((SmallIntegerSingletonFactory.getInstance ())#getAt (1))
-let get_tIME () = tIME
-let () = java_register_static "TimedFireAI.get_tIME" (fun _ -> Obj.repr (get_tIME ()))
-class timedFireAI ((delay_arg : int), (ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gameInput : GameInput.gameInput)) =
-  object (self)
-    inherit BasicAI.basicAI (ownerLayerInterface, gameInput) as super
-    val mutable maxFireDelayTimeHelper : TimeDelayHelper.timeDelayHelper = (Obj.magic 0)
-    method maxFireDelayTimeHelper = maxFireDelayTimeHelper
-    method set_maxFireDelayTimeHelper value' = maxFireDelayTimeHelper <- value'
-    val mutable delay : int = 0
-    method delay = delay
-    method set_delay value' = delay <- value'
+let mut jcell_TIME: Option<Int32> = None
+
+provide let rec jclassName = () => "TimedFireAI"
+
+and jstatic_TIME = () => match (jcell_TIME) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 1l)
+    jcell_TIME = Some(value)
+    value
+  },
+}
     
+and jnew_3 = (delay: Int32, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
+    let this = { jobject: JR.newJObject("TimedFireAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_maxFireDelayTimeHelper: JR.nullOf(), f_delay: 0l, }
+    this.f_maxFireDelayTimeHelper = TimeDelayHelper.jnew_1(0l)
     
+        void
+        this.f_delay = delay
+    this
+}
+    
+and jm_processAI = (this: TimedFireAI, allBinaryLayerManager: AllBinaryLayerManager) => {
+        let mut timeFiredInterface: TimeFiredInterface = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
+JR.cast(jlate(JR.cast(this)))
+})
+        if ((TimeDelayHelper.jm_isTime(this.f_maxFireDelayTimeHelper, GameTickTimeDelayHelperFactory.jm_getInstance().f_startTime) && Int64.(<)(Int64.(+)(TimeFiredInterface.jm_getLastFireTime(timeFiredInterface), this.f_maxFireDelayTimeHelper.f_delay), TimeDelayHelper.jm_getStartTime(this.f_maxFireDelayTimeHelper)))) {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_KEY_NUM1"))
+JR.cast(jlate())
+})))
+})
+            this.f_maxFireDelayTimeHelper.f_delay = this.f_delay
+        }
+}
 
-    method processAI : 'any1. 'any1 -> unit = fun (_allBinaryLayerManager) ->
-        begin
-        let timeFiredInterface : TimeFiredInterface.timeFiredInterface ref = ref (((Obj.magic (self#getOwnerLayerInterface ())) :> TimeFiredInterface.timeFiredInterface)) in ();
-        if ((maxFireDelayTimeHelper#isTime ((GameTickTimeDelayHelperFactory.getInstance ())#startTime)) && (((!timeFiredInterface#getLastFireTime ()) + maxFireDelayTimeHelper#delay) < (maxFireDelayTimeHelper#getStartTime ()))) then begin
-            ignore (super#processKeyAI ((Obj.magic (java_call_static "Canvas.get_kEY_NUM1" (Obj.repr ())))));
-            maxFireDelayTimeHelper#set_delay (delay)
-        end
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        maxFireDelayTimeHelper <- ((new TimeDelayHelper.timeDelayHelper (0)) :> TimeDelayHelper.timeDelayHelper);
-        ();
-        ();
-        (* super(...) is the inherit clause *) ();
-        delay <- delay_arg
-      end
-  end
-let () = java_register_constructor "TimedFireAI" (fun arguments -> Obj.repr (new timedFireAI (Obj.obj arguments)))
+JR.registerLateBound("TimedFireAI.jnew_3", jnew_3)
+JR.registerLateBound("TimedFireAI.jm_processAI", jm_processAI)
+JR.registerLateBound("TimedFireAI.f_maxFireDelayTimeHelper", (this: TimedFireAI) => this.f_maxFireDelayTimeHelper)
+JR.registerLateBound("TimedFireAI.f_delay", (this: TimedFireAI) => this.f_delay)
+JR.registerLateBound("TimedFireAI.jstatic_TIME", jstatic_TIME)
 
 

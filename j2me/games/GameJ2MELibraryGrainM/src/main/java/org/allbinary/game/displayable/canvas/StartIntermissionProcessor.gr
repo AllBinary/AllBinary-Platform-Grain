@@ -1,62 +1,81 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.displayable.canvas
+module StartIntermissionProcessor
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.displayable.canvas *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/canvas/Processor.gr" include Processor
+use Processor.{ type Processor }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.canvas.Processor *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record StartIntermissionProcessor {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_gameCanvas: JObject,
+  mut f_WAIT: Int64,
+}
 
-class startIntermissionProcessor (gameCanvas_arg) =
-  object (self)
-    inherit Processor.processor ()
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable gameCanvas : Obj.t = Obj.repr 0
-    method gameCanvas : 'r. 'r = Obj.magic gameCanvas
-    method set_gameCanvas : 'v. 'v -> unit = fun value' -> gameCanvas <- Obj.repr value'
-    val mutable wAIT : int = 0
-    method wAIT = wAIT
-    method set_wAIT value' = wAIT <- value'
+
+provide let rec jclassName = () => "StartIntermissionProcessor"
     
+and jnew_1 = (gameCanvas: JObject) => {
+    let this = { jobject: JR.newJObject("StartIntermissionProcessor"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_gameCanvas: JR.jnull, f_WAIT: 0L, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
     
+    this.f_WAIT = 5000L
+        this.f_gameCanvas = gameCanvas
+    this
+}
+    
+and jm_process = (this: StartIntermissionProcessor) => {
+        if (JR.className(JR.cast(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_getStartIntermissionInterface"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+}))))) {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Intermission End"), JR.cast(this), JR.cast(this.f_commonStrings.f_PROCESS)))
+})
+            ignore(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_getStartIntermissionInterface"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+})))
+        }
+}
 
-    method process () : unit =
-        begin
-        if ((((Obj.magic gameCanvas)#getStartIntermissionInterface ())#getTimeDelayHelper ())#isElapsedTNT (wAIT)) then begin
-            ignore ((Obj.magic logUtil)#putF ("Intermission End", (Obj.magic self), commonStrings#pROCESS));
-            ignore (((Obj.magic gameCanvas)#getStartIntermissionInterface ())#setEnabled (false))
-        end
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        ();
-        wAIT <- 5000;
-        ();
-        gameCanvas <- Obj.repr (gameCanvas_arg)
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "StartIntermissionProcessor" (fun arguments -> Obj.repr (new startIntermissionProcessor (Obj.obj arguments)))
+JR.registerLateBound("StartIntermissionProcessor.jnew_1", jnew_1)
+JR.registerLateBound("StartIntermissionProcessor.jm_process", jm_process)
+JR.registerLateBound("StartIntermissionProcessor.f_logUtil", (this: StartIntermissionProcessor) => this.f_logUtil)
+JR.registerLateBound("StartIntermissionProcessor.f_commonStrings", (this: StartIntermissionProcessor) => this.f_commonStrings)
+JR.registerLateBound("StartIntermissionProcessor.f_gameCanvas", (this: StartIntermissionProcessor) => this.f_gameCanvas)
+JR.registerLateBound("StartIntermissionProcessor.set_f_gameCanvas", (this: StartIntermissionProcessor, jvalue) => { this.f_gameCanvas = jvalue; jvalue })
+JR.registerLateBound("StartIntermissionProcessor.f_WAIT", (this: StartIntermissionProcessor) => this.f_WAIT)
 
 

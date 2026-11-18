@@ -1,151 +1,152 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.life
+module Life
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.life *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./LifeInterface.gr" include LifeInterface
+use LifeInterface.{ type LifeInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
+provide record Life {
+  jobject: JObject,
+  mut f_lives: Int32,
+  mut f_startLives: Int32,
+  mut f_maxlives: Int32,
+}
 
-let nO_LIFE_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
-let get_nO_LIFE : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !nO_LIFE_cell with Lazy.Undefined -> java_null)
-let set_nO_LIFE value' = nO_LIFE_cell := Lazy.from_val (Obj.repr value')
-let () = java_register_static "Life.get_nO_LIFE" (fun _ -> Obj.repr (get_nO_LIFE ()))
-let () = java_register_static "Life.set_nO_LIFE" (fun value' -> set_nO_LIFE value'; Obj.repr ())
-class life ((lives_arg : int), (maxlives_arg : int)) =
-  object (self)
-    val mutable lives : int = 0
-    method lives = lives
-    method set_lives value' = lives <- value'
-    val mutable startLives : int = 0
-    method startLives = startLives
-    method set_startLives value' = startLives <- value'
-    val mutable maxlives : int = 0
-    method maxlives = maxlives
-    method set_maxlives value' = maxlives <- value'
+let mut jcell_NO_LIFE: Option<Life> = None
+
+provide let rec jclassName = () => "Life"
+
+and jstatic_NO_LIFE = () => match (jcell_NO_LIFE) {
+  Some(value) => value,
+  None => {
+    let value: Life = jm_createLife()
+    jcell_NO_LIFE = Some(value)
+    value
+  },
+}
+    
+and jm_createLife = () => {
+        {
+            return jnew_2(JR.i16(0l), JR.i16(0l))
+        }
+    return JR.nullOf()
+}
+    
+and jnew_2 = (lives: Int32, maxlives: Int32) => {
+    let this = { jobject: JR.newJObject("Life"), f_lives: 0l, f_startLives: 0l, f_maxlives: 0l, }
     
     
-
-    method get () : int =
-        begin
-        lives
-        end
     
-
-    method set ((lives_arg : int)) : unit =
-        begin
-        lives <- lives_arg
-        end
+        this.f_maxlives = maxlives
+        if (Int32.(>)(lives, this.f_maxlives)) {
+            fail JR.toStringOf(JR.newJObject("Exception"))
+        }
+        this.f_lives = lives
+        this.f_startLives = lives
+    this
+}
     
-
-    method reset () : unit =
-        begin
-        lives <- startLives
-        end
+and jm_get = (this: Life) => {
+        return this.f_lives
+}
     
-
-    method add ((lives_arg : int)) : unit =
-        begin
-        if (not (self#reachedLimit ())) then begin
-            if ((lives + lives_arg) <= (self#getMaxlives ())) then begin
-                lives <- ((lives + lives_arg))
-            end else begin
-                lives <- (self#getMaxlives ())
-            end
-        end
-        end
+and jm_set = (this: Life, lives: Int32) => {
+        this.f_lives = lives
+}
     
-
-    method isAlive () : bool =
-        try
-        begin
-        if (lives <= 0) then begin
-            raise (Java_return (Obj.repr (false)))
-        end else begin
-            raise (Java_return (Obj.repr (true)))
-        end
-        end
-        with Java_return value -> Obj.obj value
+and jm_reset = (this: Life) => {
+        this.f_lives = this.f_startLives
+}
     
-
-    method getMaxlives () : int =
-        begin
-        maxlives
-        end
+and jm_add = (this: Life, lives: Int32) => {
+        if (!jm_reachedLimit(this)) {
+            if (Int32.(<=)(Int32.(+)(this.f_lives, lives), jm_getMaxlives(this))) {
+                this.f_lives = JR.i16((Int32.(+)(this.f_lives, lives)))
+            } else {
+                this.f_lives = jm_getMaxlives(this)
+            }
+        }
+}
     
-
-    method reachedLimit () : bool =
-        try
-        begin
-        if ((lives > maxlives) || (lives < 0)) then begin
-            raise (Java_return (Obj.repr (true)))
-        end else begin
-            raise (Java_return (Obj.repr (false)))
-        end
-        end
-        with Java_return value -> Obj.obj value
+and jm_isAlive = (this: Life) => {
+        if (Int32.(<=)(this.f_lives, 0l)) {
+            return false
+        } else {
+            return true
+        }
+}
     
-
-    method deaths ((lives_arg : int)) : unit =
-        begin
-        if (not (self#reachedLimit ())) then begin
-            if ((lives - lives_arg) >= 0) then begin
-                lives <- ((lives - lives_arg))
-            end else begin
-                lives <- 0
-            end
-        end
-        end
+and jm_getMaxlives = (this: Life) => {
+        return this.f_maxlives
+}
     
-
-    method getStartLives () : int =
-        begin
-        startLives
-        end
+and jm_reachedLimit = (this: Life) => {
+        if ((Int32.(>)(this.f_lives, this.f_maxlives) || Int32.(<)(this.f_lives, 0l))) {
+            return true
+        } else {
+            return false
+        }
+}
     
+and jm_deaths = (this: Life, lives: Int32) => {
+        if (!jm_reachedLimit(this)) {
+            if (Int32.(>=)(Int32.(-)(this.f_lives, lives), 0l)) {
+                this.f_lives = JR.i16((Int32.(-)(this.f_lives, lives)))
+            } else {
+                this.f_lives = 0l
+            }
+        }
+}
+    
+and jm_getStartLives = (this: Life) => {
+        return this.f_startLives
+}
+    
+and jm_setStartLives = (this: Life, startLives: Int32) => {
+        this.f_startLives = startLives
+}
 
-    method setStartLives ((startLives_arg : int)) : unit =
-        begin
-        startLives <- startLives_arg
-        end
-
-    initializer
-      begin
-        ();
-        ();
-        ();
-        ();
-        maxlives <- maxlives_arg;
-        if (lives_arg > maxlives) then begin
-            raise (Failure ("To Many Lives"))
-        end;
-        lives <- lives_arg;
-        startLives <- lives_arg
-      end
-  end
-let () = java_register_constructor "Life" (fun arguments -> Obj.repr (new life (Obj.obj arguments)))
-
-let createLife : 'return. unit -> 'return = fun () ->
-        begin
-        (try
-            (Obj.magic ((new life (0, 0))))
-        with e -> begin
-            raise (Failure ("RuntimeException"))
-        end)
-        end
-let () = java_register_static "Life.createLife" (fun arguments -> Obj.repr (createLife (Obj.obj arguments)))
-
-let () = nO_LIFE_cell := lazy (Obj.repr ((createLife ())))
+JR.registerLateBound("Life.jnew_2", jnew_2)
+JR.registerLateBound("Life.jm_createLife", jm_createLife)
+JR.registerLateBound("Life.jm_get", jm_get)
+JR.registerLateBound("Life.jm_set", jm_set)
+JR.registerLateBound("Life.jm_reset", jm_reset)
+JR.registerLateBound("Life.jm_add", jm_add)
+JR.registerLateBound("Life.jm_isAlive", jm_isAlive)
+JR.registerLateBound("Life.jm_getMaxlives", jm_getMaxlives)
+JR.registerLateBound("Life.jm_reachedLimit", jm_reachedLimit)
+JR.registerLateBound("Life.jm_deaths", jm_deaths)
+JR.registerLateBound("Life.jm_getStartLives", jm_getStartLives)
+JR.registerLateBound("Life.jm_setStartLives", jm_setStartLives)
+JR.registerLateBound("Life.f_lives", (this: Life) => this.f_lives)
+JR.registerLateBound("Life.set_f_lives", (this: Life, jvalue) => { this.f_lives = jvalue; jvalue })
+JR.registerLateBound("Life.f_startLives", (this: Life) => this.f_startLives)
+JR.registerLateBound("Life.set_f_startLives", (this: Life, jvalue) => { this.f_startLives = jvalue; jvalue })
+JR.registerLateBound("Life.f_maxlives", (this: Life) => this.f_maxlives)
+JR.registerLateBound("Life.set_f_maxlives", (this: Life, jvalue) => { this.f_maxlives = jvalue; jvalue })
+JR.registerLateBound("Life.jstatic_NO_LIFE", jstatic_NO_LIFE)
 
 

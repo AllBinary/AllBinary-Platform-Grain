@@ -1,70 +1,91 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.layer
+module BasicLayerProcessor
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.layer *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "./AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "./AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
+provide record BasicLayerProcessor {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_list: BasicArrayList,
+}
 
-class basicLayerProcessor () =
-  object
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable list : BasicArrayList.basicArrayList = (Obj.magic 0)
-    method list = list
-    method set_list value' = list <- value'
+let mut jcell_NULL_LAYER_PROCESSOR: Option<BasicLayerProcessor> = None
+
+provide let rec jclassName = () => "BasicLayerProcessor"
+
+and jstatic_NULL_LAYER_PROCESSOR = () => match (jcell_NULL_LAYER_PROCESSOR) {
+  Some(value) => value,
+  None => {
+    let value: BasicLayerProcessor = jnew_0()
+    jcell_NULL_LAYER_PROCESSOR = Some(value)
+    value
+  },
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("BasicLayerProcessor"), f_logUtil: JR.jnull, f_list: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_list = JR.cast(BasicArrayListD.jnew_0())
+        void
+    this
+}
     
-
-    method add : 'any1. 'any1 -> unit = fun (layerInterface) ->
-        let layerInterface = Obj.repr layerInterface in
-        begin
-        if (not (list#contains ((Obj.magic layerInterface)))) then begin
-            ignore (list#add ((Obj.magic layerInterface)))
-        end
-        end [@@warning "-20"]
+and jm_add = (this: BasicLayerProcessor, layerInterface: AllBinaryLayer) => {
+        if (!BasicArrayList.jm_contains(this.f_list, JR.cast(layerInterface))) {
+            ignore(BasicArrayList.jm_add(this.f_list, JR.cast(layerInterface)))
+        }
+}
     
-
-    method process : 'any1. 'any1 -> unit = fun (_allBinaryLayerManager) ->
-        begin
-        raise (Failure ((CommonStrings.getInstance ())#nOT_IMPLEMENTED))
-        end [@@warning "-20"]
+and jm_process = (this: BasicLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager) => {
+        fail JR.toStringOf(JR.newJObject("Exception"))
+}
     
+and jm_getList = (this: BasicLayerProcessor) => {
+        return this.f_list
+}
 
-    method getList : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (list))
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        list <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "BasicLayerProcessor" (fun arguments -> Obj.repr (new basicLayerProcessor (Obj.obj arguments)))
-
-let nULL_LAYER_PROCESSOR = (new basicLayerProcessor ())
-let get_nULL_LAYER_PROCESSOR () = nULL_LAYER_PROCESSOR
-let () = java_register_static "BasicLayerProcessor.get_nULL_LAYER_PROCESSOR" (fun _ -> Obj.repr (get_nULL_LAYER_PROCESSOR ()))
+JR.registerLateBound("BasicLayerProcessor.jnew_0", jnew_0)
+JR.registerLateBound("BasicLayerProcessor.jm_add", jm_add)
+JR.registerLateBound("BasicLayerProcessor.jm_process", jm_process)
+JR.registerLateBound("BasicLayerProcessor.jm_getList", jm_getList)
+JR.registerLateBound("BasicLayerProcessor.f_logUtil", (this: BasicLayerProcessor) => this.f_logUtil)
+JR.registerLateBound("BasicLayerProcessor.f_list", (this: BasicLayerProcessor) => this.f_list)
+JR.registerLateBound("BasicLayerProcessor.jstatic_NULL_LAYER_PROCESSOR", jstatic_NULL_LAYER_PROCESSOR)
 
 

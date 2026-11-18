@@ -1,55 +1,83 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.ai
+module DiveAndDirectionalTrackingAIFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.ai *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/ai/ArtificialIntelligenceInterface.gr" include ArtificialIntelligenceInterface
+use ArtificialIntelligenceInterface.{ type ArtificialIntelligenceInterface }
+from "../../../../../org/allbinary/game/ag/ai/tactical/BasicRandomAIFactory.gr" include BasicRandomAIFactory
+use BasicRandomAIFactory.{ type BasicRandomAIFactory }
+from "../../../../../org/allbinary/game/ai/ArtificialIntelligenceInterfaceFactoryInterface.gr" include ArtificialIntelligenceInterfaceFactoryInterface
+use ArtificialIntelligenceInterfaceFactoryInterface.{ type ArtificialIntelligenceInterfaceFactoryInterface }
+from "../../../../../org/allbinary/game/ai/BasicAI.gr" include BasicAI
+use BasicAI.{ type BasicAI }
+from "../../../../../org/allbinary/game/input/GameInput.gr" include GameInput
+use GameInput.{ type GameInput }
+from "../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../../org/allbinary/logic/util/visitor/Visitor.gr" include Visitor
+use Visitor.{ type Visitor }
+from "./ThrustAIVisitorFactory.gr" include ThrustAIVisitorFactory
+use ThrustAIVisitorFactory.{ type ThrustAIVisitorFactory }
+from "./BasicProbabilityAIDataFactory.gr" include BasicProbabilityAIDataFactory
+use BasicProbabilityAIDataFactory.{ type BasicProbabilityAIDataFactory }
+from "./LastKeyAIVisitorFactory.gr" include LastKeyAIVisitorFactory
+use LastKeyAIVisitorFactory.{ type LastKeyAIVisitorFactory }
+from "./DiveAndDirectionalTrackingAI.gr" include DiveAndDirectionalTrackingAI
+use DiveAndDirectionalTrackingAI.{ type DiveAndDirectionalTrackingAI }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.ai.ArtificialIntelligenceInterface *)
-(* import org.allbinary.game.ag.ai.tactical.BasicRandomAIFactory *)
-(* import org.allbinary.game.ai.ArtificialIntelligenceInterfaceFactoryInterface *)
-(* import org.allbinary.game.ai.BasicAI *)
-(* import org.allbinary.game.input.GameInput *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.logic.util.visitor.Visitor *)
-(* import org.allbinary.util.ABHashtable *)
+provide record DiveAndDirectionalTrackingAIFactory {
+  jobject: JObject,
+}
 
-class diveAndDirectionalTrackingAIFactory () =
-  object
+
+provide let rec jclassName = () => "DiveAndDirectionalTrackingAIFactory"
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("DiveAndDirectionalTrackingAIFactory"), }
+    this
+}
     
+and jm_getInstance = (this: DiveAndDirectionalTrackingAIFactory, hashtable: JObject, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
+        let mut visitorCanBeNull: JObject = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
+JR.cast(jlate(JR.cast(hashtable), JR.cast(JR.cast(BasicAI.jstatic_AI_VISITOR()))))
+})
+        if (JR.isNull(visitorCanBeNull)) {
+            visitorCanBeNull = ThrustAIVisitorFactory.jm_getInstance()
+        }
+        let mut hashtable2: JObject = JR.cast(BasicProbabilityAIDataFactory.jm_getInstance(BasicProbabilityAIDataFactory.jnew_0()))
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
+JR.cast(jlate(JR.cast(hashtable2), JR.cast(BasicAI.jstatic_AI_VISITOR()), JR.cast(LastKeyAIVisitorFactory.jm_getInstance())))
+})
+        let mut artificialIntelligenceInterface: ArtificialIntelligenceInterface = JR.cast(BasicRandomAIFactory.jm_getInstance(BasicRandomAIFactory.jnew_0(), hashtable2, ownerLayerInterface, gameInput))
+        return JR.cast(DiveAndDirectionalTrackingAI.jnew_4(ownerLayerInterface, artificialIntelligenceInterface, gameInput, JR.cast(visitorCanBeNull)))
+}
 
-    method getInstance : 'any1 'any2 'any3 'return. 'any1 * 'any2 * 'any3 -> 'return = fun (hashtable, ownerLayerInterface, gameInput) ->
-        let hashtable = Obj.repr hashtable in
-        let ownerLayerInterface = Obj.repr ownerLayerInterface in
-        let gameInput = Obj.repr gameInput in
-        begin
-        let visitorCanBeNull : Obj.t ref = ref ((Obj.repr ((Obj.magic hashtable)#get ((Obj.magic (BasicAI.get_aI_VISITOR ())))))) in ();
-        if (!visitorCanBeNull == (Obj.magic 0)) then begin
-            visitorCanBeNull := (Obj.repr ((ThrustAIVisitorFactory.getInstance ())))
-        end;
-        let hashtable2 : Obj.t ref = ref ((Obj.repr ((new BasicProbabilityAIDataFactory.basicProbabilityAIDataFactory ())#getInstance ()))) in ();
-        ignore ((Obj.magic !hashtable2)#put ((BasicAI.get_aI_VISITOR ()), (LastKeyAIVisitorFactory.getInstance ())));
-        let artificialIntelligenceInterface : ArtificialIntelligenceInterface.artificialIntelligenceInterface ref = ref ((((new BasicRandomAIFactory.basicRandomAIFactory ())#getInstance ((Obj.magic !hashtable2), (Obj.magic ownerLayerInterface), (Obj.magic gameInput))) :> ArtificialIntelligenceInterface.artificialIntelligenceInterface)) in ();
-        (Obj.magic ((new DiveAndDirectionalTrackingAI.diveAndDirectionalTrackingAI ((Obj.magic ownerLayerInterface), !artificialIntelligenceInterface, (Obj.magic gameInput), (Obj.magic !visitorCanBeNull)))))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "DiveAndDirectionalTrackingAIFactory" (fun arguments -> Obj.repr (new diveAndDirectionalTrackingAIFactory (Obj.obj arguments)))
+JR.registerLateBound("DiveAndDirectionalTrackingAIFactory.jnew_0", jnew_0)
+JR.registerLateBound("DiveAndDirectionalTrackingAIFactory.jm_getInstance", jm_getInstance)
 
 

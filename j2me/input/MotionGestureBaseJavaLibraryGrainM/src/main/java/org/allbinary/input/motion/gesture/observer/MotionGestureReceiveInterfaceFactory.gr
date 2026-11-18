@@ -1,46 +1,63 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.input.motion.gesture.observer
+module MotionGestureReceiveInterfaceFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.input.motion.gesture.observer *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/input/motion/gesture/configuration/MotionGestureConfiguration.gr" include MotionGestureConfiguration
+use MotionGestureConfiguration.{ type MotionGestureConfiguration }
+from "../../../../../../org/allbinary/input/motion/gesture/configuration/MotionGestureConfigurationFactory.gr" include MotionGestureConfigurationFactory
+use MotionGestureConfigurationFactory.{ type MotionGestureConfigurationFactory }
+from "./ResolveCompleteMotionGestureListener.gr" include ResolveCompleteMotionGestureListener
+use ResolveCompleteMotionGestureListener.{ type ResolveCompleteMotionGestureListener }
+from "./NullCompleteMotionGestureReceiver.gr" include NullCompleteMotionGestureReceiver
+use NullCompleteMotionGestureReceiver.{ type NullCompleteMotionGestureReceiver }
+from "./CompleteMotionGestureListenerInterface.gr" include CompleteMotionGestureListenerInterface
+use CompleteMotionGestureListenerInterface.{ type CompleteMotionGestureListenerInterface }
 
-open Allbinary_java [@@warning "-33"]
-(* import org.allbinary.input.motion.gesture.configuration.MotionGestureConfiguration *)
-(* import org.allbinary.input.motion.gesture.configuration.MotionGestureConfigurationFactory *)
+provide record MotionGestureReceiveInterfaceFactory {
+  jobject: JObject,
+}
 
 
-let getInstance : 'return. unit -> 'return = fun () ->
-        try
-        begin
-        let configuration : MotionGestureConfiguration.motionGestureConfiguration ref = ref (((MotionGestureConfigurationFactory.getInstance ()) :> MotionGestureConfiguration.motionGestureConfiguration)) in ();
-        if (not (!configuration#isExecutingActionsAllowed ())) then begin
-            raise (Java_return (Obj.repr ((new NullCompleteMotionGestureReceiver.nullCompleteMotionGestureReceiver ()))))
-        end else begin
-            raise (Java_return (Obj.repr ((new ResolveCompleteMotionGestureListener.resolveCompleteMotionGestureListener ()))))
-        end
-        end
-        with Java_return value -> Obj.obj value
+provide let rec jclassName = () => "MotionGestureReceiveInterfaceFactory"
 
-let () = java_register_static "MotionGestureReceiveInterfaceFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-class motionGestureReceiveInterfaceFactory () =
-  object
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("MotionGestureReceiveInterfaceFactory"), }
+    this
+}
+    
+and jm_getInstance = () => {
+        let mut configuration: MotionGestureConfiguration = JR.cast(MotionGestureConfigurationFactory.jm_getInstance())
+        if (!MotionGestureConfiguration.jm_isExecutingActionsAllowed(configuration)) {
+            return JR.cast(NullCompleteMotionGestureReceiver.jnew_0())
+        } else {
+            return JR.cast(ResolveCompleteMotionGestureListener.jnew_0())
+        }
+}
 
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "MotionGestureReceiveInterfaceFactory" (fun arguments -> Obj.repr (new motionGestureReceiveInterfaceFactory (Obj.obj arguments)))
+JR.registerLateBound("MotionGestureReceiveInterfaceFactory.jnew_0", jnew_0)
+JR.registerLateBound("MotionGestureReceiveInterfaceFactory.jm_getInstance", jm_getInstance)
 
 

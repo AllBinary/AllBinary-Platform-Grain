@@ -1,95 +1,133 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.business.installer
+module DeleteCloud
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.business.installer *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/globals/URLGLOBALS.gr" include URLGLOBALS
+use URLGLOBALS.{ type URLGLOBALS }
+from "../../../../org/allbinary/logic/communication/http/file/upload/FileUploadData.gr" include FileUploadData
+use FileUploadData.{ type FileUploadData }
+from "../../../../org/allbinary/logic/io/AbIOSystem.gr" include AbIOSystem
+use AbIOSystem.{ type AbIOSystem }
+from "../../../../org/allbinary/logic/io/file/directory/Directory.gr" include Directory
+use Directory.{ type Directory }
+from "../../../../org/allbinary/logic/io/path/AbPath.gr" include AbPath
+use AbPath.{ type AbPath }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.globals.URLGLOBALS *)
-(* import org.allbinary.logic.communication.http.file.upload.FileUploadData *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.io.AbIOSystem *)
-(* import org.allbinary.logic.io.file.AbFile *)
-(* import org.allbinary.logic.io.file.directory.Directory *)
-(* import org.allbinary.logic.io.path.AbPath *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.util.BasicArrayList *)
+provide record DeleteCloud {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+}
 
-class deleteCloud () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+
+provide let rec jclassName = () => "DeleteCloud"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("DeleteCloud"), f_logUtil: JR.jnull, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        void
+    this
+}
     
+and jm_delete = (this: DeleteCloud, prePath: String, current: Int32, total: Int32) => {
+        {
+            if (AbIOSystem.jm_isType(AbIOSystem.jm_getInstance(), "com.vobject.appengine.java.io")) {
+                let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+                ignore(StringMaker.jm_append(stringBuffer, URLGLOBALS.jm_getWebappPath()))
+                ignore(StringMaker.jm_append(stringBuffer, prePath))
+                let mut path: AbPath = AbPath.jnew_2(StringMaker.jm_toString(stringBuffer), StringUtil.jm_getInstance().f_EMPTY_STRING)
+                let mut file: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
+JR.cast(jlate(JR.cast(path)))
+})
+                let mut fileBasicArrayList: BasicArrayList = JR.cast(Directory.jm_search(Directory.jm_getInstance(), JR.cast(file), true))
+                let mut size: Int32 = BasicArrayList.jm_size(fileBasicArrayList)
+                ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
+                ignore(StringMaker.jm_append(stringBuffer, "Searched: "))
+                ignore(StringMaker.jm_append(stringBuffer, AbPath.jm_toFileSystemString(path)))
+                ignore(StringMaker.jm_append(stringBuffer, " BasicArrayList: "))
+                ignore(StringMaker.jm_appendint(stringBuffer, size))
+                let mut portion: Int32 = Int32.(+)(Int32.(/)(size, total), 1l)
+                let mut start: Int32 = Int32.(*)(portion, current)
+                let mut end: Int32 = Int32.(+)(start, portion)
+                if (Int32.(>)(end, size)) {
+                    end = size
+                }
+                ignore(StringMaker.jm_append(stringBuffer, " Section: "))
+                ignore(StringMaker.jm_appendint(stringBuffer, start))
+                ignore(StringMaker.jm_append(stringBuffer, " - "))
+                ignore(StringMaker.jm_appendint(stringBuffer, end))
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast("initialize()")))
+})
+                let mut nextFile: JObject = JR.jnull
+                {
+                    let mut index: Int32 = start
+                    let mut jfirst = true
+                    while (true) {
+                        if (!jfirst) {
+                            index = Int32.(+)(index, 1l)
+                        }
+                        jfirst = false
+                        if (!(Int32.(<)(index, end))) break
+                    nextFile = JR.cast(BasicArrayList.jm_get(fileBasicArrayList, index))
+                    {
+                        if (Int32.(<)(JR.indexOf({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(nextFile)))
+}, FileUploadData.jm_getInstance().f_FILE), 0l)) {
+                            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_delete"))
+JR.cast(jlate(JR.cast(nextFile)))
+})
+                        }
+                    }
+                    }
+                }
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Deleted Files From Cloud"), JR.cast(this), JR.cast("initialize()")))
+})
+            }
+            return true
+        }
+    return false
+}
 
-    method delete ((prePath : string), (current : int), (total : int)) : bool =
-        begin
-        (try
-            if ((AbIOSystem.getInstance ())#isType ("com.vobject.appengine.java.io")) then begin
-                let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-                ignore (!stringBuffer#append ((URLGLOBALS.getWebappPath ())));
-                ignore (!stringBuffer#append (prePath));
-                let path : AbPath.abPath ref = ref (((new AbPath.abPath ((java_string_of (Obj.repr !stringBuffer)), (StringUtil.getInstance ())#eMPTY_STRING)) :> AbPath.abPath)) in ();
-                let file : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFile.createAbFileFromAbPath" (Obj.repr (!path)))))) in ();
-                let fileBasicArrayList : BasicArrayList.basicArrayList ref = ref ((((Directory.getInstance ())#search ((Obj.magic !file), true)) :> BasicArrayList.basicArrayList)) in ();
-                let size : int ref = ref ((!fileBasicArrayList#size ())) in ();
-                ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-                ignore (!stringBuffer#append ("Searched: "));
-                ignore (!stringBuffer#append ((!path#toFileSystemString ())));
-                ignore (!stringBuffer#append (" BasicArrayList: "));
-                ignore (!stringBuffer#appendint (!size));
-                let portion : int ref = ref (((!size / total) + 1)) in ();
-                let start : int ref = ref ((!portion * current)) in ();
-                let end_ : int ref = ref ((!start + !portion)) in ();
-                if (!end_ > !size) then begin
-                    end_ := !size
-                end;
-                ignore (!stringBuffer#append (" Section: "));
-                ignore (!stringBuffer#appendint (!start));
-                ignore (!stringBuffer#append (" - "));
-                ignore (!stringBuffer#appendint (!end_));
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), "initialize()"));
-                let nextFile : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-                for index = !start to !end_ - 1 do
-                    nextFile := Obj.repr ((Obj.magic (!fileBasicArrayList#get (index))));
-                    (try
-                        if ((java_string_index_of ((Obj.magic !nextFile)#getPath ()) (Obj.repr ((FileUploadData.getInstance ())#fILE))) < 0) then begin
-                            ignore ((Obj.magic !nextFile)#delete ())
-                        end
-                    with e -> begin
-                        ()
-                    end)
-                done;
-                ignore ((Obj.magic logUtil)#putF ("Deleted Files From Cloud", (Obj.magic self), "initialize()"))
-            end;
-            true
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put ("Unable to copy installer files into cloud", (Obj.magic self), "initialize()", e));
-            false
-        end)
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "DeleteCloud" (fun arguments -> Obj.repr (new deleteCloud (Obj.obj arguments)))
+JR.registerLateBound("DeleteCloud.jnew_0", jnew_0)
+JR.registerLateBound("DeleteCloud.jm_delete", jm_delete)
+JR.registerLateBound("DeleteCloud.f_logUtil", (this: DeleteCloud) => this.f_logUtil)
 
 

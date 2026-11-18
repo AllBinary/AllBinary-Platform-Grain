@@ -1,115 +1,155 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.media.image
+module ImageScaleUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.media.image *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/awt/Graphics2D.gr" include Graphics2D
+use Graphics2D.{ type Graphics2D }
+from "../../../../java/awt/geom/AffineTransform.gr" include AffineTransform
+use AffineTransform.{ type AffineTransform }
+from "../../../../java/awt/image/BufferedImage.gr" include BufferedImage
+use BufferedImage.{ type BufferedImage }
+from "./ImageJ2SEUtil.gr" include ImageJ2SEUtil
+use ImageJ2SEUtil.{ type ImageJ2SEUtil }
+from "./ImageCreationUtil.gr" include ImageCreationUtil
+use ImageCreationUtil.{ type ImageCreationUtil }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.awt.Graphics2D *)
-(* import java.awt.geom.AffineTransform *)
-(* import java.awt.image.BufferedImage *)
-(* import javax.microedition.lcdui.Image *)
-(* import org.allbinary.image.ImageCache *)
+provide record ImageScaleUtil {
+  jobject: JObject,
+  mut f_imageUtil: JObject,
+  mut f_imageJ2SEUtil: ImageJ2SEUtil,
+  mut f_imageCreationUtil: ImageCreationUtil,
+}
 
-class imageScaleUtil () =
-  object (self)
-    val mutable imageUtil : Obj.t = Obj.repr 0
-    method imageUtil : 'r. 'r = Obj.magic imageUtil
-    method set_imageUtil : 'v. 'v -> unit = fun value' -> imageUtil <- Obj.repr value'
-    val mutable imageJ2SEUtil : ImageJ2SEUtil.imageJ2SEUtil = (Obj.magic 0)
-    method imageJ2SEUtil = imageJ2SEUtil
-    method set_imageJ2SEUtil value' = imageJ2SEUtil <- value'
-    val mutable imageCreationUtil : ImageCreationUtil.imageCreationUtil = (Obj.magic 0)
-    method imageCreationUtil = imageCreationUtil
-    method set_imageCreationUtil value' = imageCreationUtil <- value'
+let mut jcell_instance: Option<ImageScaleUtil> = None
+
+provide let rec jclassName = () => "ImageScaleUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: ImageScaleUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method createImage2 : 'any1 'any2 'return. 'any1 * 'any2 * float * float * float * float * bool -> 'return = fun (imageCache, originalImage, (scaleNominatorX : float), (scaleDenominatorX : float), (scaleNominatorY : float), (scaleDenominatorY : float), (cached : bool)) ->
-        let imageCache = Obj.repr imageCache in
-        let originalImage = Obj.repr originalImage in
-        begin
-        (Obj.magic ((self#createImage3 ((Obj.magic imageCache), (Obj.magic originalImage), scaleNominatorX, scaleDenominatorX, scaleNominatorY, scaleDenominatorY, cached, true))))
-        end [@@warning "-20"]
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ImageScaleUtil"), f_imageUtil: JR.jnull, f_imageJ2SEUtil: JR.nullOf(), f_imageCreationUtil: JR.nullOf(), }
+    this.f_imageUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("ImageUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_imageJ2SEUtil = JR.cast(ImageJ2SEUtil.jm_getInstance())
+    this.f_imageCreationUtil = JR.cast(ImageCreationUtil.jm_getInstance())
+        void
+    this
+}
     
-
-    method createImage3 : 'any1 'any2 'return. 'any1 * 'any2 * float * float * float * float * bool * bool -> 'return = fun (imageCache, originalImage, (scaleNominatorX : float), (scaleDenominatorX : float), (scaleNominatorY : float), (scaleDenominatorY : float), (cached : bool), (_mutable_ : bool)) ->
-        let imageCache = Obj.repr imageCache in
-        let originalImage = Obj.repr originalImage in
-        begin
-        let width : int ref = ref (((Obj.magic originalImage)#getWidth ())) in ();
-        let height : int ref = ref (((Obj.magic originalImage)#getHeight ())) in ();
-        let scaleX : float ref = ref ((scaleNominatorX /. scaleDenominatorX)) in ();
-        let scaleY : float ref = ref ((scaleNominatorY /. scaleDenominatorY)) in ();
-        let image : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        if cached then begin
-            image := Obj.repr (((Obj.magic imageCache)#get ((java_get_class (Obj.repr self)), (int_of_float ((((float_of_int (!width)) *. !scaleX)))), (int_of_float ((((float_of_int (!height)) *. !scaleY)))))))
-        end else begin
-            image := Obj.repr (((Obj.magic imageCache)#get ("createImage", (int_of_float ((((float_of_int (!width)) *. !scaleX)))), (int_of_float ((((float_of_int (!height)) *. !scaleY)))))))
-        end;
-        (self#scale ((Obj.magic originalImage), (Obj.magic !image), !scaleX, !scaleY, true));
-        (Obj.magic ((Obj.magic !image)))
-        end [@@warning "-20"]
+and jm_createImage2 = (this: ImageScaleUtil, imageCache: JObject, originalImage: JObject, scaleNominatorX: Float32, scaleDenominatorX: Float32, scaleNominatorY: Float32, scaleDenominatorY: Float32, cached: Bool) => {
+        return jm_createImage3(this, imageCache, originalImage, scaleNominatorX, scaleDenominatorX, scaleNominatorY, scaleDenominatorY, cached, true)
+}
     
-
-    method scale2 : 'any1 'any2 'any3. 'any1 * 'any2 * 'any3 * int * float * float * float * float -> unit = fun (originalImage, originalImageArray, _ximageToShowArray, (_unused : int), (scaleX : float), (scaleY : float), (maxScaleX : float), (maxScaleY : float)) ->
-        let originalImage = Obj.repr originalImage in
-        let originalImageArray = Obj.repr originalImageArray in
-        begin
-        if (((maxScaleX *. (float_of_int (((Obj.magic originalImage)#getWidth ())))) > ((Obj.magic originalImageArray).(0)#getWidth ())) || ((maxScaleY *. (float_of_int (((Obj.magic originalImage)#getHeight ())))) > ((Obj.magic originalImageArray).(0)#getHeight ()))) then begin
-            (Obj.magic originalImageArray).(0) <- (imageCreationUtil#createImage (((Obj.magic originalImage)#getWidth ()), ((Obj.magic originalImage)#getHeight ()), maxScaleX, maxScaleY))
-        end;
-        (self#scale ((Obj.magic originalImage), (Obj.magic originalImageArray).(0), scaleX, scaleY, false))
-        end [@@warning "-20"]
+and jm_createImage3 = (this: ImageScaleUtil, imageCache: JObject, originalImage: JObject, scaleNominatorX: Float32, scaleDenominatorX: Float32, scaleNominatorY: Float32, scaleDenominatorY: Float32, cached: Bool, mutable: Bool) => {
+        let mut width: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
+JR.cast(jlate(JR.cast(originalImage)))
+}
+        let mut height: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
+JR.cast(jlate(JR.cast(originalImage)))
+}
+        let mut scaleX: Float32 = Float32.(/)(scaleNominatorX, scaleDenominatorX)
+        let mut scaleY: Float32 = Float32.(/)(scaleNominatorY, scaleDenominatorY)
+        let mut image: JObject = JR.jnull
+        if (cached) {
+            image = {
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageCache.jm_get"))
+JR.cast(jlate(JR.cast(imageCache), JR.cast(this.jobject.cls), JR.cast(JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(width)), scaleX))))), JR.cast(JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(height)), scaleY)))))))
+}
+        } else {
+            image = {
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageCache.jm_get"))
+JR.cast(jlate(JR.cast(imageCache), JR.cast("createImage"), JR.cast(JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(width)), scaleX))))), JR.cast(JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(height)), scaleY)))))))
+}
+        }
+        ignore(jm_scale(this, originalImage, image, scaleX, scaleY, true))
+        return image
+}
     
+and jm_scale2 = (this: ImageScaleUtil, originalImage: JObject, originalImageArray: Array<JObject>, ximageToShowArray: Array<JObject>, unused: Int32, scaleX: Float32, scaleY: Float32, maxScaleX: Float32, maxScaleY: Float32) => {
+        if ((Int32.(>)(Float32.(*)(maxScaleX, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
+JR.cast(jlate(JR.cast(originalImage)))
+}), JR.className(JR.cast(originalImageArray[Int32.toNumber(0l)]))) || Int32.(>)(Float32.(*)(maxScaleY, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
+JR.cast(jlate(JR.cast(originalImage)))
+}), JR.className(JR.cast(originalImageArray[Int32.toNumber(0l)]))))) {
+            originalImageArray[Int32.toNumber(0l)] = JR.cast(ImageCreationUtil.jm_createImage(this.f_imageCreationUtil, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
+JR.cast(jlate(JR.cast(originalImage)))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
+JR.cast(jlate(JR.cast(originalImage)))
+}, maxScaleX, maxScaleY))
+        }
+        ignore(jm_scale(this, originalImage, originalImageArray[Int32.toNumber(0l)], scaleX, scaleY, false))
+}
+    
+and jm_scale = (this: ImageScaleUtil, originalImage: JObject, newMaxSizeImage: JObject, scaleX: Float32, scaleY: Float32, clear: Bool) => {
+        let mut bufferedImage: BufferedImage = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageUtil.jm_getBufferedImage"))
+JR.cast(jlate(JR.cast(this.f_imageUtil), JR.cast(originalImage)))
+})
+        let mut newBufferedImage: BufferedImage = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageUtil.jm_getBufferedImage"))
+JR.cast(jlate(JR.cast(this.f_imageUtil), JR.cast(newMaxSizeImage)))
+})
+        let mut at: AffineTransform = JR.cast(AffineTransform.jm_getScaleInstance(scaleX, scaleY))
+        let mut g: Graphics2D = JR.cast(BufferedImage.jm_createGraphics(newBufferedImage))
+        if (clear) {
+            ignore(Graphics2D.jm_setBackground(g, this.f_imageJ2SEUtil.f_TRANSPARENT_COLOR))
+            ignore(Graphics2D.jm_clearRect(g, 0l, 0l, BufferedImage.jm_getWidth(newBufferedImage), BufferedImage.jm_getHeight(newBufferedImage)))
+        }
+        ignore(Graphics2D.jm_drawRenderedImage(g, bufferedImage, at))
+        ignore(Graphics2D.jm_dispose(g))
+}
 
-    method scale : 'any1 'any2. 'any1 * 'any2 * float * float * bool -> unit = fun (originalImage, newMaxSizeImage, (scaleX : float), (scaleY : float), (clear : bool)) ->
-        let originalImage = Obj.repr originalImage in
-        let newMaxSizeImage = Obj.repr newMaxSizeImage in
-        begin
-        let bufferedImage : Obj.t ref = ref ((Obj.repr ((Obj.magic imageUtil)#getBufferedImage ((Obj.magic originalImage))))) in ();
-        let newBufferedImage : Obj.t ref = ref ((Obj.repr ((Obj.magic imageUtil)#getBufferedImage ((Obj.magic newMaxSizeImage))))) in ();
-        let at : Obj.t ref = ref ((Obj.repr (AffineTransform.getScaleInstance (scaleX, scaleY)))) in ();
-        let g : Obj.t ref = ref ((Obj.repr ((Obj.magic !newBufferedImage)#createGraphics ()))) in ();
-        if clear then begin
-            ignore ((Obj.magic !g)#setBackground (imageJ2SEUtil#tRANSPARENT_COLOR));
-            ignore ((Obj.magic !g)#clearRect (0, 0, ((Obj.magic !newBufferedImage)#getWidth ()), ((Obj.magic !newBufferedImage)#getHeight ())))
-        end;
-        ignore ((Obj.magic !g)#drawRenderedImage ((Obj.magic !bufferedImage), (Obj.magic !at)));
-        ignore ((Obj.magic !g)#dispose ())
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        imageUtil <- (Obj.repr (Obj.magic (java_call_static "ImageUtil.getInstance" (Obj.repr ()))));
-        imageJ2SEUtil <- ((ImageJ2SEUtil.getInstance ()) :> ImageJ2SEUtil.imageJ2SEUtil);
-        imageCreationUtil <- ((ImageCreationUtil.getInstance ()) :> ImageCreationUtil.imageCreationUtil);
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "ImageScaleUtil" (fun arguments -> Obj.repr (new imageScaleUtil (Obj.obj arguments)))
-
-let instance = (new imageScaleUtil ())
-let get_instance () = instance
-let () = java_register_static "ImageScaleUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "ImageScaleUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("ImageScaleUtil.jnew_0", jnew_0)
+JR.registerLateBound("ImageScaleUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("ImageScaleUtil.jm_createImage2", jm_createImage2)
+JR.registerLateBound("ImageScaleUtil.jm_createImage3", jm_createImage3)
+JR.registerLateBound("ImageScaleUtil.jm_scale2", jm_scale2)
+JR.registerLateBound("ImageScaleUtil.jm_scale", jm_scale)
+JR.registerLateBound("ImageScaleUtil.f_imageUtil", (this: ImageScaleUtil) => this.f_imageUtil)
+JR.registerLateBound("ImageScaleUtil.f_imageJ2SEUtil", (this: ImageScaleUtil) => this.f_imageJ2SEUtil)
+JR.registerLateBound("ImageScaleUtil.f_imageCreationUtil", (this: ImageScaleUtil) => this.f_imageCreationUtil)
+JR.registerLateBound("ImageScaleUtil.jstatic_instance", jstatic_instance)
 
 

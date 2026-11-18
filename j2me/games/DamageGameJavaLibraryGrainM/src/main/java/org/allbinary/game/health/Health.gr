@@ -1,172 +1,207 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.health
+module Health
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.health *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/logic/communication/log/ForcedLogUtil.gr" include ForcedLogUtil
+use ForcedLogUtil.{ type ForcedLogUtil }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "./HealthInterface.gr" include HealthInterface
+use HealthInterface.{ type HealthInterface }
+from "./NullHealthListener.gr" include NullHealthListener
+use NullHealthListener.{ type NullHealthListener }
+from "./HealthListenerInterface.gr" include HealthListenerInterface
+use HealthListenerInterface.{ type HealthListenerInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.communication.log.ForcedLogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.string.CommonSeps *)
+provide record Health {
+  jobject: JObject,
+  mut f_health: Int32,
+  mut f_maxHealth: Int32,
+  mut f_healthListenerInterface: HealthListenerInterface,
+}
 
-let nAME : string = "Health Resource"
-let get_nAME () = nAME
-let () = java_register_static "Health.get_nAME" (fun _ -> Obj.repr (get_nAME ()))
-let hEALTH_LABEL : string = "Health: "
-let get_hEALTH_LABEL () = hEALTH_LABEL
-let () = java_register_static "Health.get_hEALTH_LABEL" (fun _ -> Obj.repr (get_hEALTH_LABEL ()))
-let mAX_HEALTH_LABEL : string = " Max: "
-let get_mAX_HEALTH_LABEL () = mAX_HEALTH_LABEL
-let () = java_register_static "Health.get_mAX_HEALTH_LABEL" (fun _ -> Obj.repr (get_mAX_HEALTH_LABEL ()))
-class health ((maxHealth_arg : int)) =
-  object (self)
-    val mutable health : int = 0
-    method health = health
-    method set_health value' = health <- value'
-    val mutable maxHealth : int = 0
-    method maxHealth = maxHealth
-    method set_maxHealth value' = maxHealth <- value'
-    val mutable healthListenerInterface : HealthListenerInterface.healthListenerInterface = (Obj.magic 0)
-    method healthListenerInterface = healthListenerInterface
-    method set_healthListenerInterface value' = healthListenerInterface <- value'
+let mut jcell_NULL_HEALTH: Option<Health> = None
+let mut jcell_NAME: Option<String> = None
+let mut jcell_HEALTH_LABEL: Option<String> = None
+let mut jcell_MAX_HEALTH_LABEL: Option<String> = None
+
+provide let rec jclassName = () => "Health"
+
+and jstatic_NULL_HEALTH = () => match (jcell_NULL_HEALTH) {
+  Some(value) => value,
+  None => {
+    let value: Health = jnew_1(0l)
+    jcell_NULL_HEALTH = Some(value)
+    value
+  },
+}
+
+and jstatic_NAME = () => match (jcell_NAME) {
+  Some(value) => value,
+  None => {
+    let value: String = "Health Resource"
+    jcell_NAME = Some(value)
+    value
+  },
+}
+
+and jstatic_HEALTH_LABEL = () => match (jcell_HEALTH_LABEL) {
+  Some(value) => value,
+  None => {
+    let value: String = "Health: "
+    jcell_HEALTH_LABEL = Some(value)
+    value
+  },
+}
+
+and jstatic_MAX_HEALTH_LABEL = () => match (jcell_MAX_HEALTH_LABEL) {
+  Some(value) => value,
+  None => {
+    let value: String = " Max: "
+    jcell_MAX_HEALTH_LABEL = Some(value)
+    value
+  },
+}
+    
+and jnew_1 = (maxHealth: Int32) => {
+    let this = { jobject: JR.newJObject("Health"), f_health: 0l, f_maxHealth: 0l, f_healthListenerInterface: JR.nullOf(), }
+    this.jobject.toStringFunction = () => jm_toString(this)
     
     
-
-    method heal ((ahealth : int)) : unit =
-        begin
-        let newHealth : int ref = ref (((self#getHealth ()) + ahealth)) in ();
-        if (!newHealth > (self#getMaxHealth ())) then begin
-            (self#setHealth ((self#getMaxHealth ())))
-        end else begin
-            (self#setHealth (!newHealth))
-        end
-        end
+    this.f_healthListenerInterface = JR.cast(NullHealthListener.jstatic_NULL_HEALTH_LISTENER())
+        ignore(jm_setMaxHealth(this, maxHealth))
+        ignore(jm_setHealth(this, maxHealth))
+    this
+}
     
-
-    method healMax () : unit =
-        begin
-        (self#setHealth ((self#getMaxHealth ())))
-        end
+and jm_heal = (this: Health, ahealth: Int32) => {
+        let mut newHealth: Int32 = Int32.(+)(jm_getHealth(this), ahealth)
+        if (Int32.(>)(newHealth, jm_getMaxHealth(this))) {
+            ignore(jm_setHealth(this, jm_getMaxHealth(this)))
+        } else {
+            ignore(jm_setHealth(this, newHealth))
+        }
+}
     
-
-    method isDamaged () : bool =
-        try
-        begin
-        if ((self#getHealth ()) <> (self#getMaxHealth ())) then begin
-            raise (Java_return (Obj.repr (true)))
-        end else begin
-            raise (Java_return (Obj.repr (false)))
-        end
-        end
-        with Java_return value -> Obj.obj value
+and jm_healMax = (this: Health) => {
+        ignore(jm_setHealth(this, jm_getMaxHealth(this)))
+}
     
-
-    method damage ((ahealth : int)) : unit =
-        try
-        begin
-        if (ahealth < 0) then begin
-            let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            ignore (!stringBuffer#append ("******* Trying to heal when damaging. Damage: "));
-            ignore (!stringBuffer#appendint (ahealth));
-            ignore (!stringBuffer#append ((CommonSeps.getInstance ())#sPACE));
-            ignore (!stringBuffer#append ((java_string_of (Obj.repr self))));
-            ignore (ForcedLogUtil.log ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self)));
-            raise (Java_return (Obj.repr (())))
-        end;
-        let health_arg : int ref = ref (((self#getHealth ()) - ahealth)) in ();
-        (self#setHealth (!health_arg))
-        end
-        with Java_return value -> Obj.obj value
+and jm_isDamaged = (this: Health) => {
+        if ((jm_getHealth(this) != jm_getMaxHealth(this))) {
+            return true
+        } else {
+            return false
+        }
+}
     
-
-    method isAlive () : bool =
-        try
-        begin
-        if ((self#getHealth ()) <= 0) then begin
-            raise (Java_return (Obj.repr (false)))
-        end else begin
-            raise (Java_return (Obj.repr (true)))
-        end
-        end
-        with Java_return value -> Obj.obj value
+and jm_damage = (this: Health, ahealth: Int32) => {
+        if (Int32.(<)(ahealth, 0l)) {
+            let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+            ignore(StringMaker.jm_append(stringBuffer, "******* Trying to heal when damaging. Damage: "))
+            ignore(StringMaker.jm_appendint(stringBuffer, ahealth))
+            ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
+            ignore(StringMaker.jm_append(stringBuffer, jm_toString(this)))
+            ignore(ForcedLogUtil.jm_log(StringMaker.jm_toString(stringBuffer), JR.cast(this)))
+            return void
+        }
+        let mut health: Int32 = Int32.(-)(jm_getHealth(this), ahealth)
+        ignore(jm_setHealth(this, health))
+    return void
+}
     
-
-    method getMaxHealth () : int =
-        begin
-        maxHealth
-        end
+and jm_isAlive = (this: Health) => {
+        if (Int32.(<=)(jm_getHealth(this), 0l)) {
+            return false
+        } else {
+            return true
+        }
+}
     
-
-    method setMaxHealth ((maxHealth_arg : int)) : unit =
-        begin
-        maxHealth <- maxHealth_arg
-        end
+and jm_getMaxHealth = (this: Health) => {
+        return this.f_maxHealth
+}
     
-
-    method setHealth ((health_arg : int)) : unit =
-        begin
-        if (health_arg > (self#getMaxHealth ())) then begin
-            health <- (self#getMaxHealth ())
-        end else if (health_arg < 0) then begin
-            health <- 0
-        end else begin
-            health <- health_arg
-        end;
-        if (healthListenerInterface != (Obj.magic 0)) then begin
-            ignore (healthListenerInterface#onHealthChange ())
-        end
-        end
+and jm_setMaxHealth = (this: Health, maxHealth: Int32) => {
+        this.f_maxHealth = maxHealth
+}
     
-
-    method getHealth () : int =
-        begin
-        health
-        end
+and jm_setHealth = (this: Health, health: Int32) => {
+        if (Int32.(>)(health, jm_getMaxHealth(this))) {
+            this.f_health = jm_getMaxHealth(this)
+        } else if (Int32.(<)(health, 0l)) {
+            this.f_health = 0l
+        } else {
+            this.f_health = health
+        }
+        if (!JR.isNull(this.f_healthListenerInterface)) {
+            ignore(HealthListenerInterface.jm_onHealthChange(this.f_healthListenerInterface))
+        }
+}
     
-
-    method addListener : 'any1. 'any1 -> unit = fun (healthGraphic) ->
-        let healthGraphic = Obj.repr healthGraphic in
-        begin
-        healthListenerInterface <- (Obj.magic healthGraphic)
-        end [@@warning "-20"]
+and jm_getHealth = (this: Health) => {
+        return this.f_health
+}
     
+and jm_addListener = (this: Health, healthGraphic: HealthListenerInterface) => {
+        this.f_healthListenerInterface = healthGraphic
+}
+    
+and jm_toString = (this: Health) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, jstatic_HEALTH_LABEL()))
+        ignore(StringMaker.jm_appendint(stringBuffer, this.f_health))
+        ignore(StringMaker.jm_append(stringBuffer, jstatic_MAX_HEALTH_LABEL()))
+        ignore(StringMaker.jm_appendint(stringBuffer, this.f_maxHealth))
+        return StringMaker.jm_toString(stringBuffer)
+}
 
-    method toString () : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (hEALTH_LABEL));
-        ignore (!stringBuffer#appendint (health));
-        ignore (!stringBuffer#append (mAX_HEALTH_LABEL));
-        ignore (!stringBuffer#appendint (maxHealth));
-        (java_string_of (Obj.repr !stringBuffer))
-        end
-
-    initializer
-      begin
-        health <- 0;
-        maxHealth <- 0;
-        healthListenerInterface <- ((NullHealthListener.get_nULL_HEALTH_LISTENER ()) :> HealthListenerInterface.healthListenerInterface);
-        ();
-        (self#setMaxHealth (maxHealth_arg));
-        (self#setHealth (maxHealth_arg))
-      end
-  end
-let () = java_register_constructor "Health" (fun arguments -> Obj.repr (new health (Obj.obj arguments)))
-
-let nULL_HEALTH = (new health (0))
-let get_nULL_HEALTH () = nULL_HEALTH
-let () = java_register_static "Health.get_nULL_HEALTH" (fun _ -> Obj.repr (get_nULL_HEALTH ()))
+JR.registerLateBound("Health.jnew_1", jnew_1)
+JR.registerLateBound("Health.jm_heal", jm_heal)
+JR.registerLateBound("Health.jm_healMax", jm_healMax)
+JR.registerLateBound("Health.jm_isDamaged", jm_isDamaged)
+JR.registerLateBound("Health.jm_damage", jm_damage)
+JR.registerLateBound("Health.jm_isAlive", jm_isAlive)
+JR.registerLateBound("Health.jm_getMaxHealth", jm_getMaxHealth)
+JR.registerLateBound("Health.jm_setMaxHealth", jm_setMaxHealth)
+JR.registerLateBound("Health.jm_setHealth", jm_setHealth)
+JR.registerLateBound("Health.jm_getHealth", jm_getHealth)
+JR.registerLateBound("Health.jm_addListener", jm_addListener)
+JR.registerLateBound("Health.jm_toString", jm_toString)
+JR.registerLateBound("Health.f_health", (this: Health) => this.f_health)
+JR.registerLateBound("Health.set_f_health", (this: Health, jvalue) => { this.f_health = jvalue; jvalue })
+JR.registerLateBound("Health.f_maxHealth", (this: Health) => this.f_maxHealth)
+JR.registerLateBound("Health.set_f_maxHealth", (this: Health, jvalue) => { this.f_maxHealth = jvalue; jvalue })
+JR.registerLateBound("Health.f_healthListenerInterface", (this: Health) => this.f_healthListenerInterface)
+JR.registerLateBound("Health.set_f_healthListenerInterface", (this: Health, jvalue) => { this.f_healthListenerInterface = jvalue; jvalue })
+JR.registerLateBound("Health.jstatic_NULL_HEALTH", jstatic_NULL_HEALTH)
+JR.registerLateBound("Health.jstatic_NAME", jstatic_NAME)
+JR.registerLateBound("Health.jstatic_HEALTH_LABEL", jstatic_HEALTH_LABEL)
+JR.registerLateBound("Health.jstatic_MAX_HEALTH_LABEL", jstatic_MAX_HEALTH_LABEL)
 
 

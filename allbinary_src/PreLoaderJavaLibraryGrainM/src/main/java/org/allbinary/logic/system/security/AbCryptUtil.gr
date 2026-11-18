@@ -1,68 +1,89 @@
-(*
- 
-  AllBinary Open License Version 1 
-  Copyright (c) 2011 AllBinary 
-  
-  By agreeing to this license you and any business entity you represent are 
-  legally bound to the AllBinary Open License Version 1 legal agreement. 
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from 
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-  
-  Created By: Travis Berthelot 
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.system.security *)
+/*
+ * 
+ * AllBinary Open License Version 1 
+ * Copyright (c) 2011 AllBinary 
+ * 
+ * By agreeing to this license you and any business entity you represent are 
+ * legally bound to the AllBinary Open License Version 1 legal agreement. 
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from 
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+ * 
+ * Created By: Travis Berthelot 
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.system.security
+module AbCryptUtil
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.ByteArrayOutputStream *)
-(* import java.io.InputStream *)
-(* import org.allbinary.logic.io.StreamUtil *)
-(* import org.allbinary.logic.system.security.crypt.jcehelper.AbCrypt *)
-(* import org.allbinary.logic.system.security.crypt.jcehelper.KeySpecFactory *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../java/io/ByteArrayOutputStream.gr" include ByteArrayOutputStream
+use ByteArrayOutputStream.{ type ByteArrayOutputStream }
+from "../../../../../java/io/InputStream.gr" include InputStream
+use InputStream.{ type InputStream }
+from "../../../../../org/allbinary/logic/io/StreamUtil.gr" include StreamUtil
+use StreamUtil.{ type StreamUtil }
+from "../../../../../org/allbinary/logic/system/security/crypt/jcehelper/AbCrypt.gr" include AbCrypt
+use AbCrypt.{ type AbCrypt }
+from "../../../../../org/allbinary/logic/system/security/crypt/jcehelper/KeySpecFactory.gr" include KeySpecFactory
+use KeySpecFactory.{ type KeySpecFactory }
 
-class abCryptUtil () =
-  object
-    val mutable streamUtil : StreamUtil.streamUtil = (Obj.magic 0)
-    method streamUtil = streamUtil
-    method set_streamUtil value' = streamUtil <- value'
+provide record AbCryptUtil {
+  jobject: JObject,
+  mut f_streamUtil: StreamUtil,
+}
+
+let mut jcell_instance: Option<AbCryptUtil> = None
+
+provide let rec jclassName = () => "AbCryptUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: AbCryptUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("AbCryptUtil"), f_streamUtil: JR.nullOf(), }
+    this.f_streamUtil = JR.cast(StreamUtil.jm_getInstance())
+        void
+    this
+}
+    
+and jm_decrypt = (this: AbCryptUtil, inputStream: InputStream, key: String) => {
+        let mut outputStream: ByteArrayOutputStream = JR.nullOf()
+        {
+            outputStream = JR.cast(StreamUtil.jm_get(this.f_streamUtil, inputStream, JR.cast(ByteArrayOutputStream.jnew_0()), Array.make(Int32.toNumber(16384l), 0l)))
+            let mut abCrypt: AbCrypt = AbCrypt.jnew_1(KeySpecFactory.jm_getInstance_0().f_DESEDE)
+            ignore(AbCrypt.jm_init(abCrypt, key))
+            return AbCrypt.jm_decrypt(abCrypt, ByteArrayOutputStream.jm_toByteArray_0(outputStream))
+        }
+        {
+            ignore(StreamUtil.jm_close(this.f_streamUtil, JR.cast(outputStream)))
+            ignore(StreamUtil.jm_close(this.f_streamUtil, JR.cast(inputStream)))
+        }
+    return [> ]
+}
 
-    method decrypt : 'any1. 'any1 * string -> int array = fun (inputStream, (key : string)) ->
-        let inputStream = Obj.repr inputStream in
-        begin
-        let outputStream : java_byte_array_output_stream ref = ref ((Obj.magic 0)) in ();
-        Fun.protect ~finally:(fun () -> 
-            ignore (streamUtil#close (!outputStream));
-            ignore (streamUtil#close ((Obj.magic inputStream)))
-        ) (fun () -> (try
-            outputStream := (Obj.magic (streamUtil#get ((Obj.magic inputStream), (new java_byte_array_output_stream ()), (Array.make (16384) 0))));
-            let abCrypt : AbCrypt.abCrypt ref = ref (((new AbCrypt.abCrypt ((KeySpecFactory.getInstance ())#dESEDE)) :> AbCrypt.abCrypt)) in ();
-            ignore (!abCrypt#init (key));
-            (!abCrypt#decrypt ((!outputStream#toByteArray ())))
-        with exception_value -> raise exception_value))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        streamUtil <- ((StreamUtil.getInstance ()) :> StreamUtil.streamUtil);
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "AbCryptUtil" (fun arguments -> Obj.repr (new abCryptUtil (Obj.obj arguments)))
-
-let instance = (new abCryptUtil ())
-let get_instance () = instance
-let () = java_register_static "AbCryptUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "AbCryptUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("AbCryptUtil.jnew_0", jnew_0)
+JR.registerLateBound("AbCryptUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("AbCryptUtil.jm_decrypt", jm_decrypt)
+JR.registerLateBound("AbCryptUtil.f_streamUtil", (this: AbCryptUtil) => this.f_streamUtil)
+JR.registerLateBound("AbCryptUtil.jstatic_instance", jstatic_instance)
 
 

@@ -1,58 +1,82 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.resources
+module KeyValueFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+
+provide record KeyValueFactory {
+  jobject: JObject,
+  mut f_MAP: JObject,
+}
+
+let mut jcell_instance: Option<KeyValueFactory> = None
+
+provide let rec jclassName = () => "KeyValueFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: KeyValueFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("KeyValueFactory"), f_MAP: JR.jnull, }
+    this.f_MAP = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashtable"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+})
+    this
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.resources *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.StdUtil *)
-(* import org.allbinary.util.ABHashtable *)
-
-class keyValueFactory () =
-  object
-    val mutable mAP : Obj.t = Obj.repr 0
-    method mAP : 'r. 'r = Obj.magic mAP
-    method set_mAP : 'v. 'v -> unit = fun value' -> mAP <- Obj.repr value'
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jm_get = (this: KeyValueFactory, key: String) => {
+        if (!{
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_containsKey"))
+JR.cast(jlate(JR.cast(this.f_MAP), JR.cast(JR.cast(key))))
+}) {
+            return key
+        }
+        return JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
+JR.cast(jlate(JR.cast(this.f_MAP), JR.cast(JR.cast(key))))
+})
+}
 
-    method get ((key : string)) : string =
-        try
-        begin
-        if (not ((Obj.magic mAP)#containsKey ((Obj.magic key)))) then begin
-            raise (Java_return (Obj.repr (key)))
-        end;
-        (Obj.magic ((Obj.magic mAP)#get ((Obj.magic key))))
-        end
-        with Java_return value -> Obj.obj value
-
-    initializer
-      begin
-        mAP <- (Obj.repr ((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashtable ()));
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "KeyValueFactory" (fun arguments -> Obj.repr (new keyValueFactory (Obj.obj arguments)))
-
-let instance = (new keyValueFactory ())
-let get_instance () = instance
-let () = java_register_static "KeyValueFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "KeyValueFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("KeyValueFactory.jnew_0", jnew_0)
+JR.registerLateBound("KeyValueFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("KeyValueFactory.jm_get", jm_get)
+JR.registerLateBound("KeyValueFactory.f_MAP", (this: KeyValueFactory) => this.f_MAP)
+JR.registerLateBound("KeyValueFactory.jstatic_instance", jstatic_instance)
 
 

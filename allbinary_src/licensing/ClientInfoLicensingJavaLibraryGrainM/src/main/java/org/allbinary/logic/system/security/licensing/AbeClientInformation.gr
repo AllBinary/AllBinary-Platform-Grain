@@ -1,68 +1,124 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.system.security.licensing
+module AbeClientInformation
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.system.security.licensing *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../../org/allbinary/logic/string/StringValidationUtil.gr" include StringValidationUtil
+use StringValidationUtil.{ type StringValidationUtil }
+from "../../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./ClientInformation.gr" include ClientInformation
+use ClientInformation.{ type ClientInformation }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.business.init.LicenseInitInfo *)
-(* import org.allbinary.business.init.LicenseInitInfoUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringValidationUtil *)
-(* import org.allbinary.logic.system.os.OperatingSystemFactory *)
-(* import org.allbinary.string.CommonStrings *)
+// This is the information sent to the license server
+provide record AbeClientInformation {
+  jobject: JObject,
+  mut f_operatingSystemInterface: JObject,
+  mut f_tsUtil: JObject,
+  mut f_name: String,
+  mut f_shortName: String,
+  mut f_version: String,
+  mut f_specialName: String,
+  mut f_hardSale: Bool,
+  mut f_licenseId: String,
+  mut f_licenseServers: JObject,
+  mut f_logUtil: JObject,
+}
 
-class abeClientInformation ((name : string), (version : string), (specialName : string), (shortName : string)) =
-  object (self)
-    inherit ClientInformation.clientInformation (name, version, specialName, shortName)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+
+provide let rec jclassName = () => "AbeClientInformation"
     
+and jnew_4 = (name: String, version: String, specialName: String, shortName: String) => {
+    let this = { jobject: JR.newJObject("AbeClientInformation"), f_operatingSystemInterface: JR.jnull, f_tsUtil: JR.jnull, f_name: "", f_shortName: "", f_version: "", f_specialName: "", f_hardSale: false, f_licenseId: "", f_licenseServers: JR.jnull, f_logUtil: JR.jnull, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        void
+    this
+}
     
+and jm_init = (this: AbeClientInformation) => {
+        {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ClientInformation.jm_setOperatingSystemInterface"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("OperatingSystemFactory.jm_getOperatingSystemInstance"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("OperatingSystemFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+})
+            let mut licenseInitInfo: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LicenseInitInfoUtil.jm_read"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LicenseInitInfoUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+})
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ClientInformation.jm_setLicenseId"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LicenseInitInfo.jm_getLicenseId"))
+JR.cast(jlate(JR.cast(licenseInitInfo)))
+})))
+})
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ClientInformation.jm_setLicenseServers"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LicenseInitInfo.jm_getServerList"))
+JR.cast(jlate(JR.cast(licenseInitInfo)))
+})))
+})
+            let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
+            if (StringValidationUtil.jm_isEmpty(stringValidationUtil, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ClientInformation.jm_getLicenseId"))
+JR.cast(jlate(JR.cast(this)))
+})) {
+                let mut l_NONE: String = "No License Id"
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ClientInformation.jm_setLicenseId"))
+JR.cast(jlate(JR.cast(this), JR.cast(l_NONE)))
+})
+            }
+            let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Special Name: "), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ClientInformation.jm_getSpecialName"))
+JR.cast(jlate(JR.cast(this)))
+}))), JR.cast(this), JR.cast(commonStrings.f_CONSTRUCTOR)))
+})
+        }
+}
 
-    method init () : unit =
-        begin
-        (try
-            ignore (self#setOperatingSystemInterface (((Obj.magic (java_call_static "OperatingSystemFactory.getInstance" (Obj.repr ())))#getOperatingSystemInstance ())));
-            let licenseInitInfo : Obj.t ref = ref ((Obj.repr ((Obj.magic (java_call_static "LicenseInitInfoUtil.getInstance" (Obj.repr ())))#read ()))) in ();
-            ignore (self#setLicenseId (((Obj.magic !licenseInitInfo)#getLicenseId ())));
-            ignore (self#setLicenseServers (((Obj.magic !licenseInitInfo)#getServerList ())));
-            let stringValidationUtil : StringValidationUtil.stringValidationUtil ref = ref (((StringValidationUtil.getInstance ()) :> StringValidationUtil.stringValidationUtil)) in ();
-            if (!stringValidationUtil#isEmpty ((self#getLicenseId ()))) then begin
-                let nONE : string ref = ref ("No License Id") in ();
-                ignore (self#setLicenseId (!nONE))
-            end;
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Special Name: "))#append ((self#getSpecialName ()))))), (Obj.magic self), !commonStrings#cONSTRUCTOR))))
-        with e -> begin
-            let logUtil_arg : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic !logUtil_arg)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#cONSTRUCTOR, e))
-        end)
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "AbeClientInformation" (fun arguments -> Obj.repr (new abeClientInformation (Obj.obj arguments)))
+JR.registerLateBound("AbeClientInformation.jnew_4", jnew_4)
+JR.registerLateBound("AbeClientInformation.jm_init", jm_init)
+JR.registerLateBound("AbeClientInformation.f_logUtil", (this: AbeClientInformation) => this.f_logUtil)
 
 

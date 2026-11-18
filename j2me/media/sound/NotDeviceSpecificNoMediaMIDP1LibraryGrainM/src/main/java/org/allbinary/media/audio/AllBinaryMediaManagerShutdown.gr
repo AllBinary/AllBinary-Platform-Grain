@@ -1,47 +1,75 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.media.audio
+module AllBinaryMediaManagerShutdown
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.media.audio *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./SoundsFactoryInterface.gr" include SoundsFactoryInterface
+use SoundsFactoryInterface.{ type SoundsFactoryInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record AllBinaryMediaManagerShutdown {
+  jobject: JObject,
+}
 
-class allBinaryMediaManagerShutdown () =
-  object
+let mut jcell_instance: Option<AllBinaryMediaManagerShutdown> = None
 
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "AllBinaryMediaManagerShutdown" (fun arguments -> Obj.repr (new allBinaryMediaManagerShutdown (Obj.obj arguments)))
+provide let rec jclassName = () => "AllBinaryMediaManagerShutdown"
 
-let instance = (new allBinaryMediaManagerShutdown ())
-let get_instance () = instance
-let () = java_register_static "AllBinaryMediaManagerShutdown.get_instance" (fun _ -> Obj.repr (get_instance ()))
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: AllBinaryMediaManagerShutdown = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
 
-let shutdown : 'any1. 'any1 -> unit = fun (soundsFactoryInterface) ->
-        let soundsFactoryInterface = Obj.repr soundsFactoryInterface in
-        begin
-        let logUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
-        let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        ignore ((Obj.magic !logUtil)#putF (!commonStrings#sTART, instance, "shutdown"));
-        ignore (Obj.magic (java_call_static "AllBinaryMediaManager.shutdown" (Obj.repr ((Obj.magic soundsFactoryInterface)))))
-        end [@@warning "-20"]
-let () = java_register_static "AllBinaryMediaManagerShutdown.shutdown" (fun arguments -> Obj.repr (shutdown (Obj.obj arguments)))
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("AllBinaryMediaManagerShutdown"), }
+    this
+}
+    
+and jm_shutdown = (soundsFactoryInterface: SoundsFactoryInterface) => {
+        let mut logUtil: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(logUtil), JR.cast(commonStrings.f_START), JR.cast(jstatic_instance()), JR.cast("shutdown")))
+})
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryMediaManager.jm_shutdown"))
+JR.cast(jlate(JR.cast(soundsFactoryInterface)))
+})
+}
+
+JR.registerLateBound("AllBinaryMediaManagerShutdown.jnew_0", jnew_0)
+JR.registerLateBound("AllBinaryMediaManagerShutdown.jm_shutdown", jm_shutdown)
+JR.registerLateBound("AllBinaryMediaManagerShutdown.jstatic_instance", jstatic_instance)
 
 

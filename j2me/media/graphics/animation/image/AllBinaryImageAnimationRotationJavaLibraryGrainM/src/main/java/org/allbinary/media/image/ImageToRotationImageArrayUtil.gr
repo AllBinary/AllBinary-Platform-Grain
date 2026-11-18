@@ -1,58 +1,87 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.media.image
+module ImageToRotationImageArrayUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.media.image *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Image *)
+provide record ImageToRotationImageArrayUtil {
+  jobject: JObject,
+}
 
-class imageToRotationImageArrayUtil () =
-  object
+let mut jcell_instance: Option<ImageToRotationImageArrayUtil> = None
+
+provide let rec jclassName = () => "ImageToRotationImageArrayUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: ImageToRotationImageArrayUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ImageToRotationImageArrayUtil"), }
+        void
+    this
+}
+    
+and jm_generate = (this: ImageToRotationImageArrayUtil, image: JObject, angleIncrement: Int32, totalAngle: Int32) => {
+        let mut imageRotationUtil: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("ImageRotationUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        let mut totalFrames: Int32 = Int32.(/)(totalAngle, angleIncrement)
+        let mut imageArray: Array<JObject> = Array.make(Int32.toNumber(totalFrames), JR.jnull)
+        imageArray[Int32.toNumber(0l)] = JR.cast(image)
+        {
+            let mut index: Int32 = 1l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, totalFrames))) break
+            imageArray[Int32.toNumber(index)] = JR.cast({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageRotationUtil.jm_createRotatedImage"))
+JR.cast(jlate(JR.cast(imageRotationUtil), JR.cast(image), JR.cast(Int32.(*)(index, angleIncrement))))
+})
+            }
+        }
+        return imageArray
+}
 
-    method generate : 'any1 'return. 'any1 * int * int -> 'return = fun (image, (angleIncrement : int), (totalAngle : int)) ->
-        let image = Obj.repr image in
-        begin
-        let imageRotationUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "ImageRotationUtil.getInstance" (Obj.repr ()))))) in ();
-        let totalFrames : int ref = ref ((totalAngle / angleIncrement)) in ();
-        let imageArray : Obj.t ref = ref ((Obj.repr (Array.make (!totalFrames) (Obj.magic 0)))) in ();
-        (Obj.magic !imageArray).(0) <- (Obj.magic image);
-        for index = 1 to !totalFrames - 1 do
-            (Obj.magic !imageArray).(index) <- ((Obj.magic !imageRotationUtil)#createRotatedImage ((Obj.magic image), (index * angleIncrement)))
-        done;
-        (Obj.magic ((Obj.magic !imageArray)))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "ImageToRotationImageArrayUtil" (fun arguments -> Obj.repr (new imageToRotationImageArrayUtil (Obj.obj arguments)))
-
-let instance = (new imageToRotationImageArrayUtil ())
-let get_instance () = instance
-let () = java_register_static "ImageToRotationImageArrayUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "ImageToRotationImageArrayUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("ImageToRotationImageArrayUtil.jnew_0", jnew_0)
+JR.registerLateBound("ImageToRotationImageArrayUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("ImageToRotationImageArrayUtil.jm_generate", jm_generate)
+JR.registerLateBound("ImageToRotationImageArrayUtil.jstatic_instance", jstatic_instance)
 
 

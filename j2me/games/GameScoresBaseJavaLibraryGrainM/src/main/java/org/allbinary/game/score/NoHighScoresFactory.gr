@@ -1,71 +1,95 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.score
+module NoHighScoresFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.score *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/GameInfo.gr" include GameInfo
+use GameInfo.{ type GameInfo }
+from "./HighScoresBase.gr" include HighScoresBase
+use HighScoresBase.{ type HighScoresBase }
+from "./HighScoresResultsListener.gr" include HighScoresResultsListener
+use HighScoresResultsListener.{ type HighScoresResultsListener }
+from "./HighScoresHelperBaseInterface.gr" include HighScoresHelperBaseInterface
+use HighScoresHelperBaseInterface.{ type HighScoresHelperBaseInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.GameInfo *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
+provide record NoHighScoresFactory {
+  jobject: JObject,
+  mut f_commonStrings: JObject,
+  mut f_logUtil: JObject,
+  mut f_NO_HIGH_SCORES: Array<JObject>,
+}
 
-let instance_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
-let get_instance : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instance_cell with Lazy.Undefined -> java_null)
-let set_instance value' = instance_cell := Lazy.from_val (Obj.repr value')
-let () = java_register_static "NoHighScoresFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-let () = java_register_static "NoHighScoresFactory.set_instance" (fun value' -> set_instance value'; Obj.repr ())
-class noHighScoresFactory () =
-  object (self)
-    inherit HighScoresBase.highScoresBase ()
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable nO_HIGH_SCORES : Obj.t = Obj.repr 0
-    method nO_HIGH_SCORES : 'r. 'r = Obj.magic nO_HIGH_SCORES
-    method set_nO_HIGH_SCORES : 'v. 'v -> unit = fun value' -> nO_HIGH_SCORES <- Obj.repr value'
+let mut jcell_instance: Option<NoHighScoresFactory> = None
+
+provide let rec jclassName = () => "NoHighScoresFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: NoHighScoresFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method fetchHighScores : 'any1 'any2. 'any1 * 'any2 -> unit = fun (_gameInfo, highScoresResultsListener) ->
-        let highScoresResultsListener = Obj.repr highScoresResultsListener in
-        begin
-        ignore ((Obj.magic logUtil)#putF ("Getting No HighScores", (Obj.magic self), "fetchHighScores"));
-        ignore ((Obj.magic highScoresResultsListener)#setHighScoresArray ((Obj.magic nO_HIGH_SCORES)))
-        end [@@warning "-7-20"]
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("NoHighScoresFactory"), f_commonStrings: JR.jnull, f_logUtil: JR.jnull, f_NO_HIGH_SCORES: [> ], }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_NO_HIGH_SCORES = Array.make(Int32.toNumber(0l), JR.jnull)
+        void
+    this
+}
     
+and jm_fetchHighScores = (this: NoHighScoresFactory, gameInfo: GameInfo, highScoresResultsListener: HighScoresResultsListener) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Getting No HighScores"), JR.cast(this), JR.cast("fetchHighScores")))
+})
+        ignore(HighScoresResultsListener.jm_setHighScoresArray(highScoresResultsListener, this.f_NO_HIGH_SCORES))
+}
+    
+and jm_createHighScoresHelper = (this: NoHighScoresFactory) => {
+        return {
+let jlate: () => JObject = JR.cast(JR.lateBound("HighScoresHelperBase.jnew_0"))
+JR.cast(jlate())
+}
+}
 
-    method createHighScoresHelper : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.obj (java_new "HighScoresHelperBase" (Obj.repr ())))))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        nO_HIGH_SCORES <- (Obj.repr (Array.make (0) (Obj.magic 0)));
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "NoHighScoresFactory" (fun arguments -> Obj.repr (new noHighScoresFactory (Obj.obj arguments)))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic (get_instance ()))))
-        end
-let () = java_register_static "NoHighScoresFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-
-let () = instance_cell := lazy (Obj.repr ((new noHighScoresFactory ())))
+JR.registerLateBound("NoHighScoresFactory.jnew_0", jnew_0)
+JR.registerLateBound("NoHighScoresFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("NoHighScoresFactory.jm_fetchHighScores", jm_fetchHighScores)
+JR.registerLateBound("NoHighScoresFactory.jm_createHighScoresHelper", jm_createHighScoresHelper)
+JR.registerLateBound("NoHighScoresFactory.f_logUtil", (this: NoHighScoresFactory) => this.f_logUtil)
+JR.registerLateBound("NoHighScoresFactory.f_NO_HIGH_SCORES", (this: NoHighScoresFactory) => this.f_NO_HIGH_SCORES)
+JR.registerLateBound("NoHighScoresFactory.jstatic_instance", jstatic_instance)
 
 

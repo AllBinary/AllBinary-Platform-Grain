@@ -1,54 +1,74 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.util.cache
+module BasicArrayListResetablePool
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.util.cache *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./AbstractArrayListPool.gr" include AbstractArrayListPool
+use AbstractArrayListPool.{ type AbstractArrayListPool }
+from "./CacheableInterfaceFactoryInterface.gr" include CacheableInterfaceFactoryInterface
+use CacheableInterfaceFactoryInterface.{ type CacheableInterfaceFactoryInterface }
+from "./CacheableInterface.gr" include CacheableInterface
+use CacheableInterface.{ type CacheableInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
+provide record BasicArrayListResetablePool {
+  jobject: JObject,
+  mut f_commonStrings: JObject,
+  mut f_buffers: JObject,
+  mut f_cacheableInterfaceFactoryInterface: JObject,
+}
 
-class basicArrayListResetablePool ((cacheableInterfaceFactoryInterface : CacheableInterfaceFactoryInterface.cacheableInterfaceFactoryInterface)) =
-  object (self)
-    inherit AbstractArrayListPool.abstractArrayListPool (cacheableInterfaceFactoryInterface)
+
+provide let rec jclassName = () => "BasicArrayListResetablePool"
     
+and jnew_1 = (cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface) => {
+    let this = { jobject: JR.newJObject("BasicArrayListResetablePool"), f_commonStrings: JR.jnull, f_buffers: JR.jnull, f_cacheableInterfaceFactoryInterface: JR.jnull, }
+        void
+    this
+}
     
-
-    method clear () : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_clear = (this: BasicArrayListResetablePool) => {
+    void
+}
     
+and jm_remove = (this: BasicArrayListResetablePool, key: JObject) => {
+        let mut size: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_buffers))))
+}
+        if (Int32.(>)(size, 0l)) {
+            return JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_removeAt"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_buffers)), JR.cast(Int32.(-)(size, 1l))))
+})
+        } else {
+            return CacheableInterfaceFactoryInterface.jm_getInstance(JR.cast(this.f_cacheableInterfaceFactoryInterface), key)
+        }
+}
 
-    method remove : 'any1 'return. 'any1 -> 'return = fun (key) ->
-        let key = Obj.repr key in
-        try
-        begin
-        let size : int ref = ref (((self#buffers)#size ())) in ();
-        if (!size > 0) then begin
-            raise (Java_return (Obj.repr ((Obj.magic ((self#buffers)#removeAt ((!size - 1)))))))
-        end else begin
-            raise (Java_return (Obj.repr (((self#cacheableInterfaceFactoryInterface)#getInstance (key)))))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "BasicArrayListResetablePool" (fun arguments -> Obj.repr (new basicArrayListResetablePool (Obj.obj arguments)))
+JR.registerLateBound("BasicArrayListResetablePool.jnew_1", jnew_1)
+JR.registerLateBound("BasicArrayListResetablePool.jm_clear", jm_clear)
+JR.registerLateBound("BasicArrayListResetablePool.jm_remove", jm_remove)
 
 

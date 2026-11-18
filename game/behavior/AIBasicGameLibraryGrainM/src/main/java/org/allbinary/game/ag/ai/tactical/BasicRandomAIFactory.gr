@@ -1,53 +1,75 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.ai.tactical
+module BasicRandomAIFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.ai.tactical *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/ai/ArtificialIntelligenceInterface.gr" include ArtificialIntelligenceInterface
+use ArtificialIntelligenceInterface.{ type ArtificialIntelligenceInterface }
+from "../../../../../../org/allbinary/game/ai/ArtificialIntelligenceInterfaceFactoryInterface.gr" include ArtificialIntelligenceInterfaceFactoryInterface
+use ArtificialIntelligenceInterfaceFactoryInterface.{ type ArtificialIntelligenceInterfaceFactoryInterface }
+from "../../../../../../org/allbinary/game/ai/BasicAI.gr" include BasicAI
+use BasicAI.{ type BasicAI }
+from "../../../../../../org/allbinary/game/ag/ai/InputProbability.gr" include InputProbability
+use InputProbability.{ type InputProbability }
+from "../../../../../../org/allbinary/game/input/GameInput.gr" include GameInput
+use GameInput.{ type GameInput }
+from "../../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../../../org/allbinary/logic/util/visitor/Visitor.gr" include Visitor
+use Visitor.{ type Visitor }
+from "./BasicRandomAI.gr" include BasicRandomAI
+use BasicRandomAI.{ type BasicRandomAI }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.ai.ArtificialIntelligenceInterface *)
-(* import org.allbinary.game.ai.ArtificialIntelligenceInterfaceFactoryInterface *)
-(* import org.allbinary.game.ai.BasicAI *)
-(* import org.allbinary.game.ag.ai.InputProbability *)
-(* import org.allbinary.game.input.GameInput *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.logic.util.visitor.Visitor *)
-(* import org.allbinary.util.ABHashtable *)
+provide record BasicRandomAIFactory {
+  jobject: JObject,
+}
 
-class basicRandomAIFactory () =
-  object
+
+provide let rec jclassName = () => "BasicRandomAIFactory"
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("BasicRandomAIFactory"), }
+    this
+}
     
+and jm_getInstance = (this: BasicRandomAIFactory, hashtable: JObject, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
+        let mut visitor: Visitor = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
+JR.cast(jlate(JR.cast(hashtable), JR.cast(JR.cast(BasicAI.jstatic_AI_VISITOR()))))
+})
+        if (JR.isNull(visitor)) {
+            fail JR.toStringOf(JR.newJObject("Exception"))
+        }
+        let mut inputProbability: InputProbability = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
+JR.cast(jlate(JR.cast(hashtable), JR.cast(JR.cast(InputProbability.jstatic_INPUT_PROBABILITY()))))
+})
+        return JR.cast(BasicRandomAI.jnew_4(ownerLayerInterface, gameInput, inputProbability, visitor))
+}
 
-    method getInstance : 'any1 'any2 'any3 'return. 'any1 * 'any2 * 'any3 -> 'return = fun (hashtable, ownerLayerInterface, gameInput) ->
-        let hashtable = Obj.repr hashtable in
-        let ownerLayerInterface = Obj.repr ownerLayerInterface in
-        let gameInput = Obj.repr gameInput in
-        begin
-        let visitor : Visitor.visitor ref = ref (((Obj.magic ((Obj.magic hashtable)#get ((Obj.magic (BasicAI.get_aI_VISITOR ()))))) :> Visitor.visitor)) in ();
-        if (!visitor == (Obj.magic 0)) then begin
-            raise (Failure ("No Visitor Provided"))
-        end;
-        let inputProbability : InputProbability.inputProbability ref = ref (((Obj.magic ((Obj.magic hashtable)#get ((Obj.magic (InputProbability.get_iNPUT_PROBABILITY ()))))) :> InputProbability.inputProbability)) in ();
-        (Obj.magic ((new BasicRandomAI.basicRandomAI ((Obj.magic ownerLayerInterface), (Obj.magic gameInput), !inputProbability, !visitor))))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "BasicRandomAIFactory" (fun arguments -> Obj.repr (new basicRandomAIFactory (Obj.obj arguments)))
+JR.registerLateBound("BasicRandomAIFactory.jnew_0", jnew_0)
+JR.registerLateBound("BasicRandomAIFactory.jm_getInstance", jm_getInstance)
 
 

@@ -1,59 +1,71 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.tick
+module TickableLayerProcessor
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.tick *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
+from "../../../../org/allbinary/layer/LayerProcessor.gr" include LayerProcessor
+use LayerProcessor.{ type LayerProcessor }
+from "./TickableLayerManager.gr" include TickableLayerManager
+use TickableLayerManager.{ type TickableLayerManager }
+from "./TickableInterface.gr" include TickableInterface
+use TickableInterface.{ type TickableInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
-(* import org.allbinary.layer.LayerProcessor *)
+provide record TickableLayerProcessor {
+  jobject: JObject,
+  mut f_commonStrings: JObject,
+  mut f_layerManager: JObject,
+}
 
-class tickableLayerProcessor () =
-  object
-    inherit LayerProcessor.layerProcessor (((new TickableLayerManager.tickableLayerManager ()) : TickableLayerManager.tickableLayerManager :> LayerManager.layerManager))
+
+provide let rec jclassName = () => "TickableLayerProcessor"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("TickableLayerProcessor"), f_commonStrings: JR.jnull, f_layerManager: JR.jnull, }
+        void
+    this
+}
     
-
-    method processAt : 'any1 'any2. 'any1 * 'any2 * int -> unit = fun (allBinaryLayerManager, layerInterface, (_index : int)) ->
-        let allBinaryLayerManager = Obj.repr allBinaryLayerManager in
-        let layerInterface = Obj.repr layerInterface in
-        begin
-        let tickableInterface : TickableInterface.tickableInterface ref = ref (((Obj.magic (Obj.magic layerInterface)) :> TickableInterface.tickableInterface)) in ();
-        ignore (!tickableInterface#processTick ((Obj.magic allBinaryLayerManager)))
-        end [@@warning "-7-20"]
+and jm_processAt = (this: TickableLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: Int32) => {
+        let mut tickableInterface: TickableInterface = JR.cast(layerInterface)
+        ignore(TickableInterface.jm_processTick(tickableInterface, allBinaryLayerManager))
+}
     
+and jm_isProcessorLayer = (this: TickableLayerProcessor, layerInterface: AllBinaryLayer) => {
+        if (AllBinaryLayer.jm_implmentsTickableInterface(layerInterface)) {
+            return true
+        } else {
+            return false
+        }
+}
 
-    method isProcessorLayer : 'any1. 'any1 -> bool = fun (layerInterface) ->
-        let layerInterface = Obj.repr layerInterface in
-        try
-        begin
-        if ((Obj.magic layerInterface)#implmentsTickableInterface ()) then begin
-            raise (Java_return (Obj.repr (true)))
-        end else begin
-            raise (Java_return (Obj.repr (false)))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "TickableLayerProcessor" (fun arguments -> Obj.repr (new tickableLayerProcessor (Obj.obj arguments)))
+JR.registerLateBound("TickableLayerProcessor.jnew_0", jnew_0)
+JR.registerLateBound("TickableLayerProcessor.jm_processAt", jm_processAt)
+JR.registerLateBound("TickableLayerProcessor.jm_isProcessorLayer", jm_isProcessorLayer)
 
 

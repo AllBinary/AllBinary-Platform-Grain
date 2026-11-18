@@ -1,70 +1,92 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.ai
+module BoundBounceAI
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.ai *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/bounds/BoundsVisitorInterface.gr" include BoundsVisitorInterface
+use BoundsVisitorInterface.{ type BoundsVisitorInterface }
+from "../../../../../org/allbinary/bounds/LayerBounds.gr" include LayerBounds
+use LayerBounds.{ type LayerBounds }
+from "../../../../../org/allbinary/game/ai/BasicAI.gr" include BasicAI
+use BasicAI.{ type BasicAI }
+from "../../../../../org/allbinary/game/input/GameInput.gr" include GameInput
+use GameInput.{ type GameInput }
+from "../../../../../org/allbinary/graphics/Rectangle.gr" include Rectangle
+use Rectangle.{ type Rectangle }
+from "../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Graphics *)
-(* import org.allbinary.bounds.BoundsVisitorInterface *)
-(* import org.allbinary.bounds.LayerBounds *)
-(* import org.allbinary.game.ai.BasicAI *)
-(* import org.allbinary.game.input.GameInput *)
-(* import org.allbinary.graphics.Rectangle *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
+provide record BoundBounceAI {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_gameKeyEventFactory: JObject,
+  mut f_ownerLayerInterface: JObject,
+  mut f_gameInput: JObject,
+  mut f_lastKey: Int32,
+  mut f_currentRelativeAngle: Int32,
+  mut f_layerBounds: LayerBounds,
+  mut f_boundsVisitorInterface: BoundsVisitorInterface,
+}
 
-class boundBounceAI ((ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gameInput : GameInput.gameInput), (layerBounds_arg : LayerBounds.layerBounds), (boundsVisitorInterface_arg : BoundsVisitorInterface.boundsVisitorInterface)) =
-  object
-    inherit BasicAI.basicAI (ownerLayerInterface, gameInput)
-    val mutable currentRelativeAngle : int = 0
-    method currentRelativeAngle = currentRelativeAngle
-    method set_currentRelativeAngle value' = currentRelativeAngle <- value'
-    val mutable layerBounds : LayerBounds.layerBounds = (Obj.magic 0)
-    method layerBounds = layerBounds
-    method set_layerBounds value' = layerBounds <- value'
-    val mutable boundsVisitorInterface : BoundsVisitorInterface.boundsVisitorInterface = (Obj.magic 0)
-    method boundsVisitorInterface = boundsVisitorInterface
-    method set_boundsVisitorInterface value' = boundsVisitorInterface <- value'
+
+provide let rec jclassName = () => "BoundBounceAI"
+    
+and jnew_4 = (ownerLayerInterface: AllBinaryLayer, gameInput: GameInput, layerBounds: LayerBounds, boundsVisitorInterface: BoundsVisitorInterface) => {
+    let this = { jobject: JR.newJObject("BoundBounceAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_currentRelativeAngle: 0l, f_layerBounds: JR.nullOf(), f_boundsVisitorInterface: JR.nullOf(), }
+    this.f_currentRelativeAngle = 0l
     
     
-
-    method paint : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        let rectange : Rectangle.rectangle ref = ref (((layerBounds#getRectangleP ()) :> Rectangle.rectangle)) in ();
-        ignore ((Obj.magic graphics)#drawRect (((!rectange#getPoint ())#getX ()), ((!rectange#getPoint ())#getY ()), (!rectange#getWidth ()), (!rectange#getHeight ())))
-        end [@@warning "-7-20"]
+        void
+        this.f_layerBounds = layerBounds
+        this.f_boundsVisitorInterface = boundsVisitorInterface
+    this
+}
     
+and jm_paint = (this: BoundBounceAI, graphics: JObject) => {
+        let mut rectange: Rectangle = JR.cast(LayerBounds.jm_getRectangleP(this.f_layerBounds))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawRect"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(JR.className(JR.cast(Rectangle.jm_getPoint(rectange)))), JR.cast(JR.className(JR.cast(Rectangle.jm_getPoint(rectange)))), JR.cast(Rectangle.jm_getWidth(rectange)), JR.cast(Rectangle.jm_getHeight(rectange))))
+})
+}
+    
+and jm_processAI = (this: BoundBounceAI, allBinaryLayerManager: AllBinaryLayerManager) => {
+        ignore(LayerBounds.jm_visit(this.f_layerBounds, this.f_boundsVisitorInterface))
+}
 
-    method processAI : 'any1. 'any1 -> unit = fun (_allBinaryLayerManager) ->
-        begin
-        ignore (layerBounds#visit (boundsVisitorInterface))
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        currentRelativeAngle <- 0;
-        ();
-        ();
-        ();
-        (* super(...) is the inherit clause *) ();
-        layerBounds <- layerBounds_arg;
-        boundsVisitorInterface <- boundsVisitorInterface_arg
-      end
-  end
-let () = java_register_constructor "BoundBounceAI" (fun arguments -> Obj.repr (new boundBounceAI (Obj.obj arguments)))
+JR.registerLateBound("BoundBounceAI.jnew_4", jnew_4)
+JR.registerLateBound("BoundBounceAI.jm_paint", jm_paint)
+JR.registerLateBound("BoundBounceAI.jm_processAI", jm_processAI)
+JR.registerLateBound("BoundBounceAI.f_currentRelativeAngle", (this: BoundBounceAI) => this.f_currentRelativeAngle)
+JR.registerLateBound("BoundBounceAI.set_f_currentRelativeAngle", (this: BoundBounceAI, jvalue) => { this.f_currentRelativeAngle = jvalue; jvalue })
+JR.registerLateBound("BoundBounceAI.f_layerBounds", (this: BoundBounceAI) => this.f_layerBounds)
+JR.registerLateBound("BoundBounceAI.set_f_layerBounds", (this: BoundBounceAI, jvalue) => { this.f_layerBounds = jvalue; jvalue })
+JR.registerLateBound("BoundBounceAI.f_boundsVisitorInterface", (this: BoundBounceAI) => this.f_boundsVisitorInterface)
+JR.registerLateBound("BoundBounceAI.set_f_boundsVisitorInterface", (this: BoundBounceAI, jvalue) => { this.f_boundsVisitorInterface = jvalue; jvalue })
 
 

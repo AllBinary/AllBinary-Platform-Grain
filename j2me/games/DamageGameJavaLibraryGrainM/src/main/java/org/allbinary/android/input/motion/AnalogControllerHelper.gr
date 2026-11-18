@@ -1,99 +1,100 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.android.input.motion
+module AnalogControllerHelper
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.android.input.motion *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/layer/special/CollidableDestroyableDamageableLayer.gr" include CollidableDestroyableDamageableLayer
+use CollidableDestroyableDamageableLayer.{ type CollidableDestroyableDamageableLayer }
+from "../../../../../org/allbinary/time/TimeDelayHelper.gr" include TimeDelayHelper
+use TimeDelayHelper.{ type TimeDelayHelper }
+from "./AnalogControllerConfigurationFactory.gr" include AnalogControllerConfigurationFactory
+use AnalogControllerConfigurationFactory.{ type AnalogControllerConfigurationFactory }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.layer.special.CollidableDestroyableDamageableLayer *)
-(* import org.allbinary.time.TimeDelayHelper *)
+provide record AnalogControllerHelper {
+  jobject: JObject,
+  mut f_reduceTimeFactor: Int32,
+  mut f_SCALE_VALUE: Int32,
+  mut f_rightTimeElapsedHelper: TimeDelayHelper,
+  mut f_leftTimeElapsedHelper: TimeDelayHelper,
+  mut f_downTimeElapsedHelper: TimeDelayHelper,
+  mut f_upTimeElapsedHelper: TimeDelayHelper,
+}
 
-class analogControllerHelper ((reduceTimeFactor_arg : int)) =
-  object
-    val mutable reduceTimeFactor : int = 0
-    method reduceTimeFactor = reduceTimeFactor
-    method set_reduceTimeFactor value' = reduceTimeFactor <- value'
-    val mutable sCALE_VALUE : int = 0
-    method sCALE_VALUE = sCALE_VALUE
-    method set_sCALE_VALUE value' = sCALE_VALUE <- value'
-    val mutable rightTimeElapsedHelper : TimeDelayHelper.timeDelayHelper = (Obj.magic 0)
-    method rightTimeElapsedHelper = rightTimeElapsedHelper
-    method set_rightTimeElapsedHelper value' = rightTimeElapsedHelper <- value'
-    val mutable leftTimeElapsedHelper : TimeDelayHelper.timeDelayHelper = (Obj.magic 0)
-    method leftTimeElapsedHelper = leftTimeElapsedHelper
-    method set_leftTimeElapsedHelper value' = leftTimeElapsedHelper <- value'
-    val mutable downTimeElapsedHelper : TimeDelayHelper.timeDelayHelper = (Obj.magic 0)
-    method downTimeElapsedHelper = downTimeElapsedHelper
-    method set_downTimeElapsedHelper value' = downTimeElapsedHelper <- value'
-    val mutable upTimeElapsedHelper : TimeDelayHelper.timeDelayHelper = (Obj.magic 0)
-    method upTimeElapsedHelper = upTimeElapsedHelper
-    method set_upTimeElapsedHelper value' = upTimeElapsedHelper <- value'
+
+provide let rec jclassName = () => "AnalogControllerHelper"
     
+and jnew_1 = (reduceTimeFactor: Int32) => {
+    let this = { jobject: JR.newJObject("AnalogControllerHelper"), f_reduceTimeFactor: 0l, f_SCALE_VALUE: 0l, f_rightTimeElapsedHelper: JR.nullOf(), f_leftTimeElapsedHelper: JR.nullOf(), f_downTimeElapsedHelper: JR.nullOf(), f_upTimeElapsedHelper: JR.nullOf(), }
     
-
-    method right : 'any1. 'any1 * int -> unit = fun (collidableDestroyableDamageableLayer, (xAnalogValue : int)) ->
-        let collidableDestroyableDamageableLayer = Obj.repr collidableDestroyableDamageableLayer in
-        begin
-        rightTimeElapsedHelper#set_delay (((((sCALE_VALUE - xAnalogValue)) asr reduceTimeFactor)));
-        if (rightTimeElapsedHelper#isTimeTNT ()) then begin
-            ignore ((Obj.magic collidableDestroyableDamageableLayer)#right ())
-        end
-        end [@@warning "-20"]
+    this.f_SCALE_VALUE = AnalogControllerConfigurationFactory.jm_getInstance().f_SCALE_VALUE
+    this.f_rightTimeElapsedHelper = TimeDelayHelper.jnew_1(0l)
+    this.f_leftTimeElapsedHelper = TimeDelayHelper.jnew_1(0l)
+    this.f_downTimeElapsedHelper = TimeDelayHelper.jnew_1(0l)
+    this.f_upTimeElapsedHelper = TimeDelayHelper.jnew_1(0l)
+        this.f_reduceTimeFactor = reduceTimeFactor
+    this
+}
     
-
-    method left : 'any1. 'any1 * int -> unit = fun (collidableDestroyableDamageableLayer, (xAnalogValue : int)) ->
-        let collidableDestroyableDamageableLayer = Obj.repr collidableDestroyableDamageableLayer in
-        begin
-        leftTimeElapsedHelper#set_delay (((((sCALE_VALUE + xAnalogValue)) asr reduceTimeFactor)));
-        if (leftTimeElapsedHelper#isTimeTNT ()) then begin
-            ignore ((Obj.magic collidableDestroyableDamageableLayer)#left ())
-        end
-        end [@@warning "-20"]
+and jm_right = (this: AnalogControllerHelper, collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer, xAnalogValue: Int32) => {
+        this.f_rightTimeElapsedHelper.f_delay = (Int32.(>>)((Int32.(-)(this.f_SCALE_VALUE, xAnalogValue)), this.f_reduceTimeFactor))
+        if (TimeDelayHelper.jm_isTimeTNT(this.f_rightTimeElapsedHelper)) {
+            ignore(CollidableDestroyableDamageableLayer.jm_right(collidableDestroyableDamageableLayer))
+        }
+}
     
-
-    method up : 'any1. 'any1 * int -> unit = fun (collidableDestroyableDamageableLayer, (xAnalogValue : int)) ->
-        let collidableDestroyableDamageableLayer = Obj.repr collidableDestroyableDamageableLayer in
-        begin
-        upTimeElapsedHelper#set_delay (((((sCALE_VALUE - xAnalogValue)) asr reduceTimeFactor)));
-        if (upTimeElapsedHelper#isTimeTNT ()) then begin
-            ignore ((Obj.magic collidableDestroyableDamageableLayer)#up ())
-        end
-        end [@@warning "-20"]
+and jm_left = (this: AnalogControllerHelper, collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer, xAnalogValue: Int32) => {
+        this.f_leftTimeElapsedHelper.f_delay = (Int32.(>>)((Int32.(+)(this.f_SCALE_VALUE, xAnalogValue)), this.f_reduceTimeFactor))
+        if (TimeDelayHelper.jm_isTimeTNT(this.f_leftTimeElapsedHelper)) {
+            ignore(CollidableDestroyableDamageableLayer.jm_left(collidableDestroyableDamageableLayer))
+        }
+}
     
+and jm_up = (this: AnalogControllerHelper, collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer, xAnalogValue: Int32) => {
+        this.f_upTimeElapsedHelper.f_delay = (Int32.(>>)((Int32.(-)(this.f_SCALE_VALUE, xAnalogValue)), this.f_reduceTimeFactor))
+        if (TimeDelayHelper.jm_isTimeTNT(this.f_upTimeElapsedHelper)) {
+            ignore(CollidableDestroyableDamageableLayer.jm_up(collidableDestroyableDamageableLayer))
+        }
+}
+    
+and jm_down = (this: AnalogControllerHelper, collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer, xAnalogValue: Int32) => {
+        this.f_downTimeElapsedHelper.f_delay = (Int32.(>>)((Int32.(+)(this.f_SCALE_VALUE, xAnalogValue)), this.f_reduceTimeFactor))
+        if (TimeDelayHelper.jm_isTimeTNT(this.f_downTimeElapsedHelper)) {
+            ignore(CollidableDestroyableDamageableLayer.jm_down(collidableDestroyableDamageableLayer))
+        }
+}
 
-    method down : 'any1. 'any1 * int -> unit = fun (collidableDestroyableDamageableLayer, (xAnalogValue : int)) ->
-        let collidableDestroyableDamageableLayer = Obj.repr collidableDestroyableDamageableLayer in
-        begin
-        downTimeElapsedHelper#set_delay (((((sCALE_VALUE + xAnalogValue)) asr reduceTimeFactor)));
-        if (downTimeElapsedHelper#isTimeTNT ()) then begin
-            ignore ((Obj.magic collidableDestroyableDamageableLayer)#down ())
-        end
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        ();
-        sCALE_VALUE <- (AnalogControllerConfigurationFactory.getInstance ())#sCALE_VALUE;
-        rightTimeElapsedHelper <- ((new TimeDelayHelper.timeDelayHelper (0)) :> TimeDelayHelper.timeDelayHelper);
-        leftTimeElapsedHelper <- ((new TimeDelayHelper.timeDelayHelper (0)) :> TimeDelayHelper.timeDelayHelper);
-        downTimeElapsedHelper <- ((new TimeDelayHelper.timeDelayHelper (0)) :> TimeDelayHelper.timeDelayHelper);
-        upTimeElapsedHelper <- ((new TimeDelayHelper.timeDelayHelper (0)) :> TimeDelayHelper.timeDelayHelper);
-        ();
-        reduceTimeFactor <- reduceTimeFactor_arg
-      end
-  end
-let () = java_register_constructor "AnalogControllerHelper" (fun arguments -> Obj.repr (new analogControllerHelper (Obj.obj arguments)))
+JR.registerLateBound("AnalogControllerHelper.jnew_1", jnew_1)
+JR.registerLateBound("AnalogControllerHelper.jm_right", jm_right)
+JR.registerLateBound("AnalogControllerHelper.jm_left", jm_left)
+JR.registerLateBound("AnalogControllerHelper.jm_up", jm_up)
+JR.registerLateBound("AnalogControllerHelper.jm_down", jm_down)
+JR.registerLateBound("AnalogControllerHelper.f_reduceTimeFactor", (this: AnalogControllerHelper) => this.f_reduceTimeFactor)
+JR.registerLateBound("AnalogControllerHelper.f_SCALE_VALUE", (this: AnalogControllerHelper) => this.f_SCALE_VALUE)
+JR.registerLateBound("AnalogControllerHelper.f_rightTimeElapsedHelper", (this: AnalogControllerHelper) => this.f_rightTimeElapsedHelper)
+JR.registerLateBound("AnalogControllerHelper.f_leftTimeElapsedHelper", (this: AnalogControllerHelper) => this.f_leftTimeElapsedHelper)
+JR.registerLateBound("AnalogControllerHelper.f_downTimeElapsedHelper", (this: AnalogControllerHelper) => this.f_downTimeElapsedHelper)
+JR.registerLateBound("AnalogControllerHelper.f_upTimeElapsedHelper", (this: AnalogControllerHelper) => this.f_upTimeElapsedHelper)
 
 

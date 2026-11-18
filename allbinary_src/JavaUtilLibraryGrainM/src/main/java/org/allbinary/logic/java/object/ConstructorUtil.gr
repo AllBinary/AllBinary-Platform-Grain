@@ -1,74 +1,101 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.java.anyType
+module ConstructorUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.java.anyType *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.lang.reflect.Constructor *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.string.CommonSeps *)
+provide record ConstructorUtil {
+  jobject: JObject,
+}
 
 
-let view : 'any1. 'any1 * string -> string = fun (constructor, (lineBreak : string)) ->
-        let constructor = Obj.repr constructor in
-        try
-        begin
-        if ((Obj.magic constructor) != (Obj.magic 0)) then begin
-            let commonSeps : CommonSeps.commonSeps ref = ref (((CommonSeps.getInstance ()) :> CommonSeps.commonSeps)) in ();
-            let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            ignore (!stringBuffer#append (((Obj.magic constructor)#getName ())));
-            let classes : string array ref = ref (((Obj.magic constructor)#getParameterTypes ())) in ();
-            for index = 0 to (Array.length !classes) - 1 do
-                ignore (!stringBuffer#append (!commonSeps#sPACE));
-                ignore (!stringBuffer#append ((!classes.(index)#getName ())));
-                ignore (!stringBuffer#append (!commonSeps#cOLON));
-                ignore (!stringBuffer#appendint (index))
-            done;
-            ignore (!stringBuffer#append (lineBreak));
-            raise (Java_return (Obj.repr ((java_string_of (Obj.repr !stringBuffer)))))
-        end else begin
-            raise (Java_return (Obj.repr ("Constructor Null")))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
-
-let () = java_register_static "ConstructorUtil.view" (fun arguments -> Obj.repr (view (Obj.obj arguments)))
-class constructorUtil () =
-  object
+provide let rec jclassName = () => "ConstructorUtil"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ConstructorUtil"), }
+        void
+    this
+}
+    
+and jm_viewAll = (myClass: String, lineBreak: String) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        let mut constructor: Array<Constructor> = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Class.jm_getConstructors"))
+JR.cast(jlate(JR.cast(myClass)))
+}
+        ignore(StringMaker.jm_append(stringBuffer, "Constructors: "))
+        ignore(StringMaker.jm_append(stringBuffer, lineBreak))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, Int32.fromNumber(Array.length(constructor))))) break
+            ignore(StringMaker.jm_append(stringBuffer, jm_view(constructor[Int32.toNumber(index)], lineBreak)))
+            }
+        }
+        return StringMaker.jm_toString(stringBuffer)
+}
+    
+and jm_view = (constructor: Constructor, lineBreak: String) => {
+        if (!JR.isNull(constructor)) {
+            let mut commonSeps: CommonSeps = JR.cast(CommonSeps.jm_getInstance())
+            let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+            ignore(StringMaker.jm_append(stringBuffer, Constructor.jm_getName(constructor)))
+            let mut classes: Array<String> = Constructor.jm_getParameterTypes(constructor)
+            {
+                let mut index: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(+)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index, Int32.fromNumber(Array.length(classes))))) break
+                ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_SPACE))
+                ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(classes[Int32.toNumber(index)]))))
+                ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_COLON))
+                ignore(StringMaker.jm_appendint(stringBuffer, index))
+                }
+            }
+            ignore(StringMaker.jm_append(stringBuffer, lineBreak))
+            return StringMaker.jm_toString(stringBuffer)
+        } else {
+            return "Constructor Null"
+        }
+}
 
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "ConstructorUtil" (fun arguments -> Obj.repr (new constructorUtil (Obj.obj arguments)))
-
-let viewAll ((myClass : string), (lineBreak : string)) : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        let constructor : Obj.t ref = ref ((Obj.repr (myClass#getConstructors ()))) in ();
-        ignore (!stringBuffer#append ("Constructors: "));
-        ignore (!stringBuffer#append (lineBreak));
-        for index = 0 to (Array.length (Obj.magic !constructor)) - 1 do
-            ignore (!stringBuffer#append ((view ((Obj.magic !constructor).(index), lineBreak))))
-        done;
-        (java_string_of (Obj.repr !stringBuffer))
-        end
-let () = java_register_static "ConstructorUtil.viewAll" (fun arguments -> Obj.repr (viewAll (Obj.obj arguments)))
+JR.registerLateBound("ConstructorUtil.jnew_0", jnew_0)
+JR.registerLateBound("ConstructorUtil.jm_viewAll", jm_viewAll)
+JR.registerLateBound("ConstructorUtil.jm_view", jm_view)
 
 

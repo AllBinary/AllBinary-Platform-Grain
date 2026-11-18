@@ -1,72 +1,90 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.animation
+module VectorExplosionAnimationFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
+use BasicColor.{ type BasicColor }
+from "../../../org/allbinary/graphics/color/BasicColorFactory.gr" include BasicColorFactory
+use BasicColorFactory.{ type BasicColorFactory }
+from "./ProceduralAnimationInterfaceFactoryInterface.gr" include ProceduralAnimationInterfaceFactoryInterface
+use ProceduralAnimationInterfaceFactoryInterface.{ type ProceduralAnimationInterfaceFactoryInterface }
+from "./VectorExplosionGenerator.gr" include VectorExplosionGenerator
+use VectorExplosionGenerator.{ type VectorExplosionGenerator }
+from "./AnimationBehaviorFactory.gr" include AnimationBehaviorFactory
+use AnimationBehaviorFactory.{ type AnimationBehaviorFactory }
+from "./VectorAnimationInterface.gr" include VectorAnimationInterface
+use VectorAnimationInterface.{ type VectorAnimationInterface }
+from "./VectorRotationAnimation.gr" include VectorRotationAnimation
+use VectorRotationAnimation.{ type VectorRotationAnimation }
+from "./Animation.gr" include Animation
+use Animation.{ type Animation }
+
+provide record VectorExplosionAnimationFactory {
+  jobject: JObject,
+  mut f_vectorExplosionGenerator: VectorExplosionGenerator,
+  mut f_basicColor: BasicColor,
+  mut f_animationBehaviorFactory: AnimationBehaviorFactory,
+}
+
+
+provide let rec jclassName = () => "VectorExplosionAnimationFactory"
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.animation *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.graphics.color.BasicColor *)
-(* import org.allbinary.graphics.color.BasicColorFactory *)
-
-class vectorExplosionAnimationFactory ((basicColor_arg : BasicColor.basicColor), (animationBehaviorFactory_arg : AnimationBehaviorFactory.animationBehaviorFactory)) =
-  object (self)
-    val mutable vectorExplosionGenerator : VectorExplosionGenerator.vectorExplosionGenerator = (Obj.magic 0)
-    method vectorExplosionGenerator = vectorExplosionGenerator
-    method set_vectorExplosionGenerator value' = vectorExplosionGenerator <- value'
-    val mutable basicColor : BasicColor.basicColor = (Obj.magic 0)
-    method basicColor = basicColor
-    method set_basicColor value' = basicColor <- value'
-    val mutable animationBehaviorFactory : AnimationBehaviorFactory.animationBehaviorFactory = (Obj.magic 0)
-    method animationBehaviorFactory = animationBehaviorFactory
-    method set_animationBehaviorFactory value' = animationBehaviorFactory <- value'
+and jnew_2 = (basicColor: BasicColor, animationBehaviorFactory: AnimationBehaviorFactory) => {
+    let this = { jobject: JR.newJObject("VectorExplosionAnimationFactory"), f_vectorExplosionGenerator: JR.nullOf(), f_basicColor: JR.nullOf(), f_animationBehaviorFactory: JR.nullOf(), }
+    this.f_vectorExplosionGenerator = JR.cast(VectorExplosionGenerator.jm_getInstance_0())
+    this.f_basicColor = JR.cast(BasicColorFactory.jm_getInstance().f_WHITE)
     
+        this.f_animationBehaviorFactory = animationBehaviorFactory
+        ignore(jm_setBasicColorP(this, basicColor))
+    this
+}
     
-
-    method getInstanceAnimation : 'any1 'return. 'any1 -> 'return = fun (animationInterface) ->
-        let animationInterface = Obj.repr animationInterface in
-        begin
-        let vectorRotationAnimationInterface : VectorAnimationInterface.vectorAnimationInterface ref = ref (((Obj.magic (Obj.magic animationInterface)) :> VectorAnimationInterface.vectorAnimationInterface)) in ();
-        let frame : int ref = ref ((!vectorRotationAnimationInterface#getFrame ())) in ();
-        let framePoints : int array array ref = ref ((!vectorRotationAnimationInterface#getPoints (!frame))) in ();
-        let points : int array array array ref = ref ((vectorExplosionGenerator#getInstance (!framePoints, 6, vectorExplosionGenerator#rOTATION))) in ();
-        (Obj.magic ((new VectorRotationAnimation.vectorRotationAnimation (!points, (self#getBasicColorP ()), (animationBehaviorFactory#getOrCreateInstance ())))))
-        end [@@warning "-20"]
+and jm_getInstanceAnimation = (this: VectorExplosionAnimationFactory, animationInterface: Animation) => {
+        let mut vectorRotationAnimationInterface: VectorAnimationInterface = JR.cast(animationInterface)
+        let mut frame: Int32 = VectorAnimationInterface.jm_getFrame(vectorRotationAnimationInterface)
+        let mut framePoints: Array<Array<Int32>> = VectorAnimationInterface.jm_getPoints(vectorRotationAnimationInterface, frame)
+        let mut points: Array<Array<Array<Int32>>> = VectorExplosionGenerator.jm_getInstance(this.f_vectorExplosionGenerator, framePoints, 6l, this.f_vectorExplosionGenerator.f_ROTATION)
+        return JR.cast(VectorRotationAnimation.jnew_3(points, jm_getBasicColorP(this), AnimationBehaviorFactory.jm_getOrCreateInstance(this.f_animationBehaviorFactory)))
+}
     
-
-    method setBasicColorP : 'any1. 'any1 -> unit = fun (basicColor_arg) ->
-        let basicColor_arg = Obj.repr basicColor_arg in
-        begin
-        basicColor <- (Obj.magic basicColor_arg)
-        end [@@warning "-20"]
+and jm_setBasicColorP = (this: VectorExplosionAnimationFactory, basicColor: BasicColor) => {
+        this.f_basicColor = basicColor
+}
     
+and jm_getBasicColorP = (this: VectorExplosionAnimationFactory) => {
+        return this.f_basicColor
+}
 
-    method getBasicColorP : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (basicColor))
-        end
-
-    initializer
-      begin
-        vectorExplosionGenerator <- ((VectorExplosionGenerator.getInstance ()) :> VectorExplosionGenerator.vectorExplosionGenerator);
-        basicColor <- ((BasicColorFactory.getInstance ())#wHITE :> BasicColor.basicColor);
-        ();
-        ();
-        animationBehaviorFactory <- animationBehaviorFactory_arg;
-        (self#setBasicColorP (basicColor_arg))
-      end
-  end
-let () = java_register_constructor "VectorExplosionAnimationFactory" (fun arguments -> Obj.repr (new vectorExplosionAnimationFactory (Obj.obj arguments)))
+JR.registerLateBound("VectorExplosionAnimationFactory.jnew_2", jnew_2)
+JR.registerLateBound("VectorExplosionAnimationFactory.jm_getInstanceAnimation", jm_getInstanceAnimation)
+JR.registerLateBound("VectorExplosionAnimationFactory.jm_setBasicColorP", jm_setBasicColorP)
+JR.registerLateBound("VectorExplosionAnimationFactory.jm_getBasicColorP", jm_getBasicColorP)
+JR.registerLateBound("VectorExplosionAnimationFactory.f_vectorExplosionGenerator", (this: VectorExplosionAnimationFactory) => this.f_vectorExplosionGenerator)
+JR.registerLateBound("VectorExplosionAnimationFactory.f_basicColor", (this: VectorExplosionAnimationFactory) => this.f_basicColor)
+JR.registerLateBound("VectorExplosionAnimationFactory.set_f_basicColor", (this: VectorExplosionAnimationFactory, jvalue) => { this.f_basicColor = jvalue; jvalue })
+JR.registerLateBound("VectorExplosionAnimationFactory.f_animationBehaviorFactory", (this: VectorExplosionAnimationFactory) => this.f_animationBehaviorFactory)
 
 

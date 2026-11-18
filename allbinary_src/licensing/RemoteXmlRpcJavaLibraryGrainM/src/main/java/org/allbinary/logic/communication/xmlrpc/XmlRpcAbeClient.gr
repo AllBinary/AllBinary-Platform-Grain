@@ -1,253 +1,250 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.communication.xmlrpc
+module XmlRpcAbeClient
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.communication.xmlrpc *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/rand/MyRandomFactory.gr" include MyRandomFactory
+use MyRandomFactory.{ type MyRandomFactory }
+from "../../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
+from "../../../../../org/allbinary/logic/communication/log/ForcedLogUtil.gr" include ForcedLogUtil
+use ForcedLogUtil.{ type ForcedLogUtil }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/logic/system/security/licensing/AbeClientInformationInterface.gr" include AbeClientInformationInterface
+use AbeClientInformationInterface.{ type AbeClientInformationInterface }
+from "../../../../../org/allbinary/string/CommonLabels.gr" include CommonLabels
+use CommonLabels.{ type CommonLabels }
+from "../../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../../org/apache/xmlrpc/NullXmlRpcHandler.gr" include NullXmlRpcHandler
+use NullXmlRpcHandler.{ type NullXmlRpcHandler }
+from "../../../../../org/apache/xmlrpc/XmlRpcHandler.gr" include XmlRpcHandler
+use XmlRpcHandler.{ type XmlRpcHandler }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.rand.MyRandomFactory *)
-(* import org.allbinary.logic.NullUtil *)
-(* import org.allbinary.logic.communication.log.ForcedLogUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.system.security.licensing.AbeClientInformationInterface *)
-(* import org.allbinary.string.CommonLabels *)
-(* import org.allbinary.string.CommonSeps *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.apache.xmlrpc.NullXmlRpcHandler *)
-(* import org.apache.xmlrpc.XmlRpcClient *)
-(* import org.apache.xmlrpc.XmlRpcHandler *)
+provide record XmlRpcAbeClient {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_remoteMethod: String,
+  mut f_clientInfo: AbeClientInformationInterface,
+  mut f_client: XmlRpcHandler,
+  mut f_server: Int32,
+  mut f_start: Int32,
+  mut f_maxServers: Int32,
+  mut f_isDone: Bool,
+  mut f_START_SERVER: String,
+  mut f_TRYING: String,
+  mut f_SEP: String,
+  mut f_CLIENT_INFO: String,
+  mut f_RESULT: String,
+  mut f_INVALID: String,
+  mut f_EXCEPTION_IN_CLIENT: String,
+  mut f_SERVER_REPORTED_ERROR: String,
+  mut f_UNKNOWN_ERROR: String,
+  mut f_TRYING_OTHER_SERVERS: String,
+  mut f_HOST_NOT_RESOLVED_MSG: String,
+  mut f_HOST_NOT_RESOLVED: String,
+  mut f_myRandomFactory: MyRandomFactory,
+}
 
-let isOnline : bool ref = ref (true)
-let get_isOnline () = !isOnline
-let set_isOnline value' = isOnline := value'
-let () = java_register_static "XmlRpcAbeClient.get_isOnline" (fun _ -> Obj.repr (get_isOnline ()))
-let () = java_register_static "XmlRpcAbeClient.set_isOnline" (fun value' -> set_isOnline (Obj.obj value'); Obj.repr ())
-class xmlRpcAbeClient ((clientInfo_arg : AbeClientInformationInterface.abeClientInformationInterface), (remoteMethod_arg : string)) =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable remoteMethod : string = ""
-    method remoteMethod = remoteMethod
-    method set_remoteMethod value' = remoteMethod <- value'
-    val mutable clientInfo : AbeClientInformationInterface.abeClientInformationInterface = (Obj.magic 0)
-    method clientInfo = clientInfo
-    method set_clientInfo value' = clientInfo <- value'
-    val mutable client : Obj.t = Obj.repr 0
-    method client : 'r. 'r = Obj.magic client
-    method set_client : 'v. 'v -> unit = fun value' -> client <- Obj.repr value'
-    val mutable server : int = 0
-    method server = server
-    method set_server value' = server <- value'
-    val mutable start : int = 0
-    method start = start
-    method set_start value' = start <- value'
-    val mutable maxServers : int = 0
-    method maxServers = maxServers
-    method set_maxServers value' = maxServers <- value'
-    val mutable isDone : bool = false
-    method isDone = isDone
-    method set_isDone value' = isDone <- value'
-    val mutable sTART_SERVER : string = ""
-    method sTART_SERVER = sTART_SERVER
-    method set_sTART_SERVER value' = sTART_SERVER <- value'
-    val mutable tRYING : string = ""
-    method tRYING = tRYING
-    method set_tRYING value' = tRYING <- value'
-    val mutable sEP : string = ""
-    method sEP = sEP
-    method set_sEP value' = sEP <- value'
-    val mutable cLIENT_INFO : string = ""
-    method cLIENT_INFO = cLIENT_INFO
-    method set_cLIENT_INFO value' = cLIENT_INFO <- value'
-    val mutable rESULT : string = ""
-    method rESULT = rESULT
-    method set_rESULT value' = rESULT <- value'
-    val mutable iNVALID : string = ""
-    method iNVALID = iNVALID
-    method set_iNVALID value' = iNVALID <- value'
-    val mutable eXCEPTION_IN_CLIENT : string = ""
-    method eXCEPTION_IN_CLIENT = eXCEPTION_IN_CLIENT
-    method set_eXCEPTION_IN_CLIENT value' = eXCEPTION_IN_CLIENT <- value'
-    val mutable sERVER_REPORTED_ERROR : string = ""
-    method sERVER_REPORTED_ERROR = sERVER_REPORTED_ERROR
-    method set_sERVER_REPORTED_ERROR value' = sERVER_REPORTED_ERROR <- value'
-    val mutable uNKNOWN_ERROR : string = ""
-    method uNKNOWN_ERROR = uNKNOWN_ERROR
-    method set_uNKNOWN_ERROR value' = uNKNOWN_ERROR <- value'
-    val mutable tRYING_OTHER_SERVERS : string = ""
-    method tRYING_OTHER_SERVERS = tRYING_OTHER_SERVERS
-    method set_tRYING_OTHER_SERVERS value' = tRYING_OTHER_SERVERS <- value'
-    val mutable hOST_NOT_RESOLVED_MSG : string = ""
-    method hOST_NOT_RESOLVED_MSG = hOST_NOT_RESOLVED_MSG
-    method set_hOST_NOT_RESOLVED_MSG value' = hOST_NOT_RESOLVED_MSG <- value'
-    val mutable hOST_NOT_RESOLVED : string = ""
-    method hOST_NOT_RESOLVED = hOST_NOT_RESOLVED
-    method set_hOST_NOT_RESOLVED value' = hOST_NOT_RESOLVED <- value'
-    val mutable myRandomFactory : MyRandomFactory.myRandomFactory = (Obj.magic 0)
-    method myRandomFactory = myRandomFactory
-    method set_myRandomFactory value' = myRandomFactory <- value'
+let mut jcell_isOnline: Option<Bool> = None
+
+provide let rec jclassName = () => "XmlRpcAbeClient"
+
+and jstatic_isOnline = () => match (jcell_isOnline) {
+  Some(value) => value,
+  None => {
+    let value: Bool = true
+    jcell_isOnline = Some(value)
+    value
+  },
+}
+    
+and jnew_2 = (clientInfo: AbeClientInformationInterface, remoteMethod: String) => {
+    let this = { jobject: JR.newJObject("XmlRpcAbeClient"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_remoteMethod: "", f_clientInfo: JR.nullOf(), f_client: JR.nullOf(), f_server: 0l, f_start: 0l, f_maxServers: 0l, f_isDone: false, f_START_SERVER: "", f_TRYING: "", f_SEP: "", f_CLIENT_INFO: "", f_RESULT: "", f_INVALID: "", f_EXCEPTION_IN_CLIENT: "", f_SERVER_REPORTED_ERROR: "", f_UNKNOWN_ERROR: "", f_TRYING_OTHER_SERVERS: "", f_HOST_NOT_RESOLVED_MSG: "", f_HOST_NOT_RESOLVED: "", f_myRandomFactory: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
     
     
-
-    method get : 'any1. 'any1 -> Obj.t = fun (_anyType) ->
-        begin
-        ignore (ForcedLogUtil.log (commonStrings#nOT_IMPLEMENTED, (Obj.magic self)));
-        (Obj.repr ((NullUtil.getInstance ())#nULL_OBJECT))
-        end
+    this.f_client = JR.cast(NullXmlRpcHandler.jstatic_NULL_XML_RPC_HANDLER())
     
-
-    method tryAnother : 'any1. 'any1 -> Obj.t = fun (anyType) ->
-        let anyType = Obj.repr anyType in
-        try
-        begin
-        if ((self#getServer ()) < (self#getMaxServers ())) then begin
-            (self#setServer (((self#getServer ()) + 1)))
-        end else begin
-            (self#setServer (0))
-        end;
-        if (((self#getServer ()) <> (self#getStart ())) && (not (self#isIsDone ()))) then begin
-            raise (Java_return (Obj.repr ((self#get (anyType)))))
-        end else begin
-            (self#setIsDone (true))
-        end;
-        raise (Failure ("Tried All Servers But Still Failed"))
-        end
-        with Java_return value -> Obj.obj value
     
-
-    method getClientInfo : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (clientInfo))
-        end
     
-
-    method getClient : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic client)))
-        end
     
-
-    method setClient : 'any1. 'any1 -> unit = fun (client_arg) ->
-        let client_arg = Obj.repr client_arg in
-        begin
-        client <- Obj.repr ((Obj.magic client_arg))
-        end [@@warning "-20"]
+    this.f_START_SERVER = "Start With Server #"
+    this.f_TRYING = "Trying Server #"
+    this.f_SEP = CommonLabels.jm_getInstance().f_COLON_SEP
+    this.f_CLIENT_INFO = "Client Info: \n"
+    this.f_RESULT = CommonLabels.jm_getInstance().f_RESULT_ ++ CommonSeps.jm_getInstance().f_NEW_LINE
+    this.f_INVALID = "License data is Invalid Trying Other Servers"
+    this.f_EXCEPTION_IN_CLIENT = "Exception in client"
+    this.f_SERVER_REPORTED_ERROR = "Server reported error"
+    this.f_UNKNOWN_ERROR = "Unknown License Retrieval Failure"
+    this.f_TRYING_OTHER_SERVERS = "IOException Trying Other Servers"
+    this.f_HOST_NOT_RESOLVED_MSG = "Not Trying Again Since Host Unresolved"
+    this.f_HOST_NOT_RESOLVED = "Host is unresolved"
+    this.f_myRandomFactory = JR.cast(MyRandomFactory.jm_getInstance())
+        this.f_remoteMethod = remoteMethod
+        this.f_clientInfo = clientInfo
+        if (Int32.(>)(AbeClientInformationInterface.jm_getNumberOfLicenseServers(clientInfo), 1l)) {
+            this.f_maxServers = Int32.(-)(AbeClientInformationInterface.jm_getNumberOfLicenseServers(clientInfo), 2l)
+            this.f_start = Int32.(+)(MyRandomFactory.jm_getAbsoluteNextInt(this.f_myRandomFactory, this.f_maxServers), 1l)
+        } else if ((AbeClientInformationInterface.jm_getNumberOfLicenseServers(clientInfo) == 1l)) {
+            this.f_maxServers = 0l
+            this.f_start = 0l
+        }
+        this.f_isDone = false
+        this.f_server = this.f_start
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, this.f_START_SERVER))
+        ignore(StringMaker.jm_appendint(stringBuffer, jm_getServer(this)))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_SEP))
+        ignore(StringMaker.jm_append(stringBuffer, AbeClientInformationInterface.jm_getLicenseServer(clientInfo, jm_getServer(this))))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast(this.f_commonStrings.f_CONSTRUCTOR)))
+})
+    this
+}
     
-
-    method getServer () : int =
-        begin
-        server
-        end
+and jm_get = (this: XmlRpcAbeClient, anyType: JObject) => {
+        ignore(ForcedLogUtil.jm_log(this.f_commonStrings.f_NOT_IMPLEMENTED, JR.cast(this)))
+        return NullUtil.jm_getInstance().f_NULL_OBJECT
+}
     
-
-    method setServer ((server_arg : int)) : unit =
-        begin
-        server <- server_arg
-        end
+and jm_tryAnother = (this: XmlRpcAbeClient, anyType: JObject) => {
+        if (Int32.(<)(jm_getServer(this), jm_getMaxServers(this))) {
+            ignore(jm_setServer(this, Int32.(+)(jm_getServer(this), 1l)))
+        } else {
+            ignore(jm_setServer(this, 0l))
+        }
+        if (((jm_getServer(this) != jm_getStart(this)) && !jm_isIsDone(this))) {
+            return jm_get(this, anyType)
+        } else {
+            ignore(jm_setIsDone(this, true))
+        }
+        fail JR.toStringOf(JR.newJObject("Exception"))
+    return JR.jnull
+}
     
-
-    method getStart () : int =
-        begin
-        start
-        end
+and jm_getClientInfo = (this: XmlRpcAbeClient) => {
+        return this.f_clientInfo
+}
     
-
-    method setStart ((start_arg : int)) : unit =
-        begin
-        start <- start_arg
-        end
+and jm_getClient = (this: XmlRpcAbeClient) => {
+        return this.f_client
+}
     
-
-    method getMaxServers () : int =
-        begin
-        maxServers
-        end
+and jm_setClient = (this: XmlRpcAbeClient, client: JObject) => {
+        this.f_client = client
+}
     
-
-    method setMaxServers ((maxServers_arg : int)) : unit =
-        begin
-        maxServers <- maxServers_arg
-        end
+and jm_getServer = (this: XmlRpcAbeClient) => {
+        return this.f_server
+}
     
-
-    method isIsDone () : bool =
-        begin
-        isDone
-        end
+and jm_setServer = (this: XmlRpcAbeClient, server: Int32) => {
+        this.f_server = server
+}
     
-
-    method setIsDone ((isDone_arg : bool)) : unit =
-        begin
-        isDone <- isDone_arg
-        end
+and jm_getStart = (this: XmlRpcAbeClient) => {
+        return this.f_start
+}
     
+and jm_setStart = (this: XmlRpcAbeClient, start: Int32) => {
+        this.f_start = start
+}
+    
+and jm_getMaxServers = (this: XmlRpcAbeClient) => {
+        return this.f_maxServers
+}
+    
+and jm_setMaxServers = (this: XmlRpcAbeClient, maxServers: Int32) => {
+        this.f_maxServers = maxServers
+}
+    
+and jm_isIsDone = (this: XmlRpcAbeClient) => {
+        return this.f_isDone
+}
+    
+and jm_setIsDone = (this: XmlRpcAbeClient, isDone: Bool) => {
+        this.f_isDone = isDone
+}
+    
+and jm_getRemoteMethod = (this: XmlRpcAbeClient) => {
+        return this.f_remoteMethod
+}
 
-    method getRemoteMethod () : string =
-        begin
-        remoteMethod
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        ();
-        ();
-        client <- (Obj.repr (NullXmlRpcHandler.get_nULL_XML_RPC_HANDLER ()));
-        ();
-        start <- 0;
-        maxServers <- 0;
-        ();
-        sTART_SERVER <- "Start With Server #";
-        tRYING <- "Trying Server #";
-        sEP <- (CommonLabels.getInstance ())#cOLON_SEP;
-        cLIENT_INFO <- "Client Info: \n";
-        rESULT <- (java_string_of (Obj.repr ((CommonLabels.getInstance ())#rESULT_)) ^ java_string_of (Obj.repr ((CommonSeps.getInstance ())#nEW_LINE)));
-        iNVALID <- "License data is Invalid Trying Other Servers";
-        eXCEPTION_IN_CLIENT <- "Exception in client";
-        sERVER_REPORTED_ERROR <- "Server reported error";
-        uNKNOWN_ERROR <- "Unknown License Retrieval Failure";
-        tRYING_OTHER_SERVERS <- "IOException Trying Other Servers";
-        hOST_NOT_RESOLVED_MSG <- "Not Trying Again Since Host Unresolved";
-        hOST_NOT_RESOLVED <- "Host is unresolved";
-        myRandomFactory <- ((MyRandomFactory.getInstance ()) :> MyRandomFactory.myRandomFactory);
-        ();
-        remoteMethod <- remoteMethod_arg;
-        clientInfo <- clientInfo_arg;
-        if ((clientInfo_arg#getNumberOfLicenseServers ()) > 1) then begin
-            maxServers <- ((clientInfo_arg#getNumberOfLicenseServers ()) - 2);
-            start <- ((myRandomFactory#getAbsoluteNextInt (maxServers)) + 1)
-        end else if ((clientInfo_arg#getNumberOfLicenseServers ()) = 1) then begin
-            maxServers <- 0;
-            start <- 0
-        end;
-        isDone <- false;
-        server <- start;
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (sTART_SERVER));
-        ignore (!stringBuffer#appendint ((self#getServer ())));
-        ignore (!stringBuffer#append (sEP));
-        ignore (!stringBuffer#append ((clientInfo_arg#getLicenseServer ((self#getServer ())))));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), commonStrings#cONSTRUCTOR))
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "XmlRpcAbeClient" (fun arguments -> Obj.repr (new xmlRpcAbeClient (Obj.obj arguments)))
+JR.registerLateBound("XmlRpcAbeClient.jnew_2", jnew_2)
+JR.registerLateBound("XmlRpcAbeClient.jm_get", jm_get)
+JR.registerLateBound("XmlRpcAbeClient.jm_tryAnother", jm_tryAnother)
+JR.registerLateBound("XmlRpcAbeClient.jm_getClientInfo", jm_getClientInfo)
+JR.registerLateBound("XmlRpcAbeClient.jm_getClient", jm_getClient)
+JR.registerLateBound("XmlRpcAbeClient.jm_setClient", jm_setClient)
+JR.registerLateBound("XmlRpcAbeClient.jm_getServer", jm_getServer)
+JR.registerLateBound("XmlRpcAbeClient.jm_setServer", jm_setServer)
+JR.registerLateBound("XmlRpcAbeClient.jm_getStart", jm_getStart)
+JR.registerLateBound("XmlRpcAbeClient.jm_setStart", jm_setStart)
+JR.registerLateBound("XmlRpcAbeClient.jm_getMaxServers", jm_getMaxServers)
+JR.registerLateBound("XmlRpcAbeClient.jm_setMaxServers", jm_setMaxServers)
+JR.registerLateBound("XmlRpcAbeClient.jm_isIsDone", jm_isIsDone)
+JR.registerLateBound("XmlRpcAbeClient.jm_setIsDone", jm_setIsDone)
+JR.registerLateBound("XmlRpcAbeClient.jm_getRemoteMethod", jm_getRemoteMethod)
+JR.registerLateBound("XmlRpcAbeClient.f_logUtil", (this: XmlRpcAbeClient) => this.f_logUtil)
+JR.registerLateBound("XmlRpcAbeClient.f_commonStrings", (this: XmlRpcAbeClient) => this.f_commonStrings)
+JR.registerLateBound("XmlRpcAbeClient.f_remoteMethod", (this: XmlRpcAbeClient) => this.f_remoteMethod)
+JR.registerLateBound("XmlRpcAbeClient.f_clientInfo", (this: XmlRpcAbeClient) => this.f_clientInfo)
+JR.registerLateBound("XmlRpcAbeClient.f_client", (this: XmlRpcAbeClient) => this.f_client)
+JR.registerLateBound("XmlRpcAbeClient.set_f_client", (this: XmlRpcAbeClient, jvalue) => { this.f_client = jvalue; jvalue })
+JR.registerLateBound("XmlRpcAbeClient.f_server", (this: XmlRpcAbeClient) => this.f_server)
+JR.registerLateBound("XmlRpcAbeClient.set_f_server", (this: XmlRpcAbeClient, jvalue) => { this.f_server = jvalue; jvalue })
+JR.registerLateBound("XmlRpcAbeClient.f_start", (this: XmlRpcAbeClient) => this.f_start)
+JR.registerLateBound("XmlRpcAbeClient.set_f_start", (this: XmlRpcAbeClient, jvalue) => { this.f_start = jvalue; jvalue })
+JR.registerLateBound("XmlRpcAbeClient.f_maxServers", (this: XmlRpcAbeClient) => this.f_maxServers)
+JR.registerLateBound("XmlRpcAbeClient.set_f_maxServers", (this: XmlRpcAbeClient, jvalue) => { this.f_maxServers = jvalue; jvalue })
+JR.registerLateBound("XmlRpcAbeClient.f_isDone", (this: XmlRpcAbeClient) => this.f_isDone)
+JR.registerLateBound("XmlRpcAbeClient.set_f_isDone", (this: XmlRpcAbeClient, jvalue) => { this.f_isDone = jvalue; jvalue })
+JR.registerLateBound("XmlRpcAbeClient.f_START_SERVER", (this: XmlRpcAbeClient) => this.f_START_SERVER)
+JR.registerLateBound("XmlRpcAbeClient.f_TRYING", (this: XmlRpcAbeClient) => this.f_TRYING)
+JR.registerLateBound("XmlRpcAbeClient.f_SEP", (this: XmlRpcAbeClient) => this.f_SEP)
+JR.registerLateBound("XmlRpcAbeClient.f_CLIENT_INFO", (this: XmlRpcAbeClient) => this.f_CLIENT_INFO)
+JR.registerLateBound("XmlRpcAbeClient.f_RESULT", (this: XmlRpcAbeClient) => this.f_RESULT)
+JR.registerLateBound("XmlRpcAbeClient.f_INVALID", (this: XmlRpcAbeClient) => this.f_INVALID)
+JR.registerLateBound("XmlRpcAbeClient.f_EXCEPTION_IN_CLIENT", (this: XmlRpcAbeClient) => this.f_EXCEPTION_IN_CLIENT)
+JR.registerLateBound("XmlRpcAbeClient.f_SERVER_REPORTED_ERROR", (this: XmlRpcAbeClient) => this.f_SERVER_REPORTED_ERROR)
+JR.registerLateBound("XmlRpcAbeClient.f_UNKNOWN_ERROR", (this: XmlRpcAbeClient) => this.f_UNKNOWN_ERROR)
+JR.registerLateBound("XmlRpcAbeClient.f_TRYING_OTHER_SERVERS", (this: XmlRpcAbeClient) => this.f_TRYING_OTHER_SERVERS)
+JR.registerLateBound("XmlRpcAbeClient.f_HOST_NOT_RESOLVED_MSG", (this: XmlRpcAbeClient) => this.f_HOST_NOT_RESOLVED_MSG)
+JR.registerLateBound("XmlRpcAbeClient.f_HOST_NOT_RESOLVED", (this: XmlRpcAbeClient) => this.f_HOST_NOT_RESOLVED)
+JR.registerLateBound("XmlRpcAbeClient.f_myRandomFactory", (this: XmlRpcAbeClient) => this.f_myRandomFactory)
+JR.registerLateBound("XmlRpcAbeClient.jstatic_isOnline", jstatic_isOnline)
 
 

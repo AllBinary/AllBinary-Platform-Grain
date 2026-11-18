@@ -1,88 +1,112 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.time
+module TimeUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.time *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../java/util/Calendar.gr" include Calendar
+use Calendar.{ type Calendar }
+from "../../../java/lang/Integer.gr" include Integer
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.util.Calendar *)
+provide record TimeUtil {
+  jobject: JObject,
+}
 
-let calendar : java_calendar = ((java_calendar_get_instance ()) :> java_calendar)
-let get_calendar () = calendar
-let () = java_register_static "TimeUtil.get_calendar" (fun _ -> Obj.repr (get_calendar ()))
-class timeUtil () =
-  object (self)
+let mut jcell_instance: Option<TimeUtil> = None
+let mut jcell_calendar: Option<Calendar> = None
+
+provide let rec jclassName = () => "TimeUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: TimeUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jstatic_calendar = () => match (jcell_calendar) {
+  Some(value) => value,
+  None => {
+    let value: Calendar = Calendar.jm_getInstance()
+    jcell_calendar = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("TimeUtil"), }
+    this
+}
     
-
-    method setCalendar ((calendar_arg : java_calendar), (yearString : string), (monthString : string), (dayString : string), (hourString : string)) : unit =
-        begin
-        let year : int ref = ref ((java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (yearString))))))) in ();
-        let month : int ref = ref ((java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (monthString))))))) in ();
-        let day : int ref = ref ((java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (dayString))))))) in ();
-        let hour : int ref = ref ((java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (hourString))))))) in ();
-        ignore (calendar_arg#set (!year, !month, !day, !hour, 0))
-        end
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method setCalendarWithTime ((calendar_arg : java_calendar), (yearString : string), (monthString : string), (dayString : string), (hourString : string), (minuteString : string), (secondString : string)) : unit =
-        begin
-        let year : int ref = ref ((java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (yearString))))))) in ();
-        let month : int ref = ref ((java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (monthString))))))) in ();
-        let day : int ref = ref ((java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (dayString))))))) in ();
-        let hour : int ref = ref ((java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (hourString))))))) in ();
-        let minute : int ref = ref ((java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (minuteString))))))) in ();
-        let second : int ref = ref ((java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (secondString))))))) in ();
-        ignore (calendar_arg#set (!year, !month, !day, !hour, !minute, !second))
-        end
+and jm_setCalendar = (this: TimeUtil, calendar: Calendar, yearString: String, monthString: String, dayString: String, hourString: String) => {
+        let mut year: Int32 = Integer.jm_intValue(yearString)
+        let mut month: Int32 = Integer.jm_intValue(monthString)
+        let mut day: Int32 = Integer.jm_intValue(dayString)
+        let mut hour: Int32 = Integer.jm_intValue(hourString)
+        ignore(Calendar.jm_set_5(calendar, year, month, day, hour, 0l))
+}
     
-
-    method setExpirationCalendar ((calendar_arg : java_calendar), (yearsString : string), (monthsString : string), (daysString : string), (hoursString : string), (minutesString : string), (secondsString : string)) : unit =
-        begin
-        let year : int ref = ref (((calendar_arg#get (java_calendar_YEAR)) + (java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (yearsString)))))))) in ();
-        let month : int ref = ref (((calendar_arg#get (java_calendar_MONTH)) + (java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (monthsString)))))))) in ();
-        let day : int ref = ref (((calendar_arg#get (java_calendar_DAY_OF_MONTH)) + (java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (daysString)))))))) in ();
-        let hour : int ref = ref (((calendar_arg#get (java_calendar_HOUR)) + (java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (hoursString)))))))) in ();
-        let minute : int ref = ref (((calendar_arg#get (java_calendar_MINUTE)) + (java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (minutesString)))))))) in ();
-        let second : int ref = ref (((calendar_arg#get (java_calendar_SECOND)) + (java_int_value (Obj.repr (Obj.obj (java_new "Integer" (Obj.repr (secondsString)))))))) in ();
-        ignore (calendar_arg#set (!year, !month, !day, !hour, !minute, !second))
-        end
+and jm_setCalendarWithTime = (this: TimeUtil, calendar: Calendar, yearString: String, monthString: String, dayString: String, hourString: String, minuteString: String, secondString: String) => {
+        let mut year: Int32 = Integer.jm_intValue(yearString)
+        let mut month: Int32 = Integer.jm_intValue(monthString)
+        let mut day: Int32 = Integer.jm_intValue(dayString)
+        let mut hour: Int32 = Integer.jm_intValue(hourString)
+        let mut minute: Int32 = Integer.jm_intValue(minuteString)
+        let mut second: Int32 = Integer.jm_intValue(secondString)
+        ignore(Calendar.jm_set_6(calendar, year, month, day, hour, minute, second))
+}
     
+and jm_setExpirationCalendar = (this: TimeUtil, calendar: Calendar, yearsString: String, monthsString: String, daysString: String, hoursString: String, minutesString: String, secondsString: String) => {
+        let mut year: Int32 = Int32.(+)(Calendar.jm_get_1(calendar, Calendar.jstatic_YEAR()), Integer.jm_intValue(yearsString))
+        let mut month: Int32 = Int32.(+)(Calendar.jm_get_1(calendar, Calendar.jstatic_MONTH()), Integer.jm_intValue(monthsString))
+        let mut day: Int32 = Int32.(+)(Calendar.jm_get_1(calendar, Calendar.jstatic_DAY_OF_MONTH()), Integer.jm_intValue(daysString))
+        let mut hour: Int32 = Int32.(+)(Calendar.jm_get_1(calendar, Calendar.jstatic_HOUR()), Integer.jm_intValue(hoursString))
+        let mut minute: Int32 = Int32.(+)(Calendar.jm_get_1(calendar, Calendar.jstatic_MINUTE()), Integer.jm_intValue(minutesString))
+        let mut second: Int32 = Int32.(+)(Calendar.jm_get_1(calendar, Calendar.jstatic_SECOND()), Integer.jm_intValue(secondsString))
+        ignore(Calendar.jm_set_6(calendar, year, month, day, hour, minute, second))
+}
+    
+and jm_getTotalTime = (this: TimeUtil, yearString: String, monthString: String, dayString: String, hourString: String, minuteString: String, secondString: String) => {
+        let mut time: Int64 = JR.className(JR.cast(jstatic_calendar()))
+        ignore(jm_setExpirationCalendar(this, jstatic_calendar(), yearString, monthString, dayString, hourString, minuteString, secondString))
+        let mut timeDelta: Int64 = JR.className(JR.cast(jstatic_calendar()))
+        return Int64.(-)(timeDelta, time)
+}
 
-    method getTotalTime ((yearString : string), (monthString : string), (dayString : string), (hourString : string), (minuteString : string), (secondString : string)) : int =
-        begin
-        let time : int ref = ref ((calendar#getTimeInMillis ())) in ();
-        (self#setExpirationCalendar (calendar, yearString, monthString, dayString, hourString, minuteString, secondString));
-        let timeDelta : int ref = ref ((calendar#getTimeInMillis ())) in ();
-        (!timeDelta - !time)
-        end
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "TimeUtil" (fun arguments -> Obj.repr (new timeUtil (Obj.obj arguments)))
-
-let instance = (new timeUtil ())
-let get_instance () = instance
-let () = java_register_static "TimeUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "TimeUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("TimeUtil.jnew_0", jnew_0)
+JR.registerLateBound("TimeUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("TimeUtil.jm_setCalendar", jm_setCalendar)
+JR.registerLateBound("TimeUtil.jm_setCalendarWithTime", jm_setCalendarWithTime)
+JR.registerLateBound("TimeUtil.jm_setExpirationCalendar", jm_setExpirationCalendar)
+JR.registerLateBound("TimeUtil.jm_getTotalTime", jm_getTotalTime)
+JR.registerLateBound("TimeUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("TimeUtil.jstatic_calendar", jstatic_calendar)
 
 

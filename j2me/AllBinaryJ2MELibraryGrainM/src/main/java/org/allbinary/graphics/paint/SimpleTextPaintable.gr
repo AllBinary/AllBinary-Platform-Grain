@@ -1,121 +1,141 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.paint
+module SimpleTextPaintable
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.paint *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/graphics/Anchor.gr" include Anchor
+use Anchor.{ type Anchor }
+from "../../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
+use BasicColor.{ type BasicColor }
+from "../../../../org/allbinary/graphics/displayable/DisplayInfoSingleton.gr" include DisplayInfoSingleton
+use DisplayInfoSingleton.{ type DisplayInfoSingleton }
+from "../../../../org/allbinary/graphics/font/MyFontProcessor.gr" include MyFontProcessor
+use MyFontProcessor.{ type MyFontProcessor }
+from "../../../../org/allbinary/graphics/font/UpdateMyFontInterface.gr" include UpdateMyFontInterface
+use UpdateMyFontInterface.{ type UpdateMyFontInterface }
+from "../../../../org/allbinary/graphics/font/UpdateMyFontProcessor.gr" include UpdateMyFontProcessor
+use UpdateMyFontProcessor.{ type UpdateMyFontProcessor }
+from "./Paintable.gr" include Paintable
+use Paintable.{ type Paintable }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Font *)
-(* import javax.microedition.lcdui.Graphics *)
-(* import org.allbinary.graphics.Anchor *)
-(* import org.allbinary.graphics.color.BasicColor *)
-(* import org.allbinary.graphics.displayable.DisplayInfoSingleton *)
-(* import org.allbinary.graphics.font.MyFontProcessor *)
-(* import org.allbinary.graphics.font.UpdateMyFontInterface *)
-(* import org.allbinary.graphics.font.UpdateMyFontProcessor *)
+provide record SimpleTextPaintable {
+  jobject: JObject,
+  mut f_displayInfoSingleton: DisplayInfoSingleton,
+  mut f_updateMyFontProcessor: MyFontProcessor,
+  mut f_myFontProcessor: MyFontProcessor,
+  mut f_text: String,
+  mut f_basicColor: BasicColor,
+  mut f_topScoresWidth: Int32,
+  mut f_fontHeight: Int32,
+  mut f_anchor: Int32,
+}
 
-class simpleTextPaintable ((text_arg : string), (basicColor_arg : BasicColor.basicColor)) =
-  object (self)
-    inherit Paintable.paintable ()
-    val mutable displayInfoSingleton : DisplayInfoSingleton.displayInfoSingleton = (Obj.magic 0)
-    method displayInfoSingleton = displayInfoSingleton
-    method set_displayInfoSingleton value' = displayInfoSingleton <- value'
-    val mutable updateMyFontProcessor : MyFontProcessor.myFontProcessor = (Obj.magic 0)
-    method updateMyFontProcessor = updateMyFontProcessor
-    method set_updateMyFontProcessor value' = updateMyFontProcessor <- value'
-    val mutable myFontProcessor : MyFontProcessor.myFontProcessor = (Obj.magic 0)
-    method myFontProcessor = myFontProcessor
-    method set_myFontProcessor value' = myFontProcessor <- value'
-    val mutable text : string = ""
-    method text = text
-    method set_text value' = text <- value'
-    val mutable basicColor : BasicColor.basicColor = (Obj.magic 0)
-    method basicColor = basicColor
-    method set_basicColor value' = basicColor <- value'
-    val mutable topScoresWidth : int = 0
-    method topScoresWidth = topScoresWidth
-    method set_topScoresWidth value' = topScoresWidth <- value'
-    val mutable fontHeight : int = 0
-    method fontHeight = fontHeight
-    method set_fontHeight value' = fontHeight <- value'
-    val mutable anchor : int = 0
-    method anchor = anchor
-    method set_anchor value' = anchor <- value'
+
+provide let rec jclassName = () => "SimpleTextPaintable"
+    
+and jnew_2 = (text: String, basicColor: BasicColor) => {
+    let this = { jobject: JR.newJObject("SimpleTextPaintable"), f_displayInfoSingleton: JR.nullOf(), f_updateMyFontProcessor: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_text: "", f_basicColor: JR.nullOf(), f_topScoresWidth: 0l, f_fontHeight: 0l, f_anchor: 0l, }
+    this.f_displayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
+    this.f_updateMyFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(this))
+    this.f_myFontProcessor = JR.cast(this.f_updateMyFontProcessor)
     
     
-
-    method updateMeasurement : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        let font : Obj.t ref = ref ((Obj.repr ((Obj.magic graphics)#getFont ()))) in ();
-        topScoresWidth <- ((((Obj.magic !font)#stringWidth (text)) asr 1));
-        fontHeight <- ((Obj.magic !font)#getHeight ());
-        myFontProcessor <- (MyFontProcessor.getInstance ())
-        end [@@warning "-7-20"]
+    this.f_topScoresWidth = 0l
+    this.f_fontHeight = 0l
+    this.f_anchor = Anchor.jstatic_TOP_LEFT()
+        this.f_text = text
+        this.f_basicColor = basicColor
+    this
+}
     
-
-    method paint : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore (myFontProcessor#process ((Obj.magic graphics)));
-        let width : int ref = ref ((displayInfoSingleton#getLast ()).(displayInfoSingleton#wIDTH)) in ();
-        ignore ((Obj.magic graphics)#setColor ((java_int_value (Obj.repr (self#getBasicColorP ())))));
-        ignore ((Obj.magic graphics)#drawString (text, (((!width asr 1)) - topScoresWidth), fontHeight, anchor))
-        end [@@warning "-7-20"]
+and jm_updateMeasurement = (this: SimpleTextPaintable, graphics: JObject) => {
+        let mut font: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_getFont"))
+JR.cast(jlate(JR.cast(graphics)))
+})
+        this.f_topScoresWidth = (Int32.(>>)({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Font.jm_stringWidth"))
+JR.cast(jlate(JR.cast(font), JR.cast(this.f_text)))
+}, 1l))
+        this.f_fontHeight = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Font.jm_getHeight"))
+JR.cast(jlate(JR.cast(font)))
+}
+        this.f_myFontProcessor = MyFontProcessor.jm_getInstance()
+}
     
-
-    method setBasicColorP : 'any1. 'any1 -> unit = fun (basicColor_arg) ->
-        let basicColor_arg = Obj.repr basicColor_arg in
-        begin
-        basicColor <- (Obj.magic basicColor_arg)
-        end [@@warning "-7-20"]
+and jm_paint = (this: SimpleTextPaintable, graphics: JObject) => {
+        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
+        let mut width: Int32 = DisplayInfoSingleton.jm_getLast(this.f_displayInfoSingleton)[Int32.toNumber(this.f_displayInfoSingleton.f_WIDTH)]
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_setColor"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(BasicColor.jm_intValue(jm_getBasicColorP(this)))))
+})
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_text), JR.cast(Int32.(-)((Int32.(>>)(width, 1l)), this.f_topScoresWidth)), JR.cast(this.f_fontHeight), JR.cast(this.f_anchor)))
+})
+}
     
-
-    method getBasicColorP : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (basicColor))
-        end [@@warning "-7"]
+and jm_setBasicColorP = (this: SimpleTextPaintable, basicColor: BasicColor) => {
+        this.f_basicColor = basicColor
+}
     
-
-    method setText ((text_arg : string)) : unit =
-        begin
-        text <- text_arg;
-        myFontProcessor <- updateMyFontProcessor
-        end [@@warning "-7"]
+and jm_getBasicColorP = (this: SimpleTextPaintable) => {
+        return this.f_basicColor
+}
     
+and jm_setText = (this: SimpleTextPaintable, text: String) => {
+        this.f_text = text
+        this.f_myFontProcessor = this.f_updateMyFontProcessor
+}
+    
+and jm_getText = (this: SimpleTextPaintable) => {
+        return this.f_text
+}
 
-    method getText () : string =
-        begin
-        text
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        displayInfoSingleton <- ((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton);
-        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
-        myFontProcessor <- (updateMyFontProcessor :> MyFontProcessor.myFontProcessor);
-        ();
-        ();
-        topScoresWidth <- 0;
-        fontHeight <- 0;
-        anchor <- (Anchor.get_tOP_LEFT ());
-        ();
-        text <- text_arg;
-        basicColor <- basicColor_arg
-      end
-  end
-let () = java_register_constructor "SimpleTextPaintable" (fun arguments -> Obj.repr (new simpleTextPaintable (Obj.obj arguments)))
+JR.registerLateBound("SimpleTextPaintable.jnew_2", jnew_2)
+JR.registerLateBound("SimpleTextPaintable.jm_updateMeasurement", jm_updateMeasurement)
+JR.registerLateBound("SimpleTextPaintable.jm_paint", jm_paint)
+JR.registerLateBound("SimpleTextPaintable.jm_setBasicColorP", jm_setBasicColorP)
+JR.registerLateBound("SimpleTextPaintable.jm_getBasicColorP", jm_getBasicColorP)
+JR.registerLateBound("SimpleTextPaintable.jm_setText", jm_setText)
+JR.registerLateBound("SimpleTextPaintable.jm_getText", jm_getText)
+JR.registerLateBound("SimpleTextPaintable.f_displayInfoSingleton", (this: SimpleTextPaintable) => this.f_displayInfoSingleton)
+JR.registerLateBound("SimpleTextPaintable.f_updateMyFontProcessor", (this: SimpleTextPaintable) => this.f_updateMyFontProcessor)
+JR.registerLateBound("SimpleTextPaintable.f_myFontProcessor", (this: SimpleTextPaintable) => this.f_myFontProcessor)
+JR.registerLateBound("SimpleTextPaintable.set_f_myFontProcessor", (this: SimpleTextPaintable, jvalue) => { this.f_myFontProcessor = jvalue; jvalue })
+JR.registerLateBound("SimpleTextPaintable.f_text", (this: SimpleTextPaintable) => this.f_text)
+JR.registerLateBound("SimpleTextPaintable.set_f_text", (this: SimpleTextPaintable, jvalue) => { this.f_text = jvalue; jvalue })
+JR.registerLateBound("SimpleTextPaintable.f_basicColor", (this: SimpleTextPaintable) => this.f_basicColor)
+JR.registerLateBound("SimpleTextPaintable.set_f_basicColor", (this: SimpleTextPaintable, jvalue) => { this.f_basicColor = jvalue; jvalue })
+JR.registerLateBound("SimpleTextPaintable.f_topScoresWidth", (this: SimpleTextPaintable) => this.f_topScoresWidth)
+JR.registerLateBound("SimpleTextPaintable.set_f_topScoresWidth", (this: SimpleTextPaintable, jvalue) => { this.f_topScoresWidth = jvalue; jvalue })
+JR.registerLateBound("SimpleTextPaintable.f_fontHeight", (this: SimpleTextPaintable) => this.f_fontHeight)
+JR.registerLateBound("SimpleTextPaintable.set_f_fontHeight", (this: SimpleTextPaintable, jvalue) => { this.f_fontHeight = jvalue; jvalue })
+JR.registerLateBound("SimpleTextPaintable.f_anchor", (this: SimpleTextPaintable) => this.f_anchor)
+JR.registerLateBound("SimpleTextPaintable.set_f_anchor", (this: SimpleTextPaintable, jvalue) => { this.f_anchor = jvalue; jvalue })
 
 

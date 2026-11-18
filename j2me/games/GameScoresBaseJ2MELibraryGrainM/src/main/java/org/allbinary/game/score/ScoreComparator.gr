@@ -1,109 +1,130 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.score
+module ScoreComparator
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.score *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/io/ByteArrayInputStream.gr" include ByteArrayInputStream
+use ByteArrayInputStream.{ type ByteArrayInputStream }
+from "../../../../java/io/DataInputStream.gr" include DataInputStream
+use DataInputStream.{ type DataInputStream }
+from "../../../../java/io/EOFException.gr" include EOFException
+use EOFException.{ type EOFException }
+from "../../../../java/io/IOException.gr" include IOException
+use IOException.{ type IOException }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../java/lang/Long.gr" include Long
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.ByteArrayInputStream *)
-(* import java.io.DataInputStream *)
-(* import java.io.EOFException *)
-(* import java.io.IOException *)
-(* import javax.microedition.rms.RecordComparator *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record ScoreComparator {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_isHighestBest: Bool,
+}
 
-class scoreComparator ((isHighestBest_arg : bool)) =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable isHighestBest : bool = false
-    method isHighestBest = isHighestBest
-    method set_isHighestBest value' = isHighestBest <- value'
+
+provide let rec jclassName = () => "ScoreComparator"
     
+and jnew_1 = (isHighestBest: Bool) => {
+    let this = { jobject: JR.newJObject("ScoreComparator"), f_logUtil: JR.jnull, f_isHighestBest: false, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
     
-
-    method getBestScore () : int =
-        begin
-        (if isHighestBest then max_int else 0)
-        end
+        this.f_isHighestBest = isHighestBest
+    this
+}
     
-
-    method compare ((recordOne : int array), (recordTwo : int array)) : int =
-        try
-        begin
-        let byteArrayInputStreamOne : java_byte_array_input_stream ref = ref (((new java_byte_array_input_stream (recordOne)) :> java_byte_array_input_stream)) in ();
-        let inputStreamOne : java_data_input_stream ref = ref (((Obj.obj (java_new "DataInputStream" (Obj.repr (!byteArrayInputStreamOne)))) :> java_data_input_stream)) in ();
-        let byteArrayInputStreamTwo : java_byte_array_input_stream ref = ref (((new java_byte_array_input_stream (recordTwo)) :> java_byte_array_input_stream)) in ();
-        let inputStreamTwo : java_data_input_stream ref = ref (((Obj.obj (java_new "DataInputStream" (Obj.repr (!byteArrayInputStreamTwo)))) :> java_data_input_stream)) in ();
-        let scoreOne : int ref = ref (0) in ();
-        let scoreTwo : int ref = ref (0) in ();
-        (try
-            ignore (!inputStreamOne#readUTF ());
-            ignore (!inputStreamTwo#readUTF ());
-            scoreOne := (!inputStreamOne#readLong ());
-            scoreTwo := (!inputStreamTwo#readLong ())
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), "compare", e))
-        end);
-        if isHighestBest then begin
-            raise (Java_return (Obj.repr ((self#getHighTooLow (!scoreOne, !scoreTwo)))))
-        end else begin
-            raise (Java_return (Obj.repr ((self#getLowTooHigh (!scoreOne, !scoreTwo)))))
-        end
-        end
-        with Java_return value -> Obj.obj value
+and jm_getBestScore = (this: ScoreComparator) => {
+        return (if (this.f_isHighestBest) Long.jstatic_MAX_VALUE() else 0l)
+}
     
-
-    method getHighTooLow ((scoreOne : int), (scoreTwo : int)) : int =
-        try
-        begin
-        if (scoreOne > scoreTwo) then begin
-            raise (Java_return (Obj.repr ((Obj.magic (java_call_static "RecordComparator.get_pRECEDES" (Obj.repr ()))))))
-        end else if (scoreOne < scoreTwo) then begin
-            raise (Java_return (Obj.repr ((Obj.magic (java_call_static "RecordComparator.get_fOLLOWS" (Obj.repr ()))))))
-        end else begin
-            raise (Java_return (Obj.repr ((Obj.magic (java_call_static "RecordComparator.get_eQUIVALENT" (Obj.repr ()))))))
-        end
-        end
-        with Java_return value -> Obj.obj value
+and jm_compare = (this: ScoreComparator, recordOne: Array<Int32>, recordTwo: Array<Int32>) => {
+        let mut byteArrayInputStreamOne: ByteArrayInputStream = ByteArrayInputStream.jnew_1(recordOne)
+        let mut inputStreamOne: DataInputStream = DataInputStream.jnew_1(byteArrayInputStreamOne)
+        let mut byteArrayInputStreamTwo: ByteArrayInputStream = ByteArrayInputStream.jnew_1(recordTwo)
+        let mut inputStreamTwo: DataInputStream = DataInputStream.jnew_1(byteArrayInputStreamTwo)
+        let mut scoreOne: Int64 = 0L
+        let mut scoreTwo: Int64 = 0L
+        {
+            ignore(DataInputStream.jm_readUTF_0(inputStreamOne))
+            ignore(DataInputStream.jm_readUTF_0(inputStreamTwo))
+            scoreOne = DataInputStream.jm_readLong_0(inputStreamOne)
+            scoreTwo = DataInputStream.jm_readLong_0(inputStreamTwo)
+        }
+        if (this.f_isHighestBest) {
+            return jm_getHighTooLow(this, scoreOne, scoreTwo)
+        } else {
+            return jm_getLowTooHigh(this, scoreOne, scoreTwo)
+        }
+}
     
+and jm_getHighTooLow = (this: ScoreComparator, scoreOne: Int64, scoreTwo: Int64) => {
+        if (Int64.(>)(scoreOne, scoreTwo)) {
+            return {
+let jlate: () => JObject = JR.cast(JR.lateBound("RecordComparator.jstatic_PRECEDES"))
+JR.cast(jlate())
+}
+        } else if (Int64.(<)(scoreOne, scoreTwo)) {
+            return {
+let jlate: () => JObject = JR.cast(JR.lateBound("RecordComparator.jstatic_FOLLOWS"))
+JR.cast(jlate())
+}
+        } else {
+            return {
+let jlate: () => JObject = JR.cast(JR.lateBound("RecordComparator.jstatic_EQUIVALENT"))
+JR.cast(jlate())
+}
+        }
+}
+    
+and jm_getLowTooHigh = (this: ScoreComparator, scoreOne: Int64, scoreTwo: Int64) => {
+        if (Int64.(<)(scoreOne, scoreTwo)) {
+            return {
+let jlate: () => JObject = JR.cast(JR.lateBound("RecordComparator.jstatic_PRECEDES"))
+JR.cast(jlate())
+}
+        } else if (Int64.(>)(scoreOne, scoreTwo)) {
+            return {
+let jlate: () => JObject = JR.cast(JR.lateBound("RecordComparator.jstatic_FOLLOWS"))
+JR.cast(jlate())
+}
+        } else {
+            return {
+let jlate: () => JObject = JR.cast(JR.lateBound("RecordComparator.jstatic_EQUIVALENT"))
+JR.cast(jlate())
+}
+        }
+}
 
-    method getLowTooHigh ((scoreOne : int), (scoreTwo : int)) : int =
-        try
-        begin
-        if (scoreOne < scoreTwo) then begin
-            raise (Java_return (Obj.repr ((Obj.magic (java_call_static "RecordComparator.get_pRECEDES" (Obj.repr ()))))))
-        end else if (scoreOne > scoreTwo) then begin
-            raise (Java_return (Obj.repr ((Obj.magic (java_call_static "RecordComparator.get_fOLLOWS" (Obj.repr ()))))))
-        end else begin
-            raise (Java_return (Obj.repr ((Obj.magic (java_call_static "RecordComparator.get_eQUIVALENT" (Obj.repr ()))))))
-        end
-        end
-        with Java_return value -> Obj.obj value
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ();
-        ();
-        isHighestBest <- isHighestBest_arg
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "ScoreComparator" (fun arguments -> Obj.repr (new scoreComparator (Obj.obj arguments)))
+JR.registerLateBound("ScoreComparator.jnew_1", jnew_1)
+JR.registerLateBound("ScoreComparator.jm_getBestScore", jm_getBestScore)
+JR.registerLateBound("ScoreComparator.jm_compare", jm_compare)
+JR.registerLateBound("ScoreComparator.jm_getHighTooLow", jm_getHighTooLow)
+JR.registerLateBound("ScoreComparator.jm_getLowTooHigh", jm_getLowTooHigh)
+JR.registerLateBound("ScoreComparator.f_logUtil", (this: ScoreComparator) => this.f_logUtil)
+JR.registerLateBound("ScoreComparator.f_isHighestBest", (this: ScoreComparator) => this.f_isHighestBest)
 
 

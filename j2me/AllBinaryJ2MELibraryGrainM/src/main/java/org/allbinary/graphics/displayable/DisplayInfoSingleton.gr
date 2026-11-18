@@ -1,597 +1,646 @@
-(*
- 
-  AllBinary Open License Version 1 
-  Copyright (c) 2011 AllBinary 
-   
-  By agreeing to this license you and any business entity you represent are 
-  legally bound to the AllBinary Open License Version 1 legal agreement. 
-   
-  You may obtain the AllBinary Open License Version 1 legal agreement from 
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-   
-  Created By: Travis Berthelot 
+/*
+ * 
+ * AllBinary Open License Version 1 
+ * Copyright (c) 2011 AllBinary 
+ *  
+ * By agreeing to this license you and any business entity you represent are 
+ * legally bound to the AllBinary Open License Version 1 legal agreement. 
+ *  
+ * You may obtain the AllBinary Open License Version 1 legal agreement from 
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+ *  
+ * Created By: Travis Berthelot 
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.displayable
+module DisplayInfoSingleton
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/configuration/feature/Features.gr" include Features
+use Features.{ type Features }
+from "../../../../org/allbinary/graphics/displayable/event/DisplayChangeEvent.gr" include DisplayChangeEvent
+use DisplayChangeEvent.{ type DisplayChangeEvent }
+from "../../../../org/allbinary/graphics/displayable/event/DisplayChangeEventHandler.gr" include DisplayChangeEventHandler
+use DisplayChangeEventHandler.{ type DisplayChangeEventHandler }
+from "../../../../org/allbinary/graphics/displayable/event/LastDisplayChangeEventHandler.gr" include LastDisplayChangeEventHandler
+use LastDisplayChangeEventHandler.{ type LastDisplayChangeEventHandler }
+from "../../../../org/allbinary/graphics/opengles/OpenGLFeatureFactory.gr" include OpenGLFeatureFactory
+use OpenGLFeatureFactory.{ type OpenGLFeatureFactory }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/logic/system/os/GenericOperatingSystem.gr" include GenericOperatingSystem
+use GenericOperatingSystem.{ type GenericOperatingSystem }
+from "../../../../org/allbinary/string/CommonLabels.gr" include CommonLabels
+use CommonLabels.{ type CommonLabels }
+from "../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "./BaseScalable.gr" include BaseScalable
+use BaseScalable.{ type BaseScalable }
+from "./ScalableListener.gr" include ScalableListener
+use ScalableListener.{ type ScalableListener }
+
+provide record DisplayInfoSingleton {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonLabels: CommonLabels,
+  mut f_commonSeps: CommonSeps,
+  mut f_commonStrings: CommonStrings,
+  mut f_ORIENTATION: String,
+  mut f_ADJUSTING_FOR_SCALING_IN_PORTRAIT: String,
+  mut f_ADJUSTING_FOR_SCALING_IN_LANDSCAPE: String,
+  mut f_last: Array<Int32>,
+  mut f_lastHalf: Array<Int32>,
+  mut f_full: Array<Int32>,
+  mut f_top: Int32,
+  mut f_left: Int32,
+  mut f_xOffset: Int32,
+  mut f_yOffset: Int32,
+  mut f_scaleLargestTo: Float32,
+  mut f_WIDTH: Int32,
+  mut f_HEIGHT: Int32,
+  mut f_CUSTOM_WIDTH: Int32,
+  mut f_CUSTOM_HEIGHT: Int32,
+  mut f_scalableListener: BaseScalable,
+  mut f_displayRatio: Float32,
+  mut f_ratio: Float32,
+  mut f_SET_LAST_SIZE_METHOD_NAME: String,
+  mut f_FULL_WIDTH: String,
+  mut f_FULL_HEIGHT: String,
+  mut f_LAST_WIDTH: String,
+  mut f_LAST_HEIGHT: String,
+  mut f_PORTRAIT: String,
+  mut f_LANDSCAPE: String,
+  mut f_displayChangeEvent: DisplayChangeEvent,
+  mut f_FIRE_METHOD_NAME: String,
+  mut f_REASON: String,
+  mut f_UPDATE_FROM_ORIENTATION_CHANGE: String,
+  mut f_list: BasicArrayList,
+  mut f_DISPLAY_INFO: String,
+  mut f_FULL: String,
+  mut f_LAST: String,
+  mut f_LAST_HALF: String,
+}
+
+let mut jcell_SINGLETON: Option<DisplayInfoSingleton> = None
+
+provide let rec jclassName = () => "DisplayInfoSingleton"
+
+and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
+  Some(value) => value,
+  None => {
+    let value: DisplayInfoSingleton = jnew_0()
+    jcell_SINGLETON = Some(value)
+    value
+  },
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.displayable *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Displayable *)
-(* import org.allbinary.AndroidUtil *)
-(* import org.allbinary.game.configuration.feature.Features *)
-(* import org.allbinary.graphics.displayable.event.DisplayChangeEvent *)
-(* import org.allbinary.graphics.displayable.event.DisplayChangeEventHandler *)
-(* import org.allbinary.graphics.displayable.event.LastDisplayChangeEventHandler *)
-(* import org.allbinary.graphics.opengles.OpenGLFeatureFactory *)
-(* import org.allbinary.graphics.threed.SWTJOGLProcessor *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.system.os.GenericOperatingSystem *)
-(* import org.allbinary.logic.system.os.OperatingSystemFactory *)
-(* import org.allbinary.string.CommonLabels *)
-(* import org.allbinary.string.CommonSeps *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
-
-class displayInfoSingleton () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonLabels : CommonLabels.commonLabels = (Obj.magic 0)
-    method commonLabels = commonLabels
-    method set_commonLabels value' = commonLabels <- value'
-    val mutable commonSeps : CommonSeps.commonSeps = (Obj.magic 0)
-    method commonSeps = commonSeps
-    method set_commonSeps value' = commonSeps <- value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable oRIENTATION : string = ""
-    method oRIENTATION = oRIENTATION
-    method set_oRIENTATION value' = oRIENTATION <- value'
-    val mutable aDJUSTING_FOR_SCALING_IN_PORTRAIT : string = ""
-    method aDJUSTING_FOR_SCALING_IN_PORTRAIT = aDJUSTING_FOR_SCALING_IN_PORTRAIT
-    method set_aDJUSTING_FOR_SCALING_IN_PORTRAIT value' = aDJUSTING_FOR_SCALING_IN_PORTRAIT <- value'
-    val mutable aDJUSTING_FOR_SCALING_IN_LANDSCAPE : string = ""
-    method aDJUSTING_FOR_SCALING_IN_LANDSCAPE = aDJUSTING_FOR_SCALING_IN_LANDSCAPE
-    method set_aDJUSTING_FOR_SCALING_IN_LANDSCAPE value' = aDJUSTING_FOR_SCALING_IN_LANDSCAPE <- value'
-    val mutable last : int array = (Obj.magic 0)
-    method last = last
-    method set_last value' = last <- value'
-    val mutable lastHalf : int array = (Obj.magic 0)
-    method lastHalf = lastHalf
-    method set_lastHalf value' = lastHalf <- value'
-    val mutable full : int array = (Obj.magic 0)
-    method full = full
-    method set_full value' = full <- value'
-    val mutable top : int = 0
-    method top = top
-    method set_top value' = top <- value'
-    val mutable left : int = 0
-    method left = left
-    method set_left value' = left <- value'
-    val mutable xOffset : int = 0
-    method xOffset = xOffset
-    method set_xOffset value' = xOffset <- value'
-    val mutable yOffset : int = 0
-    method yOffset = yOffset
-    method set_yOffset value' = yOffset <- value'
-    val mutable scaleLargestTo : float = 0.0
-    method scaleLargestTo = scaleLargestTo
-    method set_scaleLargestTo value' = scaleLargestTo <- value'
-    val mutable wIDTH : int = 0
-    method wIDTH = wIDTH
-    method set_wIDTH value' = wIDTH <- value'
-    val mutable hEIGHT : int = 0
-    method hEIGHT = hEIGHT
-    method set_hEIGHT value' = hEIGHT <- value'
-    val mutable cUSTOM_WIDTH : int = 0
-    method cUSTOM_WIDTH = cUSTOM_WIDTH
-    method set_cUSTOM_WIDTH value' = cUSTOM_WIDTH <- value'
-    val mutable cUSTOM_HEIGHT : int = 0
-    method cUSTOM_HEIGHT = cUSTOM_HEIGHT
-    method set_cUSTOM_HEIGHT value' = cUSTOM_HEIGHT <- value'
-    val mutable scalableListener : BaseScalable.baseScalable = (Obj.magic 0)
-    method scalableListener = scalableListener
-    method set_scalableListener value' = scalableListener <- value'
-    val mutable displayRatio : float = 0.0
-    method displayRatio = displayRatio
-    method set_displayRatio value' = displayRatio <- value'
-    val mutable ratio : float = 0.0
-    method ratio = ratio
-    method set_ratio value' = ratio <- value'
-    val mutable sET_LAST_SIZE_METHOD_NAME : string = ""
-    method sET_LAST_SIZE_METHOD_NAME = sET_LAST_SIZE_METHOD_NAME
-    method set_sET_LAST_SIZE_METHOD_NAME value' = sET_LAST_SIZE_METHOD_NAME <- value'
-    val mutable fULL_WIDTH : string = ""
-    method fULL_WIDTH = fULL_WIDTH
-    method set_fULL_WIDTH value' = fULL_WIDTH <- value'
-    val mutable fULL_HEIGHT : string = ""
-    method fULL_HEIGHT = fULL_HEIGHT
-    method set_fULL_HEIGHT value' = fULL_HEIGHT <- value'
-    val mutable lAST_WIDTH : string = ""
-    method lAST_WIDTH = lAST_WIDTH
-    method set_lAST_WIDTH value' = lAST_WIDTH <- value'
-    val mutable lAST_HEIGHT : string = ""
-    method lAST_HEIGHT = lAST_HEIGHT
-    method set_lAST_HEIGHT value' = lAST_HEIGHT <- value'
-    val mutable pORTRAIT : string = ""
-    method pORTRAIT = pORTRAIT
-    method set_pORTRAIT value' = pORTRAIT <- value'
-    val mutable lANDSCAPE : string = ""
-    method lANDSCAPE = lANDSCAPE
-    method set_lANDSCAPE value' = lANDSCAPE <- value'
-    val mutable displayChangeEvent : DisplayChangeEvent.displayChangeEvent = (Obj.magic 0)
-    method displayChangeEvent = displayChangeEvent
-    method set_displayChangeEvent value' = displayChangeEvent <- value'
-    val mutable fIRE_METHOD_NAME : string = ""
-    method fIRE_METHOD_NAME = fIRE_METHOD_NAME
-    method set_fIRE_METHOD_NAME value' = fIRE_METHOD_NAME <- value'
-    val mutable rEASON : string = ""
-    method rEASON = rEASON
-    method set_rEASON value' = rEASON <- value'
-    val mutable uPDATE_FROM_ORIENTATION_CHANGE : string = ""
-    method uPDATE_FROM_ORIENTATION_CHANGE = uPDATE_FROM_ORIENTATION_CHANGE
-    method set_uPDATE_FROM_ORIENTATION_CHANGE value' = uPDATE_FROM_ORIENTATION_CHANGE <- value'
-    val mutable list : BasicArrayList.basicArrayList = (Obj.magic 0)
-    method list = list
-    method set_list value' = list <- value'
-    val mutable dISPLAY_INFO : string = ""
-    method dISPLAY_INFO = dISPLAY_INFO
-    method set_dISPLAY_INFO value' = dISPLAY_INFO <- value'
-    val mutable fULL : string = ""
-    method fULL = fULL
-    method set_fULL value' = fULL <- value'
-    val mutable lAST : string = ""
-    method lAST = lAST
-    method set_lAST value' = lAST <- value'
-    val mutable lAST_HALF : string = ""
-    method lAST_HALF = lAST_HALF
-    method set_lAST_HALF value' = lAST_HALF <- value'
+and jm_getInstance = () => {
+        return jstatic_SINGLETON()
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("DisplayInfoSingleton"), f_logUtil: JR.jnull, f_commonLabels: JR.nullOf(), f_commonSeps: JR.nullOf(), f_commonStrings: JR.nullOf(), f_ORIENTATION: "", f_ADJUSTING_FOR_SCALING_IN_PORTRAIT: "", f_ADJUSTING_FOR_SCALING_IN_LANDSCAPE: "", f_last: [> ], f_lastHalf: [> ], f_full: [> ], f_top: 0l, f_left: 0l, f_xOffset: 0l, f_yOffset: 0l, f_scaleLargestTo: 0.0f, f_WIDTH: 0l, f_HEIGHT: 0l, f_CUSTOM_WIDTH: 0l, f_CUSTOM_HEIGHT: 0l, f_scalableListener: JR.nullOf(), f_displayRatio: 0.0f, f_ratio: 0.0f, f_SET_LAST_SIZE_METHOD_NAME: "", f_FULL_WIDTH: "", f_FULL_HEIGHT: "", f_LAST_WIDTH: "", f_LAST_HEIGHT: "", f_PORTRAIT: "", f_LANDSCAPE: "", f_displayChangeEvent: JR.nullOf(), f_FIRE_METHOD_NAME: "", f_REASON: "", f_UPDATE_FROM_ORIENTATION_CHANGE: "", f_list: JR.nullOf(), f_DISPLAY_INFO: "", f_FULL: "", f_LAST: "", f_LAST_HALF: "", }
+    this.jobject.toStringFunction = () => jm_toString(this)
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonLabels = JR.cast(CommonLabels.jm_getInstance())
+    this.f_commonSeps = JR.cast(CommonSeps.jm_getInstance())
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this.f_ORIENTATION = "ORIENTATION"
+    this.f_ADJUSTING_FOR_SCALING_IN_PORTRAIT = "Adjusting for Scaling in portrait display ratio: "
+    this.f_ADJUSTING_FOR_SCALING_IN_LANDSCAPE = "Adjusting for Scaling in landscape display ratio: "
+    this.f_last = Array.make(Int32.toNumber(4l), 0l)
+    this.f_lastHalf = Array.make(Int32.toNumber(4l), 0l)
+    this.f_full = Array.make(Int32.toNumber(4l), 0l)
     
     
-
-    method getLastHalf () : int array =
-        begin
-        lastHalf
-        end
     
-
-    method getLast () : int array =
-        begin
-        last
-        end
     
-
-    method getFull () : int array =
-        begin
-        full
-        end
     
-
-    method getScaleLargestTo () : float =
-        begin
-        scaleLargestTo
-        end
+    this.f_WIDTH = 0l
+    this.f_HEIGHT = 1l
+    this.f_CUSTOM_WIDTH = 2l
+    this.f_CUSTOM_HEIGHT = 3l
+    this.f_scalableListener = BaseScalable.jnew_0()
     
-
-    method setScaleLargestTo ((scaleLargestTo_arg : int)) : unit =
-        begin
-        scaleLargestTo <- (float_of_int (scaleLargestTo_arg))
-        end
+    this.f_ratio = 1.0f
+    this.f_SET_LAST_SIZE_METHOD_NAME = "setLastSize"
+    this.f_FULL_WIDTH = " FullWidth: "
+    this.f_FULL_HEIGHT = " FullHeight: "
+    this.f_LAST_WIDTH = "LastWidth: "
+    this.f_LAST_HEIGHT = " LastHeight: "
+    this.f_PORTRAIT = "Portrait"
+    this.f_LANDSCAPE = "Landscape"
+    this.f_displayChangeEvent = DisplayChangeEvent.jnew_1(this)
+    this.f_FIRE_METHOD_NAME = "fire"
+    this.f_REASON = "reason: "
+    this.f_UPDATE_FROM_ORIENTATION_CHANGE = "Updating from Orientation Change "
+    this.f_list = JR.cast(BasicArrayListD.jnew_0())
+    this.f_DISPLAY_INFO = "Display Info: "
+    this.f_FULL = "full"
+    this.f_LAST = "last"
+    this.f_LAST_HALF = "lastHalf"
+        let mut size: Int32 = Int32.fromNumber(Array.length(this.f_last))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            this.f_last[Int32.toNumber(index)] = 0l
+            this.f_lastHalf[Int32.toNumber(index)] = 0l
+            this.f_full[Int32.toNumber(index)] = 0l
+            }
+        }
+        if ({
+let jlate: () => JObject = JR.cast(JR.lateBound("AndroidUtil.jm_isAndroid"))
+JR.cast(jlate())
+}) {
+            this.f_scaleLargestTo = 640.0f
+        } else {
+            this.f_scaleLargestTo = 1080.0f
+        }
+    this
+}
     
-
-    method setLastSize ((aLastWidth : int), (aLastHeight : int), (reason : string)) : unit =
-        begin
-        if ((full.(wIDTH) <> aLastWidth) || (full.(hEIGHT) <> aLastHeight)) then begin
-            (self#setLastSizeForce (aLastWidth, aLastHeight, reason))
-        end
-        end
+and jm_getLastHalf = (this: DisplayInfoSingleton) => {
+        return this.f_lastHalf
+}
     
-
-    method setLastSizeForce ((aLastWidth : int), (aLastHeight : int), (reason : string)) : unit =
-        let aLastWidth = ref aLastWidth in
-        let aLastHeight = ref aLastHeight in
-        begin
-        let stringMaker : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append ((CommonLabels.getInstance ())#sTART_LABEL))#append (reason)))), (Obj.magic self), sET_LAST_SIZE_METHOD_NAME));
-        let aFullWidth : int ref = ref (!aLastWidth) in ();
-        let aFullHeight : int ref = ref (!aLastHeight) in ();
-        ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((!stringMaker#append (fULL_WIDTH))#appendint (!aFullWidth))#append (fULL_HEIGHT))#appendint (!aFullHeight))#append ((java_string_of (Obj.repr self)))))), (Obj.magic self), sET_LAST_SIZE_METHOD_NAME));
-        let operatingSystemInterface : GenericOperatingSystem.genericOperatingSystem ref = ref ((((Obj.magic (java_call_static "OperatingSystemFactory.getInstance" (Obj.repr ())))#getOperatingSystemInstance ()) :> GenericOperatingSystem.genericOperatingSystem)) in ();
-        if (!operatingSystemInterface#isOverScan ()) then begin
-            aLastWidth := ((!aLastWidth * (!operatingSystemInterface#getOverScanXPercent ())) / 100);
-            aLastHeight := ((!aLastHeight * (!operatingSystemInterface#getOverScanYPercent ())) / 100)
-        end;
-        if (!operatingSystemInterface#isScalable ()) then begin
-            if (self#isPortraitWH (!aLastWidth, !aLastHeight)) then begin
-                if ((float_of_int (!aLastHeight)) > scaleLargestTo) then begin
-                    displayRatio <- (scaleLargestTo /. (float_of_int (!aLastHeight)));
-                    ratio <- ((float_of_int (!aLastHeight)) /. scaleLargestTo);
-                    ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-                    ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (aDJUSTING_FOR_SCALING_IN_PORTRAIT))#appendfloat (displayRatio)))), (Obj.magic self), sET_LAST_SIZE_METHOD_NAME));
-                    aLastWidth := (int_of_float ((((float_of_int (!aLastWidth)) *. displayRatio))));
-                    aLastHeight := (int_of_float ((((float_of_int (!aLastHeight)) *. displayRatio))));
-                    ignore (scalableListener#scale (ratio))
-                end else begin
-                    ratio <- 1.0;
-                    ignore (scalableListener#scale (ratio))
-                end
-            end else begin
-                if ((float_of_int (!aLastWidth)) > scaleLargestTo) then begin
-                    displayRatio <- (scaleLargestTo /. (float_of_int (!aLastWidth)));
-                    ratio <- ((float_of_int (!aLastWidth)) /. scaleLargestTo);
-                    ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-                    ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (aDJUSTING_FOR_SCALING_IN_LANDSCAPE))#appendfloat (displayRatio)))), (Obj.magic self), sET_LAST_SIZE_METHOD_NAME));
-                    aLastWidth := (int_of_float ((((float_of_int (!aLastWidth)) *. displayRatio))));
-                    aLastHeight := (int_of_float ((((float_of_int (!aLastHeight)) *. displayRatio))));
-                    ignore (scalableListener#scale (ratio))
-                end else begin
-                    ratio <- 1.0;
-                    ignore (scalableListener#scale (ratio))
-                end
-            end
-        end;
-        ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((((!stringMaker#append (lAST_WIDTH))#appendint (!aLastWidth))#append (lAST_HEIGHT))#appendint (!aLastHeight)))), (Obj.magic self), sET_LAST_SIZE_METHOD_NAME));
-        xOffset <- (!aFullWidth - !aLastWidth);
-        yOffset <- (!aFullHeight - !aLastHeight);
-        left <- (scalableListener#getLeft (xOffset));
-        top <- (scalableListener#getTop (yOffset));
-        full.(wIDTH) <- !aFullWidth;
-        full.(hEIGHT) <- !aFullHeight;
-        last.(wIDTH) <- !aLastWidth;
-        lastHalf.(wIDTH) <- ((last.(wIDTH) asr 1));
-        last.(hEIGHT) <- !aLastHeight;
-        lastHalf.(hEIGHT) <- ((last.(hEIGHT) asr 1));
-        ignore ((Obj.magic (java_call_static "SWTJOGLProcessor.getInstance" (Obj.repr ())))#setCustom (!aLastWidth, !aLastHeight, ratio));
-        (self#add (sET_LAST_SIZE_METHOD_NAME))
-        end
+and jm_getLast = (this: DisplayInfoSingleton) => {
+        return this.f_last
+}
     
-
-    method isPortraitWH ((lastWidth : int), (lastHeight : int)) : bool =
-        try
-        begin
-        if (lastHeight > lastWidth) then begin
-            raise (Java_return (Obj.repr (true)))
-        end else begin
-            raise (Java_return (Obj.repr (false)))
-        end
-        end
-        with Java_return value -> Obj.obj value
+and jm_getFull = (this: DisplayInfoSingleton) => {
+        return this.f_full
+}
     
-
-    method isPortrait () : bool =
-        begin
-        (self#isPortraitWH (last.(wIDTH), last.(hEIGHT)))
-        end
+and jm_getScaleLargestTo = (this: DisplayInfoSingleton) => {
+        return this.f_scaleLargestTo
+}
     
-
-    method add ((reason : string)) : unit =
-        begin
-        let stringMaker : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (rEASON))#append (reason)))), (Obj.magic self), fIRE_METHOD_NAME));
-        ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-        ignore ((Obj.magic logUtil)#putF ((self#toStringAppend (!stringMaker)), (Obj.magic self), fIRE_METHOD_NAME));
-        ignore (list#add (reason))
-        end
+and jm_setScaleLargestTo = (this: DisplayInfoSingleton, scaleLargestTo: Int32) => {
+        this.f_scaleLargestTo = Float32.fromNumber(Int32.toNumber(scaleLargestTo))
+}
     
-
-    method process () : unit =
-        begin
-        (try
-            if ((list#size ()) > 0) then begin
-                (self#processForced ())
-            end;
-            ignore (list#clear ())
-        with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, (Obj.magic self), fIRE_METHOD_NAME, e))))
-        end)
-        end
+and jm_setLastSize = (this: DisplayInfoSingleton, aLastWidth: Int32, aLastHeight: Int32, reason: String) => {
+        if (((this.f_full[Int32.toNumber(this.f_WIDTH)] != aLastWidth) || (this.f_full[Int32.toNumber(this.f_HEIGHT)] != aLastHeight))) {
+            ignore(jm_setLastSizeForce(this, aLastWidth, aLastHeight, reason))
+        }
+}
     
-
-    method processForced () : unit =
-        begin
-        (try
-            let swtJOGLProcessor : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "SWTJOGLProcessor.getInstance" (Obj.repr ()))))) in ();
-            ignore ((Obj.magic !swtJOGLProcessor)#clear ());
-            ignore ((DisplayChangeEventHandler.getInstance ())#fireEvent (displayChangeEvent));
-            ignore ((LastDisplayChangeEventHandler.getInstance ())#fireEvent (displayChangeEvent));
-            ignore ((Obj.magic !swtJOGLProcessor)#onSurfaceChanged ())
-        with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, (Obj.magic self), fIRE_METHOD_NAME, e))))
-        end)
-        end
+and jm_setLastSizeForce = (this: DisplayInfoSingleton, aLastWidth: Int32, aLastHeight: Int32, reason: String) => {
+    let mut aLastWidth = aLastWidth
+    let mut aLastHeight = aLastHeight
+        let mut stringMaker: StringMaker = StringMaker.jnew_0()
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(stringMaker, CommonLabels.jm_getInstance().f_START_LABEL), reason))), JR.cast(this), JR.cast(this.f_SET_LAST_SIZE_METHOD_NAME)))
+})
+        let mut aFullWidth: Int32 = aLastWidth
+        let mut aFullHeight: Int32 = aLastHeight
+        ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_appendint(StringMaker.jm_append(stringMaker, this.f_FULL_WIDTH), aFullWidth), this.f_FULL_HEIGHT), aFullHeight), jm_toString(this)))), JR.cast(this), JR.cast(this.f_SET_LAST_SIZE_METHOD_NAME)))
+})
+        let mut operatingSystemInterface: GenericOperatingSystem = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("OperatingSystemFactory.jm_getOperatingSystemInstance"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("OperatingSystemFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})
+        if (GenericOperatingSystem.jm_isOverScan(operatingSystemInterface)) {
+            aLastWidth = Int32.(/)(Int32.(*)(aLastWidth, GenericOperatingSystem.jm_getOverScanXPercent(operatingSystemInterface)), 100l)
+            aLastHeight = Int32.(/)(Int32.(*)(aLastHeight, GenericOperatingSystem.jm_getOverScanYPercent(operatingSystemInterface)), 100l)
+        }
+        if (GenericOperatingSystem.jm_isScalable(operatingSystemInterface)) {
+            if (jm_isPortraitWH(this, aLastWidth, aLastHeight)) {
+                if (Float32.(>)(Float32.fromNumber(Int32.toNumber(aLastHeight)), this.f_scaleLargestTo)) {
+                    this.f_displayRatio = Float32.(/)(this.f_scaleLargestTo, Float32.fromNumber(Int32.toNumber(aLastHeight)))
+                    this.f_ratio = Float32.(/)(Float32.fromNumber(Int32.toNumber(aLastHeight)), this.f_scaleLargestTo)
+                    ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
+                    ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendfloat(StringMaker.jm_append(stringMaker, this.f_ADJUSTING_FOR_SCALING_IN_PORTRAIT), this.f_displayRatio))), JR.cast(this), JR.cast(this.f_SET_LAST_SIZE_METHOD_NAME)))
+})
+                    aLastWidth = JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(aLastWidth)), this.f_displayRatio))))
+                    aLastHeight = JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(aLastHeight)), this.f_displayRatio))))
+                    ignore(BaseScalable.jm_scale(this.f_scalableListener, this.f_ratio))
+                } else {
+                    this.f_ratio = 1.0f
+                    ignore(BaseScalable.jm_scale(this.f_scalableListener, this.f_ratio))
+                }
+            } else {
+                if (Float32.(>)(Float32.fromNumber(Int32.toNumber(aLastWidth)), this.f_scaleLargestTo)) {
+                    this.f_displayRatio = Float32.(/)(this.f_scaleLargestTo, Float32.fromNumber(Int32.toNumber(aLastWidth)))
+                    this.f_ratio = Float32.(/)(Float32.fromNumber(Int32.toNumber(aLastWidth)), this.f_scaleLargestTo)
+                    ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
+                    ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendfloat(StringMaker.jm_append(stringMaker, this.f_ADJUSTING_FOR_SCALING_IN_LANDSCAPE), this.f_displayRatio))), JR.cast(this), JR.cast(this.f_SET_LAST_SIZE_METHOD_NAME)))
+})
+                    aLastWidth = JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(aLastWidth)), this.f_displayRatio))))
+                    aLastHeight = JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(aLastHeight)), this.f_displayRatio))))
+                    ignore(BaseScalable.jm_scale(this.f_scalableListener, this.f_ratio))
+                } else {
+                    this.f_ratio = 1.0f
+                    ignore(BaseScalable.jm_scale(this.f_scalableListener, this.f_ratio))
+                }
+            }
+        }
+        ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_appendint(StringMaker.jm_append(stringMaker, this.f_LAST_WIDTH), aLastWidth), this.f_LAST_HEIGHT), aLastHeight))), JR.cast(this), JR.cast(this.f_SET_LAST_SIZE_METHOD_NAME)))
+})
+        this.f_xOffset = Int32.(-)(aFullWidth, aLastWidth)
+        this.f_yOffset = Int32.(-)(aFullHeight, aLastHeight)
+        this.f_left = BaseScalable.jm_getLeft(this.f_scalableListener, this.f_xOffset)
+        this.f_top = BaseScalable.jm_getTop(this.f_scalableListener, this.f_yOffset)
+        this.f_full[Int32.toNumber(this.f_WIDTH)] = aFullWidth
+        this.f_full[Int32.toNumber(this.f_HEIGHT)] = aFullHeight
+        this.f_last[Int32.toNumber(this.f_WIDTH)] = aLastWidth
+        this.f_lastHalf[Int32.toNumber(this.f_WIDTH)] = (Int32.(>>)(this.f_last[Int32.toNumber(this.f_WIDTH)], 1l))
+        this.f_last[Int32.toNumber(this.f_HEIGHT)] = aLastHeight
+        this.f_lastHalf[Int32.toNumber(this.f_HEIGHT)] = (Int32.(>>)(this.f_last[Int32.toNumber(this.f_HEIGHT)], 1l))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("SWTJOGLProcessor.jm_setCustom"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("SWTJOGLProcessor.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(aLastWidth), JR.cast(aLastHeight), JR.cast(this.f_ratio)))
+})
+        ignore(jm_add(this, this.f_SET_LAST_SIZE_METHOD_NAME))
+}
     
-
-    method update : 'any1. 'any1 * string -> unit = fun (displayable, (reason : string)) ->
-        let displayable = Obj.repr displayable in
-        begin
-        let aLastWidth : int ref = ref (((Obj.magic displayable)#getWidth ())) in ();
-        let aLastHeight : int ref = ref (((Obj.magic displayable)#getHeight ())) in ();
-        let aFullWidth : int ref = ref (!aLastWidth) in ();
-        let aFullHeight : int ref = ref (!aLastHeight) in ();
-        let stringMaker : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((((((((!stringMaker#append ((CommonLabels.getInstance ())#sTART_LABEL))#append (reason))#append (lAST_WIDTH))#appendint (!aLastWidth))#append (lAST_HEIGHT))#appendint (!aLastHeight))#append (commonSeps#sPACE))#append ((java_string_of (Obj.repr self)))))), (Obj.magic self), commonStrings#uPDATE));
-        if ((!aLastWidth > 0) && (!aLastHeight > 0)) then begin
-            let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
-            let openGLFeatureFactory : OpenGLFeatureFactory.openGLFeatureFactory ref = ref (((OpenGLFeatureFactory.getInstance ()) :> OpenGLFeatureFactory.openGLFeatureFactory)) in ();
-            if (((not (!features#isDefault (!openGLFeatureFactory#oPENGL))) || (last.(wIDTH) <> !aLastWidth)) || (last.(hEIGHT) <> !aLastHeight)) then begin
-                ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (!stringMaker#append (uPDATE_FROM_ORIENTATION_CHANGE)))), (Obj.magic self), commonStrings#uPDATE));
-                let operatingSystemInterface : GenericOperatingSystem.genericOperatingSystem ref = ref ((((Obj.magic (java_call_static "OperatingSystemFactory.getInstance" (Obj.repr ())))#getOperatingSystemInstance ()) :> GenericOperatingSystem.genericOperatingSystem)) in ();
-                if (!operatingSystemInterface#isOverScan ()) then begin
-                    aLastWidth := ((!aLastWidth * (!operatingSystemInterface#getOverScanXPercent ())) / 100);
-                    aLastHeight := ((!aLastHeight * (!operatingSystemInterface#getOverScanYPercent ())) / 100)
-                end;
-                if (!operatingSystemInterface#isScalable ()) then begin
-                    if (self#isPortraitWH (!aLastWidth, !aLastHeight)) then begin
-                        if ((float_of_int (!aLastHeight)) > scaleLargestTo) then begin
-                            displayRatio <- (scaleLargestTo /. (float_of_int (!aLastHeight)));
-                            ratio <- ((float_of_int (!aLastHeight)) /. scaleLargestTo);
-                            ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-                            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (aDJUSTING_FOR_SCALING_IN_PORTRAIT))#appendfloat (displayRatio)))), (Obj.magic self), commonStrings#uPDATE));
-                            aLastWidth := (int_of_float ((((float_of_int (!aLastWidth)) *. displayRatio))));
-                            aLastHeight := (int_of_float ((((float_of_int (!aLastHeight)) *. displayRatio))));
-                            ignore (scalableListener#scale (ratio))
-                        end else begin
-                            ratio <- 1.0;
-                            ignore (scalableListener#scale (ratio))
-                        end
-                    end else begin
-                        if ((float_of_int (!aLastWidth)) > scaleLargestTo) then begin
-                            displayRatio <- (scaleLargestTo /. (float_of_int (!aLastWidth)));
-                            ratio <- ((float_of_int (!aLastWidth)) /. scaleLargestTo);
-                            ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-                            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((!stringMaker#append (aDJUSTING_FOR_SCALING_IN_LANDSCAPE))#appendfloat (displayRatio)))), (Obj.magic self), commonStrings#uPDATE));
-                            aLastWidth := (int_of_float ((((float_of_int (!aLastWidth)) *. displayRatio))));
-                            aLastHeight := (int_of_float ((((float_of_int (!aLastHeight)) *. displayRatio))));
-                            ignore (scalableListener#scale (ratio))
-                        end else begin
-                            ratio <- 1.0;
-                            ignore (scalableListener#scale (ratio))
-                        end
-                    end
-                end;
-                ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((!stringMaker#append (uPDATE_FROM_ORIENTATION_CHANGE))#append (lAST_WIDTH))#appendint (!aLastWidth))#append (lAST_HEIGHT))#appendint (!aLastHeight)))), (Obj.magic self), commonStrings#uPDATE));
-                xOffset <- (!aFullWidth - !aLastWidth);
-                yOffset <- (!aFullHeight - !aLastHeight);
-                left <- (scalableListener#getLeft (xOffset));
-                top <- (scalableListener#getTop (yOffset));
-                full.(wIDTH) <- !aFullWidth;
-                full.(hEIGHT) <- !aFullHeight;
-                last.(wIDTH) <- !aLastWidth;
-                lastHalf.(wIDTH) <- ((last.(wIDTH) asr 1));
-                last.(hEIGHT) <- !aLastHeight;
-                lastHalf.(hEIGHT) <- ((last.(hEIGHT) asr 1));
-                ignore ((Obj.magic (java_call_static "SWTJOGLProcessor.getInstance" (Obj.repr ())))#setCustom (!aLastWidth, !aLastHeight, ratio));
-                (self#add (commonStrings#uPDATE))
-            end
-        end
-        end [@@warning "-20"]
+and jm_isPortraitWH = (this: DisplayInfoSingleton, lastWidth: Int32, lastHeight: Int32) => {
+        if (Int32.(>)(lastHeight, lastWidth)) {
+            return true
+        } else {
+            return false
+        }
+}
     
-
-    method toString () : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        (self#toStringAppend (!stringBuffer))
-        end
+and jm_isPortrait = (this: DisplayInfoSingleton) => {
+        return jm_isPortraitWH(this, this.f_last[Int32.toNumber(this.f_WIDTH)], this.f_last[Int32.toNumber(this.f_HEIGHT)])
+}
     
-
-    method toStringAppend : 'any1. 'any1 -> string = fun (stringBuffer) ->
-        let stringBuffer = Obj.repr stringBuffer in
-        begin
-        ignore ((Obj.magic stringBuffer)#append (dISPLAY_INFO));
-        ignore ((Obj.magic stringBuffer)#append (fULL));
-        ignore ((Obj.magic stringBuffer)#append (commonLabels#wIDTH_LABEL));
-        ignore ((Obj.magic stringBuffer)#appendint (full.(wIDTH)));
-        ignore ((Obj.magic stringBuffer)#append (commonSeps#sPACE));
-        ignore ((Obj.magic stringBuffer)#append (fULL));
-        ignore ((Obj.magic stringBuffer)#append (commonLabels#hEIGHT_LABEL));
-        ignore ((Obj.magic stringBuffer)#appendint (full.(hEIGHT)));
-        ignore ((Obj.magic stringBuffer)#append (commonSeps#sPACE));
-        ignore ((Obj.magic stringBuffer)#append (lAST));
-        ignore ((Obj.magic stringBuffer)#append (commonLabels#wIDTH_LABEL));
-        ignore ((Obj.magic stringBuffer)#appendint (last.(wIDTH)));
-        ignore ((Obj.magic stringBuffer)#append (commonSeps#sPACE));
-        ignore ((Obj.magic stringBuffer)#append (lAST));
-        ignore ((Obj.magic stringBuffer)#append (commonLabels#hEIGHT_LABEL));
-        ignore ((Obj.magic stringBuffer)#appendint (last.(hEIGHT)));
-        ignore ((Obj.magic stringBuffer)#append (commonSeps#sPACE));
-        ignore ((Obj.magic stringBuffer)#append (lAST_HALF));
-        ignore ((Obj.magic stringBuffer)#append (commonLabels#wIDTH_LABEL));
-        ignore ((Obj.magic stringBuffer)#appendint (lastHalf.(wIDTH)));
-        ignore ((Obj.magic stringBuffer)#append (commonSeps#sPACE));
-        ignore ((Obj.magic stringBuffer)#append (lAST_HALF));
-        ignore ((Obj.magic stringBuffer)#append (commonLabels#hEIGHT_LABEL));
-        ignore ((Obj.magic stringBuffer)#appendint (lastHalf.(hEIGHT)));
-        ignore ((Obj.magic stringBuffer)#append (commonSeps#sPACE));
-        ignore ((Obj.magic stringBuffer)#append ((if (self#isPortrait ()) then pORTRAIT else lANDSCAPE)));
-        (java_string_of (Obj.repr (Obj.magic stringBuffer)))
-        end [@@warning "-20"]
+and jm_add = (this: DisplayInfoSingleton, reason: String) => {
+        let mut stringMaker: StringMaker = StringMaker.jnew_0()
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(stringMaker, this.f_REASON), reason))), JR.cast(this), JR.cast(this.f_FIRE_METHOD_NAME)))
+})
+        ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(jm_toStringAppend(this, stringMaker)), JR.cast(this), JR.cast(this.f_FIRE_METHOD_NAME)))
+})
+        ignore(BasicArrayList.jm_add(this.f_list, JR.cast(reason)))
+}
     
-
-    method getTop () : int =
-        begin
-        top
-        end
+and jm_process = (this: DisplayInfoSingleton) => {
+        {
+            if (Int32.(>)(BasicArrayList.jm_size(this.f_list), 0l)) {
+                ignore(jm_processForced(this))
+            }
+            ignore(BasicArrayList.jm_clear(this.f_list))
+        }
+}
     
-
-    method getLeft () : int =
-        begin
-        left
-        end
+and jm_processForced = (this: DisplayInfoSingleton) => {
+        {
+            let mut swtJOGLProcessor: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("SWTJOGLProcessor.jm_getInstance"))
+JR.cast(jlate())
+})
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SWTJOGLProcessor.jm_clear"))
+JR.cast(jlate(JR.cast(swtJOGLProcessor)))
+})
+            ignore(DisplayChangeEventHandler.jm_fireEvent(DisplayChangeEventHandler.jm_getInstance(), this.f_displayChangeEvent))
+            ignore(LastDisplayChangeEventHandler.jm_fireEvent(LastDisplayChangeEventHandler.jm_getInstance(), this.f_displayChangeEvent))
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SWTJOGLProcessor.jm_onSurfaceChanged"))
+JR.cast(jlate(JR.cast(swtJOGLProcessor)))
+})
+        }
+}
     
-
-    method getLastWidth () : int =
-        begin
-        last.(wIDTH)
-        end
+and jm_update = (this: DisplayInfoSingleton, displayable: JObject, reason: String) => {
+        let mut aLastWidth: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Displayable.jm_getWidth"))
+JR.cast(jlate(JR.cast(displayable)))
+}
+        let mut aLastHeight: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Displayable.jm_getHeight"))
+JR.cast(jlate(JR.cast(displayable)))
+}
+        let mut aFullWidth: Int32 = aLastWidth
+        let mut aFullHeight: Int32 = aLastHeight
+        let mut stringMaker: StringMaker = StringMaker.jnew_0()
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(stringMaker, CommonLabels.jm_getInstance().f_START_LABEL), reason), this.f_LAST_WIDTH), aLastWidth), this.f_LAST_HEIGHT), aLastHeight), this.f_commonSeps.f_SPACE), jm_toString(this)))), JR.cast(this), JR.cast(this.f_commonStrings.f_UPDATE)))
+})
+        if ((Int32.(>)(aLastWidth, 0l) && Int32.(>)(aLastHeight, 0l))) {
+            let mut features: Features = JR.cast(Features.jm_getInstance())
+            let mut openGLFeatureFactory: OpenGLFeatureFactory = JR.cast(OpenGLFeatureFactory.jm_getInstance())
+            if (((!Features.jm_isDefault(features, JR.cast(openGLFeatureFactory.f_OPENGL)) || (this.f_last[Int32.toNumber(this.f_WIDTH)] != aLastWidth)) || (this.f_last[Int32.toNumber(this.f_HEIGHT)] != aLastHeight))) {
+                ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(stringMaker, this.f_UPDATE_FROM_ORIENTATION_CHANGE))), JR.cast(this), JR.cast(this.f_commonStrings.f_UPDATE)))
+})
+                let mut operatingSystemInterface: GenericOperatingSystem = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("OperatingSystemFactory.jm_getOperatingSystemInstance"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("OperatingSystemFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})
+                if (GenericOperatingSystem.jm_isOverScan(operatingSystemInterface)) {
+                    aLastWidth = Int32.(/)(Int32.(*)(aLastWidth, GenericOperatingSystem.jm_getOverScanXPercent(operatingSystemInterface)), 100l)
+                    aLastHeight = Int32.(/)(Int32.(*)(aLastHeight, GenericOperatingSystem.jm_getOverScanYPercent(operatingSystemInterface)), 100l)
+                }
+                if (GenericOperatingSystem.jm_isScalable(operatingSystemInterface)) {
+                    if (jm_isPortraitWH(this, aLastWidth, aLastHeight)) {
+                        if (Float32.(>)(Float32.fromNumber(Int32.toNumber(aLastHeight)), this.f_scaleLargestTo)) {
+                            this.f_displayRatio = Float32.(/)(this.f_scaleLargestTo, Float32.fromNumber(Int32.toNumber(aLastHeight)))
+                            this.f_ratio = Float32.(/)(Float32.fromNumber(Int32.toNumber(aLastHeight)), this.f_scaleLargestTo)
+                            ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
+                            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendfloat(StringMaker.jm_append(stringMaker, this.f_ADJUSTING_FOR_SCALING_IN_PORTRAIT), this.f_displayRatio))), JR.cast(this), JR.cast(this.f_commonStrings.f_UPDATE)))
+})
+                            aLastWidth = JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(aLastWidth)), this.f_displayRatio))))
+                            aLastHeight = JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(aLastHeight)), this.f_displayRatio))))
+                            ignore(BaseScalable.jm_scale(this.f_scalableListener, this.f_ratio))
+                        } else {
+                            this.f_ratio = 1.0f
+                            ignore(BaseScalable.jm_scale(this.f_scalableListener, this.f_ratio))
+                        }
+                    } else {
+                        if (Float32.(>)(Float32.fromNumber(Int32.toNumber(aLastWidth)), this.f_scaleLargestTo)) {
+                            this.f_displayRatio = Float32.(/)(this.f_scaleLargestTo, Float32.fromNumber(Int32.toNumber(aLastWidth)))
+                            this.f_ratio = Float32.(/)(Float32.fromNumber(Int32.toNumber(aLastWidth)), this.f_scaleLargestTo)
+                            ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
+                            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendfloat(StringMaker.jm_append(stringMaker, this.f_ADJUSTING_FOR_SCALING_IN_LANDSCAPE), this.f_displayRatio))), JR.cast(this), JR.cast(this.f_commonStrings.f_UPDATE)))
+})
+                            aLastWidth = JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(aLastWidth)), this.f_displayRatio))))
+                            aLastHeight = JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(aLastHeight)), this.f_displayRatio))))
+                            ignore(BaseScalable.jm_scale(this.f_scalableListener, this.f_ratio))
+                        } else {
+                            this.f_ratio = 1.0f
+                            ignore(BaseScalable.jm_scale(this.f_scalableListener, this.f_ratio))
+                        }
+                    }
+                }
+                ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_append(stringMaker, this.f_UPDATE_FROM_ORIENTATION_CHANGE), this.f_LAST_WIDTH), aLastWidth), this.f_LAST_HEIGHT), aLastHeight))), JR.cast(this), JR.cast(this.f_commonStrings.f_UPDATE)))
+})
+                this.f_xOffset = Int32.(-)(aFullWidth, aLastWidth)
+                this.f_yOffset = Int32.(-)(aFullHeight, aLastHeight)
+                this.f_left = BaseScalable.jm_getLeft(this.f_scalableListener, this.f_xOffset)
+                this.f_top = BaseScalable.jm_getTop(this.f_scalableListener, this.f_yOffset)
+                this.f_full[Int32.toNumber(this.f_WIDTH)] = aFullWidth
+                this.f_full[Int32.toNumber(this.f_HEIGHT)] = aFullHeight
+                this.f_last[Int32.toNumber(this.f_WIDTH)] = aLastWidth
+                this.f_lastHalf[Int32.toNumber(this.f_WIDTH)] = (Int32.(>>)(this.f_last[Int32.toNumber(this.f_WIDTH)], 1l))
+                this.f_last[Int32.toNumber(this.f_HEIGHT)] = aLastHeight
+                this.f_lastHalf[Int32.toNumber(this.f_HEIGHT)] = (Int32.(>>)(this.f_last[Int32.toNumber(this.f_HEIGHT)], 1l))
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("SWTJOGLProcessor.jm_setCustom"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("SWTJOGLProcessor.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(aLastWidth), JR.cast(aLastHeight), JR.cast(this.f_ratio)))
+})
+                ignore(jm_add(this, this.f_commonStrings.f_UPDATE))
+            }
+        }
+}
     
-
-    method getLastHeight () : int =
-        begin
-        last.(hEIGHT)
-        end
+and jm_toString = (this: DisplayInfoSingleton) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        return jm_toStringAppend(this, stringBuffer)
+}
     
-
-    method getLastHalfWidth () : int =
-        begin
-        lastHalf.(wIDTH)
-        end
+and jm_toStringAppend = (this: DisplayInfoSingleton, stringBuffer: StringMaker) => {
+        ignore(StringMaker.jm_append(stringBuffer, this.f_DISPLAY_INFO))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_FULL))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_commonLabels.f_WIDTH_LABEL))
+        ignore(StringMaker.jm_appendint(stringBuffer, this.f_full[Int32.toNumber(this.f_WIDTH)]))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_commonSeps.f_SPACE))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_FULL))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_commonLabels.f_HEIGHT_LABEL))
+        ignore(StringMaker.jm_appendint(stringBuffer, this.f_full[Int32.toNumber(this.f_HEIGHT)]))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_commonSeps.f_SPACE))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_LAST))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_commonLabels.f_WIDTH_LABEL))
+        ignore(StringMaker.jm_appendint(stringBuffer, this.f_last[Int32.toNumber(this.f_WIDTH)]))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_commonSeps.f_SPACE))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_LAST))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_commonLabels.f_HEIGHT_LABEL))
+        ignore(StringMaker.jm_appendint(stringBuffer, this.f_last[Int32.toNumber(this.f_HEIGHT)]))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_commonSeps.f_SPACE))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_LAST_HALF))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_commonLabels.f_WIDTH_LABEL))
+        ignore(StringMaker.jm_appendint(stringBuffer, this.f_lastHalf[Int32.toNumber(this.f_WIDTH)]))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_commonSeps.f_SPACE))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_LAST_HALF))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_commonLabels.f_HEIGHT_LABEL))
+        ignore(StringMaker.jm_appendint(stringBuffer, this.f_lastHalf[Int32.toNumber(this.f_HEIGHT)]))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_commonSeps.f_SPACE))
+        ignore(StringMaker.jm_append(stringBuffer, (if (jm_isPortrait(this)) this.f_PORTRAIT else this.f_LANDSCAPE)))
+        return StringMaker.jm_toString(stringBuffer)
+}
     
-
-    method getLastHalfHeight () : int =
-        begin
-        lastHalf.(hEIGHT)
-        end
+and jm_getTop = (this: DisplayInfoSingleton) => {
+        return this.f_top
+}
     
-
-    method getCustomLastWidth () : int =
-        begin
-        last.(cUSTOM_WIDTH)
-        end
+and jm_getLeft = (this: DisplayInfoSingleton) => {
+        return this.f_left
+}
     
-
-    method getCustomLastHeight () : int =
-        begin
-        last.(cUSTOM_HEIGHT)
-        end
+and jm_getLastWidth = (this: DisplayInfoSingleton) => {
+        return this.f_last[Int32.toNumber(this.f_WIDTH)]
+}
     
-
-    method getRawLastWidth () : int =
-        begin
-        last.(wIDTH)
-        end
+and jm_getLastHeight = (this: DisplayInfoSingleton) => {
+        return this.f_last[Int32.toNumber(this.f_HEIGHT)]
+}
     
-
-    method getRawLastHeight () : int =
-        begin
-        last.(hEIGHT)
-        end
+and jm_getLastHalfWidth = (this: DisplayInfoSingleton) => {
+        return this.f_lastHalf[Int32.toNumber(this.f_WIDTH)]
+}
     
-
-    method setCustom ((width : int), (height : int)) : unit =
-        begin
-        last.(cUSTOM_WIDTH) <- width;
-        lastHalf.(cUSTOM_WIDTH) <- ((last.(cUSTOM_WIDTH) asr 1));
-        last.(cUSTOM_HEIGHT) <- height;
-        lastHalf.(cUSTOM_HEIGHT) <- ((last.(cUSTOM_HEIGHT) asr 1))
-        end
+and jm_getLastHalfHeight = (this: DisplayInfoSingleton) => {
+        return this.f_lastHalf[Int32.toNumber(this.f_HEIGHT)]
+}
     
-
-    method setScalableListener : 'any1. 'any1 -> unit = fun (scalableListener_arg) ->
-        let scalableListener_arg = Obj.repr scalableListener_arg in
-        begin
-        scalableListener <- (Obj.magic scalableListener_arg)
-        end [@@warning "-20"]
+and jm_getCustomLastWidth = (this: DisplayInfoSingleton) => {
+        return this.f_last[Int32.toNumber(this.f_CUSTOM_WIDTH)]
+}
     
-
-    method getScalableListener : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (scalableListener))
-        end
+and jm_getCustomLastHeight = (this: DisplayInfoSingleton) => {
+        return this.f_last[Int32.toNumber(this.f_CUSTOM_HEIGHT)]
+}
     
-
-    method getRatio () : float =
-        begin
-        ratio
-        end
+and jm_getRawLastWidth = (this: DisplayInfoSingleton) => {
+        return this.f_last[Int32.toNumber(this.f_WIDTH)]
+}
     
-
-    method getDisplayRatio () : float =
-        begin
-        displayRatio
-        end
+and jm_getRawLastHeight = (this: DisplayInfoSingleton) => {
+        return this.f_last[Int32.toNumber(this.f_HEIGHT)]
+}
     
-
-    method setOffset ((left_arg : int), (_top_arg : int)) : unit =
-        begin
-        left <- left_arg
-        end
+and jm_setCustom = (this: DisplayInfoSingleton, width: Int32, height: Int32) => {
+        this.f_last[Int32.toNumber(this.f_CUSTOM_WIDTH)] = width
+        this.f_lastHalf[Int32.toNumber(this.f_CUSTOM_WIDTH)] = (Int32.(>>)(this.f_last[Int32.toNumber(this.f_CUSTOM_WIDTH)], 1l))
+        this.f_last[Int32.toNumber(this.f_CUSTOM_HEIGHT)] = height
+        this.f_lastHalf[Int32.toNumber(this.f_CUSTOM_HEIGHT)] = (Int32.(>>)(this.f_last[Int32.toNumber(this.f_CUSTOM_HEIGHT)], 1l))
+}
     
-
-    method getxOffset () : int =
-        begin
-        xOffset
-        end
+and jm_setScalableListener = (this: DisplayInfoSingleton, scalableListener: BaseScalable) => {
+        this.f_scalableListener = scalableListener
+}
     
+and jm_getScalableListener = (this: DisplayInfoSingleton) => {
+        return JR.cast(this.f_scalableListener)
+}
+    
+and jm_getRatio = (this: DisplayInfoSingleton) => {
+        return this.f_ratio
+}
+    
+and jm_getDisplayRatio = (this: DisplayInfoSingleton) => {
+        return this.f_displayRatio
+}
+    
+and jm_setOffset = (this: DisplayInfoSingleton, left: Int32, top: Int32) => {
+        this.f_left = left
+}
+    
+and jm_getxOffset = (this: DisplayInfoSingleton) => {
+        return this.f_xOffset
+}
+    
+and jm_getyOffset = (this: DisplayInfoSingleton) => {
+        return this.f_yOffset
+}
 
-    method getyOffset () : int =
-        begin
-        yOffset
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonLabels <- ((CommonLabels.getInstance ()) :> CommonLabels.commonLabels);
-        commonSeps <- ((CommonSeps.getInstance ()) :> CommonSeps.commonSeps);
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        oRIENTATION <- "ORIENTATION";
-        aDJUSTING_FOR_SCALING_IN_PORTRAIT <- "Adjusting for Scaling in portrait display ratio: ";
-        aDJUSTING_FOR_SCALING_IN_LANDSCAPE <- "Adjusting for Scaling in landscape display ratio: ";
-        last <- (Array.make (4) 0);
-        lastHalf <- (Array.make (4) 0);
-        full <- (Array.make (4) 0);
-        top <- 0;
-        left <- 0;
-        xOffset <- 0;
-        yOffset <- 0;
-        scaleLargestTo <- 0.0;
-        wIDTH <- 0;
-        hEIGHT <- 1;
-        cUSTOM_WIDTH <- 2;
-        cUSTOM_HEIGHT <- 3;
-        scalableListener <- ((new BaseScalable.baseScalable ()) :> BaseScalable.baseScalable);
-        displayRatio <- 0.0;
-        ratio <- 1.0;
-        sET_LAST_SIZE_METHOD_NAME <- "setLastSize";
-        fULL_WIDTH <- " FullWidth: ";
-        fULL_HEIGHT <- " FullHeight: ";
-        lAST_WIDTH <- "LastWidth: ";
-        lAST_HEIGHT <- " LastHeight: ";
-        pORTRAIT <- "Portrait";
-        lANDSCAPE <- "Landscape";
-        displayChangeEvent <- ((new DisplayChangeEvent.displayChangeEvent ((Obj.magic self))) :> DisplayChangeEvent.displayChangeEvent);
-        fIRE_METHOD_NAME <- "fire";
-        rEASON <- "reason: ";
-        uPDATE_FROM_ORIENTATION_CHANGE <- "Updating from Orientation Change ";
-        list <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
-        dISPLAY_INFO <- "Display Info: ";
-        fULL <- "full";
-        lAST <- "last";
-        lAST_HALF <- "lastHalf";
-        ();
-        let size : int ref = ref ((Array.length last)) in ();
-        for index = 0 to !size - 1 do
-            last.(index) <- 0;
-            lastHalf.(index) <- 0;
-            full.(index) <- 0
-        done;
-        if (Obj.magic (java_call_static "AndroidUtil.isAndroid" (Obj.repr ()))) then begin
-            scaleLargestTo <- 640.
-        end else begin
-            scaleLargestTo <- 1080.
-        end
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "DisplayInfoSingleton" (fun arguments -> Obj.repr (new displayInfoSingleton (Obj.obj arguments)))
-
-let sINGLETON = (new displayInfoSingleton ())
-let get_sINGLETON () = sINGLETON
-let () = java_register_static "DisplayInfoSingleton.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (sINGLETON))
-        end
-let () = java_register_static "DisplayInfoSingleton.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("DisplayInfoSingleton.jnew_0", jnew_0)
+JR.registerLateBound("DisplayInfoSingleton.jm_getInstance", jm_getInstance)
+JR.registerLateBound("DisplayInfoSingleton.jm_getLastHalf", jm_getLastHalf)
+JR.registerLateBound("DisplayInfoSingleton.jm_getLast", jm_getLast)
+JR.registerLateBound("DisplayInfoSingleton.jm_getFull", jm_getFull)
+JR.registerLateBound("DisplayInfoSingleton.jm_getScaleLargestTo", jm_getScaleLargestTo)
+JR.registerLateBound("DisplayInfoSingleton.jm_setScaleLargestTo", jm_setScaleLargestTo)
+JR.registerLateBound("DisplayInfoSingleton.jm_setLastSize", jm_setLastSize)
+JR.registerLateBound("DisplayInfoSingleton.jm_setLastSizeForce", jm_setLastSizeForce)
+JR.registerLateBound("DisplayInfoSingleton.jm_isPortraitWH", jm_isPortraitWH)
+JR.registerLateBound("DisplayInfoSingleton.jm_isPortrait", jm_isPortrait)
+JR.registerLateBound("DisplayInfoSingleton.jm_add", jm_add)
+JR.registerLateBound("DisplayInfoSingleton.jm_process", jm_process)
+JR.registerLateBound("DisplayInfoSingleton.jm_processForced", jm_processForced)
+JR.registerLateBound("DisplayInfoSingleton.jm_update", jm_update)
+JR.registerLateBound("DisplayInfoSingleton.jm_toString", jm_toString)
+JR.registerLateBound("DisplayInfoSingleton.jm_toStringAppend", jm_toStringAppend)
+JR.registerLateBound("DisplayInfoSingleton.jm_getTop", jm_getTop)
+JR.registerLateBound("DisplayInfoSingleton.jm_getLeft", jm_getLeft)
+JR.registerLateBound("DisplayInfoSingleton.jm_getLastWidth", jm_getLastWidth)
+JR.registerLateBound("DisplayInfoSingleton.jm_getLastHeight", jm_getLastHeight)
+JR.registerLateBound("DisplayInfoSingleton.jm_getLastHalfWidth", jm_getLastHalfWidth)
+JR.registerLateBound("DisplayInfoSingleton.jm_getLastHalfHeight", jm_getLastHalfHeight)
+JR.registerLateBound("DisplayInfoSingleton.jm_getCustomLastWidth", jm_getCustomLastWidth)
+JR.registerLateBound("DisplayInfoSingleton.jm_getCustomLastHeight", jm_getCustomLastHeight)
+JR.registerLateBound("DisplayInfoSingleton.jm_getRawLastWidth", jm_getRawLastWidth)
+JR.registerLateBound("DisplayInfoSingleton.jm_getRawLastHeight", jm_getRawLastHeight)
+JR.registerLateBound("DisplayInfoSingleton.jm_setCustom", jm_setCustom)
+JR.registerLateBound("DisplayInfoSingleton.jm_setScalableListener", jm_setScalableListener)
+JR.registerLateBound("DisplayInfoSingleton.jm_getScalableListener", jm_getScalableListener)
+JR.registerLateBound("DisplayInfoSingleton.jm_getRatio", jm_getRatio)
+JR.registerLateBound("DisplayInfoSingleton.jm_getDisplayRatio", jm_getDisplayRatio)
+JR.registerLateBound("DisplayInfoSingleton.jm_setOffset", jm_setOffset)
+JR.registerLateBound("DisplayInfoSingleton.jm_getxOffset", jm_getxOffset)
+JR.registerLateBound("DisplayInfoSingleton.jm_getyOffset", jm_getyOffset)
+JR.registerLateBound("DisplayInfoSingleton.f_logUtil", (this: DisplayInfoSingleton) => this.f_logUtil)
+JR.registerLateBound("DisplayInfoSingleton.f_commonLabels", (this: DisplayInfoSingleton) => this.f_commonLabels)
+JR.registerLateBound("DisplayInfoSingleton.f_commonSeps", (this: DisplayInfoSingleton) => this.f_commonSeps)
+JR.registerLateBound("DisplayInfoSingleton.f_commonStrings", (this: DisplayInfoSingleton) => this.f_commonStrings)
+JR.registerLateBound("DisplayInfoSingleton.f_ORIENTATION", (this: DisplayInfoSingleton) => this.f_ORIENTATION)
+JR.registerLateBound("DisplayInfoSingleton.f_ADJUSTING_FOR_SCALING_IN_PORTRAIT", (this: DisplayInfoSingleton) => this.f_ADJUSTING_FOR_SCALING_IN_PORTRAIT)
+JR.registerLateBound("DisplayInfoSingleton.f_ADJUSTING_FOR_SCALING_IN_LANDSCAPE", (this: DisplayInfoSingleton) => this.f_ADJUSTING_FOR_SCALING_IN_LANDSCAPE)
+JR.registerLateBound("DisplayInfoSingleton.f_last", (this: DisplayInfoSingleton) => this.f_last)
+JR.registerLateBound("DisplayInfoSingleton.set_f_last", (this: DisplayInfoSingleton, jvalue) => { this.f_last = jvalue; jvalue })
+JR.registerLateBound("DisplayInfoSingleton.f_lastHalf", (this: DisplayInfoSingleton) => this.f_lastHalf)
+JR.registerLateBound("DisplayInfoSingleton.set_f_lastHalf", (this: DisplayInfoSingleton, jvalue) => { this.f_lastHalf = jvalue; jvalue })
+JR.registerLateBound("DisplayInfoSingleton.f_full", (this: DisplayInfoSingleton) => this.f_full)
+JR.registerLateBound("DisplayInfoSingleton.set_f_full", (this: DisplayInfoSingleton, jvalue) => { this.f_full = jvalue; jvalue })
+JR.registerLateBound("DisplayInfoSingleton.f_top", (this: DisplayInfoSingleton) => this.f_top)
+JR.registerLateBound("DisplayInfoSingleton.set_f_top", (this: DisplayInfoSingleton, jvalue) => { this.f_top = jvalue; jvalue })
+JR.registerLateBound("DisplayInfoSingleton.f_left", (this: DisplayInfoSingleton) => this.f_left)
+JR.registerLateBound("DisplayInfoSingleton.set_f_left", (this: DisplayInfoSingleton, jvalue) => { this.f_left = jvalue; jvalue })
+JR.registerLateBound("DisplayInfoSingleton.f_xOffset", (this: DisplayInfoSingleton) => this.f_xOffset)
+JR.registerLateBound("DisplayInfoSingleton.set_f_xOffset", (this: DisplayInfoSingleton, jvalue) => { this.f_xOffset = jvalue; jvalue })
+JR.registerLateBound("DisplayInfoSingleton.f_yOffset", (this: DisplayInfoSingleton) => this.f_yOffset)
+JR.registerLateBound("DisplayInfoSingleton.set_f_yOffset", (this: DisplayInfoSingleton, jvalue) => { this.f_yOffset = jvalue; jvalue })
+JR.registerLateBound("DisplayInfoSingleton.f_scaleLargestTo", (this: DisplayInfoSingleton) => this.f_scaleLargestTo)
+JR.registerLateBound("DisplayInfoSingleton.set_f_scaleLargestTo", (this: DisplayInfoSingleton, jvalue) => { this.f_scaleLargestTo = jvalue; jvalue })
+JR.registerLateBound("DisplayInfoSingleton.f_WIDTH", (this: DisplayInfoSingleton) => this.f_WIDTH)
+JR.registerLateBound("DisplayInfoSingleton.f_HEIGHT", (this: DisplayInfoSingleton) => this.f_HEIGHT)
+JR.registerLateBound("DisplayInfoSingleton.f_CUSTOM_WIDTH", (this: DisplayInfoSingleton) => this.f_CUSTOM_WIDTH)
+JR.registerLateBound("DisplayInfoSingleton.f_CUSTOM_HEIGHT", (this: DisplayInfoSingleton) => this.f_CUSTOM_HEIGHT)
+JR.registerLateBound("DisplayInfoSingleton.f_scalableListener", (this: DisplayInfoSingleton) => this.f_scalableListener)
+JR.registerLateBound("DisplayInfoSingleton.set_f_scalableListener", (this: DisplayInfoSingleton, jvalue) => { this.f_scalableListener = jvalue; jvalue })
+JR.registerLateBound("DisplayInfoSingleton.f_displayRatio", (this: DisplayInfoSingleton) => this.f_displayRatio)
+JR.registerLateBound("DisplayInfoSingleton.set_f_displayRatio", (this: DisplayInfoSingleton, jvalue) => { this.f_displayRatio = jvalue; jvalue })
+JR.registerLateBound("DisplayInfoSingleton.f_ratio", (this: DisplayInfoSingleton) => this.f_ratio)
+JR.registerLateBound("DisplayInfoSingleton.set_f_ratio", (this: DisplayInfoSingleton, jvalue) => { this.f_ratio = jvalue; jvalue })
+JR.registerLateBound("DisplayInfoSingleton.f_SET_LAST_SIZE_METHOD_NAME", (this: DisplayInfoSingleton) => this.f_SET_LAST_SIZE_METHOD_NAME)
+JR.registerLateBound("DisplayInfoSingleton.f_FULL_WIDTH", (this: DisplayInfoSingleton) => this.f_FULL_WIDTH)
+JR.registerLateBound("DisplayInfoSingleton.f_FULL_HEIGHT", (this: DisplayInfoSingleton) => this.f_FULL_HEIGHT)
+JR.registerLateBound("DisplayInfoSingleton.f_LAST_WIDTH", (this: DisplayInfoSingleton) => this.f_LAST_WIDTH)
+JR.registerLateBound("DisplayInfoSingleton.f_LAST_HEIGHT", (this: DisplayInfoSingleton) => this.f_LAST_HEIGHT)
+JR.registerLateBound("DisplayInfoSingleton.f_PORTRAIT", (this: DisplayInfoSingleton) => this.f_PORTRAIT)
+JR.registerLateBound("DisplayInfoSingleton.f_LANDSCAPE", (this: DisplayInfoSingleton) => this.f_LANDSCAPE)
+JR.registerLateBound("DisplayInfoSingleton.f_displayChangeEvent", (this: DisplayInfoSingleton) => this.f_displayChangeEvent)
+JR.registerLateBound("DisplayInfoSingleton.f_FIRE_METHOD_NAME", (this: DisplayInfoSingleton) => this.f_FIRE_METHOD_NAME)
+JR.registerLateBound("DisplayInfoSingleton.f_REASON", (this: DisplayInfoSingleton) => this.f_REASON)
+JR.registerLateBound("DisplayInfoSingleton.f_UPDATE_FROM_ORIENTATION_CHANGE", (this: DisplayInfoSingleton) => this.f_UPDATE_FROM_ORIENTATION_CHANGE)
+JR.registerLateBound("DisplayInfoSingleton.f_list", (this: DisplayInfoSingleton) => this.f_list)
+JR.registerLateBound("DisplayInfoSingleton.f_DISPLAY_INFO", (this: DisplayInfoSingleton) => this.f_DISPLAY_INFO)
+JR.registerLateBound("DisplayInfoSingleton.f_FULL", (this: DisplayInfoSingleton) => this.f_FULL)
+JR.registerLateBound("DisplayInfoSingleton.f_LAST", (this: DisplayInfoSingleton) => this.f_LAST)
+JR.registerLateBound("DisplayInfoSingleton.f_LAST_HALF", (this: DisplayInfoSingleton) => this.f_LAST_HALF)
+JR.registerLateBound("DisplayInfoSingleton.jstatic_SINGLETON", jstatic_SINGLETON)
 
 

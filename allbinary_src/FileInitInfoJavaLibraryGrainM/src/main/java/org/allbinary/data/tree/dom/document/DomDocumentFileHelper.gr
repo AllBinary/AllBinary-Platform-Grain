@@ -1,80 +1,99 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.data.tree.dom.document
+module DomDocumentFileHelper
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.data.tree.dom.document *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/logic/io/AbDataOutputStream.gr" include AbDataOutputStream
+use AbDataOutputStream.{ type AbDataOutputStream }
+from "../../../../../../org/allbinary/logic/io/StreamUtil.gr" include StreamUtil
+use StreamUtil.{ type StreamUtil }
+from "../../../../../../org/w3c/dom/Document.gr" include Document
+use Document.{ type Document }
+from "./DomDocumentHelper.gr" include DomDocumentHelper
+use DomDocumentHelper.{ type DomDocumentHelper }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.xml.transform.Transformer *)
-(* import javax.xml.transform.TransformerFactory *)
-(* import javax.xml.transform.dom.DOMSource *)
-(* import javax.xml.transform.stream.StreamResult *)
-(* import org.allbinary.logic.io.AbDataOutputStream *)
-(* import org.allbinary.logic.io.AbFileInputStream *)
-(* import org.allbinary.logic.io.DataOutputStreamFactory *)
-(* import org.allbinary.logic.io.StreamUtil *)
-(* import org.allbinary.logic.io.file.AbFile *)
-(* import org.w3c.dom.Document *)
+provide record DomDocumentFileHelper {
+  jobject: JObject,
+}
 
 
-let createDocument : 'any1 'return. 'any1 -> 'return = fun (xmlFile) ->
-        let xmlFile = Obj.repr xmlFile in
-        begin
-        (try
-            (Obj.magic ((DomDocumentHelper.create ((Obj.magic (java_call_static "AbFileInputStream.createFromAbFile" (Obj.repr ((Obj.magic xmlFile)))))))))
-        with e -> begin
-            raise e
-        end)
-        end [@@warning "-20"]
-
-and save : 'any1 'any2. 'any1 * 'any2 -> unit = fun (file, document) ->
-        let file = Obj.repr file in
-        let document = Obj.repr document in
-        begin
-        let dataOutputStream : AbDataOutputStream.abDataOutputStream ref = ref (((Obj.magic 0) :> AbDataOutputStream.abDataOutputStream)) in ();
-        Fun.protect ~finally:(fun () -> 
-            ignore ((StreamUtil.getInstance ())#close (!dataOutputStream))
-        ) (fun () -> (try
-            let copyTransformerFactory : Obj.t ref = ref ((Obj.repr (TransformerFactory.newInstance ()))) in ();
-            let copyTransformer : Obj.t ref = ref ((Obj.repr ((Obj.magic !copyTransformerFactory)#newTransformer ()))) in ();
-            let domSource : Obj.t ref = ref ((Obj.repr (new DOMSource.dOMSource ((Obj.magic document))))) in ();
-            if ((Obj.magic file)#isFile ()) then begin
-                ignore ((Obj.magic file)#delete ())
-            end;
-            ignore ((Obj.magic file)#createNewFile ());
-            dataOutputStream := ((Obj.magic (java_call_static "DataOutputStreamFactory.getInstance" (Obj.repr ())))#getInstanceForAbFile ((Obj.magic file)));
-            let streamResult : Obj.t ref = ref ((Obj.repr (new StreamResult.streamResult (!dataOutputStream)))) in ();
-            ignore ((Obj.magic !copyTransformer)#transform ((Obj.magic !domSource), (Obj.magic !streamResult)));
-            ignore (!dataOutputStream#flush ())
-        with e -> begin
-            raise e
-        end))
-        end [@@warning "-20"]
-
-let () = java_register_static "DomDocumentFileHelper.createDocument" (fun arguments -> Obj.repr (createDocument (Obj.obj arguments)))
-let () = java_register_static "DomDocumentFileHelper.save" (fun arguments -> Obj.repr (save (Obj.obj arguments)))
-class domDocumentFileHelper () =
-  object
+provide let rec jclassName = () => "DomDocumentFileHelper"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("DomDocumentFileHelper"), }
+        void
+    this
+}
+    
+and jm_createDocument = (xmlFile: JObject) => {
+        {
+            return DomDocumentHelper.jm_create_1({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFileInputStream.jm_createFromAbFile"))
+JR.cast(jlate(JR.cast(xmlFile)))
+})
+        }
+    return JR.nullOf()
+}
+    
+and jm_save = (file: JObject, document: Document) => {
+        let mut dataOutputStream: AbDataOutputStream = JR.nullOf()
+        {
+            let mut copyTransformerFactory: TransformerFactory = JR.cast(TransformerFactory.jm_newInstance())
+            let mut copyTransformer: Transformer = JR.cast(TransformerFactory.jm_newTransformer(copyTransformerFactory))
+            let mut domSource: DOMSource = DOMSource.jnew_1(document)
+            if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isFile"))
+JR.cast(jlate(JR.cast(file)))
+}) {
+                ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_delete"))
+JR.cast(jlate(JR.cast(file)))
+})
+            }
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createNewFile"))
+JR.cast(jlate(JR.cast(file)))
+})
+            dataOutputStream = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getInstanceForAbFile"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(file)))
+}
+            let mut streamResult: StreamResult = StreamResult.jnew_1(dataOutputStream)
+            ignore(Transformer.jm_transform(copyTransformer, domSource, streamResult))
+            ignore(AbDataOutputStream.jm_flush(dataOutputStream))
+        }
+        {
+            ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), JR.cast(dataOutputStream)))
+        }
+}
 
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "DomDocumentFileHelper" (fun arguments -> Obj.repr (new domDocumentFileHelper (Obj.obj arguments)))
+JR.registerLateBound("DomDocumentFileHelper.jnew_0", jnew_0)
+JR.registerLateBound("DomDocumentFileHelper.jm_createDocument", jm_createDocument)
+JR.registerLateBound("DomDocumentFileHelper.jm_save", jm_save)
 
 

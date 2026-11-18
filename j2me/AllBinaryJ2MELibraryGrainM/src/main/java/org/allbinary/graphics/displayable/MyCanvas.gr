@@ -1,285 +1,316 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.displayable
+module MyCanvas
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.displayable *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/graphics/displayable/command/MyCommandInterface.gr" include MyCommandInterface
+use MyCommandInterface.{ type MyCommandInterface }
+from "../../../../org/allbinary/graphics/displayable/command/MyCommandsFactory.gr" include MyCommandsFactory
+use MyCommandsFactory.{ type MyCommandsFactory }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../org/allbinary/media/audio/Sound.gr" include Sound
+use Sound.{ type Sound }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "./DisplayableInterface.gr" include DisplayableInterface
+use DisplayableInterface.{ type DisplayableInterface }
+from "./CanvasStrings.gr" include CanvasStrings
+use CanvasStrings.{ type CanvasStrings }
+from "./DisplayInfoSingleton.gr" include DisplayInfoSingleton
+use DisplayInfoSingleton.{ type DisplayInfoSingleton }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Canvas *)
-(* import javax.microedition.lcdui.Command *)
-(* import javax.microedition.lcdui.CommandListener *)
-(* import javax.microedition.lcdui.Graphics *)
-(* import javax.microedition.lcdui.NullCommandListener *)
-(* import org.allbinary.graphics.displayable.command.MyCommandInterface *)
-(* import org.allbinary.graphics.displayable.command.MyCommandsFactory *)
-(* import org.allbinary.input.TouchJ2ME *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.media.audio.Sound *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.logic.StdUtil *)
-(* import org.allbinary.util.ABStack *)
+provide record MyCanvas {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_canvasStrings: CanvasStrings,
+  mut f_stringUtil: StringUtil,
+  mut f_displayInfo: DisplayInfoSingleton,
+  mut f_name: String,
+  mut f_childNameList: BasicArrayList,
+  mut f_commandStack: JObject,
+  mut f_commandListener: CommandListener,
+  mut f_paused: Bool,
+  mut f_touchME: JObject,
+}
 
-class myCanvas ((name_arg : string), (childNameList_arg : BasicArrayList.basicArrayList)) =
-  object (self)
-    inherit Canvas.canvas () as super
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable canvasStrings : CanvasStrings.canvasStrings = (Obj.magic 0)
-    method canvasStrings = canvasStrings
-    method set_canvasStrings value' = canvasStrings <- value'
-    val mutable stringUtil : StringUtil.stringUtil = (Obj.magic 0)
-    method stringUtil = stringUtil
-    method set_stringUtil value' = stringUtil <- value'
-    val mutable displayInfo : DisplayInfoSingleton.displayInfoSingleton = (Obj.magic 0)
-    method displayInfo = displayInfo
-    method set_displayInfo value' = displayInfo <- value'
-    val mutable name : string = ""
-    method name = name
-    method set_name value' = name <- value'
-    val mutable childNameList : BasicArrayList.basicArrayList = (Obj.magic 0)
-    method childNameList = childNameList
-    method set_childNameList value' = childNameList <- value'
-    val mutable commandStack : Obj.t = Obj.repr 0
-    method commandStack : 'r. 'r = Obj.magic commandStack
-    method set_commandStack : 'v. 'v -> unit = fun value' -> commandStack <- Obj.repr value'
-    val mutable commandListener : Obj.t = Obj.repr 0
-    method commandListener : 'r. 'r = Obj.magic commandListener
-    method set_commandListener : 'v. 'v -> unit = fun value' -> commandListener <- Obj.repr value'
-    val mutable paused : bool = false
-    method paused = paused
-    method set_paused value' = paused <- value'
-    val mutable touchME : Obj.t = Obj.repr 0
-    method touchME : 'r. 'r = Obj.magic touchME
-    method set_touchME : 'v. 'v -> unit = fun value' -> touchME <- Obj.repr value'
+
+provide let rec jclassName = () => "MyCanvas"
+    
+and jnew_2 = (name: String, childNameList: BasicArrayList) => {
+    let this = { jobject: JR.newJObject("MyCanvas"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_canvasStrings: JR.nullOf(), f_stringUtil: JR.nullOf(), f_displayInfo: JR.nullOf(), f_name: "", f_childNameList: JR.nullOf(), f_commandStack: JR.jnull, f_commandListener: JR.nullOf(), f_paused: false, f_touchME: JR.jnull, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this.f_canvasStrings = JR.cast(CanvasStrings.jm_getInstance())
+    this.f_stringUtil = JR.cast(StringUtil.jm_getInstance())
+    this.f_displayInfo = JR.cast(DisplayInfoSingleton.jm_getInstance())
     
     
-
-    method getWidth () : int =
-        begin
-        (super#getWidth ())
-        end [@@warning "-7"]
     
-
-    method getHeight () : int =
-        begin
-        (super#getHeight ())
-        end [@@warning "-7"]
+    this.f_commandListener = JR.cast(NullCommandListener.jstatic_NULL_COMMAND_LISTENER())
     
-
-    method setFullScreenMode ((mode : bool)) : unit =
-        begin
-        ignore (super#setFullScreenMode (mode));
-        ignore (displayInfo#update ((Obj.magic self), canvasStrings#sET_FULL_SCREEN_MODE))
-        end [@@warning "-7"]
+    this.f_touchME = {
+let jlate: () => JObject = JR.cast(JR.lateBound("TouchJ2ME.jnew_0"))
+JR.cast(jlate())
+}
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_CONSTRUCTOR), JR.cast(this), JR.cast(this.f_commonStrings.f_CONSTRUCTOR)))
+})
+        ignore(DisplayInfoSingleton.jm_update(this.f_displayInfo, JR.cast(this), this.f_canvasStrings.f_CONSTRUCTOR))
+        this.f_name = name
+        this.f_childNameList = childNameList
+        this.f_commandStack = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createStack"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+}
+    this
+}
     
-
-    method sizeChanged ((_w : int), (_h : int)) : unit =
-        begin
-        ignore (displayInfo#update ((Obj.magic self), canvasStrings#sIZE_CHANGED))
-        end [@@warning "-7"]
+and jm_getWidth = (this: MyCanvas) => {
+        return jm_getWidth(this)
+}
     
-
-    method getCommandStack : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic commandStack)))
-        end [@@warning "-7"]
+and jm_getHeight = (this: MyCanvas) => {
+        return jm_getHeight(this)
+}
     
-
-    method isCommand : 'any1. 'any1 -> bool = fun (command) ->
-        let command = Obj.repr command in
-        begin
-        ((Obj.magic commandStack)#contains ((Obj.magic command)))
-        end [@@warning "-7-20"]
+and jm_setFullScreenMode = (this: MyCanvas, mode: Bool) => {
+        ignore(jm_setFullScreenMode(this, mode))
+        ignore(DisplayInfoSingleton.jm_update(this.f_displayInfo, JR.cast(this), this.f_canvasStrings.f_SET_FULL_SCREEN_MODE))
+}
     
-
-    method addCommand : 'any1. 'any1 -> unit = fun (command) ->
-        let command = Obj.repr command in
-        begin
-        if (not ((Obj.magic commandStack)#contains ((Obj.magic command)))) then begin
-            ignore ((Obj.magic commandStack)#push ((Obj.magic command)));
-            ignore (super#addCommand ((Obj.magic command)))
-        end
-        end [@@warning "-7-20"]
+and jm_sizeChanged = (this: MyCanvas, w: Int32, h: Int32) => {
+        ignore(DisplayInfoSingleton.jm_update(this.f_displayInfo, JR.cast(this), this.f_canvasStrings.f_SIZE_CHANGED))
+}
     
-
-    method removeCommand : 'any1. 'any1 -> unit = fun (command) ->
-        let command = Obj.repr command in
-        begin
-        ignore ((Obj.magic commandStack)#removeElement ((Obj.magic command)));
-        ignore (super#removeCommand ((Obj.magic command)))
-        end [@@warning "-7-20"]
+and jm_getCommandStack = (this: MyCanvas) => {
+        return this.f_commandStack
+}
     
-
-    method removeAllCommands () : unit =
-        begin
-        let size : int ref = ref (((Obj.magic commandStack)#size ())) in ();
-        for _index = 0 to !size - 1 do
-            ignore (super#removeCommand ((Obj.magic ((Obj.magic commandStack)#pop ()))))
-        done
-        end [@@warning "-7"]
+and jm_isCommand = (this: MyCanvas, command: JObject) => {
+        return {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABStack.jm_contains"))
+JR.cast(jlate(JR.cast(this.f_commandStack), JR.cast(command)))
+}
+}
     
-
-    method setCommandListener : 'any1. 'any1 -> unit = fun (l) ->
-        let l = Obj.repr l in
-        begin
-        ignore (super#setCommandListener ((Obj.magic l)));
-        commandListener <- Obj.repr ((Obj.magic l))
-        end [@@warning "-7-20"]
+and jm_addCommand = (this: MyCanvas, command: JObject) => {
+        if (!{
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABStack.jm_contains"))
+JR.cast(jlate(JR.cast(this.f_commandStack), JR.cast(command)))
+}) {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABStack.jm_push"))
+JR.cast(jlate(JR.cast(this.f_commandStack), JR.cast(command)))
+})
+            ignore(jm_addCommand(this, command))
+        }
+}
     
-
-    method getCustomCommandListener : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic commandListener)))
-        end [@@warning "-7"]
+and jm_removeCommand = (this: MyCanvas, command: JObject) => {
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABStack.jm_removeElement"))
+JR.cast(jlate(JR.cast(this.f_commandStack), JR.cast(command)))
+})
+        ignore(jm_removeCommand(this, command))
+}
     
-
-    method isPaused () : bool =
-        begin
-        paused
-        end [@@warning "-7"]
+and jm_removeAllCommands = (this: MyCanvas) => {
+        let mut size: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABStack.jm_size"))
+JR.cast(jlate(JR.cast(this.f_commandStack)))
+}
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            ignore(jm_removeCommand(this, JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABStack.jm_pop"))
+JR.cast(jlate(JR.cast(this.f_commandStack)))
+})))
+            }
+        }
+}
     
-
-    method removePauseCommand () : unit =
-        begin
-        (self#removeCommand ((MyCommandsFactory.getInstance ())#pAUSE_COMMAND))
-        end [@@warning "-7"]
+and jm_setCommandListener = (this: MyCanvas, l: CommandListener) => {
+        ignore(jm_setCommandListener(this, l))
+        this.f_commandListener = l
+}
     
-
-    method pause () : unit =
-        begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), canvasStrings#pAUSE));
-        (self#removePauseCommand ());
-        (self#addCommand ((MyCommandsFactory.getInstance ())#rESUME_COMMAND));
-        (self#setPaused (true))
-        end [@@warning "-7"]
+and jm_getCustomCommandListener = (this: MyCanvas) => {
+        return this.f_commandListener
+}
     
-
-    method unPause () : unit =
-        begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), canvasStrings#uN_PAUSE));
-        (self#removeCommand ((MyCommandsFactory.getInstance ())#rESUME_COMMAND));
-        (self#addCommand ((MyCommandsFactory.getInstance ())#pAUSE_COMMAND));
-        (self#setPaused (false))
-        end [@@warning "-7"]
+and jm_isPaused = (this: MyCanvas) => {
+        return this.f_paused
+}
     
-
-    method process () : unit =
-        begin
-        ignore (displayInfo#process ())
-        end [@@warning "-7"]
+and jm_removePauseCommand = (this: MyCanvas) => {
+        ignore(jm_removeCommand(this, MyCommandsFactory.jm_getInstance().f_PAUSE_COMMAND))
+}
     
-
-    method paint : 'any1. 'any1 -> unit = fun (_graphics) ->
-        begin
-        ()
-        end [@@warning "-7-20"]
+and jm_pause = (this: MyCanvas) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_START), JR.cast(this), JR.cast(this.f_canvasStrings.f_PAUSE)))
+})
+        ignore(jm_removePauseCommand(this))
+        ignore(jm_addCommand(this, MyCommandsFactory.jm_getInstance().f_RESUME_COMMAND))
+        ignore(jm_setPaused(this, true))
+}
     
-
-    method draw : 'any1. 'any1 -> unit = fun (_graphics) ->
-        begin
-        ()
-        end [@@warning "-7-20"]
+and jm_unPause = (this: MyCanvas) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_START), JR.cast(this), JR.cast(this.f_canvasStrings.f_UN_PAUSE)))
+})
+        ignore(jm_removeCommand(this, MyCommandsFactory.jm_getInstance().f_RESUME_COMMAND))
+        ignore(jm_addCommand(this, MyCommandsFactory.jm_getInstance().f_PAUSE_COMMAND))
+        ignore(jm_setPaused(this, false))
+}
     
-
-    method hasChild : 'any1. 'any1 -> bool = fun (displayable) ->
-        let displayable = Obj.repr displayable in
-        begin
-        (childNameList#contains ((Obj.magic displayable)#name))
-        end [@@warning "-7-20"]
+and jm_process = (this: MyCanvas) => {
+        ignore(DisplayInfoSingleton.jm_process(this.f_displayInfo))
+}
     
-
-    method destroy () : unit =
-        begin
-        ignore ((Obj.magic logUtil)#putF ("Destroyed MyCanvas", (Obj.magic self), "destroy"))
-        end [@@warning "-7"]
+and jm_paint = (this: MyCanvas, graphics: JObject) => {
+    void
+}
     
-
-    method setPaused ((isPaused : bool)) : unit =
-        begin
-        paused <- isPaused
-        end [@@warning "-7"]
+and jm_draw = (this: MyCanvas, graphics: JObject) => {
+    void
+}
     
-
-    method keyPressedByDevice ((_keyCode : int), (_deviceId : int)) : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_hasChild = (this: MyCanvas, displayable: MyCanvas) => {
+        return BasicArrayList.jm_contains(this.f_childNameList, JR.cast(displayable.f_name))
+}
     
-
-    method keyRepeatedByDevice ((_keyCode : int), (_deviceId : int)) : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_destroy = (this: MyCanvas) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Destroyed MyCanvas"), JR.cast(this), JR.cast("destroy")))
+})
+}
     
-
-    method keyReleasedByDevice ((_keyCode : int), (_deviceId : int)) : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_setPaused = (this: MyCanvas, isPaused: Bool) => {
+        this.f_paused = isPaused
+}
     
-
-    method pointerDragged ((x : int), (y : int)) : unit =
-        begin
-        ignore ((Obj.magic touchME)#pointerDragged (x, y))
-        end [@@warning "-7"]
+and jm_keyPressedByDevice = (this: MyCanvas, keyCode: Int32, deviceId: Int32) => {
+    void
+}
     
-
-    method pointerPressed ((x : int), (y : int)) : unit =
-        begin
-        ignore ((Obj.magic touchME)#pointerPressed (x, y))
-        end [@@warning "-7"]
+and jm_keyRepeatedByDevice = (this: MyCanvas, keyCode: Int32, deviceId: Int32) => {
+    void
+}
     
-
-    method pointerReleased ((x : int), (y : int)) : unit =
-        begin
-        ignore ((Obj.magic touchME)#pointerReleased (x, y))
-        end [@@warning "-7"]
+and jm_keyReleasedByDevice = (this: MyCanvas, keyCode: Int32, deviceId: Int32) => {
+    void
+}
     
+and jm_pointerDragged = (this: MyCanvas, x: Int32, y: Int32) => {
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TouchJ2ME.jm_pointerDragged"))
+JR.cast(jlate(JR.cast(this.f_touchME), JR.cast(x), JR.cast(y)))
+})
+}
+    
+and jm_pointerPressed = (this: MyCanvas, x: Int32, y: Int32) => {
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TouchJ2ME.jm_pointerPressed"))
+JR.cast(jlate(JR.cast(this.f_touchME), JR.cast(x), JR.cast(y)))
+})
+}
+    
+and jm_pointerReleased = (this: MyCanvas, x: Int32, y: Int32) => {
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TouchJ2ME.jm_pointerReleased"))
+JR.cast(jlate(JR.cast(this.f_touchME), JR.cast(x), JR.cast(y)))
+})
+}
+    
+and jm_nextSong = (this: MyCanvas, nextSongSound: Sound, leftVolume: Int32, rightVolume: Int32) => {
+    void
+}
 
-    method nextSong : 'any1. 'any1 * int * int -> unit = fun (_nextSongSound, (_leftVolume : int), (_rightVolume : int)) ->
-        begin
-        ()
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        canvasStrings <- ((CanvasStrings.getInstance ()) :> CanvasStrings.canvasStrings);
-        stringUtil <- ((StringUtil.getInstance ()) :> StringUtil.stringUtil);
-        displayInfo <- ((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton);
-        ();
-        ();
-        ();
-        commandListener <- (Obj.repr (NullCommandListener.get_nULL_COMMAND_LISTENER ()));
-        paused <- false;
-        touchME <- (Obj.repr (Obj.obj (java_new "TouchJ2ME" (Obj.repr ()))));
-        ();
-        ignore ((Obj.magic logUtil)#putF (commonStrings#cONSTRUCTOR, (Obj.magic self), commonStrings#cONSTRUCTOR));
-        ignore (displayInfo#update ((Obj.magic self), canvasStrings#cONSTRUCTOR));
-        name <- name_arg;
-        childNameList <- childNameList_arg;
-        commandStack <- Obj.repr (((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createStack ()))
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "MyCanvas" (fun arguments -> Obj.repr (new myCanvas (Obj.obj arguments)))
+JR.registerLateBound("MyCanvas.jnew_2", jnew_2)
+JR.registerLateBound("MyCanvas.jm_getWidth", jm_getWidth)
+JR.registerLateBound("MyCanvas.jm_getHeight", jm_getHeight)
+JR.registerLateBound("MyCanvas.jm_setFullScreenMode", jm_setFullScreenMode)
+JR.registerLateBound("MyCanvas.jm_sizeChanged", jm_sizeChanged)
+JR.registerLateBound("MyCanvas.jm_getCommandStack", jm_getCommandStack)
+JR.registerLateBound("MyCanvas.jm_isCommand", jm_isCommand)
+JR.registerLateBound("MyCanvas.jm_addCommand", jm_addCommand)
+JR.registerLateBound("MyCanvas.jm_removeCommand", jm_removeCommand)
+JR.registerLateBound("MyCanvas.jm_removeAllCommands", jm_removeAllCommands)
+JR.registerLateBound("MyCanvas.jm_setCommandListener", jm_setCommandListener)
+JR.registerLateBound("MyCanvas.jm_getCustomCommandListener", jm_getCustomCommandListener)
+JR.registerLateBound("MyCanvas.jm_isPaused", jm_isPaused)
+JR.registerLateBound("MyCanvas.jm_removePauseCommand", jm_removePauseCommand)
+JR.registerLateBound("MyCanvas.jm_pause", jm_pause)
+JR.registerLateBound("MyCanvas.jm_unPause", jm_unPause)
+JR.registerLateBound("MyCanvas.jm_process", jm_process)
+JR.registerLateBound("MyCanvas.jm_paint", jm_paint)
+JR.registerLateBound("MyCanvas.jm_draw", jm_draw)
+JR.registerLateBound("MyCanvas.jm_hasChild", jm_hasChild)
+JR.registerLateBound("MyCanvas.jm_destroy", jm_destroy)
+JR.registerLateBound("MyCanvas.jm_setPaused", jm_setPaused)
+JR.registerLateBound("MyCanvas.jm_keyPressedByDevice", jm_keyPressedByDevice)
+JR.registerLateBound("MyCanvas.jm_keyRepeatedByDevice", jm_keyRepeatedByDevice)
+JR.registerLateBound("MyCanvas.jm_keyReleasedByDevice", jm_keyReleasedByDevice)
+JR.registerLateBound("MyCanvas.jm_pointerDragged", jm_pointerDragged)
+JR.registerLateBound("MyCanvas.jm_pointerPressed", jm_pointerPressed)
+JR.registerLateBound("MyCanvas.jm_pointerReleased", jm_pointerReleased)
+JR.registerLateBound("MyCanvas.jm_nextSong", jm_nextSong)
+JR.registerLateBound("MyCanvas.f_logUtil", (this: MyCanvas) => this.f_logUtil)
+JR.registerLateBound("MyCanvas.f_commonStrings", (this: MyCanvas) => this.f_commonStrings)
+JR.registerLateBound("MyCanvas.f_canvasStrings", (this: MyCanvas) => this.f_canvasStrings)
+JR.registerLateBound("MyCanvas.f_stringUtil", (this: MyCanvas) => this.f_stringUtil)
+JR.registerLateBound("MyCanvas.f_displayInfo", (this: MyCanvas) => this.f_displayInfo)
+JR.registerLateBound("MyCanvas.f_name", (this: MyCanvas) => this.f_name)
+JR.registerLateBound("MyCanvas.f_childNameList", (this: MyCanvas) => this.f_childNameList)
+JR.registerLateBound("MyCanvas.f_commandStack", (this: MyCanvas) => this.f_commandStack)
+JR.registerLateBound("MyCanvas.f_commandListener", (this: MyCanvas) => this.f_commandListener)
+JR.registerLateBound("MyCanvas.set_f_commandListener", (this: MyCanvas, jvalue) => { this.f_commandListener = jvalue; jvalue })
+JR.registerLateBound("MyCanvas.f_paused", (this: MyCanvas) => this.f_paused)
+JR.registerLateBound("MyCanvas.set_f_paused", (this: MyCanvas, jvalue) => { this.f_paused = jvalue; jvalue })
+JR.registerLateBound("MyCanvas.f_touchME", (this: MyCanvas) => this.f_touchME)
 
 

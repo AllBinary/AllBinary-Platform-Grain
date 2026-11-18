@@ -1,52 +1,69 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.java.anyType
+module ParamsUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.java.anyType *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.string.StringMaker *)
+provide record ParamsUtil {
+  jobject: JObject,
+}
 
 
-let viewParams ((params : string array)) : string =
-        try
-        begin
-        if (params != (Obj.magic 0)) then begin
-            let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            for index = 0 to (Array.length params) - 1 do
-                ignore (!stringBuffer#append (" "));
-                ignore (!stringBuffer#append ((params.(index)#getName ())))
-            done;
-            raise (Java_return (Obj.repr ((java_string_of (Obj.repr !stringBuffer)))))
-        end else begin
-            raise (Java_return (Obj.repr ("Params Null")))
-        end
-        end
-        with Java_return value -> Obj.obj value
-
-let () = java_register_static "ParamsUtil.viewParams" (fun arguments -> Obj.repr (viewParams (Obj.obj arguments)))
-class paramsUtil () =
-  object
+provide let rec jclassName = () => "ParamsUtil"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ParamsUtil"), }
+        void
+    this
+}
+    
+and jm_viewParams = (params: Array<String>) => {
+        if (!JR.isNull(params)) {
+            let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+            {
+                let mut index: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(+)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index, Int32.fromNumber(Array.length(params))))) break
+                ignore(StringMaker.jm_append(stringBuffer, " "))
+                ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(params[Int32.toNumber(index)]))))
+                }
+            }
+            return StringMaker.jm_toString(stringBuffer)
+        } else {
+            return "Params Null"
+        }
+}
 
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "ParamsUtil" (fun arguments -> Obj.repr (new paramsUtil (Obj.obj arguments)))
+JR.registerLateBound("ParamsUtil.jnew_0", jnew_0)
+JR.registerLateBound("ParamsUtil.jm_viewParams", jm_viewParams)
 
 

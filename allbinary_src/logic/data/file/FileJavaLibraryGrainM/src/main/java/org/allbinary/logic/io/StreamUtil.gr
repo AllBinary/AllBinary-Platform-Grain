@@ -1,102 +1,115 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io
+module StreamUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/io/ByteArrayOutputStream.gr" include ByteArrayOutputStream
+use ByteArrayOutputStream.{ type ByteArrayOutputStream }
+from "../../../../java/io/Closeable.gr" include Closeable
+use Closeable.{ type Closeable }
+from "../../../../java/io/InputStream.gr" include InputStream
+use InputStream.{ type InputStream }
+from "../../../../java/io/OutputStream.gr" include OutputStream
+use OutputStream.{ type OutputStream }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+
+provide record StreamUtil {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+}
+
+let mut jcell_instance: Option<StreamUtil> = None
+
+provide let rec jclassName = () => "StreamUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: StreamUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.ByteArrayOutputStream *)
-(* import java.io.Closeable *)
-(* import java.io.InputStream *)
-(* import java.io.OutputStream *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
-
-class streamUtil () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("StreamUtil"), f_logUtil: JR.jnull, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        void
+    this
+}
     
-
-    method get : 'any1 'any2 'return. 'any1 * 'any2 * int array -> 'return = fun (inputStream, outputStream, (buffer : int array)) ->
-        let inputStream = Obj.repr inputStream in
-        let outputStream = Obj.repr outputStream in
-        begin
-        let len : int ref = ref (0) in ();
-        while true do
-            len := ((Obj.magic inputStream)#read (buffer, 0, (Array.length buffer)));
-            if (!len <> (- 1)) then begin
-                ()
-            end else begin
-                raise Java_break
-            end;
-            ignore ((Obj.magic outputStream)#write (buffer, 0, !len))
-        done;
-        (Obj.magic ((Obj.magic outputStream)))
-        end [@@warning "-20"]
+and jm_get = (this: StreamUtil, inputStream: InputStream, outputStream: OutputStream, buffer: Array<Int32>) => {
+        let mut len: Int32 = 0l
+        while (true) {
+            len = InputStream.jm_read_3(inputStream, buffer, 0l, Int32.fromNumber(Array.length(buffer)))
+            if ((len != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
+                void
+            } else {
+                break
+            }
+            ignore(OutputStream.jm_write_3(outputStream, buffer, 0l, len))
+        }
+        return outputStream
+}
     
-
-    method getByteArray : 'any1. 'any1 * java_byte_array_output_stream * int array -> int array = fun (inputStream, (outputStream2 : java_byte_array_output_stream), (byteArray : int array)) ->
-        let inputStream = Obj.repr inputStream in
-        begin
-        let outputStream : java_byte_array_output_stream ref = ref (outputStream2) in ();
-        Fun.protect ~finally:(fun () -> 
-            ignore (self#close (!outputStream))
-        ) (fun () -> (try
-            ignore (self#get ((Obj.magic inputStream), !outputStream, byteArray));
-            (!outputStream#toByteArray ())
-        with e -> begin
-            raise e
-        end))
-        end [@@warning "-20"]
+and jm_getByteArray = (this: StreamUtil, inputStream: InputStream, outputStream2: ByteArrayOutputStream, byteArray: Array<Int32>) => {
+        let mut outputStream: ByteArrayOutputStream = JR.cast(outputStream2)
+        {
+            ignore(jm_get(this, inputStream, JR.cast(outputStream), byteArray))
+            return ByteArrayOutputStream.jm_toByteArray_0(outputStream)
+        }
+        {
+            ignore(jm_close(this, JR.cast(outputStream)))
+        }
+    return [> ]
+}
     
+and jm_close = (this: StreamUtil, closeable: Closeable) => {
+        {
+            if (!JR.isNull(closeable)) {
+                ignore(Closeable.jm_close(closeable))
+            }
+            return true
+        }
+    return false
+}
 
-    method close : 'any1. 'any1 -> bool = fun (closeable) ->
-        let closeable = Obj.repr closeable in
-        begin
-        (try
-            if ((Obj.magic closeable) != (Obj.magic 0)) then begin
-                ignore ((Obj.magic closeable)#close ())
-            end;
-            true
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#cLOSE, e));
-            false
-        end)
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "StreamUtil" (fun arguments -> Obj.repr (new streamUtil (Obj.obj arguments)))
-
-let instance = (new streamUtil ())
-let get_instance () = instance
-let () = java_register_static "StreamUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "StreamUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("StreamUtil.jnew_0", jnew_0)
+JR.registerLateBound("StreamUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("StreamUtil.jm_get", jm_get)
+JR.registerLateBound("StreamUtil.jm_getByteArray", jm_getByteArray)
+JR.registerLateBound("StreamUtil.jm_close", jm_close)
+JR.registerLateBound("StreamUtil.f_logUtil", (this: StreamUtil) => this.f_logUtil)
+JR.registerLateBound("StreamUtil.jstatic_instance", jstatic_instance)
 
 

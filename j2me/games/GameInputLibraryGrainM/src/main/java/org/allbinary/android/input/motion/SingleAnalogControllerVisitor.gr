@@ -1,50 +1,63 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.android.input.motion
+module SingleAnalogControllerVisitor
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/input/analog/AnalogLocationInput.gr" include AnalogLocationInput
+use AnalogLocationInput.{ type AnalogLocationInput }
+from "../../../../../org/allbinary/game/input/analog/AnalogLocationInputFactory.gr" include AnalogLocationInputFactory
+use AnalogLocationInputFactory.{ type AnalogLocationInputFactory }
+from "../../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
+from "./AnalogControllerVisitor.gr" include AnalogControllerVisitor
+use AnalogControllerVisitor.{ type AnalogControllerVisitor }
+from "./AnalogLocationInputProcessor.gr" include AnalogLocationInputProcessor
+use AnalogLocationInputProcessor.{ type AnalogLocationInputProcessor }
+
+provide record SingleAnalogControllerVisitor {
+  jobject: JObject,
+  mut f_playerInputId: Int32,
+}
+
+
+provide let rec jclassName = () => "SingleAnalogControllerVisitor"
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.android.input.motion *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.input.analog.AnalogLocationInput *)
-(* import org.allbinary.game.input.analog.AnalogLocationInputFactory *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
-
-class singleAnalogControllerVisitor ((playerInputId_arg : int)) =
-  object
-    inherit AnalogControllerVisitor.analogControllerVisitor ()
-    val mutable playerInputId : int = 0
-    method playerInputId = playerInputId
-    method set_playerInputId value' = playerInputId <- value'
+and jnew_1 = (playerInputId: Int32) => {
+    let this = { jobject: JR.newJObject("SingleAnalogControllerVisitor"), f_playerInputId: 0l, }
     
+        this.f_playerInputId = playerInputId
+    this
+}
     
+and jm_process = (this: SingleAnalogControllerVisitor, allbinaryLayerManager: AllBinaryLayerManager, analogLocationInputProcessor: AnalogLocationInputProcessor) => {
+        let mut analogLocationInput: AnalogLocationInput = JR.cast(AnalogLocationInputFactory.jm_getInstanceForPlayer(AnalogLocationInputFactory.jm_getInstance(), this.f_playerInputId))
+        ignore(AnalogLocationInputProcessor.jm_process(analogLocationInputProcessor, allbinaryLayerManager, analogLocationInput))
+}
 
-    method process : 'any1 'any2. 'any1 * 'any2 -> unit = fun (allbinaryLayerManager, analogLocationInputProcessor) ->
-        let allbinaryLayerManager = Obj.repr allbinaryLayerManager in
-        let analogLocationInputProcessor = Obj.repr analogLocationInputProcessor in
-        begin
-        let analogLocationInput : AnalogLocationInput.analogLocationInput ref = ref ((((AnalogLocationInputFactory.getInstance ())#getInstanceForPlayer (playerInputId)) :> AnalogLocationInput.analogLocationInput)) in ();
-        ignore ((Obj.magic analogLocationInputProcessor)#process ((Obj.magic allbinaryLayerManager), !analogLocationInput))
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        ();
-        playerInputId <- playerInputId_arg
-      end
-  end
-let () = java_register_constructor "SingleAnalogControllerVisitor" (fun arguments -> Obj.repr (new singleAnalogControllerVisitor (Obj.obj arguments)))
+JR.registerLateBound("SingleAnalogControllerVisitor.jnew_1", jnew_1)
+JR.registerLateBound("SingleAnalogControllerVisitor.jm_process", jm_process)
+JR.registerLateBound("SingleAnalogControllerVisitor.f_playerInputId", (this: SingleAnalogControllerVisitor) => this.f_playerInputId)
 
 

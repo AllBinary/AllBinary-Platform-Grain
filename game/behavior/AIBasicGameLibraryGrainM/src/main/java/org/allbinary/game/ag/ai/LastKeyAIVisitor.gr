@@ -1,64 +1,75 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.ai
+module LastKeyAIVisitor
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.ai *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/ai/BasicAI.gr" include BasicAI
+use BasicAI.{ type BasicAI }
+from "../../../../../org/allbinary/logic/java/bool/BooleanFactory.gr" include BooleanFactory
+use BooleanFactory.{ type BooleanFactory }
+from "../../../../../org/allbinary/logic/util/visitor/Visitor.gr" include Visitor
+use Visitor.{ type Visitor }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../../java/lang/Boolean.gr" include Boolean
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.ai.BasicAI *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.java.bool.BooleanFactory *)
-(* import org.allbinary.logic.util.visitor.Visitor *)
-(* import org.allbinary.string.CommonStrings *)
+provide record LastKeyAIVisitor {
+  jobject: JObject,
+  mut f_nullUtil: JObject,
+  mut f_logUtil: JObject,
+  mut f_TRUE: Bool,
+}
 
-class lastKeyAIVisitor () =
-  object (self)
-    inherit Visitor.visitor ()
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable tRUE : bool = (Obj.magic 0)
-    method tRUE = tRUE
-    method set_tRUE value' = tRUE <- value'
+
+provide let rec jclassName = () => "LastKeyAIVisitor"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("LastKeyAIVisitor"), f_nullUtil: JR.jnull, f_logUtil: JR.jnull, f_TRUE: false, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_TRUE = BooleanFactory.jm_getInstance().f_TRUE
+        void
+    this
+}
     
+and jm_visit = (this: LastKeyAIVisitor, anyType: JObject) => {
+        {
+            let mut basicAI: BasicAI = JR.cast(anyType)
+            let mut key: Int32 = BasicAI.jm_getLastKey(basicAI)
+            if ((key != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
+                ignore(BasicAI.jm_processKeyAI(basicAI, key))
+            }
+        }
+        return JR.cast(this.f_TRUE)
+}
 
-    method visit : 'any1. 'any1 -> Obj.t = fun (anyType) ->
-        let anyType = Obj.repr anyType in
-        begin
-        (try
-            let basicAI : BasicAI.basicAI ref = ref (((Obj.magic anyType) :> BasicAI.basicAI)) in ();
-            let key : int ref = ref ((!basicAI#getLastKey ())) in ();
-            if (!key <> (- 1)) then begin
-                ignore (!basicAI#processKeyAI (!key))
-            end
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#vISIT, e))
-        end);
-        (Obj.repr (tRUE))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        tRUE <- (BooleanFactory.getInstance ())#tRUE;
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "LastKeyAIVisitor" (fun arguments -> Obj.repr (new lastKeyAIVisitor (Obj.obj arguments)))
+JR.registerLateBound("LastKeyAIVisitor.jnew_0", jnew_0)
+JR.registerLateBound("LastKeyAIVisitor.jm_visit", jm_visit)
+JR.registerLateBound("LastKeyAIVisitor.f_logUtil", (this: LastKeyAIVisitor) => this.f_logUtil)
+JR.registerLateBound("LastKeyAIVisitor.f_TRUE", (this: LastKeyAIVisitor) => this.f_TRUE)
 
 

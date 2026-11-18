@@ -1,44 +1,60 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.form
+module LockableFormPaintableFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.form *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./ItemPaintableFactory.gr" include ItemPaintableFactory
+use ItemPaintableFactory.{ type ItemPaintableFactory }
+from "./LockablePaintable.gr" include LockablePaintable
+use LockablePaintable.{ type LockablePaintable }
+from "./ItemPaintable.gr" include ItemPaintable
+use ItemPaintable.{ type ItemPaintable }
+from "./PaintableForm.gr" include PaintableForm
+use PaintableForm.{ type PaintableForm }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
+provide record LockableFormPaintableFactory {
+  jobject: JObject,
+  mut f_lockedIndex: Int32,
+}
 
-class lockableFormPaintableFactory ((lockedIndex_arg : int)) =
-  object
-    inherit ItemPaintableFactory.itemPaintableFactory ()
-    val mutable lockedIndex : int = 0
-    method lockedIndex = lockedIndex
-    method set_lockedIndex value' = lockedIndex <- value'
+
+provide let rec jclassName = () => "LockableFormPaintableFactory"
     
+and jnew_1 = (lockedIndex: Int32) => {
+    let this = { jobject: JR.newJObject("LockableFormPaintableFactory"), f_lockedIndex: 0l, }
     
+        this.f_lockedIndex = lockedIndex
+    this
+}
+    
+and jm_getInstanceItemPaintable = (this: LockableFormPaintableFactory, paintableForm: PaintableForm) => {
+        return JR.cast(LockablePaintable.jnew_1(this.f_lockedIndex))
+}
 
-    method getInstanceItemPaintable : 'any1 'return. 'any1 -> 'return = fun (_paintableForm) ->
-        begin
-        (Obj.magic ((new LockablePaintable.lockablePaintable (lockedIndex))))
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        ();
-        lockedIndex <- lockedIndex_arg
-      end
-  end
-let () = java_register_constructor "LockableFormPaintableFactory" (fun arguments -> Obj.repr (new lockableFormPaintableFactory (Obj.obj arguments)))
+JR.registerLateBound("LockableFormPaintableFactory.jnew_1", jnew_1)
+JR.registerLateBound("LockableFormPaintableFactory.jm_getInstanceItemPaintable", jm_getInstanceItemPaintable)
+JR.registerLateBound("LockableFormPaintableFactory.f_lockedIndex", (this: LockableFormPaintableFactory) => this.f_lockedIndex)
 
 

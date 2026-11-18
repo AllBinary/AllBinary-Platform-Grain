@@ -1,66 +1,84 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.score
+module Scoreable
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.score *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/logic/math/SmallIntegerSingletonFactory.gr" include SmallIntegerSingletonFactory
+use SmallIntegerSingletonFactory.{ type SmallIntegerSingletonFactory }
+from "../../../../java/lang/Integer.gr" include Integer
+from "./ScoreableInterface.gr" include ScoreableInterface
+use ScoreableInterface.{ type ScoreableInterface }
 
-open Allbinary_java [@@warning "-33"]
-(* import org.allbinary.logic.math.SmallIntegerSingletonFactory *)
+provide record Scoreable {
+  jobject: JObject,
+  mut f_points: Int32,
+}
 
-let iD : int ref = ref (((SmallIntegerSingletonFactory.getInstance ())#getAt (3)))
-let get_iD () = !iD
-let set_iD value' = iD := value'
-let () = java_register_static "Scoreable.get_iD" (fun _ -> Obj.repr (get_iD ()))
-let () = java_register_static "Scoreable.set_iD" (fun value' -> set_iD (Obj.obj value'); Obj.repr ())
-class scoreable ((points_arg : int)) =
-  object
-    val mutable points : int = 0
-    method points = points
-    method set_points value' = points <- value'
+let mut jcell_ID: Option<Int32> = None
+
+provide let rec jclassName = () => "Scoreable"
+
+and jstatic_ID = () => match (jcell_ID) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 3l)
+    jcell_ID = Some(value)
+    value
+  },
+}
     
+and jnew_1 = (points: Int32) => {
+    let this = { jobject: JR.newJObject("Scoreable"), f_points: 0l, }
     
-
-    method addPoints ((points_arg : int)) : unit =
-        begin
-        points <- (points + points_arg)
-        end
+        this.f_points = points
+    this
+}
     
-
-    method removePoints ((points_arg : int)) : unit =
-        begin
-        points <- (points - points_arg)
-        end
+and jm_addPoints = (this: Scoreable, points: Int32) => {
+        this.f_points = Int32.(+)(this.f_points, points)
+}
     
-
-    method setPoints ((points_arg : int)) : unit =
-        begin
-        points <- points_arg
-        end
+and jm_removePoints = (this: Scoreable, points: Int32) => {
+        this.f_points = Int32.(-)(this.f_points, points)
+}
     
+and jm_setPoints = (this: Scoreable, points: Int32) => {
+        this.f_points = points
+}
+    
+and jm_getPoints = (this: Scoreable) => {
+        return this.f_points
+}
 
-    method getPoints () : int =
-        begin
-        points
-        end
-
-    initializer
-      begin
-        ();
-        ();
-        points <- points_arg
-      end
-  end
-let () = java_register_constructor "Scoreable" (fun arguments -> Obj.repr (new scoreable (Obj.obj arguments)))
+JR.registerLateBound("Scoreable.jnew_1", jnew_1)
+JR.registerLateBound("Scoreable.jm_addPoints", jm_addPoints)
+JR.registerLateBound("Scoreable.jm_removePoints", jm_removePoints)
+JR.registerLateBound("Scoreable.jm_setPoints", jm_setPoints)
+JR.registerLateBound("Scoreable.jm_getPoints", jm_getPoints)
+JR.registerLateBound("Scoreable.f_points", (this: Scoreable) => this.f_points)
+JR.registerLateBound("Scoreable.set_f_points", (this: Scoreable, jvalue) => { this.f_points = jvalue; jvalue })
+JR.registerLateBound("Scoreable.jstatic_ID", jstatic_ID)
 
 

@@ -1,50 +1,69 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.physics.movement
+module SimpleGravityVelocityMovement
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.physics.movement *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/layer/AllBinaryGameLayer.gr" include AllBinaryGameLayer
+use AllBinaryGameLayer.{ type AllBinaryGameLayer }
+from "../../../../org/allbinary/game/physics/acceleration/GravityUtil.gr" include GravityUtil
+use GravityUtil.{ type GravityUtil }
+from "../../../../org/allbinary/game/physics/velocity/VelocityProperties.gr" include VelocityProperties
+use VelocityProperties.{ type VelocityProperties }
+from "../../../../org/allbinary/logic/math/BasicDecimal.gr" include BasicDecimal
+use BasicDecimal.{ type BasicDecimal }
+from "./BasicConstantVelocityMovement.gr" include BasicConstantVelocityMovement
+use BasicConstantVelocityMovement.{ type BasicConstantVelocityMovement }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.layer.AllBinaryGameLayer *)
-(* import org.allbinary.game.physics.acceleration.GravityUtil *)
-(* import org.allbinary.game.physics.velocity.VelocityProperties *)
-(* import org.allbinary.logic.math.BasicDecimal *)
+provide record SimpleGravityVelocityMovement {
+  jobject: JObject,
+  mut f_velocityProperties: JObject,
+  mut f_speedBasicDecimal: JObject,
+  mut f_axisMathVectorUtil: JObject,
+  mut f_gravityUtil: GravityUtil,
+}
 
-class simpleGravityVelocityMovement ((speedBasicDecimal : BasicDecimal.basicDecimal)) =
-  object (self)
-    inherit BasicConstantVelocityMovement.basicConstantVelocityMovement (speedBasicDecimal, ((new VelocityProperties.velocityProperties ((speedBasicDecimal#getUnscaled ()), (speedBasicDecimal#getUnscaled ()))) : VelocityProperties.velocityProperties :> BasicVelocityProperties.basicVelocityProperties)) as super
-    val mutable gravityUtil : GravityUtil.gravityUtil = (Obj.magic 0)
-    method gravityUtil = gravityUtil
-    method set_gravityUtil value' = gravityUtil <- value'
+
+provide let rec jclassName = () => "SimpleGravityVelocityMovement"
     
+and jnew_1 = (speedBasicDecimal: BasicDecimal) => {
+    let this = { jobject: JR.newJObject("SimpleGravityVelocityMovement"), f_velocityProperties: JR.jnull, f_speedBasicDecimal: JR.jnull, f_axisMathVectorUtil: JR.jnull, f_gravityUtil: JR.nullOf(), }
+    this.f_gravityUtil = JR.cast(GravityUtil.jm_getInstance())
+        void
+    this
+}
     
+and jm_process = (this: SimpleGravityVelocityMovement, layer: AllBinaryGameLayer) => {
+        ignore(GravityUtil.jm_process(this.f_gravityUtil, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicConstantVelocityMovement.jm_getVelocityProperties"))
+JR.cast(jlate(JR.cast(this)))
+}, this.f_gravityUtil.f_GAME_GRAVITY_VELOCITY))
+        ignore(jm_process(this, layer))
+}
 
-    method process : 'any1. 'any1 -> unit = fun (layer) ->
-        let layer = Obj.repr layer in
-        begin
-        ignore (gravityUtil#process ((self#getVelocityProperties ()), gravityUtil#gAME_GRAVITY_VELOCITY));
-        ignore (super#process ((Obj.magic layer)))
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        gravityUtil <- ((GravityUtil.getInstance ()) :> GravityUtil.gravityUtil);
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "SimpleGravityVelocityMovement" (fun arguments -> Obj.repr (new simpleGravityVelocityMovement (Obj.obj arguments)))
+JR.registerLateBound("SimpleGravityVelocityMovement.jnew_1", jnew_1)
+JR.registerLateBound("SimpleGravityVelocityMovement.jm_process", jm_process)
+JR.registerLateBound("SimpleGravityVelocityMovement.f_gravityUtil", (this: SimpleGravityVelocityMovement) => this.f_gravityUtil)
 
 

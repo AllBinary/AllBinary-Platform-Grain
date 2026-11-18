@@ -1,137 +1,182 @@
-(*
- 
-  AllBinary Open License Version 1 
-  Copyright (c) 2022 AllBinary 
-   
-  By agreeing to this license you and any business entity you represent are 
-  legally bound to the AllBinary Open License Version 1 legal agreement. 
-   
-  You may obtain the AllBinary Open License Version 1 legal agreement from 
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-   
-  Created By: Travis Berthelot 
+/*
+ * 
+ * AllBinary Open License Version 1 
+ * Copyright (c) 2022 AllBinary 
+ *  
+ * By agreeing to this license you and any business entity you represent are 
+ * legally bound to the AllBinary Open License Version 1 legal agreement. 
+ *  
+ * You may obtain the AllBinary Open License Version 1 legal agreement from 
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+ *  
+ * Created By: Travis Berthelot 
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.displayable.canvas
+module BaseGameBehavior
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/business/advertisement/GameAdStateFactory.gr" include GameAdStateFactory
+use GameAdStateFactory.{ type GameAdStateFactory }
+from "../../../../../org/allbinary/game/configuration/feature/Features.gr" include Features
+use Features.{ type Features }
+from "../../../../../org/allbinary/graphics/opengles/OpenGLFeatureFactory.gr" include OpenGLFeatureFactory
+use OpenGLFeatureFactory.{ type OpenGLFeatureFactory }
+from "../../../../../org/allbinary/logic/system/security/licensing/AbeClientInformationInterface.gr" include AbeClientInformationInterface
+use AbeClientInformationInterface.{ type AbeClientInformationInterface }
+from "./DemoGameBehavior.gr" include DemoGameBehavior
+use DemoGameBehavior.{ type DemoGameBehavior }
+
+provide record BaseGameBehavior {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+}
+
+let mut jcell_instanceC: Option<BaseGameBehavior> = None
+
+provide let rec jclassName = () => "BaseGameBehavior"
+
+and jstatic_instanceC = () => match (jcell_instanceC) {
+  Some(value) => value,
+  None => {
+    let value: BaseGameBehavior = jnew_0()
+    jcell_instanceC = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("BaseGameBehavior"), f_logUtil: JR.jnull, }
+    this
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.displayable.canvas *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.business.advertisement.GameAdStateFactory *)
-(* import org.allbinary.game.GameAdState *)
-(* import org.allbinary.game.configuration.feature.Features *)
-(* import org.allbinary.graphics.opengles.CurrentDisplayableFactory *)
-(* import org.allbinary.graphics.opengles.OpenGLFeatureFactory *)
-(* import org.allbinary.logic.system.security.licensing.AbeClientInformationInterface *)
-
-let instanceC_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
-let get_instanceC : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instanceC_cell with Lazy.Undefined -> java_null)
-let set_instanceC value' = instanceC_cell := Lazy.from_val (Obj.repr value')
-let () = java_register_static "BaseGameBehavior.get_instanceC" (fun _ -> Obj.repr (get_instanceC ()))
-let () = java_register_static "BaseGameBehavior.set_instanceC" (fun value' -> set_instanceC value'; Obj.repr ())
-class baseGameBehavior () =
-  object
-    inherit DemoGameBehavior.demoGameBehavior ()
+and jm_getInstance = () => {
+        return jstatic_instanceC()
+}
     
-
-    method init () : unit =
-        begin
-        let gameAdState : Obj.t ref = ref ((Obj.repr ((GameAdStateFactory.getInstance ())#getCurrentInstance ()))) in ();
-        ignore ((Obj.magic !gameAdState)#playingAdState ())
-        end [@@warning "-7"]
+and jm_init = (this: BaseGameBehavior) => {
+        let mut gameAdState: JObject = JR.cast(GameAdStateFactory.jm_getCurrentInstance(GameAdStateFactory.jm_getInstance()))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameAdState.jm_playingAdState"))
+JR.cast(jlate(JR.cast(gameAdState)))
+})
+}
     
-
-    method pause : 'any1. 'any1 -> unit = fun (allBinaryGameCanvas) ->
-        let allBinaryGameCanvas = Obj.repr allBinaryGameCanvas in
-        begin
-        let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
-        if (!features#isDefault ((OpenGLFeatureFactory.getInstance ())#oPENGL_AS_GAME_THREAD)) then begin
-            let currentDisplayableFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "CurrentDisplayableFactory.getInstance" (Obj.repr ()))))) in ();
-            ignore ((Obj.magic !currentDisplayableFactory)#setRunnable ((Obj.magic allBinaryGameCanvas)#gamePauseRunnable))
-        end
-        end [@@warning "-7-20"]
+and jm_pause = (this: BaseGameBehavior, allBinaryGameCanvas: JObject) => {
+        let mut features: Features = JR.cast(Features.jm_getInstance())
+        if (Features.jm_isDefault(features, JR.cast(OpenGLFeatureFactory.jm_getInstance().f_OPENGL_AS_GAME_THREAD))) {
+            let mut currentDisplayableFactory: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("CurrentDisplayableFactory.jm_getInstance"))
+JR.cast(jlate())
+})
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CurrentDisplayableFactory.jm_setRunnable"))
+JR.cast(jlate(JR.cast(currentDisplayableFactory), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.f_gamePauseRunnable"))
+JR.cast(jlate(JR.cast(allBinaryGameCanvas)))
+})))
+})
+        }
+}
     
-
-    method unPause : 'any1. 'any1 -> unit = fun (allBinaryGameCanvas) ->
-        let allBinaryGameCanvas = Obj.repr allBinaryGameCanvas in
-        begin
-        if ((Features.getInstance ())#isDefault ((OpenGLFeatureFactory.getInstance ())#oPENGL_AS_GAME_THREAD)) then begin
-            let currentDisplayableFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "CurrentDisplayableFactory.getInstance" (Obj.repr ()))))) in ();
-            ignore ((Obj.magic !currentDisplayableFactory)#setRunnable ((Obj.magic allBinaryGameCanvas)#gameRunnable));
-            ignore ((Obj.magic !currentDisplayableFactory)#setDisplayable ((Obj.magic allBinaryGameCanvas)))
-        end
-        end [@@warning "-7-20"]
+and jm_unPause = (this: BaseGameBehavior, allBinaryGameCanvas: JObject) => {
+        if (Features.jm_isDefault(Features.jm_getInstance(), JR.cast(OpenGLFeatureFactory.jm_getInstance().f_OPENGL_AS_GAME_THREAD))) {
+            let mut currentDisplayableFactory: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("CurrentDisplayableFactory.jm_getInstance"))
+JR.cast(jlate())
+})
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CurrentDisplayableFactory.jm_setRunnable"))
+JR.cast(jlate(JR.cast(currentDisplayableFactory), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.f_gameRunnable"))
+JR.cast(jlate(JR.cast(allBinaryGameCanvas)))
+})))
+})
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CurrentDisplayableFactory.jm_setDisplayable"))
+JR.cast(jlate(JR.cast(currentDisplayableFactory), JR.cast(allBinaryGameCanvas)))
+})
+        }
+}
     
-
-    method updateTouch : 'any1. 'any1 -> unit = fun (allBinaryGameCanvas) ->
-        let allBinaryGameCanvas = Obj.repr allBinaryGameCanvas in
-        begin
-        ignore ((Obj.magic allBinaryGameCanvas)#updateTouch2 ())
-        end [@@warning "-7-20"]
+and jm_updateTouch = (this: BaseGameBehavior, allBinaryGameCanvas: JObject) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_updateTouch2"))
+JR.cast(jlate(JR.cast(allBinaryGameCanvas)))
+})
+}
     
-
-    method updateScreenButtonPaintable : 'any1. 'any1 -> unit = fun (allBinaryGameCanvas) ->
-        let allBinaryGameCanvas = Obj.repr allBinaryGameCanvas in
-        begin
-        ignore ((Obj.magic allBinaryGameCanvas)#updateScreenButtonPaintable2 ())
-        end [@@warning "-7-20"]
+and jm_updateScreenButtonPaintable = (this: BaseGameBehavior, allBinaryGameCanvas: JObject) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_updateScreenButtonPaintable2"))
+JR.cast(jlate(JR.cast(allBinaryGameCanvas)))
+})
+}
     
-
-    method setGameState : 'any1. 'any1 -> unit = fun (allBinaryGameCanvas) ->
-        let allBinaryGameCanvas = Obj.repr allBinaryGameCanvas in
-        begin
-        ignore ((Obj.magic allBinaryGameCanvas)#updateGameState ())
-        end [@@warning "-7-20"]
+and jm_setGameState = (this: BaseGameBehavior, allBinaryGameCanvas: JObject) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_updateGameState"))
+JR.cast(jlate(JR.cast(allBinaryGameCanvas)))
+})
+}
     
-
-    method removeAllGameKeyInputListeners : 'any1. 'any1 -> unit = fun (allBinaryGameCanvas) ->
-        let allBinaryGameCanvas = Obj.repr allBinaryGameCanvas in
-        begin
-        ignore ((Obj.magic allBinaryGameCanvas)#removeAllGameKeyInputListeners2 ())
-        end [@@warning "-7-20"]
+and jm_removeAllGameKeyInputListeners = (this: BaseGameBehavior, allBinaryGameCanvas: JObject) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_removeAllGameKeyInputListeners2"))
+JR.cast(jlate(JR.cast(allBinaryGameCanvas)))
+})
+}
     
-
-    method updateEndGameProcessor : 'any1. 'any1 -> unit = fun (allBinaryGameCanvas) ->
-        let allBinaryGameCanvas = Obj.repr allBinaryGameCanvas in
-        begin
-        ignore ((Obj.magic allBinaryGameCanvas)#updateEndGameProcessor2 ())
-        end [@@warning "-7-20"]
+and jm_updateEndGameProcessor = (this: BaseGameBehavior, allBinaryGameCanvas: JObject) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_updateEndGameProcessor2"))
+JR.cast(jlate(JR.cast(allBinaryGameCanvas)))
+})
+}
     
-
-    method buildGame : 'any1. 'any1 -> unit = fun (allBinaryGameCanvas) ->
-        let allBinaryGameCanvas = Obj.repr allBinaryGameCanvas in
-        begin
-        ignore ((Obj.magic allBinaryGameCanvas)#buildGame2 ())
-        end [@@warning "-7-20"]
+and jm_buildGame = (this: BaseGameBehavior, allBinaryGameCanvas: JObject) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_buildGame2"))
+JR.cast(jlate(JR.cast(allBinaryGameCanvas)))
+})
+}
     
-
-    method run : 'any1. 'any1 -> unit = fun (allBinaryGameCanvas) ->
-        let allBinaryGameCanvas = Obj.repr allBinaryGameCanvas in
-        begin
-        ignore ((Obj.magic allBinaryGameCanvas)#run2 ())
-        end [@@warning "-7-20"]
+and jm_run = (this: BaseGameBehavior, allBinaryGameCanvas: JObject) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_run2"))
+JR.cast(jlate(JR.cast(allBinaryGameCanvas)))
+})
+}
     
+and jm_setHighScore = (this: BaseGameBehavior, abeClientInformation: AbeClientInformationInterface, allBinaryGameCanvas: JObject, name: String, score: Int64, autoSubmit: Bool, isLast: Bool) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_setHighScore2"))
+JR.cast(jlate(JR.cast(allBinaryGameCanvas), JR.cast(abeClientInformation), JR.cast(name), JR.cast(score), JR.cast(autoSubmit), JR.cast(isLast)))
+})
+}
 
-    method setHighScore : 'any1 'any2. 'any1 * 'any2 * string * int * bool * bool -> unit = fun (abeClientInformation, allBinaryGameCanvas, (name : string), (score : int), (autoSubmit : bool), (isLast : bool)) ->
-        let abeClientInformation = Obj.repr abeClientInformation in
-        let allBinaryGameCanvas = Obj.repr allBinaryGameCanvas in
-        begin
-        ignore ((Obj.magic allBinaryGameCanvas)#setHighScore2 ((Obj.magic abeClientInformation), name, score, autoSubmit, isLast))
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "BaseGameBehavior" (fun arguments -> Obj.repr (new baseGameBehavior (Obj.obj arguments)))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic (get_instanceC ()))))
-        end
-let () = java_register_static "BaseGameBehavior.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-
-let () = instanceC_cell := lazy (Obj.repr ((new baseGameBehavior ())))
+JR.registerLateBound("BaseGameBehavior.jnew_0", jnew_0)
+JR.registerLateBound("BaseGameBehavior.jm_getInstance", jm_getInstance)
+JR.registerLateBound("BaseGameBehavior.jm_init", jm_init)
+JR.registerLateBound("BaseGameBehavior.jm_pause", jm_pause)
+JR.registerLateBound("BaseGameBehavior.jm_unPause", jm_unPause)
+JR.registerLateBound("BaseGameBehavior.jm_updateTouch", jm_updateTouch)
+JR.registerLateBound("BaseGameBehavior.jm_updateScreenButtonPaintable", jm_updateScreenButtonPaintable)
+JR.registerLateBound("BaseGameBehavior.jm_setGameState", jm_setGameState)
+JR.registerLateBound("BaseGameBehavior.jm_removeAllGameKeyInputListeners", jm_removeAllGameKeyInputListeners)
+JR.registerLateBound("BaseGameBehavior.jm_updateEndGameProcessor", jm_updateEndGameProcessor)
+JR.registerLateBound("BaseGameBehavior.jm_buildGame", jm_buildGame)
+JR.registerLateBound("BaseGameBehavior.jm_run", jm_run)
+JR.registerLateBound("BaseGameBehavior.jm_setHighScore", jm_setHighScore)
+JR.registerLateBound("BaseGameBehavior.jstatic_instanceC", jstatic_instanceC)
 
 

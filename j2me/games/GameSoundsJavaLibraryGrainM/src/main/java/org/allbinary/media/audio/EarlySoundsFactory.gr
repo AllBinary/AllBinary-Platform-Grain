@@ -1,52 +1,77 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.media.audio
+module EarlySoundsFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.media.audio *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./BaseSoundsFactory.gr" include BaseSoundsFactory
+use BaseSoundsFactory.{ type BaseSoundsFactory }
+from "./Sound.gr" include Sound
+use Sound.{ type Sound }
+from "./SelectSound.gr" include SelectSound
+use SelectSound.{ type SelectSound }
+from "./ErrorSound.gr" include ErrorSound
+use ErrorSound.{ type ErrorSound }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
+provide record EarlySoundsFactory {
+  jobject: JObject,
+  mut f_initialized: Bool,
+}
 
-class earlySoundsFactory () =
-  object
-    inherit BaseSoundsFactory.baseSoundsFactory ()
+let mut jcell_instance: Option<EarlySoundsFactory> = None
+
+provide let rec jclassName = () => "EarlySoundsFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: EarlySoundsFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("EarlySoundsFactory"), f_initialized: false, }
+    this
+}
     
+and jm_getSoundInterfaceArray = (this: EarlySoundsFactory) => {
+        let mut soundInterfaceArray: Array<Sound> = Array.make(Int32.toNumber(2l), JR.nullOf())
+        let mut index: Int32 = 0l
+        soundInterfaceArray[Int32.toNumber({ let jold = index; index = Int32.(+)(jold, 1l); jold })] = JR.cast(SelectSound.jm_getInstance())
+        soundInterfaceArray[Int32.toNumber({ let jold = index; index = Int32.(+)(jold, 1l); jold })] = JR.cast(ErrorSound.jm_getInstance())
+        return soundInterfaceArray
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
 
-    method getSoundInterfaceArray : 'return. unit -> 'return = fun () ->
-        begin
-        let soundInterfaceArray : Sound.sound array ref = ref ((Array.make (2) (Obj.magic 0))) in ();
-        let index : int ref = ref (0) in ();
-        !soundInterfaceArray.((let value = !index in index := !index + 1; value)) <- ((SelectSound.getInstance ()) :> Sound.sound);
-        !soundInterfaceArray.((let value = !index in index := !index + 1; value)) <- ((ErrorSound.getInstance ()) :> Sound.sound);
-        (Obj.magic (!soundInterfaceArray))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "EarlySoundsFactory" (fun arguments -> Obj.repr (new earlySoundsFactory (Obj.obj arguments)))
-
-let instance = (new earlySoundsFactory ())
-let get_instance () = instance
-let () = java_register_static "EarlySoundsFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "EarlySoundsFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("EarlySoundsFactory.jnew_0", jnew_0)
+JR.registerLateBound("EarlySoundsFactory.jm_getSoundInterfaceArray", jm_getSoundInterfaceArray)
+JR.registerLateBound("EarlySoundsFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("EarlySoundsFactory.jstatic_instance", jstatic_instance)
 
 

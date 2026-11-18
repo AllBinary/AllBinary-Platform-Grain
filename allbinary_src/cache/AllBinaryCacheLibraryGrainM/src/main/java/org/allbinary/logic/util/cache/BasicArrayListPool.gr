@@ -1,81 +1,119 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.util.cache
+module BasicArrayListPool
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.util.cache *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "./AbstractArrayListPool.gr" include AbstractArrayListPool
+use AbstractArrayListPool.{ type AbstractArrayListPool }
+from "./CacheableInterfaceFactoryInterface.gr" include CacheableInterfaceFactoryInterface
+use CacheableInterfaceFactoryInterface.{ type CacheableInterfaceFactoryInterface }
+from "./CacheableInterface.gr" include CacheableInterface
+use CacheableInterface.{ type CacheableInterface }
+from "./BasicArrayListCacheable.gr" include BasicArrayListCacheable
+use BasicArrayListCacheable.{ type BasicArrayListCacheable }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.util.BasicArrayList *)
+provide record BasicArrayListPool {
+  jobject: JObject,
+  mut f_commonStrings: JObject,
+  mut f_buffers: JObject,
+  mut f_cacheableInterfaceFactoryInterface: JObject,
+}
 
-class basicArrayListPool ((cacheableInterfaceFactoryInterface : CacheableInterfaceFactoryInterface.cacheableInterfaceFactoryInterface)) =
-  object (self)
-    inherit AbstractArrayListPool.abstractArrayListPool (cacheableInterfaceFactoryInterface)
+
+provide let rec jclassName = () => "BasicArrayListPool"
     
+and jnew_1 = (cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface) => {
+    let this = { jobject: JR.newJObject("BasicArrayListPool"), f_commonStrings: JR.jnull, f_buffers: JR.jnull, f_cacheableInterfaceFactoryInterface: JR.jnull, }
+        void
+    this
+}
     
-
-    method clear () : unit =
-        begin
-        ignore ((self#buffers)#clear ())
-        end [@@warning "-7"]
+and jm_clear = (this: BasicArrayListPool) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_clear"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_buffers))))
+})
+}
     
-
-    method remove : 'any1 'return. 'any1 -> 'return = fun (key) ->
-        let key = Obj.repr key in
-        try
-        begin
-        let size : int ref = ref (((self#buffers)#size ())) in ();
-        if (!size > 0) then begin
-            raise (Java_return (Obj.repr ((Obj.magic ((self#buffers)#removeAt ((!size - 1)))))))
-        end else begin
-            raise (Java_return (Obj.repr (((self#cacheableInterfaceFactoryInterface)#getInstance (key)))))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7"]
+and jm_remove = (this: BasicArrayListPool, key: JObject) => {
+        let mut size: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_buffers))))
+}
+        if (Int32.(>)(size, 0l)) {
+            return JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_removeAt"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_buffers)), JR.cast(Int32.(-)(size, 1l))))
+})
+        } else {
+            return CacheableInterfaceFactoryInterface.jm_getInstance(JR.cast(this.f_cacheableInterfaceFactoryInterface), key)
+        }
+}
     
-
-    method addAll : 'any1. 'any1 -> unit = fun (usedList) ->
-        let usedList = Obj.repr usedList in
-        begin
-        let index : int ref = ref (((Obj.magic usedList)#size ())) in ();
-        while ((index := !index - 1; !index) >= 0) do
-            let anyType : CacheableInterface.cacheableInterface ref = ref (((Obj.magic (Obj.magic usedList)#objectArray.(!index)) :> CacheableInterface.cacheableInterface)) in ();
-            ignore (self#add (!anyType))
-        done;
-        ignore ((Obj.magic usedList)#clear ())
-        end [@@warning "-7-20"]
+and jm_addAll = (this: BasicArrayListPool, usedList: BasicArrayList) => {
+        {
+            let mut index: Int32 = BasicArrayList.jm_size(usedList)
+            let mut jfirst = true
+            while (true) {
+                jfirst = false
+                if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
+            let mut anyType: CacheableInterface = JR.cast(usedList.f_objectArray[Int32.toNumber(index)])
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbstractArrayListPool.jm_add"))
+JR.cast(jlate(JR.cast(this), JR.cast(anyType)))
+})
+            }
+        }
+        ignore(BasicArrayList.jm_clear(usedList))
+}
     
+and jm_releaseUsedBackToPool = (this: BasicArrayListPool, usedList: BasicArrayList) => {
+        {
+            let mut index: Int32 = BasicArrayList.jm_size(usedList)
+            let mut jfirst = true
+            while (true) {
+                jfirst = false
+                if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
+            let mut list: BasicArrayListCacheable = JR.cast(usedList.f_objectArray[Int32.toNumber(index)])
+            if ((BasicArrayListCacheable.jm_size(list) == 0l)) {
+                ignore(BasicArrayList.jm_removeAt(usedList, index))
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbstractArrayListPool.jm_add"))
+JR.cast(jlate(JR.cast(this), JR.cast(list)))
+})
+            }
+            }
+        }
+}
 
-    method releaseUsedBackToPool : 'any1. 'any1 -> unit = fun (usedList) ->
-        let usedList = Obj.repr usedList in
-        begin
-        let index : int ref = ref (((Obj.magic usedList)#size ())) in ();
-        while ((index := !index - 1; !index) >= 0) do
-            let list : BasicArrayListCacheable.basicArrayListCacheable ref = ref (((Obj.magic (Obj.magic usedList)#objectArray.(!index)) :> BasicArrayListCacheable.basicArrayListCacheable)) in ();
-            if ((!list#size ()) = 0) then begin
-                ignore ((Obj.magic usedList)#removeAt (!index));
-                ignore (self#add (!list))
-            end
-        done
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "BasicArrayListPool" (fun arguments -> Obj.repr (new basicArrayListPool (Obj.obj arguments)))
+JR.registerLateBound("BasicArrayListPool.jnew_1", jnew_1)
+JR.registerLateBound("BasicArrayListPool.jm_clear", jm_clear)
+JR.registerLateBound("BasicArrayListPool.jm_remove", jm_remove)
+JR.registerLateBound("BasicArrayListPool.jm_addAll", jm_addAll)
+JR.registerLateBound("BasicArrayListPool.jm_releaseUsedBackToPool", jm_releaseUsedBackToPool)
 
 

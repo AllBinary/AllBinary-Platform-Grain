@@ -1,78 +1,96 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.input.motion.gesture
+module MirrorMotionGestureEventUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.input.motion.gesture *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/graphics/GPoint.gr" include GPoint
+use GPoint.{ type GPoint }
+from "../../../../../org/allbinary/graphics/PointFactory.gr" include PointFactory
+use PointFactory.{ type PointFactory }
+from "../../../../../org/allbinary/input/motion/gesture/observer/MotionEventCircularPool.gr" include MotionEventCircularPool
+use MotionEventCircularPool.{ type MotionEventCircularPool }
+from "../../../../../org/allbinary/input/motion/gesture/observer/MotionGestureEvent.gr" include MotionGestureEvent
+use MotionGestureEvent.{ type MotionGestureEvent }
+from "../../../../../java/lang/Integer.gr" include Integer
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.graphics.GPoint *)
-(* import org.allbinary.graphics.PointFactory *)
-(* import org.allbinary.input.motion.gesture.observer.MotionEventCircularPool *)
-(* import org.allbinary.input.motion.gesture.observer.MotionGestureEvent *)
+provide record MirrorMotionGestureEventUtil {
+  jobject: JObject,
+  mut f_motionEventCircularPool: MotionEventCircularPool,
+}
 
-class mirrorMotionGestureEventUtil () =
-  object (self)
-    val mutable motionEventCircularPool : MotionEventCircularPool.motionEventCircularPool = (Obj.magic 0)
-    method motionEventCircularPool = motionEventCircularPool
-    method set_motionEventCircularPool value' = motionEventCircularPool <- value'
+let mut jcell_instance: Option<MirrorMotionGestureEventUtil> = None
+
+provide let rec jclassName = () => "MirrorMotionGestureEventUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: MirrorMotionGestureEventUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("MirrorMotionGestureEventUtil"), f_motionEventCircularPool: JR.nullOf(), }
     
-
-    method mirrorVerticle : 'any1 'return. 'any1 * int -> 'return = fun (motionGestureEvent, (halfWidth : int)) ->
-        let motionGestureEvent = Obj.repr motionGestureEvent in
-        begin
-        let event : MotionGestureEvent.motionGestureEvent ref = ref (((motionEventCircularPool#getInstance (((Obj.magic motionGestureEvent)#getMotionGesture ()))) :> MotionGestureEvent.motionGestureEvent)) in ();
-        let previousNewX : int ref = ref ((self#getNewX ((((Obj.magic motionGestureEvent)#getPreviousPoint ())#getX ()), halfWidth))) in ();
-        let currentNewX : int ref = ref ((self#getNewX ((((Obj.magic motionGestureEvent)#getCurrentPoint ())#getX ()), halfWidth))) in ();
-        let pointFactory : PointFactory.pointFactory ref = ref (((PointFactory.getInstance ()) :> PointFactory.pointFactory)) in ();
-        let mirroredPreviousPoint : GPoint.gPoint ref = ref (((!pointFactory#createXY (!previousNewX, (((Obj.magic motionGestureEvent)#getPreviousPoint ())#getY ()))) :> GPoint.gPoint)) in ();
-        let mirroredCurrentPoint : GPoint.gPoint ref = ref (((!pointFactory#createXY (!currentNewX, (((Obj.magic motionGestureEvent)#getCurrentPoint ())#getY ()))) :> GPoint.gPoint)) in ();
-        ignore (!event#setPreviousPoint (!mirroredPreviousPoint));
-        ignore (!event#setCurrentPoint (!mirroredCurrentPoint));
-        (Obj.magic (!event))
-        end [@@warning "-20"]
+        this.f_motionEventCircularPool = MotionEventCircularPool.jm_createPool(Integer.jstatic_MAX_VALUE())
+    this
+}
     
+and jm_mirrorVerticle = (this: MirrorMotionGestureEventUtil, motionGestureEvent: MotionGestureEvent, halfWidth: Int32) => {
+        let mut event: MotionGestureEvent = JR.cast(MotionEventCircularPool.jm_getInstance(this.f_motionEventCircularPool, MotionGestureEvent.jm_getMotionGesture(motionGestureEvent)))
+        let mut previousNewX: Int32 = jm_getNewX(this, JR.className(JR.cast(MotionGestureEvent.jm_getPreviousPoint(motionGestureEvent))), halfWidth)
+        let mut currentNewX: Int32 = jm_getNewX(this, JR.className(JR.cast(MotionGestureEvent.jm_getCurrentPoint(motionGestureEvent))), halfWidth)
+        let mut pointFactory: PointFactory = JR.cast(PointFactory.jm_getInstance())
+        let mut mirroredPreviousPoint: GPoint = JR.cast(PointFactory.jm_createXY(pointFactory, previousNewX, JR.className(JR.cast(MotionGestureEvent.jm_getPreviousPoint(motionGestureEvent)))))
+        let mut mirroredCurrentPoint: GPoint = JR.cast(PointFactory.jm_createXY(pointFactory, currentNewX, JR.className(JR.cast(MotionGestureEvent.jm_getCurrentPoint(motionGestureEvent)))))
+        ignore(MotionGestureEvent.jm_setPreviousPoint(event, mirroredPreviousPoint))
+        ignore(MotionGestureEvent.jm_setCurrentPoint(event, mirroredCurrentPoint))
+        return event
+}
+    
+and jm_getNewX = (this: MirrorMotionGestureEventUtil, x: Int32, halfWidth: Int32) => {
+        let mut newX: Int32 = 0l
+        if (Int32.(>)(x, halfWidth)) {
+            newX = Int32.(-)(halfWidth, (Int32.(-)(x, halfWidth)))
+        } else {
+            newX = Int32.(+)(halfWidth, (Int32.(-)(halfWidth, x)))
+        }
+        return newX
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
 
-    method getNewX ((x : int), (halfWidth : int)) : int =
-        begin
-        let newX : int ref = ref (0) in ();
-        if (x > halfWidth) then begin
-            newX := (halfWidth - ((x - halfWidth)))
-        end else begin
-            newX := (halfWidth + ((halfWidth - x)))
-        end;
-        !newX
-        end
-
-    initializer
-      begin
-        ();
-        ();
-        motionEventCircularPool <- (MotionEventCircularPool.createPool (2147483647))
-      end
-  end
-let () = java_register_constructor "MirrorMotionGestureEventUtil" (fun arguments -> Obj.repr (new mirrorMotionGestureEventUtil (Obj.obj arguments)))
-
-let instance = (new mirrorMotionGestureEventUtil ())
-let get_instance () = instance
-let () = java_register_static "MirrorMotionGestureEventUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "MirrorMotionGestureEventUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("MirrorMotionGestureEventUtil.jnew_0", jnew_0)
+JR.registerLateBound("MirrorMotionGestureEventUtil.jm_mirrorVerticle", jm_mirrorVerticle)
+JR.registerLateBound("MirrorMotionGestureEventUtil.jm_getNewX", jm_getNewX)
+JR.registerLateBound("MirrorMotionGestureEventUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("MirrorMotionGestureEventUtil.f_motionEventCircularPool", (this: MirrorMotionGestureEventUtil) => this.f_motionEventCircularPool)
+JR.registerLateBound("MirrorMotionGestureEventUtil.jstatic_instance", jstatic_instance)
 
 

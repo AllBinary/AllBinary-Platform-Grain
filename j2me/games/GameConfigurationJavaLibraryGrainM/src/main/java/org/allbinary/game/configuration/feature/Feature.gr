@@ -1,73 +1,99 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.configuration.feature
+module Feature
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.configuration.feature *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.configuration.event.ChangedGameFeatureListener *)
-(* import org.allbinary.logic.StdUtil *)
-(* import org.allbinary.util.ABHashtable *)
+provide record Feature {
+  jobject: JObject,
+  mut f_name: String,
+}
 
-let hashtable : Obj.t ref = ref ((Obj.repr ((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashtable ())))
-let get_hashtable () = Obj.magic !hashtable
-let set_hashtable value' = hashtable := Obj.repr value'
-let () = java_register_static "Feature.get_hashtable" (fun _ -> Obj.repr (get_hashtable ()))
-let () = java_register_static "Feature.set_hashtable" (fun value' -> set_hashtable (Obj.obj value'); Obj.repr ())
+let mut jcell_hashtable: Option<JObject> = None
 
-let getInstance : 'return. string -> 'return = fun ((name_arg : string)) ->
-        begin
-        (Obj.magic ((Obj.magic ((Obj.magic !hashtable)#get (name_arg)))))
-        end
+provide let rec jclassName = () => "Feature"
 
-and add : 'any2. string * 'any2 -> unit = fun ((name_arg : string), gameFeature) ->
-        let gameFeature = Obj.repr gameFeature in
-        begin
-        ignore ((Obj.magic !hashtable)#put (name_arg, (Obj.magic gameFeature)))
-        end [@@warning "-20"]
-
-let () = java_register_static "Feature.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-let () = java_register_static "Feature.add" (fun arguments -> Obj.repr (add (Obj.obj arguments)))
-class feature ((name_arg : string)) =
-  object (self)
-    val mutable name : string = ""
-    method name = name
-    method set_name value' = name <- value'
+and jstatic_hashtable = () => match (jcell_hashtable) {
+  Some(value) => value,
+  None => {
+    let value: JObject = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashtable"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+}
+    jcell_hashtable = Some(value)
+    value
+  },
+}
     
+and jnew_1 = (name: String) => {
+    let this = { jobject: JR.newJObject("Feature"), f_name: "", }
+    this.jobject.toStringFunction = () => jm_toString(this)
     
-
-    method toString () : string =
-        begin
-        (self#getName ())
-        end
+        this.f_name = name
+        ignore(jm_add(name, this))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ChangedGameFeatureListener.jm_add"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("ChangedGameFeatureListener.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(this)))
+})
+    this
+}
     
+and jm_getInstance = (name: String) => {
+        return JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
+JR.cast(jlate(JR.cast(jstatic_hashtable()), JR.cast(name)))
+})
+}
+    
+and jm_add = (name: String, gameFeature: Feature) => {
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
+JR.cast(jlate(JR.cast(jstatic_hashtable()), JR.cast(name), JR.cast(gameFeature)))
+})
+}
+    
+and jm_toString = (this: Feature) => {
+        return jm_getName(this)
+}
+    
+and jm_getName = (this: Feature) => {
+        return this.f_name
+}
 
-    method getName () : string =
-        begin
-        name
-        end
-
-    initializer
-      begin
-        ();
-        ();
-        name <- name_arg;
-        ignore (add (name_arg, (Obj.magic self)));
-        ignore ((Obj.magic (java_call_static "ChangedGameFeatureListener.getInstance" (Obj.repr ())))#add ((Obj.magic self)))
-      end
-  end
-let () = java_register_constructor "Feature" (fun arguments -> Obj.repr (new feature (Obj.obj arguments)))
+JR.registerLateBound("Feature.jnew_1", jnew_1)
+JR.registerLateBound("Feature.jm_getInstance", jm_getInstance)
+JR.registerLateBound("Feature.jm_add", jm_add)
+JR.registerLateBound("Feature.jm_toString", jm_toString)
+JR.registerLateBound("Feature.jm_getName", jm_getName)
+JR.registerLateBound("Feature.f_name", (this: Feature) => this.f_name)
+JR.registerLateBound("Feature.jstatic_hashtable", jstatic_hashtable)
 
 

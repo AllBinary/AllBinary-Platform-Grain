@@ -1,115 +1,121 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.score
+module HighScore
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.score *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/io/ByteArrayOutputStream.gr" include ByteArrayOutputStream
+use ByteArrayOutputStream.{ type ByteArrayOutputStream }
+from "../../../../java/io/DataOutputStream.gr" include DataOutputStream
+use DataOutputStream.{ type DataOutputStream }
+from "../../../../org/allbinary/game/GameInfo.gr" include GameInfo
+use GameInfo.{ type GameInfo }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../../java/lang/Long.gr" include Long
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.ByteArrayOutputStream *)
-(* import java.io.DataOutputStream *)
-(* import org.allbinary.game.GameInfo *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.string.CommonSeps *)
+provide record HighScore {
+  jobject: JObject,
+  mut f_id: Int32,
+  mut f_name: String,
+  mut f_gameInfo: GameInfo,
+  mut f_score: Int64,
+  mut f_scoreString: String,
+}
 
-class highScore ((id_arg : int), (name_arg : string), (gameInfo_arg : GameInfo.gameInfo), (score_arg : int)) =
-  object (self)
-    val mutable id : int = 0
-    method id = id
-    method set_id value' = id <- value'
-    val mutable name : string = ""
-    method name = name
-    method set_name value' = name <- value'
-    val mutable gameInfo : GameInfo.gameInfo = (Obj.magic 0)
-    method gameInfo = gameInfo
-    method set_gameInfo value' = gameInfo <- value'
-    val mutable score : int = 0
-    method score = score
-    method set_score value' = score <- value'
-    val mutable scoreString : string = ""
-    method scoreString = scoreString
-    method set_scoreString value' = scoreString <- value'
+
+provide let rec jclassName = () => "HighScore"
+    
+and jnew_4 = (id: Int32, name: String, gameInfo: GameInfo, score: Int64) => {
+    let this = { jobject: JR.newJObject("HighScore"), f_id: 0l, f_name: "", f_gameInfo: JR.nullOf(), f_score: 0L, f_scoreString: "", }
+    this.jobject.toStringFunction = () => jm_toString(this)
     
     
-
-    method getId () : int =
-        begin
-        id
-        end
     
-
-    method getName () : string =
-        begin
-        name
-        end
     
-
-    method getScore () : int =
-        begin
-        score
-        end
     
-
-    method getAsBytes () : int array =
-        begin
-        let byteArrayOutputStream : java_byte_array_output_stream ref = ref ((new java_byte_array_output_stream ())) in ();
-        let outputStream : java_data_output_stream ref = ref (((Obj.obj (java_new "DataOutputStream" (Obj.repr (!byteArrayOutputStream)))) :> java_data_output_stream)) in ();
-        ignore (!outputStream#writeUTF ((self#getName ())));
-        ignore (!outputStream#writeLong ((self#getScore ())));
-        (!byteArrayOutputStream#toByteArray ())
-        end
+        this.f_id = id
+        this.f_name = name
+        this.f_gameInfo = gameInfo
+        this.f_score = score
+        this.f_scoreString = toString(this.f_score)
+    this
+}
     
-
-    method getGameInfo : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (gameInfo))
-        end
+and jm_getId = (this: HighScore) => {
+        return this.f_id
+}
     
-
-    method getScoreString () : string =
-        begin
-        scoreString
-        end
+and jm_getName = (this: HighScore) => {
+        return this.f_name
+}
     
-
-    method setName ((name_arg : string)) : unit =
-        begin
-        name <- name_arg
-        end
+and jm_getScore = (this: HighScore) => {
+        return this.f_score
+}
     
+and jm_getAsBytes = (this: HighScore) => {
+        let mut byteArrayOutputStream: ByteArrayOutputStream = ByteArrayOutputStream.jnew_0()
+        let mut outputStream: DataOutputStream = DataOutputStream.jnew_1(byteArrayOutputStream)
+        ignore(DataOutputStream.jm_writeUTF_1(outputStream, jm_getName(this)))
+        ignore(DataOutputStream.jm_writeLong_1(outputStream, jm_getScore(this)))
+        return ByteArrayOutputStream.jm_toByteArray_0(byteArrayOutputStream)
+}
+    
+and jm_getGameInfo = (this: HighScore) => {
+        return this.f_gameInfo
+}
+    
+and jm_getScoreString = (this: HighScore) => {
+        return this.f_scoreString
+}
+    
+and jm_setName = (this: HighScore, name: String) => {
+        this.f_name = name
+}
+    
+and jm_toString = (this: HighScore) => {
+        let mut commonSeps: CommonSeps = JR.cast(CommonSeps.jm_getInstance())
+        return StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_appendlong(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), this.f_name), commonSeps.f_COLON), this.f_score), commonSeps.f_FORWARD_SLASH), this.f_scoreString))
+}
 
-    method toString () : string =
-        begin
-        let commonSeps : CommonSeps.commonSeps ref = ref (((CommonSeps.getInstance ()) :> CommonSeps.commonSeps)) in ();
-        (java_string_of (Obj.repr ((((((new StringMaker.stringMaker ())#append (name))#append (!commonSeps#cOLON))#appendlong (score))#append (!commonSeps#fORWARD_SLASH))#append (scoreString))))
-        end
-
-    initializer
-      begin
-        ();
-        ();
-        ();
-        ();
-        ();
-        ();
-        id <- id_arg;
-        name <- name_arg;
-        gameInfo <- gameInfo_arg;
-        score <- score_arg;
-        scoreString <- (string_of_int (score))
-      end
-  end
-let () = java_register_constructor "HighScore" (fun arguments -> Obj.repr (new highScore (Obj.obj arguments)))
+JR.registerLateBound("HighScore.jnew_4", jnew_4)
+JR.registerLateBound("HighScore.jm_getId", jm_getId)
+JR.registerLateBound("HighScore.jm_getName", jm_getName)
+JR.registerLateBound("HighScore.jm_getScore", jm_getScore)
+JR.registerLateBound("HighScore.jm_getAsBytes", jm_getAsBytes)
+JR.registerLateBound("HighScore.jm_getGameInfo", jm_getGameInfo)
+JR.registerLateBound("HighScore.jm_getScoreString", jm_getScoreString)
+JR.registerLateBound("HighScore.jm_setName", jm_setName)
+JR.registerLateBound("HighScore.jm_toString", jm_toString)
+JR.registerLateBound("HighScore.f_id", (this: HighScore) => this.f_id)
+JR.registerLateBound("HighScore.f_name", (this: HighScore) => this.f_name)
+JR.registerLateBound("HighScore.set_f_name", (this: HighScore, jvalue) => { this.f_name = jvalue; jvalue })
+JR.registerLateBound("HighScore.f_gameInfo", (this: HighScore) => this.f_gameInfo)
+JR.registerLateBound("HighScore.f_score", (this: HighScore) => this.f_score)
+JR.registerLateBound("HighScore.f_scoreString", (this: HighScore) => this.f_scoreString)
 
 

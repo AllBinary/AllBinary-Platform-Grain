@@ -1,59 +1,75 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.displayable.screen
+module ScreenRepaintProcessorFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.displayable.screen *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/J2MEUtil.gr" include J2MEUtil
+use J2MEUtil.{ type J2MEUtil }
+from "../../../../../org/allbinary/canvas/Processor.gr" include Processor
+use Processor.{ type Processor }
+from "./ScreenRepaintProcessor.gr" include ScreenRepaintProcessor
+use ScreenRepaintProcessor.{ type ScreenRepaintProcessor }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Displayable *)
-(* import org.allbinary.J2MEUtil *)
-(* import org.allbinary.canvas.Processor *)
+provide record ScreenRepaintProcessorFactory {
+  jobject: JObject,
+}
 
-class screenRepaintProcessorFactory () =
-  object
+let mut jcell_instance: Option<ScreenRepaintProcessorFactory> = None
+
+provide let rec jclassName = () => "ScreenRepaintProcessorFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: ScreenRepaintProcessorFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ScreenRepaintProcessorFactory"), }
+        void
+    this
+}
+    
+and jm_create = (this: ScreenRepaintProcessorFactory, displayable: JObject) => {
+        if (!J2MEUtil.jm_isJ2ME()) {
+            return JR.cast(ScreenRepaintProcessor.jnew_1(displayable))
+        } else {
+            return Processor.jm_getInstance()
+        }
+}
 
-    method create : 'any1 'return. 'any1 -> 'return = fun (displayable) ->
-        let displayable = Obj.repr displayable in
-        try
-        begin
-        if (not (J2MEUtil.isJ2ME ())) then begin
-            raise (Java_return (Obj.repr ((new ScreenRepaintProcessor.screenRepaintProcessor ((Obj.magic displayable))))))
-        end else begin
-            raise (Java_return (Obj.repr ((Processor.getInstance ()))))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
-
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "ScreenRepaintProcessorFactory" (fun arguments -> Obj.repr (new screenRepaintProcessorFactory (Obj.obj arguments)))
-
-let instance = (new screenRepaintProcessorFactory ())
-let get_instance () = instance
-let () = java_register_static "ScreenRepaintProcessorFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "ScreenRepaintProcessorFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("ScreenRepaintProcessorFactory.jnew_0", jnew_0)
+JR.registerLateBound("ScreenRepaintProcessorFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("ScreenRepaintProcessorFactory.jm_create", jm_create)
+JR.registerLateBound("ScreenRepaintProcessorFactory.jstatic_instance", jstatic_instance)
 
 

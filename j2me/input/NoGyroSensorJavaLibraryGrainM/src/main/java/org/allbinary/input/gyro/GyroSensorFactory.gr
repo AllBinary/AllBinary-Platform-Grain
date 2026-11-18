@@ -1,49 +1,69 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.input.gyro
+module GyroSensorFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.input.gyro *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./NoGyroSensor.gr" include NoGyroSensor
+use NoGyroSensor.{ type NoGyroSensor }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
+provide record GyroSensorFactory {
+  jobject: JObject,
+}
 
-let allBinaryGyroSensor : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AllBinaryOrientationSensor.get_nULL_ALLBINARY_ORIENTATION_SENSOR" (Obj.repr ())))))
-let get_allBinaryGyroSensor () = Obj.magic !allBinaryGyroSensor
-let set_allBinaryGyroSensor value' = allBinaryGyroSensor := Obj.repr value'
-let () = java_register_static "GyroSensorFactory.get_allBinaryGyroSensor" (fun _ -> Obj.repr (get_allBinaryGyroSensor ()))
-let () = java_register_static "GyroSensorFactory.set_allBinaryGyroSensor" (fun value' -> set_allBinaryGyroSensor (Obj.obj value'); Obj.repr ())
+let mut jcell_allBinaryGyroSensor: Option<JObject> = None
 
-let init () : unit =
-        begin
-        allBinaryGyroSensor := Obj.repr ((new NoGyroSensor.noGyroSensor ()))
-        end
+provide let rec jclassName = () => "GyroSensorFactory"
 
-and getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic !allBinaryGyroSensor)))
-        end
+and jstatic_allBinaryGyroSensor = () => match (jcell_allBinaryGyroSensor) {
+  Some(value) => value,
+  None => {
+    let value: JObject = {
+let jlate: () => JObject = JR.cast(JR.lateBound("AllBinaryOrientationSensor.jstatic_NULL_ALLBINARY_ORIENTATION_SENSOR"))
+JR.cast(jlate())
+}
+    jcell_allBinaryGyroSensor = Some(value)
+    value
+  },
+}
 
-let () = java_register_static "GyroSensorFactory.init" (fun arguments -> Obj.repr (init (Obj.obj arguments)))
-let () = java_register_static "GyroSensorFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-class gyroSensorFactory () =
-  object
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("GyroSensorFactory"), }
+    this
+}
+    
+and jm_init = () => {
+        jstatic_allBinaryGyroSensor() = JR.cast(NoGyroSensor.jnew_0())
+}
+    
+and jm_getInstance = () => {
+        return jstatic_allBinaryGyroSensor()
+}
 
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "GyroSensorFactory" (fun arguments -> Obj.repr (new gyroSensorFactory (Obj.obj arguments)))
+JR.registerLateBound("GyroSensorFactory.jnew_0", jnew_0)
+JR.registerLateBound("GyroSensorFactory.jm_init", jm_init)
+JR.registerLateBound("GyroSensorFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("GyroSensorFactory.jstatic_allBinaryGyroSensor", jstatic_allBinaryGyroSensor)
 
 

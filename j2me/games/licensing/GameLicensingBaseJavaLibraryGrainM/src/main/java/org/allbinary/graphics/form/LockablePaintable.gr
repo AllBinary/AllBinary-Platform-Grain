@@ -1,68 +1,81 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.form
+module LockablePaintable
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.form *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/animation/Animation.gr" include Animation
+use Animation.{ type Animation }
+from "../../../../org/allbinary/animation/FeaturedAnimationInterfaceFactoryInterfaceFactory.gr" include FeaturedAnimationInterfaceFactoryInterfaceFactory
+use FeaturedAnimationInterfaceFactoryInterfaceFactory.{ type FeaturedAnimationInterfaceFactoryInterfaceFactory }
+from "../../../../org/allbinary/logic/system/security/licensing/LockedResources.gr" include LockedResources
+use LockedResources.{ type LockedResources }
+from "./ItemPaintable.gr" include ItemPaintable
+use ItemPaintable.{ type ItemPaintable }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Graphics *)
-(* import org.allbinary.animation.Animation *)
-(* import org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory *)
-(* import org.allbinary.logic.system.security.licensing.LockedResources *)
-(* import org.allbinary.logic.system.security.licensing.LockedUtil *)
+provide record LockablePaintable {
+  jobject: JObject,
+  mut f_animation: Animation,
+  mut f_lockedIndex: Int32,
+}
 
-class lockablePaintable ((lockedIndex_arg : int)) =
-  object (self)
-    inherit ItemPaintable.itemPaintable ()
-    val mutable animation : Animation.animation = (Obj.magic 0)
-    method animation = animation
-    method set_animation value' = animation <- value'
-    val mutable lockedIndex : int = 0
-    method lockedIndex = lockedIndex
-    method set_lockedIndex value' = lockedIndex <- value'
+
+provide let rec jclassName = () => "LockablePaintable"
     
+and jnew_1 = (lockedIndex: Int32) => {
+    let this = { jobject: JR.newJObject("LockablePaintable"), f_animation: JR.nullOf(), f_lockedIndex: 0l, }
+    this.f_animation = JR.cast(JR.className(JR.cast(FeaturedAnimationInterfaceFactoryInterfaceFactory.jm_get(FeaturedAnimationInterfaceFactoryInterfaceFactory.jm_getInstance(), LockedResources.jm_getInstance().f_LOCKED_DEMO_GAME_FEATURE_RESOURCE))))
     
-
-    method paint : 'any1. 'any1 * int * int * int -> unit = fun (graphics, (currentIndex : int), (x : int), (y : int)) ->
-        let graphics = Obj.repr graphics in
-        begin
-        if (((Obj.magic (java_call_static "LockedUtil.getInstance" (Obj.repr ())))#isLocked ()) && (currentIndex >= (self#getLockedIndex ()))) then begin
-            ignore ((self#getAnimation ())#paintXY ((Obj.magic graphics), x, y))
-        end
-        end [@@warning "-7-20"]
+        this.f_lockedIndex = lockedIndex
+    this
+}
     
-
-    method getLockedIndex () : int =
-        begin
-        lockedIndex
-        end [@@warning "-7"]
+and jm_paint = (this: LockablePaintable, graphics: JObject, currentIndex: Int32, x: Int32, y: Int32) => {
+        if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LockedUtil.jm_isLocked"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LockedUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+} && Int32.(>=)(currentIndex, jm_getLockedIndex(this)))) {
+            ignore(Animation.jm_paintXY(jm_getAnimation(this), graphics, x, y))
+        }
+}
     
+and jm_getLockedIndex = (this: LockablePaintable) => {
+        return this.f_lockedIndex
+}
+    
+and jm_getAnimation = (this: LockablePaintable) => {
+        return this.f_animation
+}
 
-    method getAnimation : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (animation))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        animation <- ((((FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance ())#get ((LockedResources.getInstance ())#lOCKED_DEMO_GAME_FEATURE_RESOURCE))#getInstance (0)) :> Animation.animation);
-        ();
-        ();
-        lockedIndex <- lockedIndex_arg
-      end
-  end
-let () = java_register_constructor "LockablePaintable" (fun arguments -> Obj.repr (new lockablePaintable (Obj.obj arguments)))
+JR.registerLateBound("LockablePaintable.jnew_1", jnew_1)
+JR.registerLateBound("LockablePaintable.jm_paint", jm_paint)
+JR.registerLateBound("LockablePaintable.jm_getLockedIndex", jm_getLockedIndex)
+JR.registerLateBound("LockablePaintable.jm_getAnimation", jm_getAnimation)
+JR.registerLateBound("LockablePaintable.f_animation", (this: LockablePaintable) => this.f_animation)
+JR.registerLateBound("LockablePaintable.f_lockedIndex", (this: LockablePaintable) => this.f_lockedIndex)
 
 

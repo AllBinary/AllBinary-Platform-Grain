@@ -1,81 +1,105 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.init.crypt.jcehelper
+module BasicCryptUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.init.crypt.jcehelper *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../java/io/ByteArrayInputStream.gr" include ByteArrayInputStream
+use ByteArrayInputStream.{ type ByteArrayInputStream }
+from "../../../../../java/io/ByteArrayOutputStream.gr" include ByteArrayOutputStream
+use ByteArrayOutputStream.{ type ByteArrayOutputStream }
+from "../../../../../java/io/InputStream.gr" include InputStream
+use InputStream.{ type InputStream }
+from "./CryptInterface.gr" include CryptInterface
+use CryptInterface.{ type CryptInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.ByteArrayInputStream *)
-(* import java.io.ByteArrayOutputStream *)
-(* import java.io.InputStream *)
-(* import org.allbinary.TsUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
+provide record BasicCryptUtil {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_tsUtil: JObject,
+  mut f_XML_START: String,
+}
 
-class basicCryptUtil () =
-  object
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable tsUtil : Obj.t = Obj.repr 0
-    method tsUtil : 'r. 'r = Obj.magic tsUtil
-    method set_tsUtil : 'v. 'v -> unit = fun value' -> tsUtil <- Obj.repr value'
-    val mutable xML_START : string = ""
-    method xML_START = xML_START
-    method set_xML_START value' = xML_START <- value'
+let mut jcell_instance: Option<BasicCryptUtil> = None
+
+provide let rec jclassName = () => "BasicCryptUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: BasicCryptUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("BasicCryptUtil"), f_logUtil: JR.jnull, f_tsUtil: JR.jnull, f_XML_START: "", }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_tsUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_XML_START = "<?xml"
+    this
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jm_getDecryptedInputStream = (this: BasicCryptUtil, inputStream: InputStream, cryptInterface: CryptInterface) => {
+        let mut buffer: ByteArrayOutputStream = ByteArrayOutputStream.jnew_0()
+        let mut ch: Int32 = 0l
+        while (true) {
+            ch = InputStream.jm_read_0(inputStream)
+            if ((ch == Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
+                break
+            }
+            ignore(ByteArrayOutputStream.jm_write_1(buffer, ch))
+        }
+        let mut decrypted: Array<Int32> = CryptInterface.jm_decrypt(cryptInterface, ByteArrayOutputStream.jm_toByteArray_0(buffer))
+        let mut decryptedString: String = decrypted
+        let mut index: Int32 = JR.indexOf(decryptedString, this.f_XML_START)
+        if (Int32.(>)(index, 0l)) {
+            decryptedString = JR.substringFrom(decryptedString, index)
+        }
+        return JR.cast(ByteArrayInputStream.jnew_1({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_getByteArray"))
+JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(decryptedString)))
+}))
+}
 
-    method getDecryptedInputStream : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (inputStream, cryptInterface) ->
-        let inputStream = Obj.repr inputStream in
-        let cryptInterface = Obj.repr cryptInterface in
-        begin
-        let buffer : java_byte_array_output_stream ref = ref ((new java_byte_array_output_stream ())) in ();
-        let ch : int ref = ref (0) in ();
-        while true do
-            ch := ((Obj.magic inputStream)#read ());
-            if (!ch = (- 1)) then begin
-                raise Java_break
-            end;
-            ignore (!buffer#write (!ch))
-        done;
-        let decrypted : int array ref = ref (((Obj.magic cryptInterface)#decrypt ((!buffer#toByteArray ())))) in ();
-        let decryptedString : string ref = ref ((Obj.obj (java_new "String" (Obj.repr (!decrypted))))) in ();
-        let index : int ref = ref ((java_string_index_of !decryptedString (Obj.repr (xML_START)))) in ();
-        if (!index > 0) then begin
-            decryptedString := (String.sub !decryptedString (!index) (String.length !decryptedString - (!index)))
-        end;
-        (Obj.magic ((new java_byte_array_input_stream (((Obj.magic tsUtil)#getByteArray (!decryptedString))))))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        tsUtil <- (Obj.repr (Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ()))));
-        xML_START <- "<?xml";
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "BasicCryptUtil" (fun arguments -> Obj.repr (new basicCryptUtil (Obj.obj arguments)))
-
-let instance = (new basicCryptUtil ())
-let get_instance () = instance
-let () = java_register_static "BasicCryptUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "BasicCryptUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("BasicCryptUtil.jnew_0", jnew_0)
+JR.registerLateBound("BasicCryptUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("BasicCryptUtil.jm_getDecryptedInputStream", jm_getDecryptedInputStream)
+JR.registerLateBound("BasicCryptUtil.f_logUtil", (this: BasicCryptUtil) => this.f_logUtil)
+JR.registerLateBound("BasicCryptUtil.f_tsUtil", (this: BasicCryptUtil) => this.f_tsUtil)
+JR.registerLateBound("BasicCryptUtil.f_XML_START", (this: BasicCryptUtil) => this.f_XML_START)
+JR.registerLateBound("BasicCryptUtil.jstatic_instance", jstatic_instance)
 
 

@@ -1,74 +1,96 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.physics.movement
+module OscillateVelocityMovement
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.physics.movement *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/layer/AllBinaryGameLayer.gr" include AllBinaryGameLayer
+use AllBinaryGameLayer.{ type AllBinaryGameLayer }
+from "../../../../org/allbinary/game/physics/velocity/VelocityProperties.gr" include VelocityProperties
+use VelocityProperties.{ type VelocityProperties }
+from "../../../../org/allbinary/logic/math/BasicDecimal.gr" include BasicDecimal
+use BasicDecimal.{ type BasicDecimal }
+from "./BasicConstantVelocityMovement.gr" include BasicConstantVelocityMovement
+use BasicConstantVelocityMovement.{ type BasicConstantVelocityMovement }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.layer.AllBinaryGameLayer *)
-(* import org.allbinary.game.physics.velocity.VelocityProperties *)
-(* import org.allbinary.logic.math.BasicDecimal *)
+provide record OscillateVelocityMovement {
+  jobject: JObject,
+  mut f_velocityProperties: JObject,
+  mut f_speedBasicDecimal: JObject,
+  mut f_axisMathVectorUtil: JObject,
+  mut f_oscillateMin: Int32,
+  mut f_oscillateMax: Int32,
+  mut f_oscillate: Int32,
+  mut f_oscillatePositive: Bool,
+}
 
-class oscillateVelocityMovement ((speedBasicDecimal : BasicDecimal.basicDecimal), (oscillateMin_arg : int), (oscillateMax_arg : int)) =
-  object (self)
-    inherit BasicConstantVelocityMovement.basicConstantVelocityMovement (speedBasicDecimal, ((new VelocityProperties.velocityProperties ((speedBasicDecimal#getUnscaled ()), (speedBasicDecimal#getUnscaled ()))) : VelocityProperties.velocityProperties :> BasicVelocityProperties.basicVelocityProperties)) as super
-    val mutable oscillateMin : int = 0
-    method oscillateMin = oscillateMin
-    method set_oscillateMin value' = oscillateMin <- value'
-    val mutable oscillateMax : int = 0
-    method oscillateMax = oscillateMax
-    method set_oscillateMax value' = oscillateMax <- value'
-    val mutable oscillate : int = 0
-    method oscillate = oscillate
-    method set_oscillate value' = oscillate <- value'
-    val mutable oscillatePositive : bool = false
-    method oscillatePositive = oscillatePositive
-    method set_oscillatePositive value' = oscillatePositive <- value'
+
+provide let rec jclassName = () => "OscillateVelocityMovement"
+    
+and jnew_3 = (speedBasicDecimal: BasicDecimal, oscillateMin: Int32, oscillateMax: Int32) => {
+    let this = { jobject: JR.newJObject("OscillateVelocityMovement"), f_velocityProperties: JR.jnull, f_speedBasicDecimal: JR.jnull, f_axisMathVectorUtil: JR.jnull, f_oscillateMin: 0l, f_oscillateMax: 0l, f_oscillate: 0l, f_oscillatePositive: false, }
     
     
+    
+    
+        void
+        this.f_oscillateMin = oscillateMin
+        this.f_oscillateMax = oscillateMax
+    this
+}
+    
+and jm_process = (this: OscillateVelocityMovement, layer: AllBinaryGameLayer) => {
+        ignore(jm_process(this, layer))
+        if (Int32.(<)(this.f_oscillate, this.f_oscillateMin)) {
+            this.f_oscillatePositive = true
+        } else if (Int32.(>)(this.f_oscillate, this.f_oscillateMax)) {
+            this.f_oscillatePositive = false
+        }
+        if (this.f_oscillatePositive) {
+            this.f_oscillate = Int32.(+)(this.f_oscillate, 1l)
+            ignore(JR.className(JR.cast(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicConstantVelocityMovement.jm_getVelocityProperties"))
+JR.cast(jlate(JR.cast(this)))
+})))))
+        } else {
+            this.f_oscillate = Int32.(-)(this.f_oscillate, 1l)
+            ignore(JR.className(JR.cast(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicConstantVelocityMovement.jm_getVelocityProperties"))
+JR.cast(jlate(JR.cast(this)))
+})))))
+        }
+}
 
-    method process : 'any1. 'any1 -> unit = fun (layer) ->
-        let layer = Obj.repr layer in
-        begin
-        ignore (super#process ((Obj.magic layer)));
-        if (oscillate < oscillateMin) then begin
-            oscillatePositive <- true
-        end else if (oscillate > oscillateMax) then begin
-            oscillatePositive <- false
-        end;
-        if oscillatePositive then begin
-            oscillate <- oscillate + 1;
-            ignore (((self#getVelocityProperties ())#getVelocityXBasicDecimalP ())#addint (2000))
-        end else begin
-            oscillate <- oscillate - 1;
-            ignore (((self#getVelocityProperties ())#getVelocityXBasicDecimalP ())#subtractint (2000))
-        end
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        ();
-        oscillate <- 0;
-        oscillatePositive <- false;
-        ();
-        (* super(...) is the inherit clause *) ();
-        oscillateMin <- oscillateMin_arg;
-        oscillateMax <- oscillateMax_arg
-      end
-  end
-let () = java_register_constructor "OscillateVelocityMovement" (fun arguments -> Obj.repr (new oscillateVelocityMovement (Obj.obj arguments)))
+JR.registerLateBound("OscillateVelocityMovement.jnew_3", jnew_3)
+JR.registerLateBound("OscillateVelocityMovement.jm_process", jm_process)
+JR.registerLateBound("OscillateVelocityMovement.f_oscillateMin", (this: OscillateVelocityMovement) => this.f_oscillateMin)
+JR.registerLateBound("OscillateVelocityMovement.set_f_oscillateMin", (this: OscillateVelocityMovement, jvalue) => { this.f_oscillateMin = jvalue; jvalue })
+JR.registerLateBound("OscillateVelocityMovement.f_oscillateMax", (this: OscillateVelocityMovement) => this.f_oscillateMax)
+JR.registerLateBound("OscillateVelocityMovement.set_f_oscillateMax", (this: OscillateVelocityMovement, jvalue) => { this.f_oscillateMax = jvalue; jvalue })
+JR.registerLateBound("OscillateVelocityMovement.f_oscillate", (this: OscillateVelocityMovement) => this.f_oscillate)
+JR.registerLateBound("OscillateVelocityMovement.set_f_oscillate", (this: OscillateVelocityMovement, jvalue) => { this.f_oscillate = jvalue; jvalue })
+JR.registerLateBound("OscillateVelocityMovement.f_oscillatePositive", (this: OscillateVelocityMovement) => this.f_oscillatePositive)
+JR.registerLateBound("OscillateVelocityMovement.set_f_oscillatePositive", (this: OscillateVelocityMovement, jvalue) => { this.f_oscillatePositive = jvalue; jvalue })
 
 

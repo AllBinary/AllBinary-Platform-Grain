@@ -1,79 +1,93 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.midlet
+module ExitRunnable
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.midlet *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/canvas/Processor.gr" include Processor
+use Processor.{ type Processor }
+from "../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../java/lang/Runnable.gr" include Runnable
+use Runnable.{ type Runnable }
+from "./AllBinaryMidlet.gr" include AllBinaryMidlet
+use AllBinaryMidlet.{ type AllBinaryMidlet }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.NullCanvas *)
-(* import org.allbinary.canvas.Processor *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record ExitRunnable {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_midlet: AllBinaryMidlet,
+  mut f_processor: Processor,
+  mut f_isProgress: Bool,
+}
 
-class exitRunnable ((midlet_arg : AllBinaryMidlet.allBinaryMidlet), (processor_arg : Processor.processor), (isProgress_arg : bool)) =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable midlet : AllBinaryMidlet.allBinaryMidlet = (Obj.magic 0)
-    method midlet = midlet
-    method set_midlet value' = midlet <- value'
-    val mutable processor : Processor.processor = (Obj.magic 0)
-    method processor = processor
-    method set_processor value' = processor <- value'
-    val mutable isProgress : bool = false
-    method isProgress = isProgress
-    method set_isProgress value' = isProgress <- value'
+
+provide let rec jclassName = () => "ExitRunnable"
+    
+and jnew_3 = (midlet: AllBinaryMidlet, processor: Processor, isProgress: Bool) => {
+    let this = { jobject: JR.newJObject("ExitRunnable"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_midlet: JR.nullOf(), f_processor: JR.nullOf(), f_isProgress: false, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
     
     
+    
+        this.f_midlet = midlet
+        this.f_isProgress = isProgress
+        this.f_processor = processor
+    this
+}
+    
+and jm_run = (this: ExitRunnable) => {
+        {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_START_RUNNABLE), JR.cast(this), JR.cast(this.f_commonStrings.f_RUN)))
+})
+            ignore(AllBinaryMidlet.jm_destroyAppInRunnable(this.f_midlet, false, this.f_isProgress))
+            ignore(AllBinaryMidlet.jm_setDisplay(this.f_midlet, JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("NullCanvas.jstatic_NULL_CANVAS"))
+JR.cast(jlate())
+})))
+            ignore(AllBinaryMidlet.jm_notifyDestroyed(this.f_midlet))
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_END_RUNNABLE), JR.cast(this), JR.cast(this.f_commonStrings.f_RUN)))
+})
+            ignore(Processor.jm_process(this.f_processor))
+        }
+}
 
-    method run () : unit =
-        begin
-        (try
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART_RUNNABLE, (Obj.magic self), commonStrings#rUN));
-            ignore (midlet#destroyAppInRunnable (false, isProgress));
-            ignore (midlet#setDisplay ((Obj.magic (java_call_static "NullCanvas.get_nULL_CANVAS" (Obj.repr ())))));
-            ignore (midlet#notifyDestroyed ());
-            ignore ((Obj.magic logUtil)#putF (commonStrings#eND_RUNNABLE, (Obj.magic self), commonStrings#rUN));
-            ignore (processor#process ())
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#rUN, e));
-            (try
-                ignore (processor#process ())
-            with e2 -> begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#rUN, e))
-            end)
-        end)
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        ();
-        ();
-        ();
-        ();
-        midlet <- midlet_arg;
-        isProgress <- isProgress_arg;
-        processor <- processor_arg
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "ExitRunnable" (fun arguments -> Obj.repr (new exitRunnable (Obj.obj arguments)))
+JR.registerLateBound("ExitRunnable.jnew_3", jnew_3)
+JR.registerLateBound("ExitRunnable.jm_run", jm_run)
+JR.registerLateBound("ExitRunnable.f_logUtil", (this: ExitRunnable) => this.f_logUtil)
+JR.registerLateBound("ExitRunnable.f_commonStrings", (this: ExitRunnable) => this.f_commonStrings)
+JR.registerLateBound("ExitRunnable.f_midlet", (this: ExitRunnable) => this.f_midlet)
+JR.registerLateBound("ExitRunnable.f_processor", (this: ExitRunnable) => this.f_processor)
+JR.registerLateBound("ExitRunnable.f_isProgress", (this: ExitRunnable) => this.f_isProgress)
 
 

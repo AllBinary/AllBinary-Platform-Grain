@@ -1,111 +1,145 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.ai.tactical
+module LurchAI
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.ai.tactical *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/game/ai/BasicAI.gr" include BasicAI
+use BasicAI.{ type BasicAI }
+from "../../../../../../org/allbinary/game/input/GameInput.gr" include GameInput
+use GameInput.{ type GameInput }
+from "../../../../../../org/allbinary/graphics/displayable/DisplayInfoSingleton.gr" include DisplayInfoSingleton
+use DisplayInfoSingleton.{ type DisplayInfoSingleton }
+from "../../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Canvas *)
-(* import org.allbinary.game.ai.BasicAI *)
-(* import org.allbinary.game.input.GameInput *)
-(* import org.allbinary.graphics.displayable.DisplayInfoSingleton *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
+provide record LurchAI {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_gameKeyEventFactory: JObject,
+  mut f_ownerLayerInterface: JObject,
+  mut f_gameInput: JObject,
+  mut f_lastKey: Int32,
+  mut f_currentRelativeAngle: Int32,
+  mut f_currentSpeed: Int32,
+}
 
-class lurchAI ((ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gameInput : GameInput.gameInput)) =
-  object (self)
-    inherit BasicAI.basicAI (ownerLayerInterface, gameInput) as super
-    val mutable currentRelativeAngle : int = 0
-    method currentRelativeAngle = currentRelativeAngle
-    method set_currentRelativeAngle value' = currentRelativeAngle <- value'
-    val mutable currentSpeed : int = 0
-    method currentSpeed = currentSpeed
-    method set_currentSpeed value' = currentSpeed <- value'
+
+provide let rec jclassName = () => "LurchAI"
     
+and jnew_2 = (ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
+    let this = { jobject: JR.newJObject("LurchAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_currentRelativeAngle: 0l, f_currentSpeed: 0l, }
+    this.f_currentRelativeAngle = 0l
     
-
-    method processAI : 'any1. 'any1 -> unit = fun (_allBinaryLayerManager) ->
-        begin
-        if (currentSpeed = (- 1)) then begin
-            currentSpeed <- 5
-        end else begin
-            currentSpeed <- (- 1)
-        end;
-        let ownerLayerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((self#getOwnerLayerInterface ()) :> AllBinaryLayer.allBinaryLayer)) in ();
-        let x : int ref = ref ((!ownerLayerInterface#getXP ())) in ();
-        if (((!ownerLayerInterface#getXP ()) - currentSpeed) <= 0) then begin
-            (self#reverse ());
-            (self#drop ())
-        end;
-        if (((!ownerLayerInterface#getX2 ()) + currentSpeed) > ((DisplayInfoSingleton.getInstance ())#getLastWidth ())) then begin
-            (self#reverse ());
-            (self#accelerate ());
-            (self#drop ())
-        end;
-        if (currentRelativeAngle = 0) then begin
-            x := (!x + currentSpeed)
-        end else if (currentRelativeAngle = 180) then begin
-            x := (!x - currentSpeed)
-        end;
-        ignore (!ownerLayerInterface#setPosition (!x, (!ownerLayerInterface#getYP ()), (!ownerLayerInterface#getZP ())));
-        if (currentRelativeAngle = 0) then begin
-            ignore (super#processKeyAI ((Obj.magic (java_call_static "Canvas.get_kEY_NUM0" (Obj.repr ())))))
-        end else if (currentRelativeAngle = 180) then begin
-            ignore (super#processKeyAI ((Obj.magic (java_call_static "Canvas.get_kEY_POUND" (Obj.repr ())))))
-        end
-        end [@@warning "-7-20"]
+        void
+    this
+}
     
-
-    method reverse () : unit =
-        begin
-        if (currentRelativeAngle = 180) then begin
-            currentRelativeAngle <- 0
-        end else if (currentRelativeAngle = 0) then begin
-            currentRelativeAngle <- 180
-        end
-        end [@@warning "-7"]
+and jm_processAI = (this: LurchAI, allBinaryLayerManager: AllBinaryLayerManager) => {
+        if ((this.f_currentSpeed == Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
+            this.f_currentSpeed = 5l
+        } else {
+            this.f_currentSpeed = Int32.(-)(1l, Int32.(+)(1l, 1l))
+        }
+        let mut ownerLayerInterface: AllBinaryLayer = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
+JR.cast(jlate(JR.cast(this)))
+})
+        let mut x: Int32 = AllBinaryLayer.jm_getXP(ownerLayerInterface)
+        if (Int32.(<=)(Int32.(-)(AllBinaryLayer.jm_getXP(ownerLayerInterface), this.f_currentSpeed), 0l)) {
+            ignore(jm_reverse(this))
+            ignore(jm_drop(this))
+        }
+        if (Int32.(>)(Int32.(+)(AllBinaryLayer.jm_getX2(ownerLayerInterface), this.f_currentSpeed), DisplayInfoSingleton.jm_getLastWidth(DisplayInfoSingleton.jm_getInstance()))) {
+            ignore(jm_reverse(this))
+            ignore(jm_accelerate(this))
+            ignore(jm_drop(this))
+        }
+        if ((this.f_currentRelativeAngle == 0l)) {
+            x = Int32.(+)(x, this.f_currentSpeed)
+        } else if ((this.f_currentRelativeAngle == 180l)) {
+            x = Int32.(-)(x, this.f_currentSpeed)
+        }
+        ignore(AllBinaryLayer.jm_setPosition(ownerLayerInterface, x, AllBinaryLayer.jm_getYP(ownerLayerInterface), AllBinaryLayer.jm_getZP(ownerLayerInterface)))
+        if ((this.f_currentRelativeAngle == 0l)) {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_KEY_NUM0"))
+JR.cast(jlate())
+})))
+})
+        } else if ((this.f_currentRelativeAngle == 180l)) {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_KEY_POUND"))
+JR.cast(jlate())
+})))
+})
+        }
+}
     
-
-    method accelerate () : unit =
-        begin
-        if (currentSpeed < 20) then begin
-            currentSpeed <- currentSpeed + 1
-        end
-        end [@@warning "-7"]
+and jm_reverse = (this: LurchAI) => {
+        if ((this.f_currentRelativeAngle == 180l)) {
+            this.f_currentRelativeAngle = 0l
+        } else if ((this.f_currentRelativeAngle == 0l)) {
+            this.f_currentRelativeAngle = 180l
+        }
+}
     
+and jm_accelerate = (this: LurchAI) => {
+        if (Int32.(<)(this.f_currentSpeed, 20l)) {
+            this.f_currentSpeed = Int32.(+)(this.f_currentSpeed, 1l)
+        }
+}
+    
+and jm_drop = (this: LurchAI) => {
+        let mut ownerLayerInterface: AllBinaryLayer = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
+JR.cast(jlate(JR.cast(this)))
+})
+        let mut y: Int32 = AllBinaryLayer.jm_getYP(ownerLayerInterface)
+        if (Int32.(>)(Int32.(+)(AllBinaryLayer.jm_getY2(ownerLayerInterface), AllBinaryLayer.jm_getHeight(ownerLayerInterface)), DisplayInfoSingleton.jm_getLastHeight(DisplayInfoSingleton.jm_getInstance()))) {
+            y = 0l
+        } else {
+            y = Int32.(+)(y, Int32.(+)(AllBinaryLayer.jm_getHeight(ownerLayerInterface), 1l))
+        }
+        ignore(AllBinaryLayer.jm_setPosition(ownerLayerInterface, AllBinaryLayer.jm_getXP(ownerLayerInterface), y, AllBinaryLayer.jm_getZP(ownerLayerInterface)))
+}
 
-    method drop () : unit =
-        begin
-        let ownerLayerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((self#getOwnerLayerInterface ()) :> AllBinaryLayer.allBinaryLayer)) in ();
-        let y : int ref = ref ((!ownerLayerInterface#getYP ())) in ();
-        if (((!ownerLayerInterface#getY2 ()) + (!ownerLayerInterface#getHeight ())) > ((DisplayInfoSingleton.getInstance ())#getLastHeight ())) then begin
-            y := 0
-        end else begin
-            y := (!y + ((!ownerLayerInterface#getHeight ()) + 1))
-        end;
-        ignore (!ownerLayerInterface#setPosition ((!ownerLayerInterface#getXP ()), !y, (!ownerLayerInterface#getZP ())))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        currentRelativeAngle <- 0;
-        currentSpeed <- 0;
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "LurchAI" (fun arguments -> Obj.repr (new lurchAI (Obj.obj arguments)))
+JR.registerLateBound("LurchAI.jnew_2", jnew_2)
+JR.registerLateBound("LurchAI.jm_processAI", jm_processAI)
+JR.registerLateBound("LurchAI.jm_reverse", jm_reverse)
+JR.registerLateBound("LurchAI.jm_accelerate", jm_accelerate)
+JR.registerLateBound("LurchAI.jm_drop", jm_drop)
+JR.registerLateBound("LurchAI.f_currentRelativeAngle", (this: LurchAI) => this.f_currentRelativeAngle)
+JR.registerLateBound("LurchAI.set_f_currentRelativeAngle", (this: LurchAI, jvalue) => { this.f_currentRelativeAngle = jvalue; jvalue })
+JR.registerLateBound("LurchAI.f_currentSpeed", (this: LurchAI) => this.f_currentSpeed)
+JR.registerLateBound("LurchAI.set_f_currentSpeed", (this: LurchAI, jvalue) => { this.f_currentSpeed = jvalue; jvalue })
 
 

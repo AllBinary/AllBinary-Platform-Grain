@@ -1,46 +1,55 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.midlet
+module MidletExitProcessor
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.midlet *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/canvas/Processor.gr" include Processor
+use Processor.{ type Processor }
+from "../../../java/lang/System.gr" include System
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.midlet.MIDlet *)
-(* import org.allbinary.canvas.Processor *)
+provide record MidletExitProcessor {
+  jobject: JObject,
+  mut f_midlet: JObject,
+}
 
-class midletExitProcessor (midlet_arg) =
-  object
-    inherit Processor.processor ()
-    val mutable midlet : Obj.t = Obj.repr 0
-    method midlet : 'r. 'r = Obj.magic midlet
-    method set_midlet : 'v. 'v -> unit = fun value' -> midlet <- Obj.repr value'
+
+provide let rec jclassName = () => "MidletExitProcessor"
     
+and jnew_1 = (midlet: JObject) => {
+    let this = { jobject: JR.newJObject("MidletExitProcessor"), f_midlet: JR.jnull, }
     
+        this.f_midlet = midlet
+    this
+}
+    
+and jm_process = (this: MidletExitProcessor) => {
+        ignore(System.jm_exit(0l))
+}
 
-    method process () : unit =
-        begin
-        ignore (exit (0))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        ();
-        midlet <- Obj.repr (midlet_arg)
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "MidletExitProcessor" (fun arguments -> Obj.repr (new midletExitProcessor (Obj.obj arguments)))
+JR.registerLateBound("MidletExitProcessor.jnew_1", jnew_1)
+JR.registerLateBound("MidletExitProcessor.jm_process", jm_process)
+JR.registerLateBound("MidletExitProcessor.f_midlet", (this: MidletExitProcessor) => this.f_midlet)
 
 

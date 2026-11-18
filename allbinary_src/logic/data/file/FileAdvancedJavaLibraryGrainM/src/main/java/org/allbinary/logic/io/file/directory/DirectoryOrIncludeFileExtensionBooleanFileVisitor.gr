@@ -1,60 +1,82 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io.file.directory
+module DirectoryOrIncludeFileExtensionBooleanFileVisitor
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io.file.directory *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/logic/io/file/visitor/IncludeFileExtensionsBooleanFileVisitor.gr" include IncludeFileExtensionsBooleanFileVisitor
+use IncludeFileExtensionsBooleanFileVisitor.{ type IncludeFileExtensionsBooleanFileVisitor }
+from "../../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../../../java/lang/Boolean.gr" include Boolean
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.io.file.AbFile *)
-(* import org.allbinary.logic.io.file.visitor.IncludeFileExtensionsBooleanFileVisitor *)
-(* import org.allbinary.util.BasicArrayList *)
+provide record DirectoryOrIncludeFileExtensionBooleanFileVisitor {
+  jobject: JObject,
+  mut f_commonStrings: JObject,
+  mut f_filterStringBasicArrayList: JObject,
+  mut f_includesString: String,
+}
 
-class directoryOrIncludeFileExtensionBooleanFileVisitor ((filterStringBasicArrayList : BasicArrayList.basicArrayList)) =
-  object
-    inherit IncludeFileExtensionsBooleanFileVisitor.includeFileExtensionsBooleanFileVisitor (filterStringBasicArrayList) as super
-    val mutable includesString : string = ""
-    method includesString = includesString
-    method set_includesString value' = includesString <- value'
+
+provide let rec jclassName = () => "DirectoryOrIncludeFileExtensionBooleanFileVisitor"
     
+and jnew_1 = (filterStringBasicArrayList: BasicArrayList) => {
+    let this = { jobject: JR.newJObject("DirectoryOrIncludeFileExtensionBooleanFileVisitor"), f_commonStrings: JR.jnull, f_filterStringBasicArrayList: JR.jnull, f_includesString: "", }
     
+        void
+        this.f_includesString = JR.nullOf()
+    this
+}
     
+and jnew_2 = (filterStringBasicArrayList: BasicArrayList, includesString: String) => {
+    let this = { jobject: JR.newJObject("DirectoryOrIncludeFileExtensionBooleanFileVisitor"), f_commonStrings: JR.jnull, f_filterStringBasicArrayList: JR.jnull, f_includesString: "", }
+    
+        void
+        this.f_includesString = includesString
+    this
+}
+    
+and jm_visit = (this: DirectoryOrIncludeFileExtensionBooleanFileVisitor, file: JObject) => {
+        if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
+JR.cast(jlate(JR.cast(file)))
+}) {
+            return true
+        }
+        if ((false || Int32.(>=)(JR.indexOf({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getAbsolutePath"))
+JR.cast(jlate(JR.cast(file)))
+}, this.f_includesString), 0l))) {
+            return jm_visit(this, file)
+        } else {
+            return false
+        }
+}
 
-    method visit : 'any1. 'any1 -> bool = fun (file) ->
-        let file = Obj.repr file in
-        try
-        begin
-        if ((Obj.magic file)#isDirectory ()) then begin
-            raise (Java_return (Obj.repr (true)))
-        end;
-        if ((includesString = (Obj.magic 0)) || ((java_string_index_of ((Obj.magic file)#getAbsolutePath ()) (Obj.repr (includesString))) >= 0)) then begin
-            raise (Java_return (Obj.repr ((super#visit ((Obj.magic file))))))
-        end else begin
-            raise (Java_return (Obj.repr (false)))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        ();
-        (* super(...) is the inherit clause *) ();
-        includesString <- (Obj.magic 0)
-      end
-  end
-(* Java overloaded constructors: an OCaml class has one constructor *)
-let () = java_register_constructor "DirectoryOrIncludeFileExtensionBooleanFileVisitor" (fun arguments -> Obj.repr (new directoryOrIncludeFileExtensionBooleanFileVisitor (Obj.obj arguments)))
+JR.registerLateBound("DirectoryOrIncludeFileExtensionBooleanFileVisitor.jnew_1", jnew_1)
+JR.registerLateBound("DirectoryOrIncludeFileExtensionBooleanFileVisitor.jnew_2", jnew_2)
+JR.registerLateBound("DirectoryOrIncludeFileExtensionBooleanFileVisitor.jm_visit", jm_visit)
+JR.registerLateBound("DirectoryOrIncludeFileExtensionBooleanFileVisitor.f_includesString", (this: DirectoryOrIncludeFileExtensionBooleanFileVisitor) => this.f_includesString)
 
 

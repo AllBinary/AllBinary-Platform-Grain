@@ -1,85 +1,117 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.animation.image
+module PooledImageArrayRotationAnimationFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.animation.image *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/animation/Animation.gr" include Animation
+use Animation.{ type Animation }
+from "../../../../org/allbinary/animation/AnimationBehaviorFactory.gr" include AnimationBehaviorFactory
+use AnimationBehaviorFactory.{ type AnimationBehaviorFactory }
+from "../../../../org/allbinary/animation/AnimationInterfaceFactoryInterface.gr" include AnimationInterfaceFactoryInterface
+use AnimationInterfaceFactoryInterface.{ type AnimationInterfaceFactoryInterface }
+from "../../../../org/allbinary/game/configuration/GameConfigurationCentral.gr" include GameConfigurationCentral
+use GameConfigurationCentral.{ type GameConfigurationCentral }
+from "../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
+from "../../../../org/allbinary/math/AngleFactory.gr" include AngleFactory
+use AngleFactory.{ type AngleFactory }
+from "../../../../org/allbinary/media/ScaleProperties.gr" include ScaleProperties
+use ScaleProperties.{ type ScaleProperties }
+from "../../../../org/allbinary/media/image/ImageToRotationImageArrayUtil.gr" include ImageToRotationImageArrayUtil
+use ImageToRotationImageArrayUtil.{ type ImageToRotationImageArrayUtil }
+from "./ImageArrayRotationAnimationInfo.gr" include ImageArrayRotationAnimationInfo
+use ImageArrayRotationAnimationInfo.{ type ImageArrayRotationAnimationInfo }
+from "./AdjustedImageArrayRotationAnimation.gr" include AdjustedImageArrayRotationAnimation
+use AdjustedImageArrayRotationAnimation.{ type AdjustedImageArrayRotationAnimation }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Image *)
-(* import org.allbinary.animation.Animation *)
-(* import org.allbinary.animation.AnimationBehaviorFactory *)
-(* import org.allbinary.animation.AnimationInterfaceFactoryInterface *)
-(* import org.allbinary.game.configuration.GameConfigurationCentral *)
-(* import org.allbinary.logic.NullUtil *)
-(* import org.allbinary.math.AngleFactory *)
-(* import org.allbinary.media.ScaleProperties *)
-(* import org.allbinary.media.image.ImageToRotationImageArrayUtil *)
+//TWB - Adjustments should be done in the resource creation and not at the animation level
+provide record PooledImageArrayRotationAnimationFactory {
+  jobject: JObject,
+  mut f_allBinaryImageRotationAnimationInfo: JObject,
+  mut f_animationBehaviorFactory: AnimationBehaviorFactory,
+}
 
-class pooledImageArrayRotationAnimationFactory (image, (_width : int), (_height : int), (dx : int), (dy : int), (angleIncrement : int), (animationBehaviorFactory_arg : AnimationBehaviorFactory.animationBehaviorFactory)) =
-  object
-    val mutable allBinaryImageRotationAnimationInfo : Obj.t = (Obj.magic 0)
-    method allBinaryImageRotationAnimationInfo = allBinaryImageRotationAnimationInfo
-    method set_allBinaryImageRotationAnimationInfo value' = allBinaryImageRotationAnimationInfo <- value'
-    val mutable animationBehaviorFactory : AnimationBehaviorFactory.animationBehaviorFactory = (Obj.magic 0)
-    method animationBehaviorFactory = animationBehaviorFactory
-    method set_animationBehaviorFactory value' = animationBehaviorFactory <- value'
+
+provide let rec jclassName = () => "PooledImageArrayRotationAnimationFactory"
     
+and jm_createFactory = (image: JObject, animationBehaviorFactory: AnimationBehaviorFactory) => {
+        let mut totalAngle: Int32 = AngleFactory.jm_getInstance().f_TOTAL_ANGLE
+        let mut angleIncrement: Int32 = (Int32.(/)(totalAngle, GameConfigurationCentral.jm_getGameControlFidelity(GameConfigurationCentral.jm_getInstance())))
+        return jnew_7(image, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
+JR.cast(jlate(JR.cast(image)))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
+JR.cast(jlate(JR.cast(image)))
+}, Int32.(-)(1l, Int32.(+)((Int32.(>>)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
+JR.cast(jlate(JR.cast(image)))
+}, 2l)), 1l)), Int32.(-)(1l, Int32.(+)((Int32.(>>)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
+JR.cast(jlate(JR.cast(image)))
+}, 2l)), 1l)), angleIncrement, animationBehaviorFactory)
+}
     
-
-    method getInstance : 'return. int -> 'return = fun ((_instanceId : int)) ->
-        begin
-        (Obj.magic ((AdjustedImageArrayRotationAnimation.createAdjustedImageArrayRotationAnimationInfo (allBinaryImageRotationAnimationInfo, (animationBehaviorFactory#getOrCreateInstance ())))))
-        end
+and jm_createDXY = (image: JObject, dx: Int32, dy: Int32, animationBehaviorFactory: AnimationBehaviorFactory) => {
+        let mut totalAngle: Int32 = AngleFactory.jm_getInstance().f_TOTAL_ANGLE
+        let mut angleIncrement: Int32 = (Int32.(/)(totalAngle, GameConfigurationCentral.jm_getGameControlFidelity(GameConfigurationCentral.jm_getInstance())))
+        return jnew_7(image, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
+JR.cast(jlate(JR.cast(image)))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
+JR.cast(jlate(JR.cast(image)))
+}, dx, dy, angleIncrement, animationBehaviorFactory)
+}
     
+and jnew_7 = (image: JObject, width: Int32, height: Int32, dx: Int32, dy: Int32, angleIncrement: Int32, animationBehaviorFactory: AnimationBehaviorFactory) => {
+    let this = { jobject: JR.newJObject("PooledImageArrayRotationAnimationFactory"), f_allBinaryImageRotationAnimationInfo: JR.jnull, f_animationBehaviorFactory: JR.nullOf(), }
+    this.f_allBinaryImageRotationAnimationInfo = JR.cast(NullUtil.jm_getInstance().f_NULL_OBJECT)
+    
+        this.f_animationBehaviorFactory = animationBehaviorFactory
+        let mut totalAngle: Int32 = AngleFactory.jm_getInstance().f_TOTAL_ANGLE
+        let mut imageArray: Array<JObject> = ImageToRotationImageArrayUtil.jm_generate(ImageToRotationImageArrayUtil.jm_getInstance(), image, angleIncrement, totalAngle)
+        this.f_allBinaryImageRotationAnimationInfo = JR.cast(ImageArrayRotationAnimationInfo.jnew_5(imageArray, angleIncrement, totalAngle, dx, dy))
+    this
+}
+    
+and jm_getInstance = (this: PooledImageArrayRotationAnimationFactory, instanceId: Int32) => {
+        return AdjustedImageArrayRotationAnimation.jm_createAdjustedImageArrayRotationAnimationInfo(this.f_allBinaryImageRotationAnimationInfo, AnimationBehaviorFactory.jm_getOrCreateInstance(this.f_animationBehaviorFactory))
+}
+    
+and jm_setInitialScale = (this: PooledImageArrayRotationAnimationFactory, scaleProperties: ScaleProperties) => {
+    void
+}
 
-    method setInitialScale : 'any1. 'any1 -> unit = fun (_scaleProperties) ->
-        begin
-        ()
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        allBinaryImageRotationAnimationInfo <- (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT);
-        ();
-        ();
-        animationBehaviorFactory <- animationBehaviorFactory_arg;
-        let totalAngle : int ref = ref ((java_to_int (Obj.repr ((AngleFactory.getInstance ())#tOTAL_ANGLE)))) in ();
-        let imageArray : Obj.t ref = ref ((Obj.repr ((ImageToRotationImageArrayUtil.getInstance ())#generate (image, angleIncrement, !totalAngle)))) in ();
-        allBinaryImageRotationAnimationInfo <- (Obj.repr ((new ImageArrayRotationAnimationInfo.imageArrayRotationAnimationInfo ((Obj.magic !imageArray), angleIncrement, !totalAngle, dx, dy))))
-      end
-  end
-let () = java_register_constructor "PooledImageArrayRotationAnimationFactory" (fun arguments -> Obj.repr (new pooledImageArrayRotationAnimationFactory (Obj.obj arguments)))
-
-let createFactory : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (image, animationBehaviorFactory_arg) ->
-        let image = Obj.repr image in
-        let animationBehaviorFactory_arg = Obj.repr animationBehaviorFactory_arg in
-        begin
-        let totalAngle : int ref = ref ((java_to_int (Obj.repr ((AngleFactory.getInstance ())#tOTAL_ANGLE)))) in ();
-        let angleIncrement : int ref = ref (((!totalAngle / ((GameConfigurationCentral.getInstance ())#getGameControlFidelity ())))) in ();
-        (Obj.magic ((new pooledImageArrayRotationAnimationFactory ((Obj.magic image), ((Obj.magic image)#getWidth ()), ((Obj.magic image)#getHeight ()), (- ((((Obj.magic image)#getWidth ()) asr 2))), (- ((((Obj.magic image)#getHeight ()) asr 2))), !angleIncrement, (Obj.magic animationBehaviorFactory_arg)))))
-        end [@@warning "-20"]
-
-and createDXY : 'any1 'any4 'return. 'any1 * int * int * 'any4 -> 'return = fun (image, (dx : int), (dy : int), animationBehaviorFactory_arg) ->
-        let image = Obj.repr image in
-        let animationBehaviorFactory_arg = Obj.repr animationBehaviorFactory_arg in
-        begin
-        let totalAngle : int ref = ref ((java_to_int (Obj.repr ((AngleFactory.getInstance ())#tOTAL_ANGLE)))) in ();
-        let angleIncrement : int ref = ref (((!totalAngle / ((GameConfigurationCentral.getInstance ())#getGameControlFidelity ())))) in ();
-        (Obj.magic ((new pooledImageArrayRotationAnimationFactory ((Obj.magic image), ((Obj.magic image)#getWidth ()), ((Obj.magic image)#getHeight ()), dx, dy, !angleIncrement, (Obj.magic animationBehaviorFactory_arg)))))
-        end [@@warning "-20"]
-let () = java_register_static "PooledImageArrayRotationAnimationFactory.createFactory" (fun arguments -> Obj.repr (createFactory (Obj.obj arguments)))
-let () = java_register_static "PooledImageArrayRotationAnimationFactory.createDXY" (fun arguments -> Obj.repr (createDXY (Obj.obj arguments)))
+JR.registerLateBound("PooledImageArrayRotationAnimationFactory.jnew_7", jnew_7)
+JR.registerLateBound("PooledImageArrayRotationAnimationFactory.jm_createFactory", jm_createFactory)
+JR.registerLateBound("PooledImageArrayRotationAnimationFactory.jm_createDXY", jm_createDXY)
+JR.registerLateBound("PooledImageArrayRotationAnimationFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("PooledImageArrayRotationAnimationFactory.jm_setInitialScale", jm_setInitialScale)
+JR.registerLateBound("PooledImageArrayRotationAnimationFactory.f_allBinaryImageRotationAnimationInfo", (this: PooledImageArrayRotationAnimationFactory) => this.f_allBinaryImageRotationAnimationInfo)
+JR.registerLateBound("PooledImageArrayRotationAnimationFactory.set_f_allBinaryImageRotationAnimationInfo", (this: PooledImageArrayRotationAnimationFactory, jvalue) => { this.f_allBinaryImageRotationAnimationInfo = jvalue; jvalue })
+JR.registerLateBound("PooledImageArrayRotationAnimationFactory.f_animationBehaviorFactory", (this: PooledImageArrayRotationAnimationFactory) => this.f_animationBehaviorFactory)
 
 

@@ -1,52 +1,70 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.system.security.licensing
+module LicenseInterfaceSingleton
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.system.security.licensing *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./AbeNoLicense.gr" include AbeNoLicense
+use AbeNoLicense.{ type AbeNoLicense }
+from "./AbeLicenseInterface.gr" include AbeLicenseInterface
+use AbeLicenseInterface.{ type AbeLicenseInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
+provide record LicenseInterfaceSingleton {
+  jobject: JObject,
+}
 
-let licenseInterface : AbeLicenseInterface.abeLicenseInterface ref = ref (((AbeNoLicense.getInstance ()) :> AbeLicenseInterface.abeLicenseInterface))
-let get_licenseInterface () = !licenseInterface
-let set_licenseInterface value' = licenseInterface := value'
-let () = java_register_static "LicenseInterfaceSingleton.get_licenseInterface" (fun _ -> Obj.repr (get_licenseInterface ()))
-let () = java_register_static "LicenseInterfaceSingleton.set_licenseInterface" (fun value' -> set_licenseInterface (Obj.obj value'); Obj.repr ())
+let mut jcell_licenseInterface: Option<AbeLicenseInterface> = None
 
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (!licenseInterface))
-        end
+provide let rec jclassName = () => "LicenseInterfaceSingleton"
 
-and init : 'any1. 'any1 -> unit = fun (licenseInterface_arg) ->
-        let licenseInterface_arg = Obj.repr licenseInterface_arg in
-        begin
-        if ((Obj.magic licenseInterface_arg) != (Obj.magic 0)) then begin
-            licenseInterface := (Obj.magic licenseInterface_arg)
-        end
-        end [@@warning "-20"]
+and jstatic_licenseInterface = () => match (jcell_licenseInterface) {
+  Some(value) => value,
+  None => {
+    let value: AbeLicenseInterface = AbeNoLicense.jm_getInstance()
+    jcell_licenseInterface = Some(value)
+    value
+  },
+}
 
-let () = java_register_static "LicenseInterfaceSingleton.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-let () = java_register_static "LicenseInterfaceSingleton.init" (fun arguments -> Obj.repr (init (Obj.obj arguments)))
-class licenseInterfaceSingleton () =
-  object
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("LicenseInterfaceSingleton"), }
+    this
+}
+    
+and jm_getInstance = () => {
+        return jstatic_licenseInterface()
+}
+    
+and jm_init = (licenseInterface: AbeLicenseInterface) => {
+        if (!JR.isNull(licenseInterface)) {
+            jstatic_licenseInterface() = licenseInterface
+        }
+}
 
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "LicenseInterfaceSingleton" (fun arguments -> Obj.repr (new licenseInterfaceSingleton (Obj.obj arguments)))
+JR.registerLateBound("LicenseInterfaceSingleton.jnew_0", jnew_0)
+JR.registerLateBound("LicenseInterfaceSingleton.jm_getInstance", jm_getInstance)
+JR.registerLateBound("LicenseInterfaceSingleton.jm_init", jm_init)
+JR.registerLateBound("LicenseInterfaceSingleton.jstatic_licenseInterface", jstatic_licenseInterface)
 
 

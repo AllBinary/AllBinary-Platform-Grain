@@ -1,56 +1,70 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.form
+module CommandCurrentSelectionFormFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.form *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/configuration/feature/Features.gr" include Features
+use Features.{ type Features }
+from "../../../../org/allbinary/game/configuration/feature/TouchFeatureFactory.gr" include TouchFeatureFactory
+use TouchFeatureFactory.{ type TouchFeatureFactory }
+from "../../../../org/allbinary/graphics/Rectangle.gr" include Rectangle
+use Rectangle.{ type Rectangle }
+from "../../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
+use BasicColor.{ type BasicColor }
+from "./ScrollSelectionFormNoneFactory.gr" include ScrollSelectionFormNoneFactory
+use ScrollSelectionFormNoneFactory.{ type ScrollSelectionFormNoneFactory }
+from "./CommandCurrentSelectionForm.gr" include CommandCurrentSelectionForm
+use CommandCurrentSelectionForm.{ type CommandCurrentSelectionForm }
+from "./ScrollSelectionForm.gr" include ScrollSelectionForm
+use ScrollSelectionForm.{ type ScrollSelectionForm }
+from "./FormType.gr" include FormType
+use FormType.{ type FormType }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.configuration.feature.Features *)
-(* import org.allbinary.game.configuration.feature.TouchFeatureFactory *)
-(* import org.allbinary.graphics.Rectangle *)
-(* import org.allbinary.graphics.color.BasicColor *)
-(* import org.allbinary.graphics.form.item.ABCustomItem *)
+provide record CommandCurrentSelectionFormFactory {
+  jobject: JObject,
+}
 
 
-let getInstance : 'any2 'any3 'any4 'any7 'any8 'return. string * 'any2 * 'any3 * 'any4 * int * bool * 'any7 * 'any8 -> 'return = fun ((title : string), items, rectangle, formType, (border : int), (moveForSmallScreen : bool), backgroundBasicColor, foregroundBasicColor) ->
-        let items = Obj.repr items in
-        let rectangle = Obj.repr rectangle in
-        let formType = Obj.repr formType in
-        let backgroundBasicColor = Obj.repr backgroundBasicColor in
-        let foregroundBasicColor = Obj.repr foregroundBasicColor in
-        try
-        begin
-        if ((Features.getInstance ())#isFeature ((TouchFeatureFactory.getInstance ())#tOUCH_ENABLED)) then begin
-            let scrollSelectionForm : ScrollSelectionForm.scrollSelectionForm ref = ref (((new CommandCurrentSelectionForm.commandCurrentSelectionForm (title, (Obj.magic items), border, moveForSmallScreen, (Obj.magic backgroundBasicColor), (Obj.magic foregroundBasicColor))) :> ScrollSelectionForm.scrollSelectionForm)) in ();
-            ignore (!scrollSelectionForm#init ((Obj.magic rectangle), (Obj.magic formType)));
-            raise (Java_return (Obj.repr (!scrollSelectionForm)))
-        end else begin
-            raise (Java_return (Obj.repr ((ScrollSelectionFormNoneFactory.getInstance ()))))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
+provide let rec jclassName = () => "CommandCurrentSelectionFormFactory"
 
-let () = java_register_static "CommandCurrentSelectionFormFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-class commandCurrentSelectionFormFactory () =
-  object
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("CommandCurrentSelectionFormFactory"), }
+    this
+}
+    
+and jm_getInstance = (title: String, items: Array<JObject>, rectangle: Rectangle, formType: FormType, border: Int32, moveForSmallScreen: Bool, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
+        if (Features.jm_isFeature(Features.jm_getInstance(), JR.cast(TouchFeatureFactory.jm_getInstance().f_TOUCH_ENABLED))) {
+            let mut scrollSelectionForm: ScrollSelectionForm = JR.cast(CommandCurrentSelectionForm.jnew_6(title, items, border, moveForSmallScreen, backgroundBasicColor, foregroundBasicColor))
+            ignore(ScrollSelectionForm.jm_init(scrollSelectionForm, rectangle, formType))
+            return scrollSelectionForm
+        } else {
+            return ScrollSelectionFormNoneFactory.jm_getInstance()
+        }
+}
 
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "CommandCurrentSelectionFormFactory" (fun arguments -> Obj.repr (new commandCurrentSelectionFormFactory (Obj.obj arguments)))
+JR.registerLateBound("CommandCurrentSelectionFormFactory.jnew_0", jnew_0)
+JR.registerLateBound("CommandCurrentSelectionFormFactory.jm_getInstance", jm_getInstance)
 
 

@@ -1,62 +1,74 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.displayable.canvas
+module RunnableCanvasSingleThreadStartRunnable
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.displayable.canvas *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/canvas/RunnableCanvas.gr" include RunnableCanvas
+use RunnableCanvas.{ type RunnableCanvas }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./GameRunnable.gr" include GameRunnable
+use GameRunnable.{ type GameRunnable }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.canvas.RunnableCanvas *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record RunnableCanvasSingleThreadStartRunnable {
+  jobject: JObject,
+  mut f_WAIT: Int32,
+  mut f_FAST: Int32,
+  mut f_waitInMillis: Int64,
+  mut f_logUtil: JObject,
+  mut f_runnableCanvas: RunnableCanvas,
+}
 
-class runnableCanvasSingleThreadStartRunnable ((demoCanvas : RunnableCanvas.runnableCanvas)) =
-  object (self)
-    inherit GameRunnable.gameRunnable ()
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable runnableCanvas : RunnableCanvas.runnableCanvas = (Obj.magic 0)
-    method runnableCanvas = runnableCanvas
-    method set_runnableCanvas value' = runnableCanvas <- value'
+
+provide let rec jclassName = () => "RunnableCanvasSingleThreadStartRunnable"
     
+and jnew_1 = (demoCanvas: RunnableCanvas) => {
+    let this = { jobject: JR.newJObject("RunnableCanvasSingleThreadStartRunnable"), f_WAIT: 0l, f_FAST: 0l, f_waitInMillis: 0L, f_logUtil: JR.jnull, f_runnableCanvas: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
     
-
-    method run () : unit =
-        begin
-        (try
-            ignore (runnableCanvas#run ())
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#rUN, e))
-        end)
-        end [@@warning "-7"]
+        this.f_runnableCanvas = demoCanvas
+    this
+}
     
+and jm_run = (this: RunnableCanvasSingleThreadStartRunnable) => {
+        {
+            ignore(RunnableCanvas.jm_run(this.f_runnableCanvas))
+        }
+}
+    
+and jm_processLoopSleep = (this: RunnableCanvasSingleThreadStartRunnable) => {
+        ignore(RunnableCanvas.jm_processLoopSleep(this.f_runnableCanvas))
+}
 
-    method processLoopSleep () : unit =
-        begin
-        ignore (runnableCanvas#processLoopSleep ())
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ();
-        ();
-        runnableCanvas <- demoCanvas
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "RunnableCanvasSingleThreadStartRunnable" (fun arguments -> Obj.repr (new runnableCanvasSingleThreadStartRunnable (Obj.obj arguments)))
+JR.registerLateBound("RunnableCanvasSingleThreadStartRunnable.jnew_1", jnew_1)
+JR.registerLateBound("RunnableCanvasSingleThreadStartRunnable.jm_run", jm_run)
+JR.registerLateBound("RunnableCanvasSingleThreadStartRunnable.jm_processLoopSleep", jm_processLoopSleep)
+JR.registerLateBound("RunnableCanvasSingleThreadStartRunnable.f_logUtil", (this: RunnableCanvasSingleThreadStartRunnable) => this.f_logUtil)
+JR.registerLateBound("RunnableCanvasSingleThreadStartRunnable.f_runnableCanvas", (this: RunnableCanvasSingleThreadStartRunnable) => this.f_runnableCanvas)
 
 

@@ -1,74 +1,106 @@
-(*
- 
-  AllBinary Open License Version 1 
-  Copyright (c) 2022 AllBinary 
-   
-  By agreeing to this license you and any business entity you represent are 
-  legally bound to the AllBinary Open License Version 1 legal agreement. 
-   
-  You may obtain the AllBinary Open License Version 1 legal agreement from 
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-   
-  Created By: Travis Berthelot 
+/*
+ * 
+ * AllBinary Open License Version 1 
+ * Copyright (c) 2022 AllBinary 
+ *  
+ * By agreeing to this license you and any business entity you represent are 
+ * legally bound to the AllBinary Open License Version 1 legal agreement. 
+ *  
+ * You may obtain the AllBinary Open License Version 1 legal agreement from 
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+ *  
+ * Created By: Travis Berthelot 
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.media
+module DisplaysUtil
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../java/awt/Dimension.gr" include Dimension
+use Dimension.{ type Dimension }
+from "../../../java/awt/DisplayMode.gr" include DisplayMode
+use DisplayMode.{ type DisplayMode }
+from "../../../java/awt/GraphicsDevice.gr" include GraphicsDevice
+use GraphicsDevice.{ type GraphicsDevice }
+from "../../../java/awt/GraphicsEnvironment.gr" include GraphicsEnvironment
+use GraphicsEnvironment.{ type GraphicsEnvironment }
+from "../../../java/awt/Toolkit.gr" include Toolkit
+use Toolkit.{ type Toolkit }
+from "../../../org/allbinary/graphics/PointFactory.gr" include PointFactory
+use PointFactory.{ type PointFactory }
+from "../../../org/allbinary/graphics/Rectangle.gr" include Rectangle
+use Rectangle.{ type Rectangle }
+
+provide record DisplaysUtil {
+  jobject: JObject,
+}
+
+let mut jcell_instance: Option<DisplaysUtil> = None
+
+provide let rec jclassName = () => "DisplaysUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: DisplaysUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("DisplaysUtil"), }
+    this
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.media *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.awt.Dimension *)
-(* import java.awt.DisplayMode *)
-(* import java.awt.GraphicsDevice *)
-(* import java.awt.GraphicsEnvironment *)
-(* import java.awt.Toolkit *)
-(* import org.allbinary.graphics.PointFactory *)
-(* import org.allbinary.graphics.Rectangle *)
-
-class displaysUtil () =
-  object
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method getPrimaryScreenSize : 'return. unit -> 'return = fun () ->
-        begin
-        let dimension : Obj.t ref = ref ((Obj.repr ((Toolkit.getDefaultToolkit ())#getScreenSize ()))) in ();
-        (Obj.magic ((new Rectangle.rectangle ((PointFactory.getInstance ())#zERO_ZERO, (Obj.magic !dimension)#width, (Obj.magic !dimension)#height))))
-        end
+and jm_getPrimaryScreenSize = (this: DisplaysUtil) => {
+        let mut dimension: Dimension = JR.cast(JR.className(JR.cast(Toolkit.jm_getDefaultToolkit())))
+        return Rectangle.jnew_3(PointFactory.jm_getInstance().f_ZERO_ZERO, dimension.f_width, dimension.f_height)
+}
     
+and jm_getScreenSizesAsRectangleArray = (this: DisplaysUtil) => {
+        let mut graphicsEnvironment: GraphicsEnvironment = JR.cast(GraphicsEnvironment.jm_getLocalGraphicsEnvironment())
+        let mut graphicsDeviceArray: Array<GraphicsDevice> = GraphicsEnvironment.jm_getScreenDevices(graphicsEnvironment)
+        let mut graphicsDevice: GraphicsDevice = JR.nullOf()
+        let mut displayMode: DisplayMode = JR.nullOf()
+        let mut rectangle: Rectangle = JR.nullOf()
+        let mut size: Int32 = Int32.fromNumber(Array.length(graphicsDeviceArray))
+        let mut rectangleArray: Array<Rectangle> = Array.make(Int32.toNumber(size), JR.nullOf())
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            graphicsDevice = graphicsDeviceArray[Int32.toNumber(index)]
+            displayMode = GraphicsDevice.jm_getDisplayMode(graphicsDevice)
+            rectangle = Rectangle.jnew_3(PointFactory.jm_getInstance().f_ZERO_ZERO, DisplayMode.jm_getWidth(displayMode), DisplayMode.jm_getHeight(displayMode))
+            rectangleArray[Int32.toNumber(index)] = JR.cast(rectangle)
+            }
+        }
+        return rectangleArray
+}
 
-    method getScreenSizesAsRectangleArray : 'return. unit -> 'return = fun () ->
-        begin
-        let graphicsEnvironment : Obj.t ref = ref ((Obj.repr (GraphicsEnvironment.getLocalGraphicsEnvironment ()))) in ();
-        let graphicsDeviceArray : Obj.t ref = ref ((Obj.repr ((Obj.magic !graphicsEnvironment)#getScreenDevices ()))) in ();
-        let graphicsDevice : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        let displayMode : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        let rectangle : Rectangle.rectangle ref = ref (((Obj.magic 0) :> Rectangle.rectangle)) in ();
-        let size : int ref = ref ((Array.length (Obj.magic !graphicsDeviceArray))) in ();
-        let rectangleArray : Rectangle.rectangle array ref = ref ((Array.make (!size) (Obj.magic 0))) in ();
-        for index = 0 to !size - 1 do
-            graphicsDevice := Obj.repr ((Obj.magic !graphicsDeviceArray).(index));
-            displayMode := Obj.repr (((Obj.magic !graphicsDevice)#getDisplayMode ()));
-            rectangle := (new Rectangle.rectangle ((PointFactory.getInstance ())#zERO_ZERO, ((Obj.magic !displayMode)#getWidth ()), ((Obj.magic !displayMode)#getHeight ())));
-            !rectangleArray.(index) <- (!rectangle :> Rectangle.rectangle)
-        done;
-        (Obj.magic (!rectangleArray))
-        end
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "DisplaysUtil" (fun arguments -> Obj.repr (new displaysUtil (Obj.obj arguments)))
-
-let instance = (new displaysUtil ())
-let get_instance () = instance
-let () = java_register_static "DisplaysUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "DisplaysUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("DisplaysUtil.jnew_0", jnew_0)
+JR.registerLateBound("DisplaysUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("DisplaysUtil.jm_getPrimaryScreenSize", jm_getPrimaryScreenSize)
+JR.registerLateBound("DisplaysUtil.jm_getScreenSizesAsRectangleArray", jm_getScreenSizesAsRectangleArray)
+JR.registerLateBound("DisplaysUtil.jstatic_instance", jstatic_instance)
 
 

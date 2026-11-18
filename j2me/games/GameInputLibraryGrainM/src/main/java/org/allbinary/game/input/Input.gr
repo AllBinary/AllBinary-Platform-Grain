@@ -1,78 +1,88 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.input
+module Input
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.input *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
 
-open Allbinary_java [@@warning "-33"]
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
+provide record Input {
+  jobject: JObject,
+  mut f_id: Int32,
+  mut f_name: String,
+}
 
-class input ((id_arg : int), (name_arg : string)) =
-  object (self)
-    val mutable id : int = 0
-    method id = id
-    method set_id value' = id <- value'
-    val mutable name : string = ""
-    method name = name
-    method set_name value' = name <- value'
+
+provide let rec jclassName = () => "Input"
     
+and jnew_2 = (id: Int32, name: String) => {
+    let this = { jobject: JR.newJObject("Input"), f_id: 0l, f_name: "", }
+    this.jobject.toStringFunction = () => jm_toString(this)
     
-
-    method getId () : int =
-        begin
-        id
-        end
+    this.f_name = StringUtil.jm_getInstance().f_EMPTY_STRING
+        ignore(jm_setId(this, id))
+        ignore(jm_setName(this, name))
+    this
+}
     
-
-    method setId ((key : int)) : unit =
-        begin
-        id <- key
-        end
+and jm_getId = (this: Input) => {
+        return this.f_id
+}
     
-
-    method getName () : string =
-        begin
-        name
-        end
+and jm_setId = (this: Input, key: Int32) => {
+        this.f_id = key
+}
     
-
-    method setName ((keyName : string)) : unit =
-        begin
-        name <- keyName
-        end
+and jm_getName = (this: Input) => {
+        return this.f_name
+}
     
+and jm_setName = (this: Input, keyName: String) => {
+        this.f_name = keyName
+}
+    
+and jm_toString = (this: Input) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, "Name: "))
+        ignore(StringMaker.jm_append(stringBuffer, jm_getName(this)))
+        ignore(StringMaker.jm_append(stringBuffer, " Id: "))
+        ignore(StringMaker.jm_appendint(stringBuffer, jm_getId(this)))
+        return StringMaker.jm_toString(stringBuffer)
+}
 
-    method toString () : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ("Name: "));
-        ignore (!stringBuffer#append ((self#getName ())));
-        ignore (!stringBuffer#append (" Id: "));
-        ignore (!stringBuffer#appendint ((self#getId ())));
-        (java_string_of (Obj.repr !stringBuffer))
-        end
-
-    initializer
-      begin
-        id <- 0;
-        name <- (StringUtil.getInstance ())#eMPTY_STRING;
-        ();
-        (self#setId (id_arg));
-        (self#setName (name_arg))
-      end
-  end
-let () = java_register_constructor "Input" (fun arguments -> Obj.repr (new input (Obj.obj arguments)))
+JR.registerLateBound("Input.jnew_2", jnew_2)
+JR.registerLateBound("Input.jm_getId", jm_getId)
+JR.registerLateBound("Input.jm_setId", jm_setId)
+JR.registerLateBound("Input.jm_getName", jm_getName)
+JR.registerLateBound("Input.jm_setName", jm_setName)
+JR.registerLateBound("Input.jm_toString", jm_toString)
+JR.registerLateBound("Input.f_id", (this: Input) => this.f_id)
+JR.registerLateBound("Input.set_f_id", (this: Input, jvalue) => { this.f_id = jvalue; jvalue })
+JR.registerLateBound("Input.f_name", (this: Input) => this.f_name)
+JR.registerLateBound("Input.set_f_name", (this: Input, jvalue) => { this.f_name = jvalue; jvalue })
 
 

@@ -1,67 +1,79 @@
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game *)
+// Generated Code Do Not Modify
+// package org.allbinary.game
+module BasicGameInfoFactory
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
 
-class basicGameInfoFactory () =
-  object
-    val mutable currentReleaseIndex : int = 0
-    method currentReleaseIndex = currentReleaseIndex
-    method set_currentReleaseIndex value' = currentReleaseIndex <- value'
-    val mutable currentDestroyIndex : int = 0
-    method currentDestroyIndex = currentDestroyIndex
-    method set_currentDestroyIndex value' = currentDestroyIndex <- value'
-    val mutable total : int = 0
-    method total = total
-    method set_total value' = total <- value'
+provide record BasicGameInfoFactory {
+  jobject: JObject,
+  mut f_currentReleaseIndex: Int32,
+  mut f_currentDestroyIndex: Int32,
+  mut f_total: Int32,
+}
+
+let mut jcell_SINGLETON: Option<BasicGameInfoFactory> = None
+
+provide let rec jclassName = () => "BasicGameInfoFactory"
+
+and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
+  Some(value) => value,
+  None => {
+    let value: BasicGameInfoFactory = jnew_0()
+    jcell_SINGLETON = Some(value)
+    value
+  },
+}
+    
+and jm_getInstance = () => {
+        return jstatic_SINGLETON()
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("BasicGameInfoFactory"), f_currentReleaseIndex: 0l, f_currentDestroyIndex: 0l, f_total: 0l, }
     
     
-
-    method init ((total_arg : int)) : unit =
-        begin
-        currentReleaseIndex <- 0;
-        currentDestroyIndex <- 0;
-        total <- total_arg
-        end
     
-
-    method isPeaked () : bool =
-        try
-        begin
-        if (currentDestroyIndex >= total) then begin
-            raise (Java_return (Obj.repr (true)))
-        end else begin
-            raise (Java_return (Obj.repr (false)))
-        end
-        end
-        with Java_return value -> Obj.obj value
+        void
+    this
+}
     
+and jm_init = (this: BasicGameInfoFactory, total: Int32) => {
+        this.f_currentReleaseIndex = 0l
+        this.f_currentDestroyIndex = 0l
+        this.f_total = total
+}
+    
+and jm_isPeaked = (this: BasicGameInfoFactory) => {
+        if (Int32.(>=)(this.f_currentDestroyIndex, this.f_total)) {
+            return true
+        } else {
+            return false
+        }
+}
+    
+and jm_howManyLeft = (this: BasicGameInfoFactory) => {
+        return Int32.(-)(this.f_total, this.f_currentDestroyIndex)
+}
 
-    method howManyLeft () : int =
-        begin
-        (total - currentDestroyIndex)
-        end
-
-    initializer
-      begin
-        currentReleaseIndex <- 0;
-        currentDestroyIndex <- 0;
-        total <- 0;
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "BasicGameInfoFactory" (fun arguments -> Obj.repr (new basicGameInfoFactory (Obj.obj arguments)))
-
-let sINGLETON = (new basicGameInfoFactory ())
-let get_sINGLETON () = sINGLETON
-let () = java_register_static "BasicGameInfoFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (sINGLETON))
-        end
-let () = java_register_static "BasicGameInfoFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("BasicGameInfoFactory.jnew_0", jnew_0)
+JR.registerLateBound("BasicGameInfoFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("BasicGameInfoFactory.jm_init", jm_init)
+JR.registerLateBound("BasicGameInfoFactory.jm_isPeaked", jm_isPeaked)
+JR.registerLateBound("BasicGameInfoFactory.jm_howManyLeft", jm_howManyLeft)
+JR.registerLateBound("BasicGameInfoFactory.f_currentReleaseIndex", (this: BasicGameInfoFactory) => this.f_currentReleaseIndex)
+JR.registerLateBound("BasicGameInfoFactory.set_f_currentReleaseIndex", (this: BasicGameInfoFactory, jvalue) => { this.f_currentReleaseIndex = jvalue; jvalue })
+JR.registerLateBound("BasicGameInfoFactory.f_currentDestroyIndex", (this: BasicGameInfoFactory) => this.f_currentDestroyIndex)
+JR.registerLateBound("BasicGameInfoFactory.set_f_currentDestroyIndex", (this: BasicGameInfoFactory, jvalue) => { this.f_currentDestroyIndex = jvalue; jvalue })
+JR.registerLateBound("BasicGameInfoFactory.f_total", (this: BasicGameInfoFactory) => this.f_total)
+JR.registerLateBound("BasicGameInfoFactory.set_f_total", (this: BasicGameInfoFactory, jvalue) => { this.f_total = jvalue; jvalue })
+JR.registerLateBound("BasicGameInfoFactory.jstatic_SINGLETON", jstatic_SINGLETON)
 
 

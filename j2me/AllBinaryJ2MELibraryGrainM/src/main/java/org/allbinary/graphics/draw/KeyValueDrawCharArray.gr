@@ -1,88 +1,105 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.draw
+module KeyValueDrawCharArray
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.draw *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/logic/java/character/CharArrayFactory.gr" include CharArrayFactory
+use CharArrayFactory.{ type CharArrayFactory }
+from "../../../../org/allbinary/graphics/font/MyFontProcessor.gr" include MyFontProcessor
+use MyFontProcessor.{ type MyFontProcessor }
+from "../../../../org/allbinary/graphics/font/UpdateMyFontInterface.gr" include UpdateMyFontInterface
+use UpdateMyFontInterface.{ type UpdateMyFontInterface }
+from "../../../../org/allbinary/graphics/font/UpdateMyFontProcessor.gr" include UpdateMyFontProcessor
+use UpdateMyFontProcessor.{ type UpdateMyFontProcessor }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Graphics *)
-(* import org.allbinary.logic.java.character.CharArrayFactory *)
-(* import org.allbinary.graphics.font.MyFontProcessor *)
-(* import org.allbinary.graphics.font.UpdateMyFontInterface *)
-(* import org.allbinary.graphics.font.UpdateMyFontProcessor *)
+provide record KeyValueDrawCharArray {
+  jobject: JObject,
+  mut f_myFontProcessor: MyFontProcessor,
+  mut f_LABEL: String,
+  mut f_labelX: Int32,
+  mut f_valueX: Int32,
+  mut f_value: Array<Int32>,
+  mut f_len: Int32,
+}
 
-class keyValueDrawCharArray ((label : string), (x : int)) =
-  object (self)
-    val mutable myFontProcessor : MyFontProcessor.myFontProcessor = (Obj.magic 0)
-    method myFontProcessor = myFontProcessor
-    method set_myFontProcessor value' = myFontProcessor <- value'
-    val mutable lABEL : string = ""
-    method lABEL = lABEL
-    method set_lABEL value' = lABEL <- value'
-    val mutable labelX : int = 0
-    method labelX = labelX
-    method set_labelX value' = labelX <- value'
-    val mutable valueX : int = 0
-    method valueX = valueX
-    method set_valueX value' = valueX <- value'
-    val mutable value : char array = (Obj.magic 0)
-    method value = value
-    method set_value value' = value <- value'
-    val mutable len : int = 0
-    method len = len
-    method set_len value' = len <- value'
+
+provide let rec jclassName = () => "KeyValueDrawCharArray"
+    
+and jnew_2 = (label: String, x: Int32) => {
+    let this = { jobject: JR.newJObject("KeyValueDrawCharArray"), f_myFontProcessor: JR.nullOf(), f_LABEL: "", f_labelX: 0l, f_valueX: 0l, f_value: [> ], f_len: 0l, }
+    this.f_myFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(this))
     
     
-
-    method updateMeasurement : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        let labelWidth : int ref = ref (((((Obj.magic graphics)#getFont ())#stringWidth (lABEL)) - (String.length lABEL))) in ();
-        valueX <- (!labelWidth + labelX);
-        myFontProcessor <- (MyFontProcessor.getInstance ())
-        end [@@warning "-20"]
     
-
-    method paint : 'any1. 'any1 * int -> unit = fun (graphics, (y : int)) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore (myFontProcessor#process ((Obj.magic graphics)));
-        ignore ((Obj.magic graphics)#drawString (lABEL, labelX, y, 0));
-        ignore ((Obj.magic graphics)#drawChars (value, 0, len, valueX, y, 0))
-        end [@@warning "-20"]
+    this.f_value = CharArrayFactory.jm_getZeroCharArray(CharArrayFactory.jm_getInstance())
     
+        this.f_LABEL = label
+        this.f_labelX = x
+    this
+}
+    
+and jm_updateMeasurement = (this: KeyValueDrawCharArray, graphics: JObject) => {
+        let mut labelWidth: Int32 = Int32.(-)(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_getFont"))
+JR.cast(jlate(JR.cast(graphics)))
+})), JR.length(this.f_LABEL))
+        this.f_valueX = Int32.(+)(labelWidth, this.f_labelX)
+        this.f_myFontProcessor = MyFontProcessor.jm_getInstance()
+}
+    
+and jm_paint = (this: KeyValueDrawCharArray, graphics: JObject, y: Int32) => {
+        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_LABEL), JR.cast(this.f_labelX), JR.cast(y), JR.cast(0l)))
+})
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawChars"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_value), JR.cast(0l), JR.cast(this.f_len), JR.cast(this.f_valueX), JR.cast(y), JR.cast(0l)))
+})
+}
+    
+and jm_update = (this: KeyValueDrawCharArray, value: Array<Int32>, len: Int32) => {
+        this.f_value = value
+        this.f_len = len
+}
 
-    method update ((value_arg : char array), (len_arg : int)) : unit =
-        begin
-        value <- value_arg;
-        len <- len_arg
-        end
-
-    initializer
-      begin
-        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
-        ();
-        ();
-        valueX <- 0;
-        value <- ((CharArrayFactory.getInstance ())#getZeroCharArray ());
-        len <- 0;
-        ();
-        lABEL <- label;
-        labelX <- x
-      end
-  end
-let () = java_register_constructor "KeyValueDrawCharArray" (fun arguments -> Obj.repr (new keyValueDrawCharArray (Obj.obj arguments)))
+JR.registerLateBound("KeyValueDrawCharArray.jnew_2", jnew_2)
+JR.registerLateBound("KeyValueDrawCharArray.jm_updateMeasurement", jm_updateMeasurement)
+JR.registerLateBound("KeyValueDrawCharArray.jm_paint", jm_paint)
+JR.registerLateBound("KeyValueDrawCharArray.jm_update", jm_update)
+JR.registerLateBound("KeyValueDrawCharArray.f_myFontProcessor", (this: KeyValueDrawCharArray) => this.f_myFontProcessor)
+JR.registerLateBound("KeyValueDrawCharArray.set_f_myFontProcessor", (this: KeyValueDrawCharArray, jvalue) => { this.f_myFontProcessor = jvalue; jvalue })
+JR.registerLateBound("KeyValueDrawCharArray.f_LABEL", (this: KeyValueDrawCharArray) => this.f_LABEL)
+JR.registerLateBound("KeyValueDrawCharArray.f_labelX", (this: KeyValueDrawCharArray) => this.f_labelX)
+JR.registerLateBound("KeyValueDrawCharArray.set_f_labelX", (this: KeyValueDrawCharArray, jvalue) => { this.f_labelX = jvalue; jvalue })
+JR.registerLateBound("KeyValueDrawCharArray.f_valueX", (this: KeyValueDrawCharArray) => this.f_valueX)
+JR.registerLateBound("KeyValueDrawCharArray.set_f_valueX", (this: KeyValueDrawCharArray, jvalue) => { this.f_valueX = jvalue; jvalue })
+JR.registerLateBound("KeyValueDrawCharArray.f_value", (this: KeyValueDrawCharArray) => this.f_value)
+JR.registerLateBound("KeyValueDrawCharArray.set_f_value", (this: KeyValueDrawCharArray, jvalue) => { this.f_value = jvalue; jvalue })
+JR.registerLateBound("KeyValueDrawCharArray.f_len", (this: KeyValueDrawCharArray) => this.f_len)
+JR.registerLateBound("KeyValueDrawCharArray.set_f_len", (this: KeyValueDrawCharArray, jvalue) => { this.f_len = jvalue; jvalue })
 
 

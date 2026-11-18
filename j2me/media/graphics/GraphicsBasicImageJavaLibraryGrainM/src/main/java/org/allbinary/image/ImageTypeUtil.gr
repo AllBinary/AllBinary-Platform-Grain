@@ -1,81 +1,100 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.image
+module ImageTypeUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.image *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
+provide record ImageTypeUtil {
+  jobject: JObject,
+  mut f_PNG: String,
+  mut f_JPG: String,
+  mut f_GIF: String,
+  mut f_list: BasicArrayList,
+}
 
-class imageTypeUtil () =
-  object
-    val mutable pNG : string = ""
-    method pNG = pNG
-    method set_pNG value' = pNG <- value'
-    val mutable jPG : string = ""
-    method jPG = jPG
-    method set_jPG value' = jPG <- value'
-    val mutable gIF : string = ""
-    method gIF = gIF
-    method set_gIF value' = gIF <- value'
-    val mutable list : BasicArrayList.basicArrayList = (Obj.magic 0)
-    method list = list
-    method set_list value' = list <- value'
+let mut jcell_SINGLETON: Option<ImageTypeUtil> = None
+
+provide let rec jclassName = () => "ImageTypeUtil"
+
+and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
+  Some(value) => value,
+  None => {
+    let value: ImageTypeUtil = jnew_0()
+    jcell_SINGLETON = Some(value)
+    value
+  },
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ImageTypeUtil"), f_PNG: "", f_JPG: "", f_GIF: "", f_list: JR.nullOf(), }
+    this.f_PNG = "png"
+    this.f_JPG = "jpg"
+    this.f_GIF = "gif"
+    this.f_list = JR.cast(BasicArrayListD.jnew_0())
+        ignore(BasicArrayList.jm_add(this.f_list, JR.cast(this.f_JPG)))
+        ignore(BasicArrayList.jm_add(this.f_list, JR.cast(this.f_GIF)))
+        ignore(BasicArrayList.jm_add(this.f_list, JR.cast(this.f_PNG)))
+    this
+}
     
+and jm_isSupported = (this: ImageTypeUtil, mediaFileType: String) => {
+    let mut mediaFileType = mediaFileType
+        mediaFileType = JR.toLowerCase(mediaFileType)
+        {
+            let mut index: Int32 = Int32.(-)(BasicArrayList.jm_size(this.f_list), 1l)
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(-)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(>=)(index, 0l))) break
+            let mut name: String = JR.cast(BasicArrayList.jm_get(this.f_list, index))
+            if ((JR.compareTo(mediaFileType, name) == 0l)) {
+                return true
+            }
+            }
+        }
+        return false
+}
+    
+and jm_getInstance = () => {
+        return jstatic_SINGLETON()
+}
 
-    method isSupported ((mediaFileType : string)) : bool =
-        let mediaFileType = ref mediaFileType in
-        try
-        begin
-        mediaFileType := (String.lowercase_ascii !mediaFileType);
-        for index = ((list#size ()) - 1) downto 0 do
-            let name : string ref = ref ((Obj.magic (list#get (index)))) in ();
-            if ((String.compare !mediaFileType (!name)) == 0) then begin
-                raise (Java_return (Obj.repr (true)))
-            end
-        done;
-        false
-        end
-        with Java_return value -> Obj.obj value
-
-    initializer
-      begin
-        pNG <- "png";
-        jPG <- "jpg";
-        gIF <- "gif";
-        list <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
-        ();
-        ignore (list#add (jPG));
-        ignore (list#add (gIF));
-        ignore (list#add (pNG))
-      end
-  end
-let () = java_register_constructor "ImageTypeUtil" (fun arguments -> Obj.repr (new imageTypeUtil (Obj.obj arguments)))
-
-let sINGLETON = ref ((new imageTypeUtil ()))
-let get_sINGLETON () = !sINGLETON
-let set_sINGLETON value' = sINGLETON := value'
-let () = java_register_static "ImageTypeUtil.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
-let () = java_register_static "ImageTypeUtil.set_sINGLETON" (fun value' -> set_sINGLETON (Obj.obj value'); Obj.repr ())
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (!sINGLETON))
-        end
-let () = java_register_static "ImageTypeUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("ImageTypeUtil.jnew_0", jnew_0)
+JR.registerLateBound("ImageTypeUtil.jm_isSupported", jm_isSupported)
+JR.registerLateBound("ImageTypeUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("ImageTypeUtil.f_PNG", (this: ImageTypeUtil) => this.f_PNG)
+JR.registerLateBound("ImageTypeUtil.f_JPG", (this: ImageTypeUtil) => this.f_JPG)
+JR.registerLateBound("ImageTypeUtil.f_GIF", (this: ImageTypeUtil) => this.f_GIF)
+JR.registerLateBound("ImageTypeUtil.f_list", (this: ImageTypeUtil) => this.f_list)
+JR.registerLateBound("ImageTypeUtil.jstatic_SINGLETON", jstatic_SINGLETON)
 
 

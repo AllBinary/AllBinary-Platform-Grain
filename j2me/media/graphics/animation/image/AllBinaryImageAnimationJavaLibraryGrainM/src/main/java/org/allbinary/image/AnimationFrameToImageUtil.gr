@@ -1,71 +1,95 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.image
+module AnimationFrameToImageUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.image *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/animation/Animation.gr" include Animation
+use Animation.{ type Animation }
+from "./GameFeatureImageCacheFactory.gr" include GameFeatureImageCacheFactory
+use GameFeatureImageCacheFactory.{ type GameFeatureImageCacheFactory }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Graphics *)
-(* import javax.microedition.lcdui.Image *)
-(* import org.allbinary.animation.Animation *)
+provide record AnimationFrameToImageUtil {
+  jobject: JObject,
+}
 
-let instance_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
-let get_instance : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instance_cell with Lazy.Undefined -> java_null)
-let set_instance value' = instance_cell := Lazy.from_val (Obj.repr value')
-let () = java_register_static "AnimationFrameToImageUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-let () = java_register_static "AnimationFrameToImageUtil.set_instance" (fun value' -> set_instance value'; Obj.repr ())
-class animationFrameToImageUtil () =
-  object
+let mut jcell_instance: Option<AnimationFrameToImageUtil> = None
+
+provide let rec jclassName = () => "AnimationFrameToImageUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: AnimationFrameToImageUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("AnimationFrameToImageUtil"), }
+    this
+}
     
-
-    method getInstanceTranslate : 'any3 'return. int * int * 'any3 -> 'return = fun ((width : int), (height : int), animationInterface) ->
-        let animationInterface = Obj.repr animationInterface in
-        begin
-        let image : Obj.t ref = ref ((Obj.repr ((GameFeatureImageCacheFactory.getInstance ())#get ((java_get_class (Obj.repr (Obj.magic (get_instance ())))), ((((width * 3)) asr 1)), ((((height * 3)) asr 1)))))) in ();
-        let graphics : Obj.t ref = ref ((Obj.repr ((Obj.magic !image)#getGraphics ()))) in ();
-        let tranlateX : int ref = ref (((width asr 2))) in ();
-        let tranlateY : int ref = ref (((height asr 2))) in ();
-        ignore ((Obj.magic !graphics)#translate (!tranlateX, !tranlateY));
-        ignore ((Obj.magic animationInterface)#paintXY ((Obj.magic !graphics), 0, 0));
-        ignore ((Obj.magic !graphics)#translate ((- !tranlateX), (- !tranlateY)));
-        (Obj.magic ((Obj.magic !image)))
-        end [@@warning "-20"]
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jm_getInstanceTranslate = (this: AnimationFrameToImageUtil, width: Int32, height: Int32, animationInterface: Animation) => {
+        let mut image: JObject = JR.cast(GameFeatureImageCacheFactory.jm_get(GameFeatureImageCacheFactory.jm_getInstance(), jstatic_instance().jobject.cls, (Int32.(>>)((Int32.(*)(width, 3l)), 1l)), (Int32.(>>)((Int32.(*)(height, 3l)), 1l))))
+        let mut graphics: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getGraphics"))
+JR.cast(jlate(JR.cast(image)))
+})
+        let mut tranlateX: Int32 = (Int32.(>>)(width, 2l))
+        let mut tranlateY: Int32 = (Int32.(>>)(height, 2l))
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_translate"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(tranlateX), JR.cast(tranlateY)))
+})
+        ignore(Animation.jm_paintXY(animationInterface, graphics, 0l, 0l))
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_translate"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(Int32.(-)(1l, Int32.(+)(tranlateX, 1l))), JR.cast(Int32.(-)(1l, Int32.(+)(tranlateY, 1l)))))
+})
+        return image
+}
+    
+and jm_getInstanceWH = (this: AnimationFrameToImageUtil, width: Int32, height: Int32, animationInterface: Animation) => {
+        let mut image: JObject = JR.cast(GameFeatureImageCacheFactory.jm_get(GameFeatureImageCacheFactory.jm_getInstance(), jstatic_instance().jobject.cls, width, height))
+        let mut graphics: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getGraphics"))
+JR.cast(jlate(JR.cast(image)))
+})
+        ignore(Animation.jm_paintXY(animationInterface, graphics, 0l, 0l))
+        return image
+}
 
-    method getInstanceWH : 'any3 'return. int * int * 'any3 -> 'return = fun ((width : int), (height : int), animationInterface) ->
-        let animationInterface = Obj.repr animationInterface in
-        begin
-        let image : Obj.t ref = ref ((Obj.repr ((GameFeatureImageCacheFactory.getInstance ())#get ((java_get_class (Obj.repr (Obj.magic (get_instance ())))), width, height)))) in ();
-        let graphics : Obj.t ref = ref ((Obj.repr ((Obj.magic !image)#getGraphics ()))) in ();
-        ignore ((Obj.magic animationInterface)#paintXY ((Obj.magic !graphics), 0, 0));
-        (Obj.magic ((Obj.magic !image)))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "AnimationFrameToImageUtil" (fun arguments -> Obj.repr (new animationFrameToImageUtil (Obj.obj arguments)))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic (get_instance ()))))
-        end
-let () = java_register_static "AnimationFrameToImageUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-
-let () = instance_cell := lazy (Obj.repr ((new animationFrameToImageUtil ())))
+JR.registerLateBound("AnimationFrameToImageUtil.jnew_0", jnew_0)
+JR.registerLateBound("AnimationFrameToImageUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("AnimationFrameToImageUtil.jm_getInstanceTranslate", jm_getInstanceTranslate)
+JR.registerLateBound("AnimationFrameToImageUtil.jm_getInstanceWH", jm_getInstanceWH)
+JR.registerLateBound("AnimationFrameToImageUtil.jstatic_instance", jstatic_instance)
 
 

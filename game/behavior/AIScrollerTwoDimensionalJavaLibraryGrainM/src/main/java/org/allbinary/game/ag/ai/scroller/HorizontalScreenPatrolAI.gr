@@ -1,124 +1,169 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.ai.scroller
+module HorizontalScreenPatrolAI
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.ai.scroller *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/game/ai/BasicAI.gr" include BasicAI
+use BasicAI.{ type BasicAI }
+from "../../../../../../org/allbinary/game/input/GameInput.gr" include GameInput
+use GameInput.{ type GameInput }
+from "../../../../../../org/allbinary/game/layer/AllBinaryGameLayerManager.gr" include AllBinaryGameLayerManager
+use AllBinaryGameLayerManager.{ type AllBinaryGameLayerManager }
+from "../../../../../../org/allbinary/game/rand/MyRandomFactory.gr" include MyRandomFactory
+use MyRandomFactory.{ type MyRandomFactory }
+from "../../../../../../org/allbinary/graphics/displayable/DisplayInfoSingleton.gr" include DisplayInfoSingleton
+use DisplayInfoSingleton.{ type DisplayInfoSingleton }
+from "../../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
+from "../../../../../../org/allbinary/logic/math/SmallIntegerSingletonFactory.gr" include SmallIntegerSingletonFactory
+use SmallIntegerSingletonFactory.{ type SmallIntegerSingletonFactory }
+from "../../../../../../org/allbinary/media/audio/PlayerQueue.gr" include PlayerQueue
+use PlayerQueue.{ type PlayerQueue }
+from "../../../../../../org/allbinary/media/audio/SecondaryPlayerQueueFactory.gr" include SecondaryPlayerQueueFactory
+use SecondaryPlayerQueueFactory.{ type SecondaryPlayerQueueFactory }
+from "../../../../../../org/allbinary/media/audio/Sound.gr" include Sound
+use Sound.{ type Sound }
+from "../../../../../../org/allbinary/time/TimeDelayHelper.gr" include TimeDelayHelper
+use TimeDelayHelper.{ type TimeDelayHelper }
+from "../../../../../../java/lang/Integer.gr" include Integer
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Canvas *)
-(* import org.allbinary.game.ai.BasicAI *)
-(* import org.allbinary.game.input.GameInput *)
-(* import org.allbinary.game.layer.AllBinaryGameLayerManager *)
-(* import org.allbinary.game.rand.MyRandomFactory *)
-(* import org.allbinary.graphics.displayable.DisplayInfoSingleton *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
-(* import org.allbinary.logic.math.SmallIntegerSingletonFactory *)
-(* import org.allbinary.media.audio.PlayerQueue *)
-(* import org.allbinary.media.audio.SecondaryPlayerQueueFactory *)
-(* import org.allbinary.media.audio.Sound *)
-(* import org.allbinary.time.TimeDelayHelper *)
-(* import org.allbinary.util.ABHashtable *)
+provide record HorizontalScreenPatrolAI {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_gameKeyEventFactory: JObject,
+  mut f_ownerLayerInterface: JObject,
+  mut f_gameInput: JObject,
+  mut f_lastKey: Int32,
+  mut f_keyDirection: Int32,
+  mut f_displayInfoSingleton: DisplayInfoSingleton,
+  mut f_firingX: Int32,
+  mut f_firedIndex: Int32,
+  mut f_MAX_FIRE: Int32,
+  mut f_timeDelayHelper: TimeDelayHelper,
+  mut f_secondaryPlayerQueue: PlayerQueue,
+  mut f_sound: Sound,
+}
 
-let sOUND : int = ((SmallIntegerSingletonFactory.getInstance ())#getAt (433))
-let get_sOUND () = sOUND
-let () = java_register_static "HorizontalScreenPatrolAI.get_sOUND" (fun _ -> Obj.repr (get_sOUND ()))
-class horizontalScreenPatrolAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gameInput : GameInput.gameInput)) =
-  object (self)
-    inherit BasicAI.basicAI (ownerLayerInterface, gameInput) as super
-    val mutable keyDirection : int = 0
-    method keyDirection = keyDirection
-    method set_keyDirection value' = keyDirection <- value'
-    val mutable displayInfoSingleton : DisplayInfoSingleton.displayInfoSingleton = (Obj.magic 0)
-    method displayInfoSingleton = displayInfoSingleton
-    method set_displayInfoSingleton value' = displayInfoSingleton <- value'
-    val mutable firingX : int = 0
-    method firingX = firingX
-    method set_firingX value' = firingX <- value'
-    val mutable firedIndex : int = 0
-    method firedIndex = firedIndex
-    method set_firedIndex value' = firedIndex <- value'
-    val mutable mAX_FIRE : int = 0
-    method mAX_FIRE = mAX_FIRE
-    method set_mAX_FIRE value' = mAX_FIRE <- value'
-    val mutable timeDelayHelper : TimeDelayHelper.timeDelayHelper = (Obj.magic 0)
-    method timeDelayHelper = timeDelayHelper
-    method set_timeDelayHelper value' = timeDelayHelper <- value'
-    val mutable secondaryPlayerQueue : PlayerQueue.playerQueue = (Obj.magic 0)
-    method secondaryPlayerQueue = secondaryPlayerQueue
-    method set_secondaryPlayerQueue value' = secondaryPlayerQueue <- value'
-    val mutable sound : Sound.sound = (Obj.magic 0)
-    method sound = sound
-    method set_sound value' = sound <- value'
+let mut jcell_SOUND: Option<Int32> = None
+
+provide let rec jclassName = () => "HorizontalScreenPatrolAI"
+
+and jstatic_SOUND = () => match (jcell_SOUND) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 433l)
+    jcell_SOUND = Some(value)
+    value
+  },
+}
     
+and jnew_3 = (hashtable: JObject, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
+    let this = { jobject: JR.newJObject("HorizontalScreenPatrolAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_keyDirection: 0l, f_displayInfoSingleton: JR.nullOf(), f_firingX: 0l, f_firedIndex: 0l, f_MAX_FIRE: 0l, f_timeDelayHelper: JR.nullOf(), f_secondaryPlayerQueue: JR.nullOf(), f_sound: JR.nullOf(), }
+    this.f_keyDirection = {
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_LEFT"))
+JR.cast(jlate())
+}
+    this.f_displayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
+    this.f_firingX = DisplayInfoSingleton.jm_getLastHalfWidth(this.f_displayInfoSingleton)
+    this.f_firedIndex = 0l
+    this.f_MAX_FIRE = 28l
+    this.f_timeDelayHelper = TimeDelayHelper.jnew_1(240l)
+    this.f_secondaryPlayerQueue = JR.cast(SecondaryPlayerQueueFactory.jm_getInstance())
     
-
-    method processAI : 'any1. 'any1 -> unit = fun (allBinaryLayerManager) ->
-        let allBinaryLayerManager = Obj.repr allBinaryLayerManager in
-        begin
-        ignore (super#processKeyAI (keyDirection));
-        if (timeDelayHelper#isTimeTNT ()) then begin
-            let layerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((self#getOwnerLayerInterface ()) :> AllBinaryLayer.allBinaryLayer)) in ();
-            let currentOwnerLayerX : int ref = ref ((!layerInterface#getXP ())) in ();
-            if (!currentOwnerLayerX < (- (!layerInterface#getWidth ()))) then begin
-                let y : int ref = ref (((MyRandomFactory.getInstance ())#getAbsoluteNextIntAllowZero (50))) in ();
-                ignore (!layerInterface#setPosition ((((displayInfoSingleton#getLastWidth ()) + (!layerInterface#getWidth ())) + 50), !y, (!layerInterface#getZP ())));
-                firedIndex <- 0;
-                firingX <- ((displayInfoSingleton#getLastHalfWidth ()) + ((MyRandomFactory.getInstance ())#getNextInt ((displayInfoSingleton#getLastHalfWidth ()))));
-                ignore (secondaryPlayerQueue#add (sound))
-            end;
-            if ((!currentOwnerLayerX < firingX) && (!currentOwnerLayerX > (- (!layerInterface#getWidth ())))) then begin
-                ignore (super#processKeyAI ((Obj.magic (java_call_static "Canvas.get_kEY_NUM1" (Obj.repr ())))));
-                let gameLayerManager : AllBinaryGameLayerManager.allBinaryGameLayerManager ref = ref (((Obj.magic (Obj.magic allBinaryLayerManager)) :> AllBinaryGameLayerManager.allBinaryGameLayerManager)) in ();
-                let fIRE : int ref = ref ((((((!gameLayerManager#getGameInfo ())#getCurrentLevel ()) + 12)) asr 2)) in ();
-                if (!fIRE > mAX_FIRE) then begin
-                    fIRE := mAX_FIRE
-                end;
-                if (firedIndex > !fIRE) then begin
-                    firedIndex <- 0;
-                    firingX <- (-2147483648)
-                end;
-                firedIndex <- firedIndex + 1
-            end
-        end
-        end [@@warning "-7-20"]
+        void
+        this.f_sound = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
+JR.cast(jlate(JR.cast(hashtable), JR.cast(jstatic_SOUND())))
+})
+        if (JR.isNull(this.f_sound)) {
+            fail JR.toStringOf(JR.newJObject("Exception"))
+        }
+    this
+}
     
+and jm_processAI = (this: HorizontalScreenPatrolAI, allBinaryLayerManager: AllBinaryLayerManager) => {
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
+JR.cast(jlate(JR.cast(this), JR.cast(this.f_keyDirection)))
+})
+        if (TimeDelayHelper.jm_isTimeTNT(this.f_timeDelayHelper)) {
+            let mut layerInterface: AllBinaryLayer = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
+JR.cast(jlate(JR.cast(this)))
+})
+            let mut currentOwnerLayerX: Int32 = AllBinaryLayer.jm_getXP(layerInterface)
+            if (Int32.(<)(currentOwnerLayerX, Int32.(-)(1l, Int32.(+)(AllBinaryLayer.jm_getWidth(layerInterface), 1l)))) {
+                let mut y: Int32 = MyRandomFactory.jm_getAbsoluteNextIntAllowZero(MyRandomFactory.jm_getInstance(), 50l)
+                ignore(AllBinaryLayer.jm_setPosition(layerInterface, Int32.(+)(Int32.(+)(DisplayInfoSingleton.jm_getLastWidth(this.f_displayInfoSingleton), AllBinaryLayer.jm_getWidth(layerInterface)), 50l), y, AllBinaryLayer.jm_getZP(layerInterface)))
+                this.f_firedIndex = 0l
+                this.f_firingX = Int32.(+)(DisplayInfoSingleton.jm_getLastHalfWidth(this.f_displayInfoSingleton), MyRandomFactory.jm_getNextInt(MyRandomFactory.jm_getInstance(), DisplayInfoSingleton.jm_getLastHalfWidth(this.f_displayInfoSingleton)))
+                ignore(PlayerQueue.jm_add(this.f_secondaryPlayerQueue, this.f_sound))
+            }
+            if ((Int32.(<)(currentOwnerLayerX, this.f_firingX) && Int32.(>)(currentOwnerLayerX, Int32.(-)(1l, Int32.(+)(AllBinaryLayer.jm_getWidth(layerInterface), 1l))))) {
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_KEY_NUM1"))
+JR.cast(jlate())
+})))
+})
+                let mut gameLayerManager: AllBinaryGameLayerManager = JR.cast(allBinaryLayerManager)
+                let mut l_FIRE: Int32 = Int32.(>>)((Int32.(+)(JR.className(JR.cast(AllBinaryGameLayerManager.jm_getGameInfo(gameLayerManager))), 12l)), 2l)
+                if (Int32.(>)(l_FIRE, this.f_MAX_FIRE)) {
+                    l_FIRE = this.f_MAX_FIRE
+                }
+                if (Int32.(>)(this.f_firedIndex, l_FIRE)) {
+                    this.f_firedIndex = 0l
+                    this.f_firingX = Integer.jstatic_MIN_VALUE()
+                }
+                this.f_firedIndex = Int32.(+)(this.f_firedIndex, 1l)
+            }
+        }
+}
+    
+and jm_nextDirection = (this: HorizontalScreenPatrolAI) => {
+    void
+}
 
-    method nextDirection () : unit =
-        begin
-        ()
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        keyDirection <- (Obj.magic (java_call_static "Canvas.get_lEFT" (Obj.repr ())));
-        displayInfoSingleton <- ((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton);
-        firingX <- (displayInfoSingleton#getLastHalfWidth ());
-        firedIndex <- 0;
-        mAX_FIRE <- 28;
-        timeDelayHelper <- ((new TimeDelayHelper.timeDelayHelper (240)) :> TimeDelayHelper.timeDelayHelper);
-        secondaryPlayerQueue <- ((SecondaryPlayerQueueFactory.getInstance ()) :> PlayerQueue.playerQueue);
-        ();
-        ();
-        (* super(...) is the inherit clause *) ();
-        sound <- (Obj.magic (hashtable#get (sOUND)));
-        if (sound == (Obj.magic 0)) then begin
-            raise (Failure ("No Sound Provided!!"))
-        end
-      end
-  end
-let () = java_register_constructor "HorizontalScreenPatrolAI" (fun arguments -> Obj.repr (new horizontalScreenPatrolAI (Obj.obj arguments)))
+JR.registerLateBound("HorizontalScreenPatrolAI.jnew_3", jnew_3)
+JR.registerLateBound("HorizontalScreenPatrolAI.jm_processAI", jm_processAI)
+JR.registerLateBound("HorizontalScreenPatrolAI.jm_nextDirection", jm_nextDirection)
+JR.registerLateBound("HorizontalScreenPatrolAI.f_keyDirection", (this: HorizontalScreenPatrolAI) => this.f_keyDirection)
+JR.registerLateBound("HorizontalScreenPatrolAI.set_f_keyDirection", (this: HorizontalScreenPatrolAI, jvalue) => { this.f_keyDirection = jvalue; jvalue })
+JR.registerLateBound("HorizontalScreenPatrolAI.f_displayInfoSingleton", (this: HorizontalScreenPatrolAI) => this.f_displayInfoSingleton)
+JR.registerLateBound("HorizontalScreenPatrolAI.f_firingX", (this: HorizontalScreenPatrolAI) => this.f_firingX)
+JR.registerLateBound("HorizontalScreenPatrolAI.set_f_firingX", (this: HorizontalScreenPatrolAI, jvalue) => { this.f_firingX = jvalue; jvalue })
+JR.registerLateBound("HorizontalScreenPatrolAI.f_firedIndex", (this: HorizontalScreenPatrolAI) => this.f_firedIndex)
+JR.registerLateBound("HorizontalScreenPatrolAI.set_f_firedIndex", (this: HorizontalScreenPatrolAI, jvalue) => { this.f_firedIndex = jvalue; jvalue })
+JR.registerLateBound("HorizontalScreenPatrolAI.f_MAX_FIRE", (this: HorizontalScreenPatrolAI) => this.f_MAX_FIRE)
+JR.registerLateBound("HorizontalScreenPatrolAI.f_timeDelayHelper", (this: HorizontalScreenPatrolAI) => this.f_timeDelayHelper)
+JR.registerLateBound("HorizontalScreenPatrolAI.f_secondaryPlayerQueue", (this: HorizontalScreenPatrolAI) => this.f_secondaryPlayerQueue)
+JR.registerLateBound("HorizontalScreenPatrolAI.f_sound", (this: HorizontalScreenPatrolAI) => this.f_sound)
+JR.registerLateBound("HorizontalScreenPatrolAI.jstatic_SOUND", jstatic_SOUND)
 
 

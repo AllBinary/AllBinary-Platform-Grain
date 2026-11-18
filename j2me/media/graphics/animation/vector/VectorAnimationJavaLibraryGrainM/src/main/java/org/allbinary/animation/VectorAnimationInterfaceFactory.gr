@@ -1,75 +1,91 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.animation
+module VectorAnimationInterfaceFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
+use BasicColor.{ type BasicColor }
+from "../../../org/allbinary/graphics/color/BasicColorFactory.gr" include BasicColorFactory
+use BasicColorFactory.{ type BasicColorFactory }
+from "../../../org/allbinary/media/ScaleProperties.gr" include ScaleProperties
+use ScaleProperties.{ type ScaleProperties }
+from "./AnimationInterfaceFactoryInterface.gr" include AnimationInterfaceFactoryInterface
+use AnimationInterfaceFactoryInterface.{ type AnimationInterfaceFactoryInterface }
+from "./AnimationBehaviorFactory.gr" include AnimationBehaviorFactory
+use AnimationBehaviorFactory.{ type AnimationBehaviorFactory }
+from "./VectorAnimation.gr" include VectorAnimation
+use VectorAnimation.{ type VectorAnimation }
+from "./Animation.gr" include Animation
+use Animation.{ type Animation }
+
+provide record VectorAnimationInterfaceFactory {
+  jobject: JObject,
+  mut f_currentPoints: Array<Array<Array<Int32>>>,
+  mut f_basicColor: BasicColor,
+  mut f_animationBehaviorFactory: AnimationBehaviorFactory,
+}
+
+
+provide let rec jclassName = () => "VectorAnimationInterfaceFactory"
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.animation *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.graphics.color.BasicColor *)
-(* import org.allbinary.graphics.color.BasicColorFactory *)
-(* import org.allbinary.media.ScaleProperties *)
-
-class vectorAnimationInterfaceFactory ((currentPoints_arg : int array array array), (basicColor_arg : BasicColor.basicColor), (animationBehaviorFactory_arg : AnimationBehaviorFactory.animationBehaviorFactory)) =
-  object (self)
-    val mutable currentPoints : int array array array = (Obj.magic 0)
-    method currentPoints = currentPoints
-    method set_currentPoints value' = currentPoints <- value'
-    val mutable basicColor : BasicColor.basicColor = (Obj.magic 0)
-    method basicColor = basicColor
-    method set_basicColor value' = basicColor <- value'
-    val mutable animationBehaviorFactory : AnimationBehaviorFactory.animationBehaviorFactory = (Obj.magic 0)
-    method animationBehaviorFactory = animationBehaviorFactory
-    method set_animationBehaviorFactory value' = animationBehaviorFactory <- value'
+and jnew_3 = (currentPoints: Array<Array<Array<Int32>>>, basicColor: BasicColor, animationBehaviorFactory: AnimationBehaviorFactory) => {
+    let this = { jobject: JR.newJObject("VectorAnimationInterfaceFactory"), f_currentPoints: [> ], f_basicColor: JR.nullOf(), f_animationBehaviorFactory: JR.nullOf(), }
     
+    this.f_basicColor = JR.cast(BasicColorFactory.jm_getInstance().f_WHITE)
     
-
-    method getInstance : 'return. int -> 'return = fun ((_instanceId : int)) ->
-        begin
-        (Obj.magic ((new VectorAnimation.vectorAnimation (currentPoints, (self#getBasicColorP ()), (animationBehaviorFactory#getOrCreateInstance ())))))
-        end
+        this.f_currentPoints = currentPoints
+        ignore(jm_setBasicColorP(this, basicColor))
+        this.f_animationBehaviorFactory = animationBehaviorFactory
+    this
+}
     
-
-    method setBasicColorP : 'any1. 'any1 -> unit = fun (basicColor_arg) ->
-        let basicColor_arg = Obj.repr basicColor_arg in
-        begin
-        basicColor <- (Obj.magic basicColor_arg)
-        end [@@warning "-20"]
+and jm_getInstance = (this: VectorAnimationInterfaceFactory, instanceId: Int32) => {
+        return JR.cast(VectorAnimation.jnew_3(this.f_currentPoints, jm_getBasicColorP(this), AnimationBehaviorFactory.jm_getOrCreateInstance(this.f_animationBehaviorFactory)))
+}
     
-
-    method getBasicColorP : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (basicColor))
-        end
+and jm_setBasicColorP = (this: VectorAnimationInterfaceFactory, basicColor: BasicColor) => {
+        this.f_basicColor = basicColor
+}
     
+and jm_getBasicColorP = (this: VectorAnimationInterfaceFactory) => {
+        return this.f_basicColor
+}
+    
+and jm_setInitialScale = (this: VectorAnimationInterfaceFactory, scaleProperties: ScaleProperties) => {
+    void
+}
 
-    method setInitialScale : 'any1. 'any1 -> unit = fun (_scaleProperties) ->
-        begin
-        ()
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        ();
-        basicColor <- ((BasicColorFactory.getInstance ())#wHITE :> BasicColor.basicColor);
-        ();
-        ();
-        currentPoints <- currentPoints_arg;
-        (self#setBasicColorP (basicColor_arg));
-        animationBehaviorFactory <- animationBehaviorFactory_arg
-      end
-  end
-let () = java_register_constructor "VectorAnimationInterfaceFactory" (fun arguments -> Obj.repr (new vectorAnimationInterfaceFactory (Obj.obj arguments)))
+JR.registerLateBound("VectorAnimationInterfaceFactory.jnew_3", jnew_3)
+JR.registerLateBound("VectorAnimationInterfaceFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("VectorAnimationInterfaceFactory.jm_setBasicColorP", jm_setBasicColorP)
+JR.registerLateBound("VectorAnimationInterfaceFactory.jm_getBasicColorP", jm_getBasicColorP)
+JR.registerLateBound("VectorAnimationInterfaceFactory.jm_setInitialScale", jm_setInitialScale)
+JR.registerLateBound("VectorAnimationInterfaceFactory.f_currentPoints", (this: VectorAnimationInterfaceFactory) => this.f_currentPoints)
+JR.registerLateBound("VectorAnimationInterfaceFactory.set_f_currentPoints", (this: VectorAnimationInterfaceFactory, jvalue) => { this.f_currentPoints = jvalue; jvalue })
+JR.registerLateBound("VectorAnimationInterfaceFactory.f_basicColor", (this: VectorAnimationInterfaceFactory) => this.f_basicColor)
+JR.registerLateBound("VectorAnimationInterfaceFactory.set_f_basicColor", (this: VectorAnimationInterfaceFactory, jvalue) => { this.f_basicColor = jvalue; jvalue })
+JR.registerLateBound("VectorAnimationInterfaceFactory.f_animationBehaviorFactory", (this: VectorAnimationInterfaceFactory) => this.f_animationBehaviorFactory)
 
 

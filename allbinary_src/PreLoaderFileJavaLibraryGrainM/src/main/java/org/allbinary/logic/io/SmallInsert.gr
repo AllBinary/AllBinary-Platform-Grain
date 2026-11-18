@@ -1,115 +1,118 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io
+module SmallInsert
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/io/DataOutputStream.gr" include DataOutputStream
+use DataOutputStream.{ type DataOutputStream }
+from "../../../../java/io/FileOutputStream.gr" include FileOutputStream
+use FileOutputStream.{ type FileOutputStream }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../java/lang/System.gr" include System
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.DataOutputStream *)
-(* import java.io.FileOutputStream *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.io.file.AbFileSystem *)
-(* import org.allbinary.string.CommonStrings *)
+provide record SmallInsert {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_fileName: String,
+  mut f_string: String,
+}
 
-class smallInsert ((fileName_arg : string)) =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable fileName : string = ""
-    method fileName = fileName
-    method set_fileName value' = fileName <- value'
-    val mutable string : string = ""
-    method string = string
-    method set_string value' = string <- value'
+
+provide let rec jclassName = () => "SmallInsert"
+    
+and jnew_1 = (fileName: String) => {
+    let this = { jobject: JR.newJObject("SmallInsert"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_fileName: "", f_string: "", }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
     
     
-
-    method atBeginning ((text : string)) : bool =
-        begin
-        (try
-            let idFile : java_file_output_stream ref = ref (((new java_file_output_stream (Obj.repr (fileName))) :> java_file_output_stream)) in ();
-            let idOutData : java_data_output_stream ref = ref (((Obj.obj (java_new "DataOutputStream" (Obj.repr (!idFile)))) :> java_data_output_stream)) in ();
-            ignore (!idOutData#writeBytes ((text ^ string)));
-            true
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#iDLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "insertAtBeginning", e))
-            end;
-            false
-        end)
-        end
+        this.f_fileName = fileName
+        this.f_string = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbFileSystem.jm_readAsString"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("AbFileSystem.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(fileName)))
+}
+    this
+}
     
-
-    method after ((text : string), (after : string)) : bool =
-        try
-        begin
-        (try
-            let index : int ref = ref ((java_string_index_of string (Obj.repr (after)))) in ();
-            if (!index < 0) then begin
-                (print_endline (java_string_of (Obj.repr (((("No such start: " ^ after) ^ " in: ") ^ string)))));
-                raise (Java_return (Obj.repr (false)))
-            end;
-            index := (!index + (String.length after));
-            let start : string ref = ref ((String.sub string (0) ((!index) - (0)))) in ();
-            let end_ : string ref = ref ((String.sub string ((!index + 1)) (((String.length string)) - ((!index + 1))))) in ();
-            let idFile : java_file_output_stream ref = ref (((new java_file_output_stream (Obj.repr (fileName))) :> java_file_output_stream)) in ();
-            let idOutData : java_data_output_stream ref = ref (((Obj.obj (java_new "DataOutputStream" (Obj.repr (!idFile)))) :> java_data_output_stream)) in ();
-            ignore (!idOutData#writeBytes (((!start ^ text) ^ !end_)));
-            ignore (!idOutData#close ());
-            ignore (!idFile#close ());
-            true
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#iDLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "after", e))
-            end;
-            false
-        end)
-        end
-        with Java_return value -> Obj.obj value
+and jm_atBeginning = (this: SmallInsert, text: String) => {
+        {
+            let mut idFile: FileOutputStream = FileOutputStream.jnew_1(this.f_fileName)
+            let mut idOutData: DataOutputStream = DataOutputStream.jnew_1(idFile)
+            ignore(DataOutputStream.jm_writeBytes_1(idOutData, text ++ this.f_string))
+            return true
+        }
+    return false
+}
     
+and jm_after = (this: SmallInsert, text: String, after: String) => {
+        {
+            let mut index: Int32 = JR.indexOf(this.f_string, after)
+            if (Int32.(<)(index, 0l)) {
+                ignore(print("No such start: " ++ after ++ " in: " ++ this.f_string))
+                return false
+            }
+            index = Int32.(+)(index, JR.length(after))
+            let mut start: String = JR.substring(this.f_string, 0l, index)
+            let mut end: String = JR.substring(this.f_string, Int32.(+)(index, 1l), JR.length(this.f_string))
+            let mut idFile: FileOutputStream = FileOutputStream.jnew_1(this.f_fileName)
+            let mut idOutData: DataOutputStream = DataOutputStream.jnew_1(idFile)
+            ignore(DataOutputStream.jm_writeBytes_1(idOutData, start ++ text ++ end))
+            ignore(DataOutputStream.jm_close_0(idOutData))
+            ignore(FileOutputStream.jm_close(idFile))
+            return true
+        }
+    return false
+}
+    
+and jm_atEnd = (this: SmallInsert, text: String) => {
+        {
+            let mut idFile: FileOutputStream = FileOutputStream.jnew_1(this.f_fileName)
+            let mut idOutData: DataOutputStream = DataOutputStream.jnew_1(idFile)
+            ignore(DataOutputStream.jm_writeBytes_1(idOutData, this.f_string ++ text))
+            return true
+        }
+    return false
+}
 
-    method atEnd ((text : string)) : bool =
-        begin
-        (try
-            let idFile : java_file_output_stream ref = ref (((new java_file_output_stream (Obj.repr (fileName))) :> java_file_output_stream)) in ();
-            let idOutData : java_data_output_stream ref = ref (((Obj.obj (java_new "DataOutputStream" (Obj.repr (!idFile)))) :> java_data_output_stream)) in ();
-            ignore (!idOutData#writeBytes ((string ^ text)));
-            true
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#iDLOGGING)) then begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "insertAtEnd", e))
-            end;
-            false
-        end)
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        ();
-        ();
-        ();
-        fileName <- fileName_arg;
-        string <- ((Obj.magic (java_call_static "AbFileSystem.getInstance" (Obj.repr ())))#readAsString (fileName_arg))
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "SmallInsert" (fun arguments -> Obj.repr (new smallInsert (Obj.obj arguments)))
+JR.registerLateBound("SmallInsert.jnew_1", jnew_1)
+JR.registerLateBound("SmallInsert.jm_atBeginning", jm_atBeginning)
+JR.registerLateBound("SmallInsert.jm_after", jm_after)
+JR.registerLateBound("SmallInsert.jm_atEnd", jm_atEnd)
+JR.registerLateBound("SmallInsert.f_logUtil", (this: SmallInsert) => this.f_logUtil)
+JR.registerLateBound("SmallInsert.f_commonStrings", (this: SmallInsert) => this.f_commonStrings)
+JR.registerLateBound("SmallInsert.f_fileName", (this: SmallInsert) => this.f_fileName)
+JR.registerLateBound("SmallInsert.set_f_fileName", (this: SmallInsert, jvalue) => { this.f_fileName = jvalue; jvalue })
+JR.registerLateBound("SmallInsert.f_string", (this: SmallInsert) => this.f_string)
+JR.registerLateBound("SmallInsert.set_f_string", (this: SmallInsert, jvalue) => { this.f_string = jvalue; jvalue })
 
 

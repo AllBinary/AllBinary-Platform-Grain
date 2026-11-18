@@ -1,74 +1,91 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.input.motion.button
+module CommonButtons
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.input.motion.button *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/graphics/PointFactory.gr" include PointFactory
+use PointFactory.{ type PointFactory }
+from "../../../../../org/allbinary/graphics/Rectangle.gr" include Rectangle
+use Rectangle.{ type Rectangle }
+from "../../../../../org/allbinary/graphics/displayable/DisplayInfoSingleton.gr" include DisplayInfoSingleton
+use DisplayInfoSingleton.{ type DisplayInfoSingleton }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.graphics.PointFactory *)
-(* import org.allbinary.graphics.Rectangle *)
-(* import org.allbinary.graphics.displayable.DisplayInfoSingleton *)
+provide record CommonButtons {
+  jobject: JObject,
+  mut f_STANDARD_BUTTON_SIZE: Int32,
+  mut f_NORMAL_BUTTON: Rectangle,
+  mut f_LARGE_BUTTON: Rectangle,
+}
 
-class commonButtons () =
-  object
-    val mutable sTANDARD_BUTTON_SIZE : int = 0
-    method sTANDARD_BUTTON_SIZE = sTANDARD_BUTTON_SIZE
-    method set_sTANDARD_BUTTON_SIZE value' = sTANDARD_BUTTON_SIZE <- value'
-    val mutable nORMAL_BUTTON : Rectangle.rectangle = (Obj.magic 0)
-    method nORMAL_BUTTON = nORMAL_BUTTON
-    method set_nORMAL_BUTTON value' = nORMAL_BUTTON <- value'
-    val mutable lARGE_BUTTON : Rectangle.rectangle = (Obj.magic 0)
-    method lARGE_BUTTON = lARGE_BUTTON
-    method set_lARGE_BUTTON value' = lARGE_BUTTON <- value'
+let mut jcell_instance: Option<CommonButtons> = None
+
+provide let rec jclassName = () => "CommonButtons"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: CommonButtons = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("CommonButtons"), f_STANDARD_BUTTON_SIZE: 0l, f_NORMAL_BUTTON: JR.nullOf(), f_LARGE_BUTTON: JR.nullOf(), }
+    
+    
+    
+        let mut displayInfo: DisplayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
+        let mut commonButtonSize: Int32 = 128l
+        while (Int32.(>)(commonButtonSize, 64l)) {
+            let mut totalColumns: Int32 = Int32.(/)(DisplayInfoSingleton.jm_getLastWidth(displayInfo), commonButtonSize)
+            let mut totalRows: Int32 = Int32.(/)(DisplayInfoSingleton.jm_getLastHeight(displayInfo), commonButtonSize)
+            let mut max: Int32 = totalColumns
+            if (Int32.(>)(totalRows, max)) {
+                max = totalRows
+            }
+            if (Int32.(>)(max, 9l)) {
+                break
+            }
+            commonButtonSize = Int32.(>>)(commonButtonSize, 1l)
+        }
+        this.f_STANDARD_BUTTON_SIZE = commonButtonSize
+        this.f_NORMAL_BUTTON = Rectangle.jnew_3(PointFactory.jm_getInstance().f_ZERO_ZERO, this.f_STANDARD_BUTTON_SIZE, this.f_STANDARD_BUTTON_SIZE)
+        this.f_LARGE_BUTTON = Rectangle.jnew_3(PointFactory.jm_getInstance().f_ZERO_ZERO, Int32.(<<)(this.f_STANDARD_BUTTON_SIZE, 1l), Int32.(<<)(this.f_STANDARD_BUTTON_SIZE, 1l))
+    this
+}
 
-    initializer
-      begin
-        ();
-        ();
-        ();
-        ();
-        let displayInfo : DisplayInfoSingleton.displayInfoSingleton ref = ref (((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton)) in ();
-        let commonButtonSize : int ref = ref (128) in ();
-        while (!commonButtonSize > 64) do
-            let totalColumns : int ref = ref (((!displayInfo#getLastWidth ()) / !commonButtonSize)) in ();
-            let totalRows : int ref = ref (((!displayInfo#getLastHeight ()) / !commonButtonSize)) in ();
-            let max : int ref = ref (!totalColumns) in ();
-            if (!totalRows > !max) then begin
-                max := !totalRows
-            end;
-            if (!max > 9) then begin
-                raise Java_break
-            end;
-            commonButtonSize := (!commonButtonSize asr 1)
-        done;
-        sTANDARD_BUTTON_SIZE <- !commonButtonSize;
-        nORMAL_BUTTON <- (new Rectangle.rectangle ((PointFactory.getInstance ())#zERO_ZERO, sTANDARD_BUTTON_SIZE, sTANDARD_BUTTON_SIZE));
-        lARGE_BUTTON <- (new Rectangle.rectangle ((PointFactory.getInstance ())#zERO_ZERO, (sTANDARD_BUTTON_SIZE lsl 1), (sTANDARD_BUTTON_SIZE lsl 1)))
-      end
-  end
-let () = java_register_constructor "CommonButtons" (fun arguments -> Obj.repr (new commonButtons (Obj.obj arguments)))
-
-let instance = (new commonButtons ())
-let get_instance () = instance
-let () = java_register_static "CommonButtons.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "CommonButtons.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("CommonButtons.jnew_0", jnew_0)
+JR.registerLateBound("CommonButtons.jm_getInstance", jm_getInstance)
+JR.registerLateBound("CommonButtons.f_STANDARD_BUTTON_SIZE", (this: CommonButtons) => this.f_STANDARD_BUTTON_SIZE)
+JR.registerLateBound("CommonButtons.f_NORMAL_BUTTON", (this: CommonButtons) => this.f_NORMAL_BUTTON)
+JR.registerLateBound("CommonButtons.f_LARGE_BUTTON", (this: CommonButtons) => this.f_LARGE_BUTTON)
+JR.registerLateBound("CommonButtons.jstatic_instance", jstatic_instance)
 
 

@@ -1,50 +1,68 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.data.tables
+module TableDataFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.data.tables *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/string/CommonPhoneStrings.gr" include CommonPhoneStrings
+use CommonPhoneStrings.{ type CommonPhoneStrings }
+from "../../../../java/lang/Integer.gr" include Integer
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.string.CommonPhoneStrings *)
+provide record TableDataFactory {
+  jobject: JObject,
+  mut f_INTEGER_MAX_VALUE_STRING: String,
+  mut f_ZERO_STRING: String,
+}
 
-class tableDataFactory () =
-  object
-    val mutable iNTEGER_MAX_VALUE_STRING : string = ""
-    method iNTEGER_MAX_VALUE_STRING = iNTEGER_MAX_VALUE_STRING
-    method set_iNTEGER_MAX_VALUE_STRING value' = iNTEGER_MAX_VALUE_STRING <- value'
-    val mutable zERO_STRING : string = ""
-    method zERO_STRING = zERO_STRING
-    method set_zERO_STRING value' = zERO_STRING <- value'
+let mut jcell_instance: Option<TableDataFactory> = None
 
-    initializer
-      begin
-        iNTEGER_MAX_VALUE_STRING <- (string_of_int (2147483647));
-        zERO_STRING <- (CommonPhoneStrings.getInstance ())#zERO;
-        ()
-      end
-  end
-let () = java_register_constructor "TableDataFactory" (fun arguments -> Obj.repr (new tableDataFactory (Obj.obj arguments)))
+provide let rec jclassName = () => "TableDataFactory"
 
-let instance = (new tableDataFactory ())
-let get_instance () = instance
-let () = java_register_static "TableDataFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: TableDataFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
 
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "TableDataFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("TableDataFactory"), f_INTEGER_MAX_VALUE_STRING: "", f_ZERO_STRING: "", }
+    this.f_INTEGER_MAX_VALUE_STRING = toString(Integer.jstatic_MAX_VALUE())
+    this.f_ZERO_STRING = CommonPhoneStrings.jm_getInstance().f_ZERO
+    this
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+
+JR.registerLateBound("TableDataFactory.jnew_0", jnew_0)
+JR.registerLateBound("TableDataFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("TableDataFactory.f_INTEGER_MAX_VALUE_STRING", (this: TableDataFactory) => this.f_INTEGER_MAX_VALUE_STRING)
+JR.registerLateBound("TableDataFactory.f_ZERO_STRING", (this: TableDataFactory) => this.f_ZERO_STRING)
+JR.registerLateBound("TableDataFactory.jstatic_instance", jstatic_instance)
 
 

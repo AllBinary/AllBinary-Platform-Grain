@@ -1,61 +1,78 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.input
+module J2MEGameKey
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.input *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "./Input.gr" include Input
+use Input.{ type Input }
+from "./InputFactory.gr" include InputFactory
+use InputFactory.{ type InputFactory }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
+provide record J2MEGameKey {
+  jobject: JObject,
+  mut f_id: Int32,
+  mut f_name: String,
+}
 
 
-let getString ((keyCode : int)) : string =
-        try
-        begin
-        let input : Input.input ref = ref ((((InputFactory.getInstance ())#getInstanceById (keyCode)) :> Input.input)) in ();
-        if (!input != (Obj.magic 0)) then begin
-            raise (Java_return (Obj.repr ((!input#getName ()))))
-        end else begin
-            raise (Java_return (Obj.repr ((StringUtil.getInstance ())#eMPTY_STRING)))
-        end
-        end
-        with Java_return value -> Obj.obj value
-
-let () = java_register_static "J2MEGameKey.getString" (fun arguments -> Obj.repr (getString (Obj.obj arguments)))
-class j2MEGameKey ((key : int), (keyName : string)) =
-  object (self)
-    inherit Input.input (key, keyName) as super
+provide let rec jclassName = () => "J2MEGameKey"
     
+and jnew_2 = (key: Int32, keyName: String) => {
+    let this = { jobject: JR.newJObject("J2MEGameKey"), f_id: 0l, f_name: "", }
+    this.jobject.toStringFunction = () => jm_toString(this)
+        void
+        let mut id: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Input.jm_getId"))
+JR.cast(jlate(JR.cast(this)))
+}
+        if (Int32.(>=)(id, 0l)) {
+            let mut inputFactory: InputFactory = JR.cast(InputFactory.jm_getInstance())
+            ignore(InputFactory.jm_add(inputFactory, id, JR.cast(this)))
+        }
+    this
+}
     
+and jm_toString = (this: J2MEGameKey) => {
+        return StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "J2MEGameKey: "), jm_toString(this)))
+}
+    
+and jm_getString = (keyCode: Int32) => {
+        let mut input: Input = JR.cast(InputFactory.jm_getInstanceById(InputFactory.jm_getInstance(), keyCode))
+        if (!JR.isNull(input)) {
+            return Input.jm_getName(input)
+        } else {
+            return StringUtil.jm_getInstance().f_EMPTY_STRING
+        }
+}
 
-    method toString () : string =
-        begin
-        (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("J2MEGameKey: "))#append ((super#toString ())))))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        (* super(...) is the inherit clause *) ();
-        let id : int ref = ref ((self#getId ())) in ();
-        if (!id >= 0) then begin
-            let inputFactory : InputFactory.inputFactory ref = ref (((InputFactory.getInstance ()) :> InputFactory.inputFactory)) in ();
-            ignore (!inputFactory#add (!id, (Obj.magic self)))
-        end
-      end
-  end
-let () = java_register_constructor "J2MEGameKey" (fun arguments -> Obj.repr (new j2MEGameKey (Obj.obj arguments)))
+JR.registerLateBound("J2MEGameKey.jnew_2", jnew_2)
+JR.registerLateBound("J2MEGameKey.jm_toString", jm_toString)
+JR.registerLateBound("J2MEGameKey.jm_getString", jm_getString)
 
 

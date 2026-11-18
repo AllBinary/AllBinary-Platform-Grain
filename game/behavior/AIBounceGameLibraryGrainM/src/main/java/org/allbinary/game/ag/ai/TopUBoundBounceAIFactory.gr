@@ -1,59 +1,82 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.ai
+module TopUBoundBounceAIFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.ai *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/ai/ArtificialIntelligenceInterface.gr" include ArtificialIntelligenceInterface
+use ArtificialIntelligenceInterface.{ type ArtificialIntelligenceInterface }
+from "../../../../../org/allbinary/bounds/TopULayerBounds.gr" include TopULayerBounds
+use TopULayerBounds.{ type TopULayerBounds }
+from "../../../../../org/allbinary/game/ai/ArtificialIntelligenceInterfaceFactoryInterface.gr" include ArtificialIntelligenceInterfaceFactoryInterface
+use ArtificialIntelligenceInterfaceFactoryInterface.{ type ArtificialIntelligenceInterfaceFactoryInterface }
+from "../../../../../org/allbinary/game/input/GameInput.gr" include GameInput
+use GameInput.{ type GameInput }
+from "../../../../../org/allbinary/game/physics/velocity/VelocityInterface.gr" include VelocityInterface
+use VelocityInterface.{ type VelocityInterface }
+from "../../../../../org/allbinary/game/physics/velocity/VelocityInterfaceCompositeInterface.gr" include VelocityInterfaceCompositeInterface
+use VelocityInterfaceCompositeInterface.{ type VelocityInterfaceCompositeInterface }
+from "../../../../../org/allbinary/graphics/GPoint.gr" include GPoint
+use GPoint.{ type GPoint }
+from "../../../../../org/allbinary/graphics/PointFactory.gr" include PointFactory
+use PointFactory.{ type PointFactory }
+from "../../../../../org/allbinary/graphics/Rectangle.gr" include Rectangle
+use Rectangle.{ type Rectangle }
+from "../../../../../org/allbinary/graphics/displayable/DisplayInfoSingleton.gr" include DisplayInfoSingleton
+use DisplayInfoSingleton.{ type DisplayInfoSingleton }
+from "../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "./BoundBounceAI.gr" include BoundBounceAI
+use BoundBounceAI.{ type BoundBounceAI }
+from "./ReverseVelocityBoundsVisitor.gr" include ReverseVelocityBoundsVisitor
+use ReverseVelocityBoundsVisitor.{ type ReverseVelocityBoundsVisitor }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.ai.ArtificialIntelligenceInterface *)
-(* import org.allbinary.bounds.TopULayerBounds *)
-(* import org.allbinary.game.ai.ArtificialIntelligenceInterfaceFactoryInterface *)
-(* import org.allbinary.game.input.GameInput *)
-(* import org.allbinary.game.physics.velocity.VelocityInterface *)
-(* import org.allbinary.game.physics.velocity.VelocityInterfaceCompositeInterface *)
-(* import org.allbinary.graphics.GPoint *)
-(* import org.allbinary.graphics.PointFactory *)
-(* import org.allbinary.graphics.Rectangle *)
-(* import org.allbinary.graphics.displayable.DisplayInfoSingleton *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.util.ABHashtable *)
+provide record TopUBoundBounceAIFactory {
+  jobject: JObject,
+}
 
-class topUBoundBounceAIFactory () =
-  object
+
+provide let rec jclassName = () => "TopUBoundBounceAIFactory"
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("TopUBoundBounceAIFactory"), }
+    this
+}
     
+and jm_getInstance = (this: TopUBoundBounceAIFactory, hashtable: JObject, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
+        let mut velocityInterfaceCompositeInterface: VelocityInterfaceCompositeInterface = JR.cast(ownerLayerInterface)
+        let mut velocityInterface: VelocityInterface = JR.cast(VelocityInterfaceCompositeInterface.jm_getVelocityProperties(velocityInterfaceCompositeInterface))
+        let mut maxDistancePerTick: Int32 = (Int32.(>>)(VelocityInterface.jm_getMaxForwardVelocity(velocityInterface), JR.className(JR.cast(VelocityInterface.jm_getVelocityXBasicDecimalP(velocityInterface)))))
+        let mut halfWidth: Int32 = Int32.(+)(Int32.(+)(Int32.(*)(AllBinaryLayer.jm_getWidth(ownerLayerInterface), 2l), maxDistancePerTick), 1l)
+        let mut halfHeight: Int32 = Int32.(+)(Int32.(+)(Int32.(*)(AllBinaryLayer.jm_getHeight(ownerLayerInterface), 2l), maxDistancePerTick), 1l)
+        let mut point: GPoint = JR.cast(PointFactory.jm_createXY(PointFactory.jm_getInstance(), halfWidth, Int32.(+)(halfHeight, 60l)))
+        let mut displayInfo: DisplayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
+        let mut rectangle: Rectangle = Rectangle.jnew_3(point, (Int32.(-)(Int32.(-)(DisplayInfoSingleton.jm_getLastWidth(displayInfo), halfWidth), GPoint.jm_getX(point))), (Int32.(-)(Int32.(-)(DisplayInfoSingleton.jm_getLastHeight(displayInfo), halfHeight), GPoint.jm_getY(point))))
+        return JR.cast(BoundBounceAI.jnew_4(ownerLayerInterface, gameInput, TopULayerBounds.jnew_1(rectangle), ReverseVelocityBoundsVisitor.jnew_1(ownerLayerInterface)))
+}
 
-    method getInstance : 'any1 'any2 'any3 'return. 'any1 * 'any2 * 'any3 -> 'return = fun (_hashtable, ownerLayerInterface, gameInput) ->
-        let ownerLayerInterface = Obj.repr ownerLayerInterface in
-        let gameInput = Obj.repr gameInput in
-        begin
-        let velocityInterfaceCompositeInterface : VelocityInterfaceCompositeInterface.velocityInterfaceCompositeInterface ref = ref (((Obj.magic (Obj.magic ownerLayerInterface)) :> VelocityInterfaceCompositeInterface.velocityInterfaceCompositeInterface)) in ();
-        let velocityInterface : VelocityInterface.velocityInterface ref = ref (((Obj.magic (!velocityInterfaceCompositeInterface#getVelocityProperties ())) :> VelocityInterface.velocityInterface)) in ();
-        let maxDistancePerTick : int ref = ref ((((!velocityInterface#getMaxForwardVelocity ()) asr ((!velocityInterface#getVelocityXBasicDecimalP ())#getScaledFactor ())))) in ();
-        let halfWidth : int ref = ref ((((((Obj.magic ownerLayerInterface)#getWidth ()) * 2) + !maxDistancePerTick) + 1)) in ();
-        let halfHeight : int ref = ref ((((((Obj.magic ownerLayerInterface)#getHeight ()) * 2) + !maxDistancePerTick) + 1)) in ();
-        let point : GPoint.gPoint ref = ref ((((PointFactory.getInstance ())#createXY (!halfWidth, (!halfHeight + 60))) :> GPoint.gPoint)) in ();
-        let displayInfo : DisplayInfoSingleton.displayInfoSingleton ref = ref (((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton)) in ();
-        let rectangle : Rectangle.rectangle ref = ref (((new Rectangle.rectangle (!point, ((((!displayInfo#getLastWidth ()) - !halfWidth) - (!point#getX ()))), ((((!displayInfo#getLastHeight ()) - !halfHeight) - (!point#getY ()))))) :> Rectangle.rectangle)) in ();
-        (Obj.magic ((new BoundBounceAI.boundBounceAI ((Obj.magic ownerLayerInterface), (Obj.magic gameInput), ((new TopULayerBounds.topULayerBounds (!rectangle)) : TopULayerBounds.topULayerBounds :> LayerBounds.layerBounds), ((new ReverseVelocityBoundsVisitor.reverseVelocityBoundsVisitor (((Obj.magic ownerLayerInterface) : AllBinaryLayer.allBinaryLayer :> LayerInterface.layerInterface))) : ReverseVelocityBoundsVisitor.reverseVelocityBoundsVisitor :> BoundsVisitorInterface.boundsVisitorInterface)))))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "TopUBoundBounceAIFactory" (fun arguments -> Obj.repr (new topUBoundBounceAIFactory (Obj.obj arguments)))
+JR.registerLateBound("TopUBoundBounceAIFactory.jnew_0", jnew_0)
+JR.registerLateBound("TopUBoundBounceAIFactory.jm_getInstance", jm_getInstance)
 
 

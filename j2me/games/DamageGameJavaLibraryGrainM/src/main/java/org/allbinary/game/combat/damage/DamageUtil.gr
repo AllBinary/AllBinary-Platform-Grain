@@ -1,82 +1,101 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.combat.damage
+module DamageUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.combat.damage *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/layer/CollidableCompositeLayer.gr" include CollidableCompositeLayer
+use CollidableCompositeLayer.{ type CollidableCompositeLayer }
+from "../../../../../org/allbinary/game/layer/special/CollidableDestroyableDamageableLayer.gr" include CollidableDestroyableDamageableLayer
+use CollidableDestroyableDamageableLayer.{ type CollidableDestroyableDamageableLayer }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "./DamageableInterface.gr" include DamageableInterface
+use DamageableInterface.{ type DamageableInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.layer.CollidableCompositeLayer *)
-(* import org.allbinary.game.layer.special.CollidableDestroyableDamageableLayer *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
+provide record DamageUtil {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_COLLIDE: String,
+}
 
-class damageUtil () =
-  object
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable cOLLIDE : string = ""
-    method cOLLIDE = cOLLIDE
-    method set_cOLLIDE value' = cOLLIDE <- value'
+let mut jcell_instance: Option<DamageUtil> = None
+
+provide let rec jclassName = () => "DamageUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: DamageUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method process : 'any1 'any2. 'any1 * 'any2 -> unit = fun (damageableInterface, damageableInterface2) ->
-        let damageableInterface = Obj.repr damageableInterface in
-        let damageableInterface2 = Obj.repr damageableInterface2 in
-        begin
-        ignore ((Obj.magic damageableInterface)#damage (((Obj.magic damageableInterface2)#getDamage (0)), 0))
-        end [@@warning "-20"]
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("DamageUtil"), f_logUtil: JR.jnull, f_COLLIDE: "", }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_COLLIDE = "collide"
+        void
+    this
+}
     
+and jm_process = (this: DamageUtil, damageableInterface: DamageableInterface, damageableInterface2: DamageableInterface) => {
+        ignore(DamageableInterface.jm_damage(damageableInterface, DamageableInterface.jm_getDamage(damageableInterface2, 0l), 0l))
+}
+    
+and jm_debugDamage = (this: DamageUtil, collidableInterfaceCompositeInterface1: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableCompositeLayer) => {
+        let mut collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer = JR.cast(collidableInterfaceCompositeInterface)
+        let mut damage: Int32 = CollidableDestroyableDamageableLayer.jm_getDamage(collidableDestroyableDamageableLayer, 0l)
+        if (Int32.(>)(damage, 20000l)) {
+            let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+            ignore(StringMaker.jm_append(stringBuffer, "Collision "))
+            ignore(StringMaker.jm_append(stringBuffer, CollidableCompositeLayer.jm_toString(collidableInterfaceCompositeInterface1)))
+            ignore(StringMaker.jm_append(stringBuffer, " with: "))
+            ignore(StringMaker.jm_append(stringBuffer, CollidableCompositeLayer.jm_toString(collidableInterfaceCompositeInterface)))
+            ignore(StringMaker.jm_append(stringBuffer, " damage: "))
+            ignore(StringMaker.jm_appendint(stringBuffer, damage))
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(collidableInterfaceCompositeInterface1), JR.cast(this.f_COLLIDE)))
+})
+        }
+}
 
-    method debugDamage : 'any1 'any2. 'any1 * 'any2 -> unit = fun (collidableInterfaceCompositeInterface1, collidableInterfaceCompositeInterface) ->
-        let collidableInterfaceCompositeInterface1 = Obj.repr collidableInterfaceCompositeInterface1 in
-        let collidableInterfaceCompositeInterface = Obj.repr collidableInterfaceCompositeInterface in
-        begin
-        let collidableDestroyableDamageableLayer : CollidableDestroyableDamageableLayer.collidableDestroyableDamageableLayer ref = ref (((Obj.magic (Obj.magic collidableInterfaceCompositeInterface)) :> CollidableDestroyableDamageableLayer.collidableDestroyableDamageableLayer)) in ();
-        let damage : int ref = ref ((!collidableDestroyableDamageableLayer#getDamage (0))) in ();
-        if (!damage > 20000) then begin
-            let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            ignore (!stringBuffer#append ("Collision "));
-            ignore (!stringBuffer#append ((java_string_of (Obj.repr (Obj.magic collidableInterfaceCompositeInterface1)))));
-            ignore (!stringBuffer#append (" with: "));
-            ignore (!stringBuffer#append ((java_string_of (Obj.repr (Obj.magic collidableInterfaceCompositeInterface)))));
-            ignore (!stringBuffer#append (" damage: "));
-            ignore (!stringBuffer#appendint (!damage));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic collidableInterfaceCompositeInterface1), cOLLIDE))
-        end
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        cOLLIDE <- "collide";
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "DamageUtil" (fun arguments -> Obj.repr (new damageUtil (Obj.obj arguments)))
-
-let instance = (new damageUtil ())
-let get_instance () = instance
-let () = java_register_static "DamageUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "DamageUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("DamageUtil.jnew_0", jnew_0)
+JR.registerLateBound("DamageUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("DamageUtil.jm_process", jm_process)
+JR.registerLateBound("DamageUtil.jm_debugDamage", jm_debugDamage)
+JR.registerLateBound("DamageUtil.f_logUtil", (this: DamageUtil) => this.f_logUtil)
+JR.registerLateBound("DamageUtil.f_COLLIDE", (this: DamageUtil) => this.f_COLLIDE)
+JR.registerLateBound("DamageUtil.jstatic_instance", jstatic_instance)
 
 

@@ -1,41 +1,61 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.media.audio
+module PrimaryPlayerQueueFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.media.audio *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./PlayerQueue.gr" include PlayerQueue
+use PlayerQueue.{ type PlayerQueue }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
+provide record PrimaryPlayerQueueFactory {
+  jobject: JObject,
+}
 
-let sINGLETON : PlayerQueue.playerQueue = ((new PlayerQueue.playerQueue (4)) :> PlayerQueue.playerQueue)
-let get_sINGLETON () = sINGLETON
-let () = java_register_static "PrimaryPlayerQueueFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+let mut jcell_SINGLETON: Option<PlayerQueue> = None
 
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (sINGLETON))
-        end
+provide let rec jclassName = () => "PrimaryPlayerQueueFactory"
 
-let () = java_register_static "PrimaryPlayerQueueFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-class primaryPlayerQueueFactory () =
-  object
+and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
+  Some(value) => value,
+  None => {
+    let value: PlayerQueue = PlayerQueue.jnew_1(4l)
+    jcell_SINGLETON = Some(value)
+    value
+  },
+}
 
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "PrimaryPlayerQueueFactory" (fun arguments -> Obj.repr (new primaryPlayerQueueFactory (Obj.obj arguments)))
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("PrimaryPlayerQueueFactory"), }
+    this
+}
+    
+and jm_getInstance = () => {
+        return jstatic_SINGLETON()
+}
+
+JR.registerLateBound("PrimaryPlayerQueueFactory.jnew_0", jnew_0)
+JR.registerLateBound("PrimaryPlayerQueueFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("PrimaryPlayerQueueFactory.jstatic_SINGLETON", jstatic_SINGLETON)
 
 

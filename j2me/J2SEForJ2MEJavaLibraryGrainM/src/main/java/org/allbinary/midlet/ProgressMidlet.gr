@@ -1,68 +1,91 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.midlet
+module ProgressMidlet
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.midlet *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/canvas/Processor.gr" include Processor
+use Processor.{ type Processor }
+from "../../../org/allbinary/logic/system/security/licensing/AbeClientInformationInterface.gr" include AbeClientInformationInterface
+use AbeClientInformationInterface.{ type AbeClientInformationInterface }
+from "../../../org/allbinary/logic/system/security/licensing/ClientInformationFactory.gr" include ClientInformationFactory
+use ClientInformationFactory.{ type ClientInformationFactory }
+from "../../../org/allbinary/thread/PrimaryThreadPool.gr" include PrimaryThreadPool
+use PrimaryThreadPool.{ type PrimaryThreadPool }
+from "../../../java/lang/Runnable.gr" include Runnable
+use Runnable.{ type Runnable }
+from "./AllBinaryMidlet.gr" include AllBinaryMidlet
+use AllBinaryMidlet.{ type AllBinaryMidlet }
+from "./MidletExitProcessorFactory.gr" include MidletExitProcessorFactory
+use MidletExitProcessorFactory.{ type MidletExitProcessorFactory }
+from "./ExitRunnable.gr" include ExitRunnable
+use ExitRunnable.{ type ExitRunnable }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.canvas.Processor *)
-(* import org.allbinary.logic.system.security.licensing.AbeClientInformationInterface *)
-(* import org.allbinary.logic.system.security.licensing.ClientInformationFactory *)
-(* import org.allbinary.thread.PrimaryThreadPool *)
-(* import org.allbinary.thread.ThreadPool *)
+//J2SEForJ2ME
+provide record ProgressMidlet {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_SET_DISPLAY: String,
+  mut f_SETTING_: String,
+  mut f__DISPLAY_: String,
+  mut f_SETTING_NO_TITLE: String,
+  mut f_hashtable: JObject,
+  mut f_midletDestroyed: Bool,
+  mut f_abeClientInformation: AbeClientInformationInterface,
+}
 
-class progressMidlet ((clientInformationFactory : ClientInformationFactory.clientInformationFactory)) =
-  object (self)
-    inherit AllBinaryMidlet.allBinaryMidlet ()
-    val mutable abeClientInformation : AbeClientInformationInterface.abeClientInformationInterface = (Obj.magic 0)
-    method abeClientInformation = abeClientInformation
-    method set_abeClientInformation value' = abeClientInformation <- value'
+
+provide let rec jclassName = () => "ProgressMidlet"
     
+and jnew_1 = (clientInformationFactory: ClientInformationFactory) => {
+    let this = { jobject: JR.newJObject("ProgressMidlet"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_SET_DISPLAY: "", f_SETTING_: "", f__DISPLAY_: "", f_SETTING_NO_TITLE: "", f_hashtable: JR.jnull, f_midletDestroyed: false, f_abeClientInformation: JR.nullOf(), }
     
-
-    method preInit () : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+        ignore(jm_preInit(this))
+        this.f_abeClientInformation = ClientInformationFactory.jm_getInstance(clientInformationFactory)
+    this
+}
     
+and jm_preInit = (this: ProgressMidlet) => {
+    void
+}
+    
+and jm_exitProgress = (this: ProgressMidlet, isProgress: Bool) => {
+        let mut processor: Processor = JR.cast(MidletExitProcessorFactory.jm_getExitInstance(MidletExitProcessorFactory.jm_getInstance(), JR.cast(this)))
+        {
+            let mut primaryThreadPool: JObject = JR.cast(PrimaryThreadPool.jm_getInstance())
+            let mut runnable: Runnable = JR.cast(ExitRunnable.jnew_3(this, processor, isProgress))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.jm_runTask"))
+JR.cast(jlate(JR.cast(primaryThreadPool), JR.cast(runnable)))
+})
+        }
+}
 
-    method exitProgress ((isProgress : bool)) : unit =
-        begin
-        let processor : Processor.processor ref = ref ((((MidletExitProcessorFactory.getInstance ())#getExitInstance ((Obj.magic self))) :> Processor.processor)) in ();
-        (try
-            let primaryThreadPool : Obj.t ref = ref ((Obj.repr (PrimaryThreadPool.getInstance ()))) in ();
-            let runnable : java_runnable ref = ref (((new ExitRunnable.exitRunnable ((Obj.magic self), !processor, isProgress)) :> java_runnable)) in ();
-            ignore ((Obj.magic !primaryThreadPool)#runTask (!runnable))
-        with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), "exit", e));
-            (try
-                ignore (!processor#process ())
-            with e2 -> begin
-                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), "exit", e))
-            end)
-        end)
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        ();
-        (self#preInit ());
-        abeClientInformation <- (clientInformationFactory#getInstance ())
-      end
-  end
-let () = java_register_constructor "ProgressMidlet" (fun arguments -> Obj.repr (new progressMidlet (Obj.obj arguments)))
+JR.registerLateBound("ProgressMidlet.jnew_1", jnew_1)
+JR.registerLateBound("ProgressMidlet.jm_preInit", jm_preInit)
+JR.registerLateBound("ProgressMidlet.jm_exitProgress", jm_exitProgress)
+JR.registerLateBound("ProgressMidlet.f_abeClientInformation", (this: ProgressMidlet) => this.f_abeClientInformation)
 
 

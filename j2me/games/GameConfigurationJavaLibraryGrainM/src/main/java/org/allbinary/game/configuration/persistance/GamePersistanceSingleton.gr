@@ -1,46 +1,70 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.configuration.persistance
+module GamePersistanceSingleton
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.configuration.persistance *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./GamePersistanceStrings.gr" include GamePersistanceStrings
+use GamePersistanceStrings.{ type GamePersistanceStrings }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
+provide record GamePersistanceSingleton {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_persistanceStrings: JObject,
+  mut f_platformRecordIdUtil: JObject,
+  mut f_recordId: String,
+  mut f_valueList: JObject,
+  mut f_idList: JObject,
+  mut f_tsUtil: JObject,
+}
 
-class gamePersistanceSingleton () =
-  object
-    inherit KeyValuePersistance.keyValuePersistance ((GamePersistanceStrings.getInstance ())#sAVED_GAME_RECORD_ID)
+let mut jcell_GAME_PERSISTANCE: Option<GamePersistanceSingleton> = None
+
+provide let rec jclassName = () => "GamePersistanceSingleton"
+
+and jstatic_GAME_PERSISTANCE = () => match (jcell_GAME_PERSISTANCE) {
+  Some(value) => value,
+  None => {
+    let value: GamePersistanceSingleton = jnew_0()
+    jcell_GAME_PERSISTANCE = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_GAME_PERSISTANCE()
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("GamePersistanceSingleton"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_persistanceStrings: JR.jnull, f_platformRecordIdUtil: JR.jnull, f_recordId: "", f_valueList: JR.jnull, f_idList: JR.jnull, f_tsUtil: JR.jnull, }
+        void
+    this
+}
 
-    initializer
-      begin
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "GamePersistanceSingleton" (fun arguments -> Obj.repr (new gamePersistanceSingleton (Obj.obj arguments)))
-
-let gAME_PERSISTANCE = ref ((new gamePersistanceSingleton ()))
-let get_gAME_PERSISTANCE () = !gAME_PERSISTANCE
-let set_gAME_PERSISTANCE value' = gAME_PERSISTANCE := value'
-let () = java_register_static "GamePersistanceSingleton.get_gAME_PERSISTANCE" (fun _ -> Obj.repr (get_gAME_PERSISTANCE ()))
-let () = java_register_static "GamePersistanceSingleton.set_gAME_PERSISTANCE" (fun value' -> set_gAME_PERSISTANCE (Obj.obj value'); Obj.repr ())
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (!gAME_PERSISTANCE))
-        end
-let () = java_register_static "GamePersistanceSingleton.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("GamePersistanceSingleton.jnew_0", jnew_0)
+JR.registerLateBound("GamePersistanceSingleton.jm_getInstance", jm_getInstance)
+JR.registerLateBound("GamePersistanceSingleton.jstatic_GAME_PERSISTANCE", jstatic_GAME_PERSISTANCE)
 
 

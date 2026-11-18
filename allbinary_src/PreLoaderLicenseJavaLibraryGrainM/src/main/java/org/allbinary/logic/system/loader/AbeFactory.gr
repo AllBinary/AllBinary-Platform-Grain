@@ -1,100 +1,138 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.system.loader
+module AbeFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.system.loader *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/java/anyType/ConstructorUtil.gr" include ConstructorUtil
+use ConstructorUtil.{ type ConstructorUtil }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/logic/system/security/AbKeys.gr" include AbKeys
+use AbKeys.{ type AbKeys }
+from "../../../../../org/allbinary/logic/system/security/licensing/AbeClientInformationInterface.gr" include AbeClientInformationInterface
+use AbeClientInformationInterface.{ type AbeClientInformationInterface }
+from "../../../../../org/allbinary/logic/system/security/licensing/LicensingException.gr" include LicensingException
+use LicensingException.{ type LicensingException }
+from "../../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "./WebappClassLoaderInfo.gr" include WebappClassLoaderInfo
+use WebappClassLoaderInfo.{ type WebappClassLoaderInfo }
+from "./AbeClassLoader.gr" include AbeClassLoader
+use AbeClassLoader.{ type AbeClassLoader }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.lang.reflect.Constructor *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.java.anyType.ConstructorUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.system.security.AbKeys *)
-(* import org.allbinary.logic.system.security.licensing.AbeClientInformationInterface *)
-(* import org.allbinary.logic.system.security.licensing.LicensingException *)
-(* import org.allbinary.string.CommonSeps *)
+provide record AbeFactory {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_useCustomLoader: Bool,
+}
 
-class abeFactory () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable useCustomLoader : bool = false
-    method useCustomLoader = useCustomLoader
-    method set_useCustomLoader value' = useCustomLoader <- value'
+let mut jcell_instance: Option<AbeFactory> = None
+
+provide let rec jclassName = () => "AbeFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: AbeFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance_0 = () => {
+        return jstatic_instance()
+}
     
-
-    method getInstance : 'any1. 'any1 * string -> Obj.t = fun (abeClientInformation, (className : string)) ->
-        let abeClientInformation = Obj.repr abeClientInformation in
-        begin
-        (try
-            (Obj.repr (((self#getClass ((Obj.magic abeClientInformation), className))#newInstance ())))
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#lOADERERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (("Failure for: " ^ className), (Obj.magic self), "getInstance(classname)", e))
-            end;
-            raise e
-        end)
-        end [@@warning "-20"]
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("AbeFactory"), f_logUtil: JR.jnull, f_useCustomLoader: false, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance_0"))
+JR.cast(jlate())
+})
+    this.f_useCustomLoader = false
+        void
+    this
+}
     
-
-    (* Java overload getInstance(AbeClientInformationInterface, String, ArrayType, ArrayType) is not converted: OCaml has one method per name *)
+and jm_getInstance_2 = (this: AbeFactory, abeClientInformation: AbeClientInformationInterface, className: String) => {
+        {
+            return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Class.jm_newInstance"))
+JR.cast(jlate(JR.cast(jm_getClass(this, abeClientInformation, className))))
+}
+        }
+    return JR.jnull
+}
     
+and jm_getInstance_4 = (this: AbeFactory, abeClientInformation: AbeClientInformationInterface, className: String, classes: Array<String>, params: Array<JObject>) => {
+        let mut constructor: Constructor = JR.nullOf()
+        {
+            let mut parent: ClassLoader = JR.cast(WebappClassLoaderInfo.jm_getLoader())
+            if (this.f_useCustomLoader) {
+                let mut loader: ClassLoader = JR.cast(AbeClassLoader.jnew_2(parent, AbKeys.jm_getKey(AbKeys.jm_getInstance(), abeClientInformation, className)))
+                let mut myClass: String = ClassLoader.jm_loadClass(loader, className)
+                constructor = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Class.jm_getConstructor"))
+JR.cast(jlate(JR.cast(myClass), JR.cast(classes)))
+}
+                return Constructor.jm_newInstance(constructor, params)
+            } else {
+                let mut myClass: String = ClassLoader.jm_loadClass(parent, className)
+                constructor = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Class.jm_getConstructor"))
+JR.cast(jlate(JR.cast(myClass), JR.cast(classes)))
+}
+                return Constructor.jm_newInstance(constructor, params)
+            }
+        }
+    return JR.jnull
+}
+    
+and jm_getClass = (this: AbeFactory, abeClientInformation: AbeClientInformationInterface, className: String) => {
+        {
+            let mut parent: ClassLoader = JR.cast(WebappClassLoaderInfo.jm_getLoader())
+            if (this.f_useCustomLoader) {
+                let mut loader: ClassLoader = JR.cast(AbeClassLoader.jnew_2(parent, AbKeys.jm_getKey(AbKeys.jm_getInstance(), abeClientInformation, className)))
+                let mut c: String = ClassLoader.jm_loadClass(loader, className)
+                return c
+            } else {
+                let mut c: String = ClassLoader.jm_loadClass(parent, className)
+                return c
+            }
+        }
+    return ""
+}
 
-    method getClass : 'any1. 'any1 * string -> string = fun (abeClientInformation, (className : string)) ->
-        let abeClientInformation = Obj.repr abeClientInformation in
-        try
-        begin
-        (try
-            let parent : Obj.t ref = ref ((Obj.repr (WebappClassLoaderInfo.getLoader ()))) in ();
-            if useCustomLoader then begin
-                let loader : Obj.t ref = ref ((Obj.repr (new AbeClassLoader.abeClassLoader ((Obj.magic !parent), ((AbKeys.getInstance ())#getKey ((Obj.magic abeClientInformation), className)))))) in ();
-                let c : string ref = ref (((Obj.magic !loader)#loadClass (className))) in ();
-                raise (Java_return (Obj.repr (!c)))
-            end else begin
-                let c : string ref = ref (((Obj.magic !parent)#loadClass (className))) in ();
-                raise (Java_return (Obj.repr (!c)))
-            end
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#lOADERERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (("Failure for: " ^ className), (Obj.magic self), "getClass(className)", e))
-            end;
-            raise e
-        end)
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        useCustomLoader <- false;
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "AbeFactory" (fun arguments -> Obj.repr (new abeFactory (Obj.obj arguments)))
-
-let instance = (new abeFactory ())
-let get_instance () = instance
-let () = java_register_static "AbeFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "AbeFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("AbeFactory.jnew_0", jnew_0)
+JR.registerLateBound("AbeFactory.jm_getInstance_0", jm_getInstance_0)
+JR.registerLateBound("AbeFactory.jm_getInstance_2", jm_getInstance_2)
+JR.registerLateBound("AbeFactory.jm_getInstance_4", jm_getInstance_4)
+JR.registerLateBound("AbeFactory.jm_getClass", jm_getClass)
+JR.registerLateBound("AbeFactory.f_logUtil", (this: AbeFactory) => this.f_logUtil)
+JR.registerLateBound("AbeFactory.f_useCustomLoader", (this: AbeFactory) => this.f_useCustomLoader)
+JR.registerLateBound("AbeFactory.set_f_useCustomLoader", (this: AbeFactory, jvalue) => { this.f_useCustomLoader = jvalue; jvalue })
+JR.registerLateBound("AbeFactory.jstatic_instance", jstatic_instance)
 
 

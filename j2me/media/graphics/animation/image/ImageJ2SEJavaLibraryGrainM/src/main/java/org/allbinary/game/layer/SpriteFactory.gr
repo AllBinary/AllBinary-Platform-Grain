@@ -1,55 +1,75 @@
-(*
- 
-  AllBinary Open License Version 1 
-  Copyright (c) 2022 AllBinary 
-   
-  By agreeing to this license you and any business entity you represent are 
-  legally bound to the AllBinary Open License Version 1 legal agreement. 
-   
-  You may obtain the AllBinary Open License Version 1 legal agreement from 
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-   
-  Created By: Travis Berthelot 
+/*
+ * 
+ * AllBinary Open License Version 1 
+ * Copyright (c) 2022 AllBinary 
+ *  
+ * By agreeing to this license you and any business entity you represent are 
+ * legally bound to the AllBinary Open License Version 1 legal agreement. 
+ *  
+ * You may obtain the AllBinary Open License Version 1 legal agreement from 
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+ *  
+ * Created By: Travis Berthelot 
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.layer
+module SpriteFactory
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./SpriteFactoryInterface.gr" include SpriteFactoryInterface
+use SpriteFactoryInterface.{ type SpriteFactoryInterface }
+
+provide record SpriteFactory {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+}
+
+let mut jcell_instance: Option<SpriteFactory> = None
+
+provide let rec jclassName = () => "SpriteFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: SpriteFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("SpriteFactory"), f_logUtil: JR.jnull, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.layer *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Image *)
-(* import javax.microedition.lcdui.game.Sprite *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-
-class spriteFactory () =
-  object
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jm_createSprite = (this: SpriteFactory, image: JObject, frameWidth: Int32, frameHeight: Int32) => {
+        return {
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Sprite.jnew_3"))
+JR.cast(jlate(JR.cast(image), JR.cast(frameWidth), JR.cast(frameHeight)))
+}
+}
 
-    method createSprite : 'any1 'return. 'any1 * int * int -> 'return = fun (image, (frameWidth : int), (frameHeight : int)) ->
-        let image = Obj.repr image in
-        begin
-        (Obj.magic ((Obj.obj (java_new "Sprite" (Obj.repr ((Obj.magic image), frameWidth, frameHeight))))))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "SpriteFactory" (fun arguments -> Obj.repr (new spriteFactory (Obj.obj arguments)))
-
-let instance = (new spriteFactory ())
-let get_instance () = instance
-let () = java_register_static "SpriteFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "SpriteFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("SpriteFactory.jnew_0", jnew_0)
+JR.registerLateBound("SpriteFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("SpriteFactory.jm_createSprite", jm_createSprite)
+JR.registerLateBound("SpriteFactory.f_logUtil", (this: SpriteFactory) => this.f_logUtil)
+JR.registerLateBound("SpriteFactory.jstatic_instance", jstatic_instance)
 
 

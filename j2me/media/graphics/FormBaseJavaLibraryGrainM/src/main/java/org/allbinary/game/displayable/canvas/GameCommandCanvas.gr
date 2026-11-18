@@ -1,372 +1,495 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.displayable.canvas
+module GameCommandCanvas
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.displayable.canvas *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/canvas/Processor.gr" include Processor
+use Processor.{ type Processor }
+from "../../../../../org/allbinary/game/commands/GameCommandsFactory.gr" include GameCommandsFactory
+use GameCommandsFactory.{ type GameCommandsFactory }
+from "../../../../../org/allbinary/game/configuration/feature/Features.gr" include Features
+use Features.{ type Features }
+from "../../../../../org/allbinary/game/configuration/feature/InputFeatureFactory.gr" include InputFeatureFactory
+use InputFeatureFactory.{ type InputFeatureFactory }
+from "../../../../../org/allbinary/game/displayable/RepaintBehavior.gr" include RepaintBehavior
+use RepaintBehavior.{ type RepaintBehavior }
+from "../../../../../org/allbinary/game/input/GameInputStrings.gr" include GameInputStrings
+use GameInputStrings.{ type GameInputStrings }
+from "../../../../../org/allbinary/game/input/GameKey.gr" include GameKey
+use GameKey.{ type GameKey }
+from "../../../../../org/allbinary/game/input/GameKeyFactory.gr" include GameKeyFactory
+use GameKeyFactory.{ type GameKeyFactory }
+from "../../../../../org/allbinary/game/input/event/DownGameKeyEventHandler.gr" include DownGameKeyEventHandler
+use DownGameKeyEventHandler.{ type DownGameKeyEventHandler }
+from "../../../../../org/allbinary/game/input/event/GameKeyEvent.gr" include GameKeyEvent
+use GameKeyEvent.{ type GameKeyEvent }
+from "../../../../../org/allbinary/game/input/event/GameKeyEventFactory.gr" include GameKeyEventFactory
+use GameKeyEventFactory.{ type GameKeyEventFactory }
+from "../../../../../org/allbinary/game/input/event/GameKeyEventHandler.gr" include GameKeyEventHandler
+use GameKeyEventHandler.{ type GameKeyEventHandler }
+from "../../../../../org/allbinary/game/input/event/UpGameKeyEventHandler.gr" include UpGameKeyEventHandler
+use UpGameKeyEventHandler.{ type UpGameKeyEventHandler }
+from "../../../../../org/allbinary/game/input/mapping/InputToGameKeyMapping.gr" include InputToGameKeyMapping
+use InputToGameKeyMapping.{ type InputToGameKeyMapping }
+from "../../../../../org/allbinary/graphics/PointFactory.gr" include PointFactory
+use PointFactory.{ type PointFactory }
+from "../../../../../org/allbinary/graphics/Rectangle.gr" include Rectangle
+use Rectangle.{ type Rectangle }
+from "../../../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
+use BasicColor.{ type BasicColor }
+from "../../../../../org/allbinary/graphics/displayable/CanvasStrings.gr" include CanvasStrings
+use CanvasStrings.{ type CanvasStrings }
+from "../../../../../org/allbinary/graphics/displayable/DisplayInfoSingleton.gr" include DisplayInfoSingleton
+use DisplayInfoSingleton.{ type DisplayInfoSingleton }
+from "../../../../../org/allbinary/graphics/displayable/MyCanvas.gr" include MyCanvas
+use MyCanvas.{ type MyCanvas }
+from "../../../../../org/allbinary/graphics/displayable/event/DisplayChangeEvent.gr" include DisplayChangeEvent
+use DisplayChangeEvent.{ type DisplayChangeEvent }
+from "../../../../../org/allbinary/graphics/displayable/event/DisplayChangeEventHandler.gr" include DisplayChangeEventHandler
+use DisplayChangeEventHandler.{ type DisplayChangeEventHandler }
+from "../../../../../org/allbinary/graphics/displayable/event/DisplayChangeEventListener.gr" include DisplayChangeEventListener
+use DisplayChangeEventListener.{ type DisplayChangeEventListener }
+from "../../../../../org/allbinary/graphics/displayable/screen/ScreenRepaintProcessorFactory.gr" include ScreenRepaintProcessorFactory
+use ScreenRepaintProcessorFactory.{ type ScreenRepaintProcessorFactory }
+from "../../../../../org/allbinary/graphics/font/MyFontProcessor.gr" include MyFontProcessor
+use MyFontProcessor.{ type MyFontProcessor }
+from "../../../../../org/allbinary/graphics/font/UpdateMyFontInterface.gr" include UpdateMyFontInterface
+use UpdateMyFontInterface.{ type UpdateMyFontInterface }
+from "../../../../../org/allbinary/graphics/font/UpdateMyFontProcessor.gr" include UpdateMyFontProcessor
+use UpdateMyFontProcessor.{ type UpdateMyFontProcessor }
+from "../../../../../org/allbinary/graphics/form/CommandCurrentSelectionFormFactory.gr" include CommandCurrentSelectionFormFactory
+use CommandCurrentSelectionFormFactory.{ type CommandCurrentSelectionFormFactory }
+from "../../../../../org/allbinary/graphics/form/FormPaintable.gr" include FormPaintable
+use FormPaintable.{ type FormPaintable }
+from "../../../../../org/allbinary/graphics/form/FormTypeFactory.gr" include FormTypeFactory
+use FormTypeFactory.{ type FormTypeFactory }
+from "../../../../../org/allbinary/graphics/form/PaintableForm.gr" include PaintableForm
+use PaintableForm.{ type PaintableForm }
+from "../../../../../org/allbinary/graphics/form/ScrollSelectionForm.gr" include ScrollSelectionForm
+use ScrollSelectionForm.{ type ScrollSelectionForm }
+from "../../../../../org/allbinary/graphics/form/ScrollSelectionFormNoneFactory.gr" include ScrollSelectionFormNoneFactory
+use ScrollSelectionFormNoneFactory.{ type ScrollSelectionFormNoneFactory }
+from "../../../../../org/allbinary/graphics/form/item/CommandTextItemArrayFactory.gr" include CommandTextItemArrayFactory
+use CommandTextItemArrayFactory.{ type CommandTextItemArrayFactory }
+from "../../../../../org/allbinary/graphics/form/item/validation/AllCommandsVisitor.gr" include AllCommandsVisitor
+use AllCommandsVisitor.{ type AllCommandsVisitor }
+from "../../../../../org/allbinary/graphics/paint/NullPaintable.gr" include NullPaintable
+use NullPaintable.{ type NullPaintable }
+from "../../../../../org/allbinary/graphics/paint/Paintable.gr" include Paintable
+use Paintable.{ type Paintable }
+from "../../../../../org/allbinary/logic/communication/log/ForcedLogUtil.gr" include ForcedLogUtil
+use ForcedLogUtil.{ type ForcedLogUtil }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../../org/allbinary/logic/util/event/AllBinaryEventObject.gr" include AllBinaryEventObject
+use AllBinaryEventObject.{ type AllBinaryEventObject }
+from "../../../../../org/allbinary/logic/util/event/EventStrings.gr" include EventStrings
+use EventStrings.{ type EventStrings }
+from "../../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "./MenuListener.gr" include MenuListener
+use MenuListener.{ type MenuListener }
+from "./NoMenuInputProcessor.gr" include NoMenuInputProcessor
+use NoMenuInputProcessor.{ type NoMenuInputProcessor }
+from "./BasicMenuInputProcessor.gr" include BasicMenuInputProcessor
+use BasicMenuInputProcessor.{ type BasicMenuInputProcessor }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.CommandListener *)
-(* import javax.microedition.lcdui.Font *)
-(* import javax.microedition.lcdui.Graphics *)
-(* import javax.microedition.lcdui.NullCommandListener *)
-(* import org.allbinary.canvas.Processor *)
-(* import org.allbinary.game.commands.GameCommandsFactory *)
-(* import org.allbinary.game.configuration.feature.Features *)
-(* import org.allbinary.game.configuration.feature.InputFeatureFactory *)
-(* import org.allbinary.game.displayable.RepaintBehavior *)
-(* import org.allbinary.game.input.GameInputStrings *)
-(* import org.allbinary.game.input.GameKey *)
-(* import org.allbinary.game.input.GameKeyFactory *)
-(* import org.allbinary.game.input.PlatformInputMappingFactory *)
-(* import org.allbinary.game.input.event.DownGameKeyEventHandler *)
-(* import org.allbinary.game.input.event.GameKeyEvent *)
-(* import org.allbinary.game.input.event.GameKeyEventFactory *)
-(* import org.allbinary.game.input.event.GameKeyEventHandler *)
-(* import org.allbinary.game.input.event.UpGameKeyEventHandler *)
-(* import org.allbinary.game.input.mapping.InputToGameKeyMapping *)
-(* import org.allbinary.graphics.PointFactory *)
-(* import org.allbinary.graphics.Rectangle *)
-(* import org.allbinary.graphics.color.BasicColor *)
-(* import org.allbinary.graphics.displayable.CanvasStrings *)
-(* import org.allbinary.graphics.displayable.DisplayInfoSingleton *)
-(* import org.allbinary.graphics.displayable.MyCanvas *)
-(* import org.allbinary.graphics.displayable.event.DisplayChangeEvent *)
-(* import org.allbinary.graphics.displayable.event.DisplayChangeEventHandler *)
-(* import org.allbinary.graphics.displayable.event.DisplayChangeEventListener *)
-(* import org.allbinary.graphics.displayable.screen.ScreenRepaintProcessorFactory *)
-(* import org.allbinary.graphics.font.MyFontProcessor *)
-(* import org.allbinary.graphics.font.UpdateMyFontInterface *)
-(* import org.allbinary.graphics.font.UpdateMyFontProcessor *)
-(* import org.allbinary.graphics.form.CommandCurrentSelectionFormFactory *)
-(* import org.allbinary.graphics.form.FormPaintable *)
-(* import org.allbinary.graphics.form.FormTypeFactory *)
-(* import org.allbinary.graphics.form.PaintableForm *)
-(* import org.allbinary.graphics.form.ScrollSelectionForm *)
-(* import org.allbinary.graphics.form.ScrollSelectionFormNoneFactory *)
-(* import org.allbinary.graphics.form.item.CommandTextItemArrayFactory *)
-(* import org.allbinary.graphics.form.item.ABCustomItem *)
-(* import org.allbinary.graphics.form.item.validation.AllCommandsVisitor *)
-(* import org.allbinary.graphics.paint.NullPaintable *)
-(* import org.allbinary.graphics.paint.Paintable *)
-(* import org.allbinary.input.motion.gesture.observer.BasicMotionGesturesHandler *)
-(* import org.allbinary.logic.communication.log.ForcedLogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.logic.util.event.AllBinaryEventObject *)
-(* import org.allbinary.logic.util.event.EventStrings *)
-(* import org.allbinary.string.CommonSeps *)
-(* import org.allbinary.util.BasicArrayListD *)
+provide record GameCommandCanvas {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_canvasStrings: JObject,
+  mut f_stringUtil: JObject,
+  mut f_displayInfo: JObject,
+  mut f_name: String,
+  mut f_childNameList: JObject,
+  mut f_commandStack: JObject,
+  mut f_commandListener: JObject,
+  mut f_paused: Bool,
+  mut f_touchME: JObject,
+  mut f_repaintProcessor: Processor,
+  mut f_gameInputStrings: GameInputStrings,
+  mut f_foregroundBasicColor: BasicColor,
+  mut f_backgroundBasicColor: BasicColor,
+  mut f_inputToGameKeyMapping: InputToGameKeyMapping,
+  mut f_gameKeyFactory: GameKeyFactory,
+  mut f_gameKeyEventFactory: GameKeyEventFactory,
+  mut f_downGameKeyEventHandler: DownGameKeyEventHandler,
+  mut f_upGameKeyEventHandler: UpGameKeyEventHandler,
+  mut f_repaintBehavior: RepaintBehavior,
+  mut f_updateMyFontProcessor: MyFontProcessor,
+  mut f_myFontProcessor: MyFontProcessor,
+  mut f_foregroundColor: Int32,
+  mut f_backgroundColor: Int32,
+  mut f_menuInputProcessor: BasicMenuInputProcessor,
+  mut f_menuPaintable: Paintable,
+  mut f_menuForm: PaintableForm,
+  mut f_isSingleKeyRepeatableProcessing: Bool,
+  mut f_fontHeight: Int32,
+}
 
-let id : int = 0
-let get_id () = id
-let () = java_register_static "GameCommandCanvas.get_id" (fun _ -> Obj.repr (get_id ()))
-class gameCommandCanvas (cmdListener, (name : string), (backgroundBasicColor_arg : BasicColor.basicColor), (foregroundBasicColor_arg : BasicColor.basicColor)) =
-  object (self)
-    inherit MyCanvas.myCanvas (name, (CanvasStrings.getInstance ())#eMPTY_CHILD_NAME_LIST)
-    val mutable repaintProcessor : Processor.processor = (Obj.magic 0)
-    method repaintProcessor = repaintProcessor
-    method set_repaintProcessor value' = repaintProcessor <- value'
-    val mutable gameInputStrings : GameInputStrings.gameInputStrings = (Obj.magic 0)
-    method gameInputStrings = gameInputStrings
-    method set_gameInputStrings value' = gameInputStrings <- value'
-    val mutable foregroundBasicColor : BasicColor.basicColor = (Obj.magic 0)
-    method foregroundBasicColor = foregroundBasicColor
-    method set_foregroundBasicColor value' = foregroundBasicColor <- value'
-    val mutable backgroundBasicColor : BasicColor.basicColor = (Obj.magic 0)
-    method backgroundBasicColor = backgroundBasicColor
-    method set_backgroundBasicColor value' = backgroundBasicColor <- value'
-    val mutable inputToGameKeyMapping : InputToGameKeyMapping.inputToGameKeyMapping = (Obj.magic 0)
-    method inputToGameKeyMapping = inputToGameKeyMapping
-    method set_inputToGameKeyMapping value' = inputToGameKeyMapping <- value'
-    val mutable gameKeyFactory : GameKeyFactory.gameKeyFactory = (Obj.magic 0)
-    method gameKeyFactory = gameKeyFactory
-    method set_gameKeyFactory value' = gameKeyFactory <- value'
-    val mutable gameKeyEventFactory : GameKeyEventFactory.gameKeyEventFactory = (Obj.magic 0)
-    method gameKeyEventFactory = gameKeyEventFactory
-    method set_gameKeyEventFactory value' = gameKeyEventFactory <- value'
-    val mutable downGameKeyEventHandler : DownGameKeyEventHandler.downGameKeyEventHandler = (Obj.magic 0)
-    method downGameKeyEventHandler = downGameKeyEventHandler
-    method set_downGameKeyEventHandler value' = downGameKeyEventHandler <- value'
-    val mutable upGameKeyEventHandler : UpGameKeyEventHandler.upGameKeyEventHandler = (Obj.magic 0)
-    method upGameKeyEventHandler = upGameKeyEventHandler
-    method set_upGameKeyEventHandler value' = upGameKeyEventHandler <- value'
-    val mutable repaintBehavior : RepaintBehavior.repaintBehavior = (Obj.magic 0)
-    method repaintBehavior = repaintBehavior
-    method set_repaintBehavior value' = repaintBehavior <- value'
-    val mutable updateMyFontProcessor : MyFontProcessor.myFontProcessor = (Obj.magic 0)
-    method updateMyFontProcessor = updateMyFontProcessor
-    method set_updateMyFontProcessor value' = updateMyFontProcessor <- value'
-    val mutable myFontProcessor : MyFontProcessor.myFontProcessor = (Obj.magic 0)
-    method myFontProcessor = myFontProcessor
-    method set_myFontProcessor value' = myFontProcessor <- value'
-    val mutable foregroundColor : int = 0
-    method foregroundColor = foregroundColor
-    method set_foregroundColor value' = foregroundColor <- value'
-    val mutable backgroundColor : int = 0
-    method backgroundColor = backgroundColor
-    method set_backgroundColor value' = backgroundColor <- value'
-    val mutable menuInputProcessor : BasicMenuInputProcessor.basicMenuInputProcessor = (Obj.magic 0)
-    method menuInputProcessor = menuInputProcessor
-    method set_menuInputProcessor value' = menuInputProcessor <- value'
-    val mutable menuPaintable : Paintable.paintable = (Obj.magic 0)
-    method menuPaintable = menuPaintable
-    method set_menuPaintable value' = menuPaintable <- value'
-    val mutable menuForm : PaintableForm.paintableForm = (Obj.magic 0)
-    method menuForm = menuForm
-    method set_menuForm value' = menuForm <- value'
-    val mutable isSingleKeyRepeatableProcessing : bool = false
-    method isSingleKeyRepeatableProcessing = isSingleKeyRepeatableProcessing
-    method set_isSingleKeyRepeatableProcessing value' = isSingleKeyRepeatableProcessing <- value'
-    val mutable fontHeight : int = 0
-    method fontHeight = fontHeight
-    method set_fontHeight value' = fontHeight <- value'
+let mut jcell_id: Option<Int32> = None
+
+provide let rec jclassName = () => "GameCommandCanvas"
+
+and jstatic_id = () => match (jcell_id) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = 0l
+    jcell_id = Some(value)
+    value
+  },
+}
+    
+and jnew_4 = (cmdListener: CommandListener, name: String, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
+    let this = { jobject: JR.newJObject("GameCommandCanvas"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_canvasStrings: JR.jnull, f_stringUtil: JR.jnull, f_displayInfo: JR.jnull, f_name: "", f_childNameList: JR.jnull, f_commandStack: JR.jnull, f_commandListener: JR.jnull, f_paused: false, f_touchME: JR.jnull, f_repaintProcessor: JR.nullOf(), f_gameInputStrings: JR.nullOf(), f_foregroundBasicColor: JR.nullOf(), f_backgroundBasicColor: JR.nullOf(), f_inputToGameKeyMapping: JR.nullOf(), f_gameKeyFactory: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_downGameKeyEventHandler: JR.nullOf(), f_upGameKeyEventHandler: JR.nullOf(), f_repaintBehavior: JR.nullOf(), f_updateMyFontProcessor: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_foregroundColor: 0l, f_backgroundColor: 0l, f_menuInputProcessor: JR.nullOf(), f_menuPaintable: JR.nullOf(), f_menuForm: JR.nullOf(), f_isSingleKeyRepeatableProcessing: false, f_fontHeight: 0l, }
+    this.f_repaintProcessor = JR.cast(ScreenRepaintProcessorFactory.jm_create(ScreenRepaintProcessorFactory.jm_getInstance(), JR.cast(this)))
+    this.f_gameInputStrings = JR.cast(GameInputStrings.jm_getInstance())
     
     
-
-    method updateMeasurement : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        (try
-            let font : Obj.t ref = ref ((Obj.repr ((Obj.magic graphics)#getFont ()))) in ();
-            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((((((new StringMaker.stringMaker ())#append ((self#commonStrings)#sTART))#append ((self#canvasStrings)#fD_WIDTH))#appendint ((MyFontProcessor.defaultCharWidth ((Obj.magic !font)))))#append ((self#canvasStrings)#fD_HEIGHT))#appendint (((Obj.magic !font)#getHeight ()))))), (Obj.magic self), (self#canvasStrings)#uPDATE_MEASUREMENT));
-            fontHeight <- ((Obj.magic !font)#getHeight ());
-            let rectangle : Rectangle.rectangle ref = ref (((self#createRectangle ((menuForm#size ()))) :> Rectangle.rectangle)) in ();
-            ignore (menuForm#init (!rectangle, (FormTypeFactory.getInstance ())#vERTICAL_CENTER_FORM));
-            (self#update ())
-        with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#canvasStrings)#oN_DISPLAY_CHANGE_EVENT, e))
-        end);
-        myFontProcessor <- (MyFontProcessor.getInstance ())
-        end [@@warning "-7-20"]
+    this.f_inputToGameKeyMapping = JR.cast(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PlatformInputMappingFactory.jm_getPersistentInputMappingInstance"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("PlatformInputMappingFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+    this.f_gameKeyFactory = JR.cast(GameKeyFactory.jm_getInstance())
+    this.f_gameKeyEventFactory = JR.cast(GameKeyEventFactory.jm_getInstance())
+    this.f_downGameKeyEventHandler = JR.cast(DownGameKeyEventHandler.jm_getInstance())
+    this.f_upGameKeyEventHandler = JR.cast(UpGameKeyEventHandler.jm_getInstance())
     
-
-    method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
-        begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
-        end [@@warning "-7-20"]
+    this.f_updateMyFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(this))
+    this.f_myFontProcessor = JR.cast(this.f_updateMyFontProcessor)
     
-
-    method onDisplayChangeEvent : 'any1. 'any1 -> unit = fun (_displayChangeEvent) ->
-        begin
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#commonStrings)#sTART))#append ((java_string_of (Obj.repr (DisplayInfoSingleton.getInstance ()))))))), (Obj.magic self), (self#canvasStrings)#oN_DISPLAY_CHANGE_EVENT));
-        myFontProcessor <- updateMyFontProcessor
-        end [@@warning "-7-20"]
     
-
-    method initCommands : 'any1. 'any1 -> unit = fun (cmdListener) ->
-        let cmdListener = Obj.repr cmdListener in
-        begin
-        ignore (self#removeAllCommands ());
-        ignore (self#addCommand ((GameCommandsFactory.getInstance ())#cLOSE_AND_SHOW_GAME_CANVAS));
-        ignore (self#setCommandListener ((Obj.magic cmdListener)))
-        end [@@warning "-7-20"]
+    this.f_menuInputProcessor = JR.cast(NoMenuInputProcessor.jm_getInstance())
+    this.f_menuPaintable = JR.cast(NullPaintable.jm_getInstance())
+    this.f_menuForm = JR.cast(PaintableForm.jm_getNullPaintableForm())
+    this.f_isSingleKeyRepeatableProcessing = Features.jm_isFeature(Features.jm_getInstance(), JR.cast(InputFeatureFactory.jm_getInstance().f_SINGLE_KEY_REPEAT_PRESS))
+    this.f_fontHeight = 0l
+        void
+        this.f_repaintBehavior = RepaintBehavior.jm_getInstance()
+        this.f_foregroundBasicColor = foregroundBasicColor
+        this.f_backgroundBasicColor = backgroundBasicColor
+        this.f_foregroundColor = BasicColor.jm_intValue(this.f_foregroundBasicColor)
+        this.f_backgroundColor = BasicColor.jm_intValue(this.f_backgroundBasicColor)
+        ignore(jm_initCommands(this, cmdListener))
+        if ((!JR.isSame(cmdListener, NullCommandListener.jstatic_NULL_COMMAND_LISTENER()))) {
+            {
+                ignore(jm_initMenu(this))
+                ignore(Processor.jm_process(this.f_repaintProcessor))
+            }
+        }
+    this
+}
     
-
-    method initMenu () : unit =
-        begin
-        let form : ScrollSelectionForm.scrollSelectionForm ref = ref (((self#createForm ()) :> ScrollSelectionForm.scrollSelectionForm)) in ();
-        menuForm <- (!form :> PaintableForm.paintableForm);
-        if ((Obj.repr !form) != (Obj.repr (ScrollSelectionFormNoneFactory.getInstance ()))) then begin
-            (self#setMenuInputProcessor ((Obj.obj (java_new "ImmediateCommandFormInputProcessor" (Obj.repr (((new BasicArrayListD.basicArrayListD ()) : BasicArrayListD.basicArrayListD :> BasicArrayList.basicArrayList), (- 1), (Obj.magic self), !form))))));
-            menuPaintable <- ((new FormPaintable.formPaintable ((!form : ScrollSelectionForm.scrollSelectionForm :> PaintableForm.paintableForm))) :> Paintable.paintable)
-        end;
-        ignore (repaintBehavior#onChangeRepaint ((Obj.magic self)))
-        end [@@warning "-7"]
+and jm_updateMeasurement = (this: GameCommandCanvas, graphics: JObject) => {
+        {
+            let mut font: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_getFont"))
+JR.cast(jlate(JR.cast(graphics)))
+})
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_START"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+}), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CanvasStrings.f_FD_WIDTH"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_canvasStrings))))
+}), MyFontProcessor.jm_defaultCharWidth(font)), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CanvasStrings.f_FD_HEIGHT"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_canvasStrings))))
+}), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Font.jm_getHeight"))
+JR.cast(jlate(JR.cast(font)))
+}))), JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CanvasStrings.f_UPDATE_MEASUREMENT"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_canvasStrings))))
+})))
+})
+            this.f_fontHeight = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Font.jm_getHeight"))
+JR.cast(jlate(JR.cast(font)))
+}
+            let mut rectangle: Rectangle = JR.cast(jm_createRectangle(this, PaintableForm.jm_size(this.f_menuForm)))
+            ignore(PaintableForm.jm_init(this.f_menuForm, rectangle, FormTypeFactory.jm_getInstance().f_VERTICAL_CENTER_FORM))
+            ignore(jm_update(this))
+        }
+        this.f_myFontProcessor = MyFontProcessor.jm_getInstance()
+}
     
-
-    method createForm : 'return. unit -> 'return = fun () ->
-        begin
-        let items : Obj.t ref = ref ((Obj.repr ((new CommandTextItemArrayFactory.commandTextItemArrayFactory (((new AllCommandsVisitor.allCommandsVisitor ()) : AllCommandsVisitor.allCommandsVisitor :> Visitor.visitor)))#getInstance ((self#getCommandStack ()), backgroundBasicColor, foregroundBasicColor)))) in ();
-        let rectangle : Rectangle.rectangle ref = ref (((self#createRectangle ((Array.length (Obj.magic !items)))) :> Rectangle.rectangle)) in ();
-        (Obj.magic ((CommandCurrentSelectionFormFactory.getInstance ((StringUtil.getInstance ())#eMPTY_STRING, (Obj.magic !items), !rectangle, (FormTypeFactory.getInstance ())#vERTICAL_CENTER_FORM, 15, false, backgroundBasicColor, foregroundBasicColor))))
-        end [@@warning "-7"]
+and jm_onEvent = (this: GameCommandCanvas, eventObject: AllBinaryEventObject) => {
+        ignore(ForcedLogUtil.jm_log(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE, JR.cast(this)))
+}
     
-
-    method createRectangle : 'return. int -> 'return = fun ((size : int)) ->
-        begin
-        let height : int ref = ref ((size * fontHeight)) in ();
-        let startY : int ref = ref (((((((self#displayInfo)#getLastHeight ()) * 2) / 3)) - !height)) in ();
-        let pointFactory : PointFactory.pointFactory ref = ref (((PointFactory.getInstance ()) :> PointFactory.pointFactory)) in ();
-        let rectangle : Rectangle.rectangle ref = ref (((new Rectangle.rectangle ((!pointFactory#createXY (30, !startY)), (((self#displayInfo)#getLastWidth ()) - 30), !startY)) :> Rectangle.rectangle)) in ();
-        (Obj.magic (!rectangle))
-        end [@@warning "-7"]
+and jm_onDisplayChangeEvent = (this: GameCommandCanvas, displayChangeEvent: DisplayChangeEvent) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_START"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+}), DisplayInfoSingleton.jm_toString(DisplayInfoSingleton.jm_getInstance())))), JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CanvasStrings.f_ON_DISPLAY_CHANGE_EVENT"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_canvasStrings))))
+})))
+})
+        this.f_myFontProcessor = this.f_updateMyFontProcessor
+}
     
-
-    method open_ () : unit =
-        begin
-        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), "open"));
-        ignore ((Obj.magic (java_call_static "BasicMotionGesturesHandler.getInstance" (Obj.repr ())))#addListenerInterface ((self#getMenuInputProcessor ())));
-        ignore ((GameKeyEventHandler.getInstance ())#addListener ((self#getMenuInputProcessor ())));
-        ignore ((DisplayChangeEventHandler.getInstance ())#addListenerInterface ((Obj.magic self)))
-        end [@@warning "-7"]
+and jm_initCommands = (this: GameCommandCanvas, cmdListener: CommandListener) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MyCanvas.jm_removeAllCommands"))
+JR.cast(jlate(JR.cast(this)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("MyCanvas.jm_addCommand"))
+JR.cast(jlate(JR.cast(this), JR.cast(GameCommandsFactory.jm_getInstance().f_CLOSE_AND_SHOW_GAME_CANVAS)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("MyCanvas.jm_setCommandListener"))
+JR.cast(jlate(JR.cast(this), JR.cast(cmdListener)))
+})
+}
     
-
-    method close () : unit =
-        begin
-        ignore ((self#logUtil)#putF ((self#commonStrings)#sTART, (Obj.magic self), (self#commonStrings)#cLOSE));
-        ignore ((Obj.magic (java_call_static "BasicMotionGesturesHandler.getInstance" (Obj.repr ())))#removeListener ((self#getMenuInputProcessor ())));
-        ignore ((GameKeyEventHandler.getInstance ())#removeListener ((self#getMenuInputProcessor ())));
-        ignore ((DisplayChangeEventHandler.getInstance ())#removeListener ((Obj.magic self)))
-        end [@@warning "-7"]
+and jm_initMenu = (this: GameCommandCanvas) => {
+        let mut form: ScrollSelectionForm = JR.cast(jm_createForm(this))
+        this.f_menuForm = form
+        if ((!JR.isSame(form, ScrollSelectionFormNoneFactory.jm_getInstance()))) {
+            ignore(jm_setMenuInputProcessor(this, JR.cast({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImmediateCommandFormInputProcessor.jnew_4"))
+JR.cast(jlate(JR.cast(BasicArrayListD.jnew_0()), JR.cast(Int32.(-)(1l, Int32.(+)(1l, 1l))), JR.cast(this), JR.cast(form)))
+})))
+            this.f_menuPaintable = JR.cast(FormPaintable.jnew_1(form))
+        }
+        ignore(RepaintBehavior.jm_onChangeRepaint(this.f_repaintBehavior, JR.cast(this)))
+}
     
-
-    method update () : unit =
-        begin
-        ignore (repaintProcessor#process ())
-        end [@@warning "-7"]
+and jm_createForm = (this: GameCommandCanvas) => {
+        let mut items: Array<JObject> = CommandTextItemArrayFactory.jm_getInstance(CommandTextItemArrayFactory.jnew_1(AllCommandsVisitor.jnew_0()), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MyCanvas.jm_getCommandStack"))
+JR.cast(jlate(JR.cast(this)))
+}, this.f_backgroundBasicColor, this.f_foregroundBasicColor)
+        let mut rectangle: Rectangle = JR.cast(jm_createRectangle(this, Int32.fromNumber(Array.length(items))))
+        return CommandCurrentSelectionFormFactory.jm_getInstance(StringUtil.jm_getInstance().f_EMPTY_STRING, items, rectangle, FormTypeFactory.jm_getInstance().f_VERTICAL_CENTER_FORM, 15l, false, this.f_backgroundBasicColor, this.f_foregroundBasicColor)
+}
     
-
-    method getSourceId () : int =
-        begin
-        id
-        end [@@warning "-7"]
+and jm_createRectangle = (this: GameCommandCanvas, size: Int32) => {
+        let mut height: Int32 = Int32.(*)(size, this.f_fontHeight)
+        let mut startY: Int32 = Int32.(-)((Int32.(/)(Int32.(*)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DisplayInfoSingleton.jm_getLastHeight"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_displayInfo))))
+}, 2l), 3l)), height)
+        let mut pointFactory: PointFactory = JR.cast(PointFactory.jm_getInstance())
+        let mut rectangle: Rectangle = Rectangle.jnew_3(PointFactory.jm_createXY(pointFactory, 30l, startY), Int32.(-)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DisplayInfoSingleton.jm_getLastWidth"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_displayInfo))))
+}, 30l), startY)
+        return rectangle
+}
     
-
-    method keyPressed ((keyCode : int)) : unit =
-        begin
-        (self#keyPressedByDevice (keyCode, 0))
-        end [@@warning "-7"]
+and jm_open = (this: GameCommandCanvas) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_START"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+}), JR.cast(this), JR.cast("open")))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicMotionGesturesHandler.jm_addListenerInterface"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("BasicMotionGesturesHandler.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(jm_getMenuInputProcessor(this))))
+})
+        ignore(GameKeyEventHandler.jm_addListener(GameKeyEventHandler.jm_getInstance(), JR.cast(jm_getMenuInputProcessor(this))))
+        ignore(DisplayChangeEventHandler.jm_addListenerInterface(DisplayChangeEventHandler.jm_getInstance(), this))
+}
     
-
-    method keyReleased ((keyCode : int)) : unit =
-        begin
-        (self#keyReleasedByDevice (keyCode, 0))
-        end [@@warning "-7"]
+and jm_close = (this: GameCommandCanvas) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_START"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+}), JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_CLOSE"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+})))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicMotionGesturesHandler.jm_removeListener"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("BasicMotionGesturesHandler.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(jm_getMenuInputProcessor(this))))
+})
+        ignore(GameKeyEventHandler.jm_removeListener(GameKeyEventHandler.jm_getInstance(), JR.cast(jm_getMenuInputProcessor(this))))
+        ignore(DisplayChangeEventHandler.jm_removeListener(DisplayChangeEventHandler.jm_getInstance(), this))
+}
     
-
-    method keyRepeated ((keyCode : int)) : unit =
-        begin
-        (self#keyRepeatedByDevice (keyCode, 0))
-        end [@@warning "-7"]
+and jm_update = (this: GameCommandCanvas) => {
+        ignore(Processor.jm_process(this.f_repaintProcessor))
+}
     
-
-    method keyPressedByDevice ((keyCode : int), (_deviceId : int)) : unit =
-        begin
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonSeps.getInstance ())#sPACE))#appendint (keyCode)))), (Obj.magic self), gameInputStrings#kEY_PRESSED));
-        (self#addGameKeyEvent (keyCode, 0, false))
-        end [@@warning "-7"]
+and jm_getSourceId = (this: GameCommandCanvas) => {
+        return jstatic_id()
+}
     
-
-    method keyReleasedByDevice ((keyCode : int), (deviceId : int)) : unit =
-        begin
-        (self#removeGameKeyEvent (keyCode, deviceId, false))
-        end [@@warning "-7"]
+and jm_keyPressed = (this: GameCommandCanvas, keyCode: Int32) => {
+        ignore(jm_keyPressedByDevice(this, keyCode, 0l))
+}
     
-
-    method keyRepeatedByDevice ((keyCode : int), (deviceId : int)) : unit =
-        begin
-        if isSingleKeyRepeatableProcessing then begin
-            (self#addGameKeyEvent (keyCode, deviceId, true))
-        end
-        end [@@warning "-7"]
+and jm_keyReleased = (this: GameCommandCanvas, keyCode: Int32) => {
+        ignore(jm_keyReleasedByDevice(this, keyCode, 0l))
+}
     
-
-    method addGameKeyEvent ((keyCode : int), (deviceId : int), (_repeated : bool)) : unit =
-        begin
-        (try
-            let gameKey : GameKey.gameKey ref = ref (((inputToGameKeyMapping#getInstanceForCanvas ((Obj.magic self), keyCode)) :> GameKey.gameKey)) in ();
-            if ((Obj.repr !gameKey) != (Obj.repr gameKeyFactory#nONE)) then begin
-                let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((gameKeyEventFactory#getInstanceForInput ((Obj.magic self), !gameKey)) :> GameKeyEvent.gameKeyEvent)) in ();
-                ignore (downGameKeyEventHandler#fireEvent (!gameKeyEvent));
-                ignore ((downGameKeyEventHandler#getInstanceForDevice (deviceId))#fireEvent (!gameKeyEvent))
-            end else begin
-                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), (Obj.magic self), gameInputStrings#aDD_KEY_EVENT))
-            end
-        with e -> begin
-            ignore ((self#logUtil)#put ("Key Event Error", (Obj.magic self), gameInputStrings#aDD_KEY_EVENT, e))
-        end)
-        end [@@warning "-7"]
+and jm_keyRepeated = (this: GameCommandCanvas, keyCode: Int32) => {
+        ignore(jm_keyRepeatedByDevice(this, keyCode, 0l))
+}
     
-
-    method removeGameKeyEvent ((keyCode : int), (deviceId : int), (_repeated : bool)) : unit =
-        begin
-        (try
-            let gameKey : GameKey.gameKey ref = ref (((inputToGameKeyMapping#getInstanceForCanvas ((Obj.magic self), keyCode)) :> GameKey.gameKey)) in ();
-            if ((Obj.repr !gameKey) != (Obj.repr gameKeyFactory#nONE)) then begin
-                let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((gameKeyEventFactory#getInstanceForInput ((Obj.magic self), !gameKey)) :> GameKeyEvent.gameKeyEvent)) in ();
-                ignore (upGameKeyEventHandler#fireEvent (!gameKeyEvent));
-                ignore ((upGameKeyEventHandler#getInstanceForDevice (deviceId))#fireEvent (!gameKeyEvent))
-            end else begin
-                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (gameInputStrings#nO_KEY))#appendint (keyCode)))), (Obj.magic self), gameInputStrings#rEMOVE_KEY_EVENT))
-            end
-        with e -> begin
-            ignore ((self#logUtil)#put ("Key Event Error", (Obj.magic self), gameInputStrings#rEMOVE_KEY_EVENT, e))
-        end)
-        end [@@warning "-7"]
+and jm_keyPressedByDevice = (this: GameCommandCanvas, keyCode: Int32, deviceId: Int32) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), CommonSeps.jm_getInstance().f_SPACE), keyCode))), JR.cast(this), JR.cast(this.f_gameInputStrings.f_KEY_PRESSED)))
+})
+        ignore(jm_addGameKeyEvent(this, keyCode, 0l, false))
+}
     
-
-    method paint : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore (myFontProcessor#process ((Obj.magic graphics)));
-        ignore (menuPaintable#paint ((Obj.magic graphics)));
-        ignore (repaintBehavior#repaint ((Obj.magic self)))
-        end [@@warning "-7-20"]
+and jm_keyReleasedByDevice = (this: GameCommandCanvas, keyCode: Int32, deviceId: Int32) => {
+        ignore(jm_removeGameKeyEvent(this, keyCode, deviceId, false))
+}
     
-
-    method setMenuInputProcessor : 'any1. 'any1 -> unit = fun (menuInputProcessor_arg) ->
-        let menuInputProcessor_arg = Obj.repr menuInputProcessor_arg in
-        begin
-        menuInputProcessor <- (Obj.magic menuInputProcessor_arg)
-        end [@@warning "-7-20"]
+and jm_keyRepeatedByDevice = (this: GameCommandCanvas, keyCode: Int32, deviceId: Int32) => {
+        if (this.f_isSingleKeyRepeatableProcessing) {
+            ignore(jm_addGameKeyEvent(this, keyCode, deviceId, true))
+        }
+}
     
+and jm_addGameKeyEvent = (this: GameCommandCanvas, keyCode: Int32, deviceId: Int32, repeated: Bool) => {
+        {
+            let mut gameKey: GameKey = JR.cast(InputToGameKeyMapping.jm_getInstanceForCanvas(this.f_inputToGameKeyMapping, JR.cast(this), keyCode))
+            if ((!JR.isSame(gameKey, this.f_gameKeyFactory.f_NONE))) {
+                let mut gameKeyEvent: GameKeyEvent = JR.cast(GameKeyEventFactory.jm_getInstanceForInput(this.f_gameKeyEventFactory, JR.cast(this), JR.cast(gameKey)))
+                ignore(DownGameKeyEventHandler.jm_fireEvent(this.f_downGameKeyEventHandler, gameKeyEvent))
+                ignore(JR.className(JR.cast(DownGameKeyEventHandler.jm_getInstanceForDevice(this.f_downGameKeyEventHandler, deviceId))))
+            } else {
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), this.f_gameInputStrings.f_NO_KEY), keyCode))), JR.cast(this), JR.cast(this.f_gameInputStrings.f_ADD_KEY_EVENT)))
+})
+            }
+        }
+}
+    
+and jm_removeGameKeyEvent = (this: GameCommandCanvas, keyCode: Int32, deviceId: Int32, repeated: Bool) => {
+        {
+            let mut gameKey: GameKey = JR.cast(InputToGameKeyMapping.jm_getInstanceForCanvas(this.f_inputToGameKeyMapping, JR.cast(this), keyCode))
+            if ((!JR.isSame(gameKey, this.f_gameKeyFactory.f_NONE))) {
+                let mut gameKeyEvent: GameKeyEvent = JR.cast(GameKeyEventFactory.jm_getInstanceForInput(this.f_gameKeyEventFactory, JR.cast(this), JR.cast(gameKey)))
+                ignore(UpGameKeyEventHandler.jm_fireEvent(this.f_upGameKeyEventHandler, gameKeyEvent))
+                ignore(JR.className(JR.cast(UpGameKeyEventHandler.jm_getInstanceForDevice(this.f_upGameKeyEventHandler, deviceId))))
+            } else {
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), this.f_gameInputStrings.f_NO_KEY), keyCode))), JR.cast(this), JR.cast(this.f_gameInputStrings.f_REMOVE_KEY_EVENT)))
+})
+            }
+        }
+}
+    
+and jm_paint = (this: GameCommandCanvas, graphics: JObject) => {
+        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
+        ignore(Paintable.jm_paint(this.f_menuPaintable, graphics))
+        ignore(RepaintBehavior.jm_repaint(this.f_repaintBehavior, JR.cast(this)))
+}
+    
+and jm_setMenuInputProcessor = (this: GameCommandCanvas, menuInputProcessor: BasicMenuInputProcessor) => {
+        this.f_menuInputProcessor = menuInputProcessor
+}
+    
+and jm_getMenuInputProcessor = (this: GameCommandCanvas) => {
+        return this.f_menuInputProcessor
+}
 
-    method getMenuInputProcessor : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (menuInputProcessor))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        repaintProcessor <- (((ScreenRepaintProcessorFactory.getInstance ())#create ((Obj.magic self))) :> Processor.processor);
-        gameInputStrings <- ((GameInputStrings.getInstance ()) :> GameInputStrings.gameInputStrings);
-        ();
-        ();
-        inputToGameKeyMapping <- ((((Obj.magic (java_call_static "PlatformInputMappingFactory.getInstance" (Obj.repr ())))#getPersistentInputMappingInstance ())#getInputMapping ()) :> InputToGameKeyMapping.inputToGameKeyMapping);
-        gameKeyFactory <- ((GameKeyFactory.getInstance ()) :> GameKeyFactory.gameKeyFactory);
-        gameKeyEventFactory <- ((GameKeyEventFactory.getInstance ()) :> GameKeyEventFactory.gameKeyEventFactory);
-        downGameKeyEventHandler <- ((DownGameKeyEventHandler.getInstance ()) :> DownGameKeyEventHandler.downGameKeyEventHandler);
-        upGameKeyEventHandler <- ((UpGameKeyEventHandler.getInstance ()) :> UpGameKeyEventHandler.upGameKeyEventHandler);
-        ();
-        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
-        myFontProcessor <- (updateMyFontProcessor :> MyFontProcessor.myFontProcessor);
-        ();
-        ();
-        menuInputProcessor <- ((NoMenuInputProcessor.getInstance ()) :> BasicMenuInputProcessor.basicMenuInputProcessor);
-        menuPaintable <- ((NullPaintable.getInstance ()) :> Paintable.paintable);
-        menuForm <- ((PaintableForm.getNullPaintableForm ()) :> PaintableForm.paintableForm);
-        isSingleKeyRepeatableProcessing <- ((Features.getInstance ())#isFeature ((InputFeatureFactory.getInstance ())#sINGLE_KEY_REPEAT_PRESS));
-        fontHeight <- 0;
-        ();
-        (* super(...) is the inherit clause *) ();
-        repaintBehavior <- (RepaintBehavior.getInstance ());
-        foregroundBasicColor <- foregroundBasicColor_arg;
-        backgroundBasicColor <- backgroundBasicColor_arg;
-        foregroundColor <- (foregroundBasicColor#intValue ());
-        backgroundColor <- (backgroundBasicColor#intValue ());
-        (self#initCommands (cmdListener));
-        if ((Obj.repr cmdListener) != (Obj.repr (NullCommandListener.get_nULL_COMMAND_LISTENER ()))) then begin
-            (try
-                (self#initMenu ());
-                ignore (repaintProcessor#process ())
-            with e -> begin
-                raise (Failure ("RuntimeException"))
-            end)
-        end
-      end
-  end
-let () = java_register_constructor "GameCommandCanvas" (fun arguments -> Obj.repr (new gameCommandCanvas (Obj.obj arguments)))
+JR.registerLateBound("GameCommandCanvas.jnew_4", jnew_4)
+JR.registerLateBound("GameCommandCanvas.jm_updateMeasurement", jm_updateMeasurement)
+JR.registerLateBound("GameCommandCanvas.jm_onEvent", jm_onEvent)
+JR.registerLateBound("GameCommandCanvas.jm_onDisplayChangeEvent", jm_onDisplayChangeEvent)
+JR.registerLateBound("GameCommandCanvas.jm_initCommands", jm_initCommands)
+JR.registerLateBound("GameCommandCanvas.jm_initMenu", jm_initMenu)
+JR.registerLateBound("GameCommandCanvas.jm_createForm", jm_createForm)
+JR.registerLateBound("GameCommandCanvas.jm_createRectangle", jm_createRectangle)
+JR.registerLateBound("GameCommandCanvas.jm_open", jm_open)
+JR.registerLateBound("GameCommandCanvas.jm_close", jm_close)
+JR.registerLateBound("GameCommandCanvas.jm_update", jm_update)
+JR.registerLateBound("GameCommandCanvas.jm_getSourceId", jm_getSourceId)
+JR.registerLateBound("GameCommandCanvas.jm_keyPressed", jm_keyPressed)
+JR.registerLateBound("GameCommandCanvas.jm_keyReleased", jm_keyReleased)
+JR.registerLateBound("GameCommandCanvas.jm_keyRepeated", jm_keyRepeated)
+JR.registerLateBound("GameCommandCanvas.jm_keyPressedByDevice", jm_keyPressedByDevice)
+JR.registerLateBound("GameCommandCanvas.jm_keyReleasedByDevice", jm_keyReleasedByDevice)
+JR.registerLateBound("GameCommandCanvas.jm_keyRepeatedByDevice", jm_keyRepeatedByDevice)
+JR.registerLateBound("GameCommandCanvas.jm_addGameKeyEvent", jm_addGameKeyEvent)
+JR.registerLateBound("GameCommandCanvas.jm_removeGameKeyEvent", jm_removeGameKeyEvent)
+JR.registerLateBound("GameCommandCanvas.jm_paint", jm_paint)
+JR.registerLateBound("GameCommandCanvas.jm_setMenuInputProcessor", jm_setMenuInputProcessor)
+JR.registerLateBound("GameCommandCanvas.jm_getMenuInputProcessor", jm_getMenuInputProcessor)
+JR.registerLateBound("GameCommandCanvas.f_repaintProcessor", (this: GameCommandCanvas) => this.f_repaintProcessor)
+JR.registerLateBound("GameCommandCanvas.f_gameInputStrings", (this: GameCommandCanvas) => this.f_gameInputStrings)
+JR.registerLateBound("GameCommandCanvas.f_foregroundBasicColor", (this: GameCommandCanvas) => this.f_foregroundBasicColor)
+JR.registerLateBound("GameCommandCanvas.f_backgroundBasicColor", (this: GameCommandCanvas) => this.f_backgroundBasicColor)
+JR.registerLateBound("GameCommandCanvas.f_inputToGameKeyMapping", (this: GameCommandCanvas) => this.f_inputToGameKeyMapping)
+JR.registerLateBound("GameCommandCanvas.f_gameKeyFactory", (this: GameCommandCanvas) => this.f_gameKeyFactory)
+JR.registerLateBound("GameCommandCanvas.f_gameKeyEventFactory", (this: GameCommandCanvas) => this.f_gameKeyEventFactory)
+JR.registerLateBound("GameCommandCanvas.f_downGameKeyEventHandler", (this: GameCommandCanvas) => this.f_downGameKeyEventHandler)
+JR.registerLateBound("GameCommandCanvas.f_upGameKeyEventHandler", (this: GameCommandCanvas) => this.f_upGameKeyEventHandler)
+JR.registerLateBound("GameCommandCanvas.f_repaintBehavior", (this: GameCommandCanvas) => this.f_repaintBehavior)
+JR.registerLateBound("GameCommandCanvas.f_updateMyFontProcessor", (this: GameCommandCanvas) => this.f_updateMyFontProcessor)
+JR.registerLateBound("GameCommandCanvas.f_myFontProcessor", (this: GameCommandCanvas) => this.f_myFontProcessor)
+JR.registerLateBound("GameCommandCanvas.set_f_myFontProcessor", (this: GameCommandCanvas, jvalue) => { this.f_myFontProcessor = jvalue; jvalue })
+JR.registerLateBound("GameCommandCanvas.f_foregroundColor", (this: GameCommandCanvas) => this.f_foregroundColor)
+JR.registerLateBound("GameCommandCanvas.set_f_foregroundColor", (this: GameCommandCanvas, jvalue) => { this.f_foregroundColor = jvalue; jvalue })
+JR.registerLateBound("GameCommandCanvas.f_backgroundColor", (this: GameCommandCanvas) => this.f_backgroundColor)
+JR.registerLateBound("GameCommandCanvas.set_f_backgroundColor", (this: GameCommandCanvas, jvalue) => { this.f_backgroundColor = jvalue; jvalue })
+JR.registerLateBound("GameCommandCanvas.f_menuInputProcessor", (this: GameCommandCanvas) => this.f_menuInputProcessor)
+JR.registerLateBound("GameCommandCanvas.set_f_menuInputProcessor", (this: GameCommandCanvas, jvalue) => { this.f_menuInputProcessor = jvalue; jvalue })
+JR.registerLateBound("GameCommandCanvas.f_menuPaintable", (this: GameCommandCanvas) => this.f_menuPaintable)
+JR.registerLateBound("GameCommandCanvas.set_f_menuPaintable", (this: GameCommandCanvas, jvalue) => { this.f_menuPaintable = jvalue; jvalue })
+JR.registerLateBound("GameCommandCanvas.f_menuForm", (this: GameCommandCanvas) => this.f_menuForm)
+JR.registerLateBound("GameCommandCanvas.set_f_menuForm", (this: GameCommandCanvas, jvalue) => { this.f_menuForm = jvalue; jvalue })
+JR.registerLateBound("GameCommandCanvas.f_isSingleKeyRepeatableProcessing", (this: GameCommandCanvas) => this.f_isSingleKeyRepeatableProcessing)
+JR.registerLateBound("GameCommandCanvas.set_f_isSingleKeyRepeatableProcessing", (this: GameCommandCanvas, jvalue) => { this.f_isSingleKeyRepeatableProcessing = jvalue; jvalue })
+JR.registerLateBound("GameCommandCanvas.f_fontHeight", (this: GameCommandCanvas) => this.f_fontHeight)
+JR.registerLateBound("GameCommandCanvas.set_f_fontHeight", (this: GameCommandCanvas, jvalue) => { this.f_fontHeight = jvalue; jvalue })
+JR.registerLateBound("GameCommandCanvas.jstatic_id", jstatic_id)
 
 

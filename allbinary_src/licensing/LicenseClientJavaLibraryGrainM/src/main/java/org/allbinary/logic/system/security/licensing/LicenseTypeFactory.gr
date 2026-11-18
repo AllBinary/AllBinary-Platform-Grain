@@ -1,67 +1,82 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.system.security.licensing
+module LicenseTypeFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.system.security.licensing *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./LicenseType.gr" include LicenseType
+use LicenseType.{ type LicenseType }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.string.CommonStrings *)
+provide record LicenseTypeFactory {
+  jobject: JObject,
+  mut f_UNKNOWN: LicenseType,
+  mut f_DEMO: LicenseType,
+  mut f_NORMAL: LicenseType,
+}
 
-class licenseTypeFactory () =
-  object
-    val mutable uNKNOWN : LicenseType.licenseType = (Obj.magic 0)
-    method uNKNOWN = uNKNOWN
-    method set_uNKNOWN value' = uNKNOWN <- value'
-    val mutable dEMO : LicenseType.licenseType = (Obj.magic 0)
-    method dEMO = dEMO
-    method set_dEMO value' = dEMO <- value'
-    val mutable nORMAL : LicenseType.licenseType = (Obj.magic 0)
-    method nORMAL = nORMAL
-    method set_nORMAL value' = nORMAL <- value'
+let mut jcell_instance: Option<LicenseTypeFactory> = None
+
+provide let rec jclassName = () => "LicenseTypeFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: LicenseTypeFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("LicenseTypeFactory"), f_UNKNOWN: JR.nullOf(), f_DEMO: JR.nullOf(), f_NORMAL: JR.nullOf(), }
+    this.f_UNKNOWN = LicenseType.jnew_1(CommonStrings.jm_getInstance().f_UNKNOWN)
+    this.f_DEMO = LicenseType.jnew_1("Demo")
+    this.f_NORMAL = LicenseType.jnew_1("Normal")
+    this
+}
     
+and jm_getInstance_0 = () => {
+        return jstatic_instance()
+}
+    
+and jm_getInstance_1 = (this: LicenseTypeFactory, name: String) => {
+        if ((JR.compareTo(LicenseType.jm_getName(this.f_DEMO), name) == 0l)) {
+            return this.f_DEMO
+        } else if ((JR.compareTo(LicenseType.jm_getName(this.f_NORMAL), name) == 0l)) {
+            return this.f_NORMAL
+        }
+        return this.f_UNKNOWN
+}
 
-    method getInstance : 'return. string -> 'return = fun ((name : string)) ->
-        try
-        begin
-        if ((String.compare (dEMO#getName ()) (name)) == 0) then begin
-            raise (Java_return (Obj.repr (dEMO)))
-        end else if ((String.compare (nORMAL#getName ()) (name)) == 0) then begin
-            raise (Java_return (Obj.repr (nORMAL)))
-        end;
-        (Obj.magic (uNKNOWN))
-        end
-        with Java_return value -> Obj.obj value
-
-    initializer
-      begin
-        uNKNOWN <- ((new LicenseType.licenseType ((CommonStrings.getInstance ())#uNKNOWN)) :> LicenseType.licenseType);
-        dEMO <- ((new LicenseType.licenseType ("Demo")) :> LicenseType.licenseType);
-        nORMAL <- ((new LicenseType.licenseType ("Normal")) :> LicenseType.licenseType);
-        ()
-      end
-  end
-let () = java_register_constructor "LicenseTypeFactory" (fun arguments -> Obj.repr (new licenseTypeFactory (Obj.obj arguments)))
-
-let instance = (new licenseTypeFactory ())
-let get_instance () = instance
-let () = java_register_static "LicenseTypeFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "LicenseTypeFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("LicenseTypeFactory.jnew_0", jnew_0)
+JR.registerLateBound("LicenseTypeFactory.jm_getInstance_0", jm_getInstance_0)
+JR.registerLateBound("LicenseTypeFactory.jm_getInstance_1", jm_getInstance_1)
+JR.registerLateBound("LicenseTypeFactory.f_UNKNOWN", (this: LicenseTypeFactory) => this.f_UNKNOWN)
+JR.registerLateBound("LicenseTypeFactory.f_DEMO", (this: LicenseTypeFactory) => this.f_DEMO)
+JR.registerLateBound("LicenseTypeFactory.f_NORMAL", (this: LicenseTypeFactory) => this.f_NORMAL)
+JR.registerLateBound("LicenseTypeFactory.jstatic_instance", jstatic_instance)
 
 

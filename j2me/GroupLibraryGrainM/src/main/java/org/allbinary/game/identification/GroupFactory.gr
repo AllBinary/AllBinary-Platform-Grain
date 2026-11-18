@@ -1,101 +1,121 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.identification
+module GroupFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "./Group.gr" include Group
+use Group.{ type Group }
+
+provide record GroupFactory {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_NULL_GROUP_ARRAY: Array<Group>,
+  mut f_list: BasicArrayList,
+  mut f_index: Int32,
+}
+
+let mut jcell_instance: Option<GroupFactory> = None
+
+provide let rec jclassName = () => "GroupFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: GroupFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("GroupFactory"), f_logUtil: JR.jnull, f_NULL_GROUP_ARRAY: [> ], f_list: JR.nullOf(), f_index: 0l, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_NULL_GROUP_ARRAY = Array.make(Int32.toNumber(0l), JR.nullOf())
+    this.f_list = JR.cast(BasicArrayListD.jnew_0())
+    this.f_index = 0l
+    this
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.identification *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
-
-class groupFactory () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable nULL_GROUP_ARRAY : Group.group array = (Obj.magic 0)
-    method nULL_GROUP_ARRAY = nULL_GROUP_ARRAY
-    method set_nULL_GROUP_ARRAY value' = nULL_GROUP_ARRAY <- value'
-    val mutable list : BasicArrayList.basicArrayList = (Obj.magic 0)
-    method list = list
-    method set_list value' = list <- value'
-    val mutable index : int = 0
-    method index = index
-    method set_index value' = index <- value'
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method getNextGroup : 'return. unit -> 'return = fun () ->
-        begin
-        let group : Group.group ref = ref (((Obj.magic list#objectArray.(index)) :> Group.group)) in ();
-        index <- index + 1;
-        (Obj.magic (!group))
-        end
+and jm_getNextGroup = (this: GroupFactory) => {
+        let mut group: Group = JR.cast(this.f_list.f_objectArray[Int32.toNumber(this.f_index)])
+        this.f_index = Int32.(+)(this.f_index, 1l)
+        return group
+}
     
-
-    method getNextGroupByName : 'return. string -> 'return = fun ((name : string)) ->
-        begin
-        let group : Group.group ref = ref (((self#getNextGroup ()) :> Group.group)) in ();
-        ignore (!group#setName (name));
-        (Obj.magic (!group))
-        end
+and jm_getNextGroupByName = (this: GroupFactory, name: String) => {
+        let mut group: Group = JR.cast(jm_getNextGroup(this))
+        ignore(Group.jm_setName(group, name))
+        return group
+}
     
+and jm_init = (this: GroupFactory, groups: Int32, nameArray: Array<String>) => {
+        let mut stringMaker: StringMaker = StringMaker.jnew_0()
+        let mut stringUtil: StringUtil = JR.cast(StringUtil.jm_getInstance())
+        let mut l_TEAM: String = "Team "
+        ignore(BasicArrayList.jm_clear(this.f_list))
+        this.f_index = 0l
+        let mut size: Int32 = BasicArrayList.jm_size(this.f_list)
+        let mut name: String = ""
+        while (Int32.(<)(size, groups)) {
+            name = stringUtil.f_EMPTY_STRING
+            if (Int32.(<)(size, Int32.fromNumber(Array.length(nameArray)))) {
+                name = nameArray[Int32.toNumber(size)]
+            } else {
+                ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
+                name = StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(stringMaker, l_TEAM), size))
+            }
+            ignore(BasicArrayList.jm_add(this.f_list, JR.cast(Group.jnew_2(name, JR.i16((Int32.(+)(size, 3l)))))))
+            size = Int32.(+)(size, 1l)
+        }
+}
 
-    method init ((groups : int), (nameArray : string array)) : unit =
-        begin
-        let stringMaker : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        let stringUtil : StringUtil.stringUtil ref = ref (((StringUtil.getInstance ()) :> StringUtil.stringUtil)) in ();
-        let tEAM : string ref = ref ("Team ") in ();
-        ignore (list#clear ());
-        index <- 0;
-        let size : int ref = ref ((list#size ())) in ();
-        let name : string ref = ref ("") in ();
-        while (!size < groups) do
-            name := !stringUtil#eMPTY_STRING;
-            if (!size < (Array.length nameArray)) then begin
-                name := nameArray.(!size)
-            end else begin
-                ignore (!stringMaker#delete (0, (!stringMaker#length ())));
-                name := (java_string_of (Obj.repr ((!stringMaker#append (!tEAM))#appendint (!size))))
-            end;
-            ignore (list#add ((new Group.group (!name, ((!size + 3))))));
-            size := !size + 1
-        done
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        nULL_GROUP_ARRAY <- (Array.make (0) (Obj.magic 0));
-        list <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
-        index <- 0;
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "GroupFactory" (fun arguments -> Obj.repr (new groupFactory (Obj.obj arguments)))
-
-let instance = (new groupFactory ())
-let get_instance () = instance
-let () = java_register_static "GroupFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "GroupFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("GroupFactory.jnew_0", jnew_0)
+JR.registerLateBound("GroupFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("GroupFactory.jm_getNextGroup", jm_getNextGroup)
+JR.registerLateBound("GroupFactory.jm_getNextGroupByName", jm_getNextGroupByName)
+JR.registerLateBound("GroupFactory.jm_init", jm_init)
+JR.registerLateBound("GroupFactory.f_logUtil", (this: GroupFactory) => this.f_logUtil)
+JR.registerLateBound("GroupFactory.f_NULL_GROUP_ARRAY", (this: GroupFactory) => this.f_NULL_GROUP_ARRAY)
+JR.registerLateBound("GroupFactory.f_list", (this: GroupFactory) => this.f_list)
+JR.registerLateBound("GroupFactory.f_index", (this: GroupFactory) => this.f_index)
+JR.registerLateBound("GroupFactory.set_f_index", (this: GroupFactory, jvalue) => { this.f_index = jvalue; jvalue })
+JR.registerLateBound("GroupFactory.jstatic_instance", jstatic_instance)
 
 

@@ -1,164 +1,227 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.ai
+module HorizontaRotationManeuverAI
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.ai *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/ai/ArtificialIntelligence.gr" include ArtificialIntelligence
+use ArtificialIntelligence.{ type ArtificialIntelligence }
+from "../../../../../org/allbinary/ai/ArtificialIntelligenceTransitionInterface.gr" include ArtificialIntelligenceTransitionInterface
+use ArtificialIntelligenceTransitionInterface.{ type ArtificialIntelligenceTransitionInterface }
+from "../../../../../org/allbinary/animation/IndexedAnimation.gr" include IndexedAnimation
+use IndexedAnimation.{ type IndexedAnimation }
+from "../../../../../org/allbinary/animation/RotationAnimationInterface.gr" include RotationAnimationInterface
+use RotationAnimationInterface.{ type RotationAnimationInterface }
+from "../../../../../org/allbinary/animation/RotationAnimationInterfaceCompositeInterface.gr" include RotationAnimationInterfaceCompositeInterface
+use RotationAnimationInterfaceCompositeInterface.{ type RotationAnimationInterfaceCompositeInterface }
+from "../../../../../org/allbinary/game/ai/BasicAI.gr" include BasicAI
+use BasicAI.{ type BasicAI }
+from "../../../../../org/allbinary/game/input/GameInput.gr" include GameInput
+use GameInput.{ type GameInput }
+from "../../../../../org/allbinary/game/physics/velocity/BasicVelocityProperties.gr" include BasicVelocityProperties
+use BasicVelocityProperties.{ type BasicVelocityProperties }
+from "../../../../../org/allbinary/game/physics/velocity/VelocityInterface.gr" include VelocityInterface
+use VelocityInterface.{ type VelocityInterface }
+from "../../../../../org/allbinary/game/physics/velocity/VelocityInterfaceCompositeInterface.gr" include VelocityInterfaceCompositeInterface
+use VelocityInterfaceCompositeInterface.{ type VelocityInterfaceCompositeInterface }
+from "../../../../../org/allbinary/graphics/displayable/DisplayInfoSingleton.gr" include DisplayInfoSingleton
+use DisplayInfoSingleton.{ type DisplayInfoSingleton }
+from "../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
+from "../../../../../org/allbinary/math/AngleIncrementInfo.gr" include AngleIncrementInfo
+use AngleIncrementInfo.{ type AngleIncrementInfo }
+from "../../../../../org/allbinary/util/CircularIndexUtil.gr" include CircularIndexUtil
+use CircularIndexUtil.{ type CircularIndexUtil }
+from "../../../../../java/lang/Integer.gr" include Integer
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Canvas *)
-(* import org.allbinary.ai.ArtificialIntelligence *)
-(* import org.allbinary.ai.ArtificialIntelligenceTransitionInterface *)
-(* import org.allbinary.animation.IndexedAnimation *)
-(* import org.allbinary.animation.RotationAnimationInterface *)
-(* import org.allbinary.animation.RotationAnimationInterfaceCompositeInterface *)
-(* import org.allbinary.game.ai.BasicAI *)
-(* import org.allbinary.game.input.GameInput *)
-(* import org.allbinary.game.physics.velocity.BasicVelocityProperties *)
-(* import org.allbinary.game.physics.velocity.VelocityInterface *)
-(* import org.allbinary.game.physics.velocity.VelocityInterfaceCompositeInterface *)
-(* import org.allbinary.graphics.displayable.DisplayInfoSingleton *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
-(* import org.allbinary.math.AngleIncrementInfo *)
-(* import org.allbinary.util.CircularIndexUtil *)
+provide record HorizontaRotationManeuverAI {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_gameKeyEventFactory: JObject,
+  mut f_ownerLayerInterface: JObject,
+  mut f_gameInput: JObject,
+  mut f_lastKey: Int32,
+  mut f_circularIndexUtil: CircularIndexUtil,
+  mut f_currentSpeedDivisor: Int32,
+  mut f_rotationAnimationInterface: IndexedAnimation,
+  mut f_baseVelocityInterface: BasicVelocityProperties,
+  mut f_velocityInterface: VelocityInterface,
+}
 
-class horizontaRotationManeuverAI ((ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gameInput : GameInput.gameInput)) =
-  object (self)
-    inherit BasicAI.basicAI (ownerLayerInterface, gameInput) as super
-    val mutable circularIndexUtil : CircularIndexUtil.circularIndexUtil = (Obj.magic 0)
-    method circularIndexUtil = circularIndexUtil
-    method set_circularIndexUtil value' = circularIndexUtil <- value'
-    val mutable currentSpeedDivisor : int = 0
-    method currentSpeedDivisor = currentSpeedDivisor
-    method set_currentSpeedDivisor value' = currentSpeedDivisor <- value'
-    val mutable rotationAnimationInterface : IndexedAnimation.indexedAnimation = (Obj.magic 0)
-    method rotationAnimationInterface = rotationAnimationInterface
-    method set_rotationAnimationInterface value' = rotationAnimationInterface <- value'
-    val mutable baseVelocityInterface : BasicVelocityProperties.basicVelocityProperties = (Obj.magic 0)
-    method baseVelocityInterface = baseVelocityInterface
-    method set_baseVelocityInterface value' = baseVelocityInterface <- value'
-    val mutable velocityInterface : VelocityInterface.velocityInterface = (Obj.magic 0)
-    method velocityInterface = velocityInterface
-    method set_velocityInterface value' = velocityInterface <- value'
+
+provide let rec jclassName = () => "HorizontaRotationManeuverAI"
+    
+and jnew_2 = (ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
+    let this = { jobject: JR.newJObject("HorizontaRotationManeuverAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_circularIndexUtil: JR.nullOf(), f_currentSpeedDivisor: 0l, f_rotationAnimationInterface: JR.nullOf(), f_baseVelocityInterface: JR.nullOf(), f_velocityInterface: JR.nullOf(), }
+    this.f_circularIndexUtil = JR.cast(CircularIndexUtil.jm_createInstanceAt(10l, Integer.jstatic_MAX_VALUE()))
+    this.f_currentSpeedDivisor = 5l
     
     
-
-    method transition () : unit =
-        begin
-        let rotationAnimationInterface_arg : RotationAnimationInterface.rotationAnimationInterface ref = ref (((Obj.magic rotationAnimationInterface) :> RotationAnimationInterface.rotationAnimationInterface)) in ();
-        let angleIncrementInfo : AngleIncrementInfo.angleIncrementInfo ref = ref ((((!rotationAnimationInterface_arg#getAngleInfoP ())#getAngleIncrementInfo ()) :> AngleIncrementInfo.angleIncrementInfo)) in ();
-        let rotationAnimationInterfaceCompositeInterface : RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface ref = ref (((Obj.magic (self#getOwnerLayerInterface ())) :> RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface)) in ();
-        ignore (!rotationAnimationInterfaceCompositeInterface#setFrame ((java_int_value (Obj.repr !angleIncrementInfo#rIGHT_FRAME))));
-        let allbinaryLayer : AllBinaryLayer.allBinaryLayer ref = ref (((self#getOwnerLayerInterface ()) :> AllBinaryLayer.allBinaryLayer)) in ();
-        ignore (!allbinaryLayer#setPosition ((!allbinaryLayer#getXP ()), 1, (!allbinaryLayer#getZP ())))
-        end [@@warning "-7"]
     
-
-    method processAI : 'any1. 'any1 -> unit = fun (_allBinaryLayerManager) ->
-        begin
-        let rotationAnimationInterface_arg : RotationAnimationInterface.rotationAnimationInterface ref = ref ((((Obj.magic rotationAnimationInterface)) :> RotationAnimationInterface.rotationAnimationInterface)) in ();
-        let angleIncrementInfo : AngleIncrementInfo.angleIncrementInfo ref = ref ((((!rotationAnimationInterface_arg#getAngleInfoP ())#getAngleIncrementInfo ()) :> AngleIncrementInfo.angleIncrementInfo)) in ();
-        let frame : int ref = ref ((rotationAnimationInterface#getFrame ())) in ();
-        let ownerLayerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((self#getOwnerLayerInterface ()) :> AllBinaryLayer.allBinaryLayer)) in ();
-        if ((((!ownerLayerInterface#getXP ()) - (!ownerLayerInterface#getWidth ())) <= 0) && (!frame = (java_int_value (Obj.repr !angleIncrementInfo#lEFT_FRAME)))) then begin
-            (self#reverse ());
-            (self#drop ())
-        end;
-        let displayInfo : DisplayInfoSingleton.displayInfoSingleton ref = ref (((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton)) in ();
-        if ((((!ownerLayerInterface#getX2 ()) + (!ownerLayerInterface#getWidth ())) > (!displayInfo#getLastWidth ())) && (!frame = (java_int_value (Obj.repr !angleIncrementInfo#rIGHT_FRAME)))) then begin
-            (self#reverse ());
-            (self#accelerate ());
-            (self#drop ())
-        end;
-        let index : int ref = ref ((circularIndexUtil#getIndex ())) in ();
-        if (((!index mod currentSpeedDivisor) = 0) && ((!index mod 2) = 0)) then begin
-            ignore (super#processKeyAI ((Obj.magic (java_call_static "Canvas.get_uP" (Obj.repr ())))));
-            ignore (velocityInterface#limitMaxXYVelocity (((velocityInterface#getMaxForwardVelocity ()) / currentSpeedDivisor)))
-        end;
-        ignore (circularIndexUtil#next ());
-        if (!frame = (java_int_value (Obj.repr !angleIncrementInfo#lEFT_FRAME))) then begin
-            ignore (super#processKeyAI ((Obj.magic (java_call_static "Canvas.get_kEY_NUM0" (Obj.repr ())))))
-        end else if (!frame = (java_int_value (Obj.repr !angleIncrementInfo#rIGHT_FRAME))) then begin
-            ignore (super#processKeyAI ((Obj.magic (java_call_static "Canvas.get_kEY_POUND" (Obj.repr ())))))
-        end
-        end [@@warning "-7-20"]
+        void
+        let mut rotationAnimationInterfaceCompositeInterface: RotationAnimationInterfaceCompositeInterface = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
+JR.cast(jlate(JR.cast(this)))
+})
+        this.f_rotationAnimationInterface = RotationAnimationInterfaceCompositeInterface.jm_getRotationAnimationInterface(rotationAnimationInterfaceCompositeInterface)
+        let mut velocityInterfaceCompositeInterface: VelocityInterfaceCompositeInterface = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
+JR.cast(jlate(JR.cast(this)))
+})
+        this.f_baseVelocityInterface = VelocityInterfaceCompositeInterface.jm_getVelocityProperties(velocityInterfaceCompositeInterface)
+        this.f_velocityInterface = JR.cast(this.f_baseVelocityInterface)
+        let mut rotationAnimationInterface: RotationAnimationInterface = JR.cast(this.f_rotationAnimationInterface)
+        let mut angleIncrementInfo: AngleIncrementInfo = JR.cast(JR.className(JR.cast(RotationAnimationInterface.jm_getAngleInfoP(rotationAnimationInterface))))
+        ignore(RotationAnimationInterfaceCompositeInterface.jm_setFrame(rotationAnimationInterfaceCompositeInterface, JR.className(JR.cast(angleIncrementInfo.f_RIGHT_FRAME))))
+    this
+}
     
-
-    method reverse () : unit =
-        begin
-        let rotationAnimationInterface_arg : RotationAnimationInterface.rotationAnimationInterface ref = ref (((Obj.magic rotationAnimationInterface) :> RotationAnimationInterface.rotationAnimationInterface)) in ();
-        let angleIncrementInfo : AngleIncrementInfo.angleIncrementInfo ref = ref ((((!rotationAnimationInterface_arg#getAngleInfoP ())#getAngleIncrementInfo ()) :> AngleIncrementInfo.angleIncrementInfo)) in ();
-        let frame : int ref = ref ((rotationAnimationInterface#getFrame ())) in ();
-        if (!frame = (java_int_value (Obj.repr !angleIncrementInfo#lEFT_FRAME))) then begin
-            let rotationAnimationInterfaceCompositeInterface : RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface ref = ref (((Obj.magic (self#getOwnerLayerInterface ())) :> RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface)) in ();
-            ignore (!rotationAnimationInterfaceCompositeInterface#setFrame ((java_int_value (Obj.repr !angleIncrementInfo#rIGHT_FRAME))));
-            ignore (baseVelocityInterface#zero ())
-        end else if (!frame = (java_int_value (Obj.repr !angleIncrementInfo#rIGHT_FRAME))) then begin
-            let rotationAnimationInterfaceCompositeInterface : RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface ref = ref (((Obj.magic (self#getOwnerLayerInterface ())) :> RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface)) in ();
-            ignore (!rotationAnimationInterfaceCompositeInterface#setFrame ((java_int_value (Obj.repr !angleIncrementInfo#lEFT_FRAME))));
-            ignore (baseVelocityInterface#zero ())
-        end
-        end [@@warning "-7"]
+and jm_transition = (this: HorizontaRotationManeuverAI) => {
+        let mut rotationAnimationInterface: RotationAnimationInterface = JR.cast(this.f_rotationAnimationInterface)
+        let mut angleIncrementInfo: AngleIncrementInfo = JR.cast(JR.className(JR.cast(RotationAnimationInterface.jm_getAngleInfoP(rotationAnimationInterface))))
+        let mut rotationAnimationInterfaceCompositeInterface: RotationAnimationInterfaceCompositeInterface = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
+JR.cast(jlate(JR.cast(this)))
+})
+        ignore(RotationAnimationInterfaceCompositeInterface.jm_setFrame(rotationAnimationInterfaceCompositeInterface, JR.className(JR.cast(angleIncrementInfo.f_RIGHT_FRAME))))
+        let mut allbinaryLayer: AllBinaryLayer = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
+JR.cast(jlate(JR.cast(this)))
+})
+        ignore(AllBinaryLayer.jm_setPosition(allbinaryLayer, AllBinaryLayer.jm_getXP(allbinaryLayer), 1l, AllBinaryLayer.jm_getZP(allbinaryLayer)))
+}
     
-
-    method accelerate () : unit =
-        begin
-        if (currentSpeedDivisor > 1) then begin
-            currentSpeedDivisor <- currentSpeedDivisor - 1
-        end
-        end [@@warning "-7"]
+and jm_processAI = (this: HorizontaRotationManeuverAI, allBinaryLayerManager: AllBinaryLayerManager) => {
+        let mut rotationAnimationInterface: RotationAnimationInterface = (JR.cast(this.f_rotationAnimationInterface))
+        let mut angleIncrementInfo: AngleIncrementInfo = JR.cast(JR.className(JR.cast(RotationAnimationInterface.jm_getAngleInfoP(rotationAnimationInterface))))
+        let mut frame: Int32 = RotationAnimationInterface.jm_getFrame(this.f_rotationAnimationInterface)
+        let mut ownerLayerInterface: AllBinaryLayer = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
+JR.cast(jlate(JR.cast(this)))
+})
+        if ((Int32.(<=)(Int32.(-)(AllBinaryLayer.jm_getXP(ownerLayerInterface), AllBinaryLayer.jm_getWidth(ownerLayerInterface)), 0l) && (frame == JR.className(JR.cast(angleIncrementInfo.f_LEFT_FRAME))))) {
+            ignore(jm_reverse(this))
+            ignore(jm_drop(this))
+        }
+        let mut displayInfo: DisplayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
+        if ((Int32.(>)(Int32.(+)(AllBinaryLayer.jm_getX2(ownerLayerInterface), AllBinaryLayer.jm_getWidth(ownerLayerInterface)), DisplayInfoSingleton.jm_getLastWidth(displayInfo)) && (frame == JR.className(JR.cast(angleIncrementInfo.f_RIGHT_FRAME))))) {
+            ignore(jm_reverse(this))
+            ignore(jm_accelerate(this))
+            ignore(jm_drop(this))
+        }
+        let mut index: Int32 = CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil)
+        if (((Int32.rem(index, this.f_currentSpeedDivisor) == 0l) && (Int32.rem(index, 2l) == 0l))) {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_UP"))
+JR.cast(jlate())
+})))
+})
+            ignore(VelocityInterface.jm_limitMaxXYVelocity(this.f_velocityInterface, Int32.(/)(VelocityInterface.jm_getMaxForwardVelocity(this.f_velocityInterface), this.f_currentSpeedDivisor)))
+        }
+        ignore(CircularIndexUtil.jm_next(this.f_circularIndexUtil))
+        if ((frame == JR.className(JR.cast(angleIncrementInfo.f_LEFT_FRAME)))) {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_KEY_NUM0"))
+JR.cast(jlate())
+})))
+})
+        } else if ((frame == JR.className(JR.cast(angleIncrementInfo.f_RIGHT_FRAME)))) {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_KEY_POUND"))
+JR.cast(jlate())
+})))
+})
+        }
+}
     
-
-    method drop () : unit =
-        begin
-        let displayInfo : DisplayInfoSingleton.displayInfoSingleton ref = ref (((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton)) in ();
-        let ownerLayerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((self#getOwnerLayerInterface ()) :> AllBinaryLayer.allBinaryLayer)) in ();
-        let y : int ref = ref ((!ownerLayerInterface#getYP ())) in ();
-        if (((!ownerLayerInterface#getY2 ()) + (!ownerLayerInterface#getHeight ())) > (!displayInfo#getLastHeight ())) then begin
-            y := 0
-        end else begin
-            y := (!y + ((!ownerLayerInterface#getHeight ()) + 1))
-        end;
-        ignore (!ownerLayerInterface#setPosition ((!ownerLayerInterface#getXP ()), !y, (!ownerLayerInterface#getZP ())))
-        end [@@warning "-7"]
+and jm_reverse = (this: HorizontaRotationManeuverAI) => {
+        let mut rotationAnimationInterface: RotationAnimationInterface = JR.cast(this.f_rotationAnimationInterface)
+        let mut angleIncrementInfo: AngleIncrementInfo = JR.cast(JR.className(JR.cast(RotationAnimationInterface.jm_getAngleInfoP(rotationAnimationInterface))))
+        let mut frame: Int32 = RotationAnimationInterface.jm_getFrame(this.f_rotationAnimationInterface)
+        if ((frame == JR.className(JR.cast(angleIncrementInfo.f_LEFT_FRAME)))) {
+            let mut rotationAnimationInterfaceCompositeInterface: RotationAnimationInterfaceCompositeInterface = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
+JR.cast(jlate(JR.cast(this)))
+})
+            ignore(RotationAnimationInterfaceCompositeInterface.jm_setFrame(rotationAnimationInterfaceCompositeInterface, JR.className(JR.cast(angleIncrementInfo.f_RIGHT_FRAME))))
+            ignore(BasicVelocityProperties.jm_zero(this.f_baseVelocityInterface))
+        } else if ((frame == JR.className(JR.cast(angleIncrementInfo.f_RIGHT_FRAME)))) {
+            let mut rotationAnimationInterfaceCompositeInterface: RotationAnimationInterfaceCompositeInterface = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
+JR.cast(jlate(JR.cast(this)))
+})
+            ignore(RotationAnimationInterfaceCompositeInterface.jm_setFrame(rotationAnimationInterfaceCompositeInterface, JR.className(JR.cast(angleIncrementInfo.f_LEFT_FRAME))))
+            ignore(BasicVelocityProperties.jm_zero(this.f_baseVelocityInterface))
+        }
+}
     
+and jm_accelerate = (this: HorizontaRotationManeuverAI) => {
+        if (Int32.(>)(this.f_currentSpeedDivisor, 1l)) {
+            this.f_currentSpeedDivisor = Int32.(-)(this.f_currentSpeedDivisor, 1l)
+        }
+}
+    
+and jm_drop = (this: HorizontaRotationManeuverAI) => {
+        let mut displayInfo: DisplayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
+        let mut ownerLayerInterface: AllBinaryLayer = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
+JR.cast(jlate(JR.cast(this)))
+})
+        let mut y: Int32 = AllBinaryLayer.jm_getYP(ownerLayerInterface)
+        if (Int32.(>)(Int32.(+)(AllBinaryLayer.jm_getY2(ownerLayerInterface), AllBinaryLayer.jm_getHeight(ownerLayerInterface)), DisplayInfoSingleton.jm_getLastHeight(displayInfo))) {
+            y = 0l
+        } else {
+            y = Int32.(+)(y, Int32.(+)(AllBinaryLayer.jm_getHeight(ownerLayerInterface), 1l))
+        }
+        ignore(AllBinaryLayer.jm_setPosition(ownerLayerInterface, AllBinaryLayer.jm_getXP(ownerLayerInterface), y, AllBinaryLayer.jm_getZP(ownerLayerInterface)))
+}
+    
+and jm_getId = (this: HorizontaRotationManeuverAI) => {
+        return ArtificialIntelligence.jstatic_AI_ID()
+}
 
-    method getId () : int =
-        begin
-        (ArtificialIntelligence.get_aI_ID ())
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        circularIndexUtil <- ((CircularIndexUtil.createInstanceAt (10, 2147483647)) :> CircularIndexUtil.circularIndexUtil);
-        currentSpeedDivisor <- 5;
-        ();
-        ();
-        ();
-        ();
-        (* super(...) is the inherit clause *) ();
-        let rotationAnimationInterfaceCompositeInterface : RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface ref = ref (((Obj.magic (self#getOwnerLayerInterface ())) :> RotationAnimationInterfaceCompositeInterface.rotationAnimationInterfaceCompositeInterface)) in ();
-        rotationAnimationInterface <- (!rotationAnimationInterfaceCompositeInterface#getRotationAnimationInterface ());
-        let velocityInterfaceCompositeInterface : VelocityInterfaceCompositeInterface.velocityInterfaceCompositeInterface ref = ref (((Obj.magic (self#getOwnerLayerInterface ())) :> VelocityInterfaceCompositeInterface.velocityInterfaceCompositeInterface)) in ();
-        baseVelocityInterface <- (!velocityInterfaceCompositeInterface#getVelocityProperties ());
-        velocityInterface <- (Obj.magic baseVelocityInterface);
-        let rotationAnimationInterface_arg : RotationAnimationInterface.rotationAnimationInterface ref = ref (((Obj.magic rotationAnimationInterface) :> RotationAnimationInterface.rotationAnimationInterface)) in ();
-        let angleIncrementInfo : AngleIncrementInfo.angleIncrementInfo ref = ref ((((!rotationAnimationInterface_arg#getAngleInfoP ())#getAngleIncrementInfo ()) :> AngleIncrementInfo.angleIncrementInfo)) in ();
-        ignore (!rotationAnimationInterfaceCompositeInterface#setFrame ((java_int_value (Obj.repr !angleIncrementInfo#rIGHT_FRAME))))
-      end
-  end
-let () = java_register_constructor "HorizontaRotationManeuverAI" (fun arguments -> Obj.repr (new horizontaRotationManeuverAI (Obj.obj arguments)))
+JR.registerLateBound("HorizontaRotationManeuverAI.jnew_2", jnew_2)
+JR.registerLateBound("HorizontaRotationManeuverAI.jm_transition", jm_transition)
+JR.registerLateBound("HorizontaRotationManeuverAI.jm_processAI", jm_processAI)
+JR.registerLateBound("HorizontaRotationManeuverAI.jm_reverse", jm_reverse)
+JR.registerLateBound("HorizontaRotationManeuverAI.jm_accelerate", jm_accelerate)
+JR.registerLateBound("HorizontaRotationManeuverAI.jm_drop", jm_drop)
+JR.registerLateBound("HorizontaRotationManeuverAI.jm_getId", jm_getId)
+JR.registerLateBound("HorizontaRotationManeuverAI.f_circularIndexUtil", (this: HorizontaRotationManeuverAI) => this.f_circularIndexUtil)
+JR.registerLateBound("HorizontaRotationManeuverAI.f_currentSpeedDivisor", (this: HorizontaRotationManeuverAI) => this.f_currentSpeedDivisor)
+JR.registerLateBound("HorizontaRotationManeuverAI.set_f_currentSpeedDivisor", (this: HorizontaRotationManeuverAI, jvalue) => { this.f_currentSpeedDivisor = jvalue; jvalue })
+JR.registerLateBound("HorizontaRotationManeuverAI.f_rotationAnimationInterface", (this: HorizontaRotationManeuverAI) => this.f_rotationAnimationInterface)
+JR.registerLateBound("HorizontaRotationManeuverAI.f_baseVelocityInterface", (this: HorizontaRotationManeuverAI) => this.f_baseVelocityInterface)
+JR.registerLateBound("HorizontaRotationManeuverAI.f_velocityInterface", (this: HorizontaRotationManeuverAI) => this.f_velocityInterface)
 
 

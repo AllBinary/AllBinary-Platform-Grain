@@ -1,45 +1,58 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.displayable.canvas
+module GameProcessor
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.displayable.canvas *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/canvas/Processor.gr" include Processor
+use Processor.{ type Processor }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.canvas.Processor *)
+provide record GameProcessor {
+  jobject: JObject,
+  mut f_gameCanvas: JObject,
+}
 
-class gameProcessor (gameCanvas_arg) =
-  object
-    inherit Processor.processor ()
-    val mutable gameCanvas : Obj.t = Obj.repr 0
-    method gameCanvas : 'r. 'r = Obj.magic gameCanvas
-    method set_gameCanvas : 'v. 'v -> unit = fun value' -> gameCanvas <- Obj.repr value'
+
+provide let rec jclassName = () => "GameProcessor"
     
+and jnew_1 = (gameCanvas: JObject) => {
+    let this = { jobject: JR.newJObject("GameProcessor"), f_gameCanvas: JR.jnull, }
     
+        this.f_gameCanvas = gameCanvas
+    this
+}
+    
+and jm_process = (this: GameProcessor) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_processPlayingGame"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+})
+}
 
-    method process () : unit =
-        begin
-        ignore ((Obj.magic gameCanvas)#processPlayingGame ())
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        ();
-        gameCanvas <- Obj.repr (gameCanvas_arg)
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "GameProcessor" (fun arguments -> Obj.repr (new gameProcessor (Obj.obj arguments)))
+JR.registerLateBound("GameProcessor.jnew_1", jnew_1)
+JR.registerLateBound("GameProcessor.jm_process", jm_process)
+JR.registerLateBound("GameProcessor.f_gameCanvas", (this: GameProcessor) => this.f_gameCanvas)
+JR.registerLateBound("GameProcessor.set_f_gameCanvas", (this: GameProcessor, jvalue) => { this.f_gameCanvas = jvalue; jvalue })
 
 

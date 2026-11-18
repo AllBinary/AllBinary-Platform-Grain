@@ -1,96 +1,99 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics
+module CellPosition
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/graph/V.gr" include V
+use V.{ type V }
+from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.graph.V *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.string.CommonSeps *)
+provide record CellPosition {
+  jobject: JObject,
+  mut f_id: Int32,
+  mut f_column: Int32,
+  mut f_row: Int32,
+}
 
 
-let toStringColRow ((i_column : int), (i_row : int)) : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        let commonSeps : CommonSeps.commonSeps ref = ref (((CommonSeps.getInstance ()) :> CommonSeps.commonSeps)) in ();
-        ignore (!stringBuffer#append (!commonSeps#pARENTHESIS_OPEN));
-        ignore (!stringBuffer#appendint (i_column));
-        ignore (!stringBuffer#append (!commonSeps#cOMMA));
-        ignore (!stringBuffer#appendint (i_row));
-        ignore (!stringBuffer#append (!commonSeps#pARENTHESIS_CLOSE));
-        (java_string_of (Obj.repr !stringBuffer))
-        end
-
-let () = java_register_static "CellPosition.toStringColRow" (fun arguments -> Obj.repr (toStringColRow (Obj.obj arguments)))
-class cellPosition ((column_arg : int), (row_arg : int), (columns : int), (_rows : int)) =
-  object (self)
-    inherit V.v ()
-    val mutable id : int = 0
-    method id = id
-    method set_id value' = id <- value'
-    val mutable column : int = 0
-    method column = column
-    method set_column value' = column <- value'
-    val mutable row : int = 0
-    method row = row
-    method set_row value' = row <- value'
+provide let rec jclassName = () => "CellPosition"
+    
+and jnew_4 = (column: Int32, row: Int32, columns: Int32, rows: Int32) => {
+    let this = { jobject: JR.newJObject("CellPosition"), f_id: 0l, f_column: 0l, f_row: 0l, }
+    this.jobject.toStringFunction = () => jm_toString(this)
     
     
-
-    method getColumn () : int =
-        begin
-        column
-        end [@@warning "-7"]
     
-
-    method getRow () : int =
-        begin
-        row
-        end [@@warning "-7"]
+        this.f_column = column
+        this.f_row = row
+        this.f_id = Int32.(+)((Int32.(*)(row, columns)), column)
+    this
+}
     
-
-    method toString () : string =
-        begin
-        (toStringColRow ((self#getColumn ()), (self#getRow ())))
-        end [@@warning "-7"]
+and jm_getColumn = (this: CellPosition) => {
+        return this.f_column
+}
     
+and jm_getRow = (this: CellPosition) => {
+        return this.f_row
+}
+    
+and jm_toString = (this: CellPosition) => {
+        return jm_toStringColRow(jm_getColumn(this), jm_getRow(this))
+}
+    
+and jm_toStringCellPosition = (basicGeographicMapCellPosition: CellPosition) => {
+        return jm_toStringColRow(jm_getColumn(basicGeographicMapCellPosition), jm_getRow(basicGeographicMapCellPosition))
+}
+    
+and jm_toStringColRow = (i_column: Int32, i_row: Int32) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        let mut commonSeps: CommonSeps = JR.cast(CommonSeps.jm_getInstance())
+        ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_PARENTHESIS_OPEN))
+        ignore(StringMaker.jm_appendint(stringBuffer, i_column))
+        ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_COMMA))
+        ignore(StringMaker.jm_appendint(stringBuffer, i_row))
+        ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_PARENTHESIS_CLOSE))
+        return StringMaker.jm_toString(stringBuffer)
+}
+    
+and jm_getId = (this: CellPosition) => {
+        return this.f_id
+}
 
-    method getId () : int =
-        begin
-        id
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        ();
-        ();
-        ();
-        column <- column_arg;
-        row <- row_arg;
-        id <- (((row_arg * columns)) + column_arg)
-      end
-  end
-let () = java_register_constructor "CellPosition" (fun arguments -> Obj.repr (new cellPosition (Obj.obj arguments)))
-
-let toStringCellPosition : 'any1. 'any1 -> string = fun (basicGeographicMapCellPosition) ->
-        let basicGeographicMapCellPosition = Obj.repr basicGeographicMapCellPosition in
-        begin
-        (toStringColRow (((Obj.magic basicGeographicMapCellPosition)#getColumn ()), ((Obj.magic basicGeographicMapCellPosition)#getRow ())))
-        end [@@warning "-20"]
-let () = java_register_static "CellPosition.toStringCellPosition" (fun arguments -> Obj.repr (toStringCellPosition (Obj.obj arguments)))
+JR.registerLateBound("CellPosition.jnew_4", jnew_4)
+JR.registerLateBound("CellPosition.jm_getColumn", jm_getColumn)
+JR.registerLateBound("CellPosition.jm_getRow", jm_getRow)
+JR.registerLateBound("CellPosition.jm_toString", jm_toString)
+JR.registerLateBound("CellPosition.jm_toStringCellPosition", jm_toStringCellPosition)
+JR.registerLateBound("CellPosition.jm_toStringColRow", jm_toStringColRow)
+JR.registerLateBound("CellPosition.jm_getId", jm_getId)
+JR.registerLateBound("CellPosition.f_id", (this: CellPosition) => this.f_id)
+JR.registerLateBound("CellPosition.f_column", (this: CellPosition) => this.f_column)
+JR.registerLateBound("CellPosition.f_row", (this: CellPosition) => this.f_row)
 
 

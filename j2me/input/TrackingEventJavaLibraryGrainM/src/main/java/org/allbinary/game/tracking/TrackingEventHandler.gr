@@ -1,59 +1,77 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.tracking
+module TrackingEventHandler
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.tracking *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/logic/util/event/AllBinaryEventObject.gr" include AllBinaryEventObject
+use AllBinaryEventObject.{ type AllBinaryEventObject }
+from "../../../../org/allbinary/logic/util/event/EventListenerInterface.gr" include EventListenerInterface
+use EventListenerInterface.{ type EventListenerInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.util.event.AllBinaryEventObject *)
-(* import org.allbinary.logic.util.event.EventListenerInterface *)
-(* import org.allbinary.logic.util.event.handler.BasicEventHandler *)
+provide record TrackingEventHandler {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_eventStrings: JObject,
+  mut f_eventListenerInterfaceList: JObject,
+}
 
-let instance_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
-let get_instance : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instance_cell with Lazy.Undefined -> java_null)
-let set_instance value' = instance_cell := Lazy.from_val (Obj.repr value')
-let () = java_register_static "TrackingEventHandler.get_instance" (fun _ -> Obj.repr (get_instance ()))
-let () = java_register_static "TrackingEventHandler.set_instance" (fun value' -> set_instance value'; Obj.repr ())
-class trackingEventHandler () =
-  object
-    inherit BasicEventHandler.basicEventHandler ()
+let mut jcell_instance: Option<TrackingEventHandler> = None
+
+provide let rec jclassName = () => "TrackingEventHandler"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: TrackingEventHandler = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("TrackingEventHandler"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_eventStrings: JR.jnull, f_eventListenerInterfaceList: JR.jnull, }
+        void
+    this
+}
+    
+and jm_process = (this: TrackingEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) => {
+        let mut trackingEventListenerInterface: JObject = JR.cast(eventListenerInterface)
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TrackingEventListenerInterface.jm_onMovement"))
+JR.cast(jlate(JR.cast(trackingEventListenerInterface), JR.cast(JR.cast(eventObject))))
+})
+}
 
-    method process : 'any1 'any2. 'any1 * 'any2 -> unit = fun (eventObject, eventListenerInterface) ->
-        let eventObject = Obj.repr eventObject in
-        let eventListenerInterface = Obj.repr eventListenerInterface in
-        begin
-        let trackingEventListenerInterface : Obj.t ref = ref ((Obj.repr (Obj.magic (Obj.magic eventListenerInterface)))) in ();
-        ignore ((Obj.magic !trackingEventListenerInterface)#onMovement ((Obj.magic (Obj.magic eventObject))))
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "TrackingEventHandler" (fun arguments -> Obj.repr (new trackingEventHandler (Obj.obj arguments)))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic (get_instance ()))))
-        end
-let () = java_register_static "TrackingEventHandler.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-
-let () = instance_cell := lazy (Obj.repr ((new trackingEventHandler ())))
+JR.registerLateBound("TrackingEventHandler.jnew_0", jnew_0)
+JR.registerLateBound("TrackingEventHandler.jm_getInstance", jm_getInstance)
+JR.registerLateBound("TrackingEventHandler.jm_process", jm_process)
+JR.registerLateBound("TrackingEventHandler.jstatic_instance", jstatic_instance)
 
 

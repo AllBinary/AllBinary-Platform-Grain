@@ -1,124 +1,165 @@
-(*
- 
-  AllBinary Open License Version 1 
-  Copyright (c) 2011 AllBinary 
-   
-  By agreeing to this license you and any business entity you represent are 
-  legally bound to the AllBinary Open License Version 1 legal agreement. 
-   
-  You may obtain the AllBinary Open License Version 1 legal agreement from 
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-   
-  Created By: Travis Berthelot 
+/*
+ * 
+ * AllBinary Open License Version 1 
+ * Copyright (c) 2011 AllBinary 
+ *  
+ * By agreeing to this license you and any business entity you represent are 
+ * legally bound to the AllBinary Open License Version 1 legal agreement. 
+ *  
+ * You may obtain the AllBinary Open License Version 1 legal agreement from 
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+ *  
+ * Created By: Travis Berthelot 
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.math.permutations
+module OrderedIntArrayPermutationUtil
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/util/visitor/Visitor.gr" include Visitor
+use Visitor.{ type Visitor }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../java/lang/System.gr" include System
+from "./IntPermutationVisitor.gr" include IntPermutationVisitor
+use IntPermutationVisitor.{ type IntPermutationVisitor }
+
+provide record OrderedIntArrayPermutationUtil {
+  jobject: JObject,
+  mut f_TOTAL_ITERATIONS_TABLE: String,
+  mut f_FINISHED: String,
+}
+
+let mut jcell_instance: Option<OrderedIntArrayPermutationUtil> = None
+
+provide let rec jclassName = () => "OrderedIntArrayPermutationUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: OrderedIntArrayPermutationUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.math.permutations *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.util.visitor.Visitor *)
-(* import org.allbinary.logic.string.StringMaker *)
-
-class orderedIntArrayPermutationUtil () =
-  object (self)
-    val mutable tOTAL_ITERATIONS_TABLE : string = ""
-    method tOTAL_ITERATIONS_TABLE = tOTAL_ITERATIONS_TABLE
-    method set_tOTAL_ITERATIONS_TABLE value' = tOTAL_ITERATIONS_TABLE <- value'
-    val mutable fINISHED : string = ""
-    method fINISHED = fINISHED
-    method set_fINISHED value' = fINISHED <- value'
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("OrderedIntArrayPermutationUtil"), f_TOTAL_ITERATIONS_TABLE: "", f_FINISHED: "", }
+    this.f_TOTAL_ITERATIONS_TABLE = "Total Iterations: "
+    this.f_FINISHED = "\nFINISHED"
+        void
+    this
+}
     
-
-    method getNext ((data : int array)) : unit =
-        begin
-        let length : int ref = ref ((Array.length data)) in ();
-        let i : int ref = ref ((!length - 1)) in ();
-        while (data.((!i - 1)) >= data.(!i)) do
-            i := (!i - 1)
-        done;
-        let j : int ref = ref (!length) in ();
-        while (data.((!j - 1)) <= data.((!i - 1))) do
-            j := (!j - 1)
-        done;
-        (self#swap (data, (!i - 1), (!j - 1)));
-        i := !i + 1;
-        j := !length;
-        while (!i < !j) do
-            (self#swap (data, (!i - 1), (!j - 1)));
-            i := !i + 1;
-            j := !j - 1
-        done
-        end
+and jm_getNext = (this: OrderedIntArrayPermutationUtil, data: Array<Int32>) => {
+        let mut length: Int32 = Int32.fromNumber(Array.length(data))
+        let mut i: Int32 = Int32.(-)(length, 1l)
+        while (Int32.(>=)(data[Int32.toNumber(Int32.(-)(i, 1l))], data[Int32.toNumber(i)])) {
+            i = Int32.(-)(i, 1l)
+        }
+        let mut j: Int32 = length
+        while (Int32.(<=)(data[Int32.toNumber(Int32.(-)(j, 1l))], data[Int32.toNumber(Int32.(-)(i, 1l))])) {
+            j = Int32.(-)(j, 1l)
+        }
+        ignore(jm_swap(this, data, Int32.(-)(i, 1l), Int32.(-)(j, 1l)))
+        i = Int32.(+)(i, 1l)
+        j = length
+        while (Int32.(<)(i, j)) {
+            ignore(jm_swap(this, data, Int32.(-)(i, 1l), Int32.(-)(j, 1l)))
+            i = Int32.(+)(i, 1l)
+            j = Int32.(-)(j, 1l)
+        }
+}
     
-
-    method swap ((data : int array), (a : int), (b : int)) : unit =
-        begin
-        let temp : int ref = ref (data.(a)) in ();
-        data.(a) <- data.(b);
-        data.(b) <- !temp
-        end
+and jm_swap = (this: OrderedIntArrayPermutationUtil, data: Array<Int32>, a: Int32, b: Int32) => {
+        let mut temp: Int32 = data[Int32.toNumber(a)]
+        data[Int32.toNumber(a)] = data[Int32.toNumber(b)]
+        data[Int32.toNumber(b)] = temp
+}
     
-
-    method factorial ((dataLength : int)) : int =
-        begin
-        let temp : int ref = ref (1) in ();
-        if (dataLength > 1) then begin
-            for i = 1 to dataLength do
-                temp := (!temp * i)
-            done
-        end;
-        !temp
-        end
+and jm_factorial = (this: OrderedIntArrayPermutationUtil, dataLength: Int32) => {
+        let mut temp: Int64 = 1L
+        if (Int32.(>)(dataLength, 1l)) {
+            {
+                let mut i: Int32 = 1l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        i = Int32.(+)(i, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<=)(i, dataLength))) break
+                temp = Int64.(*)(temp, Int64.fromNumber(Int32.toNumber(i)))
+                }
+            }
+        }
+        return temp
+}
     
+and jm_generate = (this: OrderedIntArrayPermutationUtil, data: Array<Int32>, visitor: Visitor) => {
+        let mut iterations: Int64 = jm_factorial(this, Int32.fromNumber(Array.length(data)))
+        ignore(print(this.f_TOTAL_ITERATIONS_TABLE))
+        ignore(print(toString(iterations)))
+        {
+            let mut count: Int64 = 0L
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    count = Int64.(+)(count, 1L)
+                }
+                jfirst = false
+                if (!(Int64.(<)(count, Int64.(-)(iterations, 1L)))) break
+            ignore(jm_getNext(this, data))
+            ignore(Visitor.jm_visit(visitor, JR.cast(this)))
+            }
+        }
+        ignore(print(this.f_FINISHED))
+}
+    
+and jm_main = (args: Array<String>) => {
+        let mut l_TOTAL: Int32 = 3l
+        let mut data: Array<Int32> = Array.make(Int32.toNumber(l_TOTAL), 0l)
+        {
+            let mut i: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    i = Int32.(+)(i, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(i, l_TOTAL))) break
+            data[Int32.toNumber(i)] = i
+            }
+        }
+        let mut permutationVisitor: IntPermutationVisitor = IntPermutationVisitor.jnew_1(data)
+        let mut l_ORIGINAL_DATA_LABEL: String = "Original Data: "
+        ignore(print(l_ORIGINAL_DATA_LABEL))
+        ignore(IntPermutationVisitor.jm_print(permutationVisitor, data, StringMaker.jnew_0()))
+        ignore(jm_generate(jm_getInstance(), data, JR.cast(permutationVisitor)))
+}
 
-    method generate : 'any2. int array * 'any2 -> unit = fun ((data : int array), visitor) ->
-        let visitor = Obj.repr visitor in
-        begin
-        let iterations : int ref = ref ((self#factorial ((Array.length data)))) in ();
-        (print_string (java_string_of (Obj.repr (tOTAL_ITERATIONS_TABLE))));
-        (print_endline (java_string_of (Obj.repr (!iterations))));
-        for _count = 0 to (!iterations - 1) - 1 do
-            (self#getNext (data));
-            ignore ((Obj.magic visitor)#visit ((Obj.magic self)))
-        done;
-        (print_endline (java_string_of (Obj.repr (fINISHED))))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        tOTAL_ITERATIONS_TABLE <- "Total Iterations: ";
-        fINISHED <- "\nFINISHED";
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "OrderedIntArrayPermutationUtil" (fun arguments -> Obj.repr (new orderedIntArrayPermutationUtil (Obj.obj arguments)))
-
-let instance = (new orderedIntArrayPermutationUtil ())
-let get_instance () = instance
-let () = java_register_static "OrderedIntArrayPermutationUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let rec getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-
-and main ((_args : string array)) : unit =
-        begin
-        let tOTAL : int ref = ref (3) in ();
-        let data : int array ref = ref ((Array.make (!tOTAL) 0)) in ();
-        for i = 0 to !tOTAL - 1 do
-            !data.(i) <- i
-        done;
-        let permutationVisitor : IntPermutationVisitor.intPermutationVisitor ref = ref (((new IntPermutationVisitor.intPermutationVisitor (!data)) :> IntPermutationVisitor.intPermutationVisitor)) in ();
-        let oRIGINAL_DATA_LABEL : string ref = ref ("Original Data: ") in ();
-        (print_string (java_string_of (Obj.repr (!oRIGINAL_DATA_LABEL))));
-        ignore (!permutationVisitor#print (!data, (new StringMaker.stringMaker ())));
-        ignore ((getInstance ())#generate (!data, !permutationVisitor))
-        end
-let () = java_register_static "OrderedIntArrayPermutationUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-let () = java_register_static "OrderedIntArrayPermutationUtil.main" (fun arguments -> Obj.repr (main (Obj.obj arguments)))
+JR.registerLateBound("OrderedIntArrayPermutationUtil.jnew_0", jnew_0)
+JR.registerLateBound("OrderedIntArrayPermutationUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("OrderedIntArrayPermutationUtil.jm_getNext", jm_getNext)
+JR.registerLateBound("OrderedIntArrayPermutationUtil.jm_swap", jm_swap)
+JR.registerLateBound("OrderedIntArrayPermutationUtil.jm_factorial", jm_factorial)
+JR.registerLateBound("OrderedIntArrayPermutationUtil.jm_generate", jm_generate)
+JR.registerLateBound("OrderedIntArrayPermutationUtil.jm_main", jm_main)
+JR.registerLateBound("OrderedIntArrayPermutationUtil.f_TOTAL_ITERATIONS_TABLE", (this: OrderedIntArrayPermutationUtil) => this.f_TOTAL_ITERATIONS_TABLE)
+JR.registerLateBound("OrderedIntArrayPermutationUtil.f_FINISHED", (this: OrderedIntArrayPermutationUtil) => this.f_FINISHED)
+JR.registerLateBound("OrderedIntArrayPermutationUtil.jstatic_instance", jstatic_instance)
 
 

@@ -1,181 +1,189 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.media.audio
+module BasicPlayer
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.media.audio *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "./Controllable2.gr" include Controllable2
+use Controllable2.{ type Controllable2 }
+from "./NullControl.gr" include NullControl
+use NullControl.{ type NullControl }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.media.Control *)
-(* import javax.microedition.media.MediaException *)
-(* import javax.microedition.media.Player *)
-(* import javax.microedition.media.PlayerListener *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
+//BasicPlayerJavaLibrary
+provide record BasicPlayer {
+  jobject: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_listenersList: BasicArrayList,
+  mut f_stateP: Int32,
+  mut f_loopCountP: Int32,
+}
 
-let cONTROL_TYPE : string ref = ref ("ToneControl")
-let get_cONTROL_TYPE () = !cONTROL_TYPE
-let set_cONTROL_TYPE value' = cONTROL_TYPE := value'
-let () = java_register_static "BasicPlayer.get_cONTROL_TYPE" (fun _ -> Obj.repr (get_cONTROL_TYPE ()))
-let () = java_register_static "BasicPlayer.set_cONTROL_TYPE" (fun value' -> set_cONTROL_TYPE (Obj.obj value'); Obj.repr ())
-class basicPlayer () =
-  object (self)
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable listenersList : BasicArrayList.basicArrayList = (Obj.magic 0)
-    method listenersList = listenersList
-    method set_listenersList value' = listenersList <- value'
-    val mutable stateP : int = 0
-    method stateP = stateP
-    method set_stateP value' = stateP <- value'
-    val mutable loopCountP : int = 0
-    method loopCountP = loopCountP
-    method set_loopCountP value' = loopCountP <- value'
+let mut jcell_CONTROL_TYPE: Option<String> = None
+
+provide let rec jclassName = () => "BasicPlayer"
+
+and jstatic_CONTROL_TYPE = () => match (jcell_CONTROL_TYPE) {
+  Some(value) => value,
+  None => {
+    let value: String = "ToneControl"
+    jcell_CONTROL_TYPE = Some(value)
+    value
+  },
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("BasicPlayer"), f_commonStrings: JR.nullOf(), f_listenersList: JR.nullOf(), f_stateP: 0l, f_loopCountP: 0l, }
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this.f_listenersList = JR.cast(BasicArrayListD.jnew_0())
     
     
-
-    method getContentType () : string =
-        begin
-        (StringUtil.getInstance ())#eMPTY_STRING
-        end
+        ignore(jm_setLoopCount(this, 0l))
+        ignore(jm_setState(this, {
+let jlate: () => JObject = JR.cast(JR.lateBound("Player.jstatic_UNREALIZED"))
+JR.cast(jlate())
+}))
+    this
+}
     
-
-    method getControl : 'return. string -> 'return = fun ((_controlType : string)) ->
-        begin
-        (Obj.magic ((new NullControl.nullControl ())))
-        end
+and jm_getContentType = (this: BasicPlayer) => {
+        return StringUtil.jm_getInstance().f_EMPTY_STRING
+}
     
-
-    method getControls : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Array.make (0) (Obj.magic 0))))
-        end
+and jm_getControl = (this: BasicPlayer, controlType: String) => {
+        return JR.cast(NullControl.jnew_0())
+}
     
-
-    method close () : unit =
-        begin
-        ()
-        end
+and jm_getControls = (this: BasicPlayer) => {
+        return Array.make(Int32.toNumber(0l), JR.nullOf())
+}
     
-
-    method addPlayerListener : 'any1. 'any1 -> unit = fun (playerListener) ->
-        let playerListener = Obj.repr playerListener in
-        begin
-        if (not (listenersList#contains ((Obj.magic playerListener)))) then begin
-            ignore (listenersList#add ((Obj.magic playerListener)))
-        end
-        end [@@warning "-20"]
+and jm_close = (this: BasicPlayer) => {
+    void
+}
     
-
-    method removePlayerListener : 'any1. 'any1 -> unit = fun (playerListener) ->
-        let playerListener = Obj.repr playerListener in
-        begin
-        ignore (listenersList#remove ((Obj.magic playerListener)))
-        end [@@warning "-20"]
+and jm_addPlayerListener = (this: BasicPlayer, playerListener: JObject) => {
+        if (!BasicArrayList.jm_contains(this.f_listenersList, JR.cast(playerListener))) {
+            ignore(BasicArrayList.jm_add(this.f_listenersList, JR.cast(playerListener)))
+        }
+}
     
-
-    method getState () : int =
-        begin
-        stateP
-        end
+and jm_removePlayerListener = (this: BasicPlayer, playerListener: JObject) => {
+        ignore(BasicArrayList.jm_remove(this.f_listenersList, JR.cast(playerListener)))
+}
     
-
-    method setState ((state : int)) : unit =
-        begin
-        stateP <- state
-        end
+and jm_getState = (this: BasicPlayer) => {
+        return this.f_stateP
+}
     
-
-    method getDuration () : int =
-        begin
-        0
-        end
+and jm_setState = (this: BasicPlayer, state: Int32) => {
+        this.f_stateP = state
+}
     
-
-    method getMediaTime () : int =
-        begin
-        0
-        end
+and jm_getDuration = (this: BasicPlayer) => {
+        return 0L
+}
     
-
-    method deallocate () : unit =
-        begin
-        ()
-        end
+and jm_getMediaTime = (this: BasicPlayer) => {
+        return 0L
+}
     
-
-    method prefetch () : unit =
-        begin
-        ()
-        end
+and jm_deallocate = (this: BasicPlayer) => {
+    void
+}
     
-
-    method realize () : unit =
-        begin
-        ()
-        end
+and jm_prefetch = (this: BasicPlayer) => {
+    void
+}
     
-
-    method setLoopCount ((count : int)) : unit =
-        begin
-        loopCountP <- count
-        end
+and jm_realize = (this: BasicPlayer) => {
+    void
+}
     
-
-    method getLoopCount () : int =
-        begin
-        loopCountP
-        end
+and jm_setLoopCount = (this: BasicPlayer, count: Int32) => {
+        this.f_loopCountP = count
+}
     
-
-    method setMediaTime ((_now : int)) : int =
-        begin
-        0
-        end
+and jm_getLoopCount = (this: BasicPlayer) => {
+        return this.f_loopCountP
+}
     
-
-    method start () : unit =
-        begin
-        (self#setState ((Obj.magic (java_call_static "Player.get_sTARTED" (Obj.repr ())))))
-        end
+and jm_setMediaTime = (this: BasicPlayer, now: Int64) => {
+        return 0L
+}
     
-
-    method stop () : unit =
-        begin
-        (self#setState ((Obj.magic (java_call_static "Player.get_pREFETCHED" (Obj.repr ())))))
-        end
+and jm_start = (this: BasicPlayer) => {
+        ignore(jm_setState(this, {
+let jlate: () => JObject = JR.cast(JR.lateBound("Player.jstatic_STARTED"))
+JR.cast(jlate())
+}))
+}
     
+and jm_stop = (this: BasicPlayer) => {
+        ignore(jm_setState(this, {
+let jlate: () => JObject = JR.cast(JR.lateBound("Player.jstatic_PREFETCHED"))
+JR.cast(jlate())
+}))
+}
+    
+and jm_setVolume = (this: BasicPlayer, leftVolume: Int32, rightVolume: Int32) => {
+    void
+}
 
-    method setVolume ((_leftVolume : int), (_rightVolume : int)) : unit =
-        begin
-        ()
-        end
-
-    initializer
-      begin
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        listenersList <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
-        stateP <- 0;
-        loopCountP <- 0;
-        ();
-        (self#setLoopCount (0));
-        (self#setState ((Obj.magic (java_call_static "Player.get_uNREALIZED" (Obj.repr ())))))
-      end
-  end
-let () = java_register_constructor "BasicPlayer" (fun arguments -> Obj.repr (new basicPlayer (Obj.obj arguments)))
+JR.registerLateBound("BasicPlayer.jnew_0", jnew_0)
+JR.registerLateBound("BasicPlayer.jm_getContentType", jm_getContentType)
+JR.registerLateBound("BasicPlayer.jm_getControl", jm_getControl)
+JR.registerLateBound("BasicPlayer.jm_getControls", jm_getControls)
+JR.registerLateBound("BasicPlayer.jm_close", jm_close)
+JR.registerLateBound("BasicPlayer.jm_addPlayerListener", jm_addPlayerListener)
+JR.registerLateBound("BasicPlayer.jm_removePlayerListener", jm_removePlayerListener)
+JR.registerLateBound("BasicPlayer.jm_getState", jm_getState)
+JR.registerLateBound("BasicPlayer.jm_setState", jm_setState)
+JR.registerLateBound("BasicPlayer.jm_getDuration", jm_getDuration)
+JR.registerLateBound("BasicPlayer.jm_getMediaTime", jm_getMediaTime)
+JR.registerLateBound("BasicPlayer.jm_deallocate", jm_deallocate)
+JR.registerLateBound("BasicPlayer.jm_prefetch", jm_prefetch)
+JR.registerLateBound("BasicPlayer.jm_realize", jm_realize)
+JR.registerLateBound("BasicPlayer.jm_setLoopCount", jm_setLoopCount)
+JR.registerLateBound("BasicPlayer.jm_getLoopCount", jm_getLoopCount)
+JR.registerLateBound("BasicPlayer.jm_setMediaTime", jm_setMediaTime)
+JR.registerLateBound("BasicPlayer.jm_start", jm_start)
+JR.registerLateBound("BasicPlayer.jm_stop", jm_stop)
+JR.registerLateBound("BasicPlayer.jm_setVolume", jm_setVolume)
+JR.registerLateBound("BasicPlayer.f_commonStrings", (this: BasicPlayer) => this.f_commonStrings)
+JR.registerLateBound("BasicPlayer.f_listenersList", (this: BasicPlayer) => this.f_listenersList)
+JR.registerLateBound("BasicPlayer.f_stateP", (this: BasicPlayer) => this.f_stateP)
+JR.registerLateBound("BasicPlayer.set_f_stateP", (this: BasicPlayer, jvalue) => { this.f_stateP = jvalue; jvalue })
+JR.registerLateBound("BasicPlayer.f_loopCountP", (this: BasicPlayer) => this.f_loopCountP)
+JR.registerLateBound("BasicPlayer.set_f_loopCountP", (this: BasicPlayer, jvalue) => { this.f_loopCountP = jvalue; jvalue })
+JR.registerLateBound("BasicPlayer.jstatic_CONTROL_TYPE", jstatic_CONTROL_TYPE)
 
 

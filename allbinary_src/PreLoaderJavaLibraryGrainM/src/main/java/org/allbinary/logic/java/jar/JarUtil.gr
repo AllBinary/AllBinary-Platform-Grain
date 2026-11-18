@@ -1,83 +1,96 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.java.jar
+module JarUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.java.jar *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../java/io/IOException.gr" include IOException
+use IOException.{ type IOException }
+from "../../../../../java/net/URL.gr" include URL
+use URL.{ type URL }
+from "../../../../../java/net/URLConnection.gr" include URLConnection
+use URLConnection.{ type URLConnection }
+from "../../../../../java/util/jar/JarEntry.gr" include JarEntry
+use JarEntry.{ type JarEntry }
+from "../../../../../java/util/jar/JarInputStream.gr" include JarInputStream
+use JarInputStream.{ type JarInputStream }
+from "../../../../../java/lang/System.gr" include System
+from "../../../../../java/lang/Throwable.gr" include Throwable
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.IOException *)
-(* import java.net.URL *)
-(* import java.net.URLConnection *)
-(* import java.util.jar.JarEntry *)
-(* import java.util.jar.JarInputStream *)
+provide record JarUtil {
+  jobject: JObject,
+  mut f_jarURL: URL,
+}
 
-class jarUtil ((jarURL_arg : java_uri)) =
-  object
-    val mutable jarURL : java_uri = (Obj.magic 0)
-    method jarURL = jarURL
-    method set_jarURL value' = jarURL <- value'
+
+provide let rec jclassName = () => "JarUtil"
     
+and jnew_1 = (jarURL: URL) => {
+    let this = { jobject: JR.newJObject("JarUtil"), f_jarURL: JR.nullOf(), }
     
+        this.f_jarURL = jarURL
+    this
+}
+    
+and jm_show = (this: JarUtil) => {
+        let mut cache: Array<Int32> = Array.make(Int32.toNumber(1024l), 0l)
+        {
+            let mut conn: URLConnection = JR.cast(URL.jm_openConnection(this.f_jarURL))
+            let mut jis: JarInputStream = JarInputStream.jnew_1(URLConnection.jm_getInputStream(conn))
+            while (true) {
+                let mut entry: JarEntry = JR.cast(JarInputStream.jm_getNextJarEntry(jis))
+                if (!JR.isNull(entry)) {
+                    if (!JarEntry.jm_isDirectory(entry)) {
+                        let mut offset: Int32 = 0l
+                        let mut i: Int32 = 0l
+                        while ((({ i = JarInputStream.jm_read(jis, cache, offset, Int32.(-)(Int32.fromNumber(Array.length(cache)), offset)); i }) != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
+                            offset = Int32.(+)(offset, i)
+                            if (Int32.(>=)(offset, Int32.fromNumber(Array.length(cache)))) {
+                                let mut newcache: Array<Int32> = Array.make(Int32.toNumber(Int32.(+)(Int32.fromNumber(Array.length(cache)), 1024l)), 0l)
+                                ignore(JR.arraycopy(cache, 0l, newcache, 0l, Int32.fromNumber(Array.length(cache))))
+                                cache = newcache
+                            }
+                        }
+                        let mut tmp: Array<Int32> = Array.make(Int32.toNumber(offset), 0l)
+                        ignore(JR.arraycopy(cache, 0l, tmp, 0l, offset))
+                        ignore(print(JarEntry.jm_getName(entry)))
+                    }
+                } else {
+                    break
+                }
+            }
+        }
+}
+    
+and jm_main = (args: Array<String>) => {
+        ignore(jm_show(jnew_1(URL.jnew_1("file:///G:/mnt/bc/mydev/working/j2me/MiniSpaceWars/MiniSpaceWars/dist/MiniSpaceWars.jar"))))
+}
 
-    method show () : unit =
-        begin
-        let cache : int array ref = ref ((Array.make (1024) 0)) in ();
-        (try
-            let conn : Obj.t ref = ref ((Obj.repr (jarURL#openConnection ()))) in ();
-            let jis : Obj.t ref = ref ((Obj.repr (new JarInputStream.jarInputStream (((Obj.magic !conn)#getInputStream ()))))) in ();
-            while true do
-                let entry : Obj.t ref = ref ((Obj.repr ((Obj.magic !jis)#getNextJarEntry ()))) in ();
-                if ((Obj.magic !entry) != (Obj.magic 0)) then begin
-                    if (not ((Obj.magic !entry)#isDirectory ())) then begin
-                        let offset : int ref = ref (0) in ();
-                        let i : int ref = ref (0) in ();
-                        while (((i := ((Obj.magic !jis)#read (!cache, !offset, ((Array.length !cache) - !offset))); !i)) != (- 1)) do
-                            offset := (!offset + !i);
-                            if (!offset >= (Array.length !cache)) then begin
-                                let newcache : int array ref = ref ((Array.make (((Array.length !cache) + 1024)) 0)) in ();
-                                ignore (Array.blit (!cache) (0) (!newcache) (0) ((Array.length !cache)));
-                                cache := !newcache
-                            end
-                        done;
-                        let tmp : int array ref = ref ((Array.make (!offset) 0)) in ();
-                        ignore (Array.blit (!cache) (0) (!tmp) (0) (!offset));
-                        (print_endline (java_string_of (Obj.repr (((Obj.magic !entry)#getName ())))))
-                    end
-                end else begin
-                    raise Java_break
-                end
-            done
-        with ex -> begin
-            (print_endline (java_string_of (Obj.repr (ex))));
-            ignore (prerr_endline (Printexc.to_string ex))
-        end)
-        end
-
-    initializer
-      begin
-        ();
-        ();
-        jarURL <- jarURL_arg
-      end
-  end
-let () = java_register_constructor "JarUtil" (fun arguments -> Obj.repr (new jarUtil (Obj.obj arguments)))
-
-let main ((_args : string array)) : unit =
-        begin
-        ignore ((new jarUtil ((new java_uri ("file:///G:/mnt/bc/mydev/working/j2me/MiniSpaceWars/MiniSpaceWars/dist/MiniSpaceWars.jar"))))#show ())
-        end
-let () = java_register_static "JarUtil.main" (fun arguments -> Obj.repr (main (Obj.obj arguments)))
+JR.registerLateBound("JarUtil.jnew_1", jnew_1)
+JR.registerLateBound("JarUtil.jm_show", jm_show)
+JR.registerLateBound("JarUtil.jm_main", jm_main)
+JR.registerLateBound("JarUtil.f_jarURL", (this: JarUtil) => this.f_jarURL)
+JR.registerLateBound("JarUtil.set_f_jarURL", (this: JarUtil, jvalue) => { this.f_jarURL = jvalue; jvalue })
 
 

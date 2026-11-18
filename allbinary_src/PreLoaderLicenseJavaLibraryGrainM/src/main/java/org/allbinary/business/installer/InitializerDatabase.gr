@@ -1,307 +1,367 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.business.installer
+module InitializerDatabase
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.business.installer *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/util/HashMap.gr" include HashMap
+use HashMap.{ type HashMap }
+from "../../../../java/util/Map.gr" include Map
+use Map.{ type Map }
+from "../../../../java/util/Set.gr" include Set
+use Set.{ type Set }
+from "../../../../org/allbinary/business/init/db/DatabaseConnectionInfoInterface.gr" include DatabaseConnectionInfoInterface
+use DatabaseConnectionInfoInterface.{ type DatabaseConnectionInfoInterface }
+from "../../../../org/allbinary/business/init/db/DbConnectionInfo.gr" include DbConnectionInfo
+use DbConnectionInfo.{ type DbConnectionInfo }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../org/allbinary/logic/string/StringValidationUtil.gr" include StringValidationUtil
+use StringValidationUtil.{ type StringValidationUtil }
+from "../../../../org/allbinary/logic/system/security/licensing/AbeClientInformationInterface.gr" include AbeClientInformationInterface
+use AbeClientInformationInterface.{ type AbeClientInformationInterface }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./DynamicInitDb.gr" include DynamicInitDb
+use DynamicInitDb.{ type DynamicInitDb }
+from "./InitializerData.gr" include InitializerData
+use InitializerData.{ type InitializerData }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.util.HashMap *)
-(* import java.util.Map *)
-(* import java.util.Set *)
-(* import org.allbinary.business.init.db.DatabaseConnectionInfoInterface *)
-(* import org.allbinary.business.init.db.DbConnectionInfo *)
-(* import org.allbinary.logic.StdUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.logic.string.StringValidationUtil *)
-(* import org.allbinary.logic.system.security.licensing.AbeClientInformationInterface *)
-(* import org.allbinary.string.CommonStrings *)
+provide record InitializerDatabase {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_adminDbUserName: String,
+  mut f_adminDbPassword: String,
+  mut f_adminJdbcDriver: String,
+  mut f_adminSchema: String,
+  mut f_adminServer: String,
+  mut f_adminPort: String,
+  mut f_initDb: DynamicInitDb,
+}
 
-let mAXDB : int = 30
-let get_mAXDB () = mAXDB
-let () = java_register_static "InitializerDatabase.get_mAXDB" (fun _ -> Obj.repr (get_mAXDB ()))
-let mAX : int = 16
-let get_mAX () = mAX
-let () = java_register_static "InitializerDatabase.get_mAX" (fun _ -> Obj.repr (get_mAX ()))
-let mIN : int = 4
-let get_mIN () = mIN
-let () = java_register_static "InitializerDatabase.get_mIN" (fun _ -> Obj.repr (get_mIN ()))
-let mINPASSWORD : int = 0
-let get_mINPASSWORD () = mINPASSWORD
-let () = java_register_static "InitializerDatabase.get_mINPASSWORD" (fun _ -> Obj.repr (get_mINPASSWORD ()))
-class initializerDatabase ((abeClientInformation : AbeClientInformationInterface.abeClientInformationInterface), map) =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable adminDbUserName : string = ""
-    method adminDbUserName = adminDbUserName
-    method set_adminDbUserName value' = adminDbUserName <- value'
-    val mutable adminDbPassword : string = ""
-    method adminDbPassword = adminDbPassword
-    method set_adminDbPassword value' = adminDbPassword <- value'
-    val mutable adminJdbcDriver : string = ""
-    method adminJdbcDriver = adminJdbcDriver
-    method set_adminJdbcDriver value' = adminJdbcDriver <- value'
-    val mutable adminSchema : string = ""
-    method adminSchema = adminSchema
-    method set_adminSchema value' = adminSchema <- value'
-    val mutable adminServer : string = ""
-    method adminServer = adminServer
-    method set_adminServer value' = adminServer <- value'
-    val mutable adminPort : string = ""
-    method adminPort = adminPort
-    method set_adminPort value' = adminPort <- value'
-    val mutable initDb : DynamicInitDb.dynamicInitDb = (Obj.magic 0)
-    method initDb = initDb
-    method set_initDb value' = initDb <- value'
+let mut jcell_MAXDB: Option<Int32> = None
+let mut jcell_MAX: Option<Int32> = None
+let mut jcell_MIN: Option<Int32> = None
+let mut jcell_MINPASSWORD: Option<Int32> = None
+
+provide let rec jclassName = () => "InitializerDatabase"
+
+and jstatic_MAXDB = () => match (jcell_MAXDB) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = 30l
+    jcell_MAXDB = Some(value)
+    value
+  },
+}
+
+and jstatic_MAX = () => match (jcell_MAX) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = 16l
+    jcell_MAX = Some(value)
+    value
+  },
+}
+
+and jstatic_MIN = () => match (jcell_MIN) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = 4l
+    jcell_MIN = Some(value)
+    value
+  },
+}
+
+and jstatic_MINPASSWORD = () => match (jcell_MINPASSWORD) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = 0l
+    jcell_MINPASSWORD = Some(value)
+    value
+  },
+}
+    
+and jnew_2 = (abeClientInformation: AbeClientInformationInterface, map: Map) => {
+    let this = { jobject: JR.newJObject("InitializerDatabase"), f_logUtil: JR.jnull, f_adminDbUserName: "", f_adminDbPassword: "", f_adminJdbcDriver: "", f_adminSchema: "", f_adminServer: "", f_adminPort: "", f_initDb: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
     
     
     
-
-    method getFormData : 'any1. 'any1 * java_hash_map -> unit = fun (abeClientInformation, (hashMap : java_hash_map)) ->
-        let abeClientInformation = Obj.repr abeClientInformation in
-        begin
-        (try
-            let initializerData : InitializerData.initializerData ref = ref (((InitializerData.getInstance ()) :> InitializerData.initializerData)) in ();
-            (self#setAdminDbUserName ((Obj.magic (hashMap#get (!initializerData#dBUSER)))));
-            (self#setAdminDbPassword ((Obj.magic (hashMap#get (!initializerData#dBPASSWORD)))));
-            (self#setAdminJdbcDriver ((Obj.magic (hashMap#get (!initializerData#aDMINJDBCDRIVER)))));
-            (self#setAdminSchema ((Obj.magic (hashMap#get (!initializerData#aDMINSCHEMA)))));
-            (self#setAdminServer ((Obj.magic (hashMap#get (!initializerData#aDMINSERVER)))));
-            (self#setAdminPort ((Obj.magic (hashMap#get (!initializerData#aDMINPORT)))));
-            let dbConnectionInfo : DbConnectionInfo.dbConnectionInfo ref = ref (((new DbConnectionInfo.dbConnectionInfo ()) :> DbConnectionInfo.dbConnectionInfo)) in ();
-            let adminDbName : string ref = ref ((StringUtil.getInstance ())#eMPTY_STRING) in ();
-            ignore (!dbConnectionInfo#setJdbcDriver ((self#getAdminJdbcDriver ())));
-            ignore (!dbConnectionInfo#setName (!adminDbName));
-            ignore (!dbConnectionInfo#setUserName ((self#getAdminDbUserName ())));
-            ignore (!dbConnectionInfo#setPassword ((self#getAdminDbPassword ())));
-            ignore (!dbConnectionInfo#setSchema ((self#getAdminSchema ())));
-            ignore (!dbConnectionInfo#setServer ((self#getAdminServer ())));
-            ignore (!dbConnectionInfo#setPort ((self#getAdminPort ())));
-            initDb <- (new DynamicInitDb.dynamicInitDb ((Obj.magic abeClientInformation), (Obj.magic !dbConnectionInfo)))
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put ("Unable to get form data", (Obj.magic self), "getFormData()", e))
-        end)
-        end [@@warning "-20"]
     
-
-    method isJdbcDriverValid ((jdbcDriverClassPathString : string)) : bool =
-        begin
-        (try
-            ignore ((Obj.magic (java_call_static "Class.forName" (Obj.repr (jdbcDriverClassPathString))))#newInstance ());
-            true
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#pRELOADERERROR)) then begin
-                let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-                ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#iS_VALID, e))
-            end;
-            false
-        end)
-        end
     
-
-    method isValid () : bool =
-        begin
-        let isValid : bool ref = ref (true) in ();
-        if (not (self#isJdbcDriverValid (adminJdbcDriver))) then begin
-            isValid := false
-        end;
-        let stringValidationUtil : StringValidationUtil.stringValidationUtil ref = ref (((StringValidationUtil.getInstance ()) :> StringValidationUtil.stringValidationUtil)) in ();
-        if (not (!stringValidationUtil#isValidRequired (adminDbUserName, mIN, mAX))) then begin
-            isValid := false
-        end;
-        if (not (!stringValidationUtil#isValidNotRequired (adminDbPassword, mINPASSWORD, mAX))) then begin
-            isValid := false
-        end;
-        !isValid
-        end
     
-
-    method getJdbcDriverValidationInfo ((jdbcDriver : string)) : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ("The JDBC driver ("));
-        ignore (!stringBuffer#append (jdbcDriver));
-        ignore (!stringBuffer#append (") you have provided is not valid.<br/>"));
-        (java_string_of (Obj.repr !stringBuffer))
-        end
     
-
-    method getInvalidInfo () : string =
-        begin
-        let isValid : bool ref = ref (true) in ();
-        let isJdbcDriversValid : bool ref = ref (true) in ();
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        if (not (self#isJdbcDriverValid (adminJdbcDriver))) then begin
-            isJdbcDriversValid := false;
-            ignore (!stringBuffer#append ((self#getJdbcDriverValidationInfo ((self#getAdminJdbcDriver ())))))
-        end;
-        let stringValidationUtil : StringValidationUtil.stringValidationUtil ref = ref (((StringValidationUtil.getInstance ()) :> StringValidationUtil.stringValidationUtil)) in ();
-        if (not (!stringValidationUtil#isValidRequired (adminDbUserName, mIN, mAX))) then begin
-            ignore (!stringBuffer#append ((((("Admin username should be < " ^ java_string_of (Obj.repr (mAX))) ^ " and > ") ^ java_string_of (Obj.repr (mIN))) ^ " characters in length.<br />")))
-        end;
-        if (not (!stringValidationUtil#isValidNotRequired (adminDbPassword, mINPASSWORD, mAX))) then begin
-            ignore (!stringBuffer#append ((((("Admin password should be < " ^ java_string_of (Obj.repr (mAX))) ^ " and > ") ^ java_string_of (Obj.repr (mINPASSWORD))) ^ " characters in length.<br />")))
-        end;
-        if (not !isJdbcDriversValid) then begin
-            ignore (!stringBuffer#append (((InitializerData.getInstance ())#getJdbcDriverSolutionInfo ())))
-        end;
-        (java_string_of (Obj.repr !stringBuffer))
-        end
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        let mut hashMap: HashMap = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashMap"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+})
+        let mut keys: Set = JR.cast(Map.jm_keySet(map))
+        let mut keyArray: Array<JObject> = Set.jm_toArray_0(keys)
+        let mut size: Int32 = Int32.fromNumber(Array.length(keyArray))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            let mut key: String = JR.cast(keyArray[Int32.toNumber(index)])
+            let mut values: Array<String> = Map.jm_get(map, key)
+            ignore(HashMap.jm_put_2(hashMap, key, values[Int32.toNumber(0l)]))
+            ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
+            ignore(StringMaker.jm_append(stringBuffer, "key: "))
+            ignore(StringMaker.jm_append(stringBuffer, key))
+            ignore(StringMaker.jm_append(stringBuffer, " Value: "))
+            ignore(StringMaker.jm_append(stringBuffer, values[Int32.toNumber(0l)]))
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast("getFormData()")))
+})
+            }
+        }
+        ignore(jm_getFormData(this, abeClientInformation, hashMap))
+    this
+}
     
-
-    method createUsers () : bool =
-        begin
-        (try
-            ignore (initDb#addUsers ());
-            true
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put ("Unable to Create Users", (Obj.magic self), "createUsers()", e));
-            false
-        end)
-        end
+and jnew_2 = (abeClientInformation: AbeClientInformationInterface, initHashMap: HashMap) => {
+    let this = { jobject: JR.newJObject("InitializerDatabase"), f_logUtil: JR.jnull, f_adminDbUserName: "", f_adminDbPassword: "", f_adminJdbcDriver: "", f_adminSchema: "", f_adminServer: "", f_adminPort: "", f_initDb: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
     
-
-    method createDatabases () : bool =
-        begin
-        (try
-            ignore (initDb#addDatabases ());
-            true
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put ("Unable to Create Databases", (Obj.magic self), "createDatabases()", e));
-            false
-        end)
-        end
     
-
-    method createTables () : bool =
-        begin
-        (try
-            ignore (initDb#addTables ());
-            true
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put ("Unable to Create Tables", (Obj.magic self), "createTables()", e));
-            false
-        end)
-        end
     
-
-    method getAdminDbUserName () : string =
-        begin
-        adminDbUserName
-        end
     
-
-    method setAdminDbUserName ((adminDbUserName_arg : string)) : unit =
-        begin
-        adminDbUserName <- adminDbUserName_arg
-        end
     
-
-    method getAdminDbPassword () : string =
-        begin
-        adminDbPassword
-        end
     
-
-    method setAdminDbPassword ((adminDbPassword_arg : string)) : unit =
-        begin
-        adminDbPassword <- adminDbPassword_arg
-        end
     
-
-    method getAdminJdbcDriver () : string =
-        begin
-        adminJdbcDriver
-        end
+        ignore(jm_getFormData(this, abeClientInformation, initHashMap))
+    this
+}
     
-
-    method setAdminJdbcDriver ((adminJdbcDriver_arg : string)) : unit =
-        begin
-        adminJdbcDriver <- adminJdbcDriver_arg
-        end
+and jm_getFormData = (this: InitializerDatabase, abeClientInformation: AbeClientInformationInterface, hashMap: HashMap) => {
+        {
+            let mut initializerData: InitializerData = JR.cast(InitializerData.jm_getInstance())
+            ignore(jm_setAdminDbUserName(this, JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_DBUSER))))
+            ignore(jm_setAdminDbPassword(this, JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_DBPASSWORD))))
+            ignore(jm_setAdminJdbcDriver(this, JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_ADMINJDBCDRIVER))))
+            ignore(jm_setAdminSchema(this, JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_ADMINSCHEMA))))
+            ignore(jm_setAdminServer(this, JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_ADMINSERVER))))
+            ignore(jm_setAdminPort(this, JR.cast(HashMap.jm_get_1(hashMap, initializerData.f_ADMINPORT))))
+            let mut dbConnectionInfo: DbConnectionInfo = DbConnectionInfo.jnew_0()
+            let mut adminDbName: String = StringUtil.jm_getInstance().f_EMPTY_STRING
+            ignore(DbConnectionInfo.jm_setJdbcDriver(dbConnectionInfo, jm_getAdminJdbcDriver(this)))
+            ignore(DbConnectionInfo.jm_setName(dbConnectionInfo, adminDbName))
+            ignore(DbConnectionInfo.jm_setUserName(dbConnectionInfo, jm_getAdminDbUserName(this)))
+            ignore(DbConnectionInfo.jm_setPassword(dbConnectionInfo, jm_getAdminDbPassword(this)))
+            ignore(DbConnectionInfo.jm_setSchema(dbConnectionInfo, jm_getAdminSchema(this)))
+            ignore(DbConnectionInfo.jm_setServer(dbConnectionInfo, jm_getAdminServer(this)))
+            ignore(DbConnectionInfo.jm_setPort(dbConnectionInfo, jm_getAdminPort(this)))
+            this.f_initDb = DynamicInitDb.jnew_2(abeClientInformation, JR.cast(dbConnectionInfo))
+        }
+}
     
-
-    method getAdminSchema () : string =
-        begin
-        adminSchema
-        end
+and jm_isJdbcDriverValid = (this: InitializerDatabase, jdbcDriverClassPathString: String) => {
+        {
+            ignore(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Class.jm_forName"))
+JR.cast(jlate(JR.cast(jdbcDriverClassPathString)))
+})))
+            return true
+        }
+    return false
+}
     
-
-    method setAdminSchema ((adminSchema_arg : string)) : unit =
-        begin
-        adminSchema <- adminSchema_arg
-        end
+and jm_isValid = (this: InitializerDatabase) => {
+        let mut isValid: Bool = true
+        if (!jm_isJdbcDriverValid(this, this.f_adminJdbcDriver)) {
+            isValid = false
+        }
+        let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_adminDbUserName, jstatic_MIN(), jstatic_MAX())) {
+            isValid = false
+        }
+        if (!StringValidationUtil.jm_isValidNotRequired(stringValidationUtil, this.f_adminDbPassword, jstatic_MINPASSWORD(), jstatic_MAX())) {
+            isValid = false
+        }
+        return isValid
+}
     
-
-    method getAdminServer () : string =
-        begin
-        adminServer
-        end
+and jm_getJdbcDriverValidationInfo = (this: InitializerDatabase, jdbcDriver: String) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, "The JDBC driver ("))
+        ignore(StringMaker.jm_append(stringBuffer, jdbcDriver))
+        ignore(StringMaker.jm_append(stringBuffer, ") you have provided is not valid.<br/>"))
+        return StringMaker.jm_toString(stringBuffer)
+}
     
-
-    method setAdminServer ((adminServer_arg : string)) : unit =
-        begin
-        adminServer <- adminServer_arg
-        end
+and jm_getInvalidInfo = (this: InitializerDatabase) => {
+        let mut isValid: Bool = true
+        let mut isJdbcDriversValid: Bool = true
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        if (!jm_isJdbcDriverValid(this, this.f_adminJdbcDriver)) {
+            isJdbcDriversValid = false
+            ignore(StringMaker.jm_append(stringBuffer, jm_getJdbcDriverValidationInfo(this, jm_getAdminJdbcDriver(this))))
+        }
+        let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
+        if (!StringValidationUtil.jm_isValidRequired(stringValidationUtil, this.f_adminDbUserName, jstatic_MIN(), jstatic_MAX())) {
+            ignore(StringMaker.jm_append(stringBuffer, "Admin username should be < " ++ toString(jstatic_MAX()) ++ " and > " ++ toString(jstatic_MIN()) ++ " characters in length.<br />"))
+        }
+        if (!StringValidationUtil.jm_isValidNotRequired(stringValidationUtil, this.f_adminDbPassword, jstatic_MINPASSWORD(), jstatic_MAX())) {
+            ignore(StringMaker.jm_append(stringBuffer, "Admin password should be < " ++ toString(jstatic_MAX()) ++ " and > " ++ toString(jstatic_MINPASSWORD()) ++ " characters in length.<br />"))
+        }
+        if (!isJdbcDriversValid) {
+            ignore(StringMaker.jm_append(stringBuffer, InitializerData.jm_getJdbcDriverSolutionInfo(InitializerData.jm_getInstance())))
+        }
+        return StringMaker.jm_toString(stringBuffer)
+}
     
-
-    method getAdminPort () : string =
-        begin
-        adminPort
-        end
+and jm_createUsers = (this: InitializerDatabase) => {
+        {
+            ignore(DynamicInitDb.jm_addUsers(this.f_initDb))
+            return true
+        }
+    return false
+}
     
+and jm_createDatabases = (this: InitializerDatabase) => {
+        {
+            ignore(DynamicInitDb.jm_addDatabases(this.f_initDb))
+            return true
+        }
+    return false
+}
+    
+and jm_createTables = (this: InitializerDatabase) => {
+        {
+            ignore(DynamicInitDb.jm_addTables(this.f_initDb))
+            return true
+        }
+    return false
+}
+    
+and jm_getAdminDbUserName = (this: InitializerDatabase) => {
+        return this.f_adminDbUserName
+}
+    
+and jm_setAdminDbUserName = (this: InitializerDatabase, adminDbUserName: String) => {
+        this.f_adminDbUserName = adminDbUserName
+}
+    
+and jm_getAdminDbPassword = (this: InitializerDatabase) => {
+        return this.f_adminDbPassword
+}
+    
+and jm_setAdminDbPassword = (this: InitializerDatabase, adminDbPassword: String) => {
+        this.f_adminDbPassword = adminDbPassword
+}
+    
+and jm_getAdminJdbcDriver = (this: InitializerDatabase) => {
+        return this.f_adminJdbcDriver
+}
+    
+and jm_setAdminJdbcDriver = (this: InitializerDatabase, adminJdbcDriver: String) => {
+        this.f_adminJdbcDriver = adminJdbcDriver
+}
+    
+and jm_getAdminSchema = (this: InitializerDatabase) => {
+        return this.f_adminSchema
+}
+    
+and jm_setAdminSchema = (this: InitializerDatabase, adminSchema: String) => {
+        this.f_adminSchema = adminSchema
+}
+    
+and jm_getAdminServer = (this: InitializerDatabase) => {
+        return this.f_adminServer
+}
+    
+and jm_setAdminServer = (this: InitializerDatabase, adminServer: String) => {
+        this.f_adminServer = adminServer
+}
+    
+and jm_getAdminPort = (this: InitializerDatabase) => {
+        return this.f_adminPort
+}
+    
+and jm_setAdminPort = (this: InitializerDatabase, adminPort: String) => {
+        this.f_adminPort = adminPort
+}
 
-    method setAdminPort ((adminPort_arg : string)) : unit =
-        begin
-        adminPort <- adminPort_arg
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        adminDbUserName <- "";
-        adminDbPassword <- "";
-        adminJdbcDriver <- "";
-        adminSchema <- "";
-        adminServer <- "";
-        adminPort <- "";
-        initDb <- ((Obj.magic 0) :> DynamicInitDb.dynamicInitDb);
-        ();
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        let hashMap : java_hash_map ref = ref ((((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashMap ()) :> java_hash_map)) in ();
-        let keys : Obj.t ref = ref ((Obj.repr (map#keySet ()))) in ();
-        let keyArray : Obj.t array ref = ref (((Obj.magic !keys)#toArray ())) in ();
-        let size : int ref = ref ((Array.length !keyArray)) in ();
-        for index = 0 to !size - 1 do
-            let key : string ref = ref ((Obj.magic !keyArray.(index))) in ();
-            let values : string array ref = ref ((Obj.magic (map#get (!key)))) in ();
-            ignore (!hashMap#put ((Obj.obj (java_new "String" (Obj.repr (!key)))), (Obj.obj (java_new "String" (Obj.repr (!values.(0)))))));
-            ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-            ignore (!stringBuffer#append ("key: "));
-            ignore (!stringBuffer#append (!key));
-            ignore (!stringBuffer#append (" Value: "));
-            ignore (!stringBuffer#append (!values.(0)));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), "getFormData()"))
-        done;
-        (self#getFormData (abeClientInformation, !hashMap))
-      end
-  end [@@warning "-20"]
-(* Java overloaded constructors: an OCaml class has one constructor *)
-let () = java_register_constructor "InitializerDatabase" (fun arguments -> Obj.repr (new initializerDatabase (Obj.obj arguments)))
+JR.registerLateBound("InitializerDatabase.jnew_2", jnew_2)
+JR.registerLateBound("InitializerDatabase.jnew_2", jnew_2)
+JR.registerLateBound("InitializerDatabase.jm_getFormData", jm_getFormData)
+JR.registerLateBound("InitializerDatabase.jm_isJdbcDriverValid", jm_isJdbcDriverValid)
+JR.registerLateBound("InitializerDatabase.jm_isValid", jm_isValid)
+JR.registerLateBound("InitializerDatabase.jm_getJdbcDriverValidationInfo", jm_getJdbcDriverValidationInfo)
+JR.registerLateBound("InitializerDatabase.jm_getInvalidInfo", jm_getInvalidInfo)
+JR.registerLateBound("InitializerDatabase.jm_createUsers", jm_createUsers)
+JR.registerLateBound("InitializerDatabase.jm_createDatabases", jm_createDatabases)
+JR.registerLateBound("InitializerDatabase.jm_createTables", jm_createTables)
+JR.registerLateBound("InitializerDatabase.jm_getAdminDbUserName", jm_getAdminDbUserName)
+JR.registerLateBound("InitializerDatabase.jm_setAdminDbUserName", jm_setAdminDbUserName)
+JR.registerLateBound("InitializerDatabase.jm_getAdminDbPassword", jm_getAdminDbPassword)
+JR.registerLateBound("InitializerDatabase.jm_setAdminDbPassword", jm_setAdminDbPassword)
+JR.registerLateBound("InitializerDatabase.jm_getAdminJdbcDriver", jm_getAdminJdbcDriver)
+JR.registerLateBound("InitializerDatabase.jm_setAdminJdbcDriver", jm_setAdminJdbcDriver)
+JR.registerLateBound("InitializerDatabase.jm_getAdminSchema", jm_getAdminSchema)
+JR.registerLateBound("InitializerDatabase.jm_setAdminSchema", jm_setAdminSchema)
+JR.registerLateBound("InitializerDatabase.jm_getAdminServer", jm_getAdminServer)
+JR.registerLateBound("InitializerDatabase.jm_setAdminServer", jm_setAdminServer)
+JR.registerLateBound("InitializerDatabase.jm_getAdminPort", jm_getAdminPort)
+JR.registerLateBound("InitializerDatabase.jm_setAdminPort", jm_setAdminPort)
+JR.registerLateBound("InitializerDatabase.f_logUtil", (this: InitializerDatabase) => this.f_logUtil)
+JR.registerLateBound("InitializerDatabase.f_adminDbUserName", (this: InitializerDatabase) => this.f_adminDbUserName)
+JR.registerLateBound("InitializerDatabase.set_f_adminDbUserName", (this: InitializerDatabase, jvalue) => { this.f_adminDbUserName = jvalue; jvalue })
+JR.registerLateBound("InitializerDatabase.f_adminDbPassword", (this: InitializerDatabase) => this.f_adminDbPassword)
+JR.registerLateBound("InitializerDatabase.set_f_adminDbPassword", (this: InitializerDatabase, jvalue) => { this.f_adminDbPassword = jvalue; jvalue })
+JR.registerLateBound("InitializerDatabase.f_adminJdbcDriver", (this: InitializerDatabase) => this.f_adminJdbcDriver)
+JR.registerLateBound("InitializerDatabase.set_f_adminJdbcDriver", (this: InitializerDatabase, jvalue) => { this.f_adminJdbcDriver = jvalue; jvalue })
+JR.registerLateBound("InitializerDatabase.f_adminSchema", (this: InitializerDatabase) => this.f_adminSchema)
+JR.registerLateBound("InitializerDatabase.set_f_adminSchema", (this: InitializerDatabase, jvalue) => { this.f_adminSchema = jvalue; jvalue })
+JR.registerLateBound("InitializerDatabase.f_adminServer", (this: InitializerDatabase) => this.f_adminServer)
+JR.registerLateBound("InitializerDatabase.set_f_adminServer", (this: InitializerDatabase, jvalue) => { this.f_adminServer = jvalue; jvalue })
+JR.registerLateBound("InitializerDatabase.f_adminPort", (this: InitializerDatabase) => this.f_adminPort)
+JR.registerLateBound("InitializerDatabase.set_f_adminPort", (this: InitializerDatabase, jvalue) => { this.f_adminPort = jvalue; jvalue })
+JR.registerLateBound("InitializerDatabase.f_initDb", (this: InitializerDatabase) => this.f_initDb)
+JR.registerLateBound("InitializerDatabase.set_f_initDb", (this: InitializerDatabase, jvalue) => { this.f_initDb = jvalue; jvalue })
+JR.registerLateBound("InitializerDatabase.jstatic_MAXDB", jstatic_MAXDB)
+JR.registerLateBound("InitializerDatabase.jstatic_MAX", jstatic_MAX)
+JR.registerLateBound("InitializerDatabase.jstatic_MIN", jstatic_MIN)
+JR.registerLateBound("InitializerDatabase.jstatic_MINPASSWORD", jstatic_MINPASSWORD)
 
 

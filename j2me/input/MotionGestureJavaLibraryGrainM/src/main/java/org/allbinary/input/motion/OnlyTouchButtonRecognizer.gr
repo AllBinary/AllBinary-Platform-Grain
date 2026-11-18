@@ -1,72 +1,80 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.input.motion
+module OnlyTouchButtonRecognizer
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.input.motion *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/input/motion/button/TouchButtonRecognizer.gr" include TouchButtonRecognizer
+use TouchButtonRecognizer.{ type TouchButtonRecognizer }
+from "./MotionRecognizer.gr" include MotionRecognizer
+use MotionRecognizer.{ type MotionRecognizer }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.input.motion.button.TouchButtonRecognizer *)
+provide record OnlyTouchButtonRecognizer {
+  jobject: JObject,
+  mut f_touchButtonRecognizer: TouchButtonRecognizer,
+  mut f_touchButtonProcessing: Bool,
+}
 
-class onlyTouchButtonRecognizer () =
-  object
-    inherit MotionRecognizer.motionRecognizer ()
-    val mutable touchButtonRecognizer : TouchButtonRecognizer.touchButtonRecognizer = (Obj.magic 0)
-    method touchButtonRecognizer = touchButtonRecognizer
-    method set_touchButtonRecognizer value' = touchButtonRecognizer <- value'
-    val mutable touchButtonProcessing : bool = false
-    method touchButtonProcessing = touchButtonProcessing
-    method set_touchButtonProcessing value' = touchButtonProcessing <- value'
+
+provide let rec jclassName = () => "OnlyTouchButtonRecognizer"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("OnlyTouchButtonRecognizer"), f_touchButtonRecognizer: JR.nullOf(), f_touchButtonProcessing: false, }
     
-
-    method processStartMotionEvent ((x : int), (y : int), (deviceId : int), (_modifiers : int)) : unit =
-        begin
-        if (touchButtonRecognizer#pressTouchButtonInput (x, y, deviceId)) then begin
-            touchButtonProcessing <- true
-        end
-        end [@@warning "-7"]
+    this.f_touchButtonProcessing = false
+        this.f_touchButtonRecognizer = TouchButtonRecognizer.jnew_0()
+    this
+}
     
-
-    method processEndMotionEvent ((x : int), (y : int), (deviceId : int), (_modifiers : int)) : unit =
-        try
-        begin
-        if touchButtonProcessing then begin
-            touchButtonProcessing <- false
-        end;
-        if (touchButtonRecognizer#releaseTouchButtonInput (x, y, deviceId)) then begin
-            raise (Java_return (Obj.repr (())))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7"]
+and jm_processStartMotionEvent = (this: OnlyTouchButtonRecognizer, x: Int32, y: Int32, deviceId: Int32, modifiers: Int32) => {
+        if (TouchButtonRecognizer.jm_pressTouchButtonInput(this.f_touchButtonRecognizer, x, y, deviceId)) {
+            this.f_touchButtonProcessing = true
+        }
+}
     
+and jm_processEndMotionEvent = (this: OnlyTouchButtonRecognizer, x: Int32, y: Int32, deviceId: Int32, modifiers: Int32) => {
+        if (this.f_touchButtonProcessing) {
+            this.f_touchButtonProcessing = false
+        }
+        if (TouchButtonRecognizer.jm_releaseTouchButtonInput(this.f_touchButtonRecognizer, x, y, deviceId)) {
+            return void
+        }
+    return void
+}
+    
+and jm_processDraggedMotionEvent = (this: OnlyTouchButtonRecognizer, x: Int32, y: Int32, deviceId: Int32, modifiers: Int32) => {
+        if (this.f_touchButtonProcessing) {
+            ignore(TouchButtonRecognizer.jm_pressTouchButtonInput(this.f_touchButtonRecognizer, x, y, deviceId))
+        }
+}
 
-    method processDraggedMotionEvent ((x : int), (y : int), (deviceId : int), (_modifiers : int)) : unit =
-        begin
-        if touchButtonProcessing then begin
-            ignore (touchButtonRecognizer#pressTouchButtonInput (x, y, deviceId))
-        end
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        touchButtonProcessing <- false;
-        ();
-        touchButtonRecognizer <- (new TouchButtonRecognizer.touchButtonRecognizer ())
-      end
-  end
-let () = java_register_constructor "OnlyTouchButtonRecognizer" (fun arguments -> Obj.repr (new onlyTouchButtonRecognizer (Obj.obj arguments)))
+JR.registerLateBound("OnlyTouchButtonRecognizer.jnew_0", jnew_0)
+JR.registerLateBound("OnlyTouchButtonRecognizer.jm_processStartMotionEvent", jm_processStartMotionEvent)
+JR.registerLateBound("OnlyTouchButtonRecognizer.jm_processEndMotionEvent", jm_processEndMotionEvent)
+JR.registerLateBound("OnlyTouchButtonRecognizer.jm_processDraggedMotionEvent", jm_processDraggedMotionEvent)
+JR.registerLateBound("OnlyTouchButtonRecognizer.f_touchButtonRecognizer", (this: OnlyTouchButtonRecognizer) => this.f_touchButtonRecognizer)
+JR.registerLateBound("OnlyTouchButtonRecognizer.f_touchButtonProcessing", (this: OnlyTouchButtonRecognizer) => this.f_touchButtonProcessing)
+JR.registerLateBound("OnlyTouchButtonRecognizer.set_f_touchButtonProcessing", (this: OnlyTouchButtonRecognizer, jvalue) => { this.f_touchButtonProcessing = jvalue; jvalue })
 
 

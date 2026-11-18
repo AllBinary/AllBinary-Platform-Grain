@@ -1,50 +1,61 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2026 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.displayable.canvas
+module InitGameProcessor
 
-  AllBinary Open License Version 1
-  Copyright (c) 2026 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.displayable.canvas *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/canvas/Processor.gr" include Processor
+use Processor.{ type Processor }
+from "../../../../../org/allbinary/graphics/canvas/transition/progress/ProgressCanvasFactory.gr" include ProgressCanvasFactory
+use ProgressCanvasFactory.{ type ProgressCanvasFactory }
+from "./AllBinaryGameCanvas.gr" include AllBinaryGameCanvas
+use AllBinaryGameCanvas.{ type AllBinaryGameCanvas }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.canvas.Processor *)
-(* import org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record InitGameProcessor {
+  jobject: JObject,
+  mut f_gameCanvas: AllBinaryGameCanvas,
+}
 
-class initGameProcessor ((gameCanvas_arg : AllBinaryGameCanvas.allBinaryGameCanvas)) =
-  object
-    inherit Processor.processor ()
-    val mutable gameCanvas : AllBinaryGameCanvas.allBinaryGameCanvas = (Obj.magic 0)
-    method gameCanvas = gameCanvas
-    method set_gameCanvas value' = gameCanvas <- value'
+
+provide let rec jclassName = () => "InitGameProcessor"
     
+and jnew_1 = (gameCanvas: AllBinaryGameCanvas) => {
+    let this = { jobject: JR.newJObject("InitGameProcessor"), f_gameCanvas: JR.nullOf(), }
     
+        this.f_gameCanvas = gameCanvas
+    this
+}
+    
+and jm_process = (this: InitGameProcessor) => {
+        if (ProgressCanvasFactory.jm_isInGame(ProgressCanvasFactory.jm_getInstance())) {
+            ignore(AllBinaryGameCanvas.jm_setProcessGameProcessorInit(this.f_gameCanvas))
+        }
+}
 
-    method process () : unit =
-        begin
-        if ((ProgressCanvasFactory.getInstance ())#isInGame ()) then begin
-            ignore (gameCanvas#setProcessGameProcessorInit ())
-        end
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        ();
-        gameCanvas <- gameCanvas_arg
-      end
-  end
-let () = java_register_constructor "InitGameProcessor" (fun arguments -> Obj.repr (new initGameProcessor (Obj.obj arguments)))
+JR.registerLateBound("InitGameProcessor.jnew_1", jnew_1)
+JR.registerLateBound("InitGameProcessor.jm_process", jm_process)
+JR.registerLateBound("InitGameProcessor.f_gameCanvas", (this: InitGameProcessor) => this.f_gameCanvas)
+JR.registerLateBound("InitGameProcessor.set_f_gameCanvas", (this: InitGameProcessor, jvalue) => { this.f_gameCanvas = jvalue; jvalue })
 
 

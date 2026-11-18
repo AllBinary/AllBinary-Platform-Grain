@@ -1,212 +1,260 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.init
+module BaseGameInitialization
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.init *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/animation/FeaturedAnimationInterfaceFactoryInterfaceFactory.gr" include FeaturedAnimationInterfaceFactoryInterfaceFactory
+use FeaturedAnimationInterfaceFactoryInterfaceFactory.{ type FeaturedAnimationInterfaceFactoryInterfaceFactory }
+from "../../../../org/allbinary/game/configuration/GameConfigurationCentral.gr" include GameConfigurationCentral
+use GameConfigurationCentral.{ type GameConfigurationCentral }
+from "../../../../org/allbinary/game/configuration/event/ChangedGameFeatureListener.gr" include ChangedGameFeatureListener
+use ChangedGameFeatureListener.{ type ChangedGameFeatureListener }
+from "../../../../org/allbinary/game/configuration/feature/InputFeatureFactory.gr" include InputFeatureFactory
+use InputFeatureFactory.{ type InputFeatureFactory }
+from "../../../../org/allbinary/game/configuration/feature/MainFeatureFactory.gr" include MainFeatureFactory
+use MainFeatureFactory.{ type MainFeatureFactory }
+from "../../../../org/allbinary/game/input/event/GameKeyEventFactory.gr" include GameKeyEventFactory
+use GameKeyEventFactory.{ type GameKeyEventFactory }
+from "../../../../org/allbinary/game/resource/FeaturedResourceRelativeRelationshipFactory.gr" include FeaturedResourceRelativeRelationshipFactory
+use FeaturedResourceRelativeRelationshipFactory.{ type FeaturedResourceRelativeRelationshipFactory }
+from "../../../../org/allbinary/game/resource/ResourceInitialization.gr" include ResourceInitialization
+use ResourceInitialization.{ type ResourceInitialization }
+from "../../../../org/allbinary/game/resource/ResourceLoadingLevelFactory.gr" include ResourceLoadingLevelFactory
+use ResourceLoadingLevelFactory.{ type ResourceLoadingLevelFactory }
+from "../../../../org/allbinary/graphics/canvas/transition/progress/ProgressCanvas.gr" include ProgressCanvas
+use ProgressCanvas.{ type ProgressCanvas }
+from "../../../../org/allbinary/graphics/canvas/transition/progress/ProgressCanvasFactory.gr" include ProgressCanvasFactory
+use ProgressCanvasFactory.{ type ProgressCanvasFactory }
+from "../../../../org/allbinary/image/GameFeatureImageCacheFactory.gr" include GameFeatureImageCacheFactory
+use GameFeatureImageCacheFactory.{ type GameFeatureImageCacheFactory }
+from "../../../../org/allbinary/input/motion/button/CancelTouchButtonInputFactory.gr" include CancelTouchButtonInputFactory
+use CancelTouchButtonInputFactory.{ type CancelTouchButtonInputFactory }
+from "../../../../org/allbinary/logic/system/security/licensing/AbeClientInformationInterface.gr" include AbeClientInformationInterface
+use AbeClientInformationInterface.{ type AbeClientInformationInterface }
+from "./GameInitializationInterface.gr" include GameInitializationInterface
+use GameInitializationInterface.{ type GameInitializationInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.CommandListener *)
-(* import org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory *)
-(* import org.allbinary.game.configuration.GameConfigurationCentral *)
-(* import org.allbinary.game.configuration.event.ChangedGameFeatureListener *)
-(* import org.allbinary.game.configuration.feature.InputFeatureFactory *)
-(* import org.allbinary.game.configuration.feature.MainFeatureFactory *)
-(* import org.allbinary.game.input.PlatformInputMappingFactory *)
-(* import org.allbinary.game.input.event.GameKeyEventFactory *)
-(* import org.allbinary.game.resource.FeaturedResourceRelativeRelationshipFactory *)
-(* import org.allbinary.game.resource.ResourceInitialization *)
-(* import org.allbinary.game.resource.ResourceLoadingLevelFactory *)
-(* import org.allbinary.graphics.canvas.transition.progress.ProgressCanvas *)
-(* import org.allbinary.graphics.canvas.transition.progress.ProgressCanvasFactory *)
-(* import org.allbinary.image.GameFeatureImageCacheFactory *)
-(* import org.allbinary.input.motion.CompleteMotionGestureInputToGameMotionGestureInput *)
-(* import org.allbinary.input.motion.button.BasicTouchInputFactory *)
-(* import org.allbinary.input.motion.button.CancelTouchButtonInputFactory *)
-(* import org.allbinary.logic.system.security.licensing.AbeClientInformationInterface *)
+provide record BaseGameInitialization {
+  jobject: JObject,
+  mut f_resourceInitializationArray: Array<ResourceInitialization>,
+  mut f_portion: Int32,
+  mut f_initialized: Bool,
+  mut f_EARLY_RESOURCES: Int32,
+  mut f_GAME_RESOURCES: Int32,
+  mut f_EARLY_CHANGABLE_RESOURCES: Int32,
+  mut f_GAME_CHANGABLE_RESOURCES: Int32,
+  mut f_gameInitialized: Bool,
+  mut f_allLoaded: Bool,
+}
 
-class baseGameInitialization ((resourceInitializationArray_arg : ResourceInitialization.resourceInitialization array), (portion_arg : int)) =
-  object (self)
-    val mutable resourceInitializationArray : ResourceInitialization.resourceInitialization array = (Obj.magic 0)
-    method resourceInitializationArray = resourceInitializationArray
-    method set_resourceInitializationArray value' = resourceInitializationArray <- value'
-    val mutable portion : int = 0
-    method portion = portion
-    method set_portion value' = portion <- value'
-    val mutable initialized : bool = false
-    method initialized = initialized
-    method set_initialized value' = initialized <- value'
-    val mutable eARLY_RESOURCES : int = 0
-    method eARLY_RESOURCES = eARLY_RESOURCES
-    method set_eARLY_RESOURCES value' = eARLY_RESOURCES <- value'
-    val mutable gAME_RESOURCES : int = 0
-    method gAME_RESOURCES = gAME_RESOURCES
-    method set_gAME_RESOURCES value' = gAME_RESOURCES <- value'
-    val mutable eARLY_CHANGABLE_RESOURCES : int = 0
-    method eARLY_CHANGABLE_RESOURCES = eARLY_CHANGABLE_RESOURCES
-    method set_eARLY_CHANGABLE_RESOURCES value' = eARLY_CHANGABLE_RESOURCES <- value'
-    val mutable gAME_CHANGABLE_RESOURCES : int = 0
-    method gAME_CHANGABLE_RESOURCES = gAME_CHANGABLE_RESOURCES
-    method set_gAME_CHANGABLE_RESOURCES value' = gAME_CHANGABLE_RESOURCES <- value'
-    val mutable gameInitialized : bool = false
-    method gameInitialized = gameInitialized
-    method set_gameInitialized value' = gameInitialized <- value'
-    val mutable allLoaded : bool = false
-    method allLoaded = allLoaded
-    method set_allLoaded value' = allLoaded <- value'
+let mut jcell_NULL_BASE_GAME_INITIALIZATION: Option<BaseGameInitialization> = None
+
+provide let rec jclassName = () => "BaseGameInitialization"
+
+and jstatic_NULL_BASE_GAME_INITIALIZATION = () => match (jcell_NULL_BASE_GAME_INITIALIZATION) {
+  Some(value) => value,
+  None => {
+    let value: BaseGameInitialization = jnew_2(Array.make(Int32.toNumber(0l), JR.nullOf()), 0l)
+    jcell_NULL_BASE_GAME_INITIALIZATION = Some(value)
+    value
+  },
+}
+    
+and jnew_2 = (resourceInitializationArray: Array<ResourceInitialization>, portion: Int32) => {
+    let this = { jobject: JR.newJObject("BaseGameInitialization"), f_resourceInitializationArray: [> ], f_portion: 0l, f_initialized: false, f_EARLY_RESOURCES: 0l, f_GAME_RESOURCES: 0l, f_EARLY_CHANGABLE_RESOURCES: 0l, f_GAME_CHANGABLE_RESOURCES: 0l, f_gameInitialized: false, f_allLoaded: false, }
     
     
-
-    method initKey ((_portion_arg : int)) : unit =
-        begin
-        ()
-        end
     
-
-    method initKeyMapping : 'any1. 'any1 * int -> unit = fun (abeClientInformation, (_portion_arg : int)) ->
-        let abeClientInformation = Obj.repr abeClientInformation in
-        begin
-        if ((ChangedGameFeatureListener.getInstance ())#isChangedFeature ((InputFeatureFactory.getInstance ())#iNPUT_MAPPING)) then begin
-            ignore (((Obj.magic (java_call_static "PlatformInputMappingFactory.getInstance" (Obj.repr ())))#getPersistentInputMappingInstance ())#init ((Obj.magic abeClientInformation)));
-            ignore ((ProgressCanvasFactory.getInstance ())#addNormalPortion (50, "Game Keys"));
-            ignore ((ChangedGameFeatureListener.getInstance ())#remove ((InputFeatureFactory.getInstance ())#iNPUT_MAPPING))
-        end
-        end [@@warning "-20"]
+    this.f_EARLY_RESOURCES = 0l
+    this.f_GAME_RESOURCES = 1l
+    this.f_EARLY_CHANGABLE_RESOURCES = 2l
+    this.f_GAME_CHANGABLE_RESOURCES = 3l
     
-
-    method init : 'any1 'any2. 'any1 * 'any2 * int -> unit = fun (abeClientInformation, _commandListener, (level : int)) ->
-        let abeClientInformation = Obj.repr abeClientInformation in
-        begin
-        let resourceLoadingLevelFactory : ResourceLoadingLevelFactory.resourceLoadingLevelFactory ref = ref (((ResourceLoadingLevelFactory.getInstance ()) :> ResourceLoadingLevelFactory.resourceLoadingLevelFactory)) in ();
-        if ((not (self#isInitialized ())) && (((level = (!resourceLoadingLevelFactory#lOAD_ALL#getLevel ())) || (level = (!resourceLoadingLevelFactory#lOAD_EARLY#getLevel ()))))) then begin
-            let localPortion : int ref = ref (40) in ();
-            if (level = (!resourceLoadingLevelFactory#lOAD_EARLY#getLevel ())) then begin
-                localPortion := 8
-            end;
-            (self#setInitialized (true));
-            (self#initKey ((self#getPortion ())));
-            (self#initKeyMapping ((Obj.magic abeClientInformation), (self#getPortion ())));
-            ignore ((GameKeyEventFactory.getInstance ())#init ());
-            let progressCanvas : ProgressCanvas.progressCanvas ref = ref (((ProgressCanvasFactory.getInstance ()) :> ProgressCanvas.progressCanvas)) in ();
-            ignore (!progressCanvas#addNormalPortion (!localPortion, "Game Key Events"));
-            ignore ((Obj.magic (java_call_static "BasicTouchInputFactory.getInstance" (Obj.repr ())))#init ((((Obj.magic (java_call_static "PlatformInputMappingFactory.getInstance" (Obj.repr ())))#getPersistentInputMappingInstance ())#getInputMapping ())));
-            ignore (CancelTouchButtonInputFactory.getInstance ());
-            ignore (!progressCanvas#addNormalPortion (!localPortion, "Touch Input"));
-            ignore ((Obj.magic (java_call_static "CompleteMotionGestureInputToGameMotionGestureInput.getInstance" (Obj.repr ())))#init ());
-            ignore (!progressCanvas#addNormalPortion (!localPortion, "Motion Input"));
-            ignore (GameFeatureImageCacheFactory.init ());
-            ignore (!progressCanvas#addNormalPortion (!localPortion, "Image Cache"));
-            ignore (resourceInitializationArray.(eARLY_RESOURCES)#init ())
-        end
-        end [@@warning "-20"]
     
-
-    method resourceInitialization ((level : int)) : unit =
-        begin
-        let resourceLoadingLevelFactory : ResourceLoadingLevelFactory.resourceLoadingLevelFactory ref = ref (((ResourceLoadingLevelFactory.getInstance ()) :> ResourceLoadingLevelFactory.resourceLoadingLevelFactory)) in ();
-        if ((self#resourceAnimationChange ()) && (level = (!resourceLoadingLevelFactory#lOAD_EARLY#getLevel ()))) then begin
-            (self#clearResources ());
-            ignore (resourceInitializationArray.(eARLY_CHANGABLE_RESOURCES)#init ())
-        end;
-        if ((self#resourceAnimationChange ()) && (level = (!resourceLoadingLevelFactory#lOAD_ALL#getLevel ()))) then begin
-            if allLoaded then begin
-                (self#clearResources ())
-            end;
-            if ((((FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance ())#getList ())#size ()) = 0) then begin
-                ignore (resourceInitializationArray.(eARLY_CHANGABLE_RESOURCES)#init ())
-            end;
-            ignore (resourceInitializationArray.(gAME_CHANGABLE_RESOURCES)#init ());
-            allLoaded <- true
-        end
-        end
+        this.f_resourceInitializationArray = resourceInitializationArray
+        this.f_portion = portion
+    this
+}
     
-
-    method resourceAnimationChange () : bool =
-        try
-        begin
-        let changedGameFeatureListener : ChangedGameFeatureListener.changedGameFeatureListener ref = ref (((ChangedGameFeatureListener.getInstance ()) :> ChangedGameFeatureListener.changedGameFeatureListener)) in ();
-        let gameConfigurationCentral : GameConfigurationCentral.gameConfigurationCentral ref = ref (((GameConfigurationCentral.getInstance ()) :> GameConfigurationCentral.gameConfigurationCentral)) in ();
-        if (!changedGameFeatureListener#isChangedGameConfiguration (!gameConfigurationCentral#sCALE)) then begin
-            raise (Java_return (Obj.repr (true)))
-        end;
-        if ((ChangedGameFeatureListener.getInstance ())#isChangedFeature ((MainFeatureFactory.getInstance ())#sTATIC)) then begin
-            raise (Java_return (Obj.repr (true)))
-        end;
-        false
-        end
-        with Java_return value -> Obj.obj value
+and jm_initKey = (this: BaseGameInitialization, portion: Int32) => {
+    void
+}
     
-
-    method clearResources () : unit =
-        begin
-        allLoaded <- false;
-        ignore (GameFeatureImageCacheFactory.releaseAll ());
-        let featuredAnimationInterfaceFactoryInterfaceFactory : FeaturedAnimationInterfaceFactoryInterfaceFactory.featuredAnimationInterfaceFactoryInterfaceFactory ref = ref (((FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance ()) :> FeaturedAnimationInterfaceFactoryInterfaceFactory.featuredAnimationInterfaceFactoryInterfaceFactory)) in ();
-        ignore (!featuredAnimationInterfaceFactoryInterfaceFactory#clear ());
-        ignore ((FeaturedResourceRelativeRelationshipFactory.getInstance ())#clear ())
-        end
+and jm_initKeyMapping = (this: BaseGameInitialization, abeClientInformation: AbeClientInformationInterface, portion: Int32) => {
+        if (ChangedGameFeatureListener.jm_isChangedFeature(ChangedGameFeatureListener.jm_getInstance(), InputFeatureFactory.jm_getInstance().f_INPUT_MAPPING)) {
+            ignore(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PlatformInputMappingFactory.jm_getPersistentInputMappingInstance"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("PlatformInputMappingFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+            ignore(ProgressCanvasFactory.jm_addNormalPortion(ProgressCanvasFactory.jm_getInstance(), 50l, "Game Keys"))
+            ignore(ChangedGameFeatureListener.jm_remove(ChangedGameFeatureListener.jm_getInstance(), InputFeatureFactory.jm_getInstance().f_INPUT_MAPPING))
+        }
+}
     
-
-    method setGameInitialized ((gameInitialized_arg : bool)) : unit =
-        begin
-        gameInitialized <- gameInitialized_arg
-        end
+and jm_init = (this: BaseGameInitialization, abeClientInformation: AbeClientInformationInterface, commandListener: CommandListener, level: Int32) => {
+        let mut resourceLoadingLevelFactory: ResourceLoadingLevelFactory = JR.cast(ResourceLoadingLevelFactory.jm_getInstance())
+        if ((!jm_isInitialized(this) && (((level == {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Feature.jm_getLevel"))
+JR.cast(jlate(JR.cast(resourceLoadingLevelFactory.f_LOAD_ALL)))
+}) || (level == {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ResourceLoadingLevel.jm_getLevel"))
+JR.cast(jlate(JR.cast(resourceLoadingLevelFactory.f_LOAD_EARLY)))
+}))))) {
+            let mut localPortion: Int32 = 40l
+            if ((level == {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ResourceLoadingLevel.jm_getLevel"))
+JR.cast(jlate(JR.cast(resourceLoadingLevelFactory.f_LOAD_EARLY)))
+})) {
+                localPortion = 8l
+            }
+            ignore(jm_setInitialized(this, true))
+            ignore(jm_initKey(this, jm_getPortion(this)))
+            ignore(jm_initKeyMapping(this, abeClientInformation, jm_getPortion(this)))
+            ignore(GameKeyEventFactory.jm_init(GameKeyEventFactory.jm_getInstance()))
+            let mut progressCanvas: ProgressCanvas = JR.cast(ProgressCanvasFactory.jm_getInstance())
+            ignore(ProgressCanvas.jm_addNormalPortion(progressCanvas, localPortion, "Game Key Events"))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicTouchInputFactory.jm_init"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("BasicTouchInputFactory.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PlatformInputMappingFactory.jm_getPersistentInputMappingInstance"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("PlatformInputMappingFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))))
+})
+            ignore(CancelTouchButtonInputFactory.jm_getInstance())
+            ignore(ProgressCanvas.jm_addNormalPortion(progressCanvas, localPortion, "Touch Input"))
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CompleteMotionGestureInputToGameMotionGestureInput.jm_init"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("CompleteMotionGestureInputToGameMotionGestureInput.jm_getInstance"))
+JR.cast(jlate())
+})))
+})
+            ignore(ProgressCanvas.jm_addNormalPortion(progressCanvas, localPortion, "Motion Input"))
+            ignore(GameFeatureImageCacheFactory.jm_init())
+            ignore(ProgressCanvas.jm_addNormalPortion(progressCanvas, localPortion, "Image Cache"))
+            ignore(JR.className(JR.cast(this.f_resourceInitializationArray[Int32.toNumber(this.f_EARLY_RESOURCES)])))
+        }
+}
     
-
-    method isGameInitialized () : bool =
-        begin
-        gameInitialized
-        end
+and jm_resourceInitialization = (this: BaseGameInitialization, level: Int32) => {
+        let mut resourceLoadingLevelFactory: ResourceLoadingLevelFactory = JR.cast(ResourceLoadingLevelFactory.jm_getInstance())
+        if ((jm_resourceAnimationChange(this) && (level == {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ResourceLoadingLevel.jm_getLevel"))
+JR.cast(jlate(JR.cast(resourceLoadingLevelFactory.f_LOAD_EARLY)))
+}))) {
+            ignore(jm_clearResources(this))
+            ignore(JR.className(JR.cast(this.f_resourceInitializationArray[Int32.toNumber(this.f_EARLY_CHANGABLE_RESOURCES)])))
+        }
+        if ((jm_resourceAnimationChange(this) && (level == {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Feature.jm_getLevel"))
+JR.cast(jlate(JR.cast(resourceLoadingLevelFactory.f_LOAD_ALL)))
+}))) {
+            if (this.f_allLoaded) {
+                ignore(jm_clearResources(this))
+            }
+            if ((JR.className(JR.cast(FeaturedAnimationInterfaceFactoryInterfaceFactory.jm_getList(FeaturedAnimationInterfaceFactoryInterfaceFactory.jm_getInstance()))) == 0l)) {
+                ignore(JR.className(JR.cast(this.f_resourceInitializationArray[Int32.toNumber(this.f_EARLY_CHANGABLE_RESOURCES)])))
+            }
+            ignore(JR.className(JR.cast(this.f_resourceInitializationArray[Int32.toNumber(this.f_GAME_CHANGABLE_RESOURCES)])))
+            this.f_allLoaded = true
+        }
+}
     
-
-    method getPortion () : int =
-        begin
-        portion
-        end
+and jm_resourceAnimationChange = (this: BaseGameInitialization) => {
+        let mut changedGameFeatureListener: ChangedGameFeatureListener = JR.cast(ChangedGameFeatureListener.jm_getInstance())
+        let mut gameConfigurationCentral: GameConfigurationCentral = JR.cast(GameConfigurationCentral.jm_getInstance())
+        if (ChangedGameFeatureListener.jm_isChangedGameConfiguration(changedGameFeatureListener, gameConfigurationCentral.f_SCALE)) {
+            return true
+        }
+        if (ChangedGameFeatureListener.jm_isChangedFeature(ChangedGameFeatureListener.jm_getInstance(), MainFeatureFactory.jm_getInstance().f_STATIC)) {
+            return true
+        }
+        return false
+}
     
-
-    method setInitialized ((initialized_arg : bool)) : unit =
-        begin
-        initialized <- initialized_arg
-        end
+and jm_clearResources = (this: BaseGameInitialization) => {
+        this.f_allLoaded = false
+        ignore(GameFeatureImageCacheFactory.jm_releaseAll())
+        let mut featuredAnimationInterfaceFactoryInterfaceFactory: FeaturedAnimationInterfaceFactoryInterfaceFactory = JR.cast(FeaturedAnimationInterfaceFactoryInterfaceFactory.jm_getInstance())
+        ignore(FeaturedAnimationInterfaceFactoryInterfaceFactory.jm_clear(featuredAnimationInterfaceFactoryInterfaceFactory))
+        ignore(FeaturedResourceRelativeRelationshipFactory.jm_clear(FeaturedResourceRelativeRelationshipFactory.jm_getInstance()))
+}
     
+and jm_setGameInitialized = (this: BaseGameInitialization, gameInitialized: Bool) => {
+        this.f_gameInitialized = gameInitialized
+}
+    
+and jm_isGameInitialized = (this: BaseGameInitialization) => {
+        return this.f_gameInitialized
+}
+    
+and jm_getPortion = (this: BaseGameInitialization) => {
+        return this.f_portion
+}
+    
+and jm_setInitialized = (this: BaseGameInitialization, initialized: Bool) => {
+        this.f_initialized = initialized
+}
+    
+and jm_isInitialized = (this: BaseGameInitialization) => {
+        return this.f_initialized
+}
 
-    method isInitialized () : bool =
-        begin
-        initialized
-        end
-
-    initializer
-      begin
-        ();
-        ();
-        initialized <- false;
-        eARLY_RESOURCES <- 0;
-        gAME_RESOURCES <- 1;
-        eARLY_CHANGABLE_RESOURCES <- 2;
-        gAME_CHANGABLE_RESOURCES <- 3;
-        gameInitialized <- false;
-        allLoaded <- false;
-        ();
-        resourceInitializationArray <- resourceInitializationArray_arg;
-        portion <- portion_arg
-      end
-  end
-let () = java_register_constructor "BaseGameInitialization" (fun arguments -> Obj.repr (new baseGameInitialization (Obj.obj arguments)))
-
-let nULL_BASE_GAME_INITIALIZATION = (new baseGameInitialization ((Array.make (0) (Obj.magic 0)), 0))
-let get_nULL_BASE_GAME_INITIALIZATION () = nULL_BASE_GAME_INITIALIZATION
-let () = java_register_static "BaseGameInitialization.get_nULL_BASE_GAME_INITIALIZATION" (fun _ -> Obj.repr (get_nULL_BASE_GAME_INITIALIZATION ()))
+JR.registerLateBound("BaseGameInitialization.jnew_2", jnew_2)
+JR.registerLateBound("BaseGameInitialization.jm_initKey", jm_initKey)
+JR.registerLateBound("BaseGameInitialization.jm_initKeyMapping", jm_initKeyMapping)
+JR.registerLateBound("BaseGameInitialization.jm_init", jm_init)
+JR.registerLateBound("BaseGameInitialization.jm_resourceInitialization", jm_resourceInitialization)
+JR.registerLateBound("BaseGameInitialization.jm_resourceAnimationChange", jm_resourceAnimationChange)
+JR.registerLateBound("BaseGameInitialization.jm_clearResources", jm_clearResources)
+JR.registerLateBound("BaseGameInitialization.jm_setGameInitialized", jm_setGameInitialized)
+JR.registerLateBound("BaseGameInitialization.jm_isGameInitialized", jm_isGameInitialized)
+JR.registerLateBound("BaseGameInitialization.jm_getPortion", jm_getPortion)
+JR.registerLateBound("BaseGameInitialization.jm_setInitialized", jm_setInitialized)
+JR.registerLateBound("BaseGameInitialization.jm_isInitialized", jm_isInitialized)
+JR.registerLateBound("BaseGameInitialization.f_resourceInitializationArray", (this: BaseGameInitialization) => this.f_resourceInitializationArray)
+JR.registerLateBound("BaseGameInitialization.f_portion", (this: BaseGameInitialization) => this.f_portion)
+JR.registerLateBound("BaseGameInitialization.f_initialized", (this: BaseGameInitialization) => this.f_initialized)
+JR.registerLateBound("BaseGameInitialization.set_f_initialized", (this: BaseGameInitialization, jvalue) => { this.f_initialized = jvalue; jvalue })
+JR.registerLateBound("BaseGameInitialization.f_EARLY_RESOURCES", (this: BaseGameInitialization) => this.f_EARLY_RESOURCES)
+JR.registerLateBound("BaseGameInitialization.f_GAME_RESOURCES", (this: BaseGameInitialization) => this.f_GAME_RESOURCES)
+JR.registerLateBound("BaseGameInitialization.f_EARLY_CHANGABLE_RESOURCES", (this: BaseGameInitialization) => this.f_EARLY_CHANGABLE_RESOURCES)
+JR.registerLateBound("BaseGameInitialization.f_GAME_CHANGABLE_RESOURCES", (this: BaseGameInitialization) => this.f_GAME_CHANGABLE_RESOURCES)
+JR.registerLateBound("BaseGameInitialization.f_gameInitialized", (this: BaseGameInitialization) => this.f_gameInitialized)
+JR.registerLateBound("BaseGameInitialization.set_f_gameInitialized", (this: BaseGameInitialization, jvalue) => { this.f_gameInitialized = jvalue; jvalue })
+JR.registerLateBound("BaseGameInitialization.f_allLoaded", (this: BaseGameInitialization) => this.f_allLoaded)
+JR.registerLateBound("BaseGameInitialization.set_f_allLoaded", (this: BaseGameInitialization, jvalue) => { this.f_allLoaded = jvalue; jvalue })
+JR.registerLateBound("BaseGameInitialization.jstatic_NULL_BASE_GAME_INITIALIZATION", jstatic_NULL_BASE_GAME_INITIALIZATION)
 
 

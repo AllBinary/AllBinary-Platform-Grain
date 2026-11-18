@@ -1,57 +1,70 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.displayable.canvas
+module GameRunnable
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.displayable.canvas *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/graphics/displayable/DisplayInfoSingleton.gr" include DisplayInfoSingleton
+use DisplayInfoSingleton.{ type DisplayInfoSingleton }
+from "../../../../../java/lang/Thread.gr" include Thread
+use Thread.{ type Thread }
+from "../../../../../java/lang/Runnable.gr" include Runnable
+use Runnable.{ type Runnable }
 
-open Allbinary_java [@@warning "-33"]
-(* import org.allbinary.graphics.displayable.DisplayInfoSingleton *)
+provide record GameRunnable {
+  jobject: JObject,
+  mut f_WAIT: Int32,
+  mut f_FAST: Int32,
+  mut f_waitInMillis: Int64,
+}
 
-class gameRunnable () =
-  object
-    val mutable wAIT : int = 0
-    method wAIT = wAIT
-    method set_wAIT value' = wAIT <- value'
-    val mutable fAST : int = 0
-    method fAST = fAST
-    method set_fAST value' = fAST <- value'
-    val mutable waitInMillis : int = 0
-    method waitInMillis = waitInMillis
-    method set_waitInMillis value' = waitInMillis <- value'
+
+provide let rec jclassName = () => "GameRunnable"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("GameRunnable"), f_WAIT: 0l, f_FAST: 0l, f_waitInMillis: 0L, }
+    this.f_WAIT = 240l
+    this.f_FAST = 60l
+    this.f_waitInMillis = Int64.fromNumber(Int32.toNumber(this.f_WAIT))
+        void
+    this
+}
     
-
-    method run () : unit =
-        begin
-        ignore ((DisplayInfoSingleton.getInstance ())#process ())
-        end
+and jm_run = (this: GameRunnable) => {
+        ignore(DisplayInfoSingleton.jm_process(DisplayInfoSingleton.jm_getInstance()))
+}
     
+and jm_processLoopSleep = (this: GameRunnable) => {
+        ignore(Thread.jm_sleep(this.f_waitInMillis))
+}
 
-    method processLoopSleep () : unit =
-        begin
-        ignore (Unix.sleepf (Float.of_int (waitInMillis) /. 1000.0))
-        end
-
-    initializer
-      begin
-        wAIT <- 240;
-        fAST <- 60;
-        waitInMillis <- wAIT;
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "GameRunnable" (fun arguments -> Obj.repr (new gameRunnable (Obj.obj arguments)))
+JR.registerLateBound("GameRunnable.jnew_0", jnew_0)
+JR.registerLateBound("GameRunnable.jm_run", jm_run)
+JR.registerLateBound("GameRunnable.jm_processLoopSleep", jm_processLoopSleep)
+JR.registerLateBound("GameRunnable.f_WAIT", (this: GameRunnable) => this.f_WAIT)
+JR.registerLateBound("GameRunnable.f_FAST", (this: GameRunnable) => this.f_FAST)
+JR.registerLateBound("GameRunnable.f_waitInMillis", (this: GameRunnable) => this.f_waitInMillis)
+JR.registerLateBound("GameRunnable.set_f_waitInMillis", (this: GameRunnable, jvalue) => { this.f_waitInMillis = jvalue; jvalue })
 
 

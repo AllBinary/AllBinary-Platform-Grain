@@ -1,105 +1,123 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.data.tree.dom
+module DomSearchHelper
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.data.tree.dom *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../../org/w3c/dom/Node.gr" include Node
+use Node.{ type Node }
+from "../../../../../org/w3c/dom/NodeList.gr" include NodeList
+use NodeList.{ type NodeList }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
-(* import org.w3c.dom.Node *)
-(* import org.w3c.dom.NodeList *)
+provide record DomSearchHelper {
+  jobject: JObject,
+}
 
 
-let getNodeNoThrow : 'any2 'return. string * 'any2 -> 'return = fun ((nodeName : string), nodeList) ->
-        let nodeList = Obj.repr nodeList in
-        try
-        begin
-        let numberOfNodes : int ref = ref (((Obj.magic nodeList)#getLength ())) in ();
-        for index = 0 to !numberOfNodes - 1 do
-            let node : Obj.t ref = ref ((Obj.repr ((Obj.magic nodeList)#item (index)))) in ();
-            if ((((Obj.magic !node)#getNodeName ())#compareTo (nodeName)) == 0) then begin
-                raise (Java_return (Obj.repr ((Obj.magic !node))))
-            end
-        done;
-        (Obj.magic ((Obj.magic 0)))
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
-
-and getAllNodesNoThrow : 'any2 'return. string * 'any2 -> 'return = fun ((nodeName : string), nodeList) ->
-        let nodeList = Obj.repr nodeList in
-        begin
-        let nodeVector : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-        let numberOfNodes : int ref = ref (((Obj.magic nodeList)#getLength ())) in ();
-        for index = 0 to !numberOfNodes - 1 do
-            let node : Obj.t ref = ref ((Obj.repr ((Obj.magic nodeList)#item (index)))) in ();
-            if ((((Obj.magic !node)#getNodeName ())#compareTo (nodeName)) == 0) then begin
-                ignore (!nodeVector#add ((Obj.magic !node)))
-            end
-        done;
-        (Obj.magic (!nodeVector))
-        end [@@warning "-20"]
-
-let () = java_register_static "DomSearchHelper.getNodeNoThrow" (fun arguments -> Obj.repr (getNodeNoThrow (Obj.obj arguments)))
-let () = java_register_static "DomSearchHelper.getAllNodesNoThrow" (fun arguments -> Obj.repr (getAllNodesNoThrow (Obj.obj arguments)))
-class domSearchHelper () =
-  object
+provide let rec jclassName = () => "DomSearchHelper"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("DomSearchHelper"), }
+        void
+    this
+}
+    
+and jm_getNodeNoThrow = (nodeName: String, nodeList: NodeList) => {
+        let mut numberOfNodes: Int32 = NodeList.jm_getLength(nodeList)
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, numberOfNodes))) break
+            let mut node: Node = JR.cast(NodeList.jm_item(nodeList, index))
+            if ((JR.className(JR.cast(Node.jm_getNodeName(node))) == 0l)) {
+                return node
+            }
+            }
+        }
+        return JR.nullOf()
+}
+    
+and jm_getNode = (nodeName: String, nodeList: NodeList) => {
+        let mut node: Node = JR.cast(jm_getNodeNoThrow(nodeName, nodeList))
+        if (!JR.isNull(node)) {
+            return node
+        } else {
+            fail JR.toStringOf(JR.newJObject("Exception"))
+        }
+    return JR.nullOf()
+}
+    
+and jm_getChildNodeList = (nodeName: String, nodeList: NodeList) => {
+        let mut node: Node = JR.cast(jm_getNode(nodeName, nodeList))
+        return Node.jm_getChildNodes(node)
+}
+    
+and jm_getAllNodes = (nodeName: String, nodeList: NodeList) => {
+        let mut vector: BasicArrayList = JR.cast(jm_getAllNodesNoThrow(nodeName, nodeList))
+        if (JR.isNull(vector)) {
+            fail JR.toStringOf(JR.newJObject("Exception"))
+        } else {
+            return vector
+        }
+    return JR.nullOf()
+}
+    
+and jm_getAllNodesNoThrow = (nodeName: String, nodeList: NodeList) => {
+        let mut nodeVector: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+        let mut numberOfNodes: Int32 = NodeList.jm_getLength(nodeList)
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, numberOfNodes))) break
+            let mut node: Node = JR.cast(NodeList.jm_item(nodeList, index))
+            if ((JR.className(JR.cast(Node.jm_getNodeName(node))) == 0l)) {
+                ignore(BasicArrayList.jm_add(nodeVector, JR.cast(node)))
+            }
+            }
+        }
+        return nodeVector
+}
 
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "DomSearchHelper" (fun arguments -> Obj.repr (new domSearchHelper (Obj.obj arguments)))
-
-let rec getNode : 'any2 'return. string * 'any2 -> 'return = fun ((nodeName : string), nodeList) ->
-        let nodeList = Obj.repr nodeList in
-        try
-        begin
-        let node : Obj.t ref = ref ((Obj.repr (getNodeNoThrow (nodeName, (Obj.magic nodeList))))) in ();
-        if ((Obj.magic !node) != (Obj.magic 0)) then begin
-            raise (Java_return (Obj.repr ((Obj.magic !node))))
-        end else begin
-            raise (Failure ((nodeName ^ " Node Not Found in search")))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
-
-and getChildNodeList : 'any2 'return. string * 'any2 -> 'return = fun ((nodeName : string), nodeList) ->
-        let nodeList = Obj.repr nodeList in
-        begin
-        let node : Obj.t ref = ref ((Obj.repr (getNode (nodeName, (Obj.magic nodeList))))) in ();
-        (Obj.magic (((Obj.magic !node)#getChildNodes ())))
-        end [@@warning "-20"]
-
-and getAllNodes : 'any2 'return. string * 'any2 -> 'return = fun ((nodeName : string), nodeList) ->
-        let nodeList = Obj.repr nodeList in
-        try
-        begin
-        let vector : BasicArrayList.basicArrayList ref = ref (((getAllNodesNoThrow (nodeName, (Obj.magic nodeList))) :> BasicArrayList.basicArrayList)) in ();
-        if (!vector == (Obj.magic 0)) then begin
-            raise (Failure ((nodeName ^ " Node Not Found in search")))
-        end else begin
-            raise (Java_return (Obj.repr (!vector)))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
-let () = java_register_static "DomSearchHelper.getNode" (fun arguments -> Obj.repr (getNode (Obj.obj arguments)))
-let () = java_register_static "DomSearchHelper.getChildNodeList" (fun arguments -> Obj.repr (getChildNodeList (Obj.obj arguments)))
-let () = java_register_static "DomSearchHelper.getAllNodes" (fun arguments -> Obj.repr (getAllNodes (Obj.obj arguments)))
+JR.registerLateBound("DomSearchHelper.jnew_0", jnew_0)
+JR.registerLateBound("DomSearchHelper.jm_getNodeNoThrow", jm_getNodeNoThrow)
+JR.registerLateBound("DomSearchHelper.jm_getNode", jm_getNode)
+JR.registerLateBound("DomSearchHelper.jm_getChildNodeList", jm_getChildNodeList)
+JR.registerLateBound("DomSearchHelper.jm_getAllNodes", jm_getAllNodes)
+JR.registerLateBound("DomSearchHelper.jm_getAllNodesNoThrow", jm_getAllNodesNoThrow)
 
 

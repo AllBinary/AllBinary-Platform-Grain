@@ -1,230 +1,266 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.opengles
+module CurrentDisplayableFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.opengles *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/J2MEUtil.gr" include J2MEUtil
+use J2MEUtil.{ type J2MEUtil }
+from "../../../../org/allbinary/game/configuration/feature/Features.gr" include Features
+use Features.{ type Features }
+from "../../../../org/allbinary/game/displayable/canvas/GameInputMappingCanvas.gr" include GameInputMappingCanvas
+use GameInputMappingCanvas.{ type GameInputMappingCanvas }
+from "../../../../org/allbinary/game/displayable/canvas/GameInputMappingInstructionsCanvas.gr" include GameInputMappingInstructionsCanvas
+use GameInputMappingInstructionsCanvas.{ type GameInputMappingInstructionsCanvas }
+from "../../../../org/allbinary/game/displayable/canvas/GameRunnable.gr" include GameRunnable
+use GameRunnable.{ type GameRunnable }
+from "../../../../org/allbinary/game/displayable/canvas/NullWaitGameRunnable.gr" include NullWaitGameRunnable
+use NullWaitGameRunnable.{ type NullWaitGameRunnable }
+from "../../../../org/allbinary/game/layer/SWTUtil.gr" include SWTUtil
+use SWTUtil.{ type SWTUtil }
+from "../../../../org/allbinary/game/score/displayable/HighScoresCanvas.gr" include HighScoresCanvas
+use HighScoresCanvas.{ type HighScoresCanvas }
+from "../../../../org/allbinary/graphics/GraphicsStrings.gr" include GraphicsStrings
+use GraphicsStrings.{ type GraphicsStrings }
+from "../../../../org/allbinary/graphics/displayable/CanvasStrings.gr" include CanvasStrings
+use CanvasStrings.{ type CanvasStrings }
+from "../../../../org/allbinary/graphics/displayable/MyCanvas.gr" include MyCanvas
+use MyCanvas.{ type MyCanvas }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../org/allbinary/thread/NullRunnable.gr" include NullRunnable
+use NullRunnable.{ type NullRunnable }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "./OpenGLFeatureFactory.gr" include OpenGLFeatureFactory
+use OpenGLFeatureFactory.{ type OpenGLFeatureFactory }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Displayable *)
-(* import org.allbinary.J2MEUtil *)
-(* import org.allbinary.game.configuration.feature.Features *)
-(* import org.allbinary.game.displayable.canvas.AllBinaryGameCanvas *)
-(* import org.allbinary.game.displayable.canvas.DemoCanvas *)
-(* import org.allbinary.game.displayable.canvas.GameInputMappingCanvas *)
-(* import org.allbinary.game.displayable.canvas.GameInputMappingInstructionsCanvas *)
-(* import org.allbinary.game.displayable.canvas.GameRunnable *)
-(* import org.allbinary.game.displayable.canvas.NullDisplayable *)
-(* import org.allbinary.game.displayable.canvas.NullWaitGameRunnable *)
-(* import org.allbinary.game.layer.SWTUtil *)
-(* import org.allbinary.game.score.displayable.HighScoresCanvas *)
-(* import org.allbinary.graphics.GraphicsStrings *)
-(* import org.allbinary.graphics.displayable.CanvasStrings *)
-(* import org.allbinary.graphics.displayable.MyCanvas *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.string.CommonSeps *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.allbinary.thread.NullRunnable *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
+provide record CurrentDisplayableFactory {
+  jobject: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_canvasStrings: CanvasStrings,
+  mut f_stringUtil: StringUtil,
+  mut f_SET_DISPLAYABLE: String,
+  mut f_SET_RUNNABLE: String,
+  mut f_CLEAR_RUNNABLE: String,
+  mut f_SET_USED_RUNNABLE: String,
+  mut f_RUNNABLE: String,
+  mut f_RUNNABLE_WAS_ALREADY_IN_USE: String,
+  mut f_DEFAULT_CHILD_NAME_LIST: BasicArrayList,
+  mut f_displayable: JObject,
+  mut f_openGlReadydisplayable: JObject,
+  mut f_runnable: GameRunnable,
+  mut f_usedRunnable: GameRunnable,
+}
 
-let instance_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
-let get_instance : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instance_cell with Lazy.Undefined -> java_null)
-let set_instance value' = instance_cell := Lazy.from_val (Obj.repr value')
-let () = java_register_static "CurrentDisplayableFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-let () = java_register_static "CurrentDisplayableFactory.set_instance" (fun value' -> set_instance value'; Obj.repr ())
-class currentDisplayableFactory () =
-  object (self)
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable canvasStrings : CanvasStrings.canvasStrings = (Obj.magic 0)
-    method canvasStrings = canvasStrings
-    method set_canvasStrings value' = canvasStrings <- value'
-    val mutable stringUtil : StringUtil.stringUtil = (Obj.magic 0)
-    method stringUtil = stringUtil
-    method set_stringUtil value' = stringUtil <- value'
-    val mutable sET_DISPLAYABLE : string = ""
-    method sET_DISPLAYABLE = sET_DISPLAYABLE
-    method set_sET_DISPLAYABLE value' = sET_DISPLAYABLE <- value'
-    val mutable sET_RUNNABLE : string = ""
-    method sET_RUNNABLE = sET_RUNNABLE
-    method set_sET_RUNNABLE value' = sET_RUNNABLE <- value'
-    val mutable cLEAR_RUNNABLE : string = ""
-    method cLEAR_RUNNABLE = cLEAR_RUNNABLE
-    method set_cLEAR_RUNNABLE value' = cLEAR_RUNNABLE <- value'
-    val mutable sET_USED_RUNNABLE : string = ""
-    method sET_USED_RUNNABLE = sET_USED_RUNNABLE
-    method set_sET_USED_RUNNABLE value' = sET_USED_RUNNABLE <- value'
-    val mutable rUNNABLE : string = ""
-    method rUNNABLE = rUNNABLE
-    method set_rUNNABLE value' = rUNNABLE <- value'
-    val mutable rUNNABLE_WAS_ALREADY_IN_USE : string = ""
-    method rUNNABLE_WAS_ALREADY_IN_USE = rUNNABLE_WAS_ALREADY_IN_USE
-    method set_rUNNABLE_WAS_ALREADY_IN_USE value' = rUNNABLE_WAS_ALREADY_IN_USE <- value'
-    val mutable dEFAULT_CHILD_NAME_LIST : BasicArrayList.basicArrayList = (Obj.magic 0)
-    method dEFAULT_CHILD_NAME_LIST = dEFAULT_CHILD_NAME_LIST
-    method set_dEFAULT_CHILD_NAME_LIST value' = dEFAULT_CHILD_NAME_LIST <- value'
-    val mutable displayable : Obj.t = Obj.repr 0
-    method displayable : 'r. 'r = Obj.magic displayable
-    method set_displayable : 'v. 'v -> unit = fun value' -> displayable <- Obj.repr value'
-    val mutable openGlReadydisplayable : Obj.t = Obj.repr 0
-    method openGlReadydisplayable : 'r. 'r = Obj.magic openGlReadydisplayable
-    method set_openGlReadydisplayable : 'v. 'v -> unit = fun value' -> openGlReadydisplayable <- Obj.repr value'
-    val mutable runnable : GameRunnable.gameRunnable = (Obj.magic 0)
-    method runnable = runnable
-    method set_runnable value' = runnable <- value'
-    val mutable usedRunnable : GameRunnable.gameRunnable = (Obj.magic 0)
-    method usedRunnable = usedRunnable
-    method set_usedRunnable value' = usedRunnable <- value'
+let mut jcell_instance: Option<CurrentDisplayableFactory> = None
+
+provide let rec jclassName = () => "CurrentDisplayableFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: CurrentDisplayableFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method setMyCanvas : 'any1. 'any1 -> unit = fun (displayable_arg) ->
-        let displayable_arg = Obj.repr displayable_arg in
-        try
-        begin
-        if (java_instanceof (Obj.repr (Obj.magic displayable)) "MyCanvas") then begin
-            if ((Obj.magic displayable_arg)#hasChild ((Obj.magic (Obj.magic displayable)))) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Child Displayable is already set for: "))#append ((stringUtil#toString ((Obj.magic displayable_arg))))))), (Obj.magic self), sET_DISPLAYABLE))));
-                raise (Java_return (Obj.repr (())))
-            end
-        end;
-        (self#setDisplayable ((Obj.magic displayable_arg)))
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("CurrentDisplayableFactory"), f_commonStrings: JR.nullOf(), f_canvasStrings: JR.nullOf(), f_stringUtil: JR.nullOf(), f_SET_DISPLAYABLE: "", f_SET_RUNNABLE: "", f_CLEAR_RUNNABLE: "", f_SET_USED_RUNNABLE: "", f_RUNNABLE: "", f_RUNNABLE_WAS_ALREADY_IN_USE: "", f_DEFAULT_CHILD_NAME_LIST: JR.nullOf(), f_displayable: JR.jnull, f_openGlReadydisplayable: JR.jnull, f_runnable: JR.nullOf(), f_usedRunnable: JR.nullOf(), }
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this.f_canvasStrings = JR.cast(CanvasStrings.jm_getInstance())
+    this.f_stringUtil = JR.cast(StringUtil.jm_getInstance())
+    this.f_SET_DISPLAYABLE = "setDisplayable"
+    this.f_SET_RUNNABLE = "setRunnable"
+    this.f_CLEAR_RUNNABLE = "clearRunnable"
+    this.f_SET_USED_RUNNABLE = "setUsedRunnable"
+    this.f_RUNNABLE = "Runnable: "
+    this.f_RUNNABLE_WAS_ALREADY_IN_USE = "Runnable was already in use: "
+    this.f_DEFAULT_CHILD_NAME_LIST = JR.cast(BasicArrayListD.jnew_0())
+    this.f_displayable = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("NullDisplayable.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_openGlReadydisplayable = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("NullDisplayable.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_runnable = JR.cast(NullWaitGameRunnable.jm_getInstance())
+    this.f_usedRunnable = JR.cast(NullWaitGameRunnable.jm_getInstance())
+        ignore(BasicArrayList.jm_add(this.f_DEFAULT_CHILD_NAME_LIST, JR.cast(this.f_canvasStrings.f_ABOUT)))
+        ignore(BasicArrayList.jm_add(this.f_DEFAULT_CHILD_NAME_LIST, JR.cast(this.f_canvasStrings.f_OPTIONS)))
+        ignore(BasicArrayList.jm_add(this.f_DEFAULT_CHILD_NAME_LIST, JR.cast(GameInputMappingCanvas.jstatic_NAME())))
+        ignore(BasicArrayList.jm_add(this.f_DEFAULT_CHILD_NAME_LIST, JR.cast(GameInputMappingInstructionsCanvas.jstatic_NAME())))
+        ignore(BasicArrayList.jm_add(this.f_DEFAULT_CHILD_NAME_LIST, JR.cast(HighScoresCanvas.jstatic_NAME())))
+    this
+}
     
-
-    method setDisplayable : 'any1. 'any1 -> unit = fun (displayable_arg) ->
-        let displayable_arg = Obj.repr displayable_arg in
-        begin
-        displayable <- Obj.repr ((Obj.magic displayable_arg));
-        (self#setOpenGlReadydisplayable ((Obj.magic displayable_arg)))
-        end [@@warning "-20"]
+and jm_setMyCanvas = (this: CurrentDisplayableFactory, displayable: MyCanvas) => {
+        if ((JR.className(this.f_displayable) == "MyCanvas")) {
+            if (MyCanvas.jm_hasChild(displayable, JR.cast(this.f_displayable))) {
+                ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Child Displayable is already set for: "), StringUtil.jm_toString(this.f_stringUtil, JR.cast(displayable))))), JR.cast(this), JR.cast(this.f_SET_DISPLAYABLE)))
+})
+                return void
+            }
+        }
+        ignore(jm_setDisplayable(this, JR.cast(displayable)))
+    return void
+}
     
-
-    method setOpenGlReadydisplayable : 'any1. 'any1 -> unit = fun (openGlReadydisplayable_arg) ->
-        let openGlReadydisplayable_arg = Obj.repr openGlReadydisplayable_arg in
-        begin
-        openGlReadydisplayable <- Obj.repr ((Obj.magic openGlReadydisplayable_arg));
-        (self#update ())
-        end [@@warning "-20"]
+and jm_setDisplayable = (this: CurrentDisplayableFactory, displayable: JObject) => {
+        this.f_displayable = displayable
+        ignore(jm_setOpenGlReadydisplayable(this, displayable))
+}
     
-
-    method getOpenGlReadydisplayable : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic openGlReadydisplayable)))
-        end
+and jm_setOpenGlReadydisplayable = (this: CurrentDisplayableFactory, openGlReadydisplayable: JObject) => {
+        this.f_openGlReadydisplayable = openGlReadydisplayable
+        ignore(jm_update(this))
+}
     
-
-    method setRunnable : 'any1. 'any1 -> unit = fun (runnable_arg) ->
-        let runnable_arg = Obj.repr runnable_arg in
-        begin
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (rUNNABLE))#append ((stringUtil#toString ((Obj.magic runnable_arg))))))), (Obj.magic self), sET_RUNNABLE))));
-        runnable <- (Obj.magic runnable_arg);
-        if ((Obj.repr usedRunnable) != (Obj.repr runnable)) then begin
-            (self#update ())
-        end else begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (rUNNABLE_WAS_ALREADY_IN_USE))#append ((stringUtil#toString ((Obj.magic runnable_arg))))))), (Obj.magic self), sET_RUNNABLE))))
-        end
-        end [@@warning "-20"]
+and jm_getOpenGlReadydisplayable = (this: CurrentDisplayableFactory) => {
+        return this.f_openGlReadydisplayable
+}
     
-
-    method clearRunnable () : unit =
-        begin
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (rUNNABLE))#append ((stringUtil#toString ((NullRunnable.getInstance ()))))))), (Obj.magic self), cLEAR_RUNNABLE))));
-        (self#setUsedRunnable ((NullWaitGameRunnable.getInstance ())))
-        end
+and jm_setRunnable = (this: CurrentDisplayableFactory, runnable: GameRunnable) => {
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), this.f_RUNNABLE), StringUtil.jm_toString(this.f_stringUtil, JR.cast(runnable))))), JR.cast(this), JR.cast(this.f_SET_RUNNABLE)))
+})
+        this.f_runnable = runnable
+        if ((!JR.isSame(this.f_usedRunnable, this.f_runnable))) {
+            ignore(jm_update(this))
+        } else {
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), this.f_RUNNABLE_WAS_ALREADY_IN_USE), StringUtil.jm_toString(this.f_stringUtil, JR.cast(runnable))))), JR.cast(this), JR.cast(this.f_SET_RUNNABLE)))
+})
+        }
+}
     
-
-    method update () : unit =
-        begin
-        begin (* synchronized *)
-            let commonSeps : CommonSeps.commonSeps ref = ref (((CommonSeps.getInstance ()) :> CommonSeps.commonSeps)) in ();
-            let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
-            let stringMaker : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            ignore (!stringMaker#append ((stringUtil#toString ((Obj.magic openGlReadydisplayable)))));
-            if ((SWTUtil.get_isSWT ()) && (not (!features#isDefault ((OpenGLFeatureFactory.getInstance ())#oPENGL)))) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((((!stringMaker#append (!commonSeps#sPACE))#append ((SWTUtil.get_sWT ())))#append (!commonSeps#sPACE))#append (rUNNABLE))#append ((stringUtil#toString ((NullRunnable.getInstance ()))))))), (Obj.magic self), commonStrings#uPDATE))));
-                (self#setUsedRunnable ((NullWaitGameRunnable.getInstance ())))
-            end else if (J2MEUtil.isHTML ()) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((((!stringMaker#append (!commonSeps#sPACE))#append ((GraphicsStrings.getInstance ())#hTML))#append (!commonSeps#sPACE))#append (rUNNABLE))#append ((stringUtil#toString (runnable)))))), (Obj.magic self), commonStrings#uPDATE))));
-                (self#setUsedRunnable (runnable))
-            end else if (((java_instanceof (Obj.repr (Obj.magic openGlReadydisplayable)) "DemoCanvas") || (java_instanceof (Obj.repr (Obj.magic openGlReadydisplayable)) "AllBinaryGameCanvas")) || (!features#isDefault ((OpenGLFeatureFactory.getInstance ())#oPENGL))) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((((!stringMaker#append (!commonSeps#sPACE))#append ((java_string_of (Obj.repr (OpenGLFeatureFactory.getInstance ())#oPENGL))))#append (!commonSeps#sPACE))#append (rUNNABLE))#append ((stringUtil#toString (runnable)))))), (Obj.magic self), commonStrings#uPDATE))));
-                (self#setUsedRunnable (runnable))
-            end else begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr ((!stringMaker#append (rUNNABLE))#append ((stringUtil#toString ((NullRunnable.getInstance ()))))))), (Obj.magic self), commonStrings#uPDATE))));
-                (self#setUsedRunnable ((NullWaitGameRunnable.getInstance ())))
-            end
-        end
-        end
+and jm_clearRunnable = (this: CurrentDisplayableFactory) => {
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), this.f_RUNNABLE), StringUtil.jm_toString(this.f_stringUtil, NullRunnable.jm_getInstance())))), JR.cast(this), JR.cast(this.f_CLEAR_RUNNABLE)))
+})
+        ignore(jm_setUsedRunnable(this, NullWaitGameRunnable.jm_getInstance()))
+}
     
-
-    method getDisplayable : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic displayable)))
-        end
+and jm_update = (this: CurrentDisplayableFactory) => {
+        {
+            let mut commonSeps: CommonSeps = JR.cast(CommonSeps.jm_getInstance())
+            let mut features: Features = JR.cast(Features.jm_getInstance())
+            let mut stringMaker: StringMaker = StringMaker.jnew_0()
+            ignore(StringMaker.jm_append(stringMaker, StringUtil.jm_toString(this.f_stringUtil, JR.cast(this.f_openGlReadydisplayable))))
+            if ((SWTUtil.jstatic_isSWT() && !Features.jm_isDefault(features, JR.cast(OpenGLFeatureFactory.jm_getInstance().f_OPENGL)))) {
+                ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(stringMaker, commonSeps.f_SPACE), SWTUtil.jstatic_SWT()), commonSeps.f_SPACE), this.f_RUNNABLE), StringUtil.jm_toString(this.f_stringUtil, NullRunnable.jm_getInstance())))), JR.cast(this), JR.cast(this.f_commonStrings.f_UPDATE)))
+})
+                ignore(jm_setUsedRunnable(this, NullWaitGameRunnable.jm_getInstance()))
+            } else if (J2MEUtil.jm_isHTML()) {
+                ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(stringMaker, commonSeps.f_SPACE), GraphicsStrings.jm_getInstance().f_HTML), commonSeps.f_SPACE), this.f_RUNNABLE), StringUtil.jm_toString(this.f_stringUtil, JR.cast(this.f_runnable))))), JR.cast(this), JR.cast(this.f_commonStrings.f_UPDATE)))
+})
+                ignore(jm_setUsedRunnable(this, this.f_runnable))
+            } else if ((((JR.className(this.f_openGlReadydisplayable) == "DemoCanvas") || (JR.className(this.f_openGlReadydisplayable) == "AllBinaryGameCanvas")) || Features.jm_isDefault(features, JR.cast(OpenGLFeatureFactory.jm_getInstance().f_OPENGL)))) {
+                ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(stringMaker, commonSeps.f_SPACE), JR.toStringOf(JR.cast(OpenGLFeatureFactory.jm_getInstance().f_OPENGL))), commonSeps.f_SPACE), this.f_RUNNABLE), StringUtil.jm_toString(this.f_stringUtil, JR.cast(this.f_runnable))))), JR.cast(this), JR.cast(this.f_commonStrings.f_UPDATE)))
+})
+                ignore(jm_setUsedRunnable(this, this.f_runnable))
+            } else {
+                ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(stringMaker, this.f_RUNNABLE), StringUtil.jm_toString(this.f_stringUtil, NullRunnable.jm_getInstance())))), JR.cast(this), JR.cast(this.f_commonStrings.f_UPDATE)))
+})
+                ignore(jm_setUsedRunnable(this, NullWaitGameRunnable.jm_getInstance()))
+            }
+        }
+}
     
-
-    method getUsedRunnable : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (usedRunnable))
-        end
+and jm_getDisplayable = (this: CurrentDisplayableFactory) => {
+        return this.f_displayable
+}
     
+and jm_getUsedRunnable = (this: CurrentDisplayableFactory) => {
+        return this.f_usedRunnable
+}
+    
+and jm_setUsedRunnable = (this: CurrentDisplayableFactory, usedRunnable: GameRunnable) => {
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), this.f_RUNNABLE), StringUtil.jm_toString(this.f_stringUtil, JR.cast(this.f_runnable))), CommonSeps.jm_getInstance().f_COLON_SEP), StringUtil.jm_toString(this.f_stringUtil, JR.cast(usedRunnable))))), JR.cast(this), JR.cast(this.f_SET_USED_RUNNABLE)))
+})
+        this.f_usedRunnable = usedRunnable
+}
 
-    method setUsedRunnable : 'any1. 'any1 -> unit = fun (usedRunnable_arg) ->
-        let usedRunnable_arg = Obj.repr usedRunnable_arg in
-        begin
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((((new StringMaker.stringMaker ())#append (rUNNABLE))#append ((stringUtil#toString (runnable))))#append ((CommonSeps.getInstance ())#cOLON_SEP))#append ((stringUtil#toString ((Obj.magic usedRunnable_arg))))))), (Obj.magic self), sET_USED_RUNNABLE))));
-        usedRunnable <- (Obj.magic usedRunnable_arg)
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        canvasStrings <- ((CanvasStrings.getInstance ()) :> CanvasStrings.canvasStrings);
-        stringUtil <- ((StringUtil.getInstance ()) :> StringUtil.stringUtil);
-        sET_DISPLAYABLE <- "setDisplayable";
-        sET_RUNNABLE <- "setRunnable";
-        cLEAR_RUNNABLE <- "clearRunnable";
-        sET_USED_RUNNABLE <- "setUsedRunnable";
-        rUNNABLE <- "Runnable: ";
-        rUNNABLE_WAS_ALREADY_IN_USE <- "Runnable was already in use: ";
-        dEFAULT_CHILD_NAME_LIST <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
-        displayable <- (Obj.repr (Obj.magic (java_call_static "NullDisplayable.getInstance" (Obj.repr ()))));
-        openGlReadydisplayable <- (Obj.repr (Obj.magic (java_call_static "NullDisplayable.getInstance" (Obj.repr ()))));
-        runnable <- ((NullWaitGameRunnable.getInstance ()) :> GameRunnable.gameRunnable);
-        usedRunnable <- ((NullWaitGameRunnable.getInstance ()) :> GameRunnable.gameRunnable);
-        ();
-        ignore (dEFAULT_CHILD_NAME_LIST#add (canvasStrings#aBOUT));
-        ignore (dEFAULT_CHILD_NAME_LIST#add (canvasStrings#oPTIONS));
-        ignore (dEFAULT_CHILD_NAME_LIST#add ((GameInputMappingCanvas.get_nAME ())));
-        ignore (dEFAULT_CHILD_NAME_LIST#add ((GameInputMappingInstructionsCanvas.get_nAME ())));
-        ignore (dEFAULT_CHILD_NAME_LIST#add ((HighScoresCanvas.get_nAME ())))
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "CurrentDisplayableFactory" (fun arguments -> Obj.repr (new currentDisplayableFactory (Obj.obj arguments)))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic (get_instance ()))))
-        end
-let () = java_register_static "CurrentDisplayableFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-
-let () = instance_cell := lazy (Obj.repr ((new currentDisplayableFactory ())))
+JR.registerLateBound("CurrentDisplayableFactory.jnew_0", jnew_0)
+JR.registerLateBound("CurrentDisplayableFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("CurrentDisplayableFactory.jm_setMyCanvas", jm_setMyCanvas)
+JR.registerLateBound("CurrentDisplayableFactory.jm_setDisplayable", jm_setDisplayable)
+JR.registerLateBound("CurrentDisplayableFactory.jm_setOpenGlReadydisplayable", jm_setOpenGlReadydisplayable)
+JR.registerLateBound("CurrentDisplayableFactory.jm_getOpenGlReadydisplayable", jm_getOpenGlReadydisplayable)
+JR.registerLateBound("CurrentDisplayableFactory.jm_setRunnable", jm_setRunnable)
+JR.registerLateBound("CurrentDisplayableFactory.jm_clearRunnable", jm_clearRunnable)
+JR.registerLateBound("CurrentDisplayableFactory.jm_update", jm_update)
+JR.registerLateBound("CurrentDisplayableFactory.jm_getDisplayable", jm_getDisplayable)
+JR.registerLateBound("CurrentDisplayableFactory.jm_getUsedRunnable", jm_getUsedRunnable)
+JR.registerLateBound("CurrentDisplayableFactory.jm_setUsedRunnable", jm_setUsedRunnable)
+JR.registerLateBound("CurrentDisplayableFactory.f_commonStrings", (this: CurrentDisplayableFactory) => this.f_commonStrings)
+JR.registerLateBound("CurrentDisplayableFactory.f_canvasStrings", (this: CurrentDisplayableFactory) => this.f_canvasStrings)
+JR.registerLateBound("CurrentDisplayableFactory.f_stringUtil", (this: CurrentDisplayableFactory) => this.f_stringUtil)
+JR.registerLateBound("CurrentDisplayableFactory.f_SET_DISPLAYABLE", (this: CurrentDisplayableFactory) => this.f_SET_DISPLAYABLE)
+JR.registerLateBound("CurrentDisplayableFactory.f_SET_RUNNABLE", (this: CurrentDisplayableFactory) => this.f_SET_RUNNABLE)
+JR.registerLateBound("CurrentDisplayableFactory.f_CLEAR_RUNNABLE", (this: CurrentDisplayableFactory) => this.f_CLEAR_RUNNABLE)
+JR.registerLateBound("CurrentDisplayableFactory.f_SET_USED_RUNNABLE", (this: CurrentDisplayableFactory) => this.f_SET_USED_RUNNABLE)
+JR.registerLateBound("CurrentDisplayableFactory.f_RUNNABLE", (this: CurrentDisplayableFactory) => this.f_RUNNABLE)
+JR.registerLateBound("CurrentDisplayableFactory.f_RUNNABLE_WAS_ALREADY_IN_USE", (this: CurrentDisplayableFactory) => this.f_RUNNABLE_WAS_ALREADY_IN_USE)
+JR.registerLateBound("CurrentDisplayableFactory.f_DEFAULT_CHILD_NAME_LIST", (this: CurrentDisplayableFactory) => this.f_DEFAULT_CHILD_NAME_LIST)
+JR.registerLateBound("CurrentDisplayableFactory.f_displayable", (this: CurrentDisplayableFactory) => this.f_displayable)
+JR.registerLateBound("CurrentDisplayableFactory.set_f_displayable", (this: CurrentDisplayableFactory, jvalue) => { this.f_displayable = jvalue; jvalue })
+JR.registerLateBound("CurrentDisplayableFactory.f_openGlReadydisplayable", (this: CurrentDisplayableFactory) => this.f_openGlReadydisplayable)
+JR.registerLateBound("CurrentDisplayableFactory.set_f_openGlReadydisplayable", (this: CurrentDisplayableFactory, jvalue) => { this.f_openGlReadydisplayable = jvalue; jvalue })
+JR.registerLateBound("CurrentDisplayableFactory.f_runnable", (this: CurrentDisplayableFactory) => this.f_runnable)
+JR.registerLateBound("CurrentDisplayableFactory.set_f_runnable", (this: CurrentDisplayableFactory, jvalue) => { this.f_runnable = jvalue; jvalue })
+JR.registerLateBound("CurrentDisplayableFactory.f_usedRunnable", (this: CurrentDisplayableFactory) => this.f_usedRunnable)
+JR.registerLateBound("CurrentDisplayableFactory.set_f_usedRunnable", (this: CurrentDisplayableFactory, jvalue) => { this.f_usedRunnable = jvalue; jvalue })
+JR.registerLateBound("CurrentDisplayableFactory.jstatic_instance", jstatic_instance)
 
 

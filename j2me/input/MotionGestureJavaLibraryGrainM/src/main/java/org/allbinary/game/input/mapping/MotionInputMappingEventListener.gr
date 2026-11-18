@@ -1,52 +1,72 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.input.mapping
+module MotionInputMappingEventListener
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.input.mapping *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/input/mapping/event/InputMappingEvent.gr" include InputMappingEvent
+use InputMappingEvent.{ type InputMappingEvent }
+from "../../../../../org/allbinary/game/input/mapping/event/InputMappingEventListenerInterface.gr" include InputMappingEventListenerInterface
+use InputMappingEventListenerInterface.{ type InputMappingEventListenerInterface }
+from "../../../../../org/allbinary/game/input/motion/action/GameKeyCompleteMotionGestureInputEventFactory.gr" include GameKeyCompleteMotionGestureInputEventFactory
+use GameKeyCompleteMotionGestureInputEventFactory.{ type GameKeyCompleteMotionGestureInputEventFactory }
+from "../../../../../org/allbinary/logic/communication/log/ForcedLogUtil.gr" include ForcedLogUtil
+use ForcedLogUtil.{ type ForcedLogUtil }
+from "../../../../../org/allbinary/logic/util/event/AllBinaryEventObject.gr" include AllBinaryEventObject
+use AllBinaryEventObject.{ type AllBinaryEventObject }
+from "../../../../../org/allbinary/logic/util/event/EventStrings.gr" include EventStrings
+use EventStrings.{ type EventStrings }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.input.mapping.event.InputMappingEvent *)
-(* import org.allbinary.game.input.mapping.event.InputMappingEventListenerInterface *)
-(* import org.allbinary.game.input.motion.action.GameKeyCompleteMotionGestureInputEventFactory *)
-(* import org.allbinary.input.motion.button.BasicTouchInputFactory *)
-(* import org.allbinary.logic.communication.log.ForcedLogUtil *)
-(* import org.allbinary.logic.util.event.AllBinaryEventObject *)
-(* import org.allbinary.logic.util.event.EventStrings *)
+provide record MotionInputMappingEventListener {
+  jobject: JObject,
+}
 
-class motionInputMappingEventListener () =
-  object (self)
+
+provide let rec jclassName = () => "MotionInputMappingEventListener"
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("MotionInputMappingEventListener"), }
+    this
+}
     
-
-    method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
-        begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
-        end [@@warning "-20"]
+and jm_onEvent = (this: MotionInputMappingEventListener, eventObject: AllBinaryEventObject) => {
+        ignore(ForcedLogUtil.jm_log(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE, JR.cast(this)))
+}
     
+and jm_onInputMappingEvent = (this: MotionInputMappingEventListener, inputMappingEvent: InputMappingEvent) => {
+        ignore(GameKeyCompleteMotionGestureInputEventFactory.jm_updateAll(GameKeyCompleteMotionGestureInputEventFactory.jm_getInstance()))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicTouchInputFactory.jm_updateAll"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("BasicTouchInputFactory.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(InputMappingEvent.jm_getInputToGameKeyMapping(inputMappingEvent))))
+})
+}
 
-    method onInputMappingEvent : 'any1. 'any1 -> unit = fun (inputMappingEvent) ->
-        let inputMappingEvent = Obj.repr inputMappingEvent in
-        begin
-        ignore ((GameKeyCompleteMotionGestureInputEventFactory.getInstance ())#updateAll ());
-        ignore ((Obj.magic (java_call_static "BasicTouchInputFactory.getInstance" (Obj.repr ())))#updateAll (((Obj.magic inputMappingEvent)#getInputToGameKeyMapping ())))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "MotionInputMappingEventListener" (fun arguments -> Obj.repr (new motionInputMappingEventListener (Obj.obj arguments)))
+JR.registerLateBound("MotionInputMappingEventListener.jnew_0", jnew_0)
+JR.registerLateBound("MotionInputMappingEventListener.jm_onEvent", jm_onEvent)
+JR.registerLateBound("MotionInputMappingEventListener.jm_onInputMappingEvent", jm_onInputMappingEvent)
 
 

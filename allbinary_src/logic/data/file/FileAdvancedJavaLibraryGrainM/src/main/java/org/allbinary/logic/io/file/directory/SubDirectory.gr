@@ -1,85 +1,118 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io.file.directory
+module SubDirectory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io.file.directory *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../java/io/FileFilter.gr" include FileFilter
+use FileFilter.{ type FileFilter }
+from "../../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "./Directory.gr" include Directory
+use Directory.{ type Directory }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.FileFilter *)
-(* import org.allbinary.logic.io.file.AbFile *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.string.CommonSeps *)
-(* import org.allbinary.util.BasicArrayList *)
+provide record SubDirectory {
+  jobject: JObject,
+  mut f_directory: Directory,
+}
 
+let mut jcell_instance: Option<SubDirectory> = None
 
-let toString : 'any1. 'any1 -> string = fun (files) ->
-        let files = Obj.repr files in
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        let nEW_LINE : string ref = ref ((CommonSeps.getInstance ())#nEW_LINE) in ();
-        let size : int ref = ref (((Obj.magic files)#size ())) in ();
-        for index = 0 to !size - 1 do
-            let file : Obj.t ref = ref ((Obj.repr (Obj.magic ((Obj.magic files)#get (index))))) in ();
-            ignore (!stringBuffer#append (((Obj.magic !file)#getPath ())));
-            ignore (!stringBuffer#append (!nEW_LINE))
-        done;
-        (java_string_of (Obj.repr !stringBuffer))
-        end [@@warning "-20"]
+provide let rec jclassName = () => "SubDirectory"
 
-let () = java_register_static "SubDirectory.toString" (fun arguments -> Obj.repr (toString (Obj.obj arguments)))
-class subDirectory () =
-  object
-    val mutable directory : Directory.directory = (Obj.magic 0)
-    method directory = directory
-    method set_directory value' = directory <- value'
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: SubDirectory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method search : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (fileFilter, file) ->
-        let fileFilter = Obj.repr fileFilter in
-        let file = Obj.repr file in
-        begin
-        (Obj.magic ((directory#search ((Obj.magic fileFilter), (Obj.magic file), true))))
-        end [@@warning "-20"]
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("SubDirectory"), f_directory: JR.nullOf(), }
+    this.f_directory = JR.cast(Directory.jm_getInstance())
+        void
+    this
+}
     
-
-    (* Java overload search(AbFile) is not converted: OCaml has one method per name *)
+and jm_search_2 = (this: SubDirectory, fileFilter: FileFilter, file: JObject) => {
+        return Directory.jm_search(this.f_directory, fileFilter, file, true)
+}
     
-
-    (* Java overload search(String, AbFile) is not converted: OCaml has one method per name *)
+and jm_search_1 = (this: SubDirectory, file: JObject) => {
+        return Directory.jm_search(this.f_directory, JR.cast(file), true)
+}
     
+and jm_search_2 = (this: SubDirectory, searchValue: String, file: JObject) => {
+        return Directory.jm_search(this.f_directory, JR.cast(searchValue), file, true)
+}
+    
+and jm_search_2 = (this: SubDirectory, level: Int32, file: JObject) => {
+        return Directory.jm_search(this.f_directory, JR.cast(level), file, true)
+}
+    
+and jm_toString = (files: BasicArrayList) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        let mut l_NEW_LINE: String = CommonSeps.jm_getInstance().f_NEW_LINE
+        let mut size: Int32 = BasicArrayList.jm_size(files)
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            let mut file: JObject = JR.cast(BasicArrayList.jm_get(files, index))
+            ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(file)))
+}))
+            ignore(StringMaker.jm_append(stringBuffer, l_NEW_LINE))
+            }
+        }
+        return StringMaker.jm_toString(stringBuffer)
+}
 
-    (* Java overload search(INT, AbFile) is not converted: OCaml has one method per name *)
-
-    initializer
-      begin
-        directory <- ((Directory.getInstance ()) :> Directory.directory);
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "SubDirectory" (fun arguments -> Obj.repr (new subDirectory (Obj.obj arguments)))
-
-let instance = (new subDirectory ())
-let get_instance () = instance
-let () = java_register_static "SubDirectory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "SubDirectory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("SubDirectory.jnew_0", jnew_0)
+JR.registerLateBound("SubDirectory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("SubDirectory.jm_search_2", jm_search_2)
+JR.registerLateBound("SubDirectory.jm_search_1", jm_search_1)
+JR.registerLateBound("SubDirectory.jm_search_2", jm_search_2)
+JR.registerLateBound("SubDirectory.jm_search_2", jm_search_2)
+JR.registerLateBound("SubDirectory.jm_toString", jm_toString)
+JR.registerLateBound("SubDirectory.f_directory", (this: SubDirectory) => this.f_directory)
+JR.registerLateBound("SubDirectory.jstatic_instance", jstatic_instance)
 
 

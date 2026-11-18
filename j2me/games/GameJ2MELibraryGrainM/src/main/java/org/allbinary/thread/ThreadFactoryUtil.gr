@@ -1,100 +1,143 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.thread
+module ThreadFactoryUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.thread *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/J2MEUtil.gr" include J2MEUtil
+use J2MEUtil.{ type J2MEUtil }
+from "../../../org/allbinary/canvas/RunnableCanvas.gr" include RunnableCanvas
+use RunnableCanvas.{ type RunnableCanvas }
+from "../../../org/allbinary/game/displayable/canvas/GameCanvasRunnableInterface.gr" include GameCanvasRunnableInterface
+use GameCanvasRunnableInterface.{ type GameCanvasRunnableInterface }
+from "../../../org/allbinary/game/displayable/canvas/RunnableCanvasSingleThreadStartRunnable.gr" include RunnableCanvasSingleThreadStartRunnable
+use RunnableCanvasSingleThreadStartRunnable.{ type RunnableCanvasSingleThreadStartRunnable }
+from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../java/lang/Thread.gr" include Thread
+use Thread.{ type Thread }
+from "../../../java/lang/Runnable.gr" include Runnable
+use Runnable.{ type Runnable }
+from "./ABRunnable.gr" include ABRunnable
+use ABRunnable.{ type ABRunnable }
+from "./PrimaryThreadPool.gr" include PrimaryThreadPool
+use PrimaryThreadPool.{ type PrimaryThreadPool }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.J2MEUtil *)
-(* import org.allbinary.canvas.RunnableCanvas *)
-(* import org.allbinary.game.displayable.canvas.AllBinaryGameCanvas *)
-(* import org.allbinary.game.displayable.canvas.DemoCanvas *)
-(* import org.allbinary.game.displayable.canvas.GameCanvasRunnableInterface *)
-(* import org.allbinary.game.displayable.canvas.RunnableCanvasSingleThreadStartRunnable *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record ThreadFactoryUtil {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+}
 
-let instance_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
-let get_instance : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instance_cell with Lazy.Undefined -> java_null)
-let set_instance value' = instance_cell := Lazy.from_val (Obj.repr value')
-let () = java_register_static "ThreadFactoryUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-let () = java_register_static "ThreadFactoryUtil.set_instance" (fun value' -> set_instance value'; Obj.repr ())
-class threadFactoryUtil () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+let mut jcell_instance: Option<ThreadFactoryUtil> = None
+
+provide let rec jclassName = () => "ThreadFactoryUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: ThreadFactoryUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ThreadFactoryUtil"), f_logUtil: JR.jnull, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this
+}
     
-
-    method getInstanceGameCanvasRunnable : 'any1. 'any1 -> java_thread = fun (runnable) ->
-        let runnable = Obj.repr runnable in
-        begin
-        ((self#getInstanceType ((Obj.magic runnable), ((Obj.magic runnable)#getType ()))) :> java_thread)
-        end [@@warning "-20"]
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method getInstanceForRunnable : 'any1. 'any1 -> java_thread = fun (runnable) ->
-        let runnable = Obj.repr runnable in
-        begin
-        ((self#getInstanceType ((Obj.magic runnable), ((Obj.magic runnable)#getType ()))) :> java_thread)
-        end [@@warning "-20"]
+and jm_getInstanceGameCanvasRunnable = (this: ThreadFactoryUtil, runnable: GameCanvasRunnableInterface) => {
+        return jm_getInstanceType(this, JR.cast(runnable), GameCanvasRunnableInterface.jm_getType(runnable))
+}
     
-
-    method getInstanceType ((runnable : java_runnable), (type_ : int)) : java_thread =
-        begin
-        let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        if (J2MEUtil.isHTML ()) then begin
-            if ((type_ = (Obj.magic (java_call_static "DemoCanvas.get_tYPE" (Obj.repr ())))) || (type_ = (Obj.magic (java_call_static "AllBinaryGameCanvas.get_tYPE" (Obj.repr ()))))) then begin
-                let demoGameSingleThreadStartRunnable : RunnableCanvasSingleThreadStartRunnable.runnableCanvasSingleThreadStartRunnable ref = ref (((new RunnableCanvasSingleThreadStartRunnable.runnableCanvasSingleThreadStartRunnable ((Obj.magic runnable))) :> RunnableCanvasSingleThreadStartRunnable.runnableCanvasSingleThreadStartRunnable)) in ();
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Using Pseudo Thread for DemoCanvas/AllBinaryGameCanvas under PlayN/HTML5: "))#append (((StringUtil.getInstance ())#toString (runnable)))))), (Obj.magic self), !commonStrings#cONSTRUCTOR))));
-                let primaryThreadPool : Obj.t ref = ref ((Obj.repr (PrimaryThreadPool.getInstance ()))) in ();
-                ignore ((Obj.magic !primaryThreadPool)#runTask (!demoGameSingleThreadStartRunnable))
-            end else begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Using Pseudo Thread for Runnable under PlayN/HTML5: "))#append (((StringUtil.getInstance ())#toString (runnable)))))), (Obj.magic self), !commonStrings#cONSTRUCTOR))));
-                let primaryThreadPool : Obj.t ref = ref ((Obj.repr (PrimaryThreadPool.getInstance ()))) in ();
-                ignore ((Obj.magic !primaryThreadPool)#runTask (runnable))
-            end
-        end;
-        let thread : java_thread ref = ref (((Obj.obj (java_new "Thread" (Obj.repr (runnable, (java_string_of (Obj.repr runnable)))))) :> java_thread)) in ();
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !thread)), (Obj.magic self), !commonStrings#cONSTRUCTOR));
-        (!thread :> java_thread)
-        end
+and jm_getInstanceForRunnable = (this: ThreadFactoryUtil, runnable: ABRunnable) => {
+        return jm_getInstanceType(this, JR.cast(runnable), ABRunnable.jm_getType(runnable))
+}
     
+and jm_getInstanceType = (this: ThreadFactoryUtil, runnable: Runnable, type_: Int32) => {
+        let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
+        if (J2MEUtil.jm_isHTML()) {
+            if (((type_ == {
+let jlate: () => JObject = JR.cast(JR.lateBound("DemoCanvas.jstatic_TYPE"))
+JR.cast(jlate())
+}) || (type_ == {
+let jlate: () => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jstatic_TYPE"))
+JR.cast(jlate())
+}))) {
+                let mut demoGameSingleThreadStartRunnable: RunnableCanvasSingleThreadStartRunnable = RunnableCanvasSingleThreadStartRunnable.jnew_1(JR.cast(runnable))
+                ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Using Pseudo Thread for DemoCanvas/AllBinaryGameCanvas under PlayN/HTML5: "), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(runnable))))), JR.cast(this), JR.cast(commonStrings.f_CONSTRUCTOR)))
+})
+                let mut primaryThreadPool: JObject = JR.cast(PrimaryThreadPool.jm_getInstance())
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.jm_runTask"))
+JR.cast(jlate(JR.cast(primaryThreadPool), JR.cast(demoGameSingleThreadStartRunnable)))
+})
+            } else {
+                ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Using Pseudo Thread for Runnable under PlayN/HTML5: "), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(runnable))))), JR.cast(this), JR.cast(commonStrings.f_CONSTRUCTOR)))
+})
+                let mut primaryThreadPool: JObject = JR.cast(PrimaryThreadPool.jm_getInstance())
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.jm_runTask"))
+JR.cast(jlate(JR.cast(primaryThreadPool), JR.cast(runnable)))
+})
+            }
+        }
+        let mut thread: Thread = Thread.jnew_2(runnable, Runnable.jm_toString_0(runnable))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(Thread.jm_toString_0(thread)), JR.cast(this), JR.cast(commonStrings.f_CONSTRUCTOR)))
+})
+        return thread
+}
+    
+and jm_start = (this: ThreadFactoryUtil, thread: Thread) => {
+        ignore(Thread.jm_start_0(thread))
+}
 
-    method start ((thread : java_thread)) : unit =
-        begin
-        ignore (thread#start ())
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "ThreadFactoryUtil" (fun arguments -> Obj.repr (new threadFactoryUtil (Obj.obj arguments)))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic (get_instance ()))))
-        end
-let () = java_register_static "ThreadFactoryUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-
-let () = instance_cell := lazy (Obj.repr ((new threadFactoryUtil ())))
+JR.registerLateBound("ThreadFactoryUtil.jnew_0", jnew_0)
+JR.registerLateBound("ThreadFactoryUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("ThreadFactoryUtil.jm_getInstanceGameCanvasRunnable", jm_getInstanceGameCanvasRunnable)
+JR.registerLateBound("ThreadFactoryUtil.jm_getInstanceForRunnable", jm_getInstanceForRunnable)
+JR.registerLateBound("ThreadFactoryUtil.jm_getInstanceType", jm_getInstanceType)
+JR.registerLateBound("ThreadFactoryUtil.jm_start", jm_start)
+JR.registerLateBound("ThreadFactoryUtil.f_logUtil", (this: ThreadFactoryUtil) => this.f_logUtil)
+JR.registerLateBound("ThreadFactoryUtil.jstatic_instance", jstatic_instance)
 
 

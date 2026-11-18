@@ -1,46 +1,57 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.paint
+module StringLocationPaintable
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.paint *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./LocationPaintable.gr" include LocationPaintable
+use LocationPaintable.{ type LocationPaintable }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Graphics *)
+provide record StringLocationPaintable {
+  jobject: JObject,
+  mut f_value: String,
+}
 
-class stringLocationPaintable ((value_arg : string)) =
-  object
-    inherit LocationPaintable.locationPaintable ()
-    val mutable value : string = ""
-    method value = value
-    method set_value value' = value <- value'
+
+provide let rec jclassName = () => "StringLocationPaintable"
     
+and jnew_1 = (value: String) => {
+    let this = { jobject: JR.newJObject("StringLocationPaintable"), f_value: "", }
     
+        this.f_value = value
+    this
+}
+    
+and jm_paintXY = (this: StringLocationPaintable, graphics: JObject, x: Int32, y: Int32) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_value), JR.cast(x), JR.cast(y), JR.cast(0l)))
+})
+}
 
-    method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore ((Obj.magic graphics)#drawString (value, x, y, 0))
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        ();
-        value <- value_arg
-      end
-  end
-let () = java_register_constructor "StringLocationPaintable" (fun arguments -> Obj.repr (new stringLocationPaintable (Obj.obj arguments)))
+JR.registerLateBound("StringLocationPaintable.jnew_1", jnew_1)
+JR.registerLateBound("StringLocationPaintable.jm_paintXY", jm_paintXY)
+JR.registerLateBound("StringLocationPaintable.f_value", (this: StringLocationPaintable) => this.f_value)
 
 

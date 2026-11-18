@@ -1,43 +1,54 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package dynamic
+module NativeLibraryHelper
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package dynamic *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../java/lang/System.gr" include System
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
+provide record NativeLibraryHelper {
+  jobject: JObject,
+  mut f_library: String,
+}
 
-class nativeLibraryHelper ((library_arg : string)) =
-  object
-    val mutable library : string = ""
-    method library = library
-    method set_library value' = library <- value'
+
+provide let rec jclassName = () => "NativeLibraryHelper"
     
+and jnew_1 = (library: String) => {
+    let this = { jobject: JR.newJObject("NativeLibraryHelper"), f_library: "", }
     
+        this.f_library = library
+    this
+}
+    
+and jm_load = (this: NativeLibraryHelper) => {
+        ignore(System.jm_loadLibrary(this.f_library))
+}
 
-    method load () : unit =
-        begin
-        ignore (Obj.magic (java_call_static "System.loadLibrary" (Obj.repr (library))))
-        end
-
-    initializer
-      begin
-        ();
-        ();
-        library <- library_arg
-      end
-  end
-let () = java_register_constructor "NativeLibraryHelper" (fun arguments -> Obj.repr (new nativeLibraryHelper (Obj.obj arguments)))
+JR.registerLateBound("NativeLibraryHelper.jnew_1", jnew_1)
+JR.registerLateBound("NativeLibraryHelper.jm_load", jm_load)
+JR.registerLateBound("NativeLibraryHelper.f_library", (this: NativeLibraryHelper) => this.f_library)
+JR.registerLateBound("NativeLibraryHelper.set_f_library", (this: NativeLibraryHelper, jvalue) => { this.f_library = jvalue; jvalue })
 
 

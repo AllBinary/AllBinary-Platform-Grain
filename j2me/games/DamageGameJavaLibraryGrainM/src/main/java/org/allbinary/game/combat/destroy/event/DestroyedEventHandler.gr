@@ -1,107 +1,125 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.combat.destroy.event
+module DestroyedEventHandler
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.combat.destroy.event *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/logic/util/event/AllBinaryEventObject.gr" include AllBinaryEventObject
+use AllBinaryEventObject.{ type AllBinaryEventObject }
+from "../../../../../../org/allbinary/logic/util/event/EventListenerInterface.gr" include EventListenerInterface
+use EventListenerInterface.{ type EventListenerInterface }
+from "../../../../../../org/allbinary/logic/util/event/EventStrings.gr" include EventStrings
+use EventStrings.{ type EventStrings }
+from "../../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.layer.special.CollidableDestroyableDamageableLayer *)
-(* import org.allbinary.logic.util.event.AllBinaryEventObject *)
-(* import org.allbinary.logic.util.event.EventListenerInterface *)
-(* import org.allbinary.logic.util.event.EventStrings *)
-(* import org.allbinary.logic.util.event.handler.BasicEventHandler *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
+provide record DestroyedEventHandler {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_eventStrings: JObject,
+  mut f_eventListenerInterfaceList: JObject,
+  mut f_list: BasicArrayList,
+}
 
-let instance_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
-let get_instance : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instance_cell with Lazy.Undefined -> java_null)
-let set_instance value' = instance_cell := Lazy.from_val (Obj.repr value')
-let () = java_register_static "DestroyedEventHandler.get_instance" (fun _ -> Obj.repr (get_instance ()))
-let () = java_register_static "DestroyedEventHandler.set_instance" (fun value' -> set_instance value'; Obj.repr ())
-class destroyedEventHandler () =
-  object (self)
-    inherit BasicEventHandler.basicEventHandler () as super
-    val mutable list : BasicArrayList.basicArrayList = (Obj.magic 0)
-    method list = list
-    method set_list value' = list <- value'
+let mut jcell_instance: Option<DestroyedEventHandler> = None
+
+provide let rec jclassName = () => "DestroyedEventHandler"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: DestroyedEventHandler = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method addListener : 'any1. 'any1 -> unit = fun (collidableDestroyableDamageableLayer) ->
-        let collidableDestroyableDamageableLayer = Obj.repr collidableDestroyableDamageableLayer in
-        begin
-        if (not (list#contains ((Obj.magic collidableDestroyableDamageableLayer)))) then begin
-            ignore (list#add ((Obj.magic collidableDestroyableDamageableLayer)))
-        end
-        end [@@warning "-7-20"]
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("DestroyedEventHandler"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_eventStrings: JR.jnull, f_eventListenerInterfaceList: JR.jnull, f_list: JR.nullOf(), }
+    this.f_list = JR.cast(BasicArrayListD.jnew_0())
+        void
+    this
+}
     
-
-    method removeAllListeners () : unit =
-        begin
-        ignore (list#clear ());
-        ignore (super#removeAllListeners ())
-        end [@@warning "-7"]
+and jm_addListener = (this: DestroyedEventHandler, collidableDestroyableDamageableLayer: JObject) => {
+        if (!BasicArrayList.jm_contains(this.f_list, JR.cast(collidableDestroyableDamageableLayer))) {
+            ignore(BasicArrayList.jm_add(this.f_list, JR.cast(collidableDestroyableDamageableLayer)))
+        }
+}
     
-
-    method removeListener : 'any1. 'any1 -> unit = fun (eventListenerInterface) ->
-        let eventListenerInterface = Obj.repr eventListenerInterface in
-        begin
-        ignore (list#remove ((Obj.magic eventListenerInterface)));
-        ignore (super#removeListener ((Obj.magic eventListenerInterface)))
-        end [@@warning "-7-20"]
+and jm_removeAllListeners = (this: DestroyedEventHandler) => {
+        ignore(BasicArrayList.jm_clear(this.f_list))
+        ignore(jm_removeAllListeners(this))
+}
     
-
-    method fireEvent : 'any1. 'any1 -> unit = fun (eventObject) ->
-        let eventObject = Obj.repr eventObject in
-        begin
-        let index : int ref = ref ((list#size ())) in ();
-        while ((index := !index - 1; !index) >= 0) do
-            (try
-                let collidableDestroyableDamageableLayer : Obj.t ref = ref ((Obj.repr (Obj.magic list#objectArray.(!index)))) in ();
-                ignore ((Obj.magic !collidableDestroyableDamageableLayer)#onDestroyed ((Obj.magic (Obj.magic eventObject))))
-            with e -> begin
-                ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (EventStrings.getInstance ())#fIRE_EVENT, e))
-            end)
-        done;
-        ignore (super#fireEvent ((Obj.magic eventObject)))
-        end [@@warning "-7-20"]
+and jm_removeListener = (this: DestroyedEventHandler, eventListenerInterface: EventListenerInterface) => {
+        ignore(BasicArrayList.jm_remove(this.f_list, JR.cast(eventListenerInterface)))
+        ignore(jm_removeListener(this, eventListenerInterface))
+}
     
+and jm_fireEvent = (this: DestroyedEventHandler, eventObject: AllBinaryEventObject) => {
+        {
+            let mut index: Int32 = BasicArrayList.jm_size(this.f_list)
+            let mut jfirst = true
+            while (true) {
+                jfirst = false
+                if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
+            {
+                let mut collidableDestroyableDamageableLayer: JObject = JR.cast(this.f_list.f_objectArray[Int32.toNumber(index)])
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableDestroyableDamageableLayer.jm_onDestroyed"))
+JR.cast(jlate(JR.cast(collidableDestroyableDamageableLayer), JR.cast(JR.cast(eventObject))))
+})
+            }
+            }
+        }
+        ignore(jm_fireEvent(this, eventObject))
+}
+    
+and jm_process = (this: DestroyedEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) => {
+        let mut destroyedEventListenerInterface: JObject = JR.cast(eventListenerInterface)
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DestroyedEventListenerInterface.jm_onDestroyed"))
+JR.cast(jlate(JR.cast(destroyedEventListenerInterface), JR.cast(JR.cast(eventObject))))
+})
+}
 
-    method process : 'any1 'any2. 'any1 * 'any2 -> unit = fun (eventObject, eventListenerInterface) ->
-        let eventObject = Obj.repr eventObject in
-        let eventListenerInterface = Obj.repr eventListenerInterface in
-        begin
-        let destroyedEventListenerInterface : Obj.t ref = ref ((Obj.repr (Obj.magic (Obj.magic eventListenerInterface)))) in ();
-        ignore ((Obj.magic !destroyedEventListenerInterface)#onDestroyed ((Obj.magic (Obj.magic eventObject))))
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        list <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "DestroyedEventHandler" (fun arguments -> Obj.repr (new destroyedEventHandler (Obj.obj arguments)))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic (get_instance ()))))
-        end
-let () = java_register_static "DestroyedEventHandler.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-
-let () = instance_cell := lazy (Obj.repr ((new destroyedEventHandler ())))
+JR.registerLateBound("DestroyedEventHandler.jnew_0", jnew_0)
+JR.registerLateBound("DestroyedEventHandler.jm_getInstance", jm_getInstance)
+JR.registerLateBound("DestroyedEventHandler.jm_addListener", jm_addListener)
+JR.registerLateBound("DestroyedEventHandler.jm_removeAllListeners", jm_removeAllListeners)
+JR.registerLateBound("DestroyedEventHandler.jm_removeListener", jm_removeListener)
+JR.registerLateBound("DestroyedEventHandler.jm_fireEvent", jm_fireEvent)
+JR.registerLateBound("DestroyedEventHandler.jm_process", jm_process)
+JR.registerLateBound("DestroyedEventHandler.f_list", (this: DestroyedEventHandler) => this.f_list)
+JR.registerLateBound("DestroyedEventHandler.jstatic_instance", jstatic_instance)
 
 

@@ -1,47 +1,60 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.pipeline
+module RandomTranslation
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.pipeline *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/rand/MyRandomFactory.gr" include MyRandomFactory
+use MyRandomFactory.{ type MyRandomFactory }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "./BasicGraphicsPipeline.gr" include BasicGraphicsPipeline
+use BasicGraphicsPipeline.{ type BasicGraphicsPipeline }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.rand.MyRandomFactory *)
-(* import org.allbinary.util.BasicArrayList *)
+provide record RandomTranslation {
+  jobject: JObject,
+}
 
 
-let getInstance : 'any1 'return. 'any1 * int -> 'return = fun (vector, (howMuch : int)) ->
-        let vector = Obj.repr vector in
-        begin
-        let myRandomFactory : MyRandomFactory.myRandomFactory ref = ref (((MyRandomFactory.getInstance ()) :> MyRandomFactory.myRandomFactory)) in ();
-        let x : int ref = ref ((- (!myRandomFactory#getNextInt (howMuch)))) in ();
-        let y : int ref = ref ((!myRandomFactory#getNextInt (howMuch))) in ();
-        let graphicsPipe : BasicGraphicsPipeline.basicGraphicsPipeline ref = ref (((new BasicGraphicsPipeline.basicGraphicsPipeline ((Obj.magic vector))) :> BasicGraphicsPipeline.basicGraphicsPipeline)) in ();
-        ignore (!graphicsPipe#createMatrix ());
-        ignore (!graphicsPipe#translate (!x, !y));
-        (Obj.magic ((!graphicsPipe#getMatrix ())))
-        end [@@warning "-20"]
+provide let rec jclassName = () => "RandomTranslation"
 
-let () = java_register_static "RandomTranslation.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-class randomTranslation () =
-  object
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("RandomTranslation"), }
+    this
+}
+    
+and jm_getInstance = (vector: BasicArrayList, howMuch: Int32) => {
+        let mut myRandomFactory: MyRandomFactory = JR.cast(MyRandomFactory.jm_getInstance())
+        let mut x: Int32 = Int32.(-)(1l, Int32.(+)(MyRandomFactory.jm_getNextInt(myRandomFactory, howMuch), 1l))
+        let mut y: Int32 = MyRandomFactory.jm_getNextInt(myRandomFactory, howMuch)
+        let mut graphicsPipe: BasicGraphicsPipeline = BasicGraphicsPipeline.jnew_1(vector)
+        ignore(BasicGraphicsPipeline.jm_createMatrix(graphicsPipe))
+        ignore(BasicGraphicsPipeline.jm_translate(graphicsPipe, x, y))
+        return BasicGraphicsPipeline.jm_getMatrix(graphicsPipe)
+}
 
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "RandomTranslation" (fun arguments -> Obj.repr (new randomTranslation (Obj.obj arguments)))
+JR.registerLateBound("RandomTranslation.jnew_0", jnew_0)
+JR.registerLateBound("RandomTranslation.jm_getInstance", jm_getInstance)
 
 

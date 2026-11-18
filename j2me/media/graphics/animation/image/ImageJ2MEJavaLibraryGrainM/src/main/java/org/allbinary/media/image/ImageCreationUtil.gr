@@ -1,59 +1,74 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.media.image
+module ImageCreationUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.media.image *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/image/GameFeatureImageCacheFactory.gr" include GameFeatureImageCacheFactory
+use GameFeatureImageCacheFactory.{ type GameFeatureImageCacheFactory }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Image *)
-(* import org.allbinary.image.GameFeatureImageCacheFactory *)
+provide record ImageCreationUtil {
+  jobject: JObject,
+}
 
-class imageCreationUtil () =
-  object (self)
+let mut jcell_instance: Option<ImageCreationUtil> = None
+
+provide let rec jclassName = () => "ImageCreationUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: ImageCreationUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method createImageWH : 'return. int * int -> 'return = fun ((width : int), (height : int)) ->
-        begin
-        let image : Obj.t ref = ref ((Obj.repr ((GameFeatureImageCacheFactory.getInstance ())#get ((java_get_class (Obj.repr self)), width, height)))) in ();
-        (Obj.magic ((Obj.magic !image)))
-        end
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ImageCreationUtil"), }
+        void
+    this
+}
     
+and jm_createImageWH = (this: ImageCreationUtil, width: Int32, height: Int32) => {
+        let mut image: JObject = JR.cast(GameFeatureImageCacheFactory.jm_get(GameFeatureImageCacheFactory.jm_getInstance(), this.jobject.cls, width, height))
+        return image
+}
+    
+and jm_createImage = (this: ImageCreationUtil, width: Int32, height: Int32, maxScaleX: Float32, maxScaleY: Float32) => {
+        let mut image: JObject = JR.cast(GameFeatureImageCacheFactory.jm_get(GameFeatureImageCacheFactory.jm_getInstance(), this.jobject.cls, Int32.(+)(JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(width)), maxScaleX)))), 1l), Int32.(+)(JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(height)), maxScaleY)))), 1l)))
+        return image
+}
 
-    method createImage : 'return. int * int * float * float -> 'return = fun ((width : int), (height : int), (maxScaleX : float), (maxScaleY : float)) ->
-        begin
-        let image : Obj.t ref = ref ((Obj.repr ((GameFeatureImageCacheFactory.getInstance ())#get ((java_get_class (Obj.repr self)), ((int_of_float ((((float_of_int (width)) *. maxScaleX)))) + 1), ((int_of_float ((((float_of_int (height)) *. maxScaleY)))) + 1))))) in ();
-        (Obj.magic ((Obj.magic !image)))
-        end
-
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "ImageCreationUtil" (fun arguments -> Obj.repr (new imageCreationUtil (Obj.obj arguments)))
-
-let instance = (new imageCreationUtil ())
-let get_instance () = instance
-let () = java_register_static "ImageCreationUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "ImageCreationUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("ImageCreationUtil.jnew_0", jnew_0)
+JR.registerLateBound("ImageCreationUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("ImageCreationUtil.jm_createImageWH", jm_createImageWH)
+JR.registerLateBound("ImageCreationUtil.jm_createImage", jm_createImage)
+JR.registerLateBound("ImageCreationUtil.jstatic_instance", jstatic_instance)
 
 

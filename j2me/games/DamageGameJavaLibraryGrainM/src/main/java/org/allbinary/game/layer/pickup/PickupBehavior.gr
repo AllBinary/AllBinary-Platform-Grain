@@ -1,181 +1,236 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.layer.pickup
+module PickupBehavior
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.layer.pickup *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/health/HealthInterfaceCompositeInterface.gr" include HealthInterfaceCompositeInterface
+use HealthInterfaceCompositeInterface.{ type HealthInterfaceCompositeInterface }
+from "../../../../../org/allbinary/game/layer/CollidableCompositeLayer.gr" include CollidableCompositeLayer
+use CollidableCompositeLayer.{ type CollidableCompositeLayer }
+from "../../../../../org/allbinary/game/part/CountedLayerInterfaceFactoryPart.gr" include CountedLayerInterfaceFactoryPart
+use CountedLayerInterfaceFactoryPart.{ type CountedLayerInterfaceFactoryPart }
+from "../../../../../org/allbinary/game/part/PartInterface.gr" include PartInterface
+use PartInterface.{ type PartInterface }
+from "../../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./PickupBehaviorInterface.gr" include PickupBehaviorInterface
+use PickupBehaviorInterface.{ type PickupBehaviorInterface }
+from "./PickupProcessorInterface.gr" include PickupProcessorInterface
+use PickupProcessorInterface.{ type PickupProcessorInterface }
+from "./PickedUpLayerInterfaceFactoryInterface.gr" include PickedUpLayerInterfaceFactoryInterface
+use PickedUpLayerInterfaceFactoryInterface.{ type PickedUpLayerInterfaceFactoryInterface }
+from "./PickedUpLayerType.gr" include PickedUpLayerType
+use PickedUpLayerType.{ type PickedUpLayerType }
+from "./PickedUpLayerTypeFactory.gr" include PickedUpLayerTypeFactory
+use PickedUpLayerTypeFactory.{ type PickedUpLayerTypeFactory }
+from "./CountedPickedUpLayerInterfaceFactoryInterface.gr" include CountedPickedUpLayerInterfaceFactoryInterface
+use CountedPickedUpLayerInterfaceFactoryInterface.{ type CountedPickedUpLayerInterfaceFactoryInterface }
+from "./PickedUpLayerInterface.gr" include PickedUpLayerInterface
+use PickedUpLayerInterface.{ type PickedUpLayerInterface }
+from "./CountedPickedUpLayerInterfaceFactory.gr" include CountedPickedUpLayerInterfaceFactory
+use CountedPickedUpLayerInterfaceFactory.{ type CountedPickedUpLayerInterfaceFactory }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.health.HealthInterfaceCompositeInterface *)
-(* import org.allbinary.game.layer.CollidableCompositeLayer *)
-(* import org.allbinary.game.layer.special.CollidableDestroyableDamageableLayer *)
-(* import org.allbinary.game.part.CountedLayerInterfaceFactoryPart *)
-(* import org.allbinary.game.part.PartInterface *)
-(* import org.allbinary.logic.NullUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record PickupBehavior {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_countedIndex: Int32,
+  mut f_ownerLayerInterface: CollidableCompositeLayer,
+}
 
-let nULL_PICKUP_BEHAVIOR : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT))
-let get_nULL_PICKUP_BEHAVIOR () = !nULL_PICKUP_BEHAVIOR
-let set_nULL_PICKUP_BEHAVIOR value' = nULL_PICKUP_BEHAVIOR := value'
-let () = java_register_static "PickupBehavior.get_nULL_PICKUP_BEHAVIOR" (fun _ -> Obj.repr (get_nULL_PICKUP_BEHAVIOR ()))
-let () = java_register_static "PickupBehavior.set_nULL_PICKUP_BEHAVIOR" (fun value' -> set_nULL_PICKUP_BEHAVIOR (Obj.obj value'); Obj.repr ())
-class pickupBehavior ((ownerLayerInterface_arg : CollidableCompositeLayer.collidableCompositeLayer), (countedIndex_arg : int)) =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable countedIndex : int = 0
-    method countedIndex = countedIndex
-    method set_countedIndex value' = countedIndex <- value'
-    val mutable ownerLayerInterface : CollidableCompositeLayer.collidableCompositeLayer = (Obj.magic 0)
-    method ownerLayerInterface = ownerLayerInterface
-    method set_ownerLayerInterface value' = ownerLayerInterface <- value'
+let mut jcell_NULL_PICKUP_BEHAVIOR: Option<JObject> = None
+
+provide let rec jclassName = () => "PickupBehavior"
+
+and jstatic_NULL_PICKUP_BEHAVIOR = () => match (jcell_NULL_PICKUP_BEHAVIOR) {
+  Some(value) => value,
+  None => {
+    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    jcell_NULL_PICKUP_BEHAVIOR = Some(value)
+    value
+  },
+}
+    
+and jm_getNullInstance = () => {
+        if (JR.isSame(jstatic_NULL_PICKUP_BEHAVIOR(), NullUtil.jm_getInstance().f_NULL_OBJECT)) {
+            jstatic_NULL_PICKUP_BEHAVIOR() = JR.cast(jnew_2(CollidableCompositeLayer.jm_getNullInstance(), 0l))
+        }
+        return JR.cast(jstatic_NULL_PICKUP_BEHAVIOR())
+}
+    
+and jnew_2 = (ownerLayerInterface: CollidableCompositeLayer, countedIndex: Int32) => {
+    let this = { jobject: JR.newJObject("PickupBehavior"), f_logUtil: JR.jnull, f_countedIndex: 0l, f_ownerLayerInterface: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
     
     
-
-    method doPickup : 'any1. 'any1 -> unit = fun (pickupProcessorInterface) ->
-        let pickupProcessorInterface = Obj.repr pickupProcessorInterface in
-        begin
-        (try
-            let healthInterfaceCompositeInterface : HealthInterfaceCompositeInterface.healthInterfaceCompositeInterface ref = ref (((Obj.magic ownerLayerInterface) :> HealthInterfaceCompositeInterface.healthInterfaceCompositeInterface)) in ();
-            if ((!healthInterfaceCompositeInterface#getHealthInterface ())#isAlive ()) then begin
-                ignore ((Obj.magic pickupProcessorInterface)#process (ownerLayerInterface))
-            end
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), "doPickup", e))
-        end)
-        end [@@warning "-20"]
+        this.f_ownerLayerInterface = ownerLayerInterface
+        this.f_countedIndex = countedIndex
+    this
+}
     
-
-    method doPickupLayer : 'any1. 'any1 -> unit = fun (pickupLayerInterface) ->
-        let pickupLayerInterface = Obj.repr pickupLayerInterface in
-        begin
-        (try
-            let pickedUpLayerInterfaceFactoryInterface : PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface ref = ref ((((Obj.magic pickupLayerInterface)#getPickedUpLayerInterfaceFactoryInterface ()) :> PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface)) in ();
-            let pickedUpLayerType : PickedUpLayerType.pickedUpLayerType ref = ref (((!pickedUpLayerInterfaceFactoryInterface#getPickedUpLayerType ()) :> PickedUpLayerType.pickedUpLayerType)) in ();
-            let pickedUpLayerTypeFactory : PickedUpLayerTypeFactory.pickedUpLayerTypeFactory ref = ref (((PickedUpLayerTypeFactory.getInstance ()) :> PickedUpLayerTypeFactory.pickedUpLayerTypeFactory)) in ();
-            if (((((Obj.repr !pickedUpLayerType) == (Obj.repr !pickedUpLayerTypeFactory#bEAM)) || ((Obj.repr !pickedUpLayerType) == (Obj.repr !pickedUpLayerTypeFactory#mINE))) || ((Obj.repr !pickedUpLayerType) == (Obj.repr !pickedUpLayerTypeFactory#pROJECTILE))) || ((Obj.repr !pickedUpLayerType) == (Obj.repr !pickedUpLayerTypeFactory#eNHANCEMENT))) then begin
-                (self#add ((Obj.magic !pickedUpLayerInterfaceFactoryInterface)))
-            end else if ((Obj.repr (!pickedUpLayerInterfaceFactoryInterface#getPickedUpLayerType ())) == (Obj.repr !pickedUpLayerTypeFactory#pART)) then begin
-                let collidableDestroyableDamageableLayer : Obj.t ref = ref ((Obj.repr (Obj.magic ownerLayerInterface))) in ();
-                ignore ((Obj.magic !collidableDestroyableDamageableLayer)#addPart (!pickedUpLayerInterfaceFactoryInterface))
-            end else if ((Obj.repr !pickedUpLayerType) == (Obj.repr !pickedUpLayerTypeFactory#nONE)) then begin
-                ()
-            end else begin
-                let pickupProcessorInterface : PickupProcessorInterface.pickupProcessorInterface ref = ref (((Obj.magic !pickedUpLayerInterfaceFactoryInterface) :> PickupProcessorInterface.pickupProcessorInterface)) in ();
-                (self#doPickup (!pickupProcessorInterface))
-            end;
-            ignore ((Obj.magic pickupLayerInterface)#setPickedUp ())
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (!commonStrings#eXCEPTION, (Obj.magic self), "doPickup", e))))
-        end)
-        end [@@warning "-20"]
+and jm_doPickup = (this: PickupBehavior, pickupProcessorInterface: PickupProcessorInterface) => {
+        {
+            let mut healthInterfaceCompositeInterface: HealthInterfaceCompositeInterface = JR.cast(this.f_ownerLayerInterface)
+            if (JR.className(JR.cast(HealthInterfaceCompositeInterface.jm_getHealthInterface(healthInterfaceCompositeInterface)))) {
+                ignore(PickupProcessorInterface.jm_process(pickupProcessorInterface, JR.cast(this.f_ownerLayerInterface)))
+            }
+        }
+}
     
-
-    method add : 'any1. 'any1 -> unit = fun (countedPickedUpLayerInterfaceFactoryInterface) ->
-        let countedPickedUpLayerInterfaceFactoryInterface = Obj.repr countedPickedUpLayerInterfaceFactoryInterface in
-        begin
-        let partIndex : int ref = ref ((((Obj.magic countedPickedUpLayerInterfaceFactoryInterface)#getId ()) + countedIndex)) in ();
-        (self#addAt ((Obj.magic countedPickedUpLayerInterfaceFactoryInterface), !partIndex))
-        end [@@warning "-20"]
+and jm_doPickupLayer = (this: PickupBehavior, pickupLayerInterface: PickedUpLayerInterface) => {
+        {
+            let mut pickedUpLayerInterfaceFactoryInterface: PickedUpLayerInterfaceFactoryInterface = JR.cast(PickedUpLayerInterface.jm_getPickedUpLayerInterfaceFactoryInterface(pickupLayerInterface))
+            let mut pickedUpLayerType: PickedUpLayerType = JR.cast(PickedUpLayerInterfaceFactoryInterface.jm_getPickedUpLayerType(pickedUpLayerInterfaceFactoryInterface))
+            let mut pickedUpLayerTypeFactory: PickedUpLayerTypeFactory = JR.cast(PickedUpLayerTypeFactory.jm_getInstance())
+            if ((((JR.isSame(pickedUpLayerType, pickedUpLayerTypeFactory.f_BEAM) || JR.isSame(pickedUpLayerType, pickedUpLayerTypeFactory.f_MINE)) || JR.isSame(pickedUpLayerType, pickedUpLayerTypeFactory.f_PROJECTILE)) || JR.isSame(pickedUpLayerType, pickedUpLayerTypeFactory.f_ENHANCEMENT))) {
+                ignore(jm_add(this, JR.cast(pickedUpLayerInterfaceFactoryInterface)))
+            } else if ((PickedUpLayerInterfaceFactoryInterface.jm_getPickedUpLayerType(pickedUpLayerInterfaceFactoryInterface) == pickedUpLayerTypeFactory.f_PART)) {
+                let mut collidableDestroyableDamageableLayer: JObject = JR.cast(this.f_ownerLayerInterface)
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableDestroyableDamageableLayer.jm_addPart"))
+JR.cast(jlate(JR.cast(collidableDestroyableDamageableLayer), JR.cast(pickedUpLayerInterfaceFactoryInterface)))
+})
+            } else if (JR.isSame(pickedUpLayerType, pickedUpLayerTypeFactory.f_NONE)) {
+                void
+            } else {
+                let mut pickupProcessorInterface: PickupProcessorInterface = JR.cast(pickedUpLayerInterfaceFactoryInterface)
+                ignore(jm_doPickup(this, pickupProcessorInterface))
+            }
+            ignore(PickedUpLayerInterface.jm_setPickedUp(pickupLayerInterface))
+        }
+}
     
-
-    method addAt : 'any1. 'any1 * int -> unit = fun (countedPickedUpLayerInterfaceFactoryInterface, (partIndex : int)) ->
-        let countedPickedUpLayerInterfaceFactoryInterface = Obj.repr countedPickedUpLayerInterfaceFactoryInterface in
-        begin
-        let collidableDestroyableDamageableLayer : Obj.t ref = ref ((Obj.repr (Obj.magic ownerLayerInterface))) in ();
-        let countedLayerInterfaceFactory : CountedLayerInterfaceFactoryPart.countedLayerInterfaceFactoryPart ref = ref (((Obj.magic ((Obj.magic !collidableDestroyableDamageableLayer)#getPartInterfaceArray ()).(partIndex)) :> CountedLayerInterfaceFactoryPart.countedLayerInterfaceFactoryPart)) in ();
-        ignore (!countedLayerInterfaceFactory#setTotal (((!countedLayerInterfaceFactory#getTotal ()) + ((Obj.magic countedPickedUpLayerInterfaceFactoryInterface)#getTotal ()))))
-        end [@@warning "-20"]
+and jm_add = (this: PickupBehavior, countedPickedUpLayerInterfaceFactoryInterface: CountedPickedUpLayerInterfaceFactoryInterface) => {
+        let mut partIndex: Int32 = Int32.(+)(CountedPickedUpLayerInterfaceFactoryInterface.jm_getId(countedPickedUpLayerInterfaceFactoryInterface), this.f_countedIndex)
+        ignore(jm_addAt(this, countedPickedUpLayerInterfaceFactoryInterface, partIndex))
+}
     
-
-    method getFirstAvailableCountedLayerInterfaceFactory : 'return. PickedUpLayerType.pickedUpLayerType array -> 'return = fun ((pickedUpLayerTypeArray : PickedUpLayerType.pickedUpLayerType array)) ->
-        try
-        begin
-        let collidableDestroyableDamageableLayer : Obj.t ref = ref ((Obj.repr (Obj.magic ownerLayerInterface))) in ();
-        let partInterfaceArray : PartInterface.partInterface array ref = ref (((Obj.magic !collidableDestroyableDamageableLayer)#getPartInterfaceArray ())) in ();
-        let size : int ref = ref ((Array.length !partInterfaceArray)) in ();
-        let nextCountedLayerInterfaceFactory : CountedLayerInterfaceFactoryPart.countedLayerInterfaceFactoryPart ref = ref (((Obj.magic 0) :> CountedLayerInterfaceFactoryPart.countedLayerInterfaceFactoryPart)) in ();
-        let countedPickedUpLayerInterfaceFactory : CountedPickedUpLayerInterfaceFactory.countedPickedUpLayerInterfaceFactory ref = ref (((Obj.magic 0) :> CountedPickedUpLayerInterfaceFactory.countedPickedUpLayerInterfaceFactory)) in ();
-        for index = countedIndex to !size - 1 do
-            nextCountedLayerInterfaceFactory := (Obj.magic ((Obj.magic !collidableDestroyableDamageableLayer)#getPartInterfaceArray ()).(index));
-            countedPickedUpLayerInterfaceFactory := (!nextCountedLayerInterfaceFactory#getCountedPickedUpLayerInterfaceFactory ());
-            let index2 : int ref = ref ((Array.length pickedUpLayerTypeArray)) in ();
-            while ((index2 := !index2 - 1; !index2) >= 0) do
-                if ((Obj.repr (!countedPickedUpLayerInterfaceFactory#getPickedUpLayerType ())) == (Obj.repr pickedUpLayerTypeArray.(!index2))) then begin
-                    if ((!nextCountedLayerInterfaceFactory#getTotal ()) > 0) then begin
-                        raise (Java_return (Obj.repr (!nextCountedLayerInterfaceFactory)))
-                    end
-                end
-            done
-        done;
-        (Obj.magic ((CountedLayerInterfaceFactoryPart.get_nULL_COUNTED_LAYER_INTERFACE_FACTORY ())))
-        end
-        with Java_return value -> Obj.obj value
+and jm_addAt = (this: PickupBehavior, countedPickedUpLayerInterfaceFactoryInterface: CountedPickedUpLayerInterfaceFactoryInterface, partIndex: Int32) => {
+        let mut collidableDestroyableDamageableLayer: JObject = JR.cast(this.f_ownerLayerInterface)
+        let mut countedLayerInterfaceFactory: CountedLayerInterfaceFactoryPart = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CollidableDestroyableDamageableLayer.jm_getPartInterfaceArray"))
+JR.cast(jlate(JR.cast(collidableDestroyableDamageableLayer)))
+}[Int32.toNumber(partIndex)])
+        ignore(CountedLayerInterfaceFactoryPart.jm_setTotal(countedLayerInterfaceFactory, Int32.(+)(CountedLayerInterfaceFactoryPart.jm_getTotal(countedLayerInterfaceFactory), CountedPickedUpLayerInterfaceFactoryInterface.jm_getTotal(countedPickedUpLayerInterfaceFactoryInterface))))
+}
     
-
-    method getCountedLayerInterfaceFactoryForSlot : 'return. int -> 'return = fun ((slotIndex : int)) ->
-        try
-        begin
-        let currentSlot : int ref = ref (0) in ();
-        let collidableDestroyableDamageableLayer : Obj.t ref = ref ((Obj.repr (Obj.magic ownerLayerInterface))) in ();
-        let partInterfaceArray : PartInterface.partInterface array ref = ref (((Obj.magic !collidableDestroyableDamageableLayer)#getPartInterfaceArray ())) in ();
-        let size : int ref = ref ((Array.length !partInterfaceArray)) in ();
-        let nextCountedLayerInterfaceFactory : CountedLayerInterfaceFactoryPart.countedLayerInterfaceFactoryPart ref = ref (((Obj.magic 0) :> CountedLayerInterfaceFactoryPart.countedLayerInterfaceFactoryPart)) in ();
-        for index = countedIndex to !size - 1 do
-            nextCountedLayerInterfaceFactory := (Obj.magic ((Obj.magic !collidableDestroyableDamageableLayer)#getPartInterfaceArray ()).(index));
-            if ((!nextCountedLayerInterfaceFactory#getTotal ()) > 0) then begin
-                if (!currentSlot = slotIndex) then begin
-                    raise (Java_return (Obj.repr (!nextCountedLayerInterfaceFactory)))
-                end else begin
-                    currentSlot := !currentSlot + 1
-                end
-            end
-        done;
-        (Obj.magic ((CountedLayerInterfaceFactoryPart.get_nULL_COUNTED_LAYER_INTERFACE_FACTORY ())))
-        end
-        with Java_return value -> Obj.obj value
+and jm_getFirstAvailableCountedLayerInterfaceFactory = (this: PickupBehavior, pickedUpLayerTypeArray: Array<PickedUpLayerType>) => {
+        let mut collidableDestroyableDamageableLayer: JObject = JR.cast(this.f_ownerLayerInterface)
+        let mut partInterfaceArray: Array<PartInterface> = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CollidableDestroyableDamageableLayer.jm_getPartInterfaceArray"))
+JR.cast(jlate(JR.cast(collidableDestroyableDamageableLayer)))
+}
+        let mut size: Int32 = Int32.fromNumber(Array.length(partInterfaceArray))
+        let mut nextCountedLayerInterfaceFactory: CountedLayerInterfaceFactoryPart = JR.nullOf()
+        let mut countedPickedUpLayerInterfaceFactory: CountedPickedUpLayerInterfaceFactory = JR.nullOf()
+        {
+            let mut index: Int32 = this.f_countedIndex
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            nextCountedLayerInterfaceFactory = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CollidableDestroyableDamageableLayer.jm_getPartInterfaceArray"))
+JR.cast(jlate(JR.cast(collidableDestroyableDamageableLayer)))
+}[Int32.toNumber(index)])
+            countedPickedUpLayerInterfaceFactory = CountedLayerInterfaceFactoryPart.jm_getCountedPickedUpLayerInterfaceFactory(nextCountedLayerInterfaceFactory)
+            {
+                let mut index2: Int32 = Int32.fromNumber(Array.length(pickedUpLayerTypeArray))
+                let mut jfirst = true
+                while (true) {
+                    jfirst = false
+                    if (!(Int32.(>=)({ index2 = Int32.(-)(index2, 1l); index2 }, 0l))) break
+                if (JR.isSame(CountedPickedUpLayerInterfaceFactory.jm_getPickedUpLayerType(countedPickedUpLayerInterfaceFactory), pickedUpLayerTypeArray[Int32.toNumber(index2)])) {
+                    if (Int32.(>)(CountedLayerInterfaceFactoryPart.jm_getTotal(nextCountedLayerInterfaceFactory), 0l)) {
+                        return nextCountedLayerInterfaceFactory
+                    }
+                }
+                }
+            }
+            }
+        }
+        return CountedLayerInterfaceFactoryPart.jstatic_NULL_COUNTED_LAYER_INTERFACE_FACTORY()
+}
     
+and jm_getCountedLayerInterfaceFactoryForSlot = (this: PickupBehavior, slotIndex: Int32) => {
+        let mut currentSlot: Int32 = 0l
+        let mut collidableDestroyableDamageableLayer: JObject = JR.cast(this.f_ownerLayerInterface)
+        let mut partInterfaceArray: Array<PartInterface> = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CollidableDestroyableDamageableLayer.jm_getPartInterfaceArray"))
+JR.cast(jlate(JR.cast(collidableDestroyableDamageableLayer)))
+}
+        let mut size: Int32 = Int32.fromNumber(Array.length(partInterfaceArray))
+        let mut nextCountedLayerInterfaceFactory: CountedLayerInterfaceFactoryPart = JR.nullOf()
+        {
+            let mut index: Int32 = this.f_countedIndex
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            nextCountedLayerInterfaceFactory = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CollidableDestroyableDamageableLayer.jm_getPartInterfaceArray"))
+JR.cast(jlate(JR.cast(collidableDestroyableDamageableLayer)))
+}[Int32.toNumber(index)])
+            if (Int32.(>)(CountedLayerInterfaceFactoryPart.jm_getTotal(nextCountedLayerInterfaceFactory), 0l)) {
+                if ((currentSlot == slotIndex)) {
+                    return nextCountedLayerInterfaceFactory
+                } else {
+                    currentSlot = Int32.(+)(currentSlot, 1l)
+                }
+            }
+            }
+        }
+        return CountedLayerInterfaceFactoryPart.jstatic_NULL_COUNTED_LAYER_INTERFACE_FACTORY()
+}
+    
+and jm_getCountedIndex = (this: PickupBehavior) => {
+        return this.f_countedIndex
+}
 
-    method getCountedIndex () : int =
-        begin
-        countedIndex
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ();
-        ();
-        ();
-        ownerLayerInterface <- ownerLayerInterface_arg;
-        countedIndex <- countedIndex_arg
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "PickupBehavior" (fun arguments -> Obj.repr (new pickupBehavior (Obj.obj arguments)))
-
-let getNullInstance : 'return. unit -> 'return = fun () ->
-        begin
-        if ((Obj.repr !nULL_PICKUP_BEHAVIOR) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            nULL_PICKUP_BEHAVIOR := (Obj.repr ((new pickupBehavior ((CollidableCompositeLayer.getNullInstance ()), 0))))
-        end;
-        (Obj.magic ((Obj.magic !nULL_PICKUP_BEHAVIOR)))
-        end
-let () = java_register_static "PickupBehavior.getNullInstance" (fun arguments -> Obj.repr (getNullInstance (Obj.obj arguments)))
+JR.registerLateBound("PickupBehavior.jnew_2", jnew_2)
+JR.registerLateBound("PickupBehavior.jm_getNullInstance", jm_getNullInstance)
+JR.registerLateBound("PickupBehavior.jm_doPickup", jm_doPickup)
+JR.registerLateBound("PickupBehavior.jm_doPickupLayer", jm_doPickupLayer)
+JR.registerLateBound("PickupBehavior.jm_add", jm_add)
+JR.registerLateBound("PickupBehavior.jm_addAt", jm_addAt)
+JR.registerLateBound("PickupBehavior.jm_getFirstAvailableCountedLayerInterfaceFactory", jm_getFirstAvailableCountedLayerInterfaceFactory)
+JR.registerLateBound("PickupBehavior.jm_getCountedLayerInterfaceFactoryForSlot", jm_getCountedLayerInterfaceFactoryForSlot)
+JR.registerLateBound("PickupBehavior.jm_getCountedIndex", jm_getCountedIndex)
+JR.registerLateBound("PickupBehavior.f_logUtil", (this: PickupBehavior) => this.f_logUtil)
+JR.registerLateBound("PickupBehavior.f_countedIndex", (this: PickupBehavior) => this.f_countedIndex)
+JR.registerLateBound("PickupBehavior.f_ownerLayerInterface", (this: PickupBehavior) => this.f_ownerLayerInterface)
+JR.registerLateBound("PickupBehavior.jstatic_NULL_PICKUP_BEHAVIOR", jstatic_NULL_PICKUP_BEHAVIOR)
 
 

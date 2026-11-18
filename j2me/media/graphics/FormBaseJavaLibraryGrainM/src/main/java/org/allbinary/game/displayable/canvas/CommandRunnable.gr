@@ -1,69 +1,86 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.displayable.canvas
+module CommandRunnable
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.displayable.canvas *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/graphics/displayable/MyCanvas.gr" include MyCanvas
+use MyCanvas.{ type MyCanvas }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../../java/lang/Runnable.gr" include Runnable
+use Runnable.{ type Runnable }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Command *)
-(* import javax.microedition.lcdui.CommandListener *)
-(* import org.allbinary.graphics.displayable.MyCanvas *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record CommandRunnable {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_commandFormInputProcessor: JObject,
+  mut f_command: JObject,
+}
 
-class commandRunnable (commandFormInputProcessor_arg, command_arg) =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable commandFormInputProcessor : Obj.t = Obj.repr 0
-    method commandFormInputProcessor : 'r. 'r = Obj.magic commandFormInputProcessor
-    method set_commandFormInputProcessor : 'v. 'v -> unit = fun value' -> commandFormInputProcessor <- Obj.repr value'
-    val mutable command : Obj.t = Obj.repr 0
-    method command : 'r. 'r = Obj.magic command
-    method set_command : 'v. 'v -> unit = fun value' -> command <- Obj.repr value'
+
+provide let rec jclassName = () => "CommandRunnable"
+    
+and jnew_2 = (commandFormInputProcessor: JObject, command: JObject) => {
+    let this = { jobject: JR.newJObject("CommandRunnable"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_commandFormInputProcessor: JR.jnull, f_command: JR.jnull, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
     
     
+        this.f_commandFormInputProcessor = commandFormInputProcessor
+        this.f_command = command
+    this
+}
+    
+and jm_run = (this: CommandRunnable) => {
+        {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_START_RUNNABLE), JR.cast(this), JR.cast(this.f_commonStrings.f_RUN)))
+})
+            let mut canvas: MyCanvas = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommandFormInputProcessor.jm_getCanvas"))
+JR.cast(jlate(JR.cast(this.f_commandFormInputProcessor)))
+})
+            let mut commandListener: CommandListener = JR.cast(MyCanvas.jm_getCustomCommandListener(canvas))
+            ignore(CommandListener.jm_commandAction(commandListener, this.f_command, canvas))
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_END_RUNNABLE), JR.cast(this), JR.cast(this.f_commonStrings.f_RUN)))
+})
+        }
+}
 
-    method run () : unit =
-        begin
-        (try
-            ignore ((Obj.magic logUtil)#putF (commonStrings#sTART_RUNNABLE, (Obj.magic self), commonStrings#rUN));
-            let canvas : MyCanvas.myCanvas ref = ref ((((Obj.magic commandFormInputProcessor)#getCanvas ()) :> MyCanvas.myCanvas)) in ();
-            let commandListener : Obj.t ref = ref ((Obj.repr (!canvas#getCustomCommandListener ()))) in ();
-            ignore ((Obj.magic !commandListener)#commandAction ((Obj.magic command), !canvas));
-            ignore ((Obj.magic logUtil)#putF (commonStrings#eND_RUNNABLE, (Obj.magic self), commonStrings#rUN))
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#rUN, e))
-        end)
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        ();
-        ();
-        ();
-        commandFormInputProcessor <- Obj.repr (commandFormInputProcessor_arg);
-        command <- Obj.repr (command_arg)
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "CommandRunnable" (fun arguments -> Obj.repr (new commandRunnable (Obj.obj arguments)))
+JR.registerLateBound("CommandRunnable.jnew_2", jnew_2)
+JR.registerLateBound("CommandRunnable.jm_run", jm_run)
+JR.registerLateBound("CommandRunnable.f_logUtil", (this: CommandRunnable) => this.f_logUtil)
+JR.registerLateBound("CommandRunnable.f_commonStrings", (this: CommandRunnable) => this.f_commonStrings)
+JR.registerLateBound("CommandRunnable.f_commandFormInputProcessor", (this: CommandRunnable) => this.f_commandFormInputProcessor)
+JR.registerLateBound("CommandRunnable.f_command", (this: CommandRunnable) => this.f_command)
 
 

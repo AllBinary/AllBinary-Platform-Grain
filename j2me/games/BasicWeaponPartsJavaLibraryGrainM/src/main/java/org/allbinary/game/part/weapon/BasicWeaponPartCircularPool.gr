@@ -1,61 +1,81 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.part.weapon
+module BasicWeaponPartCircularPool
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.part.weapon *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/combat/weapon/WeaponProperties.gr" include WeaponProperties
+use WeaponProperties.{ type WeaponProperties }
+from "../../../../../org/allbinary/game/score/ScoreableInterface.gr" include ScoreableInterface
+use ScoreableInterface.{ type ScoreableInterface }
+from "../../../../../org/allbinary/graphics/RelativeRelationship.gr" include RelativeRelationship
+use RelativeRelationship.{ type RelativeRelationship }
+from "../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "./BasicWeaponPart.gr" include BasicWeaponPart
+use BasicWeaponPart.{ type BasicWeaponPart }
+from "./BasicWeaponPartFactoryInterface.gr" include BasicWeaponPartFactoryInterface
+use BasicWeaponPartFactoryInterface.{ type BasicWeaponPartFactoryInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.combat.weapon.WeaponProperties *)
-(* import org.allbinary.game.score.ScoreableInterface *)
-(* import org.allbinary.graphics.RelativeRelationship *)
-(* import org.allbinary.layer.AllBinaryLayer *)
+provide record BasicWeaponPartCircularPool {
+  jobject: JObject,
+  mut f_basicWeaponPart: BasicWeaponPart,
+}
 
-class basicWeaponPartCircularPool () =
-  object
-    val mutable basicWeaponPart : BasicWeaponPart.basicWeaponPart = (Obj.magic 0)
-    method basicWeaponPart = basicWeaponPart
-    method set_basicWeaponPart value' = basicWeaponPart <- value'
+let mut jcell_NULL_BASIC_WEAPON_PART_CIRCULAR_POOL: Option<BasicWeaponPartCircularPool> = None
+
+provide let rec jclassName = () => "BasicWeaponPartCircularPool"
+
+and jstatic_NULL_BASIC_WEAPON_PART_CIRCULAR_POOL = () => match (jcell_NULL_BASIC_WEAPON_PART_CIRCULAR_POOL) {
+  Some(value) => value,
+  None => {
+    let value: BasicWeaponPartCircularPool = jnew_0()
+    jcell_NULL_BASIC_WEAPON_PART_CIRCULAR_POOL = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("BasicWeaponPartCircularPool"), f_basicWeaponPart: JR.nullOf(), }
+    this.f_basicWeaponPart = JR.cast(BasicWeaponPart.jstatic_NULL_BASIC_WEAPON_PART())
+    this
+}
     
-
-    method init : 'any1. 'any1 -> unit = fun (basicWeaponPartFactoryInterface) ->
-        let basicWeaponPartFactoryInterface = Obj.repr basicWeaponPartFactoryInterface in
-        begin
-        basicWeaponPart <- ((Obj.magic basicWeaponPartFactoryInterface)#getInstance ())
-        end [@@warning "-20"]
+and jm_init = (this: BasicWeaponPartCircularPool, basicWeaponPartFactoryInterface: BasicWeaponPartFactoryInterface) => {
+        this.f_basicWeaponPart = BasicWeaponPartFactoryInterface.jm_getInstance(basicWeaponPartFactoryInterface)
+}
     
+and jm_getInstance = (this: BasicWeaponPartCircularPool, sourceLayerInterface: AllBinaryLayer, weaponProperties: WeaponProperties, scoreableInterface: ScoreableInterface, relativeRelationship: RelativeRelationship) => {
+        ignore(BasicWeaponPart.jm_init(this.f_basicWeaponPart, sourceLayerInterface, weaponProperties, scoreableInterface, relativeRelationship))
+        return this.f_basicWeaponPart
+}
 
-    method getInstance : 'any1 'any2 'any3 'any4 'return. 'any1 * 'any2 * 'any3 * 'any4 -> 'return = fun (sourceLayerInterface, weaponProperties, scoreableInterface, relativeRelationship) ->
-        let sourceLayerInterface = Obj.repr sourceLayerInterface in
-        let weaponProperties = Obj.repr weaponProperties in
-        let scoreableInterface = Obj.repr scoreableInterface in
-        let relativeRelationship = Obj.repr relativeRelationship in
-        begin
-        ignore (basicWeaponPart#init ((Obj.magic sourceLayerInterface), (Obj.magic weaponProperties), (Obj.magic scoreableInterface), (Obj.magic relativeRelationship)));
-        (Obj.magic (basicWeaponPart))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        basicWeaponPart <- ((BasicWeaponPart.get_nULL_BASIC_WEAPON_PART ()) :> BasicWeaponPart.basicWeaponPart);
-        ()
-      end
-  end
-let () = java_register_constructor "BasicWeaponPartCircularPool" (fun arguments -> Obj.repr (new basicWeaponPartCircularPool (Obj.obj arguments)))
-
-let nULL_BASIC_WEAPON_PART_CIRCULAR_POOL = (new basicWeaponPartCircularPool ())
-let get_nULL_BASIC_WEAPON_PART_CIRCULAR_POOL () = nULL_BASIC_WEAPON_PART_CIRCULAR_POOL
-let () = java_register_static "BasicWeaponPartCircularPool.get_nULL_BASIC_WEAPON_PART_CIRCULAR_POOL" (fun _ -> Obj.repr (get_nULL_BASIC_WEAPON_PART_CIRCULAR_POOL ()))
+JR.registerLateBound("BasicWeaponPartCircularPool.jnew_0", jnew_0)
+JR.registerLateBound("BasicWeaponPartCircularPool.jm_init", jm_init)
+JR.registerLateBound("BasicWeaponPartCircularPool.jm_getInstance", jm_getInstance)
+JR.registerLateBound("BasicWeaponPartCircularPool.f_basicWeaponPart", (this: BasicWeaponPartCircularPool) => this.f_basicWeaponPart)
+JR.registerLateBound("BasicWeaponPartCircularPool.set_f_basicWeaponPart", (this: BasicWeaponPartCircularPool, jvalue) => { this.f_basicWeaponPart = jvalue; jvalue })
+JR.registerLateBound("BasicWeaponPartCircularPool.jstatic_NULL_BASIC_WEAPON_PART_CIRCULAR_POOL", jstatic_NULL_BASIC_WEAPON_PART_CIRCULAR_POOL)
 
 

@@ -1,68 +1,87 @@
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.physics.movement *)
+// Generated Code Do Not Modify
+// package org.allbinary.physics.movement
+module PreciseConstantVelocityMovement
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.layer.AllBinaryGameLayer *)
-(* import org.allbinary.game.physics.velocity.BasicVelocityProperties *)
-(* import org.allbinary.logic.math.BasicDecimal *)
-(* import org.allbinary.logic.math.MathUtil *)
-(* import org.allbinary.logic.math.ScaleFactorFactory *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/layer/AllBinaryGameLayer.gr" include AllBinaryGameLayer
+use AllBinaryGameLayer.{ type AllBinaryGameLayer }
+from "../../../../org/allbinary/game/physics/velocity/BasicVelocityProperties.gr" include BasicVelocityProperties
+use BasicVelocityProperties.{ type BasicVelocityProperties }
+from "../../../../org/allbinary/logic/math/BasicDecimal.gr" include BasicDecimal
+use BasicDecimal.{ type BasicDecimal }
+from "../../../../org/allbinary/logic/math/MathUtil.gr" include MathUtil
+use MathUtil.{ type MathUtil }
+from "../../../../org/allbinary/logic/math/ScaleFactorFactory.gr" include ScaleFactorFactory
+use ScaleFactorFactory.{ type ScaleFactorFactory }
+from "./BasicConstantVelocityMovement.gr" include BasicConstantVelocityMovement
+use BasicConstantVelocityMovement.{ type BasicConstantVelocityMovement }
 
-class preciseConstantVelocityMovement ((basicDecimal : BasicDecimal.basicDecimal), (velocityProperties : BasicVelocityProperties.basicVelocityProperties)) =
-  object (self)
-    inherit BasicConstantVelocityMovement.basicConstantVelocityMovement (basicDecimal, velocityProperties)
-    val mutable accumulatedX : int = 0
-    method accumulatedX = accumulatedX
-    method set_accumulatedX value' = accumulatedX <- value'
-    val mutable accumulatedY : int = 0
-    method accumulatedY = accumulatedY
-    method set_accumulatedY value' = accumulatedY <- value'
-    val mutable accumulatedZ : int = 0
-    method accumulatedZ = accumulatedZ
-    method set_accumulatedZ value' = accumulatedZ <- value'
-    val mutable factorValue : int = 0
-    method factorValue = factorValue
-    method set_factorValue value' = factorValue <- value'
+provide record PreciseConstantVelocityMovement {
+  jobject: JObject,
+  mut f_velocityProperties: JObject,
+  mut f_speedBasicDecimal: JObject,
+  mut f_axisMathVectorUtil: JObject,
+  mut f_accumulatedX: Int32,
+  mut f_accumulatedY: Int32,
+  mut f_accumulatedZ: Int32,
+  mut f_factorValue: Int32,
+}
+
+
+provide let rec jclassName = () => "PreciseConstantVelocityMovement"
+    
+and jnew_2 = (basicDecimal: BasicDecimal, velocityProperties: BasicVelocityProperties) => {
+    let this = { jobject: JR.newJObject("PreciseConstantVelocityMovement"), f_velocityProperties: JR.jnull, f_speedBasicDecimal: JR.jnull, f_axisMathVectorUtil: JR.jnull, f_accumulatedX: 0l, f_accumulatedY: 0l, f_accumulatedZ: 0l, f_factorValue: 0l, }
     
     
-
-    method init : 'any1. 'any1 * int * int -> unit = fun (_speedBasicDecimal, (_angle : int), (_otherAngle : int)) ->
-        begin
-        ()
-        end [@@warning "-7-20"]
     
+    this.f_factorValue = ScaleFactorFactory.jm_getInstance().f_DEFAULT_SCALE_VALUE
+        void
+    this
+}
+    
+and jm_init = (this: PreciseConstantVelocityMovement, speedBasicDecimal: BasicDecimal, angle: Int32, otherAngle: Int32) => {
+    void
+}
+    
+and jm_process = (this: PreciseConstantVelocityMovement, layer: AllBinaryGameLayer) => {
+        let mut mathUtil: MathUtil = JR.cast(MathUtil.jm_getInstance())
+        let mut velocityProperties: BasicVelocityProperties = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicConstantVelocityMovement.jm_getVelocityProperties"))
+JR.cast(jlate(JR.cast(this)))
+})
+        this.f_accumulatedX = Int32.fromNumber(Int64.toNumber((Int64.(+)(Int64.fromNumber(Int32.toNumber(this.f_accumulatedX)), JR.className(JR.cast(BasicVelocityProperties.jm_getVelocityXBasicDecimalP(velocityProperties)))))))
+        this.f_accumulatedY = Int32.fromNumber(Int64.toNumber((Int64.(+)(Int64.fromNumber(Int32.toNumber(this.f_accumulatedY)), JR.className(JR.cast(BasicVelocityProperties.jm_getVelocityYBasicDecimalP(velocityProperties)))))))
+        this.f_accumulatedZ = Int32.fromNumber(Int64.toNumber((Int64.(+)(Int64.fromNumber(Int32.toNumber(this.f_accumulatedZ)), JR.className(JR.cast(BasicVelocityProperties.jm_getVelocityZBasicDecimalP(velocityProperties)))))))
+        ignore(AllBinaryGameLayer.jm_moveDXYZ(layer, Int32.(/)(this.f_accumulatedX, this.f_factorValue), Int32.(/)(this.f_accumulatedY, this.f_factorValue), Int32.(/)(this.f_accumulatedZ, this.f_factorValue)))
+        if (Int32.(>)(MathUtil.jm_abs(mathUtil, this.f_accumulatedX), this.f_factorValue)) {
+            this.f_accumulatedX = 0l
+        }
+        if (Int32.(>)(MathUtil.jm_abs(mathUtil, this.f_accumulatedY), this.f_factorValue)) {
+            this.f_accumulatedY = 0l
+        }
+        if (Int32.(>)(MathUtil.jm_abs(mathUtil, this.f_accumulatedZ), this.f_factorValue)) {
+            this.f_accumulatedZ = 0l
+        }
+}
 
-    method process : 'any1. 'any1 -> unit = fun (layer) ->
-        let layer = Obj.repr layer in
-        begin
-        let mathUtil : MathUtil.mathUtil ref = ref (((MathUtil.getInstance ()) :> MathUtil.mathUtil)) in ();
-        let velocityProperties : BasicVelocityProperties.basicVelocityProperties ref = ref (((self#getVelocityProperties ()) :> BasicVelocityProperties.basicVelocityProperties)) in ();
-        accumulatedX <- (java_to_int (Obj.repr (((accumulatedX + ((!velocityProperties#getVelocityXBasicDecimalP ())#getUnscaled ()))))));
-        accumulatedY <- (java_to_int (Obj.repr (((accumulatedY + ((!velocityProperties#getVelocityYBasicDecimalP ())#getUnscaled ()))))));
-        accumulatedZ <- (java_to_int (Obj.repr (((accumulatedZ + ((!velocityProperties#getVelocityZBasicDecimalP ())#getUnscaled ()))))));
-        ignore ((Obj.magic layer)#moveDXYZ ((accumulatedX / factorValue), (accumulatedY / factorValue), (accumulatedZ / factorValue)));
-        if ((!mathUtil#abs (accumulatedX)) > factorValue) then begin
-            accumulatedX <- 0
-        end;
-        if ((!mathUtil#abs (accumulatedY)) > factorValue) then begin
-            accumulatedY <- 0
-        end;
-        if ((!mathUtil#abs (accumulatedZ)) > factorValue) then begin
-            accumulatedZ <- 0
-        end
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        accumulatedX <- 0;
-        accumulatedY <- 0;
-        accumulatedZ <- 0;
-        factorValue <- (ScaleFactorFactory.getInstance ())#dEFAULT_SCALE_VALUE;
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "PreciseConstantVelocityMovement" (fun arguments -> Obj.repr (new preciseConstantVelocityMovement (Obj.obj arguments)))
+JR.registerLateBound("PreciseConstantVelocityMovement.jnew_2", jnew_2)
+JR.registerLateBound("PreciseConstantVelocityMovement.jm_init", jm_init)
+JR.registerLateBound("PreciseConstantVelocityMovement.jm_process", jm_process)
+JR.registerLateBound("PreciseConstantVelocityMovement.f_accumulatedX", (this: PreciseConstantVelocityMovement) => this.f_accumulatedX)
+JR.registerLateBound("PreciseConstantVelocityMovement.set_f_accumulatedX", (this: PreciseConstantVelocityMovement, jvalue) => { this.f_accumulatedX = jvalue; jvalue })
+JR.registerLateBound("PreciseConstantVelocityMovement.f_accumulatedY", (this: PreciseConstantVelocityMovement) => this.f_accumulatedY)
+JR.registerLateBound("PreciseConstantVelocityMovement.set_f_accumulatedY", (this: PreciseConstantVelocityMovement, jvalue) => { this.f_accumulatedY = jvalue; jvalue })
+JR.registerLateBound("PreciseConstantVelocityMovement.f_accumulatedZ", (this: PreciseConstantVelocityMovement) => this.f_accumulatedZ)
+JR.registerLateBound("PreciseConstantVelocityMovement.set_f_accumulatedZ", (this: PreciseConstantVelocityMovement, jvalue) => { this.f_accumulatedZ = jvalue; jvalue })
+JR.registerLateBound("PreciseConstantVelocityMovement.f_factorValue", (this: PreciseConstantVelocityMovement) => this.f_factorValue)
 
 

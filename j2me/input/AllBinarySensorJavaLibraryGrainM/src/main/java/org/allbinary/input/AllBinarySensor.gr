@@ -1,96 +1,119 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.input
+module AllBinarySensor
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.input *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/logic/communication/log/ForcedLogUtil.gr" include ForcedLogUtil
+use ForcedLogUtil.{ type ForcedLogUtil }
+from "../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./AllBinarySensorListener.gr" include AllBinarySensorListener
+use AllBinarySensorListener.{ type AllBinarySensorListener }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.communication.log.ForcedLogUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record AllBinarySensor {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+}
 
-let max : int ref = ref (100)
-let get_max () = !max
-let set_max value' = max := value'
-let () = java_register_static "AllBinarySensor.get_max" (fun _ -> Obj.repr (get_max ()))
-let () = java_register_static "AllBinarySensor.set_max" (fun value' -> set_max (Obj.obj value'); Obj.repr ())
+let mut jcell_NULL_ALLBINARY_SENSOR: Option<AllBinarySensor> = None
+let mut jcell_max: Option<Int32> = None
 
-let setMax ((max_arg : int)) : unit =
-        begin
-        max := max_arg
-        end
+provide let rec jclassName = () => "AllBinarySensor"
 
-and getMax () : int =
-        begin
-        !max
-        end
+and jstatic_NULL_ALLBINARY_SENSOR = () => match (jcell_NULL_ALLBINARY_SENSOR) {
+  Some(value) => value,
+  None => {
+    let value: AllBinarySensor = jnew_0()
+    jcell_NULL_ALLBINARY_SENSOR = Some(value)
+    value
+  },
+}
 
-let () = java_register_static "AllBinarySensor.setMax" (fun arguments -> Obj.repr (setMax (Obj.obj arguments)))
-let () = java_register_static "AllBinarySensor.getMax" (fun arguments -> Obj.repr (getMax (Obj.obj arguments)))
-class allBinarySensor () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
+and jstatic_max = () => match (jcell_max) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = 100l
+    jcell_max = Some(value)
+    value
+  },
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("AllBinarySensor"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+        void
+    this
+}
     
-
-    method init () : unit =
-        begin
-        ()
-        end
+and jm_init = (this: AllBinarySensor) => {
+    void
+}
     
-
-    method update () : unit =
-        begin
-        ()
-        end
+and jm_update = (this: AllBinarySensor) => {
+    void
+}
     
-
-    method getId () : int =
-        begin
-        (getMax ())
-        end
+and jm_setMax = (max: Int32) => {
+        jstatic_max() = max
+}
     
-
-    method shutdown () : unit =
-        begin
-        ignore ((Obj.magic logUtil)#putF (commonStrings#sTART, (Obj.magic self), "shutdown"))
-        end
+and jm_getMax = () => {
+        return jstatic_max()
+}
     
+and jm_getId = (this: AllBinarySensor) => {
+        return jm_getMax()
+}
+    
+and jm_shutdown = (this: AllBinarySensor) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_START), JR.cast(this), JR.cast("shutdown")))
+})
+}
+    
+and jm_onSensorChange = (this: AllBinarySensor) => {
+        ignore(ForcedLogUtil.jm_log(this.f_commonStrings.f_NOT_IMPLEMENTED, JR.cast(this)))
+}
 
-    method onSensorChange () : unit =
-        begin
-        ignore (ForcedLogUtil.log (commonStrings#nOT_IMPLEMENTED, (Obj.magic self)))
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "AllBinarySensor" (fun arguments -> Obj.repr (new allBinarySensor (Obj.obj arguments)))
-
-let nULL_ALLBINARY_SENSOR = (new allBinarySensor ())
-let get_nULL_ALLBINARY_SENSOR () = nULL_ALLBINARY_SENSOR
-let () = java_register_static "AllBinarySensor.get_nULL_ALLBINARY_SENSOR" (fun _ -> Obj.repr (get_nULL_ALLBINARY_SENSOR ()))
+JR.registerLateBound("AllBinarySensor.jnew_0", jnew_0)
+JR.registerLateBound("AllBinarySensor.jm_init", jm_init)
+JR.registerLateBound("AllBinarySensor.jm_update", jm_update)
+JR.registerLateBound("AllBinarySensor.jm_setMax", jm_setMax)
+JR.registerLateBound("AllBinarySensor.jm_getMax", jm_getMax)
+JR.registerLateBound("AllBinarySensor.jm_getId", jm_getId)
+JR.registerLateBound("AllBinarySensor.jm_shutdown", jm_shutdown)
+JR.registerLateBound("AllBinarySensor.jm_onSensorChange", jm_onSensorChange)
+JR.registerLateBound("AllBinarySensor.f_logUtil", (this: AllBinarySensor) => this.f_logUtil)
+JR.registerLateBound("AllBinarySensor.f_commonStrings", (this: AllBinarySensor) => this.f_commonStrings)
+JR.registerLateBound("AllBinarySensor.jstatic_NULL_ALLBINARY_SENSOR", jstatic_NULL_ALLBINARY_SENSOR)
+JR.registerLateBound("AllBinarySensor.jstatic_max", jstatic_max)
 
 

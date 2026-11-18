@@ -1,60 +1,86 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.ai
+module ArrayAI
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.ai *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/ai/ArtificialIntelligenceInterface.gr" include ArtificialIntelligenceInterface
+use ArtificialIntelligenceInterface.{ type ArtificialIntelligenceInterface }
+from "../../../../../org/allbinary/game/input/GameInput.gr" include GameInput
+use GameInput.{ type GameInput }
+from "../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
+from "../../../../../org/allbinary/game/ai/BasicAI.gr" include BasicAI
+use BasicAI.{ type BasicAI }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.ai.ArtificialIntelligenceInterface *)
-(* import org.allbinary.game.input.GameInput *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
-(* import org.allbinary.game.ai.BasicAI *)
+provide record ArrayAI {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_gameKeyEventFactory: JObject,
+  mut f_ownerLayerInterface: JObject,
+  mut f_gameInput: JObject,
+  mut f_lastKey: Int32,
+  mut f_artificialIntelligenceInterfaceArray: Array<ArtificialIntelligenceInterface>,
+}
 
-class arrayAI ((artificialIntelligenceInterface : ArtificialIntelligenceInterface.artificialIntelligenceInterface array), (ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gameInput : GameInput.gameInput)) =
-  object
-    inherit BasicAI.basicAI (ownerLayerInterface, gameInput)
-    val mutable artificialIntelligenceInterfaceArray : ArtificialIntelligenceInterface.artificialIntelligenceInterface array = (Obj.magic 0)
-    method artificialIntelligenceInterfaceArray = artificialIntelligenceInterfaceArray
-    method set_artificialIntelligenceInterfaceArray value' = artificialIntelligenceInterfaceArray <- value'
+
+provide let rec jclassName = () => "ArrayAI"
     
+and jnew_3 = (artificialIntelligenceInterface: Array<ArtificialIntelligenceInterface>, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
+    let this = { jobject: JR.newJObject("ArrayAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_artificialIntelligenceInterfaceArray: [> ], }
     
-
-    method processAI : 'any1. 'any1 -> unit = fun (allBinaryLayerManager) ->
-        let allBinaryLayerManager = Obj.repr allBinaryLayerManager in
-        begin
-        let size : int ref = ref ((Array.length artificialIntelligenceInterfaceArray)) in ();
-        for index = 0 to !size - 1 do
-            ignore (artificialIntelligenceInterfaceArray.(index)#processAI ((Obj.magic allBinaryLayerManager)))
-        done
-        end [@@warning "-7-20"]
+        void
+        this.f_artificialIntelligenceInterfaceArray = artificialIntelligenceInterface
+    this
+}
     
+and jm_processAI = (this: ArrayAI, allBinaryLayerManager: AllBinaryLayerManager) => {
+        let mut size: Int32 = Int32.fromNumber(Array.length(this.f_artificialIntelligenceInterfaceArray))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            ignore(JR.className(JR.cast(this.f_artificialIntelligenceInterfaceArray[Int32.toNumber(index)])))
+            }
+        }
+}
+    
+and jm_getArtificialIntelligenceInterface = (this: ArrayAI) => {
+        return this.f_artificialIntelligenceInterfaceArray
+}
 
-    method getArtificialIntelligenceInterface : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (artificialIntelligenceInterfaceArray))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        ();
-        (* super(...) is the inherit clause *) ();
-        artificialIntelligenceInterfaceArray <- artificialIntelligenceInterface
-      end
-  end
-let () = java_register_constructor "ArrayAI" (fun arguments -> Obj.repr (new arrayAI (Obj.obj arguments)))
+JR.registerLateBound("ArrayAI.jnew_3", jnew_3)
+JR.registerLateBound("ArrayAI.jm_processAI", jm_processAI)
+JR.registerLateBound("ArrayAI.jm_getArtificialIntelligenceInterface", jm_getArtificialIntelligenceInterface)
+JR.registerLateBound("ArrayAI.f_artificialIntelligenceInterfaceArray", (this: ArrayAI) => this.f_artificialIntelligenceInterfaceArray)
 
 

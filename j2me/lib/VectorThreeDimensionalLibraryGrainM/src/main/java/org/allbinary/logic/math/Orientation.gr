@@ -1,82 +1,105 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.math
+module Orientation
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.math *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "./BasicDecimal.gr" include BasicDecimal
+use BasicDecimal.{ type BasicDecimal }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.string.StringMaker *)
+provide record Orientation {
+  jobject: JObject,
+  mut f_yaw: BasicDecimal,
+  mut f_pitch: BasicDecimal,
+  mut f_roll: BasicDecimal,
+}
 
-class orientation ((yaw_arg : int), (pitch_arg : int), (roll_arg : int)) =
-  object
-    val mutable yaw : BasicDecimal.basicDecimal = (Obj.magic 0)
-    method yaw = yaw
-    method set_yaw value' = yaw <- value'
-    val mutable pitch : BasicDecimal.basicDecimal = (Obj.magic 0)
-    method pitch = pitch
-    method set_pitch value' = pitch <- value'
-    val mutable roll : BasicDecimal.basicDecimal = (Obj.magic 0)
-    method roll = roll
-    method set_roll value' = roll <- value'
+let mut jcell_NONE: Option<Orientation> = None
+let mut jcell_SINGLETON: Option<Orientation> = None
+
+provide let rec jclassName = () => "Orientation"
+
+and jstatic_NONE = () => match (jcell_NONE) {
+  Some(value) => value,
+  None => {
+    let value: Orientation = jnew_3(0l, 0l, 0l)
+    jcell_NONE = Some(value)
+    value
+  },
+}
+
+and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
+  Some(value) => value,
+  None => {
+    let value: Orientation = jnew_3(0l, 0l, 0l)
+    jcell_SINGLETON = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = (yaw: Int32, pitch: Int32, roll: Int32) => {
+        ignore(JR.className(JR.cast(jstatic_SINGLETON().f_yaw)))
+        ignore(JR.className(JR.cast(jstatic_SINGLETON().f_pitch)))
+        ignore(JR.className(JR.cast(jstatic_SINGLETON().f_roll)))
+        return jstatic_SINGLETON()
+}
     
+and jnew_3 = (yaw: Int32, pitch: Int32, roll: Int32) => {
+    let this = { jobject: JR.newJObject("Orientation"), f_yaw: JR.nullOf(), f_pitch: JR.nullOf(), f_roll: JR.nullOf(), }
+    this.jobject.toStringFunction = () => jm_toString(this)
+    this.f_yaw = BasicDecimal.jnew_1(0L)
+    this.f_pitch = BasicDecimal.jnew_1(0L)
+    this.f_roll = BasicDecimal.jnew_1(0L)
+        ignore(INT.jm_setint(this.f_yaw, yaw))
+        ignore(INT.jm_setint(this.f_pitch, pitch))
+        ignore(INT.jm_setint(this.f_roll, roll))
+    this
+}
+    
+and jm_toString = (this: Orientation) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, "Y: "))
+        ignore(StringMaker.jm_append(stringBuffer, BasicDecimal.jm_toString(this.f_yaw)))
+        ignore(StringMaker.jm_append(stringBuffer, " P: "))
+        ignore(StringMaker.jm_append(stringBuffer, BasicDecimal.jm_toString(this.f_pitch)))
+        ignore(StringMaker.jm_append(stringBuffer, " R: "))
+        ignore(StringMaker.jm_append(stringBuffer, BasicDecimal.jm_toString(this.f_roll)))
+        return StringMaker.jm_toString(stringBuffer)
+}
 
-    method toString () : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ("Y: "));
-        ignore (!stringBuffer#append ((java_string_of (Obj.repr yaw))));
-        ignore (!stringBuffer#append (" P: "));
-        ignore (!stringBuffer#append ((java_string_of (Obj.repr pitch))));
-        ignore (!stringBuffer#append (" R: "));
-        ignore (!stringBuffer#append ((java_string_of (Obj.repr roll))));
-        (java_string_of (Obj.repr !stringBuffer))
-        end
-
-    initializer
-      begin
-        yaw <- ((new BasicDecimal.basicDecimal (0)) :> BasicDecimal.basicDecimal);
-        pitch <- ((new BasicDecimal.basicDecimal (0)) :> BasicDecimal.basicDecimal);
-        roll <- ((new BasicDecimal.basicDecimal (0)) :> BasicDecimal.basicDecimal);
-        ();
-        ignore (yaw#setint (yaw_arg));
-        ignore (pitch#setint (pitch_arg));
-        ignore (roll#setint (roll_arg))
-      end
-  end
-let () = java_register_constructor "Orientation" (fun arguments -> Obj.repr (new orientation (Obj.obj arguments)))
-
-let nONE = ref ((new orientation (0, 0, 0)))
-let get_nONE () = !nONE
-let set_nONE value' = nONE := value'
-let () = java_register_static "Orientation.get_nONE" (fun _ -> Obj.repr (get_nONE ()))
-let () = java_register_static "Orientation.set_nONE" (fun value' -> set_nONE (Obj.obj value'); Obj.repr ())
-
-let sINGLETON = ref ((new orientation (0, 0, 0)))
-let get_sINGLETON () = !sINGLETON
-let set_sINGLETON value' = sINGLETON := value'
-let () = java_register_static "Orientation.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
-let () = java_register_static "Orientation.set_sINGLETON" (fun value' -> set_sINGLETON (Obj.obj value'); Obj.repr ())
-
-let getInstance : 'return. int * int * int -> 'return = fun ((yaw_arg : int), (pitch_arg : int), (roll_arg : int)) ->
-        begin
-        ignore (!sINGLETON#yaw#setint (yaw_arg));
-        ignore (!sINGLETON#pitch#setint (pitch_arg));
-        ignore (!sINGLETON#roll#setint (roll_arg));
-        (Obj.magic (!sINGLETON))
-        end
-let () = java_register_static "Orientation.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("Orientation.jnew_3", jnew_3)
+JR.registerLateBound("Orientation.jm_getInstance", jm_getInstance)
+JR.registerLateBound("Orientation.jm_toString", jm_toString)
+JR.registerLateBound("Orientation.f_yaw", (this: Orientation) => this.f_yaw)
+JR.registerLateBound("Orientation.set_f_yaw", (this: Orientation, jvalue) => { this.f_yaw = jvalue; jvalue })
+JR.registerLateBound("Orientation.f_pitch", (this: Orientation) => this.f_pitch)
+JR.registerLateBound("Orientation.set_f_pitch", (this: Orientation, jvalue) => { this.f_pitch = jvalue; jvalue })
+JR.registerLateBound("Orientation.f_roll", (this: Orientation) => this.f_roll)
+JR.registerLateBound("Orientation.set_f_roll", (this: Orientation, jvalue) => { this.f_roll = jvalue; jvalue })
+JR.registerLateBound("Orientation.jstatic_NONE", jstatic_NONE)
+JR.registerLateBound("Orientation.jstatic_SINGLETON", jstatic_SINGLETON)
 
 

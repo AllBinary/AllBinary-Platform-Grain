@@ -1,75 +1,100 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.input.motion.button
+module TouchButtonsPaintable
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.input.motion.button *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
+use BasicColor.{ type BasicColor }
+from "../../../../../org/allbinary/graphics/color/BasicColorSetUtil.gr" include BasicColorSetUtil
+use BasicColorSetUtil.{ type BasicColorSetUtil }
+from "../../../../../org/allbinary/graphics/paint/Paintable.gr" include Paintable
+use Paintable.{ type Paintable }
+from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "./TouchButtonFactory.gr" include TouchButtonFactory
+use TouchButtonFactory.{ type TouchButtonFactory }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Graphics *)
-(* import org.allbinary.graphics.color.BasicColor *)
-(* import org.allbinary.graphics.color.BasicColorSetUtil *)
-(* import org.allbinary.graphics.paint.Paintable *)
-(* import org.allbinary.util.BasicArrayList *)
+provide record TouchButtonsPaintable {
+  jobject: JObject,
+  mut f_foregroundBasicColor: BasicColor,
+  mut f_foregroundColor: Int32,
+  mut f_basicSetColorUtil: BasicColorSetUtil,
+  mut f_touchButtonFactory: TouchButtonFactory,
+}
 
-class touchButtonsPaintable ((basicColor : BasicColor.basicColor)) =
-  object
-    inherit Paintable.paintable ()
-    val mutable foregroundBasicColor : BasicColor.basicColor = (Obj.magic 0)
-    method foregroundBasicColor = foregroundBasicColor
-    method set_foregroundBasicColor value' = foregroundBasicColor <- value'
-    val mutable foregroundColor : int = 0
-    method foregroundColor = foregroundColor
-    method set_foregroundColor value' = foregroundColor <- value'
-    val mutable basicSetColorUtil : BasicColorSetUtil.basicColorSetUtil = (Obj.magic 0)
-    method basicSetColorUtil = basicSetColorUtil
-    method set_basicSetColorUtil value' = basicSetColorUtil <- value'
-    val mutable touchButtonFactory : TouchButtonFactory.touchButtonFactory = (Obj.magic 0)
-    method touchButtonFactory = touchButtonFactory
-    method set_touchButtonFactory value' = touchButtonFactory <- value'
+
+provide let rec jclassName = () => "TouchButtonsPaintable"
+    
+and jnew_1 = (basicColor: BasicColor) => {
+    let this = { jobject: JR.newJObject("TouchButtonsPaintable"), f_foregroundBasicColor: JR.nullOf(), f_foregroundColor: 0l, f_basicSetColorUtil: JR.nullOf(), f_touchButtonFactory: JR.nullOf(), }
     
     
+    this.f_basicSetColorUtil = JR.cast(BasicColorSetUtil.jm_getInstance())
+    this.f_touchButtonFactory = JR.cast(TouchButtonFactory.jm_getInstance())
+        this.f_foregroundBasicColor = basicColor
+        this.f_foregroundColor = BasicColor.jm_intValue(basicColor)
+    this
+}
+    
+and jm_paint = (this: TouchButtonsPaintable, graphics: JObject) => {
+        let mut list: BasicArrayList = JR.cast(TouchButtonFactory.jm_getList(this.f_touchButtonFactory))
+        ignore(BasicColorSetUtil.jm_setBasicColorP3(this.f_basicSetColorUtil, graphics, this.f_foregroundBasicColor, this.f_foregroundColor))
+        let mut touchButton: JObject = JR.jnull
+        {
+            let mut index: Int32 = BasicArrayList.jm_size(list)
+            let mut jfirst = true
+            while (true) {
+                jfirst = false
+                if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
+            touchButton = JR.cast(list.f_objectArray[Int32.toNumber(index)])
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TouchButton.jm_paint"))
+JR.cast(jlate(JR.cast(touchButton), JR.cast(graphics)))
+})
+            }
+        }
+        {
+            let mut index: Int32 = BasicArrayList.jm_size(list)
+            let mut jfirst = true
+            while (true) {
+                jfirst = false
+                if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
+            touchButton = JR.cast(list.f_objectArray[Int32.toNumber(index)])
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TouchButton.jm_paintHint"))
+JR.cast(jlate(JR.cast(touchButton), JR.cast(graphics)))
+})
+            }
+        }
+}
 
-    method paint : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        let list : BasicArrayList.basicArrayList ref = ref (((touchButtonFactory#getList ()) :> BasicArrayList.basicArrayList)) in ();
-        ignore (basicSetColorUtil#setBasicColorP3 ((Obj.magic graphics), foregroundBasicColor, foregroundColor));
-        let touchButton : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        let index : int ref = ref ((!list#size ())) in ();
-        while ((index := !index - 1; !index) >= 0) do
-            touchButton := Obj.repr ((Obj.magic !list#objectArray.(!index)));
-            ignore ((Obj.magic !touchButton)#paint ((Obj.magic graphics)))
-        done;
-        let index : int ref = ref ((!list#size ())) in ();
-        while ((index := !index - 1; !index) >= 0) do
-            touchButton := Obj.repr ((Obj.magic !list#objectArray.(!index)));
-            ignore ((Obj.magic !touchButton)#paintHint ((Obj.magic graphics)))
-        done
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        ();
-        basicSetColorUtil <- ((BasicColorSetUtil.getInstance ()) :> BasicColorSetUtil.basicColorSetUtil);
-        touchButtonFactory <- ((TouchButtonFactory.getInstance ()) :> TouchButtonFactory.touchButtonFactory);
-        ();
-        foregroundBasicColor <- basicColor;
-        foregroundColor <- (basicColor#intValue ())
-      end
-  end
-let () = java_register_constructor "TouchButtonsPaintable" (fun arguments -> Obj.repr (new touchButtonsPaintable (Obj.obj arguments)))
+JR.registerLateBound("TouchButtonsPaintable.jnew_1", jnew_1)
+JR.registerLateBound("TouchButtonsPaintable.jm_paint", jm_paint)
+JR.registerLateBound("TouchButtonsPaintable.f_foregroundBasicColor", (this: TouchButtonsPaintable) => this.f_foregroundBasicColor)
+JR.registerLateBound("TouchButtonsPaintable.f_foregroundColor", (this: TouchButtonsPaintable) => this.f_foregroundColor)
+JR.registerLateBound("TouchButtonsPaintable.f_basicSetColorUtil", (this: TouchButtonsPaintable) => this.f_basicSetColorUtil)
+JR.registerLateBound("TouchButtonsPaintable.f_touchButtonFactory", (this: TouchButtonsPaintable) => this.f_touchButtonFactory)
 
 

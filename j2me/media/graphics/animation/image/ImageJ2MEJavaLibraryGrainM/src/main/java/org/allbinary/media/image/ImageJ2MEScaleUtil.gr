@@ -1,83 +1,137 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2023 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.media.image
+module ImageJ2MEScaleUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2023 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.media.image *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Image *)
+provide record ImageJ2MEScaleUtil {
+  jobject: JObject,
+}
 
-class imageJ2MEScaleUtil () =
-  object (self)
+let mut jcell_instance: Option<ImageJ2MEScaleUtil> = None
+
+provide let rec jclassName = () => "ImageJ2MEScaleUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: ImageJ2MEScaleUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method scaleArray : 'any1 'return. 'any1 * int * int -> 'return = fun (images, (width : int), (height : int)) ->
-        let images = Obj.repr images in
-        begin
-        let scaledImages : Obj.t ref = ref ((Obj.repr (Array.make ((Array.length (Obj.magic images))) (Obj.magic 0)))) in ();
-        let index : int ref = ref ((Array.length (Obj.magic images))) in ();
-        while ((index := !index - 1; !index) >= 0) do
-            (Obj.magic !scaledImages).(!index) <- (self#scale ((Obj.magic images).(!index), width, height))
-        done;
-        (Obj.magic ((Obj.magic !scaledImages)))
-        end [@@warning "-20"]
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ImageJ2MEScaleUtil"), }
+        void
+    this
+}
     
+and jm_scaleArray = (this: ImageJ2MEScaleUtil, images: Array<JObject>, width: Int32, height: Int32) => {
+        let mut scaledImages: Array<JObject> = Array.make(Int32.toNumber(Int32.fromNumber(Array.length(images))), JR.jnull)
+        {
+            let mut index: Int32 = Int32.fromNumber(Array.length(images))
+            let mut jfirst = true
+            while (true) {
+                jfirst = false
+                if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
+            scaledImages[Int32.toNumber(index)] = JR.cast(jm_scale(this, images[Int32.toNumber(index)], width, height))
+            }
+        }
+        return scaledImages
+}
+    
+and jm_scale = (this: ImageJ2MEScaleUtil, image: JObject, width: Int32, height: Int32) => {
+        let mut sourceWidth: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
+JR.cast(jlate(JR.cast(image)))
+}
+        let mut sourceHeight: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
+JR.cast(jlate(JR.cast(image)))
+}
+        let mut originalData: Array<Int32> = Array.make(Int32.toNumber(Int32.(*)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
+JR.cast(jlate(JR.cast(image)))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
+JR.cast(jlate(JR.cast(image)))
+})), 0l)
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getRGB"))
+JR.cast(jlate(JR.cast(image), JR.cast(originalData), JR.cast(0l), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
+JR.cast(jlate(JR.cast(image)))
+}), JR.cast(0l), JR.cast(0l), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
+JR.cast(jlate(JR.cast(image)))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
+JR.cast(jlate(JR.cast(image)))
+})))
+})
+        let mut scaledData: Array<Int32> = Array.make(Int32.toNumber(Int32.(*)(width, height)), 0l)
+        let mut heightRatioFactor: Int32 = Int32.(/)((Int32.(*)(8l, sourceHeight)), height)
+        let mut widthRatioFactor: Int32 = Int32.(/)((Int32.(*)(8l, sourceWidth)), width)
+        let mut scaledIndex: Int32 = Int32.(-)(Int32.fromNumber(Array.length(scaledData)), 1l)
+        let mut dx: Int32 = 0l
+        let mut dy: Int32 = 0l
+        {
+            let mut index: Int32 = height
+            let mut jfirst = true
+            while (true) {
+                jfirst = false
+                if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
+            dy = Int32.(>>)((Int32.(*)(index, heightRatioFactor)), 3l)
+            {
+                let mut index2: Int32 = width
+                let mut jfirst = true
+                while (true) {
+                    jfirst = false
+                    if (!(Int32.(>=)({ index2 = Int32.(-)(index2, 1l); index2 }, 0l))) break
+                dx = Int32.(>>)((Int32.(*)(index2, widthRatioFactor)), 3l)
+                scaledData[Int32.toNumber({ let jold = scaledIndex; scaledIndex = Int32.(-)(jold, 1l); jold })] = originalData[Int32.toNumber(Int32.(+)((Int32.(*)(sourceWidth, dy)), dx))]
+                }
+            }
+            }
+        }
+        let mut scaledImage: JObject = JR.cast({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Image.jm_createRGBImage"))
+JR.cast(jlate(JR.cast(scaledData), JR.cast(width), JR.cast(height), JR.cast(true)))
+})
+        return scaledImage
+}
 
-    method scale : 'any1 'return. 'any1 * int * int -> 'return = fun (image, (width : int), (height : int)) ->
-        let image = Obj.repr image in
-        begin
-        let sourceWidth : int ref = ref (((Obj.magic image)#getWidth ())) in ();
-        let sourceHeight : int ref = ref (((Obj.magic image)#getHeight ())) in ();
-        let originalData : int array ref = ref ((Array.make ((((Obj.magic image)#getWidth ()) * ((Obj.magic image)#getHeight ()))) 0)) in ();
-        ignore ((Obj.magic image)#getRGB (!originalData, 0, ((Obj.magic image)#getWidth ()), 0, 0, ((Obj.magic image)#getWidth ()), ((Obj.magic image)#getHeight ())));
-        let scaledData : int array ref = ref ((Array.make ((width * height)) 0)) in ();
-        let heightRatioFactor : int ref = ref ((((8 * !sourceHeight)) / height)) in ();
-        let widthRatioFactor : int ref = ref ((((8 * !sourceWidth)) / width)) in ();
-        let scaledIndex : int ref = ref (((Array.length !scaledData) - 1)) in ();
-        let dx : int ref = ref (0) in ();
-        let dy : int ref = ref (0) in ();
-        let index : int ref = ref (height) in ();
-        while ((index := !index - 1; !index) >= 0) do
-            dy := (((!index * !heightRatioFactor)) asr 3);
-            let index2 : int ref = ref (width) in ();
-            while ((index2 := !index2 - 1; !index2) >= 0) do
-                dx := (((!index2 * !widthRatioFactor)) asr 3);
-                !scaledData.((let value = !scaledIndex in scaledIndex := !scaledIndex - 1; value)) <- !originalData.((((!sourceWidth * !dy)) + !dx))
-            done
-        done;
-        let scaledImage : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "Image.createRGBImage" (Obj.repr (!scaledData, width, height, true)))))) in ();
-        (Obj.magic ((Obj.magic !scaledImage)))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "ImageJ2MEScaleUtil" (fun arguments -> Obj.repr (new imageJ2MEScaleUtil (Obj.obj arguments)))
-
-let instance = (new imageJ2MEScaleUtil ())
-let get_instance () = instance
-let () = java_register_static "ImageJ2MEScaleUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "ImageJ2MEScaleUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("ImageJ2MEScaleUtil.jnew_0", jnew_0)
+JR.registerLateBound("ImageJ2MEScaleUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("ImageJ2MEScaleUtil.jm_scaleArray", jm_scaleArray)
+JR.registerLateBound("ImageJ2MEScaleUtil.jm_scale", jm_scale)
+JR.registerLateBound("ImageJ2MEScaleUtil.jstatic_instance", jstatic_instance)
 
 

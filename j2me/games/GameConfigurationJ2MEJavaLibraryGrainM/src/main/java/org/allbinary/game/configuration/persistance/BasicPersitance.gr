@@ -1,134 +1,164 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.configuration.persistance
+module BasicPersitance
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.configuration.persistance *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/logic/system/security/licensing/AbeClientInformationInterface.gr" include AbeClientInformationInterface
+use AbeClientInformationInterface.{ type AbeClientInformationInterface }
+from "../../../../../org/allbinary/persistance/PlatformRecordIdUtil.gr" include PlatformRecordIdUtil
+use PlatformRecordIdUtil.{ type PlatformRecordIdUtil }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../../java/lang/Integer.gr" include Integer
+from "./PersistanceStrings.gr" include PersistanceStrings
+use PersistanceStrings.{ type PersistanceStrings }
+from "./NullRecordStore.gr" include NullRecordStore
+use NullRecordStore.{ type NullRecordStore }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.rms.RecordStore *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.system.security.licensing.AbeClientInformationInterface *)
-(* import org.allbinary.persistance.PlatformRecordIdUtil *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
+provide record BasicPersitance {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_persistanceStrings: PersistanceStrings,
+  mut f_platformRecordIdUtil: PlatformRecordIdUtil,
+  mut f_recordId: String,
+  mut f_valueList: BasicArrayList,
+  mut f_idList: BasicArrayList,
+}
 
-class basicPersitance ((recordId_arg : string)) =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable persistanceStrings : PersistanceStrings.persistanceStrings = (Obj.magic 0)
-    method persistanceStrings = persistanceStrings
-    method set_persistanceStrings value' = persistanceStrings <- value'
-    val mutable platformRecordIdUtil : PlatformRecordIdUtil.platformRecordIdUtil = (Obj.magic 0)
-    method platformRecordIdUtil = platformRecordIdUtil
-    method set_platformRecordIdUtil value' = platformRecordIdUtil <- value'
-    val mutable recordId : string = ""
-    method recordId = recordId
-    method set_recordId value' = recordId <- value'
-    val mutable valueList : BasicArrayList.basicArrayList = (Obj.magic 0)
-    method valueList = valueList
-    method set_valueList value' = valueList <- value'
-    val mutable idList : BasicArrayList.basicArrayList = (Obj.magic 0)
-    method idList = idList
-    method set_idList value' = idList <- value'
+
+provide let rec jclassName = () => "BasicPersitance"
     
+and jnew_1 = (recordId: String) => {
+    let this = { jobject: JR.newJObject("BasicPersitance"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_persistanceStrings: JR.nullOf(), f_platformRecordIdUtil: JR.nullOf(), f_recordId: "", f_valueList: JR.nullOf(), f_idList: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this.f_persistanceStrings = JR.cast(PersistanceStrings.jm_getInstance())
+    this.f_platformRecordIdUtil = JR.cast(PlatformRecordIdUtil.jm_getInstance())
     
-
-    method deleteRecoreStore : 'any1. 'any1 -> unit = fun (abeClientInformation) ->
-        let abeClientInformation = Obj.repr abeClientInformation in
-        begin
-        ignore (Obj.magic (java_call_static "RecordStore.deleteRecordStore" (Obj.repr ((self#getRecordId ((Obj.magic abeClientInformation)))))))
-        end [@@warning "-20"]
+    this.f_valueList = JR.cast(BasicArrayListD.jnew_0())
+    this.f_idList = JR.cast(BasicArrayListD.jnew_0())
+        this.f_recordId = recordId
+    this
+}
     
-
-    method deleteAll : 'any1. 'any1 -> unit = fun (abeClientInformation) ->
-        let abeClientInformation = Obj.repr abeClientInformation in
-        begin
-        let size : int ref = ref ((idList#size ())) in ();
-        for index = 0 to !size - 1 do
-            let integer : int ref = ref ((Obj.magic idList#objectArray.(index))) in ();
-            (self#delete ((Obj.magic abeClientInformation), !integer))
-        done;
-        (self#clear ())
-        end [@@warning "-20"]
+and jm_deleteRecoreStore = (this: BasicPersitance, abeClientInformation: AbeClientInformationInterface) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_deleteRecordStore"))
+JR.cast(jlate(JR.cast(jm_getRecordId(this, abeClientInformation))))
+})
+}
     
-
-    method delete : 'any1. 'any1 * int -> unit = fun (abeClientInformation, (deleteId : int)) ->
-        let abeClientInformation = Obj.repr abeClientInformation in
-        begin
-        let recordStore : Obj.t ref = ref ((Obj.repr (NullRecordStore.get_nULL_RECORD_STORE ()))) in ();
-        Fun.protect ~finally:(fun () -> 
-            if ((Obj.magic !recordStore) != (Obj.magic 0)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (persistanceStrings#cLOSING_RECORDSTORE, (Obj.magic self), commonStrings#delete))));
-                ignore ((Obj.magic !recordStore)#closeRecordStore ())
-            end
-        ) (fun () -> (try
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (persistanceStrings#dELETING_WITH_ID))#appendint (deleteId)))), (Obj.magic self), commonStrings#delete));
-            recordStore := Obj.repr ((Obj.magic (java_call_static "RecordStore.openRecordStore" (Obj.repr ((self#getRecordId ((Obj.magic abeClientInformation))), true)))));
-            ignore ((Obj.magic !recordStore)#deleteRecord (deleteId))
-        with e -> begin
-            raise e
-        end))
-        end [@@warning "-20"]
+and jm_deleteAll = (this: BasicPersitance, abeClientInformation: AbeClientInformationInterface) => {
+        let mut size: Int32 = BasicArrayList.jm_size(this.f_idList)
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            let mut integer: Int32 = JR.cast(this.f_idList.f_objectArray[Int32.toNumber(index)])
+            ignore(jm_delete(this, abeClientInformation, Integer.jm_intValue(integer)))
+            }
+        }
+        ignore(jm_clear(this))
+}
     
-
-    method getRecordId : 'any1. 'any1 -> string = fun (abeClientInformation) ->
-        let abeClientInformation = Obj.repr abeClientInformation in
-        begin
-        (platformRecordIdUtil#getRecordId ((Obj.magic abeClientInformation), recordId))
-        end [@@warning "-20"]
+and jm_delete = (this: BasicPersitance, abeClientInformation: AbeClientInformationInterface, deleteId: Int32) => {
+        let mut recordStore: JObject = JR.cast(NullRecordStore.jstatic_NULL_RECORD_STORE())
+        {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), this.f_persistanceStrings.f_DELETING_WITH_ID), deleteId))), JR.cast(this), JR.cast(this.f_commonStrings.f_delete)))
+})
+            recordStore = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_openRecordStore"))
+JR.cast(jlate(JR.cast(jm_getRecordId(this, abeClientInformation)), JR.cast(true)))
+}
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_deleteRecord"))
+JR.cast(jlate(JR.cast(recordStore), JR.cast(deleteId)))
+})
+        }
+        {
+            if (!JR.isNull(recordStore)) {
+                ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(this.f_persistanceStrings.f_CLOSING_RECORDSTORE), JR.cast(this), JR.cast(this.f_commonStrings.f_delete)))
+})
+                ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_closeRecordStore"))
+JR.cast(jlate(JR.cast(recordStore)))
+})
+            }
+        }
+}
     
-
-    method getList : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (valueList))
-        end
+and jm_getRecordId = (this: BasicPersitance, abeClientInformation: AbeClientInformationInterface) => {
+        return PlatformRecordIdUtil.jm_getRecordId(this.f_platformRecordIdUtil, abeClientInformation, this.f_recordId)
+}
     
-
-    method getIds : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (idList))
-        end
+and jm_getList = (this: BasicPersitance) => {
+        return this.f_valueList
+}
     
+and jm_getIds = (this: BasicPersitance) => {
+        return this.f_idList
+}
+    
+and jm_clear = (this: BasicPersitance) => {
+        ignore(BasicArrayList.jm_clear(this.f_valueList))
+        ignore(BasicArrayList.jm_clear(this.f_idList))
+}
 
-    method clear () : unit =
-        begin
-        ignore (valueList#clear ());
-        ignore (idList#clear ())
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        persistanceStrings <- ((PersistanceStrings.getInstance ()) :> PersistanceStrings.persistanceStrings);
-        platformRecordIdUtil <- ((PlatformRecordIdUtil.getInstance ()) :> PlatformRecordIdUtil.platformRecordIdUtil);
-        ();
-        valueList <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
-        idList <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
-        ();
-        recordId <- recordId_arg
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "BasicPersitance" (fun arguments -> Obj.repr (new basicPersitance (Obj.obj arguments)))
+JR.registerLateBound("BasicPersitance.jnew_1", jnew_1)
+JR.registerLateBound("BasicPersitance.jm_deleteRecoreStore", jm_deleteRecoreStore)
+JR.registerLateBound("BasicPersitance.jm_deleteAll", jm_deleteAll)
+JR.registerLateBound("BasicPersitance.jm_delete", jm_delete)
+JR.registerLateBound("BasicPersitance.jm_getRecordId", jm_getRecordId)
+JR.registerLateBound("BasicPersitance.jm_getList", jm_getList)
+JR.registerLateBound("BasicPersitance.jm_getIds", jm_getIds)
+JR.registerLateBound("BasicPersitance.jm_clear", jm_clear)
+JR.registerLateBound("BasicPersitance.f_logUtil", (this: BasicPersitance) => this.f_logUtil)
+JR.registerLateBound("BasicPersitance.f_commonStrings", (this: BasicPersitance) => this.f_commonStrings)
+JR.registerLateBound("BasicPersitance.f_persistanceStrings", (this: BasicPersitance) => this.f_persistanceStrings)
+JR.registerLateBound("BasicPersitance.f_platformRecordIdUtil", (this: BasicPersitance) => this.f_platformRecordIdUtil)
+JR.registerLateBound("BasicPersitance.f_recordId", (this: BasicPersitance) => this.f_recordId)
+JR.registerLateBound("BasicPersitance.f_valueList", (this: BasicPersitance) => this.f_valueList)
+JR.registerLateBound("BasicPersitance.f_idList", (this: BasicPersitance) => this.f_idList)
 
 

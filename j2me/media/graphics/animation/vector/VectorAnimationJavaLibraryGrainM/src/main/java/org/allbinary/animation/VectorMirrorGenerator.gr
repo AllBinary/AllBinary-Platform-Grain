@@ -1,71 +1,145 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.animation
+module VectorMirrorGenerator
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.animation *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/graphics/PointFactory.gr" include PointFactory
+use PointFactory.{ type PointFactory }
+from "../../../org/allbinary/graphics/pipeline/BasicGraphicsPipeline.gr" include BasicGraphicsPipeline
+use BasicGraphicsPipeline.{ type BasicGraphicsPipeline }
+from "../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
+from "../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../org/allbinary/util/BasicArrayListS.gr" include BasicArrayListS
+use BasicArrayListS.{ type BasicArrayListS }
+from "./VectorAnimationUtil.gr" include VectorAnimationUtil
+use VectorAnimationUtil.{ type VectorAnimationUtil }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.graphics.PointFactory *)
-(* import org.allbinary.graphics.pipeline.BasicGraphicsPipeline *)
-(* import org.allbinary.logic.NullUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListS *)
+provide record VectorMirrorGenerator {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_vectorAnimationUtil: VectorAnimationUtil,
+}
 
-class vectorMirrorGenerator () =
-  object
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable vectorAnimationUtil : VectorAnimationUtil.vectorAnimationUtil = (Obj.magic 0)
-    method vectorAnimationUtil = vectorAnimationUtil
-    method set_vectorAnimationUtil value' = vectorAnimationUtil <- value'
+let mut jcell_instance: Option<VectorMirrorGenerator> = None
+
+provide let rec jclassName = () => "VectorMirrorGenerator"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: VectorMirrorGenerator = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance_0 = () => {
+        return jstatic_instance()
+}
     
-
-    (* Java overload getInstance(ArrayType, INT) is not converted: OCaml has one method per name *)
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("VectorMirrorGenerator"), f_logUtil: JR.jnull, f_vectorAnimationUtil: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance_0"))
+JR.cast(jlate())
+})
+    this.f_vectorAnimationUtil = JR.cast(VectorAnimationUtil.jm_getInstance())
+        void
+    this
+}
     
+and jm_getInstance_2 = (this: VectorMirrorGenerator, points: Array<Array<Array<Int32>>>, width: Int32) => {
+        {
+            let mut pointFactory: PointFactory = JR.cast(PointFactory.jm_getInstance())
+            let mut pointBasicArrayList: BasicArrayList = JR.nullOf()
+            let mut nextPoints: Array<Array<Int32>> = [> ]
+            let mut size2: Int32 = 0l
+            let mut size: Int32 = Int32.fromNumber(Array.length(points))
+            let mut pointsBasicArrayList: BasicArrayList = JR.cast(BasicArrayListS.jnew_1(size))
+            {
+                let mut frame: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        frame = Int32.(+)(frame, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(frame, size))) break
+                nextPoints = points[Int32.toNumber(frame)]
+                size2 = Int32.fromNumber(Array.length(nextPoints))
+                pointBasicArrayList = JR.cast(BasicArrayListS.jnew_1(size2))
+                {
+                    let mut index: Int32 = 0l
+                    let mut jfirst = true
+                    while (true) {
+                        if (!jfirst) {
+                            index = Int32.(+)(index, 1l)
+                        }
+                        jfirst = false
+                        if (!(Int32.(<)(index, size2))) break
+                    ignore(BasicArrayList.jm_add(pointBasicArrayList, PointFactory.jm_createXY(pointFactory, nextPoints[Int32.toNumber(index)][Int32.toNumber(0l)], nextPoints[Int32.toNumber(index)][Int32.toNumber(1l)])))
+                    }
+                }
+                ignore(BasicArrayList.jm_add(pointsBasicArrayList, JR.cast(pointBasicArrayList)))
+                }
+            }
+            {
+                let mut index: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(+)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index, Int32.fromNumber(Array.length(points))))) break
+                ignore(BasicArrayList.jm_add(pointsBasicArrayList, JR.cast(jm_getInstance_2(this, JR.cast(pointsBasicArrayList.f_objectArray[Int32.toNumber(index)]), width))))
+                }
+            }
+            let mut newPoints: Array<Array<Array<Int32>>> = VectorAnimationUtil.jm_toAnimationArrayFromListOfPointList(this.f_vectorAnimationUtil, pointsBasicArrayList)
+            return newPoints
+        }
+    return [> ]
+}
+    
+and jm_getInstance_2 = (this: VectorMirrorGenerator, pointBasicArrayList: BasicArrayList, width: Int32) => {
+        let mut graphicsPipe: BasicGraphicsPipeline = BasicGraphicsPipeline.jnew_1(pointBasicArrayList)
+        ignore(BasicGraphicsPipeline.jm_createMatrix(graphicsPipe))
+        ignore(BasicGraphicsPipeline.jm_mirror(graphicsPipe, width))
+        return BasicGraphicsPipeline.jm_getMatrix(graphicsPipe)
+}
 
-    method getInstance : 'any1 'return. 'any1 * int -> 'return = fun (pointBasicArrayList, (width : int)) ->
-        let pointBasicArrayList = Obj.repr pointBasicArrayList in
-        begin
-        let graphicsPipe : BasicGraphicsPipeline.basicGraphicsPipeline ref = ref (((new BasicGraphicsPipeline.basicGraphicsPipeline ((Obj.magic pointBasicArrayList))) :> BasicGraphicsPipeline.basicGraphicsPipeline)) in ();
-        ignore (!graphicsPipe#createMatrix ());
-        ignore (!graphicsPipe#mirror (width));
-        (Obj.magic ((!graphicsPipe#getMatrix ())))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        vectorAnimationUtil <- ((VectorAnimationUtil.getInstance ()) :> VectorAnimationUtil.vectorAnimationUtil);
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "VectorMirrorGenerator" (fun arguments -> Obj.repr (new vectorMirrorGenerator (Obj.obj arguments)))
-
-let instance = (new vectorMirrorGenerator ())
-let get_instance () = instance
-let () = java_register_static "VectorMirrorGenerator.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "VectorMirrorGenerator.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("VectorMirrorGenerator.jnew_0", jnew_0)
+JR.registerLateBound("VectorMirrorGenerator.jm_getInstance_0", jm_getInstance_0)
+JR.registerLateBound("VectorMirrorGenerator.jm_getInstance_2", jm_getInstance_2)
+JR.registerLateBound("VectorMirrorGenerator.jm_getInstance_2", jm_getInstance_2)
+JR.registerLateBound("VectorMirrorGenerator.f_logUtil", (this: VectorMirrorGenerator) => this.f_logUtil)
+JR.registerLateBound("VectorMirrorGenerator.f_vectorAnimationUtil", (this: VectorMirrorGenerator) => this.f_vectorAnimationUtil)
+JR.registerLateBound("VectorMirrorGenerator.jstatic_instance", jstatic_instance)
 
 

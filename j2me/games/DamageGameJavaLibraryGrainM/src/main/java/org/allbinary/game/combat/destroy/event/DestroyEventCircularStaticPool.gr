@@ -1,66 +1,86 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.combat.destroy.event
+module DestroyEventCircularStaticPool
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.combat.destroy.event *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/game/displayable/canvas/AllBinaryGameCanvas.gr" include AllBinaryGameCanvas
+use AllBinaryGameCanvas.{ type AllBinaryGameCanvas }
+from "../../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../../../org/allbinary/logic/util/event/AllBinaryEventCircularPool.gr" include AllBinaryEventCircularPool
+use AllBinaryEventCircularPool.{ type AllBinaryEventCircularPool }
+from "./DestroyEventFactory.gr" include DestroyEventFactory
+use DestroyEventFactory.{ type DestroyEventFactory }
+from "./DestroyedEvent.gr" include DestroyedEvent
+use DestroyedEvent.{ type DestroyedEvent }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.displayable.canvas.AllBinaryGameCanvas *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.logic.util.event.AllBinaryEventCircularPool *)
+provide record DestroyEventCircularStaticPool {
+  jobject: JObject,
+  mut f_EVENT_POOL: AllBinaryEventCircularPool,
+}
 
-class destroyEventCircularStaticPool () =
-  object
-    val mutable eVENT_POOL : AllBinaryEventCircularPool.allBinaryEventCircularPool = (Obj.magic 0)
-    method eVENT_POOL = eVENT_POOL
-    method set_eVENT_POOL value' = eVENT_POOL <- value'
+let mut jcell_instance: Option<DestroyEventCircularStaticPool> = None
+
+provide let rec jclassName = () => "DestroyEventCircularStaticPool"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: DestroyEventCircularStaticPool = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method init : 'any1. 'any1 -> unit = fun (combatGameCanvas) ->
-        let combatGameCanvas = Obj.repr combatGameCanvas in
-        begin
-        ignore (eVENT_POOL#initAllBinaryEventCircularPool ((new DestroyEventFactory.destroyEventFactory ((Obj.magic combatGameCanvas)))))
-        end [@@warning "-20"]
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("DestroyEventCircularStaticPool"), f_EVENT_POOL: JR.nullOf(), }
+    this.f_EVENT_POOL = AllBinaryEventCircularPool.jnew_1(20l)
+        void
+    this
+}
     
+and jm_init = (this: DestroyEventCircularStaticPool, combatGameCanvas: AllBinaryGameCanvas) => {
+        ignore(AllBinaryEventCircularPool.jm_initAllBinaryEventCircularPool(this.f_EVENT_POOL, JR.cast(DestroyEventFactory.jnew_1(combatGameCanvas))))
+}
+    
+and jm_getInstanceForLayer = (this: DestroyEventCircularStaticPool, layerInterface: AllBinaryLayer) => {
+        let mut destroyedEvent: DestroyedEvent = JR.cast(AllBinaryEventCircularPool.jm_getNextInstance(this.f_EVENT_POOL))
+        ignore(DestroyedEvent.jm_setLayerInterfaceForCircularStaticPool(destroyedEvent, layerInterface))
+        return destroyedEvent
+}
 
-    method getInstanceForLayer : 'any1 'return. 'any1 -> 'return = fun (layerInterface) ->
-        let layerInterface = Obj.repr layerInterface in
-        begin
-        let destroyedEvent : DestroyedEvent.destroyedEvent ref = ref (((Obj.magic (eVENT_POOL#getNextInstance ())) :> DestroyedEvent.destroyedEvent)) in ();
-        ignore (!destroyedEvent#setLayerInterfaceForCircularStaticPool ((Obj.magic layerInterface)));
-        (Obj.magic (!destroyedEvent))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        eVENT_POOL <- ((new AllBinaryEventCircularPool.allBinaryEventCircularPool (20)) :> AllBinaryEventCircularPool.allBinaryEventCircularPool);
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "DestroyEventCircularStaticPool" (fun arguments -> Obj.repr (new destroyEventCircularStaticPool (Obj.obj arguments)))
-
-let instance = (new destroyEventCircularStaticPool ())
-let get_instance () = instance
-let () = java_register_static "DestroyEventCircularStaticPool.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "DestroyEventCircularStaticPool.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("DestroyEventCircularStaticPool.jnew_0", jnew_0)
+JR.registerLateBound("DestroyEventCircularStaticPool.jm_getInstance", jm_getInstance)
+JR.registerLateBound("DestroyEventCircularStaticPool.jm_init", jm_init)
+JR.registerLateBound("DestroyEventCircularStaticPool.jm_getInstanceForLayer", jm_getInstanceForLayer)
+JR.registerLateBound("DestroyEventCircularStaticPool.f_EVENT_POOL", (this: DestroyEventCircularStaticPool) => this.f_EVENT_POOL)
+JR.registerLateBound("DestroyEventCircularStaticPool.set_f_EVENT_POOL", (this: DestroyEventCircularStaticPool, jvalue) => { this.f_EVENT_POOL = jvalue; jvalue })
+JR.registerLateBound("DestroyEventCircularStaticPool.jstatic_instance", jstatic_instance)
 
 

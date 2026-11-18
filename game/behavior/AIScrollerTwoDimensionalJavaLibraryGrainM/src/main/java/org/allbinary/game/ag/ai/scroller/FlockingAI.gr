@@ -1,102 +1,166 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.ai.scroller
+module FlockingAI
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.ai.scroller *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/game/ai/BasicAI.gr" include BasicAI
+use BasicAI.{ type BasicAI }
+from "../../../../../../org/allbinary/game/identification/BasicGroupFactory.gr" include BasicGroupFactory
+use BasicGroupFactory.{ type BasicGroupFactory }
+from "../../../../../../org/allbinary/game/input/GameInput.gr" include GameInput
+use GameInput.{ type GameInput }
+from "../../../../../../org/allbinary/game/layer/identification/GroupLayerManagerListener.gr" include GroupLayerManagerListener
+use GroupLayerManagerListener.{ type GroupLayerManagerListener }
+from "../../../../../../org/allbinary/game/layer/weapon/WeaponLayer.gr" include WeaponLayer
+use WeaponLayer.{ type WeaponLayer }
+from "../../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
+from "../../../../../../org/allbinary/logic/math/MathUtil.gr" include MathUtil
+use MathUtil.{ type MathUtil }
+from "../../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../../../java/lang/Integer.gr" include Integer
+from "./BasePatrolAI.gr" include BasePatrolAI
+use BasePatrolAI.{ type BasePatrolAI }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Canvas *)
-(* import org.allbinary.game.ai.BasicAI *)
-(* import org.allbinary.game.identification.BasicGroupFactory *)
-(* import org.allbinary.game.input.GameInput *)
-(* import org.allbinary.game.layer.identification.GroupLayerManagerListener *)
-(* import org.allbinary.game.layer.weapon.WeaponLayer *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
-(* import org.allbinary.logic.math.MathUtil *)
-(* import org.allbinary.util.ABHashtable *)
-(* import org.allbinary.util.BasicArrayList *)
+provide record FlockingAI {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_gameKeyEventFactory: JObject,
+  mut f_ownerLayerInterface: JObject,
+  mut f_gameInput: JObject,
+  mut f_lastKey: Int32,
+  mut f_allowedDistance: Int32,
+}
 
-class flockingAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gameInput : GameInput.gameInput)) =
-  object (self)
-    inherit BasicAI.basicAI (ownerLayerInterface, gameInput)
-    val mutable allowedDistance : int = 0
-    method allowedDistance = allowedDistance
-    method set_allowedDistance value' = allowedDistance <- value'
+
+provide let rec jclassName = () => "FlockingAI"
     
+and jnew_3 = (hashtable: JObject, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
+    let this = { jobject: JR.newJObject("FlockingAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_allowedDistance: 0l, }
     
-
-    method processAI : 'any1. 'any1 -> unit = fun (_allBinaryLayerManager) ->
-        begin
-        let maxDistance : int ref = ref (0) in ();
-        let farAllbinaryLayer : AllBinaryLayer.allBinaryLayer ref = ref (((AllBinaryLayer.get_nULL_ALLBINARY_LAYER ()) :> AllBinaryLayer.allBinaryLayer)) in ();
-        let groupLayerManagerListener : GroupLayerManagerListener.groupLayerManagerListener ref = ref (((GroupLayerManagerListener.getInstance ()) :> GroupLayerManagerListener.groupLayerManagerListener)) in ();
-        let list : BasicArrayList.basicArrayList ref = ref (((!groupLayerManagerListener#getList ((BasicGroupFactory.getInstance ())#eNEMY)) :> BasicArrayList.basicArrayList)) in ();
-        let size : int ref = ref ((!list#size ())) in ();
-        let allBinaryLayer : AllBinaryLayer.allBinaryLayer ref = ref (((Obj.magic 0) :> AllBinaryLayer.allBinaryLayer)) in ();
-        let ownerLayerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((Obj.magic 0) :> AllBinaryLayer.allBinaryLayer)) in ();
-        for index = 0 to !size - 1 do
-            allBinaryLayer := (Obj.magic (!list#get (index)));
-            if ((!allBinaryLayer#getType ()) <> (WeaponLayer.getStaticType ())) then begin
-                let distance : int ref = ref ((self#getXYDistance (!allBinaryLayer))) in ();
-                if (!distance > !maxDistance) then begin
-                    maxDistance := !distance;
-                    farAllbinaryLayer := !allBinaryLayer;
-                    if (!distance > allowedDistance) then begin
-                        raise Java_break
-                    end
-                end
-            end
-        done;
-        if (!maxDistance > allowedDistance) then begin
-            if ((Obj.repr !farAllbinaryLayer) != (Obj.repr (AllBinaryLayer.get_nULL_ALLBINARY_LAYER ()))) then begin
-                ownerLayerInterface := (self#getOwnerLayerInterface ());
-                if ((!farAllbinaryLayer#getXP ()) < (!ownerLayerInterface#getXP ())) then begin
-                    ignore (self#processKeyAI ((Obj.magic (java_call_static "Canvas.get_lEFT" (Obj.repr ())))))
-                end else if ((!farAllbinaryLayer#getXP ()) > (!ownerLayerInterface#getXP ())) then begin
-                    ignore (self#processKeyAI ((Obj.magic (java_call_static "Canvas.get_rIGHT" (Obj.repr ())))))
-                end else if ((!farAllbinaryLayer#getYP ()) > (!ownerLayerInterface#getYP ())) then begin
-                    ignore (self#processKeyAI ((Obj.magic (java_call_static "Canvas.get_uP" (Obj.repr ())))))
-                end else if ((!farAllbinaryLayer#getYP ()) < (!ownerLayerInterface#getYP ())) then begin
-                    ignore (self#processKeyAI ((Obj.magic (java_call_static "Canvas.get_dOWN" (Obj.repr ())))))
-                end
-            end
-        end
-        end [@@warning "-7-20"]
+        void
+        let mut allowedDistance: Int32 = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
+JR.cast(jlate(JR.cast(hashtable), JR.cast(BasePatrolAI.jstatic_MAX_DISTANCE())))
+})
+        this.f_allowedDistance = Integer.jm_intValue(allowedDistance)
+    this
+}
     
+and jm_processAI = (this: FlockingAI, allBinaryLayerManager: AllBinaryLayerManager) => {
+        let mut maxDistance: Int32 = 0l
+        let mut farAllbinaryLayer: AllBinaryLayer = JR.cast(AllBinaryLayer.jstatic_NULL_ALLBINARY_LAYER())
+        let mut groupLayerManagerListener: GroupLayerManagerListener = JR.cast(GroupLayerManagerListener.jm_getInstance())
+        let mut list: BasicArrayList = JR.cast(GroupLayerManagerListener.jm_getList(groupLayerManagerListener, BasicGroupFactory.jm_getInstance().f_ENEMY))
+        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut allBinaryLayer: AllBinaryLayer = JR.nullOf()
+        let mut ownerLayerInterface: AllBinaryLayer = JR.nullOf()
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            allBinaryLayer = JR.cast(BasicArrayList.jm_get(list, index))
+            if ((AllBinaryLayer.jm_getType(allBinaryLayer) != WeaponLayer.jm_getStaticType())) {
+                let mut distance: Int32 = jm_getXYDistance(this, allBinaryLayer)
+                if (Int32.(>)(distance, maxDistance)) {
+                    maxDistance = distance
+                    farAllbinaryLayer = allBinaryLayer
+                    if (Int32.(>)(distance, this.f_allowedDistance)) {
+                        break
+                    }
+                }
+            }
+            }
+        }
+        if (Int32.(>)(maxDistance, this.f_allowedDistance)) {
+            if ((!JR.isSame(farAllbinaryLayer, AllBinaryLayer.jstatic_NULL_ALLBINARY_LAYER()))) {
+                ownerLayerInterface = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
+JR.cast(jlate(JR.cast(this)))
+}
+                if (Int32.(<)(AllBinaryLayer.jm_getXP(farAllbinaryLayer), AllBinaryLayer.jm_getXP(ownerLayerInterface))) {
+                    ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_LEFT"))
+JR.cast(jlate())
+})))
+})
+                } else if (Int32.(>)(AllBinaryLayer.jm_getXP(farAllbinaryLayer), AllBinaryLayer.jm_getXP(ownerLayerInterface))) {
+                    ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_RIGHT"))
+JR.cast(jlate())
+})))
+})
+                } else if (Int32.(>)(AllBinaryLayer.jm_getYP(farAllbinaryLayer), AllBinaryLayer.jm_getYP(ownerLayerInterface))) {
+                    ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_UP"))
+JR.cast(jlate())
+})))
+})
+                } else if (Int32.(<)(AllBinaryLayer.jm_getYP(farAllbinaryLayer), AllBinaryLayer.jm_getYP(ownerLayerInterface))) {
+                    ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_DOWN"))
+JR.cast(jlate())
+})))
+})
+                }
+            }
+        }
+}
+    
+and jm_getXYDistance = (this: FlockingAI, allBinaryLayer: AllBinaryLayer) => {
+        let mut ownerLayerInterface: AllBinaryLayer = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
+JR.cast(jlate(JR.cast(this)))
+})
+        let mut xTotalDistance: Int32 = Int32.(-)((Int32.(+)(AllBinaryLayer.jm_getXP(allBinaryLayer), AllBinaryLayer.jm_getHalfWidth(allBinaryLayer))), (Int32.(+)(AllBinaryLayer.jm_getXP(ownerLayerInterface), AllBinaryLayer.jm_getHalfWidth(ownerLayerInterface))))
+        let mut yTotalDistance: Int32 = Int32.(-)((Int32.(+)(AllBinaryLayer.jm_getYP(allBinaryLayer), AllBinaryLayer.jm_getHalfHeight(allBinaryLayer))), (Int32.(+)(AllBinaryLayer.jm_getYP(ownerLayerInterface), AllBinaryLayer.jm_getHalfHeight(ownerLayerInterface))))
+        let mut mathUtil: MathUtil = JR.cast(MathUtil.jm_getInstance())
+        let mut totalDistance: Int32 = Int32.(+)(MathUtil.jm_abs(mathUtil, xTotalDistance), MathUtil.jm_abs(mathUtil, yTotalDistance))
+        return totalDistance
+}
 
-    method getXYDistance : 'any1. 'any1 -> int = fun (allBinaryLayer) ->
-        let allBinaryLayer = Obj.repr allBinaryLayer in
-        begin
-        let ownerLayerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((self#getOwnerLayerInterface ()) :> AllBinaryLayer.allBinaryLayer)) in ();
-        let xTotalDistance : int ref = ref ((((((Obj.magic allBinaryLayer)#getXP ()) + ((Obj.magic allBinaryLayer)#getHalfWidth ()))) - (((!ownerLayerInterface#getXP ()) + (!ownerLayerInterface#getHalfWidth ()))))) in ();
-        let yTotalDistance : int ref = ref ((((((Obj.magic allBinaryLayer)#getYP ()) + ((Obj.magic allBinaryLayer)#getHalfHeight ()))) - (((!ownerLayerInterface#getYP ()) + (!ownerLayerInterface#getHalfHeight ()))))) in ();
-        let mathUtil : MathUtil.mathUtil ref = ref (((MathUtil.getInstance ()) :> MathUtil.mathUtil)) in ();
-        let totalDistance : int ref = ref (((!mathUtil#abs (!xTotalDistance)) + (!mathUtil#abs (!yTotalDistance)))) in ();
-        !totalDistance
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        ();
-        (* super(...) is the inherit clause *) ();
-        let allowedDistance_arg : int ref = ref ((Obj.magic (hashtable#get ((BasePatrolAI.get_mAX_DISTANCE ()))))) in ();
-        allowedDistance <- !allowedDistance_arg
-      end
-  end
-let () = java_register_constructor "FlockingAI" (fun arguments -> Obj.repr (new flockingAI (Obj.obj arguments)))
+JR.registerLateBound("FlockingAI.jnew_3", jnew_3)
+JR.registerLateBound("FlockingAI.jm_processAI", jm_processAI)
+JR.registerLateBound("FlockingAI.jm_getXYDistance", jm_getXYDistance)
+JR.registerLateBound("FlockingAI.f_allowedDistance", (this: FlockingAI) => this.f_allowedDistance)
 
 

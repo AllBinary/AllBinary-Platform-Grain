@@ -1,58 +1,74 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.physics.movement
+module DelayedConstantVelocityMovement
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.physics.movement *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/layer/AllBinaryGameLayer.gr" include AllBinaryGameLayer
+use AllBinaryGameLayer.{ type AllBinaryGameLayer }
+from "../../../../org/allbinary/game/physics/velocity/BasicVelocityProperties.gr" include BasicVelocityProperties
+use BasicVelocityProperties.{ type BasicVelocityProperties }
+from "../../../../org/allbinary/logic/math/BasicDecimal.gr" include BasicDecimal
+use BasicDecimal.{ type BasicDecimal }
+from "../../../../org/allbinary/time/GameTickTimeDelayHelperFactory.gr" include GameTickTimeDelayHelperFactory
+use GameTickTimeDelayHelperFactory.{ type GameTickTimeDelayHelperFactory }
+from "../../../../org/allbinary/time/TimeDelayHelper.gr" include TimeDelayHelper
+use TimeDelayHelper.{ type TimeDelayHelper }
+from "./BasicConstantVelocityMovement.gr" include BasicConstantVelocityMovement
+use BasicConstantVelocityMovement.{ type BasicConstantVelocityMovement }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.layer.AllBinaryGameLayer *)
-(* import org.allbinary.game.physics.velocity.BasicVelocityProperties *)
-(* import org.allbinary.logic.math.BasicDecimal *)
-(* import org.allbinary.time.GameTickTimeDelayHelperFactory *)
-(* import org.allbinary.time.TimeDelayHelper *)
+provide record DelayedConstantVelocityMovement {
+  jobject: JObject,
+  mut f_velocityProperties: JObject,
+  mut f_speedBasicDecimal: JObject,
+  mut f_axisMathVectorUtil: JObject,
+  mut f_timeDelayHelper: TimeDelayHelper,
+}
 
-class delayedConstantVelocityMovement ((basicDecimal : BasicDecimal.basicDecimal), (velocityProperties : BasicVelocityProperties.basicVelocityProperties)) =
-  object
-    inherit BasicConstantVelocityMovement.basicConstantVelocityMovement (basicDecimal, velocityProperties) as super
-    val mutable timeDelayHelper : TimeDelayHelper.timeDelayHelper = (Obj.magic 0)
-    method timeDelayHelper = timeDelayHelper
-    method set_timeDelayHelper value' = timeDelayHelper <- value'
+
+provide let rec jclassName = () => "DelayedConstantVelocityMovement"
     
+and jnew_2 = (basicDecimal: BasicDecimal, velocityProperties: BasicVelocityProperties) => {
+    let this = { jobject: JR.newJObject("DelayedConstantVelocityMovement"), f_velocityProperties: JR.jnull, f_speedBasicDecimal: JR.jnull, f_axisMathVectorUtil: JR.jnull, f_timeDelayHelper: JR.nullOf(), }
+    this.f_timeDelayHelper = TimeDelayHelper.jnew_1(60l)
+        void
+    this
+}
     
-
-    method init : 'any1. 'any1 * int * int -> unit = fun (_speedBasicDecimal, (_angle : int), (_otherAngle : int)) ->
-        begin
-        ()
-        end [@@warning "-7-20"]
+and jm_init = (this: DelayedConstantVelocityMovement, speedBasicDecimal: BasicDecimal, angle: Int32, otherAngle: Int32) => {
+    void
+}
     
+and jm_process = (this: DelayedConstantVelocityMovement, layer: AllBinaryGameLayer) => {
+        if (TimeDelayHelper.jm_isTime(this.f_timeDelayHelper, GameTickTimeDelayHelperFactory.jm_getInstance().f_startTime)) {
+            ignore(jm_process(this, layer))
+        }
+}
 
-    method process : 'any1. 'any1 -> unit = fun (layer) ->
-        let layer = Obj.repr layer in
-        begin
-        if (timeDelayHelper#isTime ((GameTickTimeDelayHelperFactory.getInstance ())#startTime)) then begin
-            ignore (super#process ((Obj.magic layer)))
-        end
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        timeDelayHelper <- ((new TimeDelayHelper.timeDelayHelper (60)) :> TimeDelayHelper.timeDelayHelper);
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "DelayedConstantVelocityMovement" (fun arguments -> Obj.repr (new delayedConstantVelocityMovement (Obj.obj arguments)))
+JR.registerLateBound("DelayedConstantVelocityMovement.jnew_2", jnew_2)
+JR.registerLateBound("DelayedConstantVelocityMovement.jm_init", jm_init)
+JR.registerLateBound("DelayedConstantVelocityMovement.jm_process", jm_process)
+JR.registerLateBound("DelayedConstantVelocityMovement.f_timeDelayHelper", (this: DelayedConstantVelocityMovement) => this.f_timeDelayHelper)
 
 

@@ -1,78 +1,100 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.animation
+module IndependentVectorExplosionRotationAnimationFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.animation *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
+use BasicColor.{ type BasicColor }
+from "../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
+from "../../../org/allbinary/vector/VectorInfo.gr" include VectorInfo
+use VectorInfo.{ type VectorInfo }
+from "./ProceduralAnimationInterfaceFactoryInterface.gr" include ProceduralAnimationInterfaceFactoryInterface
+use ProceduralAnimationInterfaceFactoryInterface.{ type ProceduralAnimationInterfaceFactoryInterface }
+from "./VectorAnimationFactoryInterface.gr" include VectorAnimationFactoryInterface
+use VectorAnimationFactoryInterface.{ type VectorAnimationFactoryInterface }
+from "./VectorRotationGenerator.gr" include VectorRotationGenerator
+use VectorRotationGenerator.{ type VectorRotationGenerator }
+from "./VectorExplosionGenerator.gr" include VectorExplosionGenerator
+use VectorExplosionGenerator.{ type VectorExplosionGenerator }
+from "./IndexedAnimation.gr" include IndexedAnimation
+use IndexedAnimation.{ type IndexedAnimation }
+from "./Animation.gr" include Animation
+use Animation.{ type Animation }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.graphics.color.BasicColor *)
-(* import org.allbinary.logic.NullUtil *)
-(* import org.allbinary.vector.VectorInfo *)
+provide record IndependentVectorExplosionRotationAnimationFactory {
+  jobject: JObject,
+  mut f_framePoints: Array<Array<Array<Int32>>>,
+  mut f_vectorInfo: VectorInfo,
+  mut f_basicColor: BasicColor,
+  mut f_vectorAnimationFactoryInterface: VectorAnimationFactoryInterface,
+  mut f_vectorExplosionGenerator: VectorExplosionGenerator,
+}
 
-class independentVectorExplosionRotationAnimationFactory ((vectorInfo_arg : VectorInfo.vectorInfo), (basicColor_arg : BasicColor.basicColor), (vectorAnimationFactoryInterface_arg : VectorAnimationFactoryInterface.vectorAnimationFactoryInterface)) =
-  object (self)
-    val mutable framePoints : int array array array = (Obj.magic 0)
-    method framePoints = framePoints
-    method set_framePoints value' = framePoints <- value'
-    val mutable vectorInfo : VectorInfo.vectorInfo = (Obj.magic 0)
-    method vectorInfo = vectorInfo
-    method set_vectorInfo value' = vectorInfo <- value'
-    val mutable basicColor : BasicColor.basicColor = (Obj.magic 0)
-    method basicColor = basicColor
-    method set_basicColor value' = basicColor <- value'
-    val mutable vectorAnimationFactoryInterface : VectorAnimationFactoryInterface.vectorAnimationFactoryInterface = (Obj.magic 0)
-    method vectorAnimationFactoryInterface = vectorAnimationFactoryInterface
-    method set_vectorAnimationFactoryInterface value' = vectorAnimationFactoryInterface <- value'
-    val mutable vectorExplosionGenerator : VectorExplosionGenerator.vectorExplosionGenerator = (Obj.magic 0)
-    method vectorExplosionGenerator = vectorExplosionGenerator
-    method set_vectorExplosionGenerator value' = vectorExplosionGenerator <- value'
+
+provide let rec jclassName = () => "IndependentVectorExplosionRotationAnimationFactory"
+    
+and jnew_3 = (vectorInfo: VectorInfo, basicColor: BasicColor, vectorAnimationFactoryInterface: VectorAnimationFactoryInterface) => {
+    let this = { jobject: JR.newJObject("IndependentVectorExplosionRotationAnimationFactory"), f_framePoints: [> ], f_vectorInfo: JR.nullOf(), f_basicColor: JR.nullOf(), f_vectorAnimationFactoryInterface: JR.nullOf(), f_vectorExplosionGenerator: JR.nullOf(), }
+    this.f_framePoints = NullUtil.jm_getInstance().f_NULL_INT_ARRAY_ARRAY_ARRAY
     
     
-
-    method init () : unit =
-        begin
-        framePoints <- ((VectorRotationGenerator.getInstance ())#getInstance (vectorInfo))
-        end
     
+    this.f_vectorExplosionGenerator = JR.cast(VectorExplosionGenerator.jm_getInstance_0())
+        this.f_vectorInfo = vectorInfo
+        this.f_basicColor = basicColor
+        this.f_vectorAnimationFactoryInterface = vectorAnimationFactoryInterface
+        ignore(jm_init(this))
+    this
+}
+    
+and jm_init = (this: IndependentVectorExplosionRotationAnimationFactory) => {
+        this.f_framePoints = VectorRotationGenerator.jm_getInstance(VectorRotationGenerator.jm_getInstance_0(), this.f_vectorInfo)
+}
+    
+and jm_getInstanceAnimation = (this: IndependentVectorExplosionRotationAnimationFactory, animationInterface: Animation) => {
+        let mut frame: Int32 = 0l
+        if (!JR.isNull(animationInterface)) {
+            let mut rotationAnimationInterface: IndexedAnimation = JR.cast(animationInterface)
+            frame = IndexedAnimation.jm_getFrame(rotationAnimationInterface)
+        }
+        let mut points: Array<Array<Array<Int32>>> = VectorExplosionGenerator.jm_getInstance(this.f_vectorExplosionGenerator, this.f_framePoints[Int32.toNumber(frame)], 6l, this.f_vectorExplosionGenerator.f_ROTATION)
+        return VectorAnimationFactoryInterface.jm_getInstance(this.f_vectorAnimationFactoryInterface, points, this.f_basicColor)
+}
 
-    method getInstanceAnimation : 'any1 'return. 'any1 -> 'return = fun (animationInterface) ->
-        let animationInterface = Obj.repr animationInterface in
-        begin
-        let frame : int ref = ref (0) in ();
-        if ((Obj.magic animationInterface) != (Obj.magic 0)) then begin
-            let rotationAnimationInterface : IndexedAnimation.indexedAnimation ref = ref (((Obj.magic (Obj.magic animationInterface)) :> IndexedAnimation.indexedAnimation)) in ();
-            frame := (!rotationAnimationInterface#getFrame ())
-        end;
-        let points : int array array array ref = ref ((vectorExplosionGenerator#getInstance (framePoints.(!frame), 6, vectorExplosionGenerator#rOTATION))) in ();
-        (Obj.magic ((vectorAnimationFactoryInterface#getInstance (!points, basicColor))))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        framePoints <- (NullUtil.getInstance ())#nULL_INT_ARRAY_ARRAY_ARRAY;
-        ();
-        ();
-        ();
-        vectorExplosionGenerator <- ((VectorExplosionGenerator.getInstance ()) :> VectorExplosionGenerator.vectorExplosionGenerator);
-        ();
-        vectorInfo <- vectorInfo_arg;
-        basicColor <- basicColor_arg;
-        vectorAnimationFactoryInterface <- vectorAnimationFactoryInterface_arg;
-        (self#init ())
-      end
-  end
-let () = java_register_constructor "IndependentVectorExplosionRotationAnimationFactory" (fun arguments -> Obj.repr (new independentVectorExplosionRotationAnimationFactory (Obj.obj arguments)))
+JR.registerLateBound("IndependentVectorExplosionRotationAnimationFactory.jnew_3", jnew_3)
+JR.registerLateBound("IndependentVectorExplosionRotationAnimationFactory.jm_init", jm_init)
+JR.registerLateBound("IndependentVectorExplosionRotationAnimationFactory.jm_getInstanceAnimation", jm_getInstanceAnimation)
+JR.registerLateBound("IndependentVectorExplosionRotationAnimationFactory.f_framePoints", (this: IndependentVectorExplosionRotationAnimationFactory) => this.f_framePoints)
+JR.registerLateBound("IndependentVectorExplosionRotationAnimationFactory.set_f_framePoints", (this: IndependentVectorExplosionRotationAnimationFactory, jvalue) => { this.f_framePoints = jvalue; jvalue })
+JR.registerLateBound("IndependentVectorExplosionRotationAnimationFactory.f_vectorInfo", (this: IndependentVectorExplosionRotationAnimationFactory) => this.f_vectorInfo)
+JR.registerLateBound("IndependentVectorExplosionRotationAnimationFactory.set_f_vectorInfo", (this: IndependentVectorExplosionRotationAnimationFactory, jvalue) => { this.f_vectorInfo = jvalue; jvalue })
+JR.registerLateBound("IndependentVectorExplosionRotationAnimationFactory.f_basicColor", (this: IndependentVectorExplosionRotationAnimationFactory) => this.f_basicColor)
+JR.registerLateBound("IndependentVectorExplosionRotationAnimationFactory.set_f_basicColor", (this: IndependentVectorExplosionRotationAnimationFactory, jvalue) => { this.f_basicColor = jvalue; jvalue })
+JR.registerLateBound("IndependentVectorExplosionRotationAnimationFactory.f_vectorAnimationFactoryInterface", (this: IndependentVectorExplosionRotationAnimationFactory) => this.f_vectorAnimationFactoryInterface)
+JR.registerLateBound("IndependentVectorExplosionRotationAnimationFactory.set_f_vectorAnimationFactoryInterface", (this: IndependentVectorExplosionRotationAnimationFactory, jvalue) => { this.f_vectorAnimationFactoryInterface = jvalue; jvalue })
+JR.registerLateBound("IndependentVectorExplosionRotationAnimationFactory.f_vectorExplosionGenerator", (this: IndependentVectorExplosionRotationAnimationFactory) => this.f_vectorExplosionGenerator)
 
 

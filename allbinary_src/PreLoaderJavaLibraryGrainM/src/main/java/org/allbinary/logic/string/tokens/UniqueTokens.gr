@@ -1,129 +1,172 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.string.tokens
+module UniqueTokens
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.string.tokens *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../java/util/HashSet.gr" include HashSet
+use HashSet.{ type HashSet }
+from "../../../../../org/allbinary/logic/string/regex/replace/Replace.gr" include Replace
+use Replace.{ type Replace }
+from "../../../../../org/allbinary/string/CommonPhoneStrings.gr" include CommonPhoneStrings
+use CommonPhoneStrings.{ type CommonPhoneStrings }
+from "../../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../../java/lang/Integer.gr" include Integer
+from "./Tokenizer.gr" include Tokenizer
+use Tokenizer.{ type Tokenizer }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.util.HashSet *)
-(* import org.allbinary.logic.io.path.AbPathData *)
-(* import org.allbinary.logic.string.regex.replace.Replace *)
-(* import org.allbinary.string.CommonPhoneStrings *)
-(* import org.allbinary.string.CommonSeps *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
+provide record UniqueTokens {
+  jobject: JObject,
+  mut f_specialCharacters: BasicArrayList,
+}
 
-class uniqueTokens () =
-  object (self)
-    val mutable specialCharacters : BasicArrayList.basicArrayList = (Obj.magic 0)
-    method specialCharacters = specialCharacters
-    method set_specialCharacters value' = specialCharacters <- value'
+
+provide let rec jclassName = () => "UniqueTokens"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("UniqueTokens"), f_specialCharacters: JR.nullOf(), }
+    this.f_specialCharacters = JR.cast(BasicArrayListD.jnew_0())
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast("!")))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast("@")))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast(CommonPhoneStrings.jm_getInstance().f_POUND)))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast("$")))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast("%")))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast("^")))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast(CommonSeps.jm_getInstance().f_AMPERSAND)))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast(CommonPhoneStrings.jm_getInstance().f_STAR)))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast("(")))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast(")")))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast("-")))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast("_")))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast("+")))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast("=")))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast("\\")))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast("|")))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_EXTENSION_SEP"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("AbPathData.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast(",")))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast("<")))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast(">")))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast("?")))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast("/")))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast("~")))
+        ignore(BasicArrayList.jm_add(this.f_specialCharacters, JR.cast("`")))
+    this
+}
     
-
-    method getWhithoutDashesAndSkipNumberOnlyTokens : 'any1. 'any1 -> java_hash_set = fun (stringVector) ->
-        let stringVector = Obj.repr stringVector in
-        begin
-        (try
-            let hashSet : java_hash_set ref = ref (((new java_hash_set ()) :> java_hash_set)) in ();
-            let index : int ref = ref (0) in ();
-            let commonSeps : CommonSeps.commonSeps ref = ref (((CommonSeps.getInstance ()) :> CommonSeps.commonSeps)) in ();
-            while (!index < ((Obj.magic stringVector)#size ())) do
-                let keywords : string ref = ref ((Obj.magic ((Obj.magic stringVector)#get (!index)))) in ();
-                let tokenizer : Tokenizer.tokenizer ref = ref (((new Tokenizer.tokenizer (!commonSeps#cOMMA)) :> Tokenizer.tokenizer)) in ();
-                let keywordVector : BasicArrayList.basicArrayList ref = ref (((!tokenizer#getTokensFromString (!keywords, (new BasicArrayListD.basicArrayListD ()))) :> BasicArrayList.basicArrayList)) in ();
-                for forIndex = 0 to (!keywordVector#size ()) - 1 do
-                    let cleanString : string ref = ref ((Obj.magic (!keywordVector#get (forIndex)))) in ();
-                    cleanString := (String.trim !cleanString);
-                    if ((java_string_index_of !cleanString (Obj.repr ('-'))) != (- 1)) then begin
-                        cleanString := ((new Replace.replace ("-", !commonSeps#sPACE))#all (!cleanString))
-                    end;
-                    ignore (!hashSet#add (!cleanString));
-                    if ((java_string_index_of !cleanString (Obj.repr (' '))) != (- 1)) then begin
-                        let spaceTokenizer : Tokenizer.tokenizer ref = ref (((new Tokenizer.tokenizer (!commonSeps#sPACE)) :> Tokenizer.tokenizer)) in ();
-                        let subKeywordVector : BasicArrayList.basicArrayList ref = ref (((!spaceTokenizer#getTokensFromString (!cleanString, (new BasicArrayListD.basicArrayListD ()))) :> BasicArrayList.basicArrayList)) in ();
-                        for spaceIndex = 0 to (!subKeywordVector#size ()) - 1 do
-                            let subCleanString : string ref = ref ((Obj.magic (!subKeywordVector#get (spaceIndex)))) in ();
-                            if ((not (self#isSpecialCharacter (!subCleanString))) && (not (self#numberOnly (!subCleanString)))) then begin
-                                ignore (!hashSet#add (!subCleanString))
-                            end
-                        done
-                    end
-                done;
-                index := !index + 1
-            done;
-            (!hashSet :> java_hash_set)
-        with e -> begin
-            raise e
-        end)
-        end [@@warning "-20"]
+and jm_getWhithoutDashesAndSkipNumberOnlyTokens = (this: UniqueTokens, stringVector: BasicArrayList) => {
+        {
+            let mut hashSet: HashSet = HashSet.jnew_0()
+            let mut index: Int32 = 0l
+            let mut commonSeps: CommonSeps = JR.cast(CommonSeps.jm_getInstance())
+            while (Int32.(<)(index, BasicArrayList.jm_size(stringVector))) {
+                let mut keywords: String = JR.cast(BasicArrayList.jm_get(stringVector, index))
+                let mut tokenizer: Tokenizer = Tokenizer.jnew_1(commonSeps.f_COMMA)
+                let mut keywordVector: BasicArrayList = JR.cast(Tokenizer.jm_getTokensFromString(tokenizer, keywords, JR.cast(BasicArrayListD.jnew_0())))
+                {
+                    let mut forIndex: Int32 = 0l
+                    let mut jfirst = true
+                    while (true) {
+                        if (!jfirst) {
+                            forIndex = Int32.(+)(forIndex, 1l)
+                        }
+                        jfirst = false
+                        if (!(Int32.(<)(forIndex, BasicArrayList.jm_size(keywordVector)))) break
+                    let mut cleanString: String = JR.cast(BasicArrayList.jm_get(keywordVector, forIndex))
+                    cleanString = JR.trim(cleanString)
+                    if ((JR.indexOf(cleanString, JR.chr(Int32.fromNumber(Char.code('-')))) != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
+                        cleanString = Replace.jm_all(Replace.jnew_2("-", commonSeps.f_SPACE), cleanString)
+                    }
+                    ignore(HashSet.jm_add_1(hashSet, cleanString))
+                    if ((JR.indexOf(cleanString, JR.chr(Int32.fromNumber(Char.code(' ')))) != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
+                        let mut spaceTokenizer: Tokenizer = Tokenizer.jnew_1(commonSeps.f_SPACE)
+                        let mut subKeywordVector: BasicArrayList = JR.cast(Tokenizer.jm_getTokensFromString(spaceTokenizer, cleanString, JR.cast(BasicArrayListD.jnew_0())))
+                        {
+                            let mut spaceIndex: Int32 = 0l
+                            let mut jfirst = true
+                            while (true) {
+                                if (!jfirst) {
+                                    spaceIndex = Int32.(+)(spaceIndex, 1l)
+                                }
+                                jfirst = false
+                                if (!(Int32.(<)(spaceIndex, BasicArrayList.jm_size(subKeywordVector)))) break
+                            let mut subCleanString: String = JR.cast(BasicArrayList.jm_get(subKeywordVector, spaceIndex))
+                            if ((!jm_isSpecialCharacter(this, subCleanString) && !jm_numberOnly(this, subCleanString))) {
+                                ignore(HashSet.jm_add_1(hashSet, subCleanString))
+                            }
+                            }
+                        }
+                    }
+                    }
+                }
+                index = Int32.(+)(index, 1l)
+            }
+            return hashSet
+        }
+    return JR.nullOf()
+}
     
-
-    method numberOnly ((subCleaningString : string)) : bool =
-        begin
-        (try
-            ignore (int_of_string (subCleaningString));
-            true
-        with e -> begin
-            false
-        end)
-        end
+and jm_numberOnly = (this: UniqueTokens, subCleaningString: String) => {
+        {
+            ignore(Integer.jm_parseInt(subCleaningString))
+            return true
+        }
+    return false
+}
     
+and jm_isSpecialCharacter = (this: UniqueTokens, subCleaningString: String) => {
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, BasicArrayList.jm_size(this.f_specialCharacters)))) break
+            if ((JR.compareTo(subCleaningString, JR.cast(BasicArrayList.jm_get(this.f_specialCharacters, index))) == 0l)) {
+                return true
+            }
+            }
+        }
+        return false
+}
 
-    method isSpecialCharacter ((subCleaningString : string)) : bool =
-        try
-        begin
-        for index = 0 to (specialCharacters#size ()) - 1 do
-            if ((String.compare subCleaningString ((Obj.magic (specialCharacters#get (index))))) == 0) then begin
-                raise (Java_return (Obj.repr (true)))
-            end
-        done;
-        false
-        end
-        with Java_return value -> Obj.obj value
-
-    initializer
-      begin
-        specialCharacters <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
-        ();
-        ignore (specialCharacters#add ("!"));
-        ignore (specialCharacters#add ("@"));
-        ignore (specialCharacters#add ((CommonPhoneStrings.getInstance ())#pOUND));
-        ignore (specialCharacters#add ("$"));
-        ignore (specialCharacters#add ("%"));
-        ignore (specialCharacters#add ("^"));
-        ignore (specialCharacters#add ((CommonSeps.getInstance ())#aMPERSAND));
-        ignore (specialCharacters#add ((CommonPhoneStrings.getInstance ())#sTAR));
-        ignore (specialCharacters#add ("("));
-        ignore (specialCharacters#add (")"));
-        ignore (specialCharacters#add ("-"));
-        ignore (specialCharacters#add ("_"));
-        ignore (specialCharacters#add ("+"));
-        ignore (specialCharacters#add ("="));
-        ignore (specialCharacters#add ("\\"));
-        ignore (specialCharacters#add ("|"));
-        ignore (specialCharacters#add ((Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ())))#eXTENSION_SEP));
-        ignore (specialCharacters#add (","));
-        ignore (specialCharacters#add ("<"));
-        ignore (specialCharacters#add (">"));
-        ignore (specialCharacters#add ("?"));
-        ignore (specialCharacters#add ("/"));
-        ignore (specialCharacters#add ("~"));
-        ignore (specialCharacters#add ("`"))
-      end
-  end
-let () = java_register_constructor "UniqueTokens" (fun arguments -> Obj.repr (new uniqueTokens (Obj.obj arguments)))
+JR.registerLateBound("UniqueTokens.jnew_0", jnew_0)
+JR.registerLateBound("UniqueTokens.jm_getWhithoutDashesAndSkipNumberOnlyTokens", jm_getWhithoutDashesAndSkipNumberOnlyTokens)
+JR.registerLateBound("UniqueTokens.jm_numberOnly", jm_numberOnly)
+JR.registerLateBound("UniqueTokens.jm_isSpecialCharacter", jm_isSpecialCharacter)
+JR.registerLateBound("UniqueTokens.f_specialCharacters", (this: UniqueTokens) => this.f_specialCharacters)
 
 

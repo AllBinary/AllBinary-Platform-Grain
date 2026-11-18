@@ -1,82 +1,106 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.score
+module HighScoresHelper
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.score *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/util/CircularIndexUtil.gr" include CircularIndexUtil
+use CircularIndexUtil.{ type CircularIndexUtil }
+from "./HighScoresHelperBase.gr" include HighScoresHelperBase
+use HighScoresHelperBase.{ type HighScoresHelperBase }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.util.CircularIndexUtil *)
+provide record HighScoresHelper {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_highScoresArrayP: Array<JObject>,
+  mut f_circularIndexUtil: CircularIndexUtil,
+  mut f_lastIndex: Int32,
+}
 
-class highScoresHelper () =
-  object (self)
-    inherit HighScoresHelperBase.highScoresHelperBase () as super
-    val mutable circularIndexUtil : CircularIndexUtil.circularIndexUtil = (Obj.magic 0)
-    method circularIndexUtil = circularIndexUtil
-    method set_circularIndexUtil value' = circularIndexUtil <- value'
-    val mutable lastIndex : int = 0
-    method lastIndex = lastIndex
-    method set_lastIndex value' = lastIndex <- value'
+
+provide let rec jclassName = () => "HighScoresHelper"
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("HighScoresHelper"), f_logUtil: JR.jnull, f_highScoresArrayP: [> ], f_circularIndexUtil: JR.nullOf(), f_lastIndex: 0l, }
+    this.f_circularIndexUtil = JR.cast(CircularIndexUtil.jm_createInstanceAt(0l, 0l))
+    this.f_lastIndex = Int32.(-)(1l, Int32.(+)(1l, 1l))
+    this
+}
     
-
-    method setHighScoresArray : 'any1. 'any1 -> unit = fun (highScoresArrayP) ->
-        let highScoresArrayP = Obj.repr highScoresArrayP in
-        begin
-        ignore (super#setHighScoresArray ((Obj.magic highScoresArrayP)));
-        ignore (circularIndexUtil#setSize ((Array.length (self#highScoresArrayP))))
-        end [@@warning "-7-20"]
+and jm_setHighScoresArray = (this: HighScoresHelper, highScoresArrayP: Array<JObject>) => {
+        ignore(jm_setHighScoresArray(this, highScoresArrayP))
+        ignore(CircularIndexUtil.jm_setSize(this.f_circularIndexUtil, Int32.fromNumber(Array.length(JR.cast(this.f_highScoresArrayP)))))
+}
     
-
-    method getNextHighScores : 'return. unit -> 'return = fun () ->
-        begin
-        let highScores : Obj.t ref = ref ((Obj.repr (self#highScoresArrayP).((circularIndexUtil#getIndex ())))) in ();
-        let index : int ref = ref (0) in ();
-        while ((((((Obj.magic !highScores)#getTotal ()) < 1) || (lastIndex = (circularIndexUtil#getIndex ())))) && (!index < (Array.length (self#highScoresArrayP)))) do
-            ignore (circularIndexUtil#next ());
-            highScores := Obj.repr ((self#highScoresArrayP).((circularIndexUtil#getIndex ())));
-            index := !index + 1
-        done;
-        lastIndex <- (circularIndexUtil#getIndex ());
-        (Obj.magic ((Obj.magic !highScores)))
-        end [@@warning "-7"]
+and jm_getNextHighScores = (this: HighScoresHelper) => {
+        let mut highScores: JObject = JR.cast(this.f_highScoresArrayP)[Int32.toNumber(CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil))]
+        let mut index: Int32 = 0l
+        while ((((Int32.(<)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getTotal"))
+JR.cast(jlate(JR.cast(highScores)))
+}, 1l) || (this.f_lastIndex == CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil)))) && Int32.(<)(index, Int32.fromNumber(Array.length(JR.cast(this.f_highScoresArrayP)))))) {
+            ignore(CircularIndexUtil.jm_next(this.f_circularIndexUtil))
+            highScores = JR.cast(this.f_highScoresArrayP)[Int32.toNumber(CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil))]
+            index = Int32.(+)(index, 1l)
+        }
+        this.f_lastIndex = CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil)
+        return highScores
+}
     
+and jm_isAnyHighScores = (this: HighScoresHelper) => {
+        if (Int32.(<)(Int32.fromNumber(Array.length(JR.cast(this.f_highScoresArrayP))), 1l)) {
+            return false
+        }
+        let mut anyScores: Bool = false
+        let mut highScores: JObject = JR.jnull
+        {
+            let mut index: Int32 = Int32.(-)(Int32.fromNumber(Array.length(JR.cast(this.f_highScoresArrayP))), 1l)
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(-)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(>=)(index, 0l))) break
+            highScores = JR.cast(this.f_highScoresArrayP)[Int32.toNumber(index)]
+            if (Int32.(>)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getTotal"))
+JR.cast(jlate(JR.cast(highScores)))
+}, 0l)) {
+                anyScores = true
+            }
+            }
+        }
+        return anyScores
+}
 
-    method isAnyHighScores () : bool =
-        try
-        begin
-        if ((Array.length (self#highScoresArrayP)) < 1) then begin
-            raise (Java_return (Obj.repr (false)))
-        end;
-        let anyScores : bool ref = ref (false) in ();
-        let highScores : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        for index = ((Array.length (self#highScoresArrayP)) - 1) downto 0 do
-            highScores := Obj.repr ((self#highScoresArrayP).(index));
-            if (((Obj.magic !highScores)#getTotal ()) > 0) then begin
-                anyScores := true
-            end
-        done;
-        !anyScores
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7"]
-
-    initializer
-      begin
-        circularIndexUtil <- ((CircularIndexUtil.createInstanceAt (0, 0)) :> CircularIndexUtil.circularIndexUtil);
-        lastIndex <- (- 1);
-        ()
-      end
-  end
-let () = java_register_constructor "HighScoresHelper" (fun arguments -> Obj.repr (new highScoresHelper (Obj.obj arguments)))
+JR.registerLateBound("HighScoresHelper.jnew_0", jnew_0)
+JR.registerLateBound("HighScoresHelper.jm_setHighScoresArray", jm_setHighScoresArray)
+JR.registerLateBound("HighScoresHelper.jm_getNextHighScores", jm_getNextHighScores)
+JR.registerLateBound("HighScoresHelper.jm_isAnyHighScores", jm_isAnyHighScores)
+JR.registerLateBound("HighScoresHelper.f_circularIndexUtil", (this: HighScoresHelper) => this.f_circularIndexUtil)
+JR.registerLateBound("HighScoresHelper.f_lastIndex", (this: HighScoresHelper) => this.f_lastIndex)
+JR.registerLateBound("HighScoresHelper.set_f_lastIndex", (this: HighScoresHelper, jvalue) => { this.f_lastIndex = jvalue; jvalue })
 
 

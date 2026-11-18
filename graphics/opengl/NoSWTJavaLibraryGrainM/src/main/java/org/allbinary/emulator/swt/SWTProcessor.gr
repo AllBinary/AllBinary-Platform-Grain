@@ -1,54 +1,74 @@
-(*
- 
-  AllBinary Open License Version 1 
-  Copyright (c) 2022 AllBinary 
-   
-  By agreeing to this license you and any business entity you represent are 
-  legally bound to the AllBinary Open License Version 1 legal agreement. 
-   
-  You may obtain the AllBinary Open License Version 1 legal agreement from 
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-   
-  Created By: Travis Berthelot 
+/*
+ * 
+ * AllBinary Open License Version 1 
+ * Copyright (c) 2022 AllBinary 
+ *  
+ * By agreeing to this license you and any business entity you represent are 
+ * legally bound to the AllBinary Open License Version 1 legal agreement. 
+ *  
+ * You may obtain the AllBinary Open License Version 1 legal agreement from 
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+ *  
+ * Created By: Travis Berthelot 
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.emulator.swt
+module SWTProcessor
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/eclipse/swt/widgets/EclipseDisplay.gr" include EclipseDisplay
+use EclipseDisplay.{ type EclipseDisplay }
+from "../../../../org/allbinary/thread/NullRunnable.gr" include NullRunnable
+use NullRunnable.{ type NullRunnable }
+from "../../../../java/lang/Runnable.gr" include Runnable
+use Runnable.{ type Runnable }
+
+provide record SWTProcessor {
+  jobject: JObject,
+  mut f_runnable: Runnable,
+}
+
+let mut jcell_instance: Option<SWTProcessor> = None
+
+provide let rec jclassName = () => "SWTProcessor"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: SWTProcessor = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("SWTProcessor"), f_runnable: JR.nullOf(), }
+    this.f_runnable = JR.cast(NullRunnable.jm_getInstance())
+    this
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.emulator.swt *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.eclipse.swt.widgets.EclipseDisplay *)
-(* import org.allbinary.thread.NullRunnable *)
-
-class sWTProcessor () =
-  object
-    val mutable runnable : java_runnable = (Obj.magic 0)
-    method runnable = runnable
-    method set_runnable value' = runnable <- value'
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jm_process = (this: SWTProcessor, display: EclipseDisplay) => {
+        ignore(EclipseDisplay.jm_sleep(display))
+}
 
-    method process : 'any1. 'any1 -> unit = fun (display) ->
-        let display = Obj.repr display in
-        begin
-        ignore ((Obj.magic display)#sleep ())
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        runnable <- ((NullRunnable.getInstance ()) :> java_runnable);
-        ()
-      end
-  end
-let () = java_register_constructor "SWTProcessor" (fun arguments -> Obj.repr (new sWTProcessor (Obj.obj arguments)))
-
-let instance = (new sWTProcessor ())
-let get_instance () = instance
-let () = java_register_static "SWTProcessor.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "SWTProcessor.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("SWTProcessor.jnew_0", jnew_0)
+JR.registerLateBound("SWTProcessor.jm_getInstance", jm_getInstance)
+JR.registerLateBound("SWTProcessor.jm_process", jm_process)
+JR.registerLateBound("SWTProcessor.f_runnable", (this: SWTProcessor) => this.f_runnable)
+JR.registerLateBound("SWTProcessor.set_f_runnable", (this: SWTProcessor, jvalue) => { this.f_runnable = jvalue; jvalue })
+JR.registerLateBound("SWTProcessor.jstatic_instance", jstatic_instance)
 
 

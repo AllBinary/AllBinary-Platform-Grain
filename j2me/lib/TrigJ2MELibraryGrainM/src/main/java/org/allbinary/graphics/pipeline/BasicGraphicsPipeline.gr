@@ -1,149 +1,183 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.pipeline
+module BasicGraphicsPipeline
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.pipeline *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/graphics/GPoint.gr" include GPoint
+use GPoint.{ type GPoint }
+from "../../../../org/allbinary/graphics/PointFactory.gr" include PointFactory
+use PointFactory.{ type PointFactory }
+from "../../../../org/allbinary/math/Angle.gr" include Angle
+use Angle.{ type Angle }
+from "../../../../org/allbinary/math/NoDecimalTrigTable.gr" include NoDecimalTrigTable
+use NoDecimalTrigTable.{ type NoDecimalTrigTable }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.graphics.GPoint *)
-(* import org.allbinary.graphics.PointFactory *)
-(* import org.allbinary.math.Angle *)
-(* import org.allbinary.math.NoDecimalTrigTable *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
+provide record BasicGraphicsPipeline {
+  jobject: JObject,
+  mut f_pointBasicArrayList: BasicArrayList,
+  mut f_noDecimalTrigTable: NoDecimalTrigTable,
+}
 
-class basicGraphicsPipeline ((points : BasicArrayList.basicArrayList)) =
-  object (self)
-    val mutable pointBasicArrayList : BasicArrayList.basicArrayList = (Obj.magic 0)
-    method pointBasicArrayList = pointBasicArrayList
-    method set_pointBasicArrayList value' = pointBasicArrayList <- value'
-    val mutable noDecimalTrigTable : NoDecimalTrigTable.noDecimalTrigTable = (Obj.magic 0)
-    method noDecimalTrigTable = noDecimalTrigTable
-    method set_noDecimalTrigTable value' = noDecimalTrigTable <- value'
+
+provide let rec jclassName = () => "BasicGraphicsPipeline"
     
+and jnew_1 = (points: BasicArrayList) => {
+    let this = { jobject: JR.newJObject("BasicGraphicsPipeline"), f_pointBasicArrayList: JR.nullOf(), f_noDecimalTrigTable: JR.nullOf(), }
     
-
-    method setInitMatrix : 'any1. 'any1 -> unit = fun (points) ->
-        let points = Obj.repr points in
-        begin
-        pointBasicArrayList <- (Obj.magic points)
-        end [@@warning "-20"]
+    this.f_noDecimalTrigTable = JR.cast(NoDecimalTrigTable.jm_getInstance())
+        this.f_pointBasicArrayList = points
+    this
+}
     
-
-    method createMatrix () : unit =
-        begin
-        ()
-        end
+and jm_setInitMatrix = (this: BasicGraphicsPipeline, points: BasicArrayList) => {
+        this.f_pointBasicArrayList = points
+}
     
-
-    method translate ((x : int), (y : int)) : unit =
-        begin
-        let newBasicArrayList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-        let size : int ref = ref ((pointBasicArrayList#size ())) in ();
-        let pointFactory : PointFactory.pointFactory ref = ref (((PointFactory.getInstance ()) :> PointFactory.pointFactory)) in ();
-        let secondPoint : GPoint.gPoint ref = ref (((Obj.magic 0) :> GPoint.gPoint)) in ();
-        for index = 0 to !size - 1 do
-            secondPoint := (Obj.magic pointBasicArrayList#objectArray.(index));
-            if ((!secondPoint#getX ()) <> 1000) then begin
-                ignore (!newBasicArrayList#add ((!pointFactory#createXY (((!secondPoint#getX ()) + x), ((!secondPoint#getY ()) + y)))))
-            end else begin
-                ignore (!newBasicArrayList#add (!secondPoint))
-            end
-        done;
-        pointBasicArrayList <- !newBasicArrayList
-        end
+and jm_createMatrix = (this: BasicGraphicsPipeline) => {
+    void
+}
     
-
-    method rotateToAngle : 'any1. 'any1 -> unit = fun (angle) ->
-        let angle = Obj.repr angle in
-        begin
-        (self#rotate (((Obj.magic angle)#getValue ())))
-        end [@@warning "-20"]
+and jm_translate = (this: BasicGraphicsPipeline, x: Int32, y: Int32) => {
+        let mut newBasicArrayList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+        let mut size: Int32 = BasicArrayList.jm_size(this.f_pointBasicArrayList)
+        let mut pointFactory: PointFactory = JR.cast(PointFactory.jm_getInstance())
+        let mut secondPoint: GPoint = JR.nullOf()
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            secondPoint = JR.cast(this.f_pointBasicArrayList.f_objectArray[Int32.toNumber(index)])
+            if ((GPoint.jm_getX(secondPoint) != 1000l)) {
+                ignore(BasicArrayList.jm_add(newBasicArrayList, PointFactory.jm_createXY(pointFactory, Int32.(+)(GPoint.jm_getX(secondPoint), x), Int32.(+)(GPoint.jm_getY(secondPoint), y))))
+            } else {
+                ignore(BasicArrayList.jm_add(newBasicArrayList, JR.cast(secondPoint)))
+            }
+            }
+        }
+        this.f_pointBasicArrayList = newBasicArrayList
+}
     
-
-    method rotate ((angle : int)) : unit =
-        begin
-        let newBasicArrayList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-        let secondPoint : GPoint.gPoint ref = ref (((Obj.magic 0) :> GPoint.gPoint)) in ();
-        let y : int ref = ref (0) in ();
-        let secondX : int ref = ref (0) in ();
-        let secondY : int ref = ref (0) in ();
-        let point : GPoint.gPoint ref = ref (((Obj.magic 0) :> GPoint.gPoint)) in ();
-        let pointFactory : PointFactory.pointFactory ref = ref (((PointFactory.getInstance ()) :> PointFactory.pointFactory)) in ();
-        let size : int ref = ref ((pointBasicArrayList#size ())) in ();
-        let sin : int ref = ref (0) in ();
-        let cos : int ref = ref (0) in ();
-        for index = 0 to !size - 1 do
-            secondPoint := (Obj.magic pointBasicArrayList#objectArray.(index));
-            if ((!secondPoint#getX ()) <> 1000) then begin
-                sin := (noDecimalTrigTable#sin (angle));
-                cos := (noDecimalTrigTable#cos (angle));
-                y := ((!secondPoint#getY ()) * !sin);
-                secondX := ((((!secondPoint#getX ()) * !cos)) - !y);
-                secondY := ((((!secondPoint#getX ()) * !sin)) + (((!secondPoint#getY ()) * !cos)));
-                point := (!pointFactory#createXY ((!secondX / 10000), (!secondY / 10000)));
-                ignore (!newBasicArrayList#add (!point))
-            end else begin
-                ignore (!newBasicArrayList#add (!secondPoint))
-            end
-        done;
-        pointBasicArrayList <- !newBasicArrayList
-        end
+and jm_rotateToAngle = (this: BasicGraphicsPipeline, angle: Angle) => {
+        ignore(jm_rotate(this, Angle.jm_getValue(angle)))
+}
     
-
-    method mirror ((width : int)) : unit =
-        begin
-        let pointFactory : PointFactory.pointFactory ref = ref (((PointFactory.getInstance ()) :> PointFactory.pointFactory)) in ();
-        let halfWidth : int ref = ref (((width asr 1))) in ();
-        let newBasicArrayList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-        let secondPoint : GPoint.gPoint ref = ref (((Obj.magic 0) :> GPoint.gPoint)) in ();
-        let newX : int ref = ref (0) in ();
-        let point : GPoint.gPoint ref = ref (((Obj.magic 0) :> GPoint.gPoint)) in ();
-        let size : int ref = ref ((pointBasicArrayList#size ())) in ();
-        for index = 0 to !size - 1 do
-            secondPoint := (Obj.magic pointBasicArrayList#objectArray.(index));
-            if ((!secondPoint#getX ()) <> 1000) then begin
-                newX := 0;
-                if ((!secondPoint#getX ()) > !halfWidth) then begin
-                    newX := (!halfWidth - (((!secondPoint#getX ()) - !halfWidth)))
-                end else begin
-                    newX := (!halfWidth + ((!halfWidth - (!secondPoint#getX ()))))
-                end;
-                point := (!pointFactory#createXY (!newX, (!secondPoint#getY ())));
-                ignore (!newBasicArrayList#add (!point))
-            end else begin
-                ignore (!newBasicArrayList#add (!secondPoint))
-            end
-        done;
-        pointBasicArrayList <- !newBasicArrayList
-        end
+and jm_rotate = (this: BasicGraphicsPipeline, angle: Int32) => {
+        let mut newBasicArrayList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+        let mut secondPoint: GPoint = JR.nullOf()
+        let mut y: Int64 = 0L
+        let mut secondX: Int64 = 0L
+        let mut secondY: Int64 = 0L
+        let mut point: GPoint = JR.nullOf()
+        let mut pointFactory: PointFactory = JR.cast(PointFactory.jm_getInstance())
+        let mut size: Int32 = BasicArrayList.jm_size(this.f_pointBasicArrayList)
+        let mut sin: Int64 = 0L
+        let mut cos: Int64 = 0L
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            secondPoint = JR.cast(this.f_pointBasicArrayList.f_objectArray[Int32.toNumber(index)])
+            if ((GPoint.jm_getX(secondPoint) != 1000l)) {
+                sin = NoDecimalTrigTable.jm_sin(this.f_noDecimalTrigTable, angle)
+                cos = NoDecimalTrigTable.jm_cos(this.f_noDecimalTrigTable, angle)
+                y = Int64.(*)(Int64.fromNumber(Int32.toNumber(GPoint.jm_getY(secondPoint))), sin)
+                secondX = Int64.(-)((Int64.(*)(Int64.fromNumber(Int32.toNumber(GPoint.jm_getX(secondPoint))), cos)), y)
+                secondY = Int64.(+)((Int64.(*)(Int64.fromNumber(Int32.toNumber(GPoint.jm_getX(secondPoint))), sin)), (Int64.(*)(Int64.fromNumber(Int32.toNumber(GPoint.jm_getY(secondPoint))), cos)))
+                point = PointFactory.jm_createXY(pointFactory, Int32.(/)(Int32.fromNumber(Int64.toNumber(secondX)), 10000l), Int32.(/)(Int32.fromNumber(Int64.toNumber(secondY)), 10000l))
+                ignore(BasicArrayList.jm_add(newBasicArrayList, JR.cast(point)))
+            } else {
+                ignore(BasicArrayList.jm_add(newBasicArrayList, JR.cast(secondPoint)))
+            }
+            }
+        }
+        this.f_pointBasicArrayList = newBasicArrayList
+}
     
+and jm_mirror = (this: BasicGraphicsPipeline, width: Int32) => {
+        let mut pointFactory: PointFactory = JR.cast(PointFactory.jm_getInstance())
+        let mut halfWidth: Int32 = (Int32.(>>)(width, 1l))
+        let mut newBasicArrayList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+        let mut secondPoint: GPoint = JR.nullOf()
+        let mut newX: Int32 = 0l
+        let mut point: GPoint = JR.nullOf()
+        let mut size: Int32 = BasicArrayList.jm_size(this.f_pointBasicArrayList)
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            secondPoint = JR.cast(this.f_pointBasicArrayList.f_objectArray[Int32.toNumber(index)])
+            if ((GPoint.jm_getX(secondPoint) != 1000l)) {
+                newX = 0l
+                if (Int32.(>)(GPoint.jm_getX(secondPoint), halfWidth)) {
+                    newX = Int32.(-)(halfWidth, (Int32.(-)(GPoint.jm_getX(secondPoint), halfWidth)))
+                } else {
+                    newX = Int32.(+)(halfWidth, (Int32.(-)(halfWidth, GPoint.jm_getX(secondPoint))))
+                }
+                point = PointFactory.jm_createXY(pointFactory, newX, GPoint.jm_getY(secondPoint))
+                ignore(BasicArrayList.jm_add(newBasicArrayList, JR.cast(point)))
+            } else {
+                ignore(BasicArrayList.jm_add(newBasicArrayList, JR.cast(secondPoint)))
+            }
+            }
+        }
+        this.f_pointBasicArrayList = newBasicArrayList
+}
+    
+and jm_getMatrix = (this: BasicGraphicsPipeline) => {
+        return this.f_pointBasicArrayList
+}
 
-    method getMatrix : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (pointBasicArrayList))
-        end
-
-    initializer
-      begin
-        ();
-        noDecimalTrigTable <- ((NoDecimalTrigTable.getInstance ()) :> NoDecimalTrigTable.noDecimalTrigTable);
-        ();
-        pointBasicArrayList <- points
-      end
-  end
-let () = java_register_constructor "BasicGraphicsPipeline" (fun arguments -> Obj.repr (new basicGraphicsPipeline (Obj.obj arguments)))
+JR.registerLateBound("BasicGraphicsPipeline.jnew_1", jnew_1)
+JR.registerLateBound("BasicGraphicsPipeline.jm_setInitMatrix", jm_setInitMatrix)
+JR.registerLateBound("BasicGraphicsPipeline.jm_createMatrix", jm_createMatrix)
+JR.registerLateBound("BasicGraphicsPipeline.jm_translate", jm_translate)
+JR.registerLateBound("BasicGraphicsPipeline.jm_rotateToAngle", jm_rotateToAngle)
+JR.registerLateBound("BasicGraphicsPipeline.jm_rotate", jm_rotate)
+JR.registerLateBound("BasicGraphicsPipeline.jm_mirror", jm_mirror)
+JR.registerLateBound("BasicGraphicsPipeline.jm_getMatrix", jm_getMatrix)
+JR.registerLateBound("BasicGraphicsPipeline.f_pointBasicArrayList", (this: BasicGraphicsPipeline) => this.f_pointBasicArrayList)
+JR.registerLateBound("BasicGraphicsPipeline.set_f_pointBasicArrayList", (this: BasicGraphicsPipeline, jvalue) => { this.f_pointBasicArrayList = jvalue; jvalue })
+JR.registerLateBound("BasicGraphicsPipeline.f_noDecimalTrigTable", (this: BasicGraphicsPipeline) => this.f_noDecimalTrigTable)
 
 

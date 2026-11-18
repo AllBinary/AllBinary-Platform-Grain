@@ -1,58 +1,85 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.paint
+module ColorFillPaintableFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.paint *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
+use BasicColor.{ type BasicColor }
+from "../../../../org/allbinary/logic/system/os/GenericOperatingSystem.gr" include GenericOperatingSystem
+use GenericOperatingSystem.{ type GenericOperatingSystem }
+from "./ColorFillPaintable.gr" include ColorFillPaintable
+use ColorFillPaintable.{ type ColorFillPaintable }
+from "./OverScanColorFillPaintable.gr" include OverScanColorFillPaintable
+use OverScanColorFillPaintable.{ type OverScanColorFillPaintable }
+from "./ColorFillBasePaintable.gr" include ColorFillBasePaintable
+use ColorFillBasePaintable.{ type ColorFillBasePaintable }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.graphics.color.BasicColor *)
-(* import org.allbinary.logic.system.os.GenericOperatingSystem *)
-(* import org.allbinary.logic.system.os.OperatingSystemFactory *)
+provide record ColorFillPaintableFactory {
+  jobject: JObject,
+}
 
-class colorFillPaintableFactory () =
-  object
+let mut jcell_instance: Option<ColorFillPaintableFactory> = None
+
+provide let rec jclassName = () => "ColorFillPaintableFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: ColorFillPaintableFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ColorFillPaintableFactory"), }
+    this
+}
     
+and jm_getInstance_0 = () => {
+        return jstatic_instance()
+}
+    
+and jm_getInstance_2 = (this: ColorFillPaintableFactory, basicColor: BasicColor, forThreedCanvas: Bool) => {
+        let mut operatingSystem: GenericOperatingSystem = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("OperatingSystemFactory.jm_getOperatingSystemInstance"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("OperatingSystemFactory.jm_getInstance_0"))
+JR.cast(jlate())
+})))
+})
+        if (GenericOperatingSystem.jm_isOverScan(operatingSystem)) {
+            return JR.cast(OverScanColorFillPaintable.jnew_1(basicColor))
+        } else {
+            return JR.cast(ColorFillPaintable.jnew_1(basicColor))
+        }
+}
 
-    method getInstance : 'any1 'return. 'any1 * bool -> 'return = fun (basicColor, (_forThreedCanvas : bool)) ->
-        let basicColor = Obj.repr basicColor in
-        try
-        begin
-        let operatingSystem : GenericOperatingSystem.genericOperatingSystem ref = ref ((((Obj.magic (java_call_static "OperatingSystemFactory.getInstance" (Obj.repr ())))#getOperatingSystemInstance ()) :> GenericOperatingSystem.genericOperatingSystem)) in ();
-        if (!operatingSystem#isOverScan ()) then begin
-            raise (Java_return (Obj.repr ((new OverScanColorFillPaintable.overScanColorFillPaintable ((Obj.magic basicColor))))))
-        end else begin
-            raise (Java_return (Obj.repr ((new ColorFillPaintable.colorFillPaintable ((Obj.magic basicColor))))))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "ColorFillPaintableFactory" (fun arguments -> Obj.repr (new colorFillPaintableFactory (Obj.obj arguments)))
-
-let instance = (new colorFillPaintableFactory ())
-let get_instance () = instance
-let () = java_register_static "ColorFillPaintableFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "ColorFillPaintableFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("ColorFillPaintableFactory.jnew_0", jnew_0)
+JR.registerLateBound("ColorFillPaintableFactory.jm_getInstance_0", jm_getInstance_0)
+JR.registerLateBound("ColorFillPaintableFactory.jm_getInstance_2", jm_getInstance_2)
+JR.registerLateBound("ColorFillPaintableFactory.jstatic_instance", jstatic_instance)
 
 

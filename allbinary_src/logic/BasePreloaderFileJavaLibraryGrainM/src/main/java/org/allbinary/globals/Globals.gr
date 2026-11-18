@@ -1,85 +1,117 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.globals
+module Globals
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.globals *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../org/allbinary/logic/string/StringValidationUtil.gr" include StringValidationUtil
+use StringValidationUtil.{ type StringValidationUtil }
+from "../../../org/allbinary/logic/system/loader/WebappClassLoaderInfo.gr" include WebappClassLoaderInfo
+use WebappClassLoaderInfo.{ type WebappClassLoaderInfo }
+from "../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./AppUrlGlobals.gr" include AppUrlGlobals
+use AppUrlGlobals.{ type AppUrlGlobals }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringValidationUtil *)
-(* import org.allbinary.logic.system.loader.WebappClassLoaderInfo *)
-(* import org.allbinary.string.CommonSeps *)
-(* import org.allbinary.string.CommonStrings *)
+provide record Globals {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+}
 
-class globals () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+let mut jcell_instance: Option<Globals> = None
+
+provide let rec jclassName = () => "Globals"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: Globals = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("Globals"), f_logUtil: JR.jnull, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        void
+    this
+}
+    
+and jm_init = (this: Globals, classLoader: ClassLoader, pathString: String) => {
+        let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
+        let mut appUrlGlobals: AppUrlGlobals = AppUrlGlobals.jnew_0()
+        ignore(AppUrlGlobals.jm_setWebappPath(appUrlGlobals, pathString))
+        ignore(JR.className(JR.cast(.jstatic_URLGLOBALS())))
+        ignore(WebappClassLoaderInfo.jm_setLoader(classLoader))
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, "Setting Up AllBinary System Configuration Args: "))
+        ignore(StringMaker.jm_append(stringBuffer, pathString))
+        ignore(StringMaker.jm_append(stringBuffer, " ClassLoader: "))
+        ignore(StringMaker.jm_append(stringBuffer, classLoader.jobject.cls))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast(commonStrings.f_INIT)))
+})
+        let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
+        if (StringValidationUtil.jm_isEmpty(stringValidationUtil, pathString)) {
+            ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
+            ignore(StringMaker.jm_append(stringBuffer, "No Path Provided. Using Process Path: "))
+            ignore(StringMaker.jm_append(stringBuffer, pathString))
+            ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
+            ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_EQUALS))
+            ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
+            ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(.jstatic_URLGLOBALS()))))
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast(commonStrings.f_INIT)))
+})
+        }
+        ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
+        ignore(StringMaker.jm_append(stringBuffer, "Webapp Path Set To: "))
+        ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(.jstatic_URLGLOBALS()))))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast(commonStrings.f_INIT)))
+})
+}
 
-    method init : 'any1. 'any1 * string -> unit = fun (classLoader, (pathString : string)) ->
-        let classLoader = Obj.repr classLoader in
-        begin
-        let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        let appUrlGlobals : AppUrlGlobals.appUrlGlobals ref = ref (((new AppUrlGlobals.appUrlGlobals ()) :> AppUrlGlobals.appUrlGlobals)) in ();
-        ignore (!appUrlGlobals#setWebappPath (pathString));
-        ignore (URLGLOBALS.init (!appUrlGlobals));
-        ignore (WebappClassLoaderInfo.setLoader ((Obj.magic classLoader)));
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ("Setting Up AllBinary System Configuration Args: "));
-        ignore (!stringBuffer#append (pathString));
-        ignore (!stringBuffer#append (" ClassLoader: "));
-        ignore (!stringBuffer#append ((java_get_class (Obj.repr (Obj.magic classLoader)))));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), !commonStrings#iNIT));
-        let stringValidationUtil : StringValidationUtil.stringValidationUtil ref = ref (((StringValidationUtil.getInstance ()) :> StringValidationUtil.stringValidationUtil)) in ();
-        if (!stringValidationUtil#isEmpty (pathString)) then begin
-            ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-            ignore (!stringBuffer#append ("No Path Provided. Using Process Path: "));
-            ignore (!stringBuffer#append (pathString));
-            ignore (!stringBuffer#append ((CommonSeps.getInstance ())#sPACE));
-            ignore (!stringBuffer#append ((CommonSeps.getInstance ())#eQUALS));
-            ignore (!stringBuffer#append ((CommonSeps.getInstance ())#sPACE));
-            ignore (!stringBuffer#append ((URLGLOBALS.getWebappPath ())));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), !commonStrings#iNIT))
-        end;
-        ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-        ignore (!stringBuffer#append ("Webapp Path Set To: "));
-        ignore (!stringBuffer#append ((URLGLOBALS.getWebappPath ())));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), !commonStrings#iNIT))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "Globals" (fun arguments -> Obj.repr (new globals (Obj.obj arguments)))
-
-let instance = (new globals ())
-let get_instance () = instance
-let () = java_register_static "Globals.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "Globals.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("Globals.jnew_0", jnew_0)
+JR.registerLateBound("Globals.jm_getInstance", jm_getInstance)
+JR.registerLateBound("Globals.jm_init", jm_init)
+JR.registerLateBound("Globals.f_logUtil", (this: Globals) => this.f_logUtil)
+JR.registerLateBound("Globals.jstatic_instance", jstatic_instance)
 
 

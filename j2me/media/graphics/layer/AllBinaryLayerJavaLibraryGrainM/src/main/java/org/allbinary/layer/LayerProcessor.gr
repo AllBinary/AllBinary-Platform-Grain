@@ -1,71 +1,91 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.layer
+module LayerProcessor
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.layer *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./LayerProcessorInterface.gr" include LayerProcessorInterface
+use LayerProcessorInterface.{ type LayerProcessorInterface }
+from "./LayerManager.gr" include LayerManager
+use LayerManager.{ type LayerManager }
+from "./AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.string.CommonStrings *)
+provide record LayerProcessor {
+  jobject: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_layerManager: LayerManager,
+}
 
-class layerProcessor ((layerManager_arg : LayerManager.layerManager)) =
-  object (self)
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable layerManager : LayerManager.layerManager = (Obj.magic 0)
-    method layerManager = layerManager
-    method set_layerManager value' = layerManager <- value'
+
+provide let rec jclassName = () => "LayerProcessor"
     
+and jnew_1 = (layerManager: LayerManager) => {
+    let this = { jobject: JR.newJObject("LayerProcessor"), f_commonStrings: JR.nullOf(), f_layerManager: JR.nullOf(), }
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
     
-
-    method processAt : 'any1 'any2. 'any1 * 'any2 * int -> unit = fun (_allBinaryLayerManager, _layerInterface, (_index : int)) ->
-        begin
-        raise (Failure (commonStrings#nOT_IMPLEMENTED))
-        end [@@warning "-20"]
+        this.f_layerManager = layerManager
+    this
+}
     
-
-    method isProcessorLayer : 'any1. 'any1 -> bool = fun (_layerInterface) ->
-        begin
-        raise (Failure (commonStrings#nOT_IMPLEMENTED))
-        end [@@warning "-20"]
+and jm_processAt = (this: LayerProcessor, allBinaryLayerManager: JObject, layerInterface: AllBinaryLayer, index: Int32) => {
+        fail JR.toStringOf(JR.newJObject("Exception"))
+}
     
-
-    method getLayerManager : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (layerManager))
-        end
+and jm_isProcessorLayer = (this: LayerProcessor, layerInterface: AllBinaryLayer) => {
+        fail JR.toStringOf(JR.newJObject("Exception"))
+}
     
+and jm_getLayerManager = (this: LayerProcessor) => {
+        return this.f_layerManager
+}
+    
+and jm_process = (this: LayerProcessor, allBinaryLayerManager: JObject) => {
+        let mut layerManager: LayerManager = JR.cast(jm_getLayerManager(this))
+        let mut size: Int32 = LayerManager.jm_getSize(layerManager)
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            ignore(jm_processAt(this, allBinaryLayerManager, JR.cast(LayerManager.jm_getLayerAt(layerManager, index)), index))
+            }
+        }
+}
 
-    method process : 'any1. 'any1 -> unit = fun (allBinaryLayerManager) ->
-        let allBinaryLayerManager = Obj.repr allBinaryLayerManager in
-        begin
-        let layerManager_arg : LayerManager.layerManager ref = ref (((self#getLayerManager ()) :> LayerManager.layerManager)) in ();
-        let size : int ref = ref ((!layerManager_arg#getSize ())) in ();
-        for index = 0 to !size - 1 do
-            (self#processAt ((Obj.magic allBinaryLayerManager), (Obj.magic (!layerManager_arg#getLayerAt (index))), index))
-        done
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        ();
-        ();
-        layerManager <- layerManager_arg
-      end
-  end
-let () = java_register_constructor "LayerProcessor" (fun arguments -> Obj.repr (new layerProcessor (Obj.obj arguments)))
+JR.registerLateBound("LayerProcessor.jnew_1", jnew_1)
+JR.registerLateBound("LayerProcessor.jm_processAt", jm_processAt)
+JR.registerLateBound("LayerProcessor.jm_isProcessorLayer", jm_isProcessorLayer)
+JR.registerLateBound("LayerProcessor.jm_getLayerManager", jm_getLayerManager)
+JR.registerLateBound("LayerProcessor.jm_process", jm_process)
+JR.registerLateBound("LayerProcessor.f_commonStrings", (this: LayerProcessor) => this.f_commonStrings)
+JR.registerLateBound("LayerProcessor.f_layerManager", (this: LayerProcessor) => this.f_layerManager)
 
 

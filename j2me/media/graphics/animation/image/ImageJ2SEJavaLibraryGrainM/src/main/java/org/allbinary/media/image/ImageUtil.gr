@@ -1,243 +1,283 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.media.image
+module ImageUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.media.image *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/awt/Graphics2D.gr" include Graphics2D
+use Graphics2D.{ type Graphics2D }
+from "../../../../java/awt/GraphicsConfiguration.gr" include GraphicsConfiguration
+use GraphicsConfiguration.{ type GraphicsConfiguration }
+from "../../../../java/awt/GraphicsDevice.gr" include GraphicsDevice
+use GraphicsDevice.{ type GraphicsDevice }
+from "../../../../java/awt/GraphicsEnvironment.gr" include GraphicsEnvironment
+use GraphicsEnvironment.{ type GraphicsEnvironment }
+from "../../../../java/awt/Transparency.gr" include Transparency
+use Transparency.{ type Transparency }
+from "../../../../java/awt/geom/AffineTransform.gr" include AffineTransform
+use AffineTransform.{ type AffineTransform }
+from "../../../../java/awt/image/BufferedImage.gr" include BufferedImage
+use BufferedImage.{ type BufferedImage }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/string/CommonLabels.gr" include CommonLabels
+use CommonLabels.{ type CommonLabels }
+from "../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.awt.Graphics2D *)
-(* import java.awt.GraphicsConfiguration *)
-(* import java.awt.GraphicsDevice *)
-(* import java.awt.GraphicsEnvironment *)
-(* import java.awt.Transparency *)
-(* import java.awt.geom.AffineTransform *)
-(* import java.awt.image.BufferedImage *)
-(* import javax.microedition.lcdui.Image *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.string.CommonLabels *)
-(* import org.allbinary.string.CommonSeps *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.microemu.device.j2se.J2SEImmutableImage *)
-(* import org.microemu.device.j2se.J2SEMutableImage *)
+provide record ImageUtil {
+  jobject: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_commonSeps: CommonSeps,
+  mut f_IIOIMAGE_POOL_NAME: String,
+  mut f_CREATE_BUFFERED_IMAGE: String,
+}
 
-class imageUtil () =
-  object (self)
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable commonSeps : CommonSeps.commonSeps = (Obj.magic 0)
-    method commonSeps = commonSeps
-    method set_commonSeps value' = commonSeps <- value'
-    val mutable iIOIMAGE_POOL_NAME : string = ""
-    method iIOIMAGE_POOL_NAME = iIOIMAGE_POOL_NAME
-    method set_iIOIMAGE_POOL_NAME value' = iIOIMAGE_POOL_NAME <- value'
-    val mutable cREATE_BUFFERED_IMAGE : string = ""
-    method cREATE_BUFFERED_IMAGE = cREATE_BUFFERED_IMAGE
-    method set_cREATE_BUFFERED_IMAGE value' = cREATE_BUFFERED_IMAGE <- value'
+let mut jcell_instance: Option<ImageUtil> = None
+
+provide let rec jclassName = () => "ImageUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: ImageUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method getDefaultConfiguration : 'return. unit -> 'return = fun () ->
-        begin
-        let ge : Obj.t ref = ref ((Obj.repr (GraphicsEnvironment.getLocalGraphicsEnvironment ()))) in ();
-        let gd : Obj.t ref = ref ((Obj.repr ((Obj.magic !ge)#getDefaultScreenDevice ()))) in ();
-        (Obj.magic (((Obj.magic !gd)#getDefaultConfiguration ())))
-        end
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ImageUtil"), f_commonStrings: JR.nullOf(), f_commonSeps: JR.nullOf(), f_IIOIMAGE_POOL_NAME: "", f_CREATE_BUFFERED_IMAGE: "", }
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this.f_commonSeps = JR.cast(CommonSeps.jm_getInstance())
+    this.f_IIOIMAGE_POOL_NAME = "IIOIMAGE_POOL_NAME"
+    this.f_CREATE_BUFFERED_IMAGE = "createBufferedImage"
+        void
+    this
+}
     
-
-    method create : 'return. int * int -> 'return = fun ((width : int), (height : int)) ->
-        begin
-        let graphicsConfiguration : Obj.t ref = ref ((Obj.repr (self#getDefaultConfiguration ()))) in ();
-        (Obj.magic (((Obj.magic !graphicsConfiguration)#createCompatibleImage (width, height, (Transparency.get_tRANSLUCENT ())))))
-        end
+and jm_getDefaultConfiguration = (this: ImageUtil) => {
+        let mut ge: GraphicsEnvironment = JR.cast(GraphicsEnvironment.jm_getLocalGraphicsEnvironment())
+        let mut gd: GraphicsDevice = JR.cast(GraphicsEnvironment.jm_getDefaultScreenDevice(ge))
+        return GraphicsDevice.jm_getDefaultConfiguration(gd)
+}
     
-
-    method createBufferedImageForResize : 'any1 'return. 'any1 * int * bool -> 'return = fun (bufferedImageArray, (percent : int), (scale : bool)) ->
-        let bufferedImageArray = Obj.repr bufferedImageArray in
-        begin
-        let size : int ref = ref ((Array.length (Obj.magic bufferedImageArray))) in ();
-        let scaledBufferedImageArray : Obj.t ref = ref ((Obj.repr (Array.make (!size) (Obj.magic 0)))) in ();
-        let bufferedImage : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        for index = 0 to !size - 1 do
-            bufferedImage := Obj.repr ((Obj.magic bufferedImageArray).(index));
-            let newWidth : int ref = ref ((java_to_int (Obj.repr ((((((Obj.magic !bufferedImage)#getWidth ()) * percent) / 100)))))) in ();
-            let newHeight : int ref = ref ((java_to_int (Obj.repr ((((((Obj.magic !bufferedImage)#getHeight ()) * percent) / 100)))))) in ();
-            (Obj.magic !scaledBufferedImageArray).(index) <- (self#createBufferedImage ((Obj.magic !bufferedImage), !newWidth, !newHeight, scale))
-        done;
-        (Obj.magic ((Obj.magic !scaledBufferedImageArray)))
-        end [@@warning "-20"]
+and jm_create = (this: ImageUtil, width: Int32, height: Int32) => {
+        let mut graphicsConfiguration: GraphicsConfiguration = JR.cast(jm_getDefaultConfiguration(this))
+        return GraphicsConfiguration.jm_createCompatibleImage(graphicsConfiguration, width, height, Transparency.jstatic_TRANSLUCENT())
+}
     
-
-    method createBufferedImage2 : 'any1 'return. 'any1 * float * bool -> 'return = fun (bufferedImageArray, (percent : float), (scale : bool)) ->
-        let bufferedImageArray = Obj.repr bufferedImageArray in
-        begin
-        let size : int ref = ref ((Array.length (Obj.magic bufferedImageArray))) in ();
-        let scaledBufferedImageArray : Obj.t ref = ref ((Obj.repr (Array.make (!size) (Obj.magic 0)))) in ();
-        let bufferedImage : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        for index = 0 to !size - 1 do
-            bufferedImage := Obj.repr ((Obj.magic bufferedImageArray).(index));
-            let newWidth : int ref = ref ((java_to_int (Obj.repr (((((Obj.magic !bufferedImage)#getWidth ()) *. percent)))))) in ();
-            let newHeight : int ref = ref ((java_to_int (Obj.repr (((((Obj.magic !bufferedImage)#getHeight ()) *. percent)))))) in ();
-            (Obj.magic !scaledBufferedImageArray).(index) <- (self#createBufferedImage ((Obj.magic !bufferedImage), !newWidth, !newHeight, scale))
-        done;
-        (Obj.magic ((Obj.magic !scaledBufferedImageArray)))
-        end [@@warning "-20"]
+and jm_createBufferedImageForResize = (this: ImageUtil, bufferedImageArray: Array<BufferedImage>, percent: Int32, scale: Bool) => {
+        let mut size: Int32 = Int32.fromNumber(Array.length(bufferedImageArray))
+        let mut scaledBufferedImageArray: Array<BufferedImage> = Array.make(Int32.toNumber(size), JR.nullOf())
+        let mut bufferedImage: BufferedImage = JR.nullOf()
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            bufferedImage = bufferedImageArray[Int32.toNumber(index)]
+            let mut newWidth: Int32 = (Int32.(/)(Int32.(*)(BufferedImage.jm_getWidth(bufferedImage), percent), 100l))
+            let mut newHeight: Int32 = (Int32.(/)(Int32.(*)(BufferedImage.jm_getHeight(bufferedImage), percent), 100l))
+            scaledBufferedImageArray[Int32.toNumber(index)] = JR.cast(jm_createBufferedImage(this, bufferedImage, newWidth, newHeight, scale))
+            }
+        }
+        return scaledBufferedImageArray
+}
     
-
-    method createBufferedImage3 : 'any1 'return. 'any1 * int * int * bool -> 'return = fun (bufferedImageArray, (width : int), (height : int), (scale : bool)) ->
-        let bufferedImageArray = Obj.repr bufferedImageArray in
-        begin
-        let size : int ref = ref ((Array.length (Obj.magic bufferedImageArray))) in ();
-        let scaledBufferedImageArray : Obj.t ref = ref ((Obj.repr (Array.make (!size) (Obj.magic 0)))) in ();
-        for index = 0 to !size - 1 do
-            (Obj.magic !scaledBufferedImageArray).(index) <- (self#createBufferedImage ((Obj.magic bufferedImageArray).(index), width, height, scale))
-        done;
-        (Obj.magic ((Obj.magic !scaledBufferedImageArray)))
-        end [@@warning "-20"]
+and jm_createBufferedImage2 = (this: ImageUtil, bufferedImageArray: Array<BufferedImage>, percent: Float32, scale: Bool) => {
+        let mut size: Int32 = Int32.fromNumber(Array.length(bufferedImageArray))
+        let mut scaledBufferedImageArray: Array<BufferedImage> = Array.make(Int32.toNumber(size), JR.nullOf())
+        let mut bufferedImage: BufferedImage = JR.nullOf()
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            bufferedImage = bufferedImageArray[Int32.toNumber(index)]
+            let mut newWidth: Int32 = (Float32.(*)(BufferedImage.jm_getWidth(bufferedImage), percent))
+            let mut newHeight: Int32 = (Float32.(*)(BufferedImage.jm_getHeight(bufferedImage), percent))
+            scaledBufferedImageArray[Int32.toNumber(index)] = JR.cast(jm_createBufferedImage(this, bufferedImage, newWidth, newHeight, scale))
+            }
+        }
+        return scaledBufferedImageArray
+}
     
-
-    method createBufferedImageForSave : 'any1 'return. 'any1 * int * int -> 'return = fun (bufferedImage, (newWidth : int), (newHeight : int)) ->
-        let bufferedImage = Obj.repr bufferedImage in
-        begin
-        (Obj.magic ((self#createBufferedImage ((Obj.magic bufferedImage), newWidth, newHeight, true))))
-        end [@@warning "-20"]
+and jm_createBufferedImage3 = (this: ImageUtil, bufferedImageArray: Array<BufferedImage>, width: Int32, height: Int32, scale: Bool) => {
+        let mut size: Int32 = Int32.fromNumber(Array.length(bufferedImageArray))
+        let mut scaledBufferedImageArray: Array<BufferedImage> = Array.make(Int32.toNumber(size), JR.nullOf())
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            scaledBufferedImageArray[Int32.toNumber(index)] = JR.cast(jm_createBufferedImage(this, bufferedImageArray[Int32.toNumber(index)], width, height, scale))
+            }
+        }
+        return scaledBufferedImageArray
+}
     
-
-    method createBufferedImage : 'any1 'return. 'any1 * int * int * bool -> 'return = fun (bufferedImage, (newWidth : int), (newHeight : int), (scale : bool)) ->
-        let bufferedImage = Obj.repr bufferedImage in
-        begin
-        (Obj.magic ((self#createBufferedImageAllowTranslate ((Obj.magic bufferedImage), newWidth, newHeight, scale, false))))
-        end [@@warning "-20"]
+and jm_createBufferedImageForSave = (this: ImageUtil, bufferedImage: BufferedImage, newWidth: Int32, newHeight: Int32) => {
+        return jm_createBufferedImage(this, bufferedImage, newWidth, newHeight, true)
+}
     
-
-    method createBufferedImageAllowTranslate : 'any1 'return. 'any1 * int * int * bool * bool -> 'return = fun (bufferedImage, (newWidth : int), (newHeight : int), (scale : bool), (allowTranslate : bool)) ->
-        let bufferedImage = Obj.repr bufferedImage in
-        begin
-        let width : float ref = ref (((Obj.magic bufferedImage)#getWidth ())) in ();
-        let height : float ref = ref (((Obj.magic bufferedImage)#getHeight ())) in ();
-        let d_newWidth : float ref = ref ((float_of_int (newWidth))) in ();
-        let d_newHeight : float ref = ref ((float_of_int (newHeight))) in ();
-        let widthRatio : float ref = ref ((!d_newWidth /. !width)) in ();
-        let heightRatio : float ref = ref ((!d_newHeight /. !height)) in ();
-        let ratioX : float ref = ref (1.0) in ();
-        let ratioY : float ref = ref (1.0) in ();
-        if scale then begin
-            ratioX := !widthRatio;
-            ratioY := !heightRatio
-        end;
-        let affineTransform : Obj.t ref = ref ((Obj.repr (AffineTransform.getScaleInstance (!ratioX, !ratioY)))) in ();
-        if ((not scale) && allowTranslate) then begin
-            let dx : float ref = ref (((((float_of_int (newWidth)) -. !width)) /. 2.)) in ();
-            let dy : float ref = ref (((((float_of_int (newHeight)) -. !height)) /. 2.)) in ();
-            ignore ((Obj.magic !affineTransform)#translate (!dx, !dy))
-        end;
-        let newBufferedImage : Obj.t ref = ref ((Obj.repr (new BufferedImage.bufferedImage (newWidth, newHeight, (BufferedImage.get_tYPE_INT_ARGB_PRE ()))))) in ();
-        let graphics : Obj.t ref = ref ((Obj.repr ((Obj.magic !newBufferedImage)#createGraphics ()))) in ();
-        ignore ((Obj.magic !graphics)#drawRenderedImage ((Obj.magic bufferedImage), (Obj.magic !affineTransform)));
-        (Obj.magic ((Obj.magic !newBufferedImage)))
-        end [@@warning "-20"]
+and jm_createBufferedImage = (this: ImageUtil, bufferedImage: BufferedImage, newWidth: Int32, newHeight: Int32, scale: Bool) => {
+        return jm_createBufferedImageAllowTranslate(this, bufferedImage, newWidth, newHeight, scale, false)
+}
     
-
-    method createBufferedImageWithLargerCanvas : 'any1 'return. 'any1 * int * int -> 'return = fun (bufferedImage, (newWidth : int), (newHeight : int)) ->
-        let bufferedImage = Obj.repr bufferedImage in
-        begin
-        let width : float ref = ref (((Obj.magic bufferedImage)#getWidth ())) in ();
-        let height : float ref = ref (((Obj.magic bufferedImage)#getHeight ())) in ();
-        let d_newWidth : float ref = ref ((float_of_int (newWidth))) in ();
-        let d_newHeight : float ref = ref ((float_of_int (newHeight))) in ();
-        let widthRatio : float ref = ref ((!d_newWidth /. !width)) in ();
-        let heightRatio : float ref = ref ((!d_newHeight /. !height)) in ();
-        let dx2 : int ref = ref ((int_of_float ((((float_of_int (newWidth)) -. !width))))) in ();
-        let dy2 : int ref = ref ((int_of_float ((((float_of_int (newHeight)) -. !height))))) in ();
-        let dx : int ref = ref ((!dx2 / 2)) in ();
-        let dy : int ref = ref ((!dy2 / 2)) in ();
-        let dx4 : int ref = ref ((!dx2 / 4)) in ();
-        let dy4 : int ref = ref ((!dy2 / 4)) in ();
-        let newBufferedImage : Obj.t ref = ref ((Obj.repr (new BufferedImage.bufferedImage (newWidth, newHeight, (BufferedImage.get_tYPE_INT_ARGB_PRE ()))))) in ();
-        let graphics : Obj.t ref = ref ((Obj.repr ((Obj.magic !newBufferedImage)#createGraphics ()))) in ();
-        ignore ((Obj.magic !graphics)#drawImage ((Obj.magic bufferedImage), !dx4, !dy4, (Obj.magic 0)));
-        (Obj.magic ((Obj.magic !newBufferedImage)))
-        end [@@warning "-20"]
+and jm_createBufferedImageAllowTranslate = (this: ImageUtil, bufferedImage: BufferedImage, newWidth: Int32, newHeight: Int32, scale: Bool, allowTranslate: Bool) => {
+        let mut width: Float64 = BufferedImage.jm_getWidth(bufferedImage)
+        let mut height: Float64 = BufferedImage.jm_getHeight(bufferedImage)
+        let mut d_newWidth: Float64 = Float64.fromNumber(Int32.toNumber(newWidth))
+        let mut d_newHeight: Float64 = Float64.fromNumber(Int32.toNumber(newHeight))
+        let mut widthRatio: Float64 = Float64.(/)(d_newWidth, width)
+        let mut heightRatio: Float64 = Float64.(/)(d_newHeight, height)
+        let mut ratioX: Float64 = 1.0d
+        let mut ratioY: Float64 = 1.0d
+        if (scale) {
+            ratioX = widthRatio
+            ratioY = heightRatio
+        }
+        let mut affineTransform: AffineTransform = JR.cast(AffineTransform.jm_getScaleInstance(ratioX, ratioY))
+        if ((!scale && allowTranslate)) {
+            let mut dx: Float64 = Float64.(/)((Float64.(-)(Float64.fromNumber(Int32.toNumber(newWidth)), width)), 2.0d)
+            let mut dy: Float64 = Float64.(/)((Float64.(-)(Float64.fromNumber(Int32.toNumber(newHeight)), height)), 2.0d)
+            ignore(AffineTransform.jm_translate(affineTransform, dx, dy))
+        }
+        let mut newBufferedImage: BufferedImage = BufferedImage.jnew_3(newWidth, newHeight, BufferedImage.jstatic_TYPE_INT_ARGB_PRE())
+        let mut graphics: Graphics2D = JR.cast(BufferedImage.jm_createGraphics(newBufferedImage))
+        ignore(Graphics2D.jm_drawRenderedImage(graphics, bufferedImage, affineTransform))
+        return newBufferedImage
+}
     
-
-    method convertToBufferedImage : 'any1 'return. 'any1 -> 'return = fun (toolkitImage) ->
-        let toolkitImage = Obj.repr toolkitImage in
-        try
-        begin
-        if ((Obj.magic toolkitImage) == (Obj.magic 0)) then begin
-            raise (Java_return (Obj.repr ((Obj.magic 0))))
-        end;
-        let bufferedImage : Obj.t ref = ref ((Obj.repr (new BufferedImage.bufferedImage (((Obj.magic toolkitImage)#getWidth ((Obj.magic 0))), ((Obj.magic toolkitImage)#getHeight ((Obj.magic 0))), (BufferedImage.get_tYPE_INT_ARGB ()))))) in ();
-        let g2d : Obj.t ref = ref ((Obj.repr ((Obj.magic !bufferedImage)#createGraphics ()))) in ();
-        ignore ((Obj.magic !g2d)#drawImage ((Obj.magic toolkitImage), 0, 0, (Obj.magic 0)));
-        ignore ((Obj.magic !g2d)#dispose ());
-        (Obj.magic ((Obj.magic !bufferedImage)))
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
+and jm_createBufferedImageWithLargerCanvas = (this: ImageUtil, bufferedImage: BufferedImage, newWidth: Int32, newHeight: Int32) => {
+        let mut width: Float64 = BufferedImage.jm_getWidth(bufferedImage)
+        let mut height: Float64 = BufferedImage.jm_getHeight(bufferedImage)
+        let mut d_newWidth: Float64 = Float64.fromNumber(Int32.toNumber(newWidth))
+        let mut d_newHeight: Float64 = Float64.fromNumber(Int32.toNumber(newHeight))
+        let mut widthRatio: Float64 = Float64.(/)(d_newWidth, width)
+        let mut heightRatio: Float64 = Float64.(/)(d_newHeight, height)
+        let mut dx2: Int32 = JR.d2i(Float64.toNumber((Float64.(-)(Float64.fromNumber(Int32.toNumber(newWidth)), width))))
+        let mut dy2: Int32 = JR.d2i(Float64.toNumber((Float64.(-)(Float64.fromNumber(Int32.toNumber(newHeight)), height))))
+        let mut dx: Int32 = Int32.(/)(dx2, 2l)
+        let mut dy: Int32 = Int32.(/)(dy2, 2l)
+        let mut dx4: Int32 = Int32.(/)(dx2, 4l)
+        let mut dy4: Int32 = Int32.(/)(dy2, 4l)
+        let mut newBufferedImage: BufferedImage = BufferedImage.jnew_3(newWidth, newHeight, BufferedImage.jstatic_TYPE_INT_ARGB_PRE())
+        let mut graphics: Graphics2D = JR.cast(BufferedImage.jm_createGraphics(newBufferedImage))
+        ignore(Graphics2D.jm_drawImage(graphics, bufferedImage, dx4, dy4, JR.nullOf()))
+        return newBufferedImage
+}
     
-
-    method getBufferedImage : 'any1 'return. 'any1 -> 'return = fun (image) ->
-        let image = Obj.repr image in
-        begin
-        let bufferedImage : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        if ((Obj.magic image)#isMutable ()) then begin
-            let j2seImage : Obj.t ref = ref ((Obj.repr (Obj.magic (Obj.magic image)))) in ();
-            bufferedImage := Obj.repr ((Obj.magic ((Obj.magic !j2seImage)#getImage ())))
-        end else begin
-            let j2seImage : Obj.t ref = ref ((Obj.repr (Obj.magic (Obj.magic image)))) in ();
-            bufferedImage := Obj.repr ((Obj.magic ((Obj.magic !j2seImage)#getImage ())))
-        end;
-        (Obj.magic ((Obj.magic !bufferedImage)))
-        end [@@warning "-20"]
+and jm_convertToBufferedImage = (this: ImageUtil, toolkitImage: JObject) => {
+        if (JR.isNull(toolkitImage)) {
+            return JR.nullOf()
+        }
+        let mut bufferedImage: BufferedImage = BufferedImage.jnew_3({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
+JR.cast(jlate(JR.cast(toolkitImage), JR.cast(JR.nullOf())))
+}, {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
+JR.cast(jlate(JR.cast(toolkitImage), JR.cast(JR.nullOf())))
+}, BufferedImage.jstatic_TYPE_INT_ARGB())
+        let mut g2d: Graphics2D = JR.cast(BufferedImage.jm_createGraphics(bufferedImage))
+        ignore(Graphics2D.jm_drawImage(g2d, toolkitImage, 0l, 0l, JR.nullOf()))
+        ignore(Graphics2D.jm_dispose(g2d))
+        return bufferedImage
+}
     
+and jm_getBufferedImage = (this: ImageUtil, image: JObject) => {
+        let mut bufferedImage: BufferedImage = JR.nullOf()
+        if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_isMutable"))
+JR.cast(jlate(JR.cast(image)))
+}) {
+            let mut j2seImage: JObject = JR.cast(image)
+            bufferedImage = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("J2SEImmutableImage.jm_getImage"))
+JR.cast(jlate(JR.cast(j2seImage)))
+})
+        } else {
+            let mut j2seImage: JObject = JR.cast(image)
+            bufferedImage = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("J2SEImmutableImage.jm_getImage"))
+JR.cast(jlate(JR.cast(j2seImage)))
+})
+        }
+        return bufferedImage
+}
+    
+and jm_toString = (this: ImageUtil, bufferedImage: BufferedImage) => {
+        let mut commonLabels: CommonLabels = JR.cast(CommonLabels.jm_getInstance())
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, " BufferedImage -"))
+        ignore(StringMaker.jm_append(stringBuffer, commonLabels.f_WIDTH_LABEL))
+        ignore(StringMaker.jm_appendint(stringBuffer, BufferedImage.jm_getWidth(bufferedImage)))
+        ignore(StringMaker.jm_append(stringBuffer, commonLabels.f_HEIGHT_LABEL))
+        ignore(StringMaker.jm_appendint(stringBuffer, BufferedImage.jm_getHeight(bufferedImage)))
+        ignore(StringMaker.jm_append(stringBuffer, " Type: "))
+        ignore(StringMaker.jm_appendint(stringBuffer, BufferedImage.jm_getType(bufferedImage)))
+        return StringMaker.jm_toString(stringBuffer)
+}
 
-    method toString : 'any1. 'any1 -> string = fun (bufferedImage) ->
-        let bufferedImage = Obj.repr bufferedImage in
-        begin
-        let commonLabels : CommonLabels.commonLabels ref = ref (((CommonLabels.getInstance ()) :> CommonLabels.commonLabels)) in ();
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (" BufferedImage -"));
-        ignore (!stringBuffer#append (!commonLabels#wIDTH_LABEL));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((Obj.magic bufferedImage)#getWidth ()))))));
-        ignore (!stringBuffer#append (!commonLabels#hEIGHT_LABEL));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((Obj.magic bufferedImage)#getHeight ()))))));
-        ignore (!stringBuffer#append (" Type: "));
-        ignore (!stringBuffer#appendint ((java_to_int (Obj.repr (((Obj.magic bufferedImage)#getType ()))))));
-        (java_string_of (Obj.repr !stringBuffer))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        commonSeps <- ((CommonSeps.getInstance ()) :> CommonSeps.commonSeps);
-        iIOIMAGE_POOL_NAME <- "IIOIMAGE_POOL_NAME";
-        cREATE_BUFFERED_IMAGE <- "createBufferedImage";
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "ImageUtil" (fun arguments -> Obj.repr (new imageUtil (Obj.obj arguments)))
-
-let instance = (new imageUtil ())
-let get_instance () = instance
-let () = java_register_static "ImageUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "ImageUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("ImageUtil.jnew_0", jnew_0)
+JR.registerLateBound("ImageUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("ImageUtil.jm_getDefaultConfiguration", jm_getDefaultConfiguration)
+JR.registerLateBound("ImageUtil.jm_create", jm_create)
+JR.registerLateBound("ImageUtil.jm_createBufferedImageForResize", jm_createBufferedImageForResize)
+JR.registerLateBound("ImageUtil.jm_createBufferedImage2", jm_createBufferedImage2)
+JR.registerLateBound("ImageUtil.jm_createBufferedImage3", jm_createBufferedImage3)
+JR.registerLateBound("ImageUtil.jm_createBufferedImageForSave", jm_createBufferedImageForSave)
+JR.registerLateBound("ImageUtil.jm_createBufferedImage", jm_createBufferedImage)
+JR.registerLateBound("ImageUtil.jm_createBufferedImageAllowTranslate", jm_createBufferedImageAllowTranslate)
+JR.registerLateBound("ImageUtil.jm_createBufferedImageWithLargerCanvas", jm_createBufferedImageWithLargerCanvas)
+JR.registerLateBound("ImageUtil.jm_convertToBufferedImage", jm_convertToBufferedImage)
+JR.registerLateBound("ImageUtil.jm_getBufferedImage", jm_getBufferedImage)
+JR.registerLateBound("ImageUtil.jm_toString", jm_toString)
+JR.registerLateBound("ImageUtil.f_commonStrings", (this: ImageUtil) => this.f_commonStrings)
+JR.registerLateBound("ImageUtil.f_commonSeps", (this: ImageUtil) => this.f_commonSeps)
+JR.registerLateBound("ImageUtil.f_IIOIMAGE_POOL_NAME", (this: ImageUtil) => this.f_IIOIMAGE_POOL_NAME)
+JR.registerLateBound("ImageUtil.set_f_IIOIMAGE_POOL_NAME", (this: ImageUtil, jvalue) => { this.f_IIOIMAGE_POOL_NAME = jvalue; jvalue })
+JR.registerLateBound("ImageUtil.f_CREATE_BUFFERED_IMAGE", (this: ImageUtil) => this.f_CREATE_BUFFERED_IMAGE)
+JR.registerLateBound("ImageUtil.jstatic_instance", jstatic_instance)
 
 

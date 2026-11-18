@@ -1,91 +1,103 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.system.loader
+module NativeLibraryHelperWrapper
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.system.loader *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../../java/lang/System.gr" include System
+from "./NativeLibraryClassLoader.gr" include NativeLibraryClassLoader
+use NativeLibraryClassLoader.{ type NativeLibraryClassLoader }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.lang.reflect.Constructor *)
-(* import java.lang.reflect.Method *)
-(* import org.allbinary.string.CommonStrings *)
+provide record NativeLibraryHelperWrapper {
+  jobject: JObject,
+  mut f_libraryName: String,
+  mut f_loader: ClassLoader,
+  mut f_anyType: JObject,
+}
 
-class nativeLibraryHelperWrapper ((libraryName_arg : string)) =
-  object (self)
-    val mutable libraryName : string = ""
-    method libraryName = libraryName
-    method set_libraryName value' = libraryName <- value'
-    val mutable loader : Obj.t = Obj.repr 0
-    method loader : 'r. 'r = Obj.magic loader
-    method set_loader : 'v. 'v -> unit = fun value' -> loader <- Obj.repr value'
-    val mutable anyType : Obj.t = (Obj.magic 0)
-    method anyType = anyType
-    method set_anyType value' = anyType <- value'
+
+provide let rec jclassName = () => "NativeLibraryHelperWrapper"
+    
+and jnew_1 = (libraryName: String) => {
+    let this = { jobject: JR.newJObject("NativeLibraryHelperWrapper"), f_libraryName: "", f_loader: JR.nullOf(), f_anyType: JR.jnull, }
+    this.jobject.toStringFunction = () => jm_toString(this)
     
     
-
-    method load () : unit =
-        begin
-        let params : Obj.t array ref = ref ((Array.make (1) (Obj.magic 0))) in ();
-        !params.(0) <- (Obj.repr ((self#getLibraryName ())));
-        let classes : string array ref = ref ((Array.make (1) (Obj.magic 0))) in ();
-        !classes.(0) <- (java_get_class (Obj.repr (self#getLibraryName ())));
-        loader <- Obj.repr ((new NativeLibraryClassLoader.nativeLibraryClassLoader ((Obj.magic java_null))));
-        let myClass : string ref = ref (((Obj.magic loader)#loadClass ("dynamic.NativeLibraryHelper"))) in ();
-        let constructor : Obj.t ref = ref ((Obj.repr (!myClass#getConstructor (!classes)))) in ();
-        anyType <- (Obj.repr (((Obj.magic !constructor)#newInstance (!params))));
-        let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        let method_ : Obj.t ref = ref ((Obj.repr ((java_get_class (Obj.repr anyType))#getMethod (!commonStrings#lOAD, (Obj.magic 0))))) in ();
-        ignore ((Obj.magic !method_)#invoke (anyType, (Obj.magic 0)))
-        end
     
-
-    method unload () : unit =
-        begin
-        anyType <- (Obj.repr ((Obj.magic 0)));
-        loader <- Obj.repr ((Obj.magic 0));
-        ignore (Gc.full_major ());
-        ignore (Gc.full_major ())
-        end
+        ignore(jm_setLibraryName(this, libraryName))
+    this
+}
     
-
-    method toString () : string =
-        begin
-        ("Library: " ^ java_string_of (Obj.repr ((self#getLibraryName ()))))
-        end
+and jm_load = (this: NativeLibraryHelperWrapper) => {
+        let mut params: Array<JObject> = Array.make(Int32.toNumber(1l), JR.jnull)
+        params[Int32.toNumber(0l)] = JR.cast(jm_getLibraryName(this))
+        let mut classes: Array<String> = Array.make(Int32.toNumber(1l), "")
+        classes[Int32.toNumber(0l)] = JR.cast(jm_getLibraryName(this).jobject.cls)
+        this.f_loader = JR.cast(NativeLibraryClassLoader.jnew_1(JR.className(JR.cast(this.jobject.cls))))
+        let mut myClass: String = ClassLoader.jm_loadClass(this.f_loader, "dynamic.NativeLibraryHelper")
+        let mut constructor: Constructor = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Class.jm_getConstructor"))
+JR.cast(jlate(JR.cast(myClass), JR.cast(classes)))
+})
+        this.f_anyType = Constructor.jm_newInstance(constructor, params)
+        let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
+        let mut method: Method = JR.cast(JR.className(JR.cast(JR.className(this.f_anyType))))
+        ignore(Method.jm_invoke(method, this.f_anyType, JR.nullOf()))
+}
     
-
-    method getLibraryName () : string =
-        begin
-        libraryName
-        end
+and jm_unload = (this: NativeLibraryHelperWrapper) => {
+        this.f_anyType = JR.nullOf()
+        this.f_loader = JR.nullOf()
+        ignore(System.jm_gc())
+        ignore(System.jm_gc())
+}
     
+and jm_toString = (this: NativeLibraryHelperWrapper) => {
+        return "Library: " ++ toString(jm_getLibraryName(this))
+}
+    
+and jm_getLibraryName = (this: NativeLibraryHelperWrapper) => {
+        return this.f_libraryName
+}
+    
+and jm_setLibraryName = (this: NativeLibraryHelperWrapper, libraryName: String) => {
+        this.f_libraryName = libraryName
+}
 
-    method setLibraryName ((libraryName_arg : string)) : unit =
-        begin
-        libraryName <- libraryName_arg
-        end
-
-    initializer
-      begin
-        libraryName <- "";
-        loader <- (Obj.repr (Obj.magic 0));
-        anyType <- (Obj.repr (Obj.magic 0));
-        ();
-        (self#setLibraryName (libraryName_arg))
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "NativeLibraryHelperWrapper" (fun arguments -> Obj.repr (new nativeLibraryHelperWrapper (Obj.obj arguments)))
+JR.registerLateBound("NativeLibraryHelperWrapper.jnew_1", jnew_1)
+JR.registerLateBound("NativeLibraryHelperWrapper.jm_load", jm_load)
+JR.registerLateBound("NativeLibraryHelperWrapper.jm_unload", jm_unload)
+JR.registerLateBound("NativeLibraryHelperWrapper.jm_toString", jm_toString)
+JR.registerLateBound("NativeLibraryHelperWrapper.jm_getLibraryName", jm_getLibraryName)
+JR.registerLateBound("NativeLibraryHelperWrapper.jm_setLibraryName", jm_setLibraryName)
+JR.registerLateBound("NativeLibraryHelperWrapper.f_libraryName", (this: NativeLibraryHelperWrapper) => this.f_libraryName)
+JR.registerLateBound("NativeLibraryHelperWrapper.set_f_libraryName", (this: NativeLibraryHelperWrapper, jvalue) => { this.f_libraryName = jvalue; jvalue })
+JR.registerLateBound("NativeLibraryHelperWrapper.f_loader", (this: NativeLibraryHelperWrapper) => this.f_loader)
+JR.registerLateBound("NativeLibraryHelperWrapper.set_f_loader", (this: NativeLibraryHelperWrapper, jvalue) => { this.f_loader = jvalue; jvalue })
+JR.registerLateBound("NativeLibraryHelperWrapper.f_anyType", (this: NativeLibraryHelperWrapper) => this.f_anyType)
+JR.registerLateBound("NativeLibraryHelperWrapper.set_f_anyType", (this: NativeLibraryHelperWrapper, jvalue) => { this.f_anyType = jvalue; jvalue })
 
 

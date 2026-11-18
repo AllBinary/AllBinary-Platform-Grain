@@ -1,110 +1,202 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io.file
+module FileListFetcher
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/io/file/directory/DirectoryBooleanFileVisitor.gr" include DirectoryBooleanFileVisitor
+use DirectoryBooleanFileVisitor.{ type DirectoryBooleanFileVisitor }
+from "../../../../../org/allbinary/logic/io/file/directory/DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor.gr" include DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor
+use DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor.{ type DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor }
+from "../../../../../org/allbinary/logic/io/file/directory/DirectoryOrIncludeFileExtensionBooleanFileVisitor.gr" include DirectoryOrIncludeFileExtensionBooleanFileVisitor
+use DirectoryOrIncludeFileExtensionBooleanFileVisitor.{ type DirectoryOrIncludeFileExtensionBooleanFileVisitor }
+from "../../../../../org/allbinary/logic/io/file/directory/SubDirectory.gr" include SubDirectory
+use SubDirectory.{ type SubDirectory }
+from "../../../../../org/allbinary/logic/io/file/filter/VisitorFileFilter.gr" include VisitorFileFilter
+use VisitorFileFilter.{ type VisitorFileFilter }
+from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../../java/lang/System.gr" include System
+from "../../../../../java/lang/Throwable.gr" include Throwable
+
+provide record FileListFetcher {
+  jobject: JObject,
+  mut f_subDirectory: SubDirectory,
+}
+
+let mut jcell_instance: Option<FileListFetcher> = None
+
+provide let rec jclassName = () => "FileListFetcher"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: FileListFetcher = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("FileListFetcher"), f_subDirectory: JR.nullOf(), }
+    this.f_subDirectory = JR.cast(SubDirectory.jm_getInstance())
+    this
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io.file *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.io.file.directory.DirectoryBooleanFileVisitor *)
-(* import org.allbinary.logic.io.file.directory.DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor *)
-(* import org.allbinary.logic.io.file.directory.DirectoryOrIncludeFileExtensionBooleanFileVisitor *)
-(* import org.allbinary.logic.io.file.directory.SubDirectory *)
-(* import org.allbinary.logic.io.file.filter.VisitorFileFilter *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
-
-class fileListFetcher () =
-  object
-    val mutable subDirectory : SubDirectory.subDirectory = (Obj.magic 0)
-    method subDirectory = subDirectory
-    method set_subDirectory value' = subDirectory <- value'
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method getFiles : 'return. string -> 'return = fun ((path : string)) ->
-        begin
-        (try
-            let files : BasicArrayList.basicArrayList ref = ref (((subDirectory#search ((Obj.magic (java_call_static "AbFile.createAbFile" (Obj.repr (path)))))) :> BasicArrayList.basicArrayList)) in ();
-            (Obj.magic (!files))
-        with e -> begin
-            ignore (prerr_endline (Printexc.to_string e));
-            (print_endline (java_string_of (Obj.repr (((("Error: " ^ java_string_of (Obj.repr (e))) ^ "\nMsg: ") ^ (Printexc.to_string e))))))
-        end);
-        (Obj.magic ((Obj.magic 0)))
-        end
+and jm_getFiles_1 = (this: FileListFetcher, path: String) => {
+        {
+            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search(this.f_subDirectory, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFile"))
+JR.cast(jlate(JR.cast(path)))
+}))
+            return files
+        }
+        return JR.nullOf()
+}
     
-
-    (* Java overload getFiles(String, ArrayType) is not converted: OCaml has one method per name *)
+and jm_getFiles_2 = (this: FileListFetcher, path: String, includeExtensions: Array<String>) => {
+        {
+            let mut includeExtensionBasicArrayList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+            let mut size: Int32 = Int32.fromNumber(Array.length(includeExtensions))
+            {
+                let mut index: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(+)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index, size))) break
+                ignore(BasicArrayList.jm_add(includeExtensionBasicArrayList, includeExtensions[Int32.toNumber(index)]))
+                }
+            }
+            let mut visitorFileFilter: VisitorFileFilter = VisitorFileFilter.jnew_1(DirectoryOrIncludeFileExtensionBooleanFileVisitor.jnew_1(includeExtensionBasicArrayList))
+            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search(this.f_subDirectory, JR.cast(visitorFileFilter), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFile"))
+JR.cast(jlate(JR.cast(path)))
+}))
+            return files
+        }
+        return JR.nullOf()
+}
     
-
-    (* Java overload getFiles(String, String) is not converted: OCaml has one method per name *)
+and jm_getFiles_2 = (this: FileListFetcher, path: String, includeExtension: String) => {
+        {
+            let mut includeExtensionBasicArrayList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+            ignore(BasicArrayList.jm_add(includeExtensionBasicArrayList, JR.cast(includeExtension)))
+            let mut visitorFileFilter: VisitorFileFilter = VisitorFileFilter.jnew_1(DirectoryOrIncludeFileExtensionBooleanFileVisitor.jnew_1(includeExtensionBasicArrayList))
+            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search(this.f_subDirectory, JR.cast(visitorFileFilter), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFile"))
+JR.cast(jlate(JR.cast(path)))
+}))
+            return files
+        }
+        return JR.nullOf()
+}
     
-
-    (* Java overload getFiles(String, String, String) is not converted: OCaml has one method per name *)
+and jm_getFiles_3 = (this: FileListFetcher, path: String, pathIncludes: String, includeExtension: String) => {
+        {
+            let mut includeExtensionBasicArrayList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+            ignore(BasicArrayList.jm_add(includeExtensionBasicArrayList, JR.cast(includeExtension)))
+            let mut visitorFileFilter: VisitorFileFilter = VisitorFileFilter.jnew_1(DirectoryOrIncludeFileExtensionBooleanFileVisitor.jnew_2(includeExtensionBasicArrayList, pathIncludes))
+            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search(this.f_subDirectory, JR.cast(visitorFileFilter), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFile"))
+JR.cast(jlate(JR.cast(path)))
+}))
+            return files
+        }
+        return JR.nullOf()
+}
     
-
-    method getTrackedFiles : 'return. string * string array -> 'return = fun ((path : string), (includeExtensions : string array)) ->
-        begin
-        (try
-            let includeExtensionBasicArrayList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-            let size : int ref = ref ((Array.length includeExtensions)) in ();
-            for index = 0 to !size - 1 do
-                ignore (!includeExtensionBasicArrayList#add (includeExtensions.(index)))
-            done;
-            let visitorFileFilter : VisitorFileFilter.visitorFileFilter ref = ref (((new VisitorFileFilter.visitorFileFilter (((new DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor.directoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor (!includeExtensionBasicArrayList)) : DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor.directoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor :> VisitorInterface.visitorInterface))) :> VisitorFileFilter.visitorFileFilter)) in ();
-            let files : BasicArrayList.basicArrayList ref = ref (((subDirectory#search (!visitorFileFilter, (Obj.magic (java_call_static "AbFile.createAbFile" (Obj.repr (path)))))) :> BasicArrayList.basicArrayList)) in ();
-            (Obj.magic (!files))
-        with e -> begin
-            ignore (prerr_endline (Printexc.to_string e));
-            (print_endline (java_string_of (Obj.repr (((("Error: " ^ java_string_of (Obj.repr (e))) ^ "\nMsg: ") ^ (Printexc.to_string e))))))
-        end);
-        (Obj.magic ((Obj.magic 0)))
-        end
+and jm_getTrackedFiles_2 = (this: FileListFetcher, path: String, includeExtensions: Array<String>) => {
+        {
+            let mut includeExtensionBasicArrayList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+            let mut size: Int32 = Int32.fromNumber(Array.length(includeExtensions))
+            {
+                let mut index: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(+)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index, size))) break
+                ignore(BasicArrayList.jm_add(includeExtensionBasicArrayList, includeExtensions[Int32.toNumber(index)]))
+                }
+            }
+            let mut visitorFileFilter: VisitorFileFilter = VisitorFileFilter.jnew_1(DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor.jnew_1(includeExtensionBasicArrayList))
+            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search(this.f_subDirectory, JR.cast(visitorFileFilter), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFile"))
+JR.cast(jlate(JR.cast(path)))
+}))
+            return files
+        }
+        return JR.nullOf()
+}
     
-
-    (* Java overload getTrackedFiles(String, String) is not converted: OCaml has one method per name *)
+and jm_getTrackedFiles_2 = (this: FileListFetcher, path: String, includeExtension: String) => {
+        {
+            let mut includeExtensionBasicArrayList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+            ignore(BasicArrayList.jm_add(includeExtensionBasicArrayList, JR.cast(includeExtension)))
+            let mut visitorFileFilter: VisitorFileFilter = VisitorFileFilter.jnew_1(DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor.jnew_1(includeExtensionBasicArrayList))
+            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search(this.f_subDirectory, JR.cast(visitorFileFilter), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFile"))
+JR.cast(jlate(JR.cast(path)))
+}))
+            return files
+        }
+        return JR.nullOf()
+}
     
+and jm_getDirectories = (this: FileListFetcher, path: String) => {
+        {
+            let mut visitorFileFilter: VisitorFileFilter = VisitorFileFilter.jnew_1(DirectoryBooleanFileVisitor.jnew_0())
+            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search(this.f_subDirectory, JR.cast(visitorFileFilter), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFile"))
+JR.cast(jlate(JR.cast(path)))
+}))
+            return files
+        }
+        return JR.nullOf()
+}
 
-    method getDirectories : 'return. string -> 'return = fun ((path : string)) ->
-        begin
-        (try
-            let visitorFileFilter : VisitorFileFilter.visitorFileFilter ref = ref (((new VisitorFileFilter.visitorFileFilter (((new DirectoryBooleanFileVisitor.directoryBooleanFileVisitor ()) : DirectoryBooleanFileVisitor.directoryBooleanFileVisitor :> VisitorInterface.visitorInterface))) :> VisitorFileFilter.visitorFileFilter)) in ();
-            let files : BasicArrayList.basicArrayList ref = ref (((subDirectory#search (!visitorFileFilter, (Obj.magic (java_call_static "AbFile.createAbFile" (Obj.repr (path)))))) :> BasicArrayList.basicArrayList)) in ();
-            (Obj.magic (!files))
-        with e -> begin
-            ignore (prerr_endline (Printexc.to_string e));
-            (print_endline (java_string_of (Obj.repr (((("Error: " ^ java_string_of (Obj.repr (e))) ^ "\nMsg: ") ^ (Printexc.to_string e))))))
-        end);
-        (Obj.magic ((Obj.magic 0)))
-        end
-
-    initializer
-      begin
-        subDirectory <- ((SubDirectory.getInstance ()) :> SubDirectory.subDirectory);
-        ()
-      end
-  end
-let () = java_register_constructor "FileListFetcher" (fun arguments -> Obj.repr (new fileListFetcher (Obj.obj arguments)))
-
-let instance = (new fileListFetcher ())
-let get_instance () = instance
-let () = java_register_static "FileListFetcher.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "FileListFetcher.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("FileListFetcher.jnew_0", jnew_0)
+JR.registerLateBound("FileListFetcher.jm_getInstance", jm_getInstance)
+JR.registerLateBound("FileListFetcher.jm_getFiles_1", jm_getFiles_1)
+JR.registerLateBound("FileListFetcher.jm_getFiles_2", jm_getFiles_2)
+JR.registerLateBound("FileListFetcher.jm_getFiles_2", jm_getFiles_2)
+JR.registerLateBound("FileListFetcher.jm_getFiles_3", jm_getFiles_3)
+JR.registerLateBound("FileListFetcher.jm_getTrackedFiles_2", jm_getTrackedFiles_2)
+JR.registerLateBound("FileListFetcher.jm_getTrackedFiles_2", jm_getTrackedFiles_2)
+JR.registerLateBound("FileListFetcher.jm_getDirectories", jm_getDirectories)
+JR.registerLateBound("FileListFetcher.f_subDirectory", (this: FileListFetcher) => this.f_subDirectory)
+JR.registerLateBound("FileListFetcher.jstatic_instance", jstatic_instance)
 
 

@@ -1,31 +1,58 @@
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.util.cache *)
+// Generated Code Do Not Modify
+// package org.allbinary.logic.util.cache
+module PoolTypeFactory
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
 
-class poolTypeFactory () =
-  object
-    val mutable vECTOR_POOL : Obj.t = Obj.repr 0
-    method vECTOR_POOL : 'r. 'r = Obj.magic vECTOR_POOL
-    method set_vECTOR_POOL : 'v. 'v -> unit = fun value' -> vECTOR_POOL <- Obj.repr value'
+provide record PoolTypeFactory {
+  jobject: JObject,
+  mut f_VECTOR_POOL: JObject,
+}
 
-    initializer
-      begin
-        vECTOR_POOL <- (Obj.repr (Obj.obj (java_new "PoolType" (Obj.repr ((Obj.magic (java_call_static "CacheTypeFactory.getInstance" (Obj.repr ())))#nO_CACHE)))));
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "PoolTypeFactory" (fun arguments -> Obj.repr (new poolTypeFactory (Obj.obj arguments)))
+let mut jcell_instance: Option<PoolTypeFactory> = None
 
-let instance = (new poolTypeFactory ())
-let get_instance () = instance
-let () = java_register_static "PoolTypeFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
+provide let rec jclassName = () => "PoolTypeFactory"
 
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "PoolTypeFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: PoolTypeFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("PoolTypeFactory"), f_VECTOR_POOL: JR.jnull, }
+    this.f_VECTOR_POOL = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PoolType.jnew_1"))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CacheTypeFactory.f_NO_CACHE"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("CacheTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+}
+    this
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+
+JR.registerLateBound("PoolTypeFactory.jnew_0", jnew_0)
+JR.registerLateBound("PoolTypeFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("PoolTypeFactory.f_VECTOR_POOL", (this: PoolTypeFactory) => this.f_VECTOR_POOL)
+JR.registerLateBound("PoolTypeFactory.set_f_VECTOR_POOL", (this: PoolTypeFactory, jvalue) => { this.f_VECTOR_POOL = jvalue; jvalue })
+JR.registerLateBound("PoolTypeFactory.jstatic_instance", jstatic_instance)
 
 

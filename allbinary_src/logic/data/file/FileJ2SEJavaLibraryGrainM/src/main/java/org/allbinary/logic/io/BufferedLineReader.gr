@@ -1,71 +1,78 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io
+module BufferedLineReader
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/io/BufferedReader.gr" include BufferedReader
+use BufferedReader.{ type BufferedReader }
+from "../../../../java/io/FileReader.gr" include FileReader
+use FileReader.{ type FileReader }
+from "../../../../org/allbinary/logic/io/file/AbFileNativeUtil.gr" include AbFileNativeUtil
+use AbFileNativeUtil.{ type AbFileNativeUtil }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.BufferedReader *)
-(* import java.io.FileReader *)
-(* import org.allbinary.logic.io.file.AbFile *)
-(* import org.allbinary.logic.io.file.AbFileNativeUtil *)
+provide record BufferedLineReader {
+  jobject: JObject,
+  mut f_tmpIn: BufferedReader,
+}
 
-class bufferedLineReader (file) =
-  object
-    val mutable tmpIn : java_buffered_reader = (Obj.magic 0)
-    method tmpIn = tmpIn
-    method set_tmpIn value' = tmpIn <- value'
+
+provide let rec jclassName = () => "BufferedLineReader"
     
+and jnew_1 = (file: JObject) => {
+    let this = { jobject: JR.newJObject("BufferedLineReader"), f_tmpIn: JR.nullOf(), }
     
-
-    method readUpToLines ((_readAheadIndex : int)) : unit =
-        begin
-        ()
-        end
+        this.f_tmpIn = BufferedReader.jnew_1(FileReader.jnew_1(AbFileNativeUtil.jm_get(file)))
+    this
+}
     
-
-    method readLine () : string =
-        begin
-        (tmpIn#readLine ())
-        end
+and jm_readUpToLines = (this: BufferedLineReader, readAheadIndex: Int64) => {
+    void
+}
     
-
-    method ready () : bool =
-        begin
-        (tmpIn#ready ())
-        end
+and jm_readLine = (this: BufferedLineReader) => {
+        return BufferedReader.jm_readLine(this.f_tmpIn)
+}
     
-
-    method getSize () : int =
-        begin
-        0
-        end
+and jm_ready = (this: BufferedLineReader) => {
+        return BufferedReader.jm_ready(this.f_tmpIn)
+}
     
+and jm_getSize = (this: BufferedLineReader) => {
+        return 0L
+}
+    
+and jm_getCurrent = (this: BufferedLineReader) => {
+        return 0l
+}
 
-    method getCurrent () : int =
-        begin
-        0
-        end
-
-    initializer
-      begin
-        ();
-        ();
-        tmpIn <- (new java_buffered_reader (Obj.repr ((new java_file_reader (Obj.repr ((AbFileNativeUtil.get (file))))))))
-      end
-  end
-let () = java_register_constructor "BufferedLineReader" (fun arguments -> Obj.repr (new bufferedLineReader (Obj.obj arguments)))
+JR.registerLateBound("BufferedLineReader.jnew_1", jnew_1)
+JR.registerLateBound("BufferedLineReader.jm_readUpToLines", jm_readUpToLines)
+JR.registerLateBound("BufferedLineReader.jm_readLine", jm_readLine)
+JR.registerLateBound("BufferedLineReader.jm_ready", jm_ready)
+JR.registerLateBound("BufferedLineReader.jm_getSize", jm_getSize)
+JR.registerLateBound("BufferedLineReader.jm_getCurrent", jm_getCurrent)
+JR.registerLateBound("BufferedLineReader.f_tmpIn", (this: BufferedLineReader) => this.f_tmpIn)
 
 

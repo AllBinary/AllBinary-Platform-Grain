@@ -1,86 +1,95 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.media.audio
+module Sound
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.media.audio *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../java/lang/Runnable.gr" include Runnable
+use Runnable.{ type Runnable }
+from "./SoundInterface.gr" include SoundInterface
+use SoundInterface.{ type SoundInterface }
+from "./NoPlayer.gr" include NoPlayer
+use NoPlayer.{ type NoPlayer }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.media.Player *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record Sound {
+  jobject: JObject,
+  mut f_resource: String,
+  mut f_player: JObject,
+}
 
-class sound ((resource_arg : string)) =
-  object (self)
-    val mutable resource : string = ""
-    method resource = resource
-    method set_resource value' = resource <- value'
-    val mutable player : Obj.t = Obj.repr 0
-    method player : 'r. 'r = Obj.magic player
-    method set_player : 'v. 'v -> unit = fun value' -> player <- Obj.repr value'
+
+provide let rec jclassName = () => "Sound"
     
+and jnew_1 = (resource: String) => {
+    let this = { jobject: JR.newJObject("Sound"), f_resource: "", f_player: JR.jnull, }
     
-
-    method getResource () : string =
-        begin
-        resource
-        end
+    this.f_player = JR.cast(NoPlayer.jstatic_NO_PLAYER())
+        this.f_resource = resource
+    this
+}
     
-
-    method getPlayerP : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic player)))
-        end
+and jm_getResource = (this: Sound) => {
+        return this.f_resource
+}
     
-
-    method setPlayerP : 'any1. 'any1 -> unit = fun (player_arg) ->
-        let player_arg = Obj.repr player_arg in
-        begin
-        player <- Obj.repr ((Obj.magic player_arg))
-        end [@@warning "-20"]
+and jm_getPlayerP = (this: Sound) => {
+        return this.f_player
+}
     
-
-    method init () : unit =
-        begin
-        ()
-        end
+and jm_setPlayerP = (this: Sound, player: JObject) => {
+        this.f_player = player
+}
     
-
-    method getDuration () : int =
-        begin
-        (- 1)
-        end
+and jm_init = (this: Sound) => {
+    void
+}
     
+and jm_getDuration = (this: Sound) => {
+        return Int32.(-)(1l, Int32.(+)(1l, 1l))
+}
+    
+and jm_run = (this: Sound) => {
+        {
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Player.jm_start"))
+JR.cast(jlate(JR.cast(this.f_player)))
+})
+        }
+}
 
-    method run () : unit =
-        begin
-        (try
-            ignore ((Obj.magic player)#start ())
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#rUN))))
-        end)
-        end
-
-    initializer
-      begin
-        ();
-        player <- (Obj.repr (NoPlayer.get_nO_PLAYER ()));
-        ();
-        resource <- resource_arg
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "Sound" (fun arguments -> Obj.repr (new sound (Obj.obj arguments)))
+JR.registerLateBound("Sound.jnew_1", jnew_1)
+JR.registerLateBound("Sound.jm_getResource", jm_getResource)
+JR.registerLateBound("Sound.jm_getPlayerP", jm_getPlayerP)
+JR.registerLateBound("Sound.jm_setPlayerP", jm_setPlayerP)
+JR.registerLateBound("Sound.jm_init", jm_init)
+JR.registerLateBound("Sound.jm_getDuration", jm_getDuration)
+JR.registerLateBound("Sound.jm_run", jm_run)
+JR.registerLateBound("Sound.f_resource", (this: Sound) => this.f_resource)
+JR.registerLateBound("Sound.set_f_resource", (this: Sound, jvalue) => { this.f_resource = jvalue; jvalue })
+JR.registerLateBound("Sound.f_player", (this: Sound) => this.f_player)
+JR.registerLateBound("Sound.set_f_player", (this: Sound, jvalue) => { this.f_player = jvalue; jvalue })
 
 

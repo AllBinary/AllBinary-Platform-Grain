@@ -1,86 +1,145 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.part
+module MakeCountedPartsSingletonArrayFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.part *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/layer/pickup/CountedPickedUpLayerInterfaceFactory.gr" include CountedPickedUpLayerInterfaceFactory
+use CountedPickedUpLayerInterfaceFactory.{ type CountedPickedUpLayerInterfaceFactory }
+from "../../../../org/allbinary/game/layer/pickup/CountedPickedUpLayerInterfaceFactoryPool.gr" include CountedPickedUpLayerInterfaceFactoryPool
+use CountedPickedUpLayerInterfaceFactoryPool.{ type CountedPickedUpLayerInterfaceFactoryPool }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../org/allbinary/util/BasicArrayListUtil.gr" include BasicArrayListUtil
+use BasicArrayListUtil.{ type BasicArrayListUtil }
+from "./CountedLayerInterfaceFactoryPart.gr" include CountedLayerInterfaceFactoryPart
+use CountedLayerInterfaceFactoryPart.{ type CountedLayerInterfaceFactoryPart }
+from "./PartInterface.gr" include PartInterface
+use PartInterface.{ type PartInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.layer.pickup.CountedPickedUpLayerInterfaceFactory *)
-(* import org.allbinary.game.layer.pickup.CountedPickedUpLayerInterfaceFactoryPool *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
-(* import org.allbinary.util.BasicArrayListUtil *)
+provide record MakeCountedPartsSingletonArrayFactory {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_list: BasicArrayList,
+}
 
-class makeCountedPartsSingletonArrayFactory () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable list : BasicArrayList.basicArrayList = (Obj.magic 0)
-    method list = list
-    method set_list value' = list <- value'
+let mut jcell_instance: Option<MakeCountedPartsSingletonArrayFactory> = None
+
+provide let rec jclassName = () => "MakeCountedPartsSingletonArrayFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: MakeCountedPartsSingletonArrayFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("MakeCountedPartsSingletonArrayFactory"), f_logUtil: JR.jnull, f_list: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_list = JR.cast(BasicArrayListUtil.jm_getImmutableInstance(BasicArrayListUtil.jm_getInstance()))
+    this
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jm_getUpdated = (this: MakeCountedPartsSingletonArrayFactory, partInterfaceArray: Array<PartInterface>) => {
+        this.f_list = JR.cast(BasicArrayListD.jnew_0())
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, Int32.fromNumber(Array.length(partInterfaceArray))))) break
+            ignore(BasicArrayList.jm_add(this.f_list, partInterfaceArray[Int32.toNumber(index)]))
+            }
+        }
+        let mut countedBasicArrayList: BasicArrayList = JR.cast(CountedPickedUpLayerInterfaceFactoryPool.jm_getList(CountedPickedUpLayerInterfaceFactoryPool.jm_getInstance()))
+        let mut layerInterfaceFactoryInterface: CountedPickedUpLayerInterfaceFactory = JR.nullOf()
+        let mut size: Int32 = BasicArrayList.jm_size(countedBasicArrayList)
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            layerInterfaceFactoryInterface = JR.cast(countedBasicArrayList.f_objectArray[Int32.toNumber(index)])
+            ignore(BasicArrayList.jm_add(this.f_list, JR.cast(CountedLayerInterfaceFactoryPart.jnew_2(0l, layerInterfaceFactoryInterface))))
+            }
+        }
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, "Total Parts: "))
+        ignore(StringMaker.jm_appendint(stringBuffer, BasicArrayList.jm_size(this.f_list)))
+        ignore(StringMaker.jm_append(stringBuffer, " Counted: "))
+        ignore(StringMaker.jm_appendint(stringBuffer, BasicArrayList.jm_size(countedBasicArrayList)))
+        let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast(commonStrings.f_GET_INSTANCE)))
+})
+        let mut newPartInterfaceArray: Array<PartInterface> = Array.make(Int32.toNumber(BasicArrayList.jm_size(this.f_list)), JR.nullOf())
+        let mut newSize: Int32 = Int32.fromNumber(Array.length(newPartInterfaceArray))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, newSize))) break
+            newPartInterfaceArray[Int32.toNumber(index)] = JR.cast(BasicArrayList.jm_get(this.f_list, index))
+            }
+        }
+        return newPartInterfaceArray
+}
 
-    method getUpdated : 'return. PartInterface.partInterface array -> 'return = fun ((partInterfaceArray : PartInterface.partInterface array)) ->
-        begin
-        list <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
-        for index = 0 to (Array.length partInterfaceArray) - 1 do
-            ignore (list#add (partInterfaceArray.(index)))
-        done;
-        let countedBasicArrayList : BasicArrayList.basicArrayList ref = ref ((((CountedPickedUpLayerInterfaceFactoryPool.getInstance ())#getList ()) :> BasicArrayList.basicArrayList)) in ();
-        let layerInterfaceFactoryInterface : CountedPickedUpLayerInterfaceFactory.countedPickedUpLayerInterfaceFactory ref = ref (((Obj.magic 0) :> CountedPickedUpLayerInterfaceFactory.countedPickedUpLayerInterfaceFactory)) in ();
-        let size : int ref = ref ((!countedBasicArrayList#size ())) in ();
-        for index = 0 to !size - 1 do
-            layerInterfaceFactoryInterface := (Obj.magic !countedBasicArrayList#objectArray.(index));
-            ignore (list#add ((new CountedLayerInterfaceFactoryPart.countedLayerInterfaceFactoryPart (0, !layerInterfaceFactoryInterface))))
-        done;
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ("Total Parts: "));
-        ignore (!stringBuffer#appendint ((list#size ())));
-        ignore (!stringBuffer#append (" Counted: "));
-        ignore (!stringBuffer#appendint ((!countedBasicArrayList#size ())));
-        let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), !commonStrings#gET_INSTANCE));
-        let newPartInterfaceArray : PartInterface.partInterface array ref = ref ((Array.make ((list#size ())) (Obj.magic 0))) in ();
-        let newSize : int ref = ref ((Array.length !newPartInterfaceArray)) in ();
-        for index = 0 to !newSize - 1 do
-            !newPartInterfaceArray.(index) <- ((Obj.magic (list#get (index))) :> PartInterface.partInterface)
-        done;
-        (Obj.magic (!newPartInterfaceArray))
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        list <- (((BasicArrayListUtil.getInstance ())#getImmutableInstance ()) :> BasicArrayList.basicArrayList);
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "MakeCountedPartsSingletonArrayFactory" (fun arguments -> Obj.repr (new makeCountedPartsSingletonArrayFactory (Obj.obj arguments)))
-
-let instance = (new makeCountedPartsSingletonArrayFactory ())
-let get_instance () = instance
-let () = java_register_static "MakeCountedPartsSingletonArrayFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "MakeCountedPartsSingletonArrayFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("MakeCountedPartsSingletonArrayFactory.jnew_0", jnew_0)
+JR.registerLateBound("MakeCountedPartsSingletonArrayFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("MakeCountedPartsSingletonArrayFactory.jm_getUpdated", jm_getUpdated)
+JR.registerLateBound("MakeCountedPartsSingletonArrayFactory.f_logUtil", (this: MakeCountedPartsSingletonArrayFactory) => this.f_logUtil)
+JR.registerLateBound("MakeCountedPartsSingletonArrayFactory.f_list", (this: MakeCountedPartsSingletonArrayFactory) => this.f_list)
+JR.registerLateBound("MakeCountedPartsSingletonArrayFactory.set_f_list", (this: MakeCountedPartsSingletonArrayFactory, jvalue) => { this.f_list = jvalue; jvalue })
+JR.registerLateBound("MakeCountedPartsSingletonArrayFactory.jstatic_instance", jstatic_instance)
 
 

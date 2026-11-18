@@ -1,143 +1,189 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.score.displayable
+module HighScoreUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.score.displayable *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/GameInfo.gr" include GameInfo
+use GameInfo.{ type GameInfo }
+from "../../../../../org/allbinary/game/score/HighScoresFactoryInterface.gr" include HighScoresFactoryInterface
+use HighScoresFactoryInterface.{ type HighScoresFactoryInterface }
+from "../../../../../org/allbinary/game/score/HighScoresHelperBaseInterface.gr" include HighScoresHelperBaseInterface
+use HighScoresHelperBaseInterface.{ type HighScoresHelperBaseInterface }
+from "../../../../../org/allbinary/game/score/HighScoresResultsListener.gr" include HighScoresResultsListener
+use HighScoresResultsListener.{ type HighScoresResultsListener }
+from "../../../../../org/allbinary/graphics/displayable/MyCanvas.gr" include MyCanvas
+use MyCanvas.{ type MyCanvas }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../../org/allbinary/logic/system/security/licensing/AbeClientInformationInterface.gr" include AbeClientInformationInterface
+use AbeClientInformationInterface.{ type AbeClientInformationInterface }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Command *)
-(* import javax.microedition.lcdui.CommandListener *)
-(* import org.allbinary.game.GameInfo *)
-(* import org.allbinary.game.score.HighScore *)
-(* import org.allbinary.game.score.HighScoreNamePersistanceSingleton *)
-(* import org.allbinary.game.score.HighScores *)
-(* import org.allbinary.game.score.HighScoresFactoryInterface *)
-(* import org.allbinary.game.score.HighScoresHelperBaseInterface *)
-(* import org.allbinary.game.score.HighScoresResultsListener *)
-(* import org.allbinary.graphics.displayable.MyCanvas *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.logic.system.security.licensing.AbeClientInformationInterface *)
-(* import org.allbinary.string.CommonStrings *)
+provide record HighScoreUtil {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_highScoresFactoryInterface: HighScoresFactoryInterface,
+  mut f_highScoresArray: Array<JObject>,
+  mut f_highScore: JObject,
+  mut f_abeClientInformation: AbeClientInformationInterface,
+  mut f_gameInfo: GameInfo,
+  mut f_highScoresHelper: HighScoresHelperBaseInterface,
+  mut f_firstTime: Bool,
+}
 
-let sUBMIT_TEXTBOX_COMMAND_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
-let get_sUBMIT_TEXTBOX_COMMAND : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !sUBMIT_TEXTBOX_COMMAND_cell with Lazy.Undefined -> java_null)
-let set_sUBMIT_TEXTBOX_COMMAND value' = sUBMIT_TEXTBOX_COMMAND_cell := Lazy.from_val (Obj.repr value')
-let () = java_register_static "HighScoreUtil.get_sUBMIT_TEXTBOX_COMMAND" (fun _ -> Obj.repr (get_sUBMIT_TEXTBOX_COMMAND ()))
-let () = java_register_static "HighScoreUtil.set_sUBMIT_TEXTBOX_COMMAND" (fun value' -> set_sUBMIT_TEXTBOX_COMMAND value'; Obj.repr ())
-class highScoreUtil ((highScoresFactoryInterface_arg : HighScoresFactoryInterface.highScoresFactoryInterface), (highScoresHelper_arg : HighScoresHelperBaseInterface.highScoresHelperBaseInterface), (abeClientInformation_arg : AbeClientInformationInterface.abeClientInformationInterface), (gameInfo_arg : GameInfo.gameInfo), _cmdListener, (_name : string), highScore_arg) =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable highScoresFactoryInterface : HighScoresFactoryInterface.highScoresFactoryInterface = (Obj.magic 0)
-    method highScoresFactoryInterface = highScoresFactoryInterface
-    method set_highScoresFactoryInterface value' = highScoresFactoryInterface <- value'
-    val mutable highScoresArray : Obj.t = Obj.repr 0
-    method highScoresArray : 'r. 'r = Obj.magic highScoresArray
-    method set_highScoresArray : 'v. 'v -> unit = fun value' -> highScoresArray <- Obj.repr value'
-    val mutable highScore : Obj.t = Obj.repr 0
-    method highScore : 'r. 'r = Obj.magic highScore
-    method set_highScore : 'v. 'v -> unit = fun value' -> highScore <- Obj.repr value'
-    val mutable abeClientInformation : AbeClientInformationInterface.abeClientInformationInterface = (Obj.magic 0)
-    method abeClientInformation = abeClientInformation
-    method set_abeClientInformation value' = abeClientInformation <- value'
-    val mutable gameInfo : GameInfo.gameInfo = (Obj.magic 0)
-    method gameInfo = gameInfo
-    method set_gameInfo value' = gameInfo <- value'
-    val mutable highScoresHelper : HighScoresHelperBaseInterface.highScoresHelperBaseInterface = (Obj.magic 0)
-    method highScoresHelper = highScoresHelper
-    method set_highScoresHelper value' = highScoresHelper <- value'
-    val mutable firstTime : bool = false
-    method firstTime = firstTime
-    method set_firstTime value' = firstTime <- value'
+let mut jcell_SUBMIT_TEXTBOX_COMMAND: Option<JObject> = None
+
+provide let rec jclassName = () => "HighScoreUtil"
+
+and jstatic_SUBMIT_TEXTBOX_COMMAND = () => match (jcell_SUBMIT_TEXTBOX_COMMAND) {
+  Some(value) => value,
+  None => {
+    let value: JObject = {
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Command.jnew_4"))
+JR.cast(jlate(JR.cast("Submit"), JR.cast(StringUtil.jm_getInstance().f_EMPTY_STRING), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("Command.jstatic_SCREEN"))
+JR.cast(jlate())
+}), JR.cast(1l)))
+}
+    jcell_SUBMIT_TEXTBOX_COMMAND = Some(value)
+    value
+  },
+}
+    
+and jnew_7 = (highScoresFactoryInterface: HighScoresFactoryInterface, highScoresHelper: HighScoresHelperBaseInterface, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, cmdListener: CommandListener, name: String, highScore: JObject) => {
+    let this = { jobject: JR.newJObject("HighScoreUtil"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_highScoresFactoryInterface: JR.nullOf(), f_highScoresArray: [> ], f_highScore: JR.jnull, f_abeClientInformation: JR.nullOf(), f_gameInfo: JR.nullOf(), f_highScoresHelper: JR.nullOf(), f_firstTime: false, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
     
     
-
-    method setHighScoresArray : 'any1. 'any1 -> unit = fun (highScoresArray_arg) ->
-        let highScoresArray_arg = Obj.repr highScoresArray_arg in
-        begin
-        highScoresArray <- Obj.repr ((Obj.magic highScoresArray_arg));
-        firstTime <- false;
-        (self#saveHighScore ())
-        end [@@warning "-20"]
     
-
-    method update ((name : string)) : unit =
-        begin
-        ignore ((Obj.magic (java_call_static "HighScoreNamePersistanceSingleton.getInstance" (Obj.repr ())))#save (abeClientInformation, gameInfo, name));
-        ignore ((Obj.magic highScore)#setName (name))
-        end
     
-
-    method saveHighScore () : unit =
-        try
-        begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (commonStrings#sTART))#append (((StringUtil.getInstance ())#toString ((Obj.magic highScore))))))), (Obj.magic self), "saveHighScore"));
-        let size : int ref = ref ((Array.length (Obj.magic highScoresArray))) in ();
-        if (firstTime && (!size = 0)) then begin
-            ignore ((Obj.magic logUtil)#putF ("Games canvas did not give us any HighScores", (Obj.magic self), "saveHighScore"));
-            ignore (highScoresFactoryInterface#fetchHighScores (gameInfo, (Obj.magic self)));
-            raise (Java_return (Obj.repr (())))
-        end;
-        let highScores : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        let highScoresAsString : string ref = ref ("") in ();
-        for index = 0 to !size - 1 do
-            highScores := Obj.repr ((Obj.magic highScoresArray).(index));
-            ignore ((Obj.magic !highScores)#addHighScore ((Obj.magic highScore)));
-            highScoresAsString := (java_string_of (Obj.repr (Obj.magic !highScores)));
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Added/Adding Score: "))#append (!highScoresAsString)))), (Obj.magic self), "saveHighScore"))
-        done;
-        ignore (highScoresHelper#setHighScoresArray ((Obj.magic highScoresArray)))
-        end
-        with Java_return value -> Obj.obj value
     
+    
+    this.f_firstTime = true
+        this.f_highScoresFactoryInterface = highScoresFactoryInterface
+        this.f_highScoresHelper = highScoresHelper
+        this.f_highScoresArray = HighScoresHelperBaseInterface.jm_getHighScoresArray(this.f_highScoresHelper)
+        this.f_highScore = highScore
+        this.f_abeClientInformation = abeClientInformation
+        this.f_gameInfo = gameInfo
+    this
+}
+    
+and jm_setHighScoresArray = (this: HighScoreUtil, highScoresArray: Array<JObject>) => {
+        this.f_highScoresArray = highScoresArray
+        this.f_firstTime = false
+        ignore(jm_saveHighScore(this))
+}
+    
+and jm_update = (this: HighScoreUtil, name: String) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("HighScoreNamePersistanceSingleton.jm_save"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("HighScoreNamePersistanceSingleton.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(this.f_abeClientInformation), JR.cast(this.f_gameInfo), JR.cast(name)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_setName"))
+JR.cast(jlate(JR.cast(this.f_highScore), JR.cast(name)))
+})
+}
+    
+and jm_saveHighScore = (this: HighScoreUtil) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), this.f_commonStrings.f_START), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(this.f_highScore))))), JR.cast(this), JR.cast("saveHighScore")))
+})
+        let mut size: Int32 = Int32.fromNumber(Array.length(this.f_highScoresArray))
+        if ((this.f_firstTime && (size == 0l))) {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Games canvas did not give us any HighScores"), JR.cast(this), JR.cast("saveHighScore")))
+})
+            ignore(HighScoresFactoryInterface.jm_fetchHighScores(this.f_highScoresFactoryInterface, this.f_gameInfo, JR.cast(this)))
+            return void
+        }
+        let mut highScores: JObject = JR.jnull
+        let mut highScoresAsString: String = ""
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            highScores = this.f_highScoresArray[Int32.toNumber(index)]
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_addHighScore"))
+JR.cast(jlate(JR.cast(highScores), JR.cast(this.f_highScore)))
+})
+            highScoresAsString = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_toString"))
+JR.cast(jlate(JR.cast(highScores)))
+}
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Added/Adding Score: "), highScoresAsString))), JR.cast(this), JR.cast("saveHighScore")))
+})
+            }
+        }
+        ignore(HighScoresHelperBaseInterface.jm_setHighScoresArray(this.f_highScoresHelper, this.f_highScoresArray))
+    return void
+}
+    
+and jm_submit = (this: HighScoreUtil, myCanvas: MyCanvas) => {
+        let mut commandListener: CommandListener = JR.cast(MyCanvas.jm_getCustomCommandListener(myCanvas))
+        ignore(CommandListener.jm_commandAction(commandListener, jstatic_SUBMIT_TEXTBOX_COMMAND(), myCanvas))
+}
 
-    method submit : 'any1. 'any1 -> unit = fun (myCanvas) ->
-        let myCanvas = Obj.repr myCanvas in
-        begin
-        let commandListener : Obj.t ref = ref ((Obj.repr ((Obj.magic myCanvas)#getCustomCommandListener ()))) in ();
-        ignore ((Obj.magic !commandListener)#commandAction ((Obj.magic (get_sUBMIT_TEXTBOX_COMMAND ())), (Obj.magic myCanvas)))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        ();
-        ();
-        ();
-        ();
-        ();
-        ();
-        firstTime <- true;
-        ();
-        highScoresFactoryInterface <- highScoresFactoryInterface_arg;
-        highScoresHelper <- highScoresHelper_arg;
-        highScoresArray <- Obj.repr ((highScoresHelper#getHighScoresArray ()));
-        highScore <- Obj.repr (highScore_arg);
-        abeClientInformation <- abeClientInformation_arg;
-        gameInfo <- gameInfo_arg
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "HighScoreUtil" (fun arguments -> Obj.repr (new highScoreUtil (Obj.obj arguments)))
-
-let () = sUBMIT_TEXTBOX_COMMAND_cell := lazy (Obj.repr ((Obj.obj (java_new "Command" (Obj.repr ("Submit", (StringUtil.getInstance ())#eMPTY_STRING, (Obj.magic (java_call_static "Command.get_sCREEN" (Obj.repr ()))), 1))))))
+JR.registerLateBound("HighScoreUtil.jnew_7", jnew_7)
+JR.registerLateBound("HighScoreUtil.jm_setHighScoresArray", jm_setHighScoresArray)
+JR.registerLateBound("HighScoreUtil.jm_update", jm_update)
+JR.registerLateBound("HighScoreUtil.jm_saveHighScore", jm_saveHighScore)
+JR.registerLateBound("HighScoreUtil.jm_submit", jm_submit)
+JR.registerLateBound("HighScoreUtil.f_logUtil", (this: HighScoreUtil) => this.f_logUtil)
+JR.registerLateBound("HighScoreUtil.f_commonStrings", (this: HighScoreUtil) => this.f_commonStrings)
+JR.registerLateBound("HighScoreUtil.f_highScoresFactoryInterface", (this: HighScoreUtil) => this.f_highScoresFactoryInterface)
+JR.registerLateBound("HighScoreUtil.f_highScoresArray", (this: HighScoreUtil) => this.f_highScoresArray)
+JR.registerLateBound("HighScoreUtil.set_f_highScoresArray", (this: HighScoreUtil, jvalue) => { this.f_highScoresArray = jvalue; jvalue })
+JR.registerLateBound("HighScoreUtil.f_highScore", (this: HighScoreUtil) => this.f_highScore)
+JR.registerLateBound("HighScoreUtil.f_abeClientInformation", (this: HighScoreUtil) => this.f_abeClientInformation)
+JR.registerLateBound("HighScoreUtil.f_gameInfo", (this: HighScoreUtil) => this.f_gameInfo)
+JR.registerLateBound("HighScoreUtil.f_highScoresHelper", (this: HighScoreUtil) => this.f_highScoresHelper)
+JR.registerLateBound("HighScoreUtil.f_firstTime", (this: HighScoreUtil) => this.f_firstTime)
+JR.registerLateBound("HighScoreUtil.set_f_firstTime", (this: HighScoreUtil, jvalue) => { this.f_firstTime = jvalue; jvalue })
+JR.registerLateBound("HighScoreUtil.jstatic_SUBMIT_TEXTBOX_COMMAND", jstatic_SUBMIT_TEXTBOX_COMMAND)
 
 

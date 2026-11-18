@@ -1,72 +1,83 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.layer.event
+module LayerManagerEvent
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.layer.event *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../org/allbinary/layer/LayerManager.gr" include LayerManager
+use LayerManager.{ type LayerManager }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/logic/util/event/AllBinaryEventObject.gr" include AllBinaryEventObject
+use AllBinaryEventObject.{ type AllBinaryEventObject }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.layer.LayerManager *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.util.event.AllBinaryEventObject *)
+provide record LayerManagerEvent {
+  jobject: JObject,
+  mut f_source: JObject,
+  mut f_layerInterface: AllBinaryLayer,
+  mut f_crud: String,
+}
 
-class layerManagerEvent ((layerManager : LayerManager.layerManager), (crud_arg : string)) =
-  object (self)
-    inherit AllBinaryEventObject.allBinaryEventObject ((Obj.repr (layerManager)))
-    val mutable layerInterface : AllBinaryLayer.allBinaryLayer = (Obj.magic 0)
-    method layerInterface = layerInterface
-    method set_layerInterface value' = layerInterface <- value'
-    val mutable crud : string = ""
-    method crud = crud
-    method set_crud value' = crud <- value'
+
+provide let rec jclassName = () => "LayerManagerEvent"
     
+and jnew_2 = (layerManager: LayerManager, crud: String) => {
+    let this = { jobject: JR.newJObject("LayerManagerEvent"), f_source: JR.jnull, f_layerInterface: JR.nullOf(), f_crud: "", }
+    this.jobject.toStringFunction = () => jm_toString(this)
+    this.f_layerInterface = JR.cast(AllBinaryLayer.jstatic_NULL_ALLBINARY_LAYER())
     
-
-    method getLayerInterface : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (layerInterface))
-        end [@@warning "-7"]
+        void
+        this.f_crud = crud
+    this
+}
     
-
-    method setLayerInterface : 'any1. 'any1 -> unit = fun (layerInterface_arg) ->
-        let layerInterface_arg = Obj.repr layerInterface_arg in
-        begin
-        layerInterface <- (Obj.magic layerInterface_arg)
-        end [@@warning "-7-20"]
+and jm_getLayerInterface = (this: LayerManagerEvent) => {
+        return this.f_layerInterface
+}
     
+and jm_setLayerInterface = (this: LayerManagerEvent, layerInterface: AllBinaryLayer) => {
+        this.f_layerInterface = layerInterface
+}
+    
+and jm_toString = (this: LayerManagerEvent) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, "LayerManagerEvent: \n"))
+        ignore(StringMaker.jm_append(stringBuffer, "LayerInterface: "))
+        ignore(StringMaker.jm_append(stringBuffer, AllBinaryLayer.jm_toString(jm_getLayerInterface(this))))
+        ignore(StringMaker.jm_append(stringBuffer, "\nCRUD: "))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_crud))
+        return StringMaker.jm_toString(stringBuffer)
+}
 
-    method toString () : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ("LayerManagerEvent: \n"));
-        ignore (!stringBuffer#append ("LayerInterface: "));
-        ignore (!stringBuffer#append ((java_string_of (Obj.repr (self#getLayerInterface ())))));
-        ignore (!stringBuffer#append ("\nCRUD: "));
-        ignore (!stringBuffer#append (crud));
-        (java_string_of (Obj.repr !stringBuffer))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        layerInterface <- ((AllBinaryLayer.get_nULL_ALLBINARY_LAYER ()) :> AllBinaryLayer.allBinaryLayer);
-        ();
-        ();
-        (* super(...) is the inherit clause *) ();
-        crud <- crud_arg
-      end
-  end
-let () = java_register_constructor "LayerManagerEvent" (fun arguments -> Obj.repr (new layerManagerEvent (Obj.obj arguments)))
+JR.registerLateBound("LayerManagerEvent.jnew_2", jnew_2)
+JR.registerLateBound("LayerManagerEvent.jm_getLayerInterface", jm_getLayerInterface)
+JR.registerLateBound("LayerManagerEvent.jm_setLayerInterface", jm_setLayerInterface)
+JR.registerLateBound("LayerManagerEvent.jm_toString", jm_toString)
+JR.registerLateBound("LayerManagerEvent.f_layerInterface", (this: LayerManagerEvent) => this.f_layerInterface)
+JR.registerLateBound("LayerManagerEvent.set_f_layerInterface", (this: LayerManagerEvent, jvalue) => { this.f_layerInterface = jvalue; jvalue })
+JR.registerLateBound("LayerManagerEvent.f_crud", (this: LayerManagerEvent) => this.f_crud)
 
 

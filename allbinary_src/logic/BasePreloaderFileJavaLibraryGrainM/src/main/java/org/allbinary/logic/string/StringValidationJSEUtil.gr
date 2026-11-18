@@ -1,48 +1,66 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.string
+module StringValidationJSEUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.string *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/lang/Character.gr" include Character
 
-open Allbinary_java [@@warning "-33"]
+provide record StringValidationJSEUtil {
+  jobject: JObject,
+}
 
 
-let isBlank ((string : string)) : bool =
-        try
-        begin
-        let len : int ref = ref ((String.length string)) in ();
-        for i = 0 to !len - 1 do
-            let c : char ref = ref ((String.get string (i))) in ();
-            if ((java_character_is_whitespace (!c)) == false) then begin
-                raise (Java_return (Obj.repr (false)))
-            end
-        done;
-        true
-        end
-        with Java_return value -> Obj.obj value
-
-let () = java_register_static "StringValidationJSEUtil.isBlank" (fun arguments -> Obj.repr (isBlank (Obj.obj arguments)))
-class stringValidationJSEUtil () =
-  object
+provide let rec jclassName = () => "StringValidationJSEUtil"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("StringValidationJSEUtil"), }
+        void
+    this
+}
+    
+and jm_isBlank = (string: String) => {
+        let mut len: Int32 = JR.length(string)
+        {
+            let mut i: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    i = Int32.(+)(i, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(i, len))) break
+            let mut c: Int32 = JR.charAt(string, i)
+            if ((Character.jm_isWhitespace(c) == false)) {
+                return false
+            }
+            }
+        }
+        return true
+}
 
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "StringValidationJSEUtil" (fun arguments -> Obj.repr (new stringValidationJSEUtil (Obj.obj arguments)))
+JR.registerLateBound("StringValidationJSEUtil.jnew_0", jnew_0)
+JR.registerLateBound("StringValidationJSEUtil.jm_isBlank", jm_isBlank)
 
 

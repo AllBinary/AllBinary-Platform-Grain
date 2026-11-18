@@ -1,78 +1,96 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.input.motion.action
+module GameKeyFromMotionGestureEventListener
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.input.motion.action *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/game/input/CompleteMotionGestureInputEvent.gr" include CompleteMotionGestureInputEvent
+use CompleteMotionGestureInputEvent.{ type CompleteMotionGestureInputEvent }
+from "../../../../../../org/allbinary/game/input/CompleteMotionGestureInputEventListener.gr" include CompleteMotionGestureInputEventListener
+use CompleteMotionGestureInputEventListener.{ type CompleteMotionGestureInputEventListener }
+from "../../../../../../org/allbinary/game/input/event/DownGameKeyEventHandler.gr" include DownGameKeyEventHandler
+use DownGameKeyEventHandler.{ type DownGameKeyEventHandler }
+from "../../../../../../org/allbinary/game/input/event/GameKeyEvent.gr" include GameKeyEvent
+use GameKeyEvent.{ type GameKeyEvent }
+from "../../../../../../org/allbinary/game/input/event/UpGameKeyEventHandler.gr" include UpGameKeyEventHandler
+use UpGameKeyEventHandler.{ type UpGameKeyEventHandler }
+from "../../../../../../org/allbinary/logic/communication/log/ForcedLogUtil.gr" include ForcedLogUtil
+use ForcedLogUtil.{ type ForcedLogUtil }
+from "../../../../../../org/allbinary/logic/util/event/AllBinaryEventObject.gr" include AllBinaryEventObject
+use AllBinaryEventObject.{ type AllBinaryEventObject }
+from "../../../../../../org/allbinary/logic/util/event/EventStrings.gr" include EventStrings
+use EventStrings.{ type EventStrings }
+from "../../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.input.CompleteMotionGestureInputEvent *)
-(* import org.allbinary.game.input.CompleteMotionGestureInputEventListener *)
-(* import org.allbinary.game.input.event.DownGameKeyEventHandler *)
-(* import org.allbinary.game.input.event.GameKeyEvent *)
-(* import org.allbinary.game.input.event.UpGameKeyEventHandler *)
-(* import org.allbinary.logic.communication.log.ForcedLogUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.util.event.AllBinaryEventObject *)
-(* import org.allbinary.logic.util.event.EventStrings *)
-(* import org.allbinary.string.CommonStrings *)
+provide record GameKeyFromMotionGestureEventListener {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_previousGameKeyEvent: GameKeyEvent,
+}
 
-class gameKeyFromMotionGestureEventListener () =
-  object (self)
-    inherit CompleteMotionGestureInputEventListener.completeMotionGestureInputEventListener ()
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable previousGameKeyEvent : GameKeyEvent.gameKeyEvent = (Obj.magic 0)
-    method previousGameKeyEvent = previousGameKeyEvent
-    method set_previousGameKeyEvent value' = previousGameKeyEvent <- value'
+
+provide let rec jclassName = () => "GameKeyFromMotionGestureEventListener"
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("GameKeyFromMotionGestureEventListener"), f_logUtil: JR.jnull, f_previousGameKeyEvent: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_previousGameKeyEvent = JR.cast(GameKeyEvent.jstatic_NONE())
+    this
+}
     
-
-    method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
-        begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
-        end [@@warning "-7-20"]
+and jm_onEvent = (this: GameKeyFromMotionGestureEventListener, eventObject: AllBinaryEventObject) => {
+        ignore(ForcedLogUtil.jm_log(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE, JR.cast(this)))
+}
     
+and jm_onCompleteMotionGestureInputEvent = (this: GameKeyFromMotionGestureEventListener, completeMotionGestureInputEvent: CompleteMotionGestureInputEvent) => {
+        {
+            let mut gameKeyCompleteMotionGestureInputEvent: JObject = JR.cast(completeMotionGestureInputEvent)
+            let mut gameKeyEvent: GameKeyEvent = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameKeyCompleteMotionGestureInputEvent.jm_getGameKeyEvent"))
+JR.cast(jlate(JR.cast(gameKeyCompleteMotionGestureInputEvent)))
+})
+            if ((!JR.isSame(gameKeyEvent, this.f_previousGameKeyEvent))) {
+                if ((!JR.isSame(this.f_previousGameKeyEvent, GameKeyEvent.jstatic_NONE()))) {
+                    ignore(UpGameKeyEventHandler.jm_fireEvent(UpGameKeyEventHandler.jm_getInstance(), this.f_previousGameKeyEvent))
+                }
+                this.f_previousGameKeyEvent = gameKeyEvent
+                if ((!JR.isNull(gameKeyEvent) && (!JR.isSame(gameKeyEvent, GameKeyEvent.jstatic_NONE())))) {
+                    ignore(DownGameKeyEventHandler.jm_fireEvent(DownGameKeyEventHandler.jm_getInstance(), gameKeyEvent))
+                }
+            }
+        }
+}
 
-    method onCompleteMotionGestureInputEvent : 'any1. 'any1 -> unit = fun (completeMotionGestureInputEvent) ->
-        let completeMotionGestureInputEvent = Obj.repr completeMotionGestureInputEvent in
-        begin
-        (try
-            let gameKeyCompleteMotionGestureInputEvent : Obj.t ref = ref ((Obj.repr (Obj.magic (Obj.magic completeMotionGestureInputEvent)))) in ();
-            let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref ((((Obj.magic !gameKeyCompleteMotionGestureInputEvent)#getGameKeyEvent ()) :> GameKeyEvent.gameKeyEvent)) in ();
-            if ((Obj.repr !gameKeyEvent) != (Obj.repr previousGameKeyEvent)) then begin
-                if ((Obj.repr previousGameKeyEvent) != (Obj.repr (GameKeyEvent.get_nONE ()))) then begin
-                    ignore ((UpGameKeyEventHandler.getInstance ())#fireEvent (previousGameKeyEvent))
-                end;
-                previousGameKeyEvent <- !gameKeyEvent;
-                if ((!gameKeyEvent != (Obj.magic 0)) && ((Obj.repr !gameKeyEvent) != (Obj.repr (GameKeyEvent.get_nONE ())))) then begin
-                    ignore ((DownGameKeyEventHandler.getInstance ())#fireEvent (!gameKeyEvent))
-                end
-            end
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), "onCompleteMotionGestureInputEvent", e))
-        end)
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        previousGameKeyEvent <- ((GameKeyEvent.get_nONE ()) :> GameKeyEvent.gameKeyEvent);
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "GameKeyFromMotionGestureEventListener" (fun arguments -> Obj.repr (new gameKeyFromMotionGestureEventListener (Obj.obj arguments)))
+JR.registerLateBound("GameKeyFromMotionGestureEventListener.jnew_0", jnew_0)
+JR.registerLateBound("GameKeyFromMotionGestureEventListener.jm_onEvent", jm_onEvent)
+JR.registerLateBound("GameKeyFromMotionGestureEventListener.jm_onCompleteMotionGestureInputEvent", jm_onCompleteMotionGestureInputEvent)
+JR.registerLateBound("GameKeyFromMotionGestureEventListener.f_logUtil", (this: GameKeyFromMotionGestureEventListener) => this.f_logUtil)
+JR.registerLateBound("GameKeyFromMotionGestureEventListener.f_previousGameKeyEvent", (this: GameKeyFromMotionGestureEventListener) => this.f_previousGameKeyEvent)
+JR.registerLateBound("GameKeyFromMotionGestureEventListener.set_f_previousGameKeyEvent", (this: GameKeyFromMotionGestureEventListener, jvalue) => { this.f_previousGameKeyEvent = jvalue; jvalue })
 
 

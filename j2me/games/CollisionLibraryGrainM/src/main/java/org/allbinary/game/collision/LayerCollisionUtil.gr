@@ -1,65 +1,92 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.collision
+module LayerCollisionUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.collision *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/configuration/feature/Features.gr" include Features
+use Features.{ type Features }
+from "../../../../org/allbinary/game/configuration/feature/GameFeatureFactory.gr" include GameFeatureFactory
+use GameFeatureFactory.{ type GameFeatureFactory }
+from "../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "./CollisionProcessor.gr" include CollisionProcessor
+use CollisionProcessor.{ type CollisionProcessor }
+from "./Collision2DProcessor.gr" include Collision2DProcessor
+use Collision2DProcessor.{ type Collision2DProcessor }
+from "./CollisionThreedProcessor.gr" include CollisionThreedProcessor
+use CollisionThreedProcessor.{ type CollisionThreedProcessor }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.configuration.feature.Features *)
-(* import org.allbinary.game.configuration.feature.GameFeatureFactory *)
-(* import org.allbinary.graphics.opengles.OpenGLFeatureUtil *)
-(* import org.allbinary.layer.AllBinaryLayer *)
+provide record LayerCollisionUtil {
+  jobject: JObject,
+  mut f_collisionProcessor: CollisionProcessor,
+}
 
-class layerCollisionUtil () =
-  object
-    val mutable collisionProcessor : CollisionProcessor.collisionProcessor = (Obj.magic 0)
-    method collisionProcessor = collisionProcessor
-    method set_collisionProcessor value' = collisionProcessor <- value'
+let mut jcell_instance: Option<LayerCollisionUtil> = None
+
+provide let rec jclassName = () => "LayerCollisionUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: LayerCollisionUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("LayerCollisionUtil"), f_collisionProcessor: JR.nullOf(), }
+    
+        let mut features: Features = JR.cast(Features.jm_getInstance())
+        let mut gameFeatureFactory: GameFeatureFactory = JR.cast(GameFeatureFactory.jm_getInstance())
+        if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("OpenGLFeatureUtil.jm_isAnyThreed"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("OpenGLFeatureUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+} && !Features.jm_isFeature(features, JR.cast(gameFeatureFactory.f_COLLISIONS_FORCED_TWO_DIMENSIONAL)))) {
+            this.f_collisionProcessor = JR.cast(CollisionThreedProcessor.jnew_0())
+        } else {
+            this.f_collisionProcessor = JR.cast(Collision2DProcessor.jnew_0())
+        }
+    this
+}
+    
+and jm_isCollision = (this: LayerCollisionUtil, myLayer: AllBinaryLayer, myLayer2: AllBinaryLayer) => {
+        return CollisionProcessor.jm_isCollision(this.f_collisionProcessor, myLayer, myLayer2)
+}
 
-    method isCollision : 'any1 'any2. 'any1 * 'any2 -> bool = fun (myLayer, myLayer2) ->
-        let myLayer = Obj.repr myLayer in
-        let myLayer2 = Obj.repr myLayer2 in
-        begin
-        (collisionProcessor#isCollision ((Obj.magic myLayer), (Obj.magic myLayer2)))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        collisionProcessor <- ((Obj.magic 0) :> CollisionProcessor.collisionProcessor);
-        ();
-        let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
-        let gameFeatureFactory : GameFeatureFactory.gameFeatureFactory ref = ref (((GameFeatureFactory.getInstance ()) :> GameFeatureFactory.gameFeatureFactory)) in ();
-        if (((Obj.magic (java_call_static "OpenGLFeatureUtil.getInstance" (Obj.repr ())))#isAnyThreed ()) && (not (!features#isFeature (!gameFeatureFactory#cOLLISIONS_FORCED_TWO_DIMENSIONAL)))) then begin
-            collisionProcessor <- ((new CollisionThreedProcessor.collisionThreedProcessor ()) :> CollisionProcessor.collisionProcessor)
-        end else begin
-            collisionProcessor <- ((new Collision2DProcessor.collision2DProcessor ()) :> CollisionProcessor.collisionProcessor)
-        end
-      end
-  end
-let () = java_register_constructor "LayerCollisionUtil" (fun arguments -> Obj.repr (new layerCollisionUtil (Obj.obj arguments)))
-
-let instance = (new layerCollisionUtil ())
-let get_instance () = instance
-let () = java_register_static "LayerCollisionUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "LayerCollisionUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("LayerCollisionUtil.jnew_0", jnew_0)
+JR.registerLateBound("LayerCollisionUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("LayerCollisionUtil.jm_isCollision", jm_isCollision)
+JR.registerLateBound("LayerCollisionUtil.f_collisionProcessor", (this: LayerCollisionUtil) => this.f_collisionProcessor)
+JR.registerLateBound("LayerCollisionUtil.jstatic_instance", jstatic_instance)
 
 

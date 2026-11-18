@@ -1,124 +1,195 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.ai.scroller
+module BasePatrolAI
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.ai.scroller *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/game/ai/BasicAI.gr" include BasicAI
+use BasicAI.{ type BasicAI }
+from "../../../../../../org/allbinary/game/input/GameInput.gr" include GameInput
+use GameInput.{ type GameInput }
+from "../../../../../../org/allbinary/game/physics/velocity/BasicVelocityProperties.gr" include BasicVelocityProperties
+use BasicVelocityProperties.{ type BasicVelocityProperties }
+from "../../../../../../org/allbinary/game/physics/velocity/VelocityInterfaceCompositeInterface.gr" include VelocityInterfaceCompositeInterface
+use VelocityInterfaceCompositeInterface.{ type VelocityInterfaceCompositeInterface }
+from "../../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../../../org/allbinary/logic/math/MathUtil.gr" include MathUtil
+use MathUtil.{ type MathUtil }
+from "../../../../../../org/allbinary/logic/math/SmallIntegerSingletonFactory.gr" include SmallIntegerSingletonFactory
+use SmallIntegerSingletonFactory.{ type SmallIntegerSingletonFactory }
+from "../../../../../../java/lang/Integer.gr" include Integer
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Canvas *)
-(* import org.allbinary.game.ai.BasicAI *)
-(* import org.allbinary.game.input.GameInput *)
-(* import org.allbinary.game.physics.velocity.BasicVelocityProperties *)
-(* import org.allbinary.game.physics.velocity.VelocityInterfaceCompositeInterface *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.logic.math.MathUtil *)
-(* import org.allbinary.logic.math.SmallIntegerSingletonFactory *)
-(* import org.allbinary.util.ABHashtable *)
+provide record BasePatrolAI {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_gameKeyEventFactory: JObject,
+  mut f_ownerLayerInterface: JObject,
+  mut f_gameInput: JObject,
+  mut f_lastKey: Int32,
+  mut f_maxDistance: Int32,
+  mut f_currentDistance: Int32,
+  mut f_xTotalDistance: Int32,
+  mut f_lastKeyDirection: Int32,
+  mut f_keyDirection: Int32,
+}
 
-let mAX_DISTANCE : int = ((SmallIntegerSingletonFactory.getInstance ())#getAt (2))
-let get_mAX_DISTANCE () = mAX_DISTANCE
-let () = java_register_static "BasePatrolAI.get_mAX_DISTANCE" (fun _ -> Obj.repr (get_mAX_DISTANCE ()))
-let dIRECTION_ARRAY : int = ((SmallIntegerSingletonFactory.getInstance ())#getAt (3))
-let get_dIRECTION_ARRAY () = dIRECTION_ARRAY
-let () = java_register_static "BasePatrolAI.get_dIRECTION_ARRAY" (fun _ -> Obj.repr (get_dIRECTION_ARRAY ()))
-let fIRING_DISTANCE : int = ((SmallIntegerSingletonFactory.getInstance ())#getAt (4))
-let get_fIRING_DISTANCE () = fIRING_DISTANCE
-let () = java_register_static "BasePatrolAI.get_fIRING_DISTANCE" (fun _ -> Obj.repr (get_fIRING_DISTANCE ()))
-let sPEED : int ref = ref (((SmallIntegerSingletonFactory.getInstance ())#getAt (5)))
-let get_sPEED () = !sPEED
-let set_sPEED value' = sPEED := value'
-let () = java_register_static "BasePatrolAI.get_sPEED" (fun _ -> Obj.repr (get_sPEED ()))
-let () = java_register_static "BasePatrolAI.set_sPEED" (fun value' -> set_sPEED (Obj.obj value'); Obj.repr ())
-class basePatrolAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gameInput : GameInput.gameInput)) =
-  object (self)
-    inherit BasicAI.basicAI (ownerLayerInterface, gameInput)
-    val mutable maxDistance : int = (Obj.magic 0)
-    method maxDistance = maxDistance
-    method set_maxDistance value' = maxDistance <- value'
-    val mutable currentDistance : int = 0
-    method currentDistance = currentDistance
-    method set_currentDistance value' = currentDistance <- value'
-    val mutable xTotalDistance : int = 0
-    method xTotalDistance = xTotalDistance
-    method set_xTotalDistance value' = xTotalDistance <- value'
-    val mutable lastKeyDirection : int = 0
-    method lastKeyDirection = lastKeyDirection
-    method set_lastKeyDirection value' = lastKeyDirection <- value'
-    val mutable keyDirection : int = 0
-    method keyDirection = keyDirection
-    method set_keyDirection value' = keyDirection <- value'
+let mut jcell_MAX_DISTANCE: Option<Int32> = None
+let mut jcell_DIRECTION_ARRAY: Option<Int32> = None
+let mut jcell_FIRING_DISTANCE: Option<Int32> = None
+let mut jcell_SPEED: Option<Int32> = None
+
+provide let rec jclassName = () => "BasePatrolAI"
+
+and jstatic_MAX_DISTANCE = () => match (jcell_MAX_DISTANCE) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 2l)
+    jcell_MAX_DISTANCE = Some(value)
+    value
+  },
+}
+
+and jstatic_DIRECTION_ARRAY = () => match (jcell_DIRECTION_ARRAY) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 3l)
+    jcell_DIRECTION_ARRAY = Some(value)
+    value
+  },
+}
+
+and jstatic_FIRING_DISTANCE = () => match (jcell_FIRING_DISTANCE) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 4l)
+    jcell_FIRING_DISTANCE = Some(value)
+    value
+  },
+}
+
+and jstatic_SPEED = () => match (jcell_SPEED) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 5l)
+    jcell_SPEED = Some(value)
+    value
+  },
+}
+    
+and jnew_3 = (hashtable: JObject, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
+    let this = { jobject: JR.newJObject("BasePatrolAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_maxDistance: 0l, f_currentDistance: 0l, f_xTotalDistance: 0l, f_lastKeyDirection: 0l, f_keyDirection: 0l, }
     
     
-
-    method update () : unit =
-        begin
-        (self#updateTotalDistance ());
-        (self#changeDirectionIfReachedPacingAreaMax ())
-        end [@@warning "-7"]
     
-
-    method updateTotalDistance () : unit =
-        begin
-        let velocityInterfaceCompositeInterface : VelocityInterfaceCompositeInterface.velocityInterfaceCompositeInterface ref = ref (((Obj.magic (self#getOwnerLayerInterface ())) :> VelocityInterfaceCompositeInterface.velocityInterfaceCompositeInterface)) in ();
-        let velocityProperties : BasicVelocityProperties.basicVelocityProperties ref = ref (((!velocityInterfaceCompositeInterface#getVelocityProperties ()) :> BasicVelocityProperties.basicVelocityProperties)) in ();
-        xTotalDistance <- (xTotalDistance + ((!velocityProperties#getVelocityXBasicDecimalP ())#getScaled ()))
-        end [@@warning "-7"]
+    this.f_lastKeyDirection = {
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_RIGHT"))
+JR.cast(jlate())
+}
+    this.f_keyDirection = {
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_RIGHT"))
+JR.cast(jlate())
+}
+        void
+        this.f_maxDistance = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
+JR.cast(jlate(JR.cast(hashtable), JR.cast(jstatic_MAX_DISTANCE())))
+})
+        this.f_currentDistance = Integer.jm_intValue(this.f_maxDistance)
+    this
+}
     
-
-    method changeDirectionIfReachedPacingAreaMax () : unit =
-        begin
-        let mathUtil : MathUtil.mathUtil ref = ref (((MathUtil.getInstance ()) :> MathUtil.mathUtil)) in ();
-        let totalDistance : int ref = ref ((!mathUtil#abs (xTotalDistance))) in ();
-        if (!totalDistance > currentDistance) then begin
-            (self#nextDirection ())
-        end
-        end [@@warning "-7"]
+and jm_update = (this: BasePatrolAI) => {
+        ignore(jm_updateTotalDistance(this))
+        ignore(jm_changeDirectionIfReachedPacingAreaMax(this))
+}
     
-
-    method nextDirection () : unit =
-        begin
-        if (lastKeyDirection = (Obj.magic (java_call_static "Canvas.get_lEFT" (Obj.repr ())))) then begin
-            keyDirection <- (Obj.magic (java_call_static "Canvas.get_rIGHT" (Obj.repr ())));
-            lastKeyDirection <- keyDirection;
-            xTotalDistance <- 0
-        end else if (lastKeyDirection = (Obj.magic (java_call_static "Canvas.get_rIGHT" (Obj.repr ())))) then begin
-            keyDirection <- (Obj.magic (java_call_static "Canvas.get_lEFT" (Obj.repr ())));
-            lastKeyDirection <- keyDirection;
-            xTotalDistance <- 0
-        end
-        end [@@warning "-7"]
+and jm_updateTotalDistance = (this: BasePatrolAI) => {
+        let mut velocityInterfaceCompositeInterface: VelocityInterfaceCompositeInterface = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
+JR.cast(jlate(JR.cast(this)))
+})
+        let mut velocityProperties: BasicVelocityProperties = JR.cast(VelocityInterfaceCompositeInterface.jm_getVelocityProperties(velocityInterfaceCompositeInterface))
+        this.f_xTotalDistance = Int32.(+)(this.f_xTotalDistance, JR.className(JR.cast(BasicVelocityProperties.jm_getVelocityXBasicDecimalP(velocityProperties))))
+}
     
+and jm_changeDirectionIfReachedPacingAreaMax = (this: BasePatrolAI) => {
+        let mut mathUtil: MathUtil = JR.cast(MathUtil.jm_getInstance())
+        let mut totalDistance: Int32 = MathUtil.jm_abs(mathUtil, this.f_xTotalDistance)
+        if (Int32.(>)(totalDistance, this.f_currentDistance)) {
+            ignore(jm_nextDirection(this))
+        }
+}
+    
+and jm_nextDirection = (this: BasePatrolAI) => {
+        if ((this.f_lastKeyDirection == {
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_LEFT"))
+JR.cast(jlate())
+})) {
+            this.f_keyDirection = {
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_RIGHT"))
+JR.cast(jlate())
+}
+            this.f_lastKeyDirection = this.f_keyDirection
+            this.f_xTotalDistance = 0l
+        } else if ((this.f_lastKeyDirection == {
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_RIGHT"))
+JR.cast(jlate())
+})) {
+            this.f_keyDirection = {
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_LEFT"))
+JR.cast(jlate())
+}
+            this.f_lastKeyDirection = this.f_keyDirection
+            this.f_xTotalDistance = 0l
+        }
+}
+    
+and jm_disable = (this: BasePatrolAI) => {
+    void
+}
 
-    method disable () : unit =
-        begin
-        ()
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        ();
-        xTotalDistance <- 0;
-        lastKeyDirection <- (Obj.magic (java_call_static "Canvas.get_rIGHT" (Obj.repr ())));
-        keyDirection <- (Obj.magic (java_call_static "Canvas.get_rIGHT" (Obj.repr ())));
-        ();
-        (* super(...) is the inherit clause *) ();
-        maxDistance <- (Obj.magic (hashtable#get (mAX_DISTANCE)));
-        currentDistance <- maxDistance
-      end
-  end
-let () = java_register_constructor "BasePatrolAI" (fun arguments -> Obj.repr (new basePatrolAI (Obj.obj arguments)))
+JR.registerLateBound("BasePatrolAI.jnew_3", jnew_3)
+JR.registerLateBound("BasePatrolAI.jm_update", jm_update)
+JR.registerLateBound("BasePatrolAI.jm_updateTotalDistance", jm_updateTotalDistance)
+JR.registerLateBound("BasePatrolAI.jm_changeDirectionIfReachedPacingAreaMax", jm_changeDirectionIfReachedPacingAreaMax)
+JR.registerLateBound("BasePatrolAI.jm_nextDirection", jm_nextDirection)
+JR.registerLateBound("BasePatrolAI.jm_disable", jm_disable)
+JR.registerLateBound("BasePatrolAI.f_maxDistance", (this: BasePatrolAI) => this.f_maxDistance)
+JR.registerLateBound("BasePatrolAI.set_f_maxDistance", (this: BasePatrolAI, jvalue) => { this.f_maxDistance = jvalue; jvalue })
+JR.registerLateBound("BasePatrolAI.f_currentDistance", (this: BasePatrolAI) => this.f_currentDistance)
+JR.registerLateBound("BasePatrolAI.set_f_currentDistance", (this: BasePatrolAI, jvalue) => { this.f_currentDistance = jvalue; jvalue })
+JR.registerLateBound("BasePatrolAI.f_xTotalDistance", (this: BasePatrolAI) => this.f_xTotalDistance)
+JR.registerLateBound("BasePatrolAI.set_f_xTotalDistance", (this: BasePatrolAI, jvalue) => { this.f_xTotalDistance = jvalue; jvalue })
+JR.registerLateBound("BasePatrolAI.f_lastKeyDirection", (this: BasePatrolAI) => this.f_lastKeyDirection)
+JR.registerLateBound("BasePatrolAI.set_f_lastKeyDirection", (this: BasePatrolAI, jvalue) => { this.f_lastKeyDirection = jvalue; jvalue })
+JR.registerLateBound("BasePatrolAI.f_keyDirection", (this: BasePatrolAI) => this.f_keyDirection)
+JR.registerLateBound("BasePatrolAI.set_f_keyDirection", (this: BasePatrolAI, jvalue) => { this.f_keyDirection = jvalue; jvalue })
+JR.registerLateBound("BasePatrolAI.jstatic_MAX_DISTANCE", jstatic_MAX_DISTANCE)
+JR.registerLateBound("BasePatrolAI.jstatic_DIRECTION_ARRAY", jstatic_DIRECTION_ARRAY)
+JR.registerLateBound("BasePatrolAI.jstatic_FIRING_DISTANCE", jstatic_FIRING_DISTANCE)
+JR.registerLateBound("BasePatrolAI.jstatic_SPEED", jstatic_SPEED)
 
 

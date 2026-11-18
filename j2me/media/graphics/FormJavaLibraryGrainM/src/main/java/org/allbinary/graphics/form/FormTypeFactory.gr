@@ -1,76 +1,92 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.form
+module FormTypeFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.form *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/graphics/displayable/DisplayInfoSingleton.gr" include DisplayInfoSingleton
+use DisplayInfoSingleton.{ type DisplayInfoSingleton }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "./FormType.gr" include FormType
+use FormType.{ type FormType }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.graphics.displayable.DisplayInfoSingleton *)
-(* import org.allbinary.logic.string.StringUtil *)
+provide record FormTypeFactory {
+  jobject: JObject,
+  mut f_UNK: String,
+  mut f_NULL_FORM_TYPE: FormType,
+  mut f_TEMP_HORIZONTAL_FORM: FormType,
+  mut f_HORIZONTAL_FORM: FormType,
+  mut f_VERTICAL_CENTER_FORM: FormType,
+}
 
-class formTypeFactory () =
-  object
-    val mutable uNK : string = ""
-    method uNK = uNK
-    method set_uNK value' = uNK <- value'
-    val mutable nULL_FORM_TYPE : FormType.formType = (Obj.magic 0)
-    method nULL_FORM_TYPE = nULL_FORM_TYPE
-    method set_nULL_FORM_TYPE value' = nULL_FORM_TYPE <- value'
-    val mutable tEMP_HORIZONTAL_FORM : FormType.formType = (Obj.magic 0)
-    method tEMP_HORIZONTAL_FORM = tEMP_HORIZONTAL_FORM
-    method set_tEMP_HORIZONTAL_FORM value' = tEMP_HORIZONTAL_FORM <- value'
-    val mutable hORIZONTAL_FORM : FormType.formType = (Obj.magic 0)
-    method hORIZONTAL_FORM = hORIZONTAL_FORM
-    method set_hORIZONTAL_FORM value' = hORIZONTAL_FORM <- value'
-    val mutable vERTICAL_CENTER_FORM : FormType.formType = (Obj.magic 0)
-    method vERTICAL_CENTER_FORM = vERTICAL_CENTER_FORM
-    method set_vERTICAL_CENTER_FORM value' = vERTICAL_CENTER_FORM <- value'
+let mut jcell_instance: Option<FormTypeFactory> = None
+
+provide let rec jclassName = () => "FormTypeFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: FormTypeFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("FormTypeFactory"), f_UNK: "", f_NULL_FORM_TYPE: JR.nullOf(), f_TEMP_HORIZONTAL_FORM: JR.nullOf(), f_HORIZONTAL_FORM: JR.nullOf(), f_VERTICAL_CENTER_FORM: JR.nullOf(), }
+    this.f_UNK = "Unknown FormType"
+    this.f_NULL_FORM_TYPE = FormType.jnew_1(StringUtil.jm_getInstance().f_NULL_STRING)
+    this.f_TEMP_HORIZONTAL_FORM = FormType.jnew_1("TempHorizontal")
+    this.f_HORIZONTAL_FORM = FormType.jnew_1("Horizontal")
+    this.f_VERTICAL_CENTER_FORM = FormType.jnew_1("Vertical")
+    this
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jm_getFormType = (this: FormTypeFactory) => {
+        let mut displayInfo: DisplayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
+        let mut formType: FormType = JR.nullOf()
+        if (DisplayInfoSingleton.jm_isPortrait(displayInfo)) {
+            formType = this.f_VERTICAL_CENTER_FORM
+        } else {
+            formType = this.f_HORIZONTAL_FORM
+        }
+        return formType
+}
 
-    method getFormType : 'return. unit -> 'return = fun () ->
-        begin
-        let displayInfo : DisplayInfoSingleton.displayInfoSingleton ref = ref (((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton)) in ();
-        let formType : FormType.formType ref = ref (((Obj.magic 0) :> FormType.formType)) in ();
-        if (!displayInfo#isPortrait ()) then begin
-            formType := vERTICAL_CENTER_FORM
-        end else begin
-            formType := hORIZONTAL_FORM
-        end;
-        (Obj.magic (!formType))
-        end
-
-    initializer
-      begin
-        uNK <- "Unknown FormType";
-        nULL_FORM_TYPE <- ((new FormType.formType ((StringUtil.getInstance ())#nULL_STRING)) :> FormType.formType);
-        tEMP_HORIZONTAL_FORM <- ((new FormType.formType ("TempHorizontal")) :> FormType.formType);
-        hORIZONTAL_FORM <- ((new FormType.formType ("Horizontal")) :> FormType.formType);
-        vERTICAL_CENTER_FORM <- ((new FormType.formType ("Vertical")) :> FormType.formType);
-        ()
-      end
-  end
-let () = java_register_constructor "FormTypeFactory" (fun arguments -> Obj.repr (new formTypeFactory (Obj.obj arguments)))
-
-let instance = (new formTypeFactory ())
-let get_instance () = instance
-let () = java_register_static "FormTypeFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "FormTypeFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("FormTypeFactory.jnew_0", jnew_0)
+JR.registerLateBound("FormTypeFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("FormTypeFactory.jm_getFormType", jm_getFormType)
+JR.registerLateBound("FormTypeFactory.f_UNK", (this: FormTypeFactory) => this.f_UNK)
+JR.registerLateBound("FormTypeFactory.f_NULL_FORM_TYPE", (this: FormTypeFactory) => this.f_NULL_FORM_TYPE)
+JR.registerLateBound("FormTypeFactory.f_TEMP_HORIZONTAL_FORM", (this: FormTypeFactory) => this.f_TEMP_HORIZONTAL_FORM)
+JR.registerLateBound("FormTypeFactory.f_HORIZONTAL_FORM", (this: FormTypeFactory) => this.f_HORIZONTAL_FORM)
+JR.registerLateBound("FormTypeFactory.f_VERTICAL_CENTER_FORM", (this: FormTypeFactory) => this.f_VERTICAL_CENTER_FORM)
+JR.registerLateBound("FormTypeFactory.jstatic_instance", jstatic_instance)
 
 

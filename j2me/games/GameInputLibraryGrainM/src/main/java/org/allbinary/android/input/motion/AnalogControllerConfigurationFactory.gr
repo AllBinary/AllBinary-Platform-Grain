@@ -1,75 +1,90 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.android.input.motion
+module AnalogControllerConfigurationFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.android.input.motion *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/android/input/motion/event/AnalogControllerConfigurationEvent.gr" include AnalogControllerConfigurationEvent
+use AnalogControllerConfigurationEvent.{ type AnalogControllerConfigurationEvent }
+from "../../../../../org/allbinary/android/input/motion/event/AnalogControllerConfigurationEventHandler.gr" include AnalogControllerConfigurationEventHandler
+use AnalogControllerConfigurationEventHandler.{ type AnalogControllerConfigurationEventHandler }
+from "../../../../../org/allbinary/logic/math/ScaleFactorFactory.gr" include ScaleFactorFactory
+use ScaleFactorFactory.{ type ScaleFactorFactory }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.android.input.motion.event.AnalogControllerConfigurationEvent *)
-(* import org.allbinary.android.input.motion.event.AnalogControllerConfigurationEventHandler *)
-(* import org.allbinary.logic.math.ScaleFactorFactory *)
+provide record AnalogControllerConfigurationFactory {
+  jobject: JObject,
+  mut f_SCALE_FACTOR: Int32,
+  mut f_SCALE_VALUE: Int32,
+  mut f_available: Bool,
+  mut f_analogControllerConfigurationEvent: AnalogControllerConfigurationEvent,
+}
 
-class analogControllerConfigurationFactory () =
-  object (self)
-    val mutable sCALE_FACTOR : int = 0
-    method sCALE_FACTOR = sCALE_FACTOR
-    method set_sCALE_FACTOR value' = sCALE_FACTOR <- value'
-    val mutable sCALE_VALUE : int = 0
-    method sCALE_VALUE = sCALE_VALUE
-    method set_sCALE_VALUE value' = sCALE_VALUE <- value'
-    val mutable available : bool = false
-    method available = available
-    method set_available value' = available <- value'
-    val mutable analogControllerConfigurationEvent : AnalogControllerConfigurationEvent.analogControllerConfigurationEvent = (Obj.magic 0)
-    method analogControllerConfigurationEvent = analogControllerConfigurationEvent
-    method set_analogControllerConfigurationEvent value' = analogControllerConfigurationEvent <- value'
+let mut jcell_instance: Option<AnalogControllerConfigurationFactory> = None
+
+provide let rec jclassName = () => "AnalogControllerConfigurationFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: AnalogControllerConfigurationFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method isAvailable () : bool =
-        begin
-        available
-        end
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("AnalogControllerConfigurationFactory"), f_SCALE_FACTOR: 0l, f_SCALE_VALUE: 0l, f_available: false, f_analogControllerConfigurationEvent: JR.nullOf(), }
+    this.f_SCALE_FACTOR = ScaleFactorFactory.jm_getInstance().f_DEFAULT_SCALE_FACTOR
+    this.f_SCALE_VALUE = ScaleFactorFactory.jm_getInstance().f_DEFAULT_SCALE_VALUE
     
+    this.f_analogControllerConfigurationEvent = AnalogControllerConfigurationEvent.jnew_1(this)
+        void
+    this
+}
+    
+and jm_isAvailable = (this: AnalogControllerConfigurationFactory) => {
+        return this.f_available
+}
+    
+and jm_setAvailable = (this: AnalogControllerConfigurationFactory, available: Bool) => {
+        this.f_available = available
+        ignore(AnalogControllerConfigurationEventHandler.jm_fireEvent(AnalogControllerConfigurationEventHandler.jm_getInstance(), JR.cast(this.f_analogControllerConfigurationEvent)))
+}
 
-    method setAvailable ((available_arg : bool)) : unit =
-        begin
-        available <- available_arg;
-        ignore ((AnalogControllerConfigurationEventHandler.getInstance ())#fireEvent (analogControllerConfigurationEvent))
-        end
-
-    initializer
-      begin
-        sCALE_FACTOR <- (ScaleFactorFactory.getInstance ())#dEFAULT_SCALE_FACTOR;
-        sCALE_VALUE <- (ScaleFactorFactory.getInstance ())#dEFAULT_SCALE_VALUE;
-        available <- false;
-        analogControllerConfigurationEvent <- ((new AnalogControllerConfigurationEvent.analogControllerConfigurationEvent ((Obj.magic self))) :> AnalogControllerConfigurationEvent.analogControllerConfigurationEvent);
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "AnalogControllerConfigurationFactory" (fun arguments -> Obj.repr (new analogControllerConfigurationFactory (Obj.obj arguments)))
-
-let instance = (new analogControllerConfigurationFactory ())
-let get_instance () = instance
-let () = java_register_static "AnalogControllerConfigurationFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "AnalogControllerConfigurationFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("AnalogControllerConfigurationFactory.jnew_0", jnew_0)
+JR.registerLateBound("AnalogControllerConfigurationFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("AnalogControllerConfigurationFactory.jm_isAvailable", jm_isAvailable)
+JR.registerLateBound("AnalogControllerConfigurationFactory.jm_setAvailable", jm_setAvailable)
+JR.registerLateBound("AnalogControllerConfigurationFactory.f_SCALE_FACTOR", (this: AnalogControllerConfigurationFactory) => this.f_SCALE_FACTOR)
+JR.registerLateBound("AnalogControllerConfigurationFactory.f_SCALE_VALUE", (this: AnalogControllerConfigurationFactory) => this.f_SCALE_VALUE)
+JR.registerLateBound("AnalogControllerConfigurationFactory.f_available", (this: AnalogControllerConfigurationFactory) => this.f_available)
+JR.registerLateBound("AnalogControllerConfigurationFactory.set_f_available", (this: AnalogControllerConfigurationFactory, jvalue) => { this.f_available = jvalue; jvalue })
+JR.registerLateBound("AnalogControllerConfigurationFactory.f_analogControllerConfigurationEvent", (this: AnalogControllerConfigurationFactory) => this.f_analogControllerConfigurationEvent)
+JR.registerLateBound("AnalogControllerConfigurationFactory.jstatic_instance", jstatic_instance)
 
 

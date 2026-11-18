@@ -1,64 +1,81 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.layer
+module PaintableLayerComposite
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.layer *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/graphics/paint/Paintable.gr" include Paintable
+use Paintable.{ type Paintable }
+from "../../../../org/allbinary/graphics/paint/PaintableInterface.gr" include PaintableInterface
+use PaintableInterface.{ type PaintableInterface }
+from "../../../../org/allbinary/layer/Layer.gr" include Layer
+use Layer.{ type Layer }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Graphics *)
-(* import org.allbinary.graphics.paint.Paintable *)
-(* import org.allbinary.graphics.paint.PaintableInterface *)
-(* import org.allbinary.layer.Layer *)
+provide record PaintableLayerComposite {
+  jobject: JObject,
+  mut f_paintableArray: Array<Layer>,
+}
 
-class paintableLayerComposite ((paintableArray_arg : Layer.layer array)) =
-  object
-    inherit Paintable.paintable ()
-    val mutable paintableArray : Layer.layer array = (Obj.magic 0)
-    method paintableArray = paintableArray
-    method set_paintableArray value' = paintableArray <- value'
+
+provide let rec jclassName = () => "PaintableLayerComposite"
     
+and jnew_1 = (paintableArray: Array<Layer>) => {
+    let this = { jobject: JR.newJObject("PaintableLayerComposite"), f_paintableArray: [> ], }
     
-
-    method paint : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        let index : int ref = ref ((Array.length paintableArray)) in ();
-        while ((index := !index - 1; !index) >= 0) do
-            ignore (paintableArray.(!index)#paint ((Obj.magic graphics)))
-        done
-        end [@@warning "-7-20"]
+        this.f_paintableArray = paintableArray
+    this
+}
     
+and jm_paint = (this: PaintableLayerComposite, graphics: JObject) => {
+        {
+            let mut index: Int32 = Int32.fromNumber(Array.length(this.f_paintableArray))
+            let mut jfirst = true
+            while (true) {
+                jfirst = false
+                if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
+            ignore(JR.className(JR.cast(this.f_paintableArray[Int32.toNumber(index)])))
+            }
+        }
+}
+    
+and jm_paintThreed = (this: PaintableLayerComposite, graphics: JObject) => {
+        let mut paintableInterface: PaintableInterface = JR.nullOf()
+        {
+            let mut index: Int32 = Int32.fromNumber(Array.length(this.f_paintableArray))
+            let mut jfirst = true
+            while (true) {
+                jfirst = false
+                if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
+            paintableInterface = JR.cast(this.f_paintableArray[Int32.toNumber(index)])
+            ignore(PaintableInterface.jm_paintThreed(paintableInterface, graphics))
+            }
+        }
+}
 
-    method paintThreed : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        let paintableInterface : PaintableInterface.paintableInterface ref = ref (((Obj.magic 0) :> PaintableInterface.paintableInterface)) in ();
-        let index : int ref = ref ((Array.length paintableArray)) in ();
-        while ((index := !index - 1; !index) >= 0) do
-            paintableInterface := (Obj.magic paintableArray.(!index));
-            ignore (!paintableInterface#paintThreed ((Obj.magic graphics)))
-        done
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        ();
-        paintableArray <- paintableArray_arg
-      end
-  end
-let () = java_register_constructor "PaintableLayerComposite" (fun arguments -> Obj.repr (new paintableLayerComposite (Obj.obj arguments)))
+JR.registerLateBound("PaintableLayerComposite.jnew_1", jnew_1)
+JR.registerLateBound("PaintableLayerComposite.jm_paint", jm_paint)
+JR.registerLateBound("PaintableLayerComposite.jm_paintThreed", jm_paintThreed)
+JR.registerLateBound("PaintableLayerComposite.f_paintableArray", (this: PaintableLayerComposite) => this.f_paintableArray)
 
 

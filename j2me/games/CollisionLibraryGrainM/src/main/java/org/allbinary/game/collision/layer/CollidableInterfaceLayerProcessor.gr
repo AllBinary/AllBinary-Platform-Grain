@@ -1,62 +1,80 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.collision.layer
+module CollidableInterfaceLayerProcessor
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/collision/CollidableInterfaceCompositeInterface.gr" include CollidableInterfaceCompositeInterface
+use CollidableInterfaceCompositeInterface.{ type CollidableInterfaceCompositeInterface }
+from "../../../../../org/allbinary/game/layer/CollidableCompositeLayer.gr" include CollidableCompositeLayer
+use CollidableCompositeLayer.{ type CollidableCompositeLayer }
+from "../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
+from "../../../../../org/allbinary/layer/LayerProcessor.gr" include LayerProcessor
+use LayerProcessor.{ type LayerProcessor }
+from "./CollidableInterfaceLayerManager.gr" include CollidableInterfaceLayerManager
+use CollidableInterfaceLayerManager.{ type CollidableInterfaceLayerManager }
+from "./AllBinaryCollisionManager.gr" include AllBinaryCollisionManager
+use AllBinaryCollisionManager.{ type AllBinaryCollisionManager }
+
+provide record CollidableInterfaceLayerProcessor {
+  jobject: JObject,
+  mut f_commonStrings: JObject,
+  mut f_layerManager: JObject,
+}
+
+
+provide let rec jclassName = () => "CollidableInterfaceLayerProcessor"
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.collision.layer *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.collision.CollidableInterfaceCompositeInterface *)
-(* import org.allbinary.game.layer.CollidableCompositeLayer *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
-(* import org.allbinary.layer.LayerProcessor *)
-
-class collidableInterfaceLayerProcessor () =
-  object (self)
-    inherit LayerProcessor.layerProcessor (((new CollidableInterfaceLayerManager.collidableInterfaceLayerManager ()) : CollidableInterfaceLayerManager.collidableInterfaceLayerManager :> LayerManager.layerManager))
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("CollidableInterfaceLayerProcessor"), f_commonStrings: JR.jnull, f_layerManager: JR.jnull, }
+        void
+    this
+}
     
+and jm_processAt = (this: CollidableInterfaceLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: Int32) => {
+        let mut collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface = JR.cast(layerInterface)
+        if (JR.className(JR.cast(CollidableInterfaceCompositeInterface.jm_getCollidableInferface(collidableInterfaceCompositeInterface)))) {
+            ignore(AllBinaryCollisionManager.jm_process(AllBinaryCollisionManager.jm_getInstance(), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LayerProcessor.jm_getLayerManager"))
+JR.cast(jlate(JR.cast(this)))
+}, collidableInterfaceCompositeInterface, index))
+        }
+}
     
+and jm_isProcessorLayer = (this: CollidableInterfaceLayerProcessor, layerInterface: AllBinaryLayer) => {
+        if (AllBinaryLayer.jm_implmentsCollidableInterface(layerInterface)) {
+            return true
+        } else {
+            return false
+        }
+}
 
-    method processAt : 'any1 'any2. 'any1 * 'any2 * int -> unit = fun (_allBinaryLayerManager, layerInterface, (index : int)) ->
-        let layerInterface = Obj.repr layerInterface in
-        begin
-        let collidableInterfaceCompositeInterface : CollidableInterfaceCompositeInterface.collidableInterfaceCompositeInterface ref = ref (((Obj.magic (Obj.magic layerInterface)) :> CollidableInterfaceCompositeInterface.collidableInterfaceCompositeInterface)) in ();
-        if ((!collidableInterfaceCompositeInterface#getCollidableInferface ())#isCollidable ((Obj.magic !collidableInterfaceCompositeInterface))) then begin
-            ignore ((AllBinaryCollisionManager.getInstance ())#process ((self#getLayerManager ()), !collidableInterfaceCompositeInterface, index))
-        end
-        end [@@warning "-7-20"]
-    
-
-    method isProcessorLayer : 'any1. 'any1 -> bool = fun (layerInterface) ->
-        let layerInterface = Obj.repr layerInterface in
-        try
-        begin
-        if ((Obj.magic layerInterface)#implmentsCollidableInterface ()) then begin
-            raise (Java_return (Obj.repr (true)))
-        end else begin
-            raise (Java_return (Obj.repr (false)))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "CollidableInterfaceLayerProcessor" (fun arguments -> Obj.repr (new collidableInterfaceLayerProcessor (Obj.obj arguments)))
+JR.registerLateBound("CollidableInterfaceLayerProcessor.jnew_0", jnew_0)
+JR.registerLateBound("CollidableInterfaceLayerProcessor.jm_processAt", jm_processAt)
+JR.registerLateBound("CollidableInterfaceLayerProcessor.jm_isProcessorLayer", jm_isProcessorLayer)
 
 

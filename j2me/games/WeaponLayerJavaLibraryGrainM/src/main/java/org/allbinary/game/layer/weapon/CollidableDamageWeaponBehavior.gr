@@ -1,131 +1,143 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.layer.weapon
+module CollidableDamageWeaponBehavior
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.layer.weapon *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/collision/CollidableHelperFactory.gr" include CollidableHelperFactory
+use CollidableHelperFactory.{ type CollidableHelperFactory }
+from "../../../../../org/allbinary/game/collision/CollidableInterfaceCompositeInterface.gr" include CollidableInterfaceCompositeInterface
+use CollidableInterfaceCompositeInterface.{ type CollidableInterfaceCompositeInterface }
+from "../../../../../org/allbinary/game/collision/CollisionHelper.gr" include CollisionHelper
+use CollisionHelper.{ type CollisionHelper }
+from "../../../../../org/allbinary/game/collision/CollisionType.gr" include CollisionType
+use CollisionType.{ type CollisionType }
+from "../../../../../org/allbinary/game/collision/CollisionTypeFactory.gr" include CollisionTypeFactory
+use CollisionTypeFactory.{ type CollisionTypeFactory }
+from "../../../../../org/allbinary/game/combat/damage/DamageableInterface.gr" include DamageableInterface
+use DamageableInterface.{ type DamageableInterface }
+from "../../../../../org/allbinary/game/layer/CollidableCompositeLayer.gr" include CollidableCompositeLayer
+use CollidableCompositeLayer.{ type CollidableCompositeLayer }
+from "../../../../../org/allbinary/game/layer/special/CollidableDestroyableDamageableBehavior.gr" include CollidableDestroyableDamageableBehavior
+use CollidableDestroyableDamageableBehavior.{ type CollidableDestroyableDamageableBehavior }
+from "../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.collision.CollidableHelperFactory *)
-(* import org.allbinary.game.collision.CollidableInterfaceCompositeInterface *)
-(* import org.allbinary.game.collision.CollisionHelper *)
-(* import org.allbinary.game.collision.CollisionType *)
-(* import org.allbinary.game.collision.CollisionTypeFactory *)
-(* import org.allbinary.game.combat.damage.DamageableInterface *)
-(* import org.allbinary.game.layer.CollidableCompositeLayer *)
-(* import org.allbinary.game.layer.special.CollidableDestroyableDamageableBehavior *)
-(* import org.allbinary.layer.AllBinaryLayer *)
+provide record CollidableDamageWeaponBehavior {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_layerCollisionUtil: JObject,
+  mut f_collidable: Bool,
+  mut f_damageUtil: JObject,
+  mut f_collided: Bool,
+  mut f_collisionHelper: CollisionHelper,
+}
 
-class collidableDamageWeaponBehavior ((collidable : bool)) =
-  object (self)
-    inherit CollidableDestroyableDamageableBehavior.collidableDestroyableDamageableBehavior (collidable) as super
-    val mutable collided : bool = false
-    method collided = collided
-    method set_collided value' = collided <- value'
-    val mutable collisionHelper : CollisionHelper.collisionHelper = (Obj.magic 0)
-    method collisionHelper = collisionHelper
-    method set_collisionHelper value' = collisionHelper <- value'
+
+provide let rec jclassName = () => "CollidableDamageWeaponBehavior"
+    
+and jnew_1 = (collidable: Bool) => {
+    let this = { jobject: JR.newJObject("CollidableDamageWeaponBehavior"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_layerCollisionUtil: JR.jnull, f_collidable: false, f_damageUtil: JR.jnull, f_collided: false, f_collisionHelper: JR.nullOf(), }
     
     
-
-    method init : 'any1. 'any1 -> unit = fun (sourceLayerInterface) ->
-        let sourceLayerInterface = Obj.repr sourceLayerInterface in
-        begin
-        (self#setCollided (false));
-        ignore (collisionHelper#setOwnerLayerInterface ((Obj.magic sourceLayerInterface)))
-        end [@@warning "-7-20"]
+        void
+        ignore(jm_setCollided(this, false))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableBaseBehavior.jm_setCollidable"))
+JR.cast(jlate(JR.cast(this), JR.cast(true)))
+})
+        this.f_collisionHelper = CollidableHelperFactory.jm_getInstance()
+    this
+}
     
-
-    method isCollision : 'any1 'any2. 'any1 * 'any2 -> bool = fun (ownerLayer, collisionLayer) ->
-        let ownerLayer = Obj.repr ownerLayer in
-        let collisionLayer = Obj.repr collisionLayer in
-        try
-        begin
-        if (collisionHelper#isCollidable ((Obj.magic collisionLayer))) then begin
-            if ((Obj.repr ((Obj.magic ownerLayer)#getGroupInterface ()).(0)) != (Obj.repr ((Obj.magic collisionLayer)#getGroupInterface ()).(0))) then begin
-                raise (Java_return (Obj.repr ((super#isCollision ((Obj.magic ownerLayer), (Obj.magic collisionLayer))))))
-            end
-        end;
-        false
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7-20"]
+and jm_init = (this: CollidableDamageWeaponBehavior, sourceLayerInterface: AllBinaryLayer) => {
+        ignore(jm_setCollided(this, false))
+        ignore(CollisionHelper.jm_setOwnerLayerInterface(this.f_collisionHelper, sourceLayerInterface))
+}
     
-
-    method collide : 'any1 'any2. 'any1 * 'any2 -> unit = fun (ownerLayer, collisionLayer) ->
-        let ownerLayer = Obj.repr ownerLayer in
-        let collisionLayer = Obj.repr collisionLayer in
-        begin
-        ignore (super#collide ((Obj.magic ownerLayer), (Obj.magic collisionLayer)));
-        collided <- true
-        end [@@warning "-7-20"]
+and jm_isCollision = (this: CollidableDamageWeaponBehavior, ownerLayer: CollidableCompositeLayer, collisionLayer: CollidableCompositeLayer) => {
+        if (CollisionHelper.jm_isCollidable(this.f_collisionHelper, collisionLayer)) {
+            if ((CollidableCompositeLayer.jm_getGroupInterface(ownerLayer)[Int32.toNumber(0l)] != CollidableCompositeLayer.jm_getGroupInterface(collisionLayer)[Int32.toNumber(0l)])) {
+                return jm_isCollision(this, ownerLayer, collisionLayer)
+            }
+        }
+        return false
+}
     
-
-    method isCollisionInterface : 'any1 'any2. 'any1 * 'any2 -> bool = fun (ownerLayer, collidableInterfaceCompositeInterface) ->
-        let ownerLayer = Obj.repr ownerLayer in
-        let collidableInterfaceCompositeInterface = Obj.repr collidableInterfaceCompositeInterface in
-        try
-        begin
-        if (collisionHelper#isCollidable ((Obj.magic (Obj.magic collidableInterfaceCompositeInterface)))) then begin
-            let layerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((Obj.magic (Obj.magic collidableInterfaceCompositeInterface)) :> AllBinaryLayer.allBinaryLayer)) in ();
-            if ((Obj.repr ((Obj.magic ownerLayer)#getGroupInterface ()).(0)) != (Obj.repr (!layerInterface#getGroupInterface ()).(0))) then begin
-                if ((self#layerCollisionUtil)#isCollision ((Obj.magic ownerLayer), !layerInterface)) then begin
-                    raise (Java_return (Obj.repr (true)))
-                end
-            end
-        end;
-        false
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7-20"]
+and jm_collide = (this: CollidableDamageWeaponBehavior, ownerLayer: CollidableCompositeLayer, collisionLayer: CollidableCompositeLayer) => {
+        ignore(jm_collide(this, ownerLayer, collisionLayer))
+        this.f_collided = true
+}
     
-
-    method collideInterface : 'any1 'any2. 'any1 * 'any2 -> unit = fun (ownerLayer, collidableInterfaceCompositeInterface) ->
-        let ownerLayer = Obj.repr ownerLayer in
-        let collidableInterfaceCompositeInterface = Obj.repr collidableInterfaceCompositeInterface in
-        begin
-        ignore ((self#damageUtil)#process ((Obj.magic (Obj.magic ownerLayer)), (Obj.magic (Obj.magic collidableInterfaceCompositeInterface))));
-        collided <- true
-        end [@@warning "-7-20"]
+and jm_isCollisionInterface = (this: CollidableDamageWeaponBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) => {
+        if (CollisionHelper.jm_isCollidable(this.f_collisionHelper, JR.cast(collidableInterfaceCompositeInterface))) {
+            let mut layerInterface: AllBinaryLayer = JR.cast(collidableInterfaceCompositeInterface)
+            if ((CollidableCompositeLayer.jm_getGroupInterface(ownerLayer)[Int32.toNumber(0l)] != AllBinaryLayer.jm_getGroupInterface(layerInterface)[Int32.toNumber(0l)])) {
+                if ({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LayerCollisionUtil.jm_isCollision"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_layerCollisionUtil)), JR.cast(ownerLayer), JR.cast(layerInterface)))
+}) {
+                    return true
+                }
+            }
+        }
+        return false
+}
     
-
-    method getCollisionTypeWith : 'any1 'return. 'any1 -> 'return = fun (_layerInterface) ->
-        begin
-        (Obj.magic ((CollisionTypeFactory.getInstance ())#cOLLISION))
-        end [@@warning "-7-20"]
+and jm_collideInterface = (this: CollidableDamageWeaponBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) => {
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("DamageUtil.jm_process"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_damageUtil)), JR.cast(JR.cast(ownerLayer)), JR.cast(JR.cast(collidableInterfaceCompositeInterface))))
+})
+        this.f_collided = true
+}
     
-
-    method isCollided () : bool =
-        begin
-        collided
-        end [@@warning "-7"]
+and jm_getCollisionTypeWith = (this: CollidableDamageWeaponBehavior, layerInterface: AllBinaryLayer) => {
+        return CollisionTypeFactory.jm_getInstance().f_COLLISION
+}
     
+and jm_isCollided = (this: CollidableDamageWeaponBehavior) => {
+        return this.f_collided
+}
+    
+and jm_setCollided = (this: CollidableDamageWeaponBehavior, collided: Bool) => {
+        this.f_collided = collided
+}
 
-    method setCollided ((collided_arg : bool)) : unit =
-        begin
-        collided <- collided_arg
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        collided <- false;
-        ();
-        ();
-        (* super(...) is the inherit clause *) ();
-        (self#setCollided (false));
-        ignore (self#setCollidable (true));
-        collisionHelper <- (CollidableHelperFactory.getInstance ())
-      end
-  end
-let () = java_register_constructor "CollidableDamageWeaponBehavior" (fun arguments -> Obj.repr (new collidableDamageWeaponBehavior (Obj.obj arguments)))
+JR.registerLateBound("CollidableDamageWeaponBehavior.jnew_1", jnew_1)
+JR.registerLateBound("CollidableDamageWeaponBehavior.jm_init", jm_init)
+JR.registerLateBound("CollidableDamageWeaponBehavior.jm_isCollision", jm_isCollision)
+JR.registerLateBound("CollidableDamageWeaponBehavior.jm_collide", jm_collide)
+JR.registerLateBound("CollidableDamageWeaponBehavior.jm_isCollisionInterface", jm_isCollisionInterface)
+JR.registerLateBound("CollidableDamageWeaponBehavior.jm_collideInterface", jm_collideInterface)
+JR.registerLateBound("CollidableDamageWeaponBehavior.jm_getCollisionTypeWith", jm_getCollisionTypeWith)
+JR.registerLateBound("CollidableDamageWeaponBehavior.jm_isCollided", jm_isCollided)
+JR.registerLateBound("CollidableDamageWeaponBehavior.jm_setCollided", jm_setCollided)
+JR.registerLateBound("CollidableDamageWeaponBehavior.f_collided", (this: CollidableDamageWeaponBehavior) => this.f_collided)
+JR.registerLateBound("CollidableDamageWeaponBehavior.set_f_collided", (this: CollidableDamageWeaponBehavior, jvalue) => { this.f_collided = jvalue; jvalue })
+JR.registerLateBound("CollidableDamageWeaponBehavior.f_collisionHelper", (this: CollidableDamageWeaponBehavior) => this.f_collisionHelper)
+JR.registerLateBound("CollidableDamageWeaponBehavior.set_f_collisionHelper", (this: CollidableDamageWeaponBehavior, jvalue) => { this.f_collisionHelper = jvalue; jvalue })
 
 

@@ -1,50 +1,73 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.java.number
+module LongUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.java.number *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/string/CommonPhoneStrings.gr" include CommonPhoneStrings
+use CommonPhoneStrings.{ type CommonPhoneStrings }
+from "./LongData.gr" include LongData
+use LongData.{ type LongData }
 
-open Allbinary_java [@@warning "-33"]
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.string.CommonPhoneStrings *)
+provide record LongUtil {
+  jobject: JObject,
+}
 
 
-let fillIn ((end_ : string)) : string =
-        begin
-        let frameStringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        if ((!frameStringBuffer#length ()) < (LongData.get_mAX_LONG_LENGTH ())) then begin
-            let commonPhoneStrings : CommonPhoneStrings.commonPhoneStrings ref = ref (((CommonPhoneStrings.getInstance ()) :> CommonPhoneStrings.commonPhoneStrings)) in ();
-            let size : int ref = ref (((LongData.get_mAX_LONG_LENGTH ()) - (!frameStringBuffer#length ()))) in ();
-            for _index = 0 to !size - 1 do
-                ignore (!frameStringBuffer#append (!commonPhoneStrings#zERO))
-            done
-        end;
-        ignore (!frameStringBuffer#append (end_));
-        (java_string_of (Obj.repr !frameStringBuffer))
-        end
-
-let () = java_register_static "LongUtil.fillIn" (fun arguments -> Obj.repr (fillIn (Obj.obj arguments)))
-class longUtil () =
-  object
+provide let rec jclassName = () => "LongUtil"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("LongUtil"), }
+        void
+    this
+}
+    
+and jm_fillIn = (end: String) => {
+        let mut frameStringBuffer: StringMaker = StringMaker.jnew_0()
+        if (Int32.(<)(StringMaker.jm_length(frameStringBuffer), LongData.jstatic_MAX_LONG_LENGTH())) {
+            let mut commonPhoneStrings: CommonPhoneStrings = JR.cast(CommonPhoneStrings.jm_getInstance())
+            let mut size: Int32 = Int32.(-)(LongData.jstatic_MAX_LONG_LENGTH(), StringMaker.jm_length(frameStringBuffer))
+            {
+                let mut index: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(+)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index, size))) break
+                ignore(StringMaker.jm_append(frameStringBuffer, commonPhoneStrings.f_ZERO))
+                }
+            }
+        }
+        ignore(StringMaker.jm_append(frameStringBuffer, end))
+        return StringMaker.jm_toString(frameStringBuffer)
+}
 
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "LongUtil" (fun arguments -> Obj.repr (new longUtil (Obj.obj arguments)))
+JR.registerLateBound("LongUtil.jnew_0", jnew_0)
+JR.registerLateBound("LongUtil.jm_fillIn", jm_fillIn)
 
 

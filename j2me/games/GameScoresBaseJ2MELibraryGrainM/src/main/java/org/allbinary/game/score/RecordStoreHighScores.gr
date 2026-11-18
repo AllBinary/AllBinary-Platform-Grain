@@ -1,308 +1,494 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.score
+module RecordStoreHighScores
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.score *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/io/ByteArrayInputStream.gr" include ByteArrayInputStream
+use ByteArrayInputStream.{ type ByteArrayInputStream }
+from "../../../../java/io/DataInputStream.gr" include DataInputStream
+use DataInputStream.{ type DataInputStream }
+from "../../../../java/io/EOFException.gr" include EOFException
+use EOFException.{ type EOFException }
+from "../../../../java/io/IOException.gr" include IOException
+use IOException.{ type IOException }
+from "../../../../org/allbinary/game/GameInfo.gr" include GameInfo
+use GameInfo.{ type GameInfo }
+from "../../../../org/allbinary/game/configuration/persistance/NullRecordComparator.gr" include NullRecordComparator
+use NullRecordComparator.{ type NullRecordComparator }
+from "../../../../org/allbinary/game/configuration/persistance/NullRecordFilter.gr" include NullRecordFilter
+use NullRecordFilter.{ type NullRecordFilter }
+from "../../../../org/allbinary/game/configuration/persistance/NullRecordStore.gr" include NullRecordStore
+use NullRecordStore.{ type NullRecordStore }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/logic/system/security/licensing/AbeClientInformationInterface.gr" include AbeClientInformationInterface
+use AbeClientInformationInterface.{ type AbeClientInformationInterface }
+from "../../../../org/allbinary/persistance/PlatformRecordIdUtil.gr" include PlatformRecordIdUtil
+use PlatformRecordIdUtil.{ type PlatformRecordIdUtil }
+from "../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "./ScoreComparator.gr" include ScoreComparator
+use ScoreComparator.{ type ScoreComparator }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.ByteArrayInputStream *)
-(* import java.io.DataInputStream *)
-(* import java.io.EOFException *)
-(* import java.io.IOException *)
-(* import javax.microedition.rms.RecordComparator *)
-(* import javax.microedition.rms.RecordEnumeration *)
-(* import javax.microedition.rms.RecordStore *)
-(* import javax.microedition.rms.RecordStoreException *)
-(* import javax.microedition.rms.RecordStoreNotFoundException *)
-(* import org.allbinary.TsUtil *)
-(* import org.allbinary.game.GameInfo *)
-(* import org.allbinary.game.configuration.persistance.NullRecordComparator *)
-(* import org.allbinary.game.configuration.persistance.NullRecordFilter *)
-(* import org.allbinary.game.configuration.persistance.NullRecordStore *)
-(* import org.allbinary.logic.StdUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.system.security.licensing.AbeClientInformationInterface *)
-(* import org.allbinary.persistance.PlatformRecordIdUtil *)
-(* import org.allbinary.string.CommonSeps *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.allbinary.util.ABHashtable *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
+provide record RecordStoreHighScores {
+  jobject: JObject,
+  mut f_orderedHighScoresList: JObject,
+  mut f_name: String,
+  mut f_heading: String,
+  mut f_columnOneHeading: String,
+  mut f_columnTwoHeading: String,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_platformRecordIdUtil: PlatformRecordIdUtil,
+  mut f_tsUtil: JObject,
+  mut f_RECORD_ID: String,
+  mut f_MAXHIGHSCORES: Int32,
+  mut f_gameInfo: GameInfo,
+  mut f_abeClientInformation: AbeClientInformationInterface,
+  mut f_recordComparatorInterface: JObject,
+}
 
-let hashTable : Obj.t = (Obj.repr ((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashtable ()))
-let get_hashTable () = Obj.magic hashTable
-let () = java_register_static "RecordStoreHighScores.get_hashTable" (fun _ -> Obj.repr (get_hashTable ()))
-class recordStoreHighScores ((abeClientInformation_arg : AbeClientInformationInterface.abeClientInformationInterface), (gameInfo_arg : GameInfo.gameInfo), (name : string), (heading : string), (columnTwoHeading : string), recordComparatorInterface_arg) =
-  object (self)
-    inherit HighScores.highScores (name, heading, columnTwoHeading) as super
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable platformRecordIdUtil : PlatformRecordIdUtil.platformRecordIdUtil = (Obj.magic 0)
-    method platformRecordIdUtil = platformRecordIdUtil
-    method set_platformRecordIdUtil value' = platformRecordIdUtil <- value'
-    val mutable tsUtil : Obj.t = Obj.repr 0
-    method tsUtil : 'r. 'r = Obj.magic tsUtil
-    method set_tsUtil : 'v. 'v -> unit = fun value' -> tsUtil <- Obj.repr value'
-    val mutable rECORD_ID : string = ""
-    method rECORD_ID = rECORD_ID
-    method set_rECORD_ID value' = rECORD_ID <- value'
-    val mutable mAXHIGHSCORES : int = 0
-    method mAXHIGHSCORES = mAXHIGHSCORES
-    method set_mAXHIGHSCORES value' = mAXHIGHSCORES <- value'
-    val mutable gameInfo : GameInfo.gameInfo = (Obj.magic 0)
-    method gameInfo = gameInfo
-    method set_gameInfo value' = gameInfo <- value'
-    val mutable abeClientInformation : AbeClientInformationInterface.abeClientInformationInterface = (Obj.magic 0)
-    method abeClientInformation = abeClientInformation
-    method set_abeClientInformation value' = abeClientInformation <- value'
-    val mutable recordComparatorInterface : Obj.t = Obj.repr 0
-    method recordComparatorInterface : 'r. 'r = Obj.magic recordComparatorInterface
-    method set_recordComparatorInterface : 'v. 'v -> unit = fun value' -> recordComparatorInterface <- Obj.repr value'
+let mut jcell_hashTable: Option<JObject> = None
+
+provide let rec jclassName = () => "RecordStoreHighScores"
+
+and jstatic_hashTable = () => match (jcell_hashTable) {
+  Some(value) => value,
+  None => {
+    let value: JObject = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashtable"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+}
+    jcell_hashTable = Some(value)
+    value
+  },
+}
+    
+and jnew_6 = (abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, name: String, heading: String, columnTwoHeading: String, recordComparatorInterface: JObject) => {
+    let this = { jobject: JR.newJObject("RecordStoreHighScores"), f_orderedHighScoresList: JR.jnull, f_name: "", f_heading: "", f_columnOneHeading: "", f_columnTwoHeading: "", f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_platformRecordIdUtil: JR.nullOf(), f_tsUtil: JR.jnull, f_RECORD_ID: "", f_MAXHIGHSCORES: 0l, f_gameInfo: JR.nullOf(), f_abeClientInformation: JR.nullOf(), f_recordComparatorInterface: JR.jnull, }
+    this.jobject.toStringFunction = () => jm_toString(this)
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this.f_platformRecordIdUtil = JR.cast(PlatformRecordIdUtil.jm_getInstance())
+    this.f_tsUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_RECORD_ID = "_HS"
+    this.f_MAXHIGHSCORES = 100l
     
     
-
-    method getRecordId : 'any1. 'any1 -> string = fun (abeClientInformation_arg) ->
-        let abeClientInformation_arg = Obj.repr abeClientInformation_arg in
-        begin
-        (platformRecordIdUtil#getRecordId ((Obj.magic abeClientInformation_arg), (java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ((CommonSeps.getInstance ())#uNDERSCORE))#append ((self#getName ())))#append (rECORD_ID))))))
-        end [@@warning "-7-20"]
     
-
-    method addHighScore : 'any1. 'any1 -> unit = fun (newHighScore) ->
-        let newHighScore = Obj.repr newHighScore in
-        begin
-        let recordStore : Obj.t ref = ref ((Obj.repr (NullRecordStore.get_nULL_RECORD_STORE ()))) in ();
-        Fun.protect ~finally:(fun () -> 
-            (try
-                if ((Obj.magic !recordStore) != (Obj.magic 0)) then begin
-                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Closing RecordStore", (Obj.magic self), commonStrings#aDD))));
-                    ignore ((Obj.magic !recordStore)#closeRecordStore ())
-                end
-            with e -> begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#aDD, e))
-            end)
-        ) (fun () -> (try
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Adding HighScore: "))#appendlong (((Obj.magic newHighScore)#getScore ()))))), (Obj.magic self), commonStrings#aDD));
-            if (self#isTooManyHighScores ()) then begin
-                ignore ((Obj.magic logUtil)#putF ("Removing Lowest Score", (Obj.magic self), commonStrings#aDD));
-                (self#removeLowestHighScore ())
-            end;
-            recordStore := Obj.repr ((Obj.magic (java_call_static "RecordStore.openRecordStore" (Obj.repr ((self#getRecordId (abeClientInformation)), true)))));
-            let highScoreBytes : int array ref = ref (((Obj.magic newHighScore)#getAsBytes ())) in ();
-            let recordId : int ref = ref (((Obj.magic !recordStore)#addRecord (!highScoreBytes, 0, (Array.length !highScoreBytes)))) in ();
-            (self#load ())
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#aDD, e))
-        end))
-        end [@@warning "-7-20"]
+        void
+        this.f_abeClientInformation = abeClientInformation
+        this.f_gameInfo = gameInfo
+        this.f_recordComparatorInterface = recordComparatorInterface
+        ignore(jm_load(this))
+    this
+}
     
-
-    method removeLowestHighScore () : unit =
-        begin
-        let recordStore : Obj.t ref = ref ((Obj.repr (NullRecordStore.get_nULL_RECORD_STORE ()))) in ();
-        Fun.protect ~finally:(fun () -> 
-            (try
-                if ((Obj.magic !recordStore) != (Obj.magic 0)) then begin
-                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Closing RecordStore", (Obj.magic self), "removeLowestHighScore"))));
-                    ignore ((Obj.magic !recordStore)#closeRecordStore ())
-                end
-            with e -> begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "removeLowestHighScore", e))
-            end)
-        ) (fun () -> (try
-            recordStore := Obj.repr ((Obj.magic (java_call_static "RecordStore.openRecordStore" (Obj.repr ((self#getRecordId (abeClientInformation)), true)))));
-            let recordEnum : Obj.t ref = ref ((Obj.repr ((Obj.magic !recordStore)#enumerateRecords ((NullRecordFilter.get_nULL_RECORD_FILTER ()), (NullRecordComparator.get_nULL_RECORD_COMPARATOR ()), true)))) in ();
-            let scoreComparator : ScoreComparator.scoreComparator ref = ref ((((Obj.magic (Obj.magic recordComparatorInterface))) :> ScoreComparator.scoreComparator)) in ();
-            let bestHighScore : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "HighScore" (Obj.repr ((- 1), "none", (GameInfo.get_nONE ()), (!scoreComparator#getBestScore ()))))))) in ();
-            let recordAsBytes : int array ref = ref ((Obj.magic 0)) in ();
-            let byteArrayInputStream : java_byte_array_input_stream ref = ref (((Obj.magic 0) :> java_byte_array_input_stream)) in ();
-            let inputStream : java_data_input_stream ref = ref (((Obj.magic 0) :> java_data_input_stream)) in ();
-            while ((Obj.magic !recordEnum)#hasNextElement ()) do
-                let id : int ref = ref (((Obj.magic !recordEnum)#nextRecordId ())) in ();
-                recordAsBytes := ((Obj.magic tsUtil)#getRecord ((Obj.magic !recordStore), !id));
-                if (!recordAsBytes != (Obj.magic 0)) then begin
-                    byteArrayInputStream := (new java_byte_array_input_stream (!recordAsBytes));
-                    inputStream := (Obj.obj (java_new "DataInputStream" (Obj.repr (!byteArrayInputStream))));
-                    let name : string ref = ref ((!inputStream#readUTF ())) in ();
-                    let nextScore : int ref = ref ((!inputStream#readLong ())) in ();
-                    let nextCurrentHighScore : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "HighScore" (Obj.repr (!id, !name, (GameInfo.get_nONE ()), !nextScore)))))) in ();
-                    if (((Obj.magic recordComparatorInterface)#compare (((Obj.magic !nextCurrentHighScore)#getAsBytes ()), ((Obj.magic !bestHighScore)#getAsBytes ()))) = (Obj.magic (java_call_static "RecordComparator.get_fOLLOWS" (Obj.repr ())))) then begin
-                        bestHighScore := Obj.repr ((Obj.magic !nextCurrentHighScore))
-                    end
-                end
-            done;
-            if (((Obj.magic !bestHighScore)#getId ()) <> (- 1)) then begin
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Removing Lowest HighScore: "))#appendlong (((Obj.magic !bestHighScore)#getScore ()))))), (Obj.magic self), commonStrings#lOAD));
-                ignore ((Obj.magic !recordStore)#deleteRecord (((Obj.magic !bestHighScore)#getId ())))
-            end
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "removeLowestHighScore", e))
-        end))
-        end [@@warning "-7"]
+and jm_getInstance = (abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, highScoreName: String, heading: String, columnTwoHeading: String, recordComparatorInterface: JObject) => {
+        let mut highScoresCanBeNull: JObject = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
+JR.cast(jlate(JR.cast(jstatic_hashTable()), JR.cast(JR.cast(highScoreName))))
+})
+        if (JR.isNull(highScoresCanBeNull)) {
+            let mut highScores: JObject = JR.cast(jnew_6(abeClientInformation, gameInfo, highScoreName, heading, columnTwoHeading, recordComparatorInterface))
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
+JR.cast(jlate(JR.cast(jstatic_hashTable()), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getName"))
+JR.cast(jlate(JR.cast(highScores)))
+}), JR.cast(highScores)))
+})
+            return highScores
+        }
+        return JR.cast(highScoresCanBeNull)
+}
     
-
-    method load () : unit =
-        begin
-        let recordStore : Obj.t ref = ref ((Obj.repr (NullRecordStore.get_nULL_RECORD_STORE ()))) in ();
-        Fun.protect ~finally:(fun () -> 
-            (try
-                if ((Obj.magic !recordStore) != (Obj.magic 0)) then begin
-                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("Closing RecordStore", (Obj.magic self), commonStrings#lOAD))));
-                    ignore ((Obj.magic !recordStore)#closeRecordStore ())
-                end
-            with e -> begin
-                ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#lOAD, e))
-            end)
-        ) (fun () -> (try
-            recordStore := Obj.repr ((Obj.magic (java_call_static "RecordStore.openRecordStore" (Obj.repr ((self#getRecordId (abeClientInformation)), true)))));
-            ignore (self#setList ((new BasicArrayListD.basicArrayListD ())));
-            let recordEnum : Obj.t ref = ref ((Obj.repr ((Obj.magic !recordStore)#enumerateRecords ((NullRecordFilter.get_nULL_RECORD_FILTER ()), (NullRecordComparator.get_nULL_RECORD_COMPARATOR ()), true)))) in ();
-            let recordAsBytes : int array ref = ref ((Obj.magic 0)) in ();
-            let byteArrayInputStream : java_byte_array_input_stream ref = ref (((Obj.magic 0) :> java_byte_array_input_stream)) in ();
-            let inputStream : java_data_input_stream ref = ref (((Obj.magic 0) :> java_data_input_stream)) in ();
-            while ((Obj.magic !recordEnum)#hasNextElement ()) do
-                let id : int ref = ref (((Obj.magic !recordEnum)#nextRecordId ())) in ();
-                recordAsBytes := ((Obj.magic tsUtil)#getRecord ((Obj.magic !recordStore), !id));
-                if (!recordAsBytes != (Obj.magic 0)) then begin
-                    byteArrayInputStream := (new java_byte_array_input_stream (!recordAsBytes));
-                    inputStream := (Obj.obj (java_new "DataInputStream" (Obj.repr (!byteArrayInputStream))));
-                    (try
-                        let name : string ref = ref ((!inputStream#readUTF ())) in ();
-                        let score : int ref = ref ((!inputStream#readLong ())) in ();
-                        let newHighScore : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "HighScore" (Obj.repr (!id, !name, (GameInfo.get_nONE ()), !score)))))) in ();
-                        let list : BasicArrayList.basicArrayList ref = ref (((self#getList ()) :> BasicArrayList.basicArrayList)) in ();
-                        let size : int ref = ref ((!list#size ())) in ();
-                        let lastIndex : int ref = ref (!size) in ();
-                        for index = 0 to !size - 1 do
-                            let highScore : Obj.t ref = ref ((Obj.repr (Obj.magic !list#objectArray.(index)))) in ();
-                            if (((Obj.magic recordComparatorInterface)#compare (((Obj.magic !newHighScore)#getAsBytes ()), ((Obj.magic !highScore)#getAsBytes ()))) = (Obj.magic (java_call_static "RecordComparator.get_pRECEDES" (Obj.repr ())))) then begin
-                                lastIndex := index;
-                                raise Java_break
-                            end
-                        done;
-                        ignore (!list#addAt (!lastIndex, (Obj.magic !newHighScore)))
-                    with e -> begin
-                        ignore ((Obj.magic logUtil)#put ("EOF", (Obj.magic self), commonStrings#lOAD, e));
-                        raise e
-                    end)
-                end
-            done
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put ("No High Scores", (Obj.magic self), commonStrings#lOAD, e))
-        end))
-        end [@@warning "-7"]
+and jm_getRecordId = (this: RecordStoreHighScores, abeClientInformation: AbeClientInformationInterface) => {
+        return PlatformRecordIdUtil.jm_getRecordId(this.f_platformRecordIdUtil, abeClientInformation, StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), CommonSeps.jm_getInstance().f_UNDERSCORE), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getName"))
+JR.cast(jlate(JR.cast(this)))
+}), this.f_RECORD_ID)))
+}
     
-
-    method isTooManyHighScores () : bool =
-        try
-        begin
-        if (((self#getList ()) != (Obj.magic 0)) && (((self#getList ())#size ()) < mAXHIGHSCORES)) then begin
-            raise (Java_return (Obj.repr (false)))
-        end else begin
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("HighScores RecordStore Max Reached: "))#appendint (mAXHIGHSCORES)))), (Obj.magic self), "isTooManyHighScores"));
-            raise (Java_return (Obj.repr (true)))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7"]
+and jm_addHighScore = (this: RecordStoreHighScores, newHighScore: JObject) => {
+        let mut recordStore: JObject = JR.cast(NullRecordStore.jstatic_NULL_RECORD_STORE())
+        {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendlong(StringMaker.jm_append(StringMaker.jnew_0(), "Adding HighScore: "), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_getScore"))
+JR.cast(jlate(JR.cast(newHighScore)))
+}))), JR.cast(this), JR.cast(this.f_commonStrings.f_ADD)))
+})
+            if (jm_isTooManyHighScores(this)) {
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Removing Lowest Score"), JR.cast(this), JR.cast(this.f_commonStrings.f_ADD)))
+})
+                ignore(jm_removeLowestHighScore(this))
+            }
+            recordStore = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_openRecordStore"))
+JR.cast(jlate(JR.cast(jm_getRecordId(this, this.f_abeClientInformation)), JR.cast(true)))
+}
+            let mut highScoreBytes: Array<Int32> = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_getAsBytes"))
+JR.cast(jlate(JR.cast(newHighScore)))
+}
+            let mut recordId: Int32 = {
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_addRecord"))
+JR.cast(jlate(JR.cast(recordStore), JR.cast(highScoreBytes), JR.cast(0l), JR.cast(Int32.fromNumber(Array.length(highScoreBytes)))))
+}
+            ignore(jm_load(this))
+        }
+        {
+            {
+                if (!JR.isNull(recordStore)) {
+                    ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast("Closing RecordStore"), JR.cast(this), JR.cast(this.f_commonStrings.f_ADD)))
+})
+                    ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_closeRecordStore"))
+JR.cast(jlate(JR.cast(recordStore)))
+})
+                }
+            }
+        }
+}
     
-
-    method isBestScore : 'any1. 'any1 -> bool = fun (newHighScore) ->
-        let newHighScore = Obj.repr newHighScore in
-        try
-        begin
-        (try
-            if (not (self#isTooManyHighScores ())) then begin
-                ignore ((Obj.magic logUtil)#putF ("Slot Available for a High Score", (Obj.magic self), "isBestScore"));
-                raise (Java_return (Obj.repr (true)))
-            end else begin
-                let list : BasicArrayList.basicArrayList ref = ref (((self#getList ()) :> BasicArrayList.basicArrayList)) in ();
-                let size : int ref = ref ((!list#size ())) in ();
-                for index = 0 to !size - 1 do
-                    let highScore : Obj.t ref = ref ((Obj.repr (Obj.magic !list#objectArray.(index)))) in ();
-                    if (((Obj.magic recordComparatorInterface)#compare (((Obj.magic newHighScore)#getAsBytes ()), ((Obj.magic !highScore)#getAsBytes ()))) = (Obj.magic (java_call_static "RecordComparator.get_fOLLOWS" (Obj.repr ())))) then begin
-                        ignore ((Obj.magic logUtil)#putF ("Obtained a High Score", (Obj.magic self), "isBestScore"));
-                        raise (Java_return (Obj.repr (true)))
-                    end
-                done
-            end;
-            ignore ((Obj.magic logUtil)#putF ("Not a High Score", (Obj.magic self), "isBestScore"));
-            false
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#aDD, e));
-            raise e
-        end)
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7-20"]
+and jm_removeLowestHighScore = (this: RecordStoreHighScores) => {
+        let mut recordStore: JObject = JR.cast(NullRecordStore.jstatic_NULL_RECORD_STORE())
+        {
+            recordStore = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_openRecordStore"))
+JR.cast(jlate(JR.cast(jm_getRecordId(this, this.f_abeClientInformation)), JR.cast(true)))
+}
+            let mut recordEnum: RecordEnumeration = JR.cast({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_enumerateRecords"))
+JR.cast(jlate(JR.cast(recordStore), JR.cast(NullRecordFilter.jstatic_NULL_RECORD_FILTER()), JR.cast(NullRecordComparator.jstatic_NULL_RECORD_COMPARATOR()), JR.cast(true)))
+})
+            let mut scoreComparator: ScoreComparator = (JR.cast(this.f_recordComparatorInterface))
+            let mut bestHighScore: JObject = {
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("HighScore.jnew_4"))
+JR.cast(jlate(JR.cast(Int32.(-)(1l, Int32.(+)(1l, 1l))), JR.cast("none"), JR.cast(GameInfo.jstatic_NONE()), JR.cast(ScoreComparator.jm_getBestScore(scoreComparator))))
+}
+            let mut recordAsBytes: Array<Int32> = [> ]
+            let mut byteArrayInputStream: ByteArrayInputStream = JR.nullOf()
+            let mut inputStream: DataInputStream = JR.nullOf()
+            while (RecordEnumeration.jm_hasNextElement(recordEnum)) {
+                let mut id: Int32 = RecordEnumeration.jm_nextRecordId(recordEnum)
+                recordAsBytes = {
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_getRecord"))
+JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(recordStore), JR.cast(id)))
+}
+                if (!JR.isNull(recordAsBytes)) {
+                    byteArrayInputStream = ByteArrayInputStream.jnew_1(recordAsBytes)
+                    inputStream = DataInputStream.jnew_1(byteArrayInputStream)
+                    let mut name: String = DataInputStream.jm_readUTF_0(inputStream)
+                    let mut nextScore: Int64 = DataInputStream.jm_readLong_0(inputStream)
+                    let mut nextCurrentHighScore: JObject = {
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("HighScore.jnew_4"))
+JR.cast(jlate(JR.cast(id), JR.cast(name), JR.cast(GameInfo.jstatic_NONE()), JR.cast(nextScore)))
+}
+                    if (({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordComparator.jm_compare"))
+JR.cast(jlate(JR.cast(this.f_recordComparatorInterface), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_getAsBytes"))
+JR.cast(jlate(JR.cast(nextCurrentHighScore)))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_getAsBytes"))
+JR.cast(jlate(JR.cast(bestHighScore)))
+})))
+} == {
+let jlate: () => JObject = JR.cast(JR.lateBound("RecordComparator.jstatic_FOLLOWS"))
+JR.cast(jlate())
+})) {
+                        bestHighScore = nextCurrentHighScore
+                    }
+                }
+            }
+            if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_getId"))
+JR.cast(jlate(JR.cast(bestHighScore)))
+} != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendlong(StringMaker.jm_append(StringMaker.jnew_0(), "Removing Lowest HighScore: "), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_getScore"))
+JR.cast(jlate(JR.cast(bestHighScore)))
+}))), JR.cast(this), JR.cast(this.f_commonStrings.f_LOAD)))
+})
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_deleteRecord"))
+JR.cast(jlate(JR.cast(recordStore), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_getId"))
+JR.cast(jlate(JR.cast(bestHighScore)))
+})))
+})
+            }
+        }
+        {
+            {
+                if (!JR.isNull(recordStore)) {
+                    ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast("Closing RecordStore"), JR.cast(this), JR.cast("removeLowestHighScore")))
+})
+                    ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_closeRecordStore"))
+JR.cast(jlate(JR.cast(recordStore)))
+})
+                }
+            }
+        }
+}
     
+and jm_load = (this: RecordStoreHighScores) => {
+        let mut recordStore: JObject = JR.cast(NullRecordStore.jstatic_NULL_RECORD_STORE())
+        {
+            recordStore = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_openRecordStore"))
+JR.cast(jlate(JR.cast(jm_getRecordId(this, this.f_abeClientInformation)), JR.cast(true)))
+}
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_setList"))
+JR.cast(jlate(JR.cast(this), JR.cast(BasicArrayListD.jnew_0())))
+})
+            let mut recordEnum: RecordEnumeration = JR.cast({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_enumerateRecords"))
+JR.cast(jlate(JR.cast(recordStore), JR.cast(NullRecordFilter.jstatic_NULL_RECORD_FILTER()), JR.cast(NullRecordComparator.jstatic_NULL_RECORD_COMPARATOR()), JR.cast(true)))
+})
+            let mut recordAsBytes: Array<Int32> = [> ]
+            let mut byteArrayInputStream: ByteArrayInputStream = JR.nullOf()
+            let mut inputStream: DataInputStream = JR.nullOf()
+            while (RecordEnumeration.jm_hasNextElement(recordEnum)) {
+                let mut id: Int32 = RecordEnumeration.jm_nextRecordId(recordEnum)
+                recordAsBytes = {
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_getRecord"))
+JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(recordStore), JR.cast(id)))
+}
+                if (!JR.isNull(recordAsBytes)) {
+                    byteArrayInputStream = ByteArrayInputStream.jnew_1(recordAsBytes)
+                    inputStream = DataInputStream.jnew_1(byteArrayInputStream)
+                    {
+                        let mut name: String = DataInputStream.jm_readUTF_0(inputStream)
+                        let mut score: Int64 = DataInputStream.jm_readLong_0(inputStream)
+                        let mut newHighScore: JObject = {
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("HighScore.jnew_4"))
+JR.cast(jlate(JR.cast(id), JR.cast(name), JR.cast(GameInfo.jstatic_NONE()), JR.cast(score)))
+}
+                        let mut list: BasicArrayList = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getList"))
+JR.cast(jlate(JR.cast(this)))
+})
+                        let mut size: Int32 = BasicArrayList.jm_size(list)
+                        let mut lastIndex: Int32 = size
+                        {
+                            let mut index: Int32 = 0l
+                            let mut jfirst = true
+                            while (true) {
+                                if (!jfirst) {
+                                    index = Int32.(+)(index, 1l)
+                                }
+                                jfirst = false
+                                if (!(Int32.(<)(index, size))) break
+                            let mut highScore: JObject = JR.cast(list.f_objectArray[Int32.toNumber(index)])
+                            if (({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordComparator.jm_compare"))
+JR.cast(jlate(JR.cast(this.f_recordComparatorInterface), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_getAsBytes"))
+JR.cast(jlate(JR.cast(newHighScore)))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_getAsBytes"))
+JR.cast(jlate(JR.cast(highScore)))
+})))
+} == {
+let jlate: () => JObject = JR.cast(JR.lateBound("RecordComparator.jstatic_PRECEDES"))
+JR.cast(jlate())
+})) {
+                                lastIndex = index
+                                break
+                            }
+                            }
+                        }
+                        ignore(BasicArrayList.jm_addAt(list, lastIndex, JR.cast(newHighScore)))
+                    }
+                }
+            }
+        }
+        {
+            {
+                if (!JR.isNull(recordStore)) {
+                    ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast("Closing RecordStore"), JR.cast(this), JR.cast(this.f_commonStrings.f_LOAD)))
+})
+                    ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_closeRecordStore"))
+JR.cast(jlate(JR.cast(recordStore)))
+})
+                }
+            }
+        }
+}
+    
+and jm_isTooManyHighScores = (this: RecordStoreHighScores) => {
+        if ((!JR.isNull({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getList"))
+JR.cast(jlate(JR.cast(this)))
+}) && Int32.(<)(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getList"))
+JR.cast(jlate(JR.cast(this)))
+})), this.f_MAXHIGHSCORES))) {
+            return false
+        } else {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), "HighScores RecordStore Max Reached: "), this.f_MAXHIGHSCORES))), JR.cast(this), JR.cast("isTooManyHighScores")))
+})
+            return true
+        }
+}
+    
+and jm_isBestScore = (this: RecordStoreHighScores, newHighScore: JObject) => {
+        {
+            if (!jm_isTooManyHighScores(this)) {
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Slot Available for a High Score"), JR.cast(this), JR.cast("isBestScore")))
+})
+                return true
+            } else {
+                let mut list: BasicArrayList = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getList"))
+JR.cast(jlate(JR.cast(this)))
+})
+                let mut size: Int32 = BasicArrayList.jm_size(list)
+                {
+                    let mut index: Int32 = 0l
+                    let mut jfirst = true
+                    while (true) {
+                        if (!jfirst) {
+                            index = Int32.(+)(index, 1l)
+                        }
+                        jfirst = false
+                        if (!(Int32.(<)(index, size))) break
+                    let mut highScore: JObject = JR.cast(list.f_objectArray[Int32.toNumber(index)])
+                    if (({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordComparator.jm_compare"))
+JR.cast(jlate(JR.cast(this.f_recordComparatorInterface), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_getAsBytes"))
+JR.cast(jlate(JR.cast(newHighScore)))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_getAsBytes"))
+JR.cast(jlate(JR.cast(highScore)))
+})))
+} == {
+let jlate: () => JObject = JR.cast(JR.lateBound("RecordComparator.jstatic_FOLLOWS"))
+JR.cast(jlate())
+})) {
+                        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Obtained a High Score"), JR.cast(this), JR.cast("isBestScore")))
+})
+                        return true
+                    }
+                    }
+                }
+            }
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Not a High Score"), JR.cast(this), JR.cast("isBestScore")))
+})
+            return false
+        }
+    return false
+}
+    
+and jm_toString = (this: RecordStoreHighScores) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, jm_toString(this)))
+        let mut list: BasicArrayList = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getList"))
+JR.cast(jlate(JR.cast(this)))
+})
+        let mut size: Int32 = BasicArrayList.jm_size(list)
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            let mut highScore: JObject = JR.cast(list.f_objectArray[Int32.toNumber(index)])
+            ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_getScoreString"))
+JR.cast(jlate(JR.cast(highScore)))
+}))
+            ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_COMMA_SEP))
+            }
+        }
+        return StringMaker.jm_toString(stringBuffer)
+}
 
-    method toString () : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ((super#toString ())));
-        let list : BasicArrayList.basicArrayList ref = ref (((self#getList ()) :> BasicArrayList.basicArrayList)) in ();
-        let size : int ref = ref ((!list#size ())) in ();
-        for index = 0 to !size - 1 do
-            let highScore : Obj.t ref = ref ((Obj.repr (Obj.magic !list#objectArray.(index)))) in ();
-            ignore (!stringBuffer#append (((Obj.magic !highScore)#getScoreString ())));
-            ignore (!stringBuffer#append ((CommonSeps.getInstance ())#cOMMA_SEP))
-        done;
-        (java_string_of (Obj.repr !stringBuffer))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        platformRecordIdUtil <- ((PlatformRecordIdUtil.getInstance ()) :> PlatformRecordIdUtil.platformRecordIdUtil);
-        tsUtil <- (Obj.repr (Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ()))));
-        rECORD_ID <- "_HS";
-        mAXHIGHSCORES <- 100;
-        ();
-        ();
-        ();
-        ();
-        (* super(...) is the inherit clause *) ();
-        abeClientInformation <- abeClientInformation_arg;
-        gameInfo <- gameInfo_arg;
-        recordComparatorInterface <- Obj.repr (recordComparatorInterface_arg);
-        (self#load ())
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "RecordStoreHighScores" (fun arguments -> Obj.repr (new recordStoreHighScores (Obj.obj arguments)))
-
-let getInstance : 'any1 'any2 'any6 'return. 'any1 * 'any2 * string * string * string * 'any6 -> 'return = fun (abeClientInformation_arg, gameInfo_arg, (highScoreName : string), (heading : string), (columnTwoHeading : string), recordComparatorInterface_arg) ->
-        let abeClientInformation_arg = Obj.repr abeClientInformation_arg in
-        let gameInfo_arg = Obj.repr gameInfo_arg in
-        let recordComparatorInterface_arg = Obj.repr recordComparatorInterface_arg in
-        try
-        begin
-        let highScoresCanBeNull : Obj.t ref = ref ((Obj.repr ((Obj.magic hashTable)#get ((Obj.magic highScoreName))))) in ();
-        if (!highScoresCanBeNull == (Obj.magic 0)) then begin
-            let highScores : Obj.t ref = ref ((Obj.repr (new recordStoreHighScores ((Obj.magic abeClientInformation_arg), (Obj.magic gameInfo_arg), highScoreName, heading, columnTwoHeading, (Obj.magic recordComparatorInterface_arg))))) in ();
-            ignore ((Obj.magic hashTable)#put (((Obj.magic !highScores)#getName ()), (Obj.magic !highScores)));
-            raise (Java_return (Obj.repr ((Obj.magic !highScores))))
-        end;
-        (Obj.magic ((Obj.magic !highScoresCanBeNull)))
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
-let () = java_register_static "RecordStoreHighScores.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("RecordStoreHighScores.jnew_6", jnew_6)
+JR.registerLateBound("RecordStoreHighScores.jm_getInstance", jm_getInstance)
+JR.registerLateBound("RecordStoreHighScores.jm_getRecordId", jm_getRecordId)
+JR.registerLateBound("RecordStoreHighScores.jm_addHighScore", jm_addHighScore)
+JR.registerLateBound("RecordStoreHighScores.jm_removeLowestHighScore", jm_removeLowestHighScore)
+JR.registerLateBound("RecordStoreHighScores.jm_load", jm_load)
+JR.registerLateBound("RecordStoreHighScores.jm_isTooManyHighScores", jm_isTooManyHighScores)
+JR.registerLateBound("RecordStoreHighScores.jm_isBestScore", jm_isBestScore)
+JR.registerLateBound("RecordStoreHighScores.jm_toString", jm_toString)
+JR.registerLateBound("RecordStoreHighScores.f_logUtil", (this: RecordStoreHighScores) => this.f_logUtil)
+JR.registerLateBound("RecordStoreHighScores.f_commonStrings", (this: RecordStoreHighScores) => this.f_commonStrings)
+JR.registerLateBound("RecordStoreHighScores.f_platformRecordIdUtil", (this: RecordStoreHighScores) => this.f_platformRecordIdUtil)
+JR.registerLateBound("RecordStoreHighScores.f_tsUtil", (this: RecordStoreHighScores) => this.f_tsUtil)
+JR.registerLateBound("RecordStoreHighScores.f_RECORD_ID", (this: RecordStoreHighScores) => this.f_RECORD_ID)
+JR.registerLateBound("RecordStoreHighScores.f_MAXHIGHSCORES", (this: RecordStoreHighScores) => this.f_MAXHIGHSCORES)
+JR.registerLateBound("RecordStoreHighScores.f_gameInfo", (this: RecordStoreHighScores) => this.f_gameInfo)
+JR.registerLateBound("RecordStoreHighScores.f_abeClientInformation", (this: RecordStoreHighScores) => this.f_abeClientInformation)
+JR.registerLateBound("RecordStoreHighScores.f_recordComparatorInterface", (this: RecordStoreHighScores) => this.f_recordComparatorInterface)
+JR.registerLateBound("RecordStoreHighScores.jstatic_hashTable", jstatic_hashTable)
 
 

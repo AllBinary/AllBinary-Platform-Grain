@@ -1,99 +1,111 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.system.security.crypt.jcehelper
+module AbCrypt
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.system.security.crypt.jcehelper *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../../java/security/Security.gr" include Security
+use Security.{ type Security }
+from "../../../../../../../java/security/spec/KeySpec.gr" include KeySpec
+use KeySpec.{ type KeySpec }
+from "../../../../../../../org/allbinary/init/crypt/jcehelper/CryptInterface.gr" include CryptInterface
+use CryptInterface.{ type CryptInterface }
+from "../../../../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
+from "../../../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../../../../org/bouncycastle/jce/provider/BouncyCastleProvider.gr" include BouncyCastleProvider
+use BouncyCastleProvider.{ type BouncyCastleProvider }
+from "./BaseSecretComposite.gr" include BaseSecretComposite
+use BaseSecretComposite.{ type BaseSecretComposite }
+from "./KeySpecFactory.gr" include KeySpecFactory
+use KeySpecFactory.{ type KeySpecFactory }
+from "./SecretComposite.gr" include SecretComposite
+use SecretComposite.{ type SecretComposite }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.security.Security *)
-(* import java.security.spec.KeySpec *)
-(* import javax.crypto.Cipher *)
-(* import javax.crypto.SecretKey *)
-(* import javax.crypto.SecretKeyFactory *)
-(* import org.allbinary.TsUtil *)
-(* import org.allbinary.init.crypt.jcehelper.CryptInterface *)
-(* import org.allbinary.logic.NullUtil *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.bouncycastle.jce.provider.BouncyCastleProvider *)
+provide record AbCrypt {
+  jobject: JObject,
+  mut f_tsUtil: JObject,
+  mut f_secretComposite: BaseSecretComposite,
+  mut f_algorithm: String,
+}
 
-class abCrypt ((algorithm_arg : string)) =
-  object (self)
-    val mutable tsUtil : Obj.t = Obj.repr 0
-    method tsUtil : 'r. 'r = Obj.magic tsUtil
-    method set_tsUtil : 'v. 'v -> unit = fun value' -> tsUtil <- Obj.repr value'
-    val mutable secretComposite : BaseSecretComposite.baseSecretComposite = (Obj.magic 0)
-    method secretComposite = secretComposite
-    method set_secretComposite value' = secretComposite <- value'
-    val mutable algorithm : string = ""
-    method algorithm = algorithm
-    method set_algorithm value' = algorithm <- value'
+
+provide let rec jclassName = () => "AbCrypt"
     
+and jnew_1 = (algorithm: String) => {
+    let this = { jobject: JR.newJObject("AbCrypt"), f_tsUtil: JR.jnull, f_secretComposite: JR.nullOf(), f_algorithm: "", }
+    this.f_tsUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_secretComposite = JR.cast(BaseSecretComposite.jstatic_NULL_SECRET_COMPOSITE())
     
-
-    method init ((keyAsString : string)) : unit =
-        begin
-        let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        (try
-            (try
-                ignore (java_security_add_provider ((new BouncyCastleProvider.bouncyCastleProvider ())))
-            with e -> begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#iNIT, e))))
-            end);
-            let key : int array ref = ref (((Obj.magic tsUtil)#getByteArray (keyAsString))) in ();
-            let keySpec : Obj.t ref = ref ((Obj.repr ((KeySpecFactory.getInstance ())#getInstance (algorithm, !key)))) in ();
-            let keyFactory : java_secret_key_factory ref = ref (((java_secret_key_factory_get_instance (algorithm)) :> java_secret_key_factory)) in ();
-            let secretKey : java_secret_key ref = ref (((!keyFactory#generateSecret ((Obj.magic !keySpec))) :> java_secret_key)) in ();
-            let cipher : java_cipher ref = ref (((java_cipher_get_instance (algorithm)) :> java_cipher)) in ();
-            secretComposite <- ((new SecretComposite.secretComposite (!secretKey, !cipher, !key)) :> BaseSecretComposite.baseSecretComposite)
-        with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("init Failed", (Obj.magic self), !commonStrings#iNIT, e))))
-        end)
-        end
+        this.f_algorithm = algorithm
+    this
+}
     
-
-    method encrypt ((array : int array)) : int array =
-        begin
-        (try
-            (secretComposite#encrypt (array))
-        with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("Encrypt Failed", (Obj.magic self), "encrypt", e))));
-            (NullUtil.getInstance ())#nULL_BYTE_ARRAY
-        end)
-        end
+and jm_init = (this: AbCrypt, keyAsString: String) => {
+        let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
+        {
+            {
+                ignore(Security.jm_addProvider(BouncyCastleProvider.jnew_0()))
+            }
+            let mut key: Array<Int32> = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_getByteArray"))
+JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(keyAsString)))
+}
+            let mut keySpec: KeySpec = JR.cast(KeySpecFactory.jm_getInstance(KeySpecFactory.jm_getInstance_0(), this.f_algorithm, key))
+            let mut keyFactory: SecretKeyFactory = JR.cast(SecretKeyFactory.jm_getInstance(this.f_algorithm))
+            let mut secretKey: SecretKey = JR.cast(SecretKeyFactory.jm_generateSecret(keyFactory, keySpec))
+            let mut cipher: Cipher = JR.cast(Cipher.jm_getInstance(this.f_algorithm))
+            this.f_secretComposite = JR.cast(SecretComposite.jnew_3(secretKey, cipher, key))
+        }
+}
     
+and jm_encrypt = (this: AbCrypt, array: Array<Int32>) => {
+        {
+            return BaseSecretComposite.jm_encrypt(this.f_secretComposite, array)
+        }
+    return [> ]
+}
+    
+and jm_decrypt = (this: AbCrypt, array: Array<Int32>) => {
+        {
+            return BaseSecretComposite.jm_decrypt(this.f_secretComposite, array)
+        }
+    return [> ]
+}
 
-    method decrypt ((array : int array)) : int array =
-        begin
-        (try
-            (secretComposite#decrypt (array))
-        with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("decrypt Failed", (Obj.magic self), "decrypt", e))));
-            (NullUtil.getInstance ())#nULL_BYTE_ARRAY
-        end)
-        end
-
-    initializer
-      begin
-        tsUtil <- (Obj.repr (Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ()))));
-        secretComposite <- ((BaseSecretComposite.get_nULL_SECRET_COMPOSITE ()) :> BaseSecretComposite.baseSecretComposite);
-        ();
-        ();
-        algorithm <- algorithm_arg
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "AbCrypt" (fun arguments -> Obj.repr (new abCrypt (Obj.obj arguments)))
+JR.registerLateBound("AbCrypt.jnew_1", jnew_1)
+JR.registerLateBound("AbCrypt.jm_init", jm_init)
+JR.registerLateBound("AbCrypt.jm_encrypt", jm_encrypt)
+JR.registerLateBound("AbCrypt.jm_decrypt", jm_decrypt)
+JR.registerLateBound("AbCrypt.f_tsUtil", (this: AbCrypt) => this.f_tsUtil)
+JR.registerLateBound("AbCrypt.f_secretComposite", (this: AbCrypt) => this.f_secretComposite)
+JR.registerLateBound("AbCrypt.set_f_secretComposite", (this: AbCrypt, jvalue) => { this.f_secretComposite = jvalue; jvalue })
+JR.registerLateBound("AbCrypt.f_algorithm", (this: AbCrypt) => this.f_algorithm)
+JR.registerLateBound("AbCrypt.set_f_algorithm", (this: AbCrypt, jvalue) => { this.f_algorithm = jvalue; jvalue })
 
 

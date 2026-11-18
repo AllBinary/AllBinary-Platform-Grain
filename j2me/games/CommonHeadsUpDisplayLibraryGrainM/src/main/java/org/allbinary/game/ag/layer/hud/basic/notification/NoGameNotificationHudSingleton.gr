@@ -1,67 +1,86 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.layer.hud.basic.notification
+module NoGameNotificationHudSingleton
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../../../org/allbinary/game/graphics/hud/BasicHudFactory.gr" include BasicHudFactory
+use BasicHudFactory.{ type BasicHudFactory }
+from "../../../../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./GameNotificationHud.gr" include GameNotificationHud
+use GameNotificationHud.{ type GameNotificationHud }
+from "./NoGameGameNotificationHud.gr" include NoGameGameNotificationHud
+use NoGameGameNotificationHud.{ type NoGameGameNotificationHud }
+
+provide record NoGameNotificationHudSingleton {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_gameNotificationHud: GameNotificationHud,
+}
+
+let mut jcell_instance: Option<NoGameNotificationHudSingleton> = None
+
+provide let rec jclassName = () => "NoGameNotificationHudSingleton"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: NoGameNotificationHudSingleton = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.layer.hud.basic.notification *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.graphics.hud.BasicHudFactory *)
-(* import org.allbinary.graphics.color.BasicColorFactory *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
-
-class noGameNotificationHudSingleton () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable gameNotificationHud : GameNotificationHud.gameNotificationHud = (Obj.magic 0)
-    method gameNotificationHud = gameNotificationHud
-    method set_gameNotificationHud value' = gameNotificationHud <- value'
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("NoGameNotificationHudSingleton"), f_logUtil: JR.jnull, f_gameNotificationHud: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_gameNotificationHud = JR.cast(GameNotificationHud.jstatic_NULL_GAME_NOTIFICATION())
+        {
+            let mut basicHudFactory: BasicHudFactory = JR.cast(BasicHudFactory.jm_getInstance())
+            this.f_gameNotificationHud = JR.cast(NoGameGameNotificationHud.jnew_0())
+        }
+    this
+}
     
+and jm_getGameNotificationHud = (this: NoGameNotificationHudSingleton) => {
+        return this.f_gameNotificationHud
+}
 
-    method getGameNotificationHud : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (gameNotificationHud))
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        gameNotificationHud <- ((GameNotificationHud.get_nULL_GAME_NOTIFICATION ()) :> GameNotificationHud.gameNotificationHud);
-        ();
-        (try
-            let basicHudFactory : BasicHudFactory.basicHudFactory ref = ref (((BasicHudFactory.getInstance ()) :> BasicHudFactory.basicHudFactory)) in ();
-            gameNotificationHud <- ((new NoGameGameNotificationHud.noGameGameNotificationHud ()) :> GameNotificationHud.gameNotificationHud)
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#cONSTRUCTOR, e))
-        end)
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "NoGameNotificationHudSingleton" (fun arguments -> Obj.repr (new noGameNotificationHudSingleton (Obj.obj arguments)))
-
-let instance = (new noGameNotificationHudSingleton ())
-let get_instance () = instance
-let () = java_register_static "NoGameNotificationHudSingleton.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "NoGameNotificationHudSingleton.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("NoGameNotificationHudSingleton.jnew_0", jnew_0)
+JR.registerLateBound("NoGameNotificationHudSingleton.jm_getInstance", jm_getInstance)
+JR.registerLateBound("NoGameNotificationHudSingleton.jm_getGameNotificationHud", jm_getGameNotificationHud)
+JR.registerLateBound("NoGameNotificationHudSingleton.f_logUtil", (this: NoGameNotificationHudSingleton) => this.f_logUtil)
+JR.registerLateBound("NoGameNotificationHudSingleton.f_gameNotificationHud", (this: NoGameNotificationHudSingleton) => this.f_gameNotificationHud)
+JR.registerLateBound("NoGameNotificationHudSingleton.set_f_gameNotificationHud", (this: NoGameNotificationHudSingleton, jvalue) => { this.f_gameNotificationHud = jvalue; jvalue })
+JR.registerLateBound("NoGameNotificationHudSingleton.jstatic_instance", jstatic_instance)
 
 

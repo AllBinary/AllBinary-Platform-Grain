@@ -1,50 +1,62 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.data.tree.dom
+module BasicErrorNodeUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.data.tree.dom *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/business/error/ErrorData.gr" include ErrorData
+use ErrorData.{ type ErrorData }
+from "../../../../../org/w3c/dom/Document.gr" include Document
+use Document.{ type Document }
+from "../../../../../org/w3c/dom/Node.gr" include Node
+use Node.{ type Node }
+from "./ModDomHelper.gr" include ModDomHelper
+use ModDomHelper.{ type ModDomHelper }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.business.error.ErrorData *)
-(* import org.w3c.dom.Document *)
-(* import org.w3c.dom.Node *)
+provide record BasicErrorNodeUtil {
+  jobject: JObject,
+}
 
 
-let get : 'any1 'return. 'any1 * string -> 'return = fun (document, (errorText : string)) ->
-        let document = Obj.repr document in
-        begin
-        (try
-            let node : Obj.t ref = ref ((Obj.repr ((Obj.magic document)#createElement ((ErrorData.getInstance ())#nAME)))) in ();
-            ignore ((Obj.magic !node)#appendChild ((ModDomHelper.createNameValueNodes ((Obj.magic document), (ErrorData.getInstance ())#tEXT, errorText))));
-            (Obj.magic ((Obj.magic !node)))
-        with e -> begin
-            raise (Failure ("Error Node Creation Failure"))
-        end)
-        end [@@warning "-20"]
-
-let () = java_register_static "BasicErrorNodeUtil.get" (fun arguments -> Obj.repr (get (Obj.obj arguments)))
-class basicErrorNodeUtil () =
-  object
+provide let rec jclassName = () => "BasicErrorNodeUtil"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("BasicErrorNodeUtil"), }
+        void
+    this
+}
+    
+and jm_get = (document: Document, errorText: String) => {
+        {
+            let mut node: Node = JR.cast(Document.jm_createElement(document, ErrorData.jm_getInstance().f_NAME))
+            ignore(Node.jm_appendChild(node, ModDomHelper.jm_createNameValueNodes_3(document, ErrorData.jm_getInstance().f_TEXT, errorText)))
+            return node
+        }
+    return JR.nullOf()
+}
 
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "BasicErrorNodeUtil" (fun arguments -> Obj.repr (new basicErrorNodeUtil (Obj.obj arguments)))
+JR.registerLateBound("BasicErrorNodeUtil.jnew_0", jnew_0)
+JR.registerLateBound("BasicErrorNodeUtil.jm_get", jm_get)
 
 

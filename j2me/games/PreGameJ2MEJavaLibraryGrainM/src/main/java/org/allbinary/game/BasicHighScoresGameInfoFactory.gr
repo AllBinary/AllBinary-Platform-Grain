@@ -1,49 +1,73 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game
+module BasicHighScoresGameInfoFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./GameInfo.gr" include GameInfo
+use GameInfo.{ type GameInfo }
+from "./GameTypeFactory.gr" include GameTypeFactory
+use GameTypeFactory.{ type GameTypeFactory }
+from "./GameMode.gr" include GameMode
+use GameMode.{ type GameMode }
+from "./PlayerTypesFactory.gr" include PlayerTypesFactory
+use PlayerTypesFactory.{ type PlayerTypesFactory }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
+provide record BasicHighScoresGameInfoFactory {
+  jobject: JObject,
+  mut f_MULTI_PLAYER_SERVER: GameInfo,
+  mut f_SINGLE_PLAYER_SERVER: GameInfo,
+}
 
-class basicHighScoresGameInfoFactory () =
-  object
-    val mutable mULTI_PLAYER_SERVER : GameInfo.gameInfo = (Obj.magic 0)
-    method mULTI_PLAYER_SERVER = mULTI_PLAYER_SERVER
-    method set_mULTI_PLAYER_SERVER value' = mULTI_PLAYER_SERVER <- value'
-    val mutable sINGLE_PLAYER_SERVER : GameInfo.gameInfo = (Obj.magic 0)
-    method sINGLE_PLAYER_SERVER = sINGLE_PLAYER_SERVER
-    method set_sINGLE_PLAYER_SERVER value' = sINGLE_PLAYER_SERVER <- value'
+let mut jcell_SINGLETON: Option<BasicHighScoresGameInfoFactory> = None
 
-    initializer
-      begin
-        mULTI_PLAYER_SERVER <- ((new GameInfo.gameInfo ((GameTypeFactory.getInstance ())#mULTI_PLAYER, (GameMode.get_sERVER ()), (PlayerTypesFactory.getInstance ())#pLAYER_TYPE_ONE, 0, 0)) :> GameInfo.gameInfo);
-        sINGLE_PLAYER_SERVER <- ((new GameInfo.gameInfo ((GameTypeFactory.getInstance ())#sINGLE_PLAYER, (GameMode.get_sERVER ()), (PlayerTypesFactory.getInstance ())#pLAYER_TYPE_ONE, 0, 0)) :> GameInfo.gameInfo);
-        ()
-      end
-  end
-let () = java_register_constructor "BasicHighScoresGameInfoFactory" (fun arguments -> Obj.repr (new basicHighScoresGameInfoFactory (Obj.obj arguments)))
+provide let rec jclassName = () => "BasicHighScoresGameInfoFactory"
 
-let sINGLETON = (new basicHighScoresGameInfoFactory ())
-let get_sINGLETON () = sINGLETON
-let () = java_register_static "BasicHighScoresGameInfoFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
+  Some(value) => value,
+  None => {
+    let value: BasicHighScoresGameInfoFactory = jnew_0()
+    jcell_SINGLETON = Some(value)
+    value
+  },
+}
 
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (sINGLETON))
-        end
-let () = java_register_static "BasicHighScoresGameInfoFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("BasicHighScoresGameInfoFactory"), f_MULTI_PLAYER_SERVER: JR.nullOf(), f_SINGLE_PLAYER_SERVER: JR.nullOf(), }
+    this.f_MULTI_PLAYER_SERVER = GameInfo.jnew_5(GameTypeFactory.jm_getInstance().f_MULTI_PLAYER, GameMode.jstatic_SERVER(), PlayerTypesFactory.jm_getInstance().f_PLAYER_TYPE_ONE, 0l, 0l)
+    this.f_SINGLE_PLAYER_SERVER = GameInfo.jnew_5(GameTypeFactory.jm_getInstance().f_SINGLE_PLAYER, GameMode.jstatic_SERVER(), PlayerTypesFactory.jm_getInstance().f_PLAYER_TYPE_ONE, 0l, 0l)
+    this
+}
+    
+and jm_getInstance = () => {
+        return jstatic_SINGLETON()
+}
+
+JR.registerLateBound("BasicHighScoresGameInfoFactory.jnew_0", jnew_0)
+JR.registerLateBound("BasicHighScoresGameInfoFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("BasicHighScoresGameInfoFactory.f_MULTI_PLAYER_SERVER", (this: BasicHighScoresGameInfoFactory) => this.f_MULTI_PLAYER_SERVER)
+JR.registerLateBound("BasicHighScoresGameInfoFactory.f_SINGLE_PLAYER_SERVER", (this: BasicHighScoresGameInfoFactory) => this.f_SINGLE_PLAYER_SERVER)
+JR.registerLateBound("BasicHighScoresGameInfoFactory.jstatic_SINGLETON", jstatic_SINGLETON)
 
 

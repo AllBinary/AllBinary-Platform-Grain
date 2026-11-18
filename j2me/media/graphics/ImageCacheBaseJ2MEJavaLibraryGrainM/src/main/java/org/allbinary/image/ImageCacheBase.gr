@@ -1,208 +1,254 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.image
+module ImageCacheBase
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.image *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../java/io/InputStream.gr" include InputStream
+use InputStream.{ type InputStream }
+from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../org/allbinary/string/CommonLabels.gr" include CommonLabels
+use CommonLabels.{ type CommonLabels }
+from "../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "./ImageFactory.gr" include ImageFactory
+use ImageFactory.{ type ImageFactory }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.InputStream *)
-(* import javax.microedition.lcdui.Image *)
-(* import javax.microedition.lcdui.NullImage *)
-(* import org.allbinary.logic.StdUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.string.CommonLabels *)
-(* import org.allbinary.string.CommonSeps *)
-(* import org.allbinary.util.ABHashtable *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
+provide record ImageCacheBase {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_imageFactory: ImageFactory,
+  mut f_hashtable: JObject,
+  mut f_SIZE: Int32,
+  mut f_widths: Array<Int32>,
+  mut f_heights: Array<Int32>,
+  mut f_listOfList: Array<BasicArrayList>,
+  mut f_availableListOfList: Array<BasicArrayList>,
+  mut f_volume: Int32,
+  mut f_nextIndex: Int32,
+}
 
-class imageCacheBase () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable imageFactory : ImageFactory.imageFactory = (Obj.magic 0)
-    method imageFactory = imageFactory
-    method set_imageFactory value' = imageFactory <- value'
-    val mutable hashtable : Obj.t = Obj.repr 0
-    method hashtable : 'r. 'r = Obj.magic hashtable
-    method set_hashtable : 'v. 'v -> unit = fun value' -> hashtable <- Obj.repr value'
-    val mutable sIZE : int = 0
-    method sIZE = sIZE
-    method set_sIZE value' = sIZE <- value'
-    val mutable widths : int array = (Obj.magic 0)
-    method widths = widths
-    method set_widths value' = widths <- value'
-    val mutable heights : int array = (Obj.magic 0)
-    method heights = heights
-    method set_heights value' = heights <- value'
-    val mutable listOfList : BasicArrayList.basicArrayList array = (Obj.magic 0)
-    method listOfList = listOfList
-    method set_listOfList value' = listOfList <- value'
-    val mutable availableListOfList : BasicArrayList.basicArrayList array = (Obj.magic 0)
-    method availableListOfList = availableListOfList
-    method set_availableListOfList value' = availableListOfList <- value'
-    val mutable volume : int = 0
-    method volume = volume
-    method set_volume value' = volume <- value'
-    val mutable nextIndex : int = 0
-    method nextIndex = nextIndex
-    method set_nextIndex value' = nextIndex <- value'
+
+provide let rec jclassName = () => "ImageCacheBase"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ImageCacheBase"), f_logUtil: JR.jnull, f_imageFactory: JR.nullOf(), f_hashtable: JR.jnull, f_SIZE: 0l, f_widths: [> ], f_heights: [> ], f_listOfList: [> ], f_availableListOfList: [> ], f_volume: 0l, f_nextIndex: 0l, }
+    this.jobject.toStringFunction = () => jm_toString(this)
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_imageFactory = JR.cast(ImageFactory.jm_getInstance())
+    this.f_hashtable = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashtable"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+})
+    this.f_SIZE = 128l
+    this.f_widths = Array.make(Int32.toNumber(this.f_SIZE), 0l)
+    this.f_heights = Array.make(Int32.toNumber(this.f_SIZE), 0l)
+    this.f_listOfList = Array.make(Int32.toNumber(this.f_SIZE), JR.nullOf())
+    this.f_availableListOfList = Array.make(Int32.toNumber(this.f_SIZE), JR.nullOf())
+    this.f_volume = 0l
+    this.f_nextIndex = 0l
+        {
+            let mut index: Int32 = Int32.(-)(Int32.fromNumber(Array.length(this.f_listOfList)), 1l)
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(-)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(>=)(index, 0l))) break
+            this.f_listOfList[Int32.toNumber(index)] = JR.cast(BasicArrayListD.jnew_0())
+            }
+        }
+        {
+            let mut index: Int32 = Int32.(-)(Int32.fromNumber(Array.length(this.f_availableListOfList)), 1l)
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(-)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(>=)(index, 0l))) break
+            this.f_availableListOfList[Int32.toNumber(index)] = JR.cast(BasicArrayListD.jnew_0())
+            }
+        }
+    this
+}
     
-
-    method getImage : 'any1 'return. 'any1 -> 'return = fun (resourceId) ->
-        let resourceId = Obj.repr resourceId in
-        try
-        begin
-        let imageCanBeNull : Obj.t ref = ref ((Obj.repr ((Obj.magic hashtable)#get (resourceId)))) in ();
-        if (!imageCanBeNull == (Obj.magic 0)) then begin
-            raise (Java_return (Obj.repr ((NullImage.get_nULL_IMAGE ()))))
-        end;
-        (Obj.magic ((Obj.magic !imageCanBeNull)))
-        end
-        with Java_return value -> Obj.obj value
+and jm_getImage = (this: ImageCacheBase, resourceId: JObject) => {
+        let mut imageCanBeNull: JObject = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
+JR.cast(jlate(JR.cast(this.f_hashtable), JR.cast(resourceId)))
+})
+        if (JR.isNull(imageCanBeNull)) {
+            return NullImage.jstatic_NULL_IMAGE()
+        }
+        return JR.cast(imageCanBeNull)
+}
     
-
-    method releaseAll () : unit =
-        begin
-        for index = ((Array.length listOfList) - 1) downto 0 do
-            ignore (availableListOfList.(index)#clear ());
-            ignore (availableListOfList.(index)#addAllList (listOfList.(index)))
-        done;
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("ImageCache: "))#append ((java_string_of (Obj.repr self)))))), (Obj.magic self), "releaseAll"))
-        end
+and jm_releaseAll = (this: ImageCacheBase) => {
+        {
+            let mut index: Int32 = Int32.(-)(Int32.fromNumber(Array.length(this.f_listOfList)), 1l)
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(-)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(>=)(index, 0l))) break
+            ignore(JR.className(JR.cast(this.f_availableListOfList[Int32.toNumber(index)])))
+            ignore(JR.className(JR.cast(this.f_availableListOfList[Int32.toNumber(index)])))
+            }
+        }
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "ImageCache: "), jm_toString(this)))), JR.cast(this), JR.cast("releaseAll")))
+})
+}
     
-
-    method getIndexWH ((width : int), (height : int)) : int =
-        try
-        begin
-        let foundIndex : int ref = ref ((- 1)) in ();
-        let size : int ref = ref ((Array.length widths)) in ();
-        for index = 0 to !size - 1 do
-            if ((widths.(index) = width) && (heights.(index) = height)) then begin
-                foundIndex := index;
-                raise (Java_return (Obj.repr (!foundIndex)))
-            end
-        done;
-        !foundIndex
-        end
-        with Java_return value -> Obj.obj value
+and jm_getIndexWH = (this: ImageCacheBase, width: Int32, height: Int32) => {
+        let mut foundIndex: Int32 = Int32.(-)(1l, Int32.(+)(1l, 1l))
+        let mut size: Int32 = Int32.fromNumber(Array.length(this.f_widths))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            if (((this.f_widths[Int32.toNumber(index)] == width) && (this.f_heights[Int32.toNumber(index)] == height))) {
+                foundIndex = index
+                return foundIndex
+            }
+            }
+        }
+        return foundIndex
+}
     
-
-    method getFromAvailable : 'return. int * int * int -> 'return = fun ((foundIndex : int), (_width : int), (_height : int)) ->
-        try
-        begin
-        if (foundIndex <> (- 1)) then begin
-            if ((availableListOfList.(foundIndex)#size ()) > 0) then begin
-                let list : BasicArrayList.basicArrayList ref = ref ((availableListOfList.(foundIndex) :> BasicArrayList.basicArrayList)) in ();
-                raise (Java_return (Obj.repr ((Obj.magic (!list#removeAt (((!list#size ()) - 1)))))))
-            end
-        end;
-        (Obj.magic ((NullImage.get_nULL_IMAGE ())))
-        end
-        with Java_return value -> Obj.obj value
+and jm_getFromAvailable = (this: ImageCacheBase, foundIndex: Int32, width: Int32, height: Int32) => {
+        if ((foundIndex != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
+            if (Int32.(>)(JR.className(JR.cast(this.f_availableListOfList[Int32.toNumber(foundIndex)])), 0l)) {
+                let mut list: BasicArrayList = JR.cast(this.f_availableListOfList[Int32.toNumber(foundIndex)])
+                return JR.cast(BasicArrayList.jm_removeAt(list, Int32.(-)(BasicArrayList.jm_size(list), 1l)))
+            }
+        }
+        return NullImage.jstatic_NULL_IMAGE()
+}
     
-
-    method get : 'return. string * int * int -> 'return = fun ((_caller : string), (_width : int), (_height : int)) ->
-        begin
-        raise (Failure ("RuntimeException"))
-        end
+and jm_get = (this: ImageCacheBase, caller: String, width: Int32, height: Int32) => {
+        fail JR.toStringOf(JR.newJObject("RuntimeException"))
+}
     
-
-    method getWithKey : 'any1 'return. 'any1 -> 'return = fun (_key) ->
-        begin
-        raise (Failure ("RuntimeException"))
-        end
+and jm_getWithKey = (this: ImageCacheBase, key: JObject) => {
+        fail JR.toStringOf(JR.newJObject("RuntimeException"))
+}
     
-
-    method createImage : 'return. string * int * int -> 'return = fun ((caller : string), (width : int), (height : int)) ->
-        begin
-        (Obj.magic ((imageFactory#createImage (caller, width, height))))
-        end
+and jm_createImage = (this: ImageCacheBase, caller: String, width: Int32, height: Int32) => {
+        return ImageFactory.jm_createImage(this.f_imageFactory, caller, width, height)
+}
     
-
-    method createImageFromInputStream : 'any1 'any2 'return. 'any1 * 'any2 -> 'return = fun (key, inputStream) ->
-        let key = Obj.repr key in
-        let inputStream = Obj.repr inputStream in
-        begin
-        (Obj.magic ((imageFactory#createImageFromInputStream (key, (Obj.magic inputStream)))))
-        end [@@warning "-20"]
+and jm_createImageFromInputStream = (this: ImageCacheBase, key: JObject, inputStream: InputStream) => {
+        return ImageFactory.jm_createImageFromInputStream(this.f_imageFactory, key, inputStream)
+}
     
-
-    method toString () : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        for index = (nextIndex - 1) downto 0 do
-            let width : int ref = ref (widths.(index)) in ();
-            let height : int ref = ref (heights.(index)) in ();
-            let total : int ref = ref ((listOfList.(index)#size ())) in ();
-            let totalAvailable : int ref = ref ((availableListOfList.(index)#size ())) in ();
-            ignore (!stringBuffer#append (" w: "));
-            ignore (!stringBuffer#appendint (!width));
-            ignore (!stringBuffer#append (" h: "));
-            ignore (!stringBuffer#appendint (!height));
-            ignore (!stringBuffer#append ((CommonSeps.getInstance ())#sPACE));
-            ignore (!stringBuffer#append ((CommonLabels.getInstance ())#tOTAL_LABEL));
-            ignore (!stringBuffer#appendint (!total));
-            ignore (!stringBuffer#append (" available: "));
-            ignore (!stringBuffer#appendint (!totalAvailable))
-        done;
-        (java_string_of (Obj.repr !stringBuffer))
-        end
+and jm_toString = (this: ImageCacheBase) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        {
+            let mut index: Int32 = Int32.(-)(this.f_nextIndex, 1l)
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(-)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(>=)(index, 0l))) break
+            let mut width: Int32 = this.f_widths[Int32.toNumber(index)]
+            let mut height: Int32 = this.f_heights[Int32.toNumber(index)]
+            let mut total: Int32 = JR.className(JR.cast(this.f_listOfList[Int32.toNumber(index)]))
+            let mut totalAvailable: Int32 = JR.className(JR.cast(this.f_availableListOfList[Int32.toNumber(index)]))
+            ignore(StringMaker.jm_append(stringBuffer, " w: "))
+            ignore(StringMaker.jm_appendint(stringBuffer, width))
+            ignore(StringMaker.jm_append(stringBuffer, " h: "))
+            ignore(StringMaker.jm_appendint(stringBuffer, height))
+            ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
+            ignore(StringMaker.jm_append(stringBuffer, CommonLabels.jm_getInstance().f_TOTAL_LABEL))
+            ignore(StringMaker.jm_appendint(stringBuffer, total))
+            ignore(StringMaker.jm_append(stringBuffer, " available: "))
+            ignore(StringMaker.jm_appendint(stringBuffer, totalAvailable))
+            }
+        }
+        return StringMaker.jm_toString(stringBuffer)
+}
     
-
-    method getHashtableP : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic hashtable)))
-        end
+and jm_getHashtableP = (this: ImageCacheBase) => {
+        return this.f_hashtable
+}
     
-
-    method init : 'any1. 'any1 -> unit = fun (_image) ->
-        begin
-        ()
-        end [@@warning "-20"]
+and jm_init = (this: ImageCacheBase, image: JObject) => {
+    void
+}
     
+and jm_initProgress = (this: ImageCacheBase) => {
+    void
+}
 
-    method initProgress () : unit =
-        begin
-        ()
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        imageFactory <- ((ImageFactory.getInstance ()) :> ImageFactory.imageFactory);
-        hashtable <- (Obj.repr ((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashtable ()));
-        sIZE <- 128;
-        widths <- (Array.make (sIZE) 0);
-        heights <- (Array.make (sIZE) 0);
-        listOfList <- (Array.make (sIZE) (Obj.magic 0));
-        availableListOfList <- (Array.make (sIZE) (Obj.magic 0));
-        volume <- 0;
-        nextIndex <- 0;
-        ();
-        for index = ((Array.length listOfList) - 1) downto 0 do
-            listOfList.(index) <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)
-        done;
-        for index = ((Array.length availableListOfList) - 1) downto 0 do
-            availableListOfList.(index) <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)
-        done
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "ImageCacheBase" (fun arguments -> Obj.repr (new imageCacheBase (Obj.obj arguments)))
+JR.registerLateBound("ImageCacheBase.jnew_0", jnew_0)
+JR.registerLateBound("ImageCacheBase.jm_getImage", jm_getImage)
+JR.registerLateBound("ImageCacheBase.jm_releaseAll", jm_releaseAll)
+JR.registerLateBound("ImageCacheBase.jm_getIndexWH", jm_getIndexWH)
+JR.registerLateBound("ImageCacheBase.jm_getFromAvailable", jm_getFromAvailable)
+JR.registerLateBound("ImageCacheBase.jm_get", jm_get)
+JR.registerLateBound("ImageCacheBase.jm_getWithKey", jm_getWithKey)
+JR.registerLateBound("ImageCacheBase.jm_createImage", jm_createImage)
+JR.registerLateBound("ImageCacheBase.jm_createImageFromInputStream", jm_createImageFromInputStream)
+JR.registerLateBound("ImageCacheBase.jm_toString", jm_toString)
+JR.registerLateBound("ImageCacheBase.jm_getHashtableP", jm_getHashtableP)
+JR.registerLateBound("ImageCacheBase.jm_init", jm_init)
+JR.registerLateBound("ImageCacheBase.jm_initProgress", jm_initProgress)
+JR.registerLateBound("ImageCacheBase.f_logUtil", (this: ImageCacheBase) => this.f_logUtil)
+JR.registerLateBound("ImageCacheBase.f_imageFactory", (this: ImageCacheBase) => this.f_imageFactory)
+JR.registerLateBound("ImageCacheBase.f_hashtable", (this: ImageCacheBase) => this.f_hashtable)
+JR.registerLateBound("ImageCacheBase.f_SIZE", (this: ImageCacheBase) => this.f_SIZE)
+JR.registerLateBound("ImageCacheBase.f_widths", (this: ImageCacheBase) => this.f_widths)
+JR.registerLateBound("ImageCacheBase.f_heights", (this: ImageCacheBase) => this.f_heights)
+JR.registerLateBound("ImageCacheBase.f_listOfList", (this: ImageCacheBase) => this.f_listOfList)
+JR.registerLateBound("ImageCacheBase.f_availableListOfList", (this: ImageCacheBase) => this.f_availableListOfList)
+JR.registerLateBound("ImageCacheBase.f_volume", (this: ImageCacheBase) => this.f_volume)
+JR.registerLateBound("ImageCacheBase.set_f_volume", (this: ImageCacheBase, jvalue) => { this.f_volume = jvalue; jvalue })
+JR.registerLateBound("ImageCacheBase.f_nextIndex", (this: ImageCacheBase) => this.f_nextIndex)
+JR.registerLateBound("ImageCacheBase.set_f_nextIndex", (this: ImageCacheBase, jvalue) => { this.f_nextIndex = jvalue; jvalue })
 
 

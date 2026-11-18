@@ -1,68 +1,83 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.displayable.canvas
+module GameCanvasPauseRunnable
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.displayable.canvas *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/configuration/feature/Features.gr" include Features
+use Features.{ type Features }
+from "../../../../../org/allbinary/graphics/opengles/OpenGLFeatureFactory.gr" include OpenGLFeatureFactory
+use OpenGLFeatureFactory.{ type OpenGLFeatureFactory }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./GameRunnable.gr" include GameRunnable
+use GameRunnable.{ type GameRunnable }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.AndroidUtil *)
-(* import org.allbinary.game.configuration.feature.Features *)
-(* import org.allbinary.graphics.opengles.OpenGLFeatureFactory *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record GameCanvasPauseRunnable {
+  jobject: JObject,
+  mut f_WAIT: Int32,
+  mut f_FAST: Int32,
+  mut f_waitInMillis: Int64,
+  mut f_logUtil: JObject,
+  mut f_allBinaryGameCanvas: JObject,
+}
 
-class gameCanvasPauseRunnable (allBinaryGameCanvas_arg) =
-  object (self)
-    inherit GameRunnable.gameRunnable ()
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable allBinaryGameCanvas : Obj.t = Obj.repr 0
-    method allBinaryGameCanvas : 'r. 'r = Obj.magic allBinaryGameCanvas
-    method set_allBinaryGameCanvas : 'v. 'v -> unit = fun value' -> allBinaryGameCanvas <- Obj.repr value'
+
+provide let rec jclassName = () => "GameCanvasPauseRunnable"
     
+and jnew_1 = (allBinaryGameCanvas: JObject) => {
+    let this = { jobject: JR.newJObject("GameCanvasPauseRunnable"), f_WAIT: 0l, f_FAST: 0l, f_waitInMillis: 0L, f_logUtil: JR.jnull, f_allBinaryGameCanvas: JR.jnull, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
     
-
-    method run () : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+        this.f_allBinaryGameCanvas = allBinaryGameCanvas
+    this
+}
     
+and jm_run = (this: GameCanvasPauseRunnable) => {
+    void
+}
+    
+and jm_processLoopSleep = (this: GameCanvasPauseRunnable) => {
+        {
+            let mut features: Features = JR.cast(Features.jm_getInstance())
+            let mut isOpenGL: Bool = Features.jm_isDefault(features, JR.cast(OpenGLFeatureFactory.jm_getInstance().f_OPENGL))
+            if (isOpenGL) {
+                ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_processSleep"))
+JR.cast(jlate(JR.cast(this.f_allBinaryGameCanvas)))
+})
+            }
+        }
+}
 
-    method processLoopSleep () : unit =
-        begin
-        (try
-            let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
-            let isOpenGL : bool ref = ref ((!features#isDefault ((OpenGLFeatureFactory.getInstance ())#oPENGL))) in ();
-            if !isOpenGL then begin
-                ignore ((Obj.magic allBinaryGameCanvas)#processSleep ())
-            end
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#rUN, e))
-        end)
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ();
-        ();
-        allBinaryGameCanvas <- Obj.repr (allBinaryGameCanvas_arg)
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "GameCanvasPauseRunnable" (fun arguments -> Obj.repr (new gameCanvasPauseRunnable (Obj.obj arguments)))
+JR.registerLateBound("GameCanvasPauseRunnable.jnew_1", jnew_1)
+JR.registerLateBound("GameCanvasPauseRunnable.jm_run", jm_run)
+JR.registerLateBound("GameCanvasPauseRunnable.jm_processLoopSleep", jm_processLoopSleep)
+JR.registerLateBound("GameCanvasPauseRunnable.f_logUtil", (this: GameCanvasPauseRunnable) => this.f_logUtil)
+JR.registerLateBound("GameCanvasPauseRunnable.f_allBinaryGameCanvas", (this: GameCanvasPauseRunnable) => this.f_allBinaryGameCanvas)
 
 

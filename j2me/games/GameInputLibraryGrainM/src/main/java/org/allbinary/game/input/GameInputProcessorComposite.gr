@@ -1,69 +1,89 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.input
+module GameInputProcessorComposite
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.input *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "./PlayerGameInput.gr" include PlayerGameInput
+use PlayerGameInput.{ type PlayerGameInput }
+from "./GameInputProcessorInterface.gr" include GameInputProcessorInterface
+use GameInputProcessorInterface.{ type GameInputProcessorInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
+provide record GameInputProcessorComposite {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_gameKeyEventList: JObject,
+  mut f_removalGameKeyEventList: JObject,
+  mut f_isRemoveDuplicateKeyPresses: Bool,
+  mut f_gameInputStrings: JObject,
+  mut f_playerInputId: Int32,
+  mut f_name: String,
+  mut f_gameInputProcessorInterface: GameInputProcessorInterface,
+  mut f_NAME_LABEL: String,
+}
 
-class gameInputProcessorComposite ((name_arg : string), (gameInputProcessorInterface_arg : GameInputProcessorInterface.gameInputProcessorInterface)) =
-  object (self)
-    inherit PlayerGameInput.playerGameInput (((new BasicArrayListD.basicArrayListD ()) : BasicArrayListD.basicArrayListD :> BasicArrayList.basicArrayList), ((new BasicArrayListD.basicArrayListD ()) : BasicArrayListD.basicArrayListD :> BasicArrayList.basicArrayList), (- 1))
-    val mutable name : string = ""
-    method name = name
-    method set_name value' = name <- value'
-    val mutable gameInputProcessorInterface : GameInputProcessorInterface.gameInputProcessorInterface = (Obj.magic 0)
-    method gameInputProcessorInterface = gameInputProcessorInterface
-    method set_gameInputProcessorInterface value' = gameInputProcessorInterface <- value'
-    val mutable nAME_LABEL : string = ""
-    method nAME_LABEL = nAME_LABEL
-    method set_nAME_LABEL value' = nAME_LABEL <- value'
+
+provide let rec jclassName = () => "GameInputProcessorComposite"
+    
+and jnew_2 = (name: String, gameInputProcessorInterface: GameInputProcessorInterface) => {
+    let this = { jobject: JR.newJObject("GameInputProcessorComposite"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventList: JR.jnull, f_removalGameKeyEventList: JR.jnull, f_isRemoveDuplicateKeyPresses: false, f_gameInputStrings: JR.jnull, f_playerInputId: 0l, f_name: "", f_gameInputProcessorInterface: JR.nullOf(), f_NAME_LABEL: "", }
+    this.jobject.toStringFunction = () => jm_toString(this)
     
     
-
-    method update () : unit =
-        begin
-        (try
-            let list : BasicArrayList.basicArrayList ref = ref (((self#getGameKeyEventList ()) :> BasicArrayList.basicArrayList)) in ();
-            ignore (gameInputProcessorInterface#onInput (!list))
-        with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#commonStrings)#uPDATE, e))
-        end)
-        end [@@warning "-7"]
+    this.f_NAME_LABEL = " GameInputProcessorInterface: "
+        void
+        this.f_name = name
+        this.f_gameInputProcessorInterface = gameInputProcessorInterface
+    this
+}
     
+and jm_update = (this: GameInputProcessorComposite) => {
+        {
+            let mut list: BasicArrayList = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInput.jm_getGameKeyEventList"))
+JR.cast(jlate(JR.cast(this)))
+})
+            ignore(GameInputProcessorInterface.jm_onInput(this.f_gameInputProcessorInterface, list))
+        }
+}
+    
+and jm_toString = (this: GameInputProcessorComposite) => {
+        return StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), jm_toString(this)), this.f_NAME_LABEL), this.f_name))
+}
 
-    method toString () : string =
-        begin
-        (java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append (("Object@" ^ string_of_int (Oo.id self))))#append (nAME_LABEL))#append (name))))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        ();
-        nAME_LABEL <- " GameInputProcessorInterface: ";
-        ();
-        (* super(...) is the inherit clause *) ();
-        name <- name_arg;
-        gameInputProcessorInterface <- gameInputProcessorInterface_arg
-      end
-  end
-let () = java_register_constructor "GameInputProcessorComposite" (fun arguments -> Obj.repr (new gameInputProcessorComposite (Obj.obj arguments)))
+JR.registerLateBound("GameInputProcessorComposite.jnew_2", jnew_2)
+JR.registerLateBound("GameInputProcessorComposite.jm_update", jm_update)
+JR.registerLateBound("GameInputProcessorComposite.jm_toString", jm_toString)
+JR.registerLateBound("GameInputProcessorComposite.f_name", (this: GameInputProcessorComposite) => this.f_name)
+JR.registerLateBound("GameInputProcessorComposite.f_gameInputProcessorInterface", (this: GameInputProcessorComposite) => this.f_gameInputProcessorInterface)
+JR.registerLateBound("GameInputProcessorComposite.f_NAME_LABEL", (this: GameInputProcessorComposite) => this.f_NAME_LABEL)
 
 

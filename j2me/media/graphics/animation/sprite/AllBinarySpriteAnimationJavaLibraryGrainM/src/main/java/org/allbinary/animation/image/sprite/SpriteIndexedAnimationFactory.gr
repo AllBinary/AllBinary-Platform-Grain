@@ -1,109 +1,173 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.animation.image.sprite
+module SpriteIndexedAnimationFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/animation/Animation.gr" include Animation
+use Animation.{ type Animation }
+from "../../../../../org/allbinary/animation/AnimationBehaviorFactory.gr" include AnimationBehaviorFactory
+use AnimationBehaviorFactory.{ type AnimationBehaviorFactory }
+from "../../../../../org/allbinary/animation/ProceduralAnimationInterfaceFactoryInterface.gr" include ProceduralAnimationInterfaceFactoryInterface
+use ProceduralAnimationInterfaceFactoryInterface.{ type ProceduralAnimationInterfaceFactoryInterface }
+from "../../../../../org/allbinary/animation/image/BaseImageAnimationFactory.gr" include BaseImageAnimationFactory
+use BaseImageAnimationFactory.{ type BaseImageAnimationFactory }
+from "../../../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
+use BasicColor.{ type BasicColor }
+from "../../../../../org/allbinary/graphics/color/BasicColorUtil.gr" include BasicColorUtil
+use BasicColorUtil.{ type BasicColorUtil }
+from "../../../../../org/allbinary/image/sprite/AnimationFactorySpriteScaleUtil.gr" include AnimationFactorySpriteScaleUtil
+use AnimationFactorySpriteScaleUtil.{ type AnimationFactorySpriteScaleUtil }
+from "../../../../../org/allbinary/logic/math/PrimitiveIntUtil.gr" include PrimitiveIntUtil
+use PrimitiveIntUtil.{ type PrimitiveIntUtil }
+from "./SpriteIndexedAnimation.gr" include SpriteIndexedAnimation
+use SpriteIndexedAnimation.{ type SpriteIndexedAnimation }
+from "./AdjustedSpriteIndexedAnimation.gr" include AdjustedSpriteIndexedAnimation
+use AdjustedSpriteIndexedAnimation.{ type AdjustedSpriteIndexedAnimation }
+
+provide record SpriteIndexedAnimationFactory {
+  jobject: JObject,
+  mut f_animationFactoryImageScaleUtil: JObject,
+  mut f_image: JObject,
+  mut f_animationBehaviorFactory: JObject,
+  mut f_sequenceArray: Array<Int32>,
+  mut f_animationFactoryInitializationVisitor: JObject,
+  mut f_scaleProperties: JObject,
+  mut f_animationFactorySpriteScaleUtil: AnimationFactorySpriteScaleUtil,
+  mut f_basicColorArray: Array<BasicColor>,
+}
+
+
+provide let rec jclassName = () => "SpriteIndexedAnimationFactory"
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.animation.image.sprite *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Image *)
-(* import javax.microedition.lcdui.game.Sprite *)
-(* import org.allbinary.AndroidUtil *)
-(* import org.allbinary.animation.Animation *)
-(* import org.allbinary.animation.AnimationBehaviorFactory *)
-(* import org.allbinary.animation.ProceduralAnimationInterfaceFactoryInterface *)
-(* import org.allbinary.animation.image.BaseImageAnimationFactory *)
-(* import org.allbinary.graphics.color.BasicColor *)
-(* import org.allbinary.graphics.color.BasicColorUtil *)
-(* import org.allbinary.image.sprite.AnimationFactorySpriteScaleUtil *)
-(* import org.allbinary.logic.math.PrimitiveIntUtil *)
-
-class spriteIndexedAnimationFactory (image, (basicColorArray_arg : BasicColor.basicColor array), (sequenceArray : int array), (width : int), (height : int), (dx : int), (dy : int), (animationBehaviorFactory : AnimationBehaviorFactory.animationBehaviorFactory)) =
-  object (self)
-    inherit BaseImageAnimationFactory.baseImageAnimationFactory (image, sequenceArray, width, height, dx, dy, animationBehaviorFactory)
-    val mutable animationFactorySpriteScaleUtil : AnimationFactorySpriteScaleUtil.animationFactorySpriteScaleUtil = (Obj.magic 0)
-    method animationFactorySpriteScaleUtil = animationFactorySpriteScaleUtil
-    method set_animationFactorySpriteScaleUtil value' = animationFactorySpriteScaleUtil <- value'
-    val mutable basicColorArray : BasicColor.basicColor array = (Obj.magic 0)
-    method basicColorArray = basicColorArray
-    method set_basicColorArray value' = basicColorArray <- value'
+and jm_createCWHDXY = (image: JObject, basicColorArray: Array<BasicColor>, width: Int32, height: Int32, dx: Int32, dy: Int32, animationBehaviorFactory: AnimationBehaviorFactory) => {
+        return jnew_8(image, basicColorArray, PrimitiveIntUtil.jm_getArrayInstance(), width, height, dx, dy, animationBehaviorFactory)
+}
     
+and jm_createCWH = (image: JObject, basicColorArray: Array<BasicColor>, width: Int32, height: Int32, animationBehaviorFactory: AnimationBehaviorFactory) => {
+        let mut spriteIndexedAnimationFactory: SpriteIndexedAnimationFactory = jnew_8(image, basicColorArray, PrimitiveIntUtil.jm_getArrayInstance(), width, height, 0l, 0l, animationBehaviorFactory)
+        ignore(jm_initHWH(spriteIndexedAnimationFactory))
+        return spriteIndexedAnimationFactory
+}
     
-
-    method initHWH () : unit =
-        begin
-        (self#animationFactoryInitializationVisitor)#set_dx ((- (((self#animationFactoryInitializationVisitor)#width asr 2))));
-        (self#animationFactoryInitializationVisitor)#set_dy ((- (((self#animationFactoryInitializationVisitor)#height asr 2))));
-        if (Obj.magic (java_call_static "AndroidUtil.isAndroid" (Obj.repr ()))) then begin
-            (self#animationFactoryInitializationVisitor)#set_dx (((self#animationFactoryInitializationVisitor)#dx + 3))
-        end
-        end [@@warning "-7"]
+and jm_createWH = (image: JObject, width: Int32, height: Int32, animationBehaviorFactory: AnimationBehaviorFactory) => {
+        return jnew_8(image, BasicColorUtil.jm_getInstance().f_ZERO_ARRAY, PrimitiveIntUtil.jm_getArrayInstance(), width, height, 0l, 0l, animationBehaviorFactory)
+}
     
-
-    method getInstance : 'return. int -> 'return = fun ((_instanceId : int)) ->
-        try
-        begin
-        let sprite : Obj.t ref = ref ((Obj.repr (animationFactorySpriteScaleUtil#createImage ((self#getImage ()), (self#animationFactoryInitializationVisitor)#width, (self#animationFactoryInitializationVisitor)#height, (self#scaleProperties)#scaleWidth, (self#scaleProperties)#scaleHeight)))) in ();
-        if (((self#animationFactoryInitializationVisitor)#dx != 0) || ((self#animationFactoryInitializationVisitor)#dy != 0)) then begin
-            raise (Java_return (Obj.repr ((new AdjustedSpriteIndexedAnimation.adjustedSpriteIndexedAnimation ((Obj.magic !sprite), (self#getImage ()), basicColorArray, (self#animationFactoryInitializationVisitor)#dx, (self#animationFactoryInitializationVisitor)#dy, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
-        end else begin
-            raise (Java_return (Obj.repr ((new SpriteIndexedAnimation.spriteIndexedAnimation ((Obj.magic !sprite), (self#getImage ()), basicColorArray, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7"]
+and jnew_8 = (image: JObject, basicColorArray: Array<BasicColor>, sequenceArray: Array<Int32>, width: Int32, height: Int32, dx: Int32, dy: Int32, animationBehaviorFactory: AnimationBehaviorFactory) => {
+    let this = { jobject: JR.newJObject("SpriteIndexedAnimationFactory"), f_animationFactoryImageScaleUtil: JR.jnull, f_image: JR.jnull, f_animationBehaviorFactory: JR.jnull, f_sequenceArray: [> ], f_animationFactoryInitializationVisitor: JR.jnull, f_scaleProperties: JR.jnull, f_animationFactorySpriteScaleUtil: JR.nullOf(), f_basicColorArray: [> ], }
+    this.f_animationFactorySpriteScaleUtil = JR.cast(AnimationFactorySpriteScaleUtil.jm_getInstance())
+    this.f_basicColorArray = BasicColorUtil.jm_getInstance().f_ZERO_ARRAY
+        void
+        this.f_basicColorArray = basicColorArray
+    this
+}
     
+and jm_initHWH = (this: SpriteIndexedAnimationFactory) => {
+        {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_dx"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
+} = Int32.(-)(1l, Int32.(+)((Int32.(>>)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_width"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
+}, 2l)), 1l))
+        {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_dy"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
+} = Int32.(-)(1l, Int32.(+)((Int32.(>>)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_height"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
+}, 2l)), 1l))
+        if ({
+let jlate: () => JObject = JR.cast(JR.lateBound("AndroidUtil.jm_isAndroid"))
+JR.cast(jlate())
+}) {
+            {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_dx"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
+} = Int32.(+)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_dx"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
+}, 3l)
+        }
+}
+    
+and jm_getInstance = (this: SpriteIndexedAnimationFactory, instanceId: Int32) => {
+        let mut sprite: JObject = JR.cast(AnimationFactorySpriteScaleUtil.jm_createImage(this.f_animationFactorySpriteScaleUtil, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseImageAnimationFactory.jm_getImage"))
+JR.cast(jlate(JR.cast(this)))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_width"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_height"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ScaleProperties.f_scaleWidth"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_scaleProperties))))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ScaleProperties.f_scaleHeight"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_scaleProperties))))
+}))
+        if ((({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_dx"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
+} != 0l) || ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_dy"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
+} != 0l))) {
+            return JR.cast(AdjustedSpriteIndexedAnimation.jnew_6(sprite, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseImageAnimationFactory.jm_getImage"))
+JR.cast(jlate(JR.cast(this)))
+}, this.f_basicColorArray, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_dx"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_dy"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
+}, AnimationBehaviorFactory.jm_getOrCreateInstance(JR.cast(this.f_animationBehaviorFactory))))
+        } else {
+            return JR.cast(SpriteIndexedAnimation.jnew_4(sprite, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseImageAnimationFactory.jm_getImage"))
+JR.cast(jlate(JR.cast(this)))
+}, this.f_basicColorArray, AnimationBehaviorFactory.jm_getOrCreateInstance(JR.cast(this.f_animationBehaviorFactory))))
+        }
+}
+    
+and jm_getInstanceAnimation = (this: SpriteIndexedAnimationFactory, animationInterface: Animation) => {
+        return jm_getInstance(this, 0l)
+}
 
-    method getInstanceAnimation : 'any1 'return. 'any1 -> 'return = fun (_animationInterface) ->
-        begin
-        (Obj.magic ((self#getInstance (0))))
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        animationFactorySpriteScaleUtil <- ((AnimationFactorySpriteScaleUtil.getInstance ()) :> AnimationFactorySpriteScaleUtil.animationFactorySpriteScaleUtil);
-        basicColorArray <- (BasicColorUtil.getInstance ())#zERO_ARRAY;
-        ();
-        (* super(...) is the inherit clause *) ();
-        basicColorArray <- basicColorArray_arg
-      end
-  end
-let () = java_register_constructor "SpriteIndexedAnimationFactory" (fun arguments -> Obj.repr (new spriteIndexedAnimationFactory (Obj.obj arguments)))
-
-let createCWHDXY : 'any1 'any7 'return. 'any1 * BasicColor.basicColor array * int * int * int * int * 'any7 -> 'return = fun (image, (basicColorArray_arg : BasicColor.basicColor array), (width : int), (height : int), (dx : int), (dy : int), animationBehaviorFactory) ->
-        let image = Obj.repr image in
-        let animationBehaviorFactory = Obj.repr animationBehaviorFactory in
-        begin
-        (Obj.magic ((new spriteIndexedAnimationFactory ((Obj.magic image), basicColorArray_arg, (PrimitiveIntUtil.getArrayInstance ()), width, height, dx, dy, (Obj.magic animationBehaviorFactory)))))
-        end [@@warning "-20"]
-
-and createCWH : 'any1 'any5 'return. 'any1 * BasicColor.basicColor array * int * int * 'any5 -> 'return = fun (image, (basicColorArray_arg : BasicColor.basicColor array), (width : int), (height : int), animationBehaviorFactory) ->
-        let image = Obj.repr image in
-        let animationBehaviorFactory = Obj.repr animationBehaviorFactory in
-        begin
-        let spriteIndexedAnimationFactory : Obj.t ref = ref ((Obj.repr (new spriteIndexedAnimationFactory ((Obj.magic image), basicColorArray_arg, (PrimitiveIntUtil.getArrayInstance ()), width, height, 0, 0, (Obj.magic animationBehaviorFactory))))) in ();
-        ignore ((Obj.magic !spriteIndexedAnimationFactory)#initHWH ());
-        (Obj.magic ((Obj.magic !spriteIndexedAnimationFactory)))
-        end [@@warning "-20"]
-
-and createWH : 'any1 'any4 'return. 'any1 * int * int * 'any4 -> 'return = fun (image, (width : int), (height : int), animationBehaviorFactory) ->
-        let image = Obj.repr image in
-        let animationBehaviorFactory = Obj.repr animationBehaviorFactory in
-        begin
-        (Obj.magic ((new spriteIndexedAnimationFactory ((Obj.magic image), (BasicColorUtil.getInstance ())#zERO_ARRAY, (PrimitiveIntUtil.getArrayInstance ()), width, height, 0, 0, (Obj.magic animationBehaviorFactory)))))
-        end [@@warning "-20"]
-let () = java_register_static "SpriteIndexedAnimationFactory.createCWHDXY" (fun arguments -> Obj.repr (createCWHDXY (Obj.obj arguments)))
-let () = java_register_static "SpriteIndexedAnimationFactory.createCWH" (fun arguments -> Obj.repr (createCWH (Obj.obj arguments)))
-let () = java_register_static "SpriteIndexedAnimationFactory.createWH" (fun arguments -> Obj.repr (createWH (Obj.obj arguments)))
+JR.registerLateBound("SpriteIndexedAnimationFactory.jnew_8", jnew_8)
+JR.registerLateBound("SpriteIndexedAnimationFactory.jm_createCWHDXY", jm_createCWHDXY)
+JR.registerLateBound("SpriteIndexedAnimationFactory.jm_createCWH", jm_createCWH)
+JR.registerLateBound("SpriteIndexedAnimationFactory.jm_createWH", jm_createWH)
+JR.registerLateBound("SpriteIndexedAnimationFactory.jm_initHWH", jm_initHWH)
+JR.registerLateBound("SpriteIndexedAnimationFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("SpriteIndexedAnimationFactory.jm_getInstanceAnimation", jm_getInstanceAnimation)
+JR.registerLateBound("SpriteIndexedAnimationFactory.f_animationFactorySpriteScaleUtil", (this: SpriteIndexedAnimationFactory) => this.f_animationFactorySpriteScaleUtil)
+JR.registerLateBound("SpriteIndexedAnimationFactory.f_basicColorArray", (this: SpriteIndexedAnimationFactory) => this.f_basicColorArray)
+JR.registerLateBound("SpriteIndexedAnimationFactory.set_f_basicColorArray", (this: SpriteIndexedAnimationFactory, jvalue) => { this.f_basicColorArray = jvalue; jvalue })
 
 

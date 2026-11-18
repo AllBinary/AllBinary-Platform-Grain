@@ -1,181 +1,289 @@
-(*
- 
-  AllBinary Open License Version 1 
-  Copyright (c) 2022 AllBinary 
-   
-  By agreeing to this license you and any business entity you represent are 
-  legally bound to the AllBinary Open License Version 1 legal agreement. 
-   
-  You may obtain the AllBinary Open License Version 1 legal agreement from 
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-   
-  Created By: Travis Berthelot 
+/*
+ * 
+ * AllBinary Open License Version 1 
+ * Copyright (c) 2022 AllBinary 
+ *  
+ * By agreeing to this license you and any business entity you represent are 
+ * legally bound to the AllBinary Open License Version 1 legal agreement. 
+ *  
+ * You may obtain the AllBinary Open License Version 1 legal agreement from 
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+ *  
+ * Created By: Travis Berthelot 
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.media.image
+module ImageModifierUtil
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/awt/image/BufferedImage.gr" include BufferedImage
+use BufferedImage.{ type BufferedImage }
+from "../../../../java/awt/image/ColorModel.gr" include ColorModel
+use ColorModel.{ type ColorModel }
+from "../../../../java/awt/image/WritableRaster.gr" include WritableRaster
+use WritableRaster.{ type WritableRaster }
+from "../../../../org/allbinary/graphics/Anchor.gr" include Anchor
+use Anchor.{ type Anchor }
+from "../../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
+use BasicColor.{ type BasicColor }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./ImageCreationUtil.gr" include ImageCreationUtil
+use ImageCreationUtil.{ type ImageCreationUtil }
+
+provide record ImageModifierUtil {
+  jobject: JObject,
+  mut f_imageUtil: JObject,
+  mut f_colorArray: Array<Int32>,
+}
+
+let mut jcell_instance: Option<ImageModifierUtil> = None
+
+provide let rec jclassName = () => "ImageModifierUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: ImageModifierUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ImageModifierUtil"), f_imageUtil: JR.jnull, f_colorArray: [> ], }
+    this.f_imageUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("ImageUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_colorArray = Array.make(Int32.toNumber(1l), 0l)
+    this
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.media.image *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.awt.image.BufferedImage *)
-(* import java.awt.image.ColorModel *)
-(* import java.awt.image.WritableRaster *)
-(* import javax.microedition.lcdui.Image *)
-(* import org.allbinary.graphics.Anchor *)
-(* import org.allbinary.graphics.color.BasicColor *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.string.CommonStrings *)
-
-class imageModifierUtil () =
-  object (self)
-    val mutable imageUtil : Obj.t = Obj.repr 0
-    method imageUtil : 'r. 'r = Obj.magic imageUtil
-    method set_imageUtil : 'v. 'v -> unit = fun value' -> imageUtil <- Obj.repr value'
-    val mutable colorArray : int array = (Obj.magic 0)
-    method colorArray = colorArray
-    method set_colorArray value' = colorArray <- value'
+and jm_getInstanceOrCreate = () => {
+        return jstatic_instance()
+}
     
-
-    method setBasicColorP : 'any1. 'any1 -> unit = fun (_basicColor) ->
-        begin
-        ()
-        end [@@warning "-20"]
+and jm_setBasicColorP = (this: ImageModifierUtil, basicColor: BasicColor) => {
+    void
+}
     
-
-    method setColor : 'any1 'any2 'any4. 'any1 * 'any2 * int * 'any4 -> unit = fun (_unusedOriginalImage, image, (_imageIndex : int), basicColor) ->
-        let image = Obj.repr image in
-        let basicColor = Obj.repr basicColor in
-        begin
-        let newBufferedImage : Obj.t ref = ref ((Obj.repr ((Obj.magic imageUtil)#getBufferedImage ((Obj.magic image))))) in ();
-        let r : int ref = ref ((Obj.magic basicColor)#red) in ();
-        let g : int ref = ref ((Obj.magic basicColor)#green) in ();
-        let b : int ref = ref ((Obj.magic basicColor)#blue) in ();
-        let width : int ref = ref (((Obj.magic image)#getWidth ())) in ();
-        let height : int ref = ref (((Obj.magic image)#getHeight ())) in ();
-        let colorModel : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        let dataElements : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        let ax : int ref = ref (0) in ();
-        let rx : int ref = ref (0) in ();
-        let gx : int ref = ref (0) in ();
-        let bx : int ref = ref (0) in ();
-        for index = 0 to !width - 1 do
-            for index2 = 0 to !height - 1 do
-                colorModel := Obj.repr (((Obj.magic !newBufferedImage)#getColorModel ()));
-                dataElements := (Obj.repr ((((Obj.magic !newBufferedImage)#getRaster ())#getDataElements (index, index2, (Obj.magic 0)))));
-                ax := ((Obj.magic !colorModel)#getAlpha (!dataElements));
-                rx := ((Obj.magic !colorModel)#getRed (!dataElements));
-                gx := ((Obj.magic !colorModel)#getGreen (!dataElements));
-                bx := ((Obj.magic !colorModel)#getBlue (!dataElements));
-                if (((!rx <> 0) || (!gx <> 0)) || (!bx <> 0)) then begin
-                    ignore ((Obj.magic !newBufferedImage)#setRGB (index, index2, (((((!ax lsl 24)) lor ((!r lsl 16))) lor ((!g lsl 8))) lor (!b))))
-                end
-            done
-        done
-        end [@@warning "-20"]
+and jm_setColor = (this: ImageModifierUtil, unusedOriginalImage: JObject, image: JObject, imageIndex: Int32, basicColor: BasicColor) => {
+        let mut newBufferedImage: BufferedImage = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageUtil.jm_getBufferedImage"))
+JR.cast(jlate(JR.cast(this.f_imageUtil), JR.cast(image)))
+})
+        let mut r: Int32 = basicColor.f_red
+        let mut g: Int32 = basicColor.f_green
+        let mut b: Int32 = basicColor.f_blue
+        let mut width: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
+JR.cast(jlate(JR.cast(image)))
+}
+        let mut height: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
+JR.cast(jlate(JR.cast(image)))
+}
+        let mut colorModel: ColorModel = JR.nullOf()
+        let mut dataElements: JObject = JR.jnull
+        let mut ax: Int32 = 0l
+        let mut rx: Int32 = 0l
+        let mut gx: Int32 = 0l
+        let mut bx: Int32 = 0l
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, width))) break
+            {
+                let mut index2: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index2 = Int32.(+)(index2, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index2, height))) break
+                colorModel = BufferedImage.jm_getColorModel(newBufferedImage)
+                dataElements = JR.className(JR.cast(BufferedImage.jm_getRaster(newBufferedImage)))
+                ax = ColorModel.jm_getAlpha(colorModel, dataElements)
+                rx = ColorModel.jm_getRed(colorModel, dataElements)
+                gx = ColorModel.jm_getGreen(colorModel, dataElements)
+                bx = ColorModel.jm_getBlue(colorModel, dataElements)
+                if ((((rx != 0l) || (gx != 0l)) || (bx != 0l))) {
+                    ignore(BufferedImage.jm_setRGB(newBufferedImage, index, index2, Int32.(|)(Int32.(|)(Int32.(|)((Int32.(<<)(ax, 24l)), (Int32.(<<)(r, 16l))), (Int32.(<<)(g, 8l))), (b))))
+                }
+                }
+            }
+            }
+        }
+}
     
-
-    method changeColor : 'any1 'any2 'any4. 'any1 * 'any2 * int * 'any4 -> unit = fun (_unusedOriginalImage, image, (_imageIndex : int), basicColor) ->
-        let image = Obj.repr image in
-        let basicColor = Obj.repr basicColor in
-        begin
-        let newBufferedImage : Obj.t ref = ref ((Obj.repr ((Obj.magic imageUtil)#getBufferedImage ((Obj.magic image))))) in ();
-        let mAX : float ref = ref (255.) in ();
-        let r : float ref = ref ((((float_of_int ((Obj.magic basicColor)#red))) /. !mAX)) in ();
-        let g : float ref = ref ((((float_of_int ((Obj.magic basicColor)#green))) /. !mAX)) in ();
-        let b : float ref = ref ((((float_of_int ((Obj.magic basicColor)#blue))) /. !mAX)) in ();
-        let width : int ref = ref (((Obj.magic image)#getWidth ())) in ();
-        let height : int ref = ref (((Obj.magic image)#getHeight ())) in ();
-        let colorModel : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        let dataElements : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        let ax : int ref = ref (0) in ();
-        let rx : int ref = ref (0) in ();
-        let gx : int ref = ref (0) in ();
-        let bx : int ref = ref (0) in ();
-        for index = 0 to !width - 1 do
-            for index2 = 0 to !height - 1 do
-                colorModel := Obj.repr (((Obj.magic !newBufferedImage)#getColorModel ()));
-                dataElements := (Obj.repr ((((Obj.magic !newBufferedImage)#getRaster ())#getDataElements (index, index2, (Obj.magic 0)))));
-                ax := ((Obj.magic !colorModel)#getAlpha (!dataElements));
-                rx := ((Obj.magic !colorModel)#getRed (!dataElements));
-                gx := ((Obj.magic !colorModel)#getGreen (!dataElements));
-                bx := ((Obj.magic !colorModel)#getBlue (!dataElements));
-                rx := (int_of_float ((!rx *. !r)));
-                gx := (int_of_float ((!gx *. !g)));
-                bx := (int_of_float ((!bx *. !b)));
-                ignore ((Obj.magic !newBufferedImage)#setRGB (index, index2, (((((!ax lsl 24)) lor ((!rx lsl 16))) lor ((!gx lsl 8))) lor (!bx))))
-            done
-        done
-        end [@@warning "-20"]
+and jm_changeColor = (this: ImageModifierUtil, unusedOriginalImage: JObject, image: JObject, imageIndex: Int32, basicColor: BasicColor) => {
+        let mut newBufferedImage: BufferedImage = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageUtil.jm_getBufferedImage"))
+JR.cast(jlate(JR.cast(this.f_imageUtil), JR.cast(image)))
+})
+        let mut l_MAX: Float32 = 255.0f
+        let mut r: Float32 = Float32.(/)((Float32.fromNumber(Int32.toNumber(basicColor.f_red))), l_MAX)
+        let mut g: Float32 = Float32.(/)((Float32.fromNumber(Int32.toNumber(basicColor.f_green))), l_MAX)
+        let mut b: Float32 = Float32.(/)((Float32.fromNumber(Int32.toNumber(basicColor.f_blue))), l_MAX)
+        let mut width: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
+JR.cast(jlate(JR.cast(image)))
+}
+        let mut height: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
+JR.cast(jlate(JR.cast(image)))
+}
+        let mut colorModel: ColorModel = JR.nullOf()
+        let mut dataElements: JObject = JR.jnull
+        let mut ax: Int32 = 0l
+        let mut rx: Int32 = 0l
+        let mut gx: Int32 = 0l
+        let mut bx: Int32 = 0l
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, width))) break
+            {
+                let mut index2: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index2 = Int32.(+)(index2, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index2, height))) break
+                colorModel = BufferedImage.jm_getColorModel(newBufferedImage)
+                dataElements = JR.className(JR.cast(BufferedImage.jm_getRaster(newBufferedImage)))
+                ax = ColorModel.jm_getAlpha(colorModel, dataElements)
+                rx = ColorModel.jm_getRed(colorModel, dataElements)
+                gx = ColorModel.jm_getGreen(colorModel, dataElements)
+                bx = ColorModel.jm_getBlue(colorModel, dataElements)
+                rx = JR.d2i(Float32.toNumber(Float32.(*)(rx, r)))
+                gx = JR.d2i(Float32.toNumber(Float32.(*)(gx, g)))
+                bx = JR.d2i(Float32.toNumber(Float32.(*)(bx, b)))
+                ignore(BufferedImage.jm_setRGB(newBufferedImage, index, index2, Int32.(|)(Int32.(|)(Int32.(|)((Int32.(<<)(ax, 24l)), (Int32.(<<)(rx, 16l))), (Int32.(<<)(gx, 8l))), (bx))))
+                }
+            }
+            }
+        }
+}
     
-
-    method setAlpha : 'any1 'any2. 'any1 * 'any2 * int * int -> unit = fun (_unusedOriginalImage, image, (_imageIndex : int), (alphaInt : int)) ->
-        let image = Obj.repr image in
-        begin
-        let alpha : int ref = ref (alphaInt) in ();
-        let newBufferedImage : Obj.t ref = ref ((Obj.repr ((Obj.magic imageUtil)#getBufferedImage ((Obj.magic image))))) in ();
-        let width : int ref = ref (((Obj.magic image)#getWidth ())) in ();
-        let height : int ref = ref (((Obj.magic image)#getHeight ())) in ();
-        let raster : Obj.t ref = ref ((Obj.repr ((Obj.magic !newBufferedImage)#getAlphaRaster ()))) in ();
-        for index = 0 to !width - 1 do
-            for index2 = 0 to !height - 1 do
-                ignore ((Obj.magic !raster)#getPixel (index, index2, colorArray));
-                colorArray.(0) <- (!alpha land colorArray.(0));
-                ignore ((Obj.magic !raster)#setPixel (index, index2, colorArray))
-            done
-        done
-        end [@@warning "-20"]
+and jm_setAlpha = (this: ImageModifierUtil, unusedOriginalImage: JObject, image: JObject, imageIndex: Int32, alphaInt: Int32) => {
+        let mut alpha: Int32 = JR.i8(alphaInt)
+        let mut newBufferedImage: BufferedImage = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageUtil.jm_getBufferedImage"))
+JR.cast(jlate(JR.cast(this.f_imageUtil), JR.cast(image)))
+})
+        let mut width: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
+JR.cast(jlate(JR.cast(image)))
+}
+        let mut height: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
+JR.cast(jlate(JR.cast(image)))
+}
+        let mut raster: WritableRaster = JR.cast(BufferedImage.jm_getAlphaRaster(newBufferedImage))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, width))) break
+            {
+                let mut index2: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index2 = Int32.(+)(index2, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index2, height))) break
+                ignore(WritableRaster.jm_getPixel(raster, index, index2, this.f_colorArray))
+                this.f_colorArray[Int32.toNumber(0l)] = Int32.(&)(alpha, this.f_colorArray[Int32.toNumber(0l)])
+                ignore(WritableRaster.jm_setPixel(raster, index, index2, this.f_colorArray))
+                }
+            }
+            }
+        }
+}
     
-
-    method getImageArray : 'any1 'return. 'any1 -> 'return = fun (originalImageArray) ->
-        let originalImageArray = Obj.repr originalImageArray in
-        begin
-        (try
-            let newImageArray : Obj.t ref = ref ((Obj.repr (Array.make ((Array.length (Obj.magic originalImageArray))) (Obj.magic 0)))) in ();
-            let size : int ref = ref ((Array.length (Obj.magic !newImageArray))) in ();
-            let originalImage : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-            for index = 0 to !size - 1 do
-                originalImage := Obj.repr ((Obj.magic originalImageArray).(index));
-                let image : Obj.t ref = ref ((Obj.repr ((ImageCreationUtil.getInstance ())#createImageWH (((Obj.magic !originalImage)#getWidth ()), ((Obj.magic !originalImage)#getHeight ()))))) in ();
-                ignore (((Obj.magic !image)#getGraphics ())#drawImage ((Obj.magic !originalImage), 0, 0, (Anchor.get_tOP_LEFT ())));
-                (Obj.magic !newImageArray).(index) <- (Obj.magic !image)
-            done;
-            (Obj.magic ((Obj.magic !newImageArray)))
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (!commonStrings#eXCEPTION, (Obj.magic self), "getImageArray", e))));
-            (Obj.magic ((Obj.magic originalImageArray)))
-        end)
-        end [@@warning "-20"]
+and jm_getImageArray = (this: ImageModifierUtil, originalImageArray: Array<JObject>) => {
+        {
+            let mut newImageArray: Array<JObject> = Array.make(Int32.toNumber(Int32.fromNumber(Array.length(originalImageArray))), JR.jnull)
+            let mut size: Int32 = Int32.fromNumber(Array.length(newImageArray))
+            let mut originalImage: JObject = JR.jnull
+            {
+                let mut index: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(+)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index, size))) break
+                originalImage = originalImageArray[Int32.toNumber(index)]
+                let mut image: JObject = JR.cast(ImageCreationUtil.jm_createImageWH(ImageCreationUtil.jm_getInstance(), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
+JR.cast(jlate(JR.cast(originalImage)))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
+JR.cast(jlate(JR.cast(originalImage)))
+}))
+                ignore(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getGraphics"))
+JR.cast(jlate(JR.cast(image)))
+})))
+                newImageArray[Int32.toNumber(index)] = JR.cast(image)
+                }
+            }
+            return newImageArray
+        }
+    return [> ]
+}
     
-
-    method handleImage : 'any1 'any3. 'any1 * int * 'any3 -> unit = fun (_imageArray, (_index : int), _image) ->
-        begin
-        ()
-        end [@@warning "-20"]
+and jm_handleImage = (this: ImageModifierUtil, imageArray: Array<JObject>, index: Int32, image: JObject) => {
+    void
+}
     
+and jm_reset = (this: ImageModifierUtil) => {
+    void
+}
 
-    method reset () : unit =
-        begin
-        ()
-        end
-
-    initializer
-      begin
-        imageUtil <- (Obj.repr (Obj.magic (java_call_static "ImageUtil.getInstance" (Obj.repr ()))));
-        colorArray <- (Array.make (1) 0);
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "ImageModifierUtil" (fun arguments -> Obj.repr (new imageModifierUtil (Obj.obj arguments)))
-
-let instance = (new imageModifierUtil ())
-let get_instance () = instance
-let () = java_register_static "ImageModifierUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstanceOrCreate : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "ImageModifierUtil.getInstanceOrCreate" (fun arguments -> Obj.repr (getInstanceOrCreate (Obj.obj arguments)))
+JR.registerLateBound("ImageModifierUtil.jnew_0", jnew_0)
+JR.registerLateBound("ImageModifierUtil.jm_getInstanceOrCreate", jm_getInstanceOrCreate)
+JR.registerLateBound("ImageModifierUtil.jm_setBasicColorP", jm_setBasicColorP)
+JR.registerLateBound("ImageModifierUtil.jm_setColor", jm_setColor)
+JR.registerLateBound("ImageModifierUtil.jm_changeColor", jm_changeColor)
+JR.registerLateBound("ImageModifierUtil.jm_setAlpha", jm_setAlpha)
+JR.registerLateBound("ImageModifierUtil.jm_getImageArray", jm_getImageArray)
+JR.registerLateBound("ImageModifierUtil.jm_handleImage", jm_handleImage)
+JR.registerLateBound("ImageModifierUtil.jm_reset", jm_reset)
+JR.registerLateBound("ImageModifierUtil.f_imageUtil", (this: ImageModifierUtil) => this.f_imageUtil)
+JR.registerLateBound("ImageModifierUtil.f_colorArray", (this: ImageModifierUtil) => this.f_colorArray)
+JR.registerLateBound("ImageModifierUtil.jstatic_instance", jstatic_instance)
 
 

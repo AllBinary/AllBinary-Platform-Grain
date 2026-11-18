@@ -1,56 +1,100 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.displayable.canvas
+module DemoCanvasBasicStartInputProcessor
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.displayable.canvas *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/canvas/RunnableCanvas.gr" include RunnableCanvas
+use RunnableCanvas.{ type RunnableCanvas }
+from "../../../../../org/allbinary/game/commands/GameCommandsFactory.gr" include GameCommandsFactory
+use GameCommandsFactory.{ type GameCommandsFactory }
+from "../../../../../org/allbinary/game/input/GameInputStrings.gr" include GameInputStrings
+use GameInputStrings.{ type GameInputStrings }
+from "../../../../../org/allbinary/game/input/event/GameKeyEvent.gr" include GameKeyEvent
+use GameKeyEvent.{ type GameKeyEvent }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "./BasicMenuInputProcessor.gr" include BasicMenuInputProcessor
+use BasicMenuInputProcessor.{ type BasicMenuInputProcessor }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.NullCanvas *)
-(* import org.allbinary.canvas.RunnableCanvas *)
-(* import org.allbinary.game.commands.GameCommandsFactory *)
-(* import org.allbinary.game.input.GameInputStrings *)
-(* import org.allbinary.game.input.event.GameKeyEvent *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.util.BasicArrayList *)
+provide record DemoCanvasBasicStartInputProcessor {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_gameKeyEventList: JObject,
+  mut f_removalGameKeyEventList: JObject,
+  mut f_isRemoveDuplicateKeyPresses: Bool,
+  mut f_gameInputStrings: JObject,
+  mut f_playerInputId: Int32,
+  mut f_motionGestureEventList: JObject,
+  mut f_canvas: JObject,
+}
 
-class demoCanvasBasicStartInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayList), (gameCanvas : RunnableCanvas.runnableCanvas)) =
-  object (self)
-    inherit BasicMenuInputProcessor.basicMenuInputProcessor (gameKeyEventList, (- 1), (gameCanvas : RunnableCanvas.runnableCanvas :> Canvas.canvas))
+
+provide let rec jclassName = () => "DemoCanvasBasicStartInputProcessor"
     
+and jnew_2 = (gameKeyEventList: BasicArrayList, gameCanvas: RunnableCanvas) => {
+    let this = { jobject: JR.newJObject("DemoCanvasBasicStartInputProcessor"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventList: JR.jnull, f_removalGameKeyEventList: JR.jnull, f_isRemoveDuplicateKeyPresses: false, f_gameInputStrings: JR.jnull, f_playerInputId: 0l, f_motionGestureEventList: JR.jnull, f_canvas: JR.jnull, }
+        void
+    this
+}
     
+and jm_processInputList = (this: DemoCanvasBasicStartInputProcessor) => {
+        let mut list: BasicArrayList = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInput.jm_getGameKeyEventList"))
+JR.cast(jlate(JR.cast(this)))
+})
+        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut gameKeyEvent: GameKeyEvent = JR.nullOf()
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            gameKeyEvent = JR.cast(list.f_objectArray[Int32.toNumber(index)])
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Start GameKey: "), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(gameKeyEvent))))), JR.cast(this), JR.cast(GameInputStrings.jm_getInstance().f_PROCESS_INPUT)))
+})
+            }
+        }
+        ignore(JR.className(JR.cast(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicMenuInputProcessor.jm_getCanvas"))
+JR.cast(jlate(JR.cast(this)))
+})))))
+        return size
+}
 
-    method processInputList () : int =
-        begin
-        let list : BasicArrayList.basicArrayList ref = ref (((self#getGameKeyEventList ()) :> BasicArrayList.basicArrayList)) in ();
-        let size : int ref = ref ((!list#size ())) in ();
-        let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((Obj.magic 0) :> GameKeyEvent.gameKeyEvent)) in ();
-        for index = 0 to !size - 1 do
-            gameKeyEvent := (Obj.magic !list#objectArray.(index));
-            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Start GameKey: "))#append (((StringUtil.getInstance ())#toString (!gameKeyEvent)))))), (Obj.magic self), (GameInputStrings.getInstance ())#pROCESS_INPUT))
-        done;
-        ignore (((self#getCanvas ())#getCustomCommandListener ())#commandAction ((GameCommandsFactory.getInstance ())#sTART_COMMAND, (Obj.magic (java_call_static "NullCanvas.get_nULL_CANVAS" (Obj.repr ())))));
-        !size
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "DemoCanvasBasicStartInputProcessor" (fun arguments -> Obj.repr (new demoCanvasBasicStartInputProcessor (Obj.obj arguments)))
+JR.registerLateBound("DemoCanvasBasicStartInputProcessor.jnew_2", jnew_2)
+JR.registerLateBound("DemoCanvasBasicStartInputProcessor.jm_processInputList", jm_processInputList)
 
 

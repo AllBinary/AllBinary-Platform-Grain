@@ -1,53 +1,71 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.opengles
+module OpenGLOptions
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.opengles *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/configuration/feature/Features.gr" include Features
+use Features.{ type Features }
+from "../../../../org/allbinary/game/configuration/feature/GameFeatureChoiceGroups.gr" include GameFeatureChoiceGroups
+use GameFeatureChoiceGroups.{ type GameFeatureChoiceGroups }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "./OpenGLFeatureFactory.gr" include OpenGLFeatureFactory
+use OpenGLFeatureFactory.{ type OpenGLFeatureFactory }
 
-open Allbinary_java [@@warning "-33"]
-(* import org.allbinary.game.configuration.feature.Features *)
-(* import org.allbinary.game.configuration.feature.GameFeatureChoiceGroups *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
+provide record OpenGLOptions {
+  jobject: JObject,
+}
 
-class openGLOptions () =
-  object
+
+provide let rec jclassName = () => "OpenGLOptions"
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("OpenGLOptions"), }
+    this
+}
     
+and jm_init = (this: OpenGLOptions) => {
+        let mut openGLFeatureFactory: OpenGLFeatureFactory = JR.cast(OpenGLFeatureFactory.jm_getInstance())
+        if (Features.jm_isFeature(Features.jm_getInstance(), JR.cast(openGLFeatureFactory.f_OPENGL_OPTIONS))) {
+            let mut openGLMultipleList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+            ignore(BasicArrayList.jm_add(openGLMultipleList, JR.cast(openGLFeatureFactory.f_OPENGL)))
+            ignore(JR.className(JR.cast(GameFeatureChoiceGroups.jm_getMultipleInstance())))
+            let mut openGLVersionSelectorMultipleList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+            ignore(BasicArrayList.jm_add(openGLVersionSelectorMultipleList, JR.cast(openGLFeatureFactory.f_OPENGL_AUTO_SELECT)))
+            ignore(BasicArrayList.jm_add(openGLVersionSelectorMultipleList, JR.cast(openGLFeatureFactory.f_OPENGL_MINIMUM)))
+            ignore(JR.className(JR.cast(GameFeatureChoiceGroups.jm_getExclusiveInstance())))
+            let mut openGLImageColorMultipleList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+            ignore(BasicArrayList.jm_add(openGLImageColorMultipleList, JR.cast(openGLFeatureFactory.f_IMAGE_COLOR_DEPTH_4444)))
+            ignore(BasicArrayList.jm_add(openGLImageColorMultipleList, JR.cast(openGLFeatureFactory.f_IMAGE_COLOR_DEPTH_8888)))
+            ignore(JR.className(JR.cast(GameFeatureChoiceGroups.jm_getExclusiveInstance())))
+        }
+}
 
-    method init () : unit =
-        begin
-        let openGLFeatureFactory : OpenGLFeatureFactory.openGLFeatureFactory ref = ref (((OpenGLFeatureFactory.getInstance ()) :> OpenGLFeatureFactory.openGLFeatureFactory)) in ();
-        if ((Features.getInstance ())#isFeature (!openGLFeatureFactory#oPENGL_OPTIONS)) then begin
-            let openGLMultipleList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-            ignore (!openGLMultipleList#add (!openGLFeatureFactory#oPENGL));
-            ignore ((GameFeatureChoiceGroups.getMultipleInstance ())#add ("OpenGL (Complete Restart)", !openGLMultipleList));
-            let openGLVersionSelectorMultipleList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-            ignore (!openGLVersionSelectorMultipleList#add (!openGLFeatureFactory#oPENGL_AUTO_SELECT));
-            ignore (!openGLVersionSelectorMultipleList#add (!openGLFeatureFactory#oPENGL_MINIMUM));
-            ignore ((GameFeatureChoiceGroups.getExclusiveInstance ())#add ("OpenGL Version Selector", !openGLVersionSelectorMultipleList));
-            let openGLImageColorMultipleList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-            ignore (!openGLImageColorMultipleList#add (!openGLFeatureFactory#iMAGE_COLOR_DEPTH_4444));
-            ignore (!openGLImageColorMultipleList#add (!openGLFeatureFactory#iMAGE_COLOR_DEPTH_8888));
-            ignore ((GameFeatureChoiceGroups.getExclusiveInstance ())#add ("OpenGL Image Color RGBA", !openGLImageColorMultipleList))
-        end
-        end
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "OpenGLOptions" (fun arguments -> Obj.repr (new openGLOptions (Obj.obj arguments)))
+JR.registerLateBound("OpenGLOptions.jnew_0", jnew_0)
+JR.registerLateBound("OpenGLOptions.jm_init", jm_init)
 
 

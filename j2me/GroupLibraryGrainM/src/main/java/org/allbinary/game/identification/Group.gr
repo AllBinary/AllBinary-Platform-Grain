@@ -1,78 +1,92 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.identification
+module Group
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "./GroupInterface.gr" include GroupInterface
+use GroupInterface.{ type GroupInterface }
+from "./GroupCommonFactory.gr" include GroupCommonFactory
+use GroupCommonFactory.{ type GroupCommonFactory }
+
+provide record Group {
+  jobject: JObject,
+  mut f_name: String,
+  mut f_teamId: Int32,
+  mut f_string: String,
+}
+
+
+provide let rec jclassName = () => "Group"
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.identification *)
-
-open Allbinary_java [@@warning "-33"]
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-
-class group ((teamName : string), (teamId_arg : int)) =
-  object (self)
-    val mutable name : string = ""
-    method name = name
-    method set_name value' = name <- value'
-    val mutable teamId : int = 0
-    method teamId = teamId
-    method set_teamId value' = teamId <- value'
-    val mutable string : string = ""
-    method string = string
-    method set_string value' = string <- value'
+and jnew_2 = (teamName: String, teamId: Int32) => {
+    let this = { jobject: JR.newJObject("Group"), f_name: "", f_teamId: 0l, f_string: "", }
+    this.jobject.toStringFunction = () => jm_toString(this)
+    this.f_name = StringUtil.jm_getInstance().f_EMPTY_STRING
     
+    this.f_string = StringUtil.jm_getInstance().f_EMPTY_STRING
+        this.f_teamId = teamId
+        ignore(jm_setName(this, teamName))
+    this
+}
     
-
-    method getGroupName () : string =
-        begin
-        name
-        end
+and jm_getGroupName = (this: Group) => {
+        return this.f_name
+}
     
-
-    method setName ((name_arg : string)) : unit =
-        begin
-        name <- name_arg;
-        let groupCommonFactory : GroupCommonFactory.groupCommonFactory ref = ref (((GroupCommonFactory.getInstance ()) :> GroupCommonFactory.groupCommonFactory)) in ();
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (!groupCommonFactory#gROUP_NAME_LABEL));
-        ignore (!stringBuffer#append (name));
-        ignore (!stringBuffer#append (!groupCommonFactory#iD_LABEL));
-        ignore (!stringBuffer#appendshort (teamId));
-        string <- (java_string_of (Obj.repr !stringBuffer))
-        end
+and jm_setName = (this: Group, name: String) => {
+        this.f_name = name
+        let mut groupCommonFactory: GroupCommonFactory = JR.cast(GroupCommonFactory.jm_getInstance())
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, groupCommonFactory.f_GROUP_NAME_LABEL))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_name))
+        ignore(StringMaker.jm_append(stringBuffer, groupCommonFactory.f_ID_LABEL))
+        ignore(StringMaker.jm_appendshort(stringBuffer, this.f_teamId))
+        this.f_string = StringMaker.jm_toString(stringBuffer)
+}
     
-
-    method getGroupId () : int =
-        begin
-        teamId
-        end
+and jm_getGroupId = (this: Group) => {
+        return this.f_teamId
+}
     
+and jm_toString = (this: Group) => {
+        return this.f_string
+}
 
-    method toString () : string =
-        begin
-        string
-        end
-
-    initializer
-      begin
-        name <- (StringUtil.getInstance ())#eMPTY_STRING;
-        ();
-        string <- (StringUtil.getInstance ())#eMPTY_STRING;
-        ();
-        teamId <- teamId_arg;
-        (self#setName (teamName))
-      end
-  end
-let () = java_register_constructor "Group" (fun arguments -> Obj.repr (new group (Obj.obj arguments)))
+JR.registerLateBound("Group.jnew_2", jnew_2)
+JR.registerLateBound("Group.jm_getGroupName", jm_getGroupName)
+JR.registerLateBound("Group.jm_setName", jm_setName)
+JR.registerLateBound("Group.jm_getGroupId", jm_getGroupId)
+JR.registerLateBound("Group.jm_toString", jm_toString)
+JR.registerLateBound("Group.f_name", (this: Group) => this.f_name)
+JR.registerLateBound("Group.set_f_name", (this: Group, jvalue) => { this.f_name = jvalue; jvalue })
+JR.registerLateBound("Group.f_teamId", (this: Group) => this.f_teamId)
+JR.registerLateBound("Group.f_string", (this: Group) => this.f_string)
+JR.registerLateBound("Group.set_f_string", (this: Group, jvalue) => { this.f_string = jvalue; jvalue })
 
 

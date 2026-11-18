@@ -1,58 +1,85 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.resource
+module FeatureResourceInitializationUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.resource *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/animation/FeaturedAnimationInterfaceFactoryInterfaceFactory.gr" include FeaturedAnimationInterfaceFactoryInterfaceFactory
+use FeaturedAnimationInterfaceFactoryInterfaceFactory.{ type FeaturedAnimationInterfaceFactoryInterfaceFactory }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./FeaturedResourceFactory.gr" include FeaturedResourceFactory
+use FeaturedResourceFactory.{ type FeaturedResourceFactory }
+from "./FeaturedResourceRelativeRelationshipFactory.gr" include FeaturedResourceRelativeRelationshipFactory
+use FeaturedResourceRelativeRelationshipFactory.{ type FeaturedResourceRelativeRelationshipFactory }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.animation.FeaturedAnimationInterfaceFactoryInterfaceFactory *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record FeatureResourceInitializationUtil {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+}
 
-class featureResourceInitializationUtil () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+let mut jcell_instance: Option<FeatureResourceInitializationUtil> = None
+
+provide let rec jclassName = () => "FeatureResourceInitializationUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: FeatureResourceInitializationUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("FeatureResourceInitializationUtil"), f_logUtil: JR.jnull, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jm_init = (this: FeatureResourceInitializationUtil, level: Int32) => {
+        let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(commonStrings.f_START), JR.cast(this), JR.cast(commonStrings.f_INIT)))
+})
+        let mut featuredResourceFactory: FeaturedResourceFactory = JR.cast(FeaturedAnimationInterfaceFactoryInterfaceFactory.jm_getInstance())
+        ignore(FeaturedResourceFactory.jm_init(featuredResourceFactory, level))
+        ignore(FeaturedResourceRelativeRelationshipFactory.jm_init(FeaturedResourceRelativeRelationshipFactory.jm_getInstance(), level))
+}
 
-    method init ((level : int)) : unit =
-        begin
-        let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        ignore ((Obj.magic logUtil)#putF (!commonStrings#sTART, (Obj.magic self), !commonStrings#iNIT));
-        let featuredResourceFactory : FeaturedResourceFactory.featuredResourceFactory ref = ref (((FeaturedAnimationInterfaceFactoryInterfaceFactory.getInstance ()) :> FeaturedResourceFactory.featuredResourceFactory)) in ();
-        ignore (!featuredResourceFactory#init (level));
-        ignore ((FeaturedResourceRelativeRelationshipFactory.getInstance ())#init (level))
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "FeatureResourceInitializationUtil" (fun arguments -> Obj.repr (new featureResourceInitializationUtil (Obj.obj arguments)))
-
-let instance = (new featureResourceInitializationUtil ())
-let get_instance () = instance
-let () = java_register_static "FeatureResourceInitializationUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "FeatureResourceInitializationUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("FeatureResourceInitializationUtil.jnew_0", jnew_0)
+JR.registerLateBound("FeatureResourceInitializationUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("FeatureResourceInitializationUtil.jm_init", jm_init)
+JR.registerLateBound("FeatureResourceInitializationUtil.f_logUtil", (this: FeatureResourceInitializationUtil) => this.f_logUtil)
+JR.registerLateBound("FeatureResourceInitializationUtil.jstatic_instance", jstatic_instance)
 
 

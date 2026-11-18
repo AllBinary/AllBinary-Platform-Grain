@@ -1,50 +1,64 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.canvas
+module CustomGameMenuUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.canvas *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/J2MEUtil.gr" include J2MEUtil
+use J2MEUtil.{ type J2MEUtil }
+from "../../../org/allbinary/game/commands/GameCommandsFactory.gr" include GameCommandsFactory
+use GameCommandsFactory.{ type GameCommandsFactory }
+from "../../../org/allbinary/graphics/displayable/MyCanvas.gr" include MyCanvas
+use MyCanvas.{ type MyCanvas }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.AppletUtil *)
-(* import org.allbinary.J2MEUtil *)
-(* import org.allbinary.game.commands.GameCommandsFactory *)
-(* import org.allbinary.graphics.displayable.MyCanvas *)
+provide record CustomGameMenuUtil {
+  jobject: JObject,
+}
 
 
-let add : 'any1. 'any1 -> unit = fun (canvas) ->
-        let canvas = Obj.repr canvas in
-        begin
-        let gameCommandsFactory : GameCommandsFactory.gameCommandsFactory ref = ref (((GameCommandsFactory.getInstance ()) :> GameCommandsFactory.gameCommandsFactory)) in ();
-        if (Obj.magic (java_call_static "AppletUtil.isAppletLoader" (Obj.repr ((Obj.magic canvas))))) then begin
-            ()
-        end else if (J2MEUtil.isHTML ()) then begin
-            ()
-        end else begin
-            ignore ((Obj.magic canvas)#addCommand (!gameCommandsFactory#eXIT_COMMAND))
-        end
-        end [@@warning "-20"]
+provide let rec jclassName = () => "CustomGameMenuUtil"
 
-let () = java_register_static "CustomGameMenuUtil.add" (fun arguments -> Obj.repr (add (Obj.obj arguments)))
-class customGameMenuUtil () =
-  object
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("CustomGameMenuUtil"), }
+    this
+}
+    
+and jm_add = (canvas: MyCanvas) => {
+        let mut gameCommandsFactory: GameCommandsFactory = JR.cast(GameCommandsFactory.jm_getInstance())
+        if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AppletUtil.jm_isAppletLoader"))
+JR.cast(jlate(JR.cast(canvas)))
+}) {
+            void
+        } else if (J2MEUtil.jm_isHTML()) {
+            void
+        } else {
+            ignore(MyCanvas.jm_addCommand(canvas, gameCommandsFactory.f_EXIT_COMMAND))
+        }
+}
 
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "CustomGameMenuUtil" (fun arguments -> Obj.repr (new customGameMenuUtil (Obj.obj arguments)))
+JR.registerLateBound("CustomGameMenuUtil.jnew_0", jnew_0)
+JR.registerLateBound("CustomGameMenuUtil.jm_add", jm_add)
 
 

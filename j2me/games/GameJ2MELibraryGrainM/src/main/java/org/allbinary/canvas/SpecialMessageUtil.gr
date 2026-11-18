@@ -1,63 +1,91 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.canvas
+module SpecialMessageUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.canvas *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/game/configuration/feature/Features.gr" include Features
+use Features.{ type Features }
+from "../../../org/allbinary/graphics/opengles/OpenGLFeatureFactory.gr" include OpenGLFeatureFactory
+use OpenGLFeatureFactory.{ type OpenGLFeatureFactory }
+from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../org/allbinary/system/Memory.gr" include Memory
+use Memory.{ type Memory }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.configuration.feature.Features *)
-(* import org.allbinary.graphics.opengles.OpenGLFeatureFactory *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.string.CommonSeps *)
-(* import org.allbinary.system.Memory *)
+provide record SpecialMessageUtil {
+  jobject: JObject,
+}
 
-class specialMessageUtil () =
-  object
+let mut jcell_SINGLETON: Option<SpecialMessageUtil> = None
+
+provide let rec jclassName = () => "SpecialMessageUtil"
+
+and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
+  Some(value) => value,
+  None => {
+    let value: SpecialMessageUtil = jnew_0()
+    jcell_SINGLETON = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("SpecialMessageUtil"), }
+    this
+}
     
+and jm_getInstance = () => {
+        return jstatic_SINGLETON()
+}
+    
+and jm_get = (this: SpecialMessageUtil) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, Memory.jm_getInfo()))
+        ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
+        ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameStatisticsFactory.jm_toString"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("GameStatisticsFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+}))
+        ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
+        ignore(StringMaker.jm_append(stringBuffer, " Option: "))
+        if (Features.jm_isDefault(Features.jm_getInstance(), JR.cast(OpenGLFeatureFactory.jm_getInstance().f_OPENGL_AUTO_SELECT))) {
+            ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(OpenGLFeatureFactory.jm_getInstance().f_OPENGL_AUTO_SELECT))))
+        } else {
+            ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(OpenGLFeatureFactory.jm_getInstance().f_OPENGL_MINIMUM))))
+        }
+        return StringMaker.jm_toString(stringBuffer)
+}
 
-    method get () : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ((Memory.getInfo ())));
-        ignore (!stringBuffer#append ((CommonSeps.getInstance ())#sPACE));
-        ignore (!stringBuffer#append ((java_string_of (Obj.repr (Obj.magic (java_call_static "GameStatisticsFactory.getInstance" (Obj.repr ())))))));
-        ignore (!stringBuffer#append ((CommonSeps.getInstance ())#sPACE));
-        ignore (!stringBuffer#append (" Option: "));
-        if ((Features.getInstance ())#isDefault ((OpenGLFeatureFactory.getInstance ())#oPENGL_AUTO_SELECT)) then begin
-            ignore (!stringBuffer#append (((OpenGLFeatureFactory.getInstance ())#oPENGL_AUTO_SELECT#getName ())))
-        end else begin
-            ignore (!stringBuffer#append (((OpenGLFeatureFactory.getInstance ())#oPENGL_MINIMUM#getName ())))
-        end;
-        (java_string_of (Obj.repr !stringBuffer))
-        end
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "SpecialMessageUtil" (fun arguments -> Obj.repr (new specialMessageUtil (Obj.obj arguments)))
-
-let sINGLETON = (new specialMessageUtil ())
-let get_sINGLETON () = sINGLETON
-let () = java_register_static "SpecialMessageUtil.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (sINGLETON))
-        end
-let () = java_register_static "SpecialMessageUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("SpecialMessageUtil.jnew_0", jnew_0)
+JR.registerLateBound("SpecialMessageUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("SpecialMessageUtil.jm_get", jm_get)
+JR.registerLateBound("SpecialMessageUtil.jstatic_SINGLETON", jstatic_SINGLETON)
 
 

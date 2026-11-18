@@ -1,157 +1,237 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.ai.scroller
+module PacePatrolAI
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.ai.scroller *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/direction/Direction.gr" include Direction
+use Direction.{ type Direction }
+from "../../../../../../org/allbinary/direction/DirectionCompositeInterface.gr" include DirectionCompositeInterface
+use DirectionCompositeInterface.{ type DirectionCompositeInterface }
+from "../../../../../../org/allbinary/direction/DirectionFactory.gr" include DirectionFactory
+use DirectionFactory.{ type DirectionFactory }
+from "../../../../../../org/allbinary/game/input/GameInput.gr" include GameInput
+use GameInput.{ type GameInput }
+from "../../../../../../org/allbinary/game/tracking/TrackingEvent.gr" include TrackingEvent
+use TrackingEvent.{ type TrackingEvent }
+from "../../../../../../org/allbinary/game/tracking/TrackingEventHandler.gr" include TrackingEventHandler
+use TrackingEventHandler.{ type TrackingEventHandler }
+from "../../../../../../org/allbinary/game/tracking/TrackingEventListenerInterface.gr" include TrackingEventListenerInterface
+use TrackingEventListenerInterface.{ type TrackingEventListenerInterface }
+from "../../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
+from "../../../../../../org/allbinary/layer/LayerInterface.gr" include LayerInterface
+use LayerInterface.{ type LayerInterface }
+from "../../../../../../org/allbinary/logic/communication/log/ForcedLogUtil.gr" include ForcedLogUtil
+use ForcedLogUtil.{ type ForcedLogUtil }
+from "../../../../../../org/allbinary/logic/util/event/AllBinaryEventObject.gr" include AllBinaryEventObject
+use AllBinaryEventObject.{ type AllBinaryEventObject }
+from "../../../../../../org/allbinary/logic/util/event/EventStrings.gr" include EventStrings
+use EventStrings.{ type EventStrings }
+from "../../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../../../java/lang/Math.gr" include Math
+from "./BasePatrolAI.gr" include BasePatrolAI
+use BasePatrolAI.{ type BasePatrolAI }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Canvas *)
-(* import org.allbinary.direction.Direction *)
-(* import org.allbinary.direction.DirectionCompositeInterface *)
-(* import org.allbinary.direction.DirectionFactory *)
-(* import org.allbinary.game.input.GameInput *)
-(* import org.allbinary.game.tracking.TrackingEvent *)
-(* import org.allbinary.game.tracking.TrackingEventHandler *)
-(* import org.allbinary.game.tracking.TrackingEventListenerInterface *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
-(* import org.allbinary.layer.LayerInterface *)
-(* import org.allbinary.logic.communication.log.ForcedLogUtil *)
-(* import org.allbinary.logic.util.event.AllBinaryEventObject *)
-(* import org.allbinary.logic.util.event.EventStrings *)
-(* import org.allbinary.util.ABHashtable *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
+provide record PacePatrolAI {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_gameKeyEventFactory: JObject,
+  mut f_ownerLayerInterface: JObject,
+  mut f_gameInput: JObject,
+  mut f_lastKey: Int32,
+  mut f_maxDistance: JObject,
+  mut f_currentDistance: Int32,
+  mut f_xTotalDistance: Int32,
+  mut f_lastKeyDirection: Int32,
+  mut f_keyDirection: Int32,
+  mut f_trackingList: BasicArrayList,
+  mut f_firingDistance: Int32,
+  mut f_isFollowLimitedByTerrain: Bool,
+}
 
-class pacePatrolAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gameInput : GameInput.gameInput)) =
-  object (self)
-    inherit BasePatrolAI.basePatrolAI (hashtable, ownerLayerInterface, gameInput) as super
-    val mutable trackingList : BasicArrayList.basicArrayList = (Obj.magic 0)
-    method trackingList = trackingList
-    method set_trackingList value' = trackingList <- value'
-    val mutable firingDistance : int = 0
-    method firingDistance = firingDistance
-    method set_firingDistance value' = firingDistance <- value'
-    val mutable isFollowLimitedByTerrain : bool = false
-    method isFollowLimitedByTerrain = isFollowLimitedByTerrain
-    method set_isFollowLimitedByTerrain value' = isFollowLimitedByTerrain <- value'
+
+provide let rec jclassName = () => "PacePatrolAI"
+    
+and jnew_3 = (hashtable: JObject, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
+    let this = { jobject: JR.newJObject("PacePatrolAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_maxDistance: JR.jnull, f_currentDistance: 0l, f_xTotalDistance: 0l, f_lastKeyDirection: 0l, f_keyDirection: 0l, f_trackingList: JR.nullOf(), f_firingDistance: 0l, f_isFollowLimitedByTerrain: false, }
     
     
-
-    method processAI : 'any1. 'any1 -> unit = fun (_allBinaryLayerManager) ->
-        begin
-        ignore (self#update ());
-        let direction : Direction.direction ref = ref (((self#setFiringDirectionForTargetIfInRange ()) :> Direction.direction)) in ();
-        let directionFactory : DirectionFactory.directionFactory ref = ref (((DirectionFactory.getInstance ()) :> DirectionFactory.directionFactory)) in ();
-        if ((Obj.repr !direction) == (Obj.repr !directionFactory#lEFT)) then begin
-            if (((Obj.repr (self#lastKeyDirection)) != (Obj.repr keyDirection)) || (not isFollowLimitedByTerrain)) then begin
-                ignore (super#processKeyAI ((Obj.magic (java_call_static "Canvas.get_lEFT" (Obj.repr ())))))
-            end;
-            keyDirection <- (Obj.magic (java_call_static "Canvas.get_lEFT" (Obj.repr ())));
-            (self#set_lastKeyDirection) (keyDirection);
-            xTotalDistance <- 0;
-            ignore (super#processKeyAI ((Obj.magic (java_call_static "Canvas.get_kEY_NUM1" (Obj.repr ())))))
-        end else if ((Obj.repr !direction) == (Obj.repr !directionFactory#rIGHT)) then begin
-            if (((Obj.repr (self#lastKeyDirection)) != (Obj.repr keyDirection)) || (not isFollowLimitedByTerrain)) then begin
-                ignore (super#processKeyAI ((Obj.magic (java_call_static "Canvas.get_rIGHT" (Obj.repr ())))))
-            end;
-            keyDirection <- (Obj.magic (java_call_static "Canvas.get_rIGHT" (Obj.repr ())));
-            (self#set_lastKeyDirection) (keyDirection);
-            xTotalDistance <- 0;
-            ignore (super#processKeyAI ((Obj.magic (java_call_static "Canvas.get_kEY_NUM1" (Obj.repr ())))))
-        end else begin
-            ignore (super#processKeyAI ((self#keyDirection)))
-        end
-        end [@@warning "-7-20"]
+    this.f_isFollowLimitedByTerrain = false
+        void
+        ignore(TrackingEventHandler.jm_addListenerInterface(TrackingEventHandler.jm_getInstance(), this))
+        this.f_trackingList = JR.cast(BasicArrayListD.jnew_0())
+    this
+}
     
-
-    method setFiringDirectionForTargetIfInRange : 'return. unit -> 'return = fun () ->
-        begin
-        let directionFactory : DirectionFactory.directionFactory ref = ref (((DirectionFactory.getInstance ()) :> DirectionFactory.directionFactory)) in ();
-        let ownerLayerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((self#getOwnerLayerInterface ()) :> AllBinaryLayer.allBinaryLayer)) in ();
-        let direction : Direction.direction ref = ref ((!directionFactory#nOT_BORDERED_WITH :> Direction.direction)) in ();
-        let lastTrackingEvent : TrackingEvent.trackingEvent ref = ref (((Obj.magic 0) :> TrackingEvent.trackingEvent)) in ();
-        let lastTrackingLayerInterface : LayerInterface.layerInterface ref = ref (((Obj.magic 0) :> LayerInterface.layerInterface)) in ();
-        let directionCompositeInterface : DirectionCompositeInterface.directionCompositeInterface ref = ref (((Obj.magic 0) :> DirectionCompositeInterface.directionCompositeInterface)) in ();
-        let size : int ref = ref ((trackingList#size ())) in ();
-        for _index = 0 to !size - 1 do
-            lastTrackingEvent := (Obj.magic (trackingList#get (0)));
-            lastTrackingLayerInterface := (!lastTrackingEvent#getLayerInterface ());
-            let x : int ref = ref ((!lastTrackingLayerInterface#getXP ())) in ();
-            let y : int ref = ref ((!lastTrackingLayerInterface#getYP ())) in ();
-            let yDistance : int ref = ref ((((!ownerLayerInterface#getYP ()) - !y) - (!ownerLayerInterface#getHeight ()))) in ();
-            let xDistance : int ref = ref ((((!ownerLayerInterface#getXP ()) - !x) - (!ownerLayerInterface#getWidth ()))) in ();
-            let absXDistance : int ref = ref ((abs (!xDistance))) in ();
-            let absYDistance : int ref = ref ((abs (!yDistance))) in ();
-            if (!absYDistance <= 100) then begin
-                if (!absXDistance < ((self#getFiringDistance ()) / 2)) then begin
-                    directionCompositeInterface := (Obj.magic (self#getOwnerLayerInterface ()));
-                    if ((!xDistance < 0) && ((Obj.repr (!directionCompositeInterface#getDirection ())) == (Obj.repr !directionFactory#rIGHT))) then begin
-                        direction := !directionFactory#rIGHT
-                    end else if ((!xDistance > 0) && ((Obj.repr (!directionCompositeInterface#getDirection ())) == (Obj.repr !directionFactory#lEFT))) then begin
-                        direction := !directionFactory#lEFT
-                    end
-                end
-            end
-        done;
-        (Obj.magic (!direction))
-        end [@@warning "-7"]
+and jm_processAI = (this: PacePatrolAI, allBinaryLayerManager: AllBinaryLayerManager) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasePatrolAI.jm_update"))
+JR.cast(jlate(JR.cast(this)))
+})
+        let mut direction: Direction = JR.cast(jm_setFiringDirectionForTargetIfInRange(this))
+        let mut directionFactory: DirectionFactory = JR.cast(DirectionFactory.jm_getInstance())
+        if (JR.isSame(direction, directionFactory.f_LEFT)) {
+            if (((JR.cast(this.f_lastKeyDirection) != JR.cast(this.f_keyDirection)) || !this.f_isFollowLimitedByTerrain)) {
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_LEFT"))
+JR.cast(jlate())
+})))
+})
+            }
+            this.f_keyDirection = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_LEFT"))
+JR.cast(jlate())
+})
+            this.f_lastKeyDirection = JR.cast(JR.cast(this.f_keyDirection))
+            this.f_xTotalDistance = JR.cast(0l)
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_KEY_NUM1"))
+JR.cast(jlate())
+})))
+})
+        } else if (JR.isSame(direction, directionFactory.f_RIGHT)) {
+            if (((JR.cast(this.f_lastKeyDirection) != JR.cast(this.f_keyDirection)) || !this.f_isFollowLimitedByTerrain)) {
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_RIGHT"))
+JR.cast(jlate())
+})))
+})
+            }
+            this.f_keyDirection = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_RIGHT"))
+JR.cast(jlate())
+})
+            this.f_lastKeyDirection = JR.cast(JR.cast(this.f_keyDirection))
+            this.f_xTotalDistance = JR.cast(0l)
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_KEY_NUM1"))
+JR.cast(jlate())
+})))
+})
+        } else {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
+JR.cast(jlate(JR.cast(this), JR.cast(JR.cast(this.f_keyDirection))))
+})
+        }
+}
     
-
-    method disable () : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_setFiringDirectionForTargetIfInRange = (this: PacePatrolAI) => {
+        let mut directionFactory: DirectionFactory = JR.cast(DirectionFactory.jm_getInstance())
+        let mut ownerLayerInterface: AllBinaryLayer = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
+JR.cast(jlate(JR.cast(this)))
+})
+        let mut direction: Direction = JR.cast(directionFactory.f_NOT_BORDERED_WITH)
+        let mut lastTrackingEvent: TrackingEvent = JR.nullOf()
+        let mut lastTrackingLayerInterface: LayerInterface = JR.nullOf()
+        let mut directionCompositeInterface: DirectionCompositeInterface = JR.nullOf()
+        let mut size: Int32 = BasicArrayList.jm_size(this.f_trackingList)
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            lastTrackingEvent = JR.cast(BasicArrayList.jm_get(this.f_trackingList, 0l))
+            lastTrackingLayerInterface = TrackingEvent.jm_getLayerInterface(lastTrackingEvent)
+            let mut x: Int32 = LayerInterface.jm_getXP(lastTrackingLayerInterface)
+            let mut y: Int32 = LayerInterface.jm_getYP(lastTrackingLayerInterface)
+            let mut yDistance: Int32 = Int32.(-)(Int32.(-)(AllBinaryLayer.jm_getYP(ownerLayerInterface), y), AllBinaryLayer.jm_getHeight(ownerLayerInterface))
+            let mut xDistance: Int32 = Int32.(-)(Int32.(-)(AllBinaryLayer.jm_getXP(ownerLayerInterface), x), AllBinaryLayer.jm_getWidth(ownerLayerInterface))
+            let mut absXDistance: Int32 = Math.jm_abs(xDistance)
+            let mut absYDistance: Int32 = Math.jm_abs(yDistance)
+            if (Int32.(<=)(absYDistance, 100l)) {
+                if (Int32.(<)(absXDistance, Int32.(/)(jm_getFiringDistance(this), 2l))) {
+                    directionCompositeInterface = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
+JR.cast(jlate(JR.cast(this)))
+})
+                    if ((Int32.(<)(xDistance, 0l) && (DirectionCompositeInterface.jm_getDirection(directionCompositeInterface) == directionFactory.f_RIGHT))) {
+                        direction = directionFactory.f_RIGHT
+                    } else if ((Int32.(>)(xDistance, 0l) && (DirectionCompositeInterface.jm_getDirection(directionCompositeInterface) == directionFactory.f_LEFT))) {
+                        direction = directionFactory.f_LEFT
+                    }
+                }
+            }
+            }
+        }
+        return direction
+}
     
-
-    method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
-        begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
-        end [@@warning "-7-20"]
+and jm_disable = (this: PacePatrolAI) => {
+    void
+}
     
-
-    method onMovement : 'any1. 'any1 -> unit = fun (trackingEvent) ->
-        let trackingEvent = Obj.repr trackingEvent in
-        begin
-        ignore (trackingList#clear ());
-        ignore (trackingList#add ((Obj.magic trackingEvent)))
-        end [@@warning "-7-20"]
+and jm_onEvent = (this: PacePatrolAI, eventObject: AllBinaryEventObject) => {
+        ignore(ForcedLogUtil.jm_log(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE, JR.cast(this)))
+}
     
-
-    method getFiringDistance () : int =
-        begin
-        firingDistance
-        end [@@warning "-7"]
+and jm_onMovement = (this: PacePatrolAI, trackingEvent: TrackingEvent) => {
+        ignore(BasicArrayList.jm_clear(this.f_trackingList))
+        ignore(BasicArrayList.jm_add(this.f_trackingList, JR.cast(trackingEvent)))
+}
     
+and jm_getFiringDistance = (this: PacePatrolAI) => {
+        return this.f_firingDistance
+}
+    
+and jm_setFiringDistance = (this: PacePatrolAI, firingDistance: Int32) => {
+        this.f_firingDistance = firingDistance
+}
 
-    method setFiringDistance ((firingDistance_arg : int)) : unit =
-        begin
-        firingDistance <- firingDistance_arg
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        firingDistance <- 0;
-        isFollowLimitedByTerrain <- false;
-        ();
-        (* super(...) is the inherit clause *) ();
-        ignore ((TrackingEventHandler.getInstance ())#addListenerInterface ((Obj.magic self)));
-        trackingList <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)
-      end
-  end
-let () = java_register_constructor "PacePatrolAI" (fun arguments -> Obj.repr (new pacePatrolAI (Obj.obj arguments)))
+JR.registerLateBound("PacePatrolAI.jnew_3", jnew_3)
+JR.registerLateBound("PacePatrolAI.jm_processAI", jm_processAI)
+JR.registerLateBound("PacePatrolAI.jm_setFiringDirectionForTargetIfInRange", jm_setFiringDirectionForTargetIfInRange)
+JR.registerLateBound("PacePatrolAI.jm_disable", jm_disable)
+JR.registerLateBound("PacePatrolAI.jm_onEvent", jm_onEvent)
+JR.registerLateBound("PacePatrolAI.jm_onMovement", jm_onMovement)
+JR.registerLateBound("PacePatrolAI.jm_getFiringDistance", jm_getFiringDistance)
+JR.registerLateBound("PacePatrolAI.jm_setFiringDistance", jm_setFiringDistance)
+JR.registerLateBound("PacePatrolAI.f_trackingList", (this: PacePatrolAI) => this.f_trackingList)
+JR.registerLateBound("PacePatrolAI.set_f_trackingList", (this: PacePatrolAI, jvalue) => { this.f_trackingList = jvalue; jvalue })
+JR.registerLateBound("PacePatrolAI.f_firingDistance", (this: PacePatrolAI) => this.f_firingDistance)
+JR.registerLateBound("PacePatrolAI.set_f_firingDistance", (this: PacePatrolAI, jvalue) => { this.f_firingDistance = jvalue; jvalue })
+JR.registerLateBound("PacePatrolAI.f_isFollowLimitedByTerrain", (this: PacePatrolAI) => this.f_isFollowLimitedByTerrain)
+JR.registerLateBound("PacePatrolAI.set_f_isFollowLimitedByTerrain", (this: PacePatrolAI, jvalue) => { this.f_isFollowLimitedByTerrain = jvalue; jvalue })
 
 

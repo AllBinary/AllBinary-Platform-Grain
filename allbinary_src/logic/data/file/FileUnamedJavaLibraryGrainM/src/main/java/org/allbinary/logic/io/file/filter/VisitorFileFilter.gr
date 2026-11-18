@@ -1,53 +1,74 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io.file.filter
+module VisitorFileFilter
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io.file.filter *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../java/io/File.gr" include File
+use File.{ type File }
+from "../../../../../../java/io/FileFilter.gr" include FileFilter
+use FileFilter.{ type FileFilter }
+from "../../../../../../org/allbinary/logic/util/visitor/VisitorInterface.gr" include VisitorInterface
+use VisitorInterface.{ type VisitorInterface }
+from "../../../../../../java/lang/Boolean.gr" include Boolean
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.File *)
-(* import java.io.FileFilter *)
-(* import org.allbinary.logic.io.file.AbFile *)
-(* import org.allbinary.logic.io.file.FileWrapperUtil *)
-(* import org.allbinary.logic.util.visitor.VisitorInterface *)
+provide record VisitorFileFilter {
+  jobject: JObject,
+  mut f_booleanVisitorInterface: VisitorInterface,
+}
 
-class visitorFileFilter ((booleanVisitorInterface_arg : VisitorInterface.visitorInterface)) =
-  object
-    val mutable booleanVisitorInterface : VisitorInterface.visitorInterface = (Obj.magic 0)
-    method booleanVisitorInterface = booleanVisitorInterface
-    method set_booleanVisitorInterface value' = booleanVisitorInterface <- value'
+
+provide let rec jclassName = () => "VisitorFileFilter"
     
+and jnew_1 = (booleanVisitorInterface: VisitorInterface) => {
+    let this = { jobject: JR.newJObject("VisitorFileFilter"), f_booleanVisitorInterface: JR.nullOf(), }
     
-
-    method accept ((file : java_file)) : bool =
-        begin
-        let abFile : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "FileWrapperUtil.wrapFile" (Obj.repr (file)))))) in ();
-        let isFileAcceptable : bool ref = ref ((java_boolean_value (Obj.repr ((Obj.magic (booleanVisitorInterface#visit ((Obj.magic !abFile)))))))) in ();
-        (!isFileAcceptable || (file#isDirectory ()))
-        end
+        this.f_booleanVisitorInterface = booleanVisitorInterface
+    this
+}
     
+and jm_accept_1 = (this: VisitorFileFilter, file: File) => {
+        let mut abFile: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FileWrapperUtil.jm_wrapFile"))
+JR.cast(jlate(JR.cast(file)))
+})
+        let mut isFileAcceptable: Bool = Boolean.jm_booleanValue((JR.cast(VisitorInterface.jm_visit(this.f_booleanVisitorInterface, JR.cast(abFile)))))
+        return (isFileAcceptable || File.jm_isDirectory_0(file))
+}
+    
+and jm_accept_1 = (this: VisitorFileFilter, file: JObject) => {
+        let mut isFileAcceptable: Bool = Boolean.jm_booleanValue((JR.cast(VisitorInterface.jm_visit(this.f_booleanVisitorInterface, JR.cast(file)))))
+        return (isFileAcceptable || {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
+JR.cast(jlate(JR.cast(file)))
+})
+}
 
-    (* Java overload accept(AbFile) is not converted: OCaml has one method per name *)
-
-    initializer
-      begin
-        ();
-        ();
-        booleanVisitorInterface <- booleanVisitorInterface_arg
-      end
-  end
-let () = java_register_constructor "VisitorFileFilter" (fun arguments -> Obj.repr (new visitorFileFilter (Obj.obj arguments)))
+JR.registerLateBound("VisitorFileFilter.jnew_1", jnew_1)
+JR.registerLateBound("VisitorFileFilter.jm_accept_1", jm_accept_1)
+JR.registerLateBound("VisitorFileFilter.jm_accept_1", jm_accept_1)
+JR.registerLateBound("VisitorFileFilter.f_booleanVisitorInterface", (this: VisitorFileFilter) => this.f_booleanVisitorInterface)
+JR.registerLateBound("VisitorFileFilter.set_f_booleanVisitorInterface", (this: VisitorFileFilter, jvalue) => { this.f_booleanVisitorInterface = jvalue; jvalue })
 
 

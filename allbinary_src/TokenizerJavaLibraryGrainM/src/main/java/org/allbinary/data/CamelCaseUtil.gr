@@ -1,71 +1,101 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.data
+module CamelCaseUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../org/allbinary/logic/string/StringValidationUtil.gr" include StringValidationUtil
+use StringValidationUtil.{ type StringValidationUtil }
+from "../../../org/allbinary/logic/string/tokens/Tokenizer.gr" include Tokenizer
+use Tokenizer.{ type Tokenizer }
+from "../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "../../../java/lang/Character.gr" include Character
+
+provide record CamelCaseUtil {
+  jobject: JObject,
+  mut f_commonSeps: CommonSeps,
+}
+
+let mut jcell_instance: Option<CamelCaseUtil> = None
+
+provide let rec jclassName = () => "CamelCaseUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: CamelCaseUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("CamelCaseUtil"), f_commonSeps: JR.nullOf(), }
+    this.f_commonSeps = JR.cast(CommonSeps.jm_getInstance())
+    this
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.data *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.logic.string.StringValidationUtil *)
-(* import org.allbinary.logic.string.tokens.Tokenizer *)
-(* import org.allbinary.string.CommonSeps *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
-
-class camelCaseUtil () =
-  object
-    val mutable commonSeps : CommonSeps.commonSeps = (Obj.magic 0)
-    method commonSeps = commonSeps
-    method set_commonSeps value' = commonSeps <- value'
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jm_getAsCamelCase = (this: CamelCaseUtil, string: String, stringBuilder: StringMaker) => {
+        let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
+        ignore(StringMaker.jm_delete(stringBuilder, 0l, StringMaker.jm_length(stringBuilder)))
+        let mut list: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+        let mut tokenizer: Tokenizer = Tokenizer.jnew_1(this.f_commonSeps.f_UNDERSCORE)
+        ignore(Tokenizer.jm_getTokensFromString(tokenizer, string, list))
+        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut word: String = ""
+        {
+            let mut i: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    i = Int32.(+)(i, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(i, size))) break
+            word = JR.cast(BasicArrayList.jm_get(list, i))
+            word = (if (StringValidationUtil.jm_isEmpty(stringValidationUtil, word)) word else StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_appendchar(StringMaker.jnew_0(), Character.jm_toUpperCase(JR.charAt(word, 0l))), JR.toLowerCase(JR.substringFrom(word, 1l)))))
+            ignore(StringMaker.jm_append(stringBuilder, word))
+            }
+        }
+        return StringMaker.jm_toString(stringBuilder)
+}
 
-    method getAsCamelCase : 'any2. string * 'any2 -> string = fun ((string : string), stringBuilder) ->
-        let stringBuilder = Obj.repr stringBuilder in
-        begin
-        let stringValidationUtil : StringValidationUtil.stringValidationUtil ref = ref (((StringValidationUtil.getInstance ()) :> StringValidationUtil.stringValidationUtil)) in ();
-        ignore ((Obj.magic stringBuilder)#delete (0, ((Obj.magic stringBuilder)#length ())));
-        let list : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-        let tokenizer : Tokenizer.tokenizer ref = ref (((new Tokenizer.tokenizer (commonSeps#uNDERSCORE)) :> Tokenizer.tokenizer)) in ();
-        ignore (!tokenizer#getTokensFromString (string, !list));
-        let size : int ref = ref ((!list#size ())) in ();
-        let word : string ref = ref ("") in ();
-        for i = 0 to !size - 1 do
-            word := (Obj.magic (!list#get (i)));
-            word := (if (!stringValidationUtil#isEmpty (!word)) then !word else (java_string_of (Obj.repr (((new StringMaker.stringMaker ())#appendchar ((Char.uppercase_ascii ((String.get !word (0))))))#append ((String.lowercase_ascii (String.sub !word (1) (String.length !word - (1)))))))));
-            ignore ((Obj.magic stringBuilder)#append (!word))
-        done;
-        (java_string_of (Obj.repr (Obj.magic stringBuilder)))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        commonSeps <- ((CommonSeps.getInstance ()) :> CommonSeps.commonSeps);
-        ()
-      end
-  end
-let () = java_register_constructor "CamelCaseUtil" (fun arguments -> Obj.repr (new camelCaseUtil (Obj.obj arguments)))
-
-let instance = (new camelCaseUtil ())
-let get_instance () = instance
-let () = java_register_static "CamelCaseUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "CamelCaseUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("CamelCaseUtil.jnew_0", jnew_0)
+JR.registerLateBound("CamelCaseUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("CamelCaseUtil.jm_getAsCamelCase", jm_getAsCamelCase)
+JR.registerLateBound("CamelCaseUtil.f_commonSeps", (this: CamelCaseUtil) => this.f_commonSeps)
+JR.registerLateBound("CamelCaseUtil.jstatic_instance", jstatic_instance)
 
 

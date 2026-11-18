@@ -1,224 +1,215 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.media.audio
+module PCClipWavPlayer
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.media.audio *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/thread/ARunnable.gr" include ARunnable
+use ARunnable.{ type ARunnable }
+from "../../../../java/io/ByteArrayInputStream.gr" include ByteArrayInputStream
+use ByteArrayInputStream.{ type ByteArrayInputStream }
+from "../../../../java/io/InputStream.gr" include InputStream
+use InputStream.{ type InputStream }
+from "../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../org/allbinary/thread/MusicThreadPool.gr" include MusicThreadPool
+use MusicThreadPool.{ type MusicThreadPool }
+from "../../../../java/lang/Math.gr" include Math
+from "./NullAudioFormat.gr" include NullAudioFormat
+use NullAudioFormat.{ type NullAudioFormat }
+from "./NullClip.gr" include NullClip
+use NullClip.{ type NullClip }
+from "./NullControl.gr" include NullControl
+use NullControl.{ type NullControl }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.thread.ARunnable *)
-(* import java.io.ByteArrayInputStream *)
-(* import java.io.InputStream *)
-(* import javax.microedition.media.Control *)
-(* import javax.microedition.media.MediaException *)
-(* import javax.microedition.media.PlayerListener *)
-(* import javax.sound.sampled.AudioInputStream *)
-(* import javax.sound.sampled.AudioSystem *)
-(* import javax.sound.sampled.Clip *)
-(* import javax.sound.sampled.FloatControl *)
-(* import javax.sound.sampled.LineEvent *)
-(* import javax.sound.sampled.LineListener *)
-(* import org.allbinary.logic.NullUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.thread.MusicThreadPool *)
+provide record PCClipWavPlayer {
+  jobject: JObject,
+  mut f_commonStrings: JObject,
+  mut f_listenersList: JObject,
+  mut f_stateP: Int32,
+  mut f_loopCountP: Int32,
+  mut f_logUtil: JObject,
+  mut f_audioInputStream: AudioInputStream,
+  mut f_clip: Clip,
+}
 
-class pCClipWavPlayer (inputStream) =
-  object (self)
-    inherit BasicPlayer.basicPlayer () as super
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable audioInputStream : Obj.t = Obj.repr 0
-    method audioInputStream : 'r. 'r = Obj.magic audioInputStream
-    method set_audioInputStream : 'v. 'v -> unit = fun value' -> audioInputStream <- Obj.repr value'
-    val mutable clip : Obj.t = Obj.repr 0
-    method clip : 'r. 'r = Obj.magic clip
-    method set_clip : 'v. 'v -> unit = fun value' -> clip <- Obj.repr value'
+
+provide let rec jclassName = () => "PCClipWavPlayer"
+    
+and jnew_1 = (inputStream: InputStream) => {
+    let this = { jobject: JR.newJObject("PCClipWavPlayer"), f_commonStrings: JR.jnull, f_listenersList: JR.jnull, f_stateP: 0l, f_loopCountP: 0l, f_logUtil: JR.jnull, f_audioInputStream: JR.nullOf(), f_clip: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
     
     
-
-    method close () : unit =
-        begin
-        ignore ((MusicThreadPool.getInstance ())#runTask ((let outer_self = self in object (self)
-            inherit ARunnable.aRunnable () as super
-            
-
-            method run () : unit =
-                begin
-                (try
-                    (outer_self#close2 ())
-                with e -> begin
-                    ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#pROCESS, e))))
-                end)
-                end
-        end)))
-        end [@@warning "-7"]
+        let mut audioInputStream: AudioInputStream = AudioInputStream.jnew_3(ByteArrayInputStream.jnew_1(NullUtil.jm_getInstance().f_NULL_BYTE_ARRAY), NullAudioFormat.jstatic_NULL_AUDIO_FORMAT(), 0l)
+        let mut clip: Clip = JR.cast(NullClip.jnew_0())
+        {
+            audioInputStream = AudioSystem.jm_getAudioInputStream(inputStream)
+            clip = jm_create(this, audioInputStream)
+            if (JR.isNull(clip)) {
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_put"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Clip was null"), JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_CONSTRUCTOR"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+}), JR.cast(JR.newJObject("Exception"))))
+})
+                fail JR.toStringOf(JR.newJObject("RuntimeException"))
+            }
+        }
+        this.f_audioInputStream = audioInputStream
+        this.f_clip = clip
+    this
+}
     
-
-    method close2 () : unit =
-        begin
-        ignore ((Obj.magic clip)#drain ());
-        ignore ((Obj.magic clip)#flush ());
-        ignore ((Obj.magic clip)#close ())
-        end [@@warning "-7"]
+and jm_close = (this: PCClipWavPlayer) => {
+        ignore(MusicThreadPool.jm_runTask(MusicThreadPool.jm_getInstance(), JR.cast(ARunnable.jnew_0())))
+}
     
-
-    method getContentType () : string =
-        begin
-        (StringUtil.getInstance ())#eMPTY_STRING
-        end [@@warning "-7"]
+and jm_close2 = (this: PCClipWavPlayer) => {
+        ignore(Clip.jm_drain(this.f_clip))
+        ignore(Clip.jm_flush(this.f_clip))
+        ignore(Clip.jm_close(this.f_clip))
+}
     
-
-    method start () : unit =
-        begin
-        ignore ((MusicThreadPool.getInstance ())#runTask ((let outer_self = self in object (self)
-            inherit ARunnable.aRunnable () as super
-            
-
-            method run () : unit =
-                begin
-                (try
-                    (outer_self#start2 ())
-                with e -> begin
-                    ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#pROCESS, e))))
-                end)
-                end
-        end)))
-        end [@@warning "-7"]
+and jm_getContentType = (this: PCClipWavPlayer) => {
+        return StringUtil.jm_getInstance().f_EMPTY_STRING
+}
     
-
-    method start2 () : unit =
-        begin
-        ignore ((Obj.magic clip)#setFramePosition (0));
-        ignore ((Obj.magic clip)#loop ((self#getLoopCount ())));
-        ignore ((Obj.magic clip)#start ());
-        ignore (super#start ())
-        end [@@warning "-7"]
+and jm_start = (this: PCClipWavPlayer) => {
+        ignore(MusicThreadPool.jm_runTask(MusicThreadPool.jm_getInstance(), JR.cast(ARunnable.jnew_0())))
+}
     
-
-    method create : 'any1 'return. 'any1 -> 'return = fun (audioInputStream_arg) ->
-        let audioInputStream_arg = Obj.repr audioInputStream_arg in
-        begin
-        let clip_arg : Obj.t ref = ref ((Obj.repr (AudioSystem.getClip ()))) in ();
-        ignore ((Obj.magic !clip_arg)#addLineListener ((Obj.magic self)));
-        ignore ((Obj.magic !clip_arg)#open_ ((Obj.magic audioInputStream_arg)));
-        (Obj.magic ((Obj.magic !clip_arg)))
-        end [@@warning "-7-20"]
+and jm_start2 = (this: PCClipWavPlayer) => {
+        ignore(Clip.jm_setFramePosition(this.f_clip, 0l))
+        ignore(Clip.jm_loop(this.f_clip, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicPlayer.jm_getLoopCount"))
+JR.cast(jlate(JR.cast(this)))
+}))
+        ignore(Clip.jm_start(this.f_clip))
+        ignore(jm_start(this))
+}
     
-
-    method stop () : unit =
-        begin
-        ignore ((MusicThreadPool.getInstance ())#runTask ((let outer_self = self in object (self)
-            inherit ARunnable.aRunnable () as super
-            
-
-            method run () : unit =
-                begin
-                (try
-                    (outer_self#stop2 ())
-                with e -> begin
-                    ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#pROCESS, e))))
-                end)
-                end
-        end)))
-        end [@@warning "-7"]
+and jm_create = (this: PCClipWavPlayer, audioInputStream: AudioInputStream) => {
+        let mut clip: Clip = JR.cast(AudioSystem.jm_getClip())
+        ignore(Clip.jm_addLineListener(clip, this))
+        ignore(Clip.jm_open(clip, audioInputStream))
+        return clip
+}
     
-
-    method stop2 () : unit =
-        begin
-        ignore ((Obj.magic clip)#stop ());
-        ignore (super#stop ())
-        end [@@warning "-7"]
+and jm_stop = (this: PCClipWavPlayer) => {
+        ignore(MusicThreadPool.jm_runTask(MusicThreadPool.jm_getInstance(), JR.cast(ARunnable.jnew_0())))
+}
     
-
-    method getControl : 'return. string -> 'return = fun ((_controlType : string)) ->
-        begin
-        (Obj.magic ((new NullControl.nullControl ())))
-        end [@@warning "-7"]
+and jm_stop2 = (this: PCClipWavPlayer) => {
+        ignore(Clip.jm_stop(this.f_clip))
+        ignore(jm_stop(this))
+}
     
-
-    method getControls : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Array.make (0) (Obj.magic 0))))
-        end [@@warning "-7"]
+and jm_getControl = (this: PCClipWavPlayer, controlType: String) => {
+        return JR.cast(NullControl.jnew_0())
+}
     
-
-    method setVolume ((leftVolume : int), (_rightVolume : int)) : unit =
-        begin
-        (self#setVolumeF ((((float_of_int (leftVolume))) /. 100.0)))
-        end [@@warning "-7"]
+and jm_getControls = (this: PCClipWavPlayer) => {
+        return Array.make(Int32.toNumber(0l), JR.nullOf())
+}
     
-
-    method getVolume () : float =
-        begin
-        let masterGainFloatControl : Obj.t ref = ref ((Obj.repr (Obj.magic ((Obj.magic clip)#getControl ((FloatControl.get_type_ ())#mASTER_GAIN))))) in ();
-        (java_to_float (Obj.repr ((Float.pow (10.) ((((Obj.magic !masterGainFloatControl)#getValue ()) /. 20.))))))
-        end [@@warning "-7"]
+and jm_setVolume = (this: PCClipWavPlayer, leftVolume: Int32, rightVolume: Int32) => {
+        ignore(jm_setVolumeF(this, Float32.(/)((Float32.fromNumber(Int32.toNumber(leftVolume))), 100.0f)))
+}
     
-
-    method setVolumeF ((volume : float)) : unit =
-        begin
-        if ((volume < 0.) || (volume > 1.)) then begin
-            raise (Failure (("Volume: " ^ java_string_of (Obj.repr (volume)))))
-        end;
-        let masterGainFloatControl : Obj.t ref = ref ((Obj.repr (Obj.magic ((Obj.magic clip)#getControl ((FloatControl.get_type_ ())#mASTER_GAIN))))) in ();
-        ignore ((Obj.magic !masterGainFloatControl)#setValue ((20. *. (java_to_float (Obj.repr ((Float.log10 (volume))))))))
-        end [@@warning "-7"]
+and jm_getVolume = (this: PCClipWavPlayer) => {
+        let mut masterGainFloatControl: FloatControl = JR.cast(Clip.jm_getControl(this.f_clip, FloatControl.jstatic_Type().f_MASTER_GAIN))
+        return Float32.fromNumber(Float64.toNumber(Math.jm_pow(10.0f, Float32.(/)(FloatControl.jm_getValue(masterGainFloatControl), 20.0f))))
+}
     
-
-    method getDuration () : int =
-        begin
-        (((Obj.magic clip)#getMicrosecondLength ()) / 1000)
-        end [@@warning "-7"]
+and jm_setVolumeF = (this: PCClipWavPlayer, volume: Float32) => {
+        if ((Float32.(<)(volume, 0.0f) || Float32.(>)(volume, 1.0f))) {
+            fail JR.toStringOf(JR.newJObject("IllegalArgumentException"))
+        }
+        let mut masterGainFloatControl: FloatControl = JR.cast(Clip.jm_getControl(this.f_clip, FloatControl.jstatic_Type().f_MASTER_GAIN))
+        ignore(FloatControl.jm_setValue(masterGainFloatControl, Float32.(*)(20.0f, Float32.fromNumber(Float64.toNumber(Math.jm_log10(volume))))))
+}
     
+and jm_getDuration = (this: PCClipWavPlayer) => {
+        return Int64.(/)(Clip.jm_getMicrosecondLength(this.f_clip), 1000L)
+}
+    
+and jm_update = (this: PCClipWavPlayer, event: LineEvent) => {
+        if ((LineEvent.jm_getType(event) == JR.cast(LineEvent.jstatic_Type().f_STOP))) {
+            let mut size: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_listenersList))))
+}
+            {
+                let mut index: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(+)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index, size))) break
+                let mut listener: JObject = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_get"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_listenersList)), JR.cast(size)))
+})
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PlayerListener.jm_playerUpdate"))
+JR.cast(jlate(JR.cast(listener), JR.cast(this), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("PlayerListener.jstatic_END_OF_MEDIA"))
+JR.cast(jlate())
+}), JR.cast(JR.nullOf())))
+})
+                }
+            }
+        }
+}
 
-    method update : 'any1. 'any1 -> unit = fun (event) ->
-        let event = Obj.repr event in
-        begin
-        if (((Obj.magic event)#getType ())#equals ((LineEvent.get_type_ ())#sTOP)) then begin
-            let size : int ref = ref (((self#listenersList)#size ())) in ();
-            for _index = 0 to !size - 1 do
-                let listener : Obj.t ref = ref ((Obj.repr (Obj.magic ((self#listenersList)#get (!size))))) in ();
-                ignore ((Obj.magic !listener)#playerUpdate ((Obj.magic self), (Obj.magic (java_call_static "PlayerListener.get_eND_OF_MEDIA" (Obj.repr ()))), (Obj.magic 0)))
-            done
-        end
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ();
-        ();
-        ();
-        let audioInputStream_arg : Obj.t ref = ref ((Obj.repr (new AudioInputStream.audioInputStream ((new java_byte_array_input_stream ((NullUtil.getInstance ())#nULL_BYTE_ARRAY)), (NullAudioFormat.get_nULL_AUDIO_FORMAT ()), 0)))) in ();
-        let clip_arg : Obj.t ref = ref ((Obj.repr (new NullClip.nullClip ()))) in ();
-        (try
-            audioInputStream_arg := Obj.repr ((AudioSystem.getAudioInputStream (inputStream)));
-            clip_arg := Obj.repr ((self#create ((Obj.magic !audioInputStream_arg))));
-            if ((Obj.magic !clip_arg) == (Obj.magic 0)) then begin
-                ignore ((Obj.magic logUtil)#put ("Clip was null", (Obj.magic self), (self#commonStrings)#cONSTRUCTOR, (Failure ("Exception"))));
-                raise (Failure ("RuntimeException"))
-            end
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#commonStrings)#cONSTRUCTOR, e))
-        end);
-        audioInputStream <- Obj.repr ((Obj.magic !audioInputStream_arg));
-        clip <- Obj.repr ((Obj.magic !clip_arg))
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "PCClipWavPlayer" (fun arguments -> Obj.repr (new pCClipWavPlayer (Obj.obj arguments)))
+JR.registerLateBound("PCClipWavPlayer.jnew_1", jnew_1)
+JR.registerLateBound("PCClipWavPlayer.jm_close", jm_close)
+JR.registerLateBound("PCClipWavPlayer.jm_close2", jm_close2)
+JR.registerLateBound("PCClipWavPlayer.jm_getContentType", jm_getContentType)
+JR.registerLateBound("PCClipWavPlayer.jm_start", jm_start)
+JR.registerLateBound("PCClipWavPlayer.jm_start2", jm_start2)
+JR.registerLateBound("PCClipWavPlayer.jm_create", jm_create)
+JR.registerLateBound("PCClipWavPlayer.jm_stop", jm_stop)
+JR.registerLateBound("PCClipWavPlayer.jm_stop2", jm_stop2)
+JR.registerLateBound("PCClipWavPlayer.jm_getControl", jm_getControl)
+JR.registerLateBound("PCClipWavPlayer.jm_getControls", jm_getControls)
+JR.registerLateBound("PCClipWavPlayer.jm_setVolume", jm_setVolume)
+JR.registerLateBound("PCClipWavPlayer.jm_getVolume", jm_getVolume)
+JR.registerLateBound("PCClipWavPlayer.jm_setVolumeF", jm_setVolumeF)
+JR.registerLateBound("PCClipWavPlayer.jm_getDuration", jm_getDuration)
+JR.registerLateBound("PCClipWavPlayer.jm_update", jm_update)
+JR.registerLateBound("PCClipWavPlayer.f_logUtil", (this: PCClipWavPlayer) => this.f_logUtil)
+JR.registerLateBound("PCClipWavPlayer.f_audioInputStream", (this: PCClipWavPlayer) => this.f_audioInputStream)
+JR.registerLateBound("PCClipWavPlayer.f_clip", (this: PCClipWavPlayer) => this.f_clip)
 
 

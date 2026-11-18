@@ -1,108 +1,151 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.displayable.canvas
+module ImmediateCommandFormInputProcessor
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.displayable.canvas *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/input/event/GameKeyEvent.gr" include GameKeyEvent
+use GameKeyEvent.{ type GameKeyEvent }
+from "../../../../../org/allbinary/graphics/form/ScrollSelectionForm.gr" include ScrollSelectionForm
+use ScrollSelectionForm.{ type ScrollSelectionForm }
+from "../../../../../org/allbinary/input/motion/gesture/observer/MotionGestureEvent.gr" include MotionGestureEvent
+use MotionGestureEvent.{ type MotionGestureEvent }
+from "../../../../../org/allbinary/time/TimeDelayHelper.gr" include TimeDelayHelper
+use TimeDelayHelper.{ type TimeDelayHelper }
+from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "./CommandFormInputProcessor.gr" include CommandFormInputProcessor
+use CommandFormInputProcessor.{ type CommandFormInputProcessor }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.input.event.GameKeyEvent *)
-(* import org.allbinary.graphics.form.ScrollSelectionForm *)
-(* import org.allbinary.input.motion.gesture.observer.MotionGestureEvent *)
-(* import org.allbinary.time.TimeDelayHelper *)
-(* import org.allbinary.util.BasicArrayList *)
+provide record ImmediateCommandFormInputProcessor {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_gameKeyEventList: JObject,
+  mut f_removalGameKeyEventList: JObject,
+  mut f_isRemoveDuplicateKeyPresses: Bool,
+  mut f_gameInputStrings: JObject,
+  mut f_playerInputId: Int32,
+  mut f_motionGestureEventList: JObject,
+  mut f_canvas: JObject,
+  mut f_MOTION_GESTURE_SOURCE_ID: Int32,
+  mut f_CLICK_DELAY: Int32,
+  mut f_clickTimeHelper: JObject,
+  mut f_DOUBLE_CLICK_DELAY: Int32,
+  mut f_doubleClickTimeHelper: JObject,
+  mut f_isSingleKeyProcessing: Bool,
+  mut f_form: JObject,
+  mut f_hasPressed: Bool,
+  mut f_PROCESS_COMMAND: String,
+  mut f_NAME_LABEL: String,
+  mut f_timeHelper: TimeDelayHelper,
+  mut f_gameCommandCanvas: JObject,
+}
 
-class immediateCommandFormInputProcessor ((gameKeyEventList : BasicArrayList.basicArrayList), (playerInputId : int), gameCommandCanvas_arg, (form : ScrollSelectionForm.scrollSelectionForm)) =
-  object (self)
-    inherit CommandFormInputProcessor.commandFormInputProcessor (gameKeyEventList, playerInputId, gameCommandCanvas_arg, form) as super
-    val mutable timeHelper : TimeDelayHelper.timeDelayHelper = (Obj.magic 0)
-    method timeHelper = timeHelper
-    method set_timeHelper value' = timeHelper <- value'
-    val mutable gameCommandCanvas : Obj.t = Obj.repr 0
-    method gameCommandCanvas : 'r. 'r = Obj.magic gameCommandCanvas
-    method set_gameCommandCanvas : 'v. 'v -> unit = fun value' -> gameCommandCanvas <- Obj.repr value'
+
+provide let rec jclassName = () => "ImmediateCommandFormInputProcessor"
     
+and jnew_4 = (gameKeyEventList: BasicArrayList, playerInputId: Int32, gameCommandCanvas: JObject, form: ScrollSelectionForm) => {
+    let this = { jobject: JR.newJObject("ImmediateCommandFormInputProcessor"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventList: JR.jnull, f_removalGameKeyEventList: JR.jnull, f_isRemoveDuplicateKeyPresses: false, f_gameInputStrings: JR.jnull, f_playerInputId: 0l, f_motionGestureEventList: JR.jnull, f_canvas: JR.jnull, f_MOTION_GESTURE_SOURCE_ID: 0l, f_CLICK_DELAY: 0l, f_clickTimeHelper: JR.jnull, f_DOUBLE_CLICK_DELAY: 0l, f_doubleClickTimeHelper: JR.jnull, f_isSingleKeyProcessing: false, f_form: JR.jnull, f_hasPressed: false, f_PROCESS_COMMAND: "", f_NAME_LABEL: "", f_timeHelper: JR.nullOf(), f_gameCommandCanvas: JR.jnull, }
+    this.f_timeHelper = TimeDelayHelper.jnew_1(25l)
     
-
-    method onPressGameKeyEvent : 'any1. 'any1 -> unit = fun (gameKeyEvent) ->
-        let gameKeyEvent = Obj.repr gameKeyEvent in
-        begin
-        (try
-            ignore (super#onPressGameKeyEvent ((Obj.magic gameKeyEvent)));
-            if (timeHelper#isTimeTNT ()) then begin
-                ignore (self#processInputList ());
-                ignore ((Obj.magic gameCommandCanvas)#repaintBehavior#onChangeRepaint ((self#getCanvas ())))
-            end
-        with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#gameInputStrings)#oN_PRESS_GAME_KEY, e))
-        end)
-        end [@@warning "-7-20"]
+        void
+        this.f_gameCommandCanvas = gameCommandCanvas
+    this
+}
     
-
-    method onDownGameKeyEvent : 'any1. 'any1 -> unit = fun (gameKeyEvent) ->
-        let gameKeyEvent = Obj.repr gameKeyEvent in
-        begin
-        (try
-            ignore (super#onDownGameKeyEvent ((Obj.magic gameKeyEvent)));
-            if (timeHelper#isTimeTNT ()) then begin
-                ignore (self#processInputList ());
-                ignore ((Obj.magic gameCommandCanvas)#repaintBehavior#onChangeRepaint ((self#getCanvas ())))
-            end
-        with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#gameInputStrings)#oN_DOWN_GAME_KEY, e))
-        end)
-        end [@@warning "-7-20"]
+and jm_onPressGameKeyEvent = (this: ImmediateCommandFormInputProcessor, gameKeyEvent: GameKeyEvent) => {
+        {
+            ignore(jm_onPressGameKeyEvent(this, gameKeyEvent))
+            if (TimeDelayHelper.jm_isTimeTNT(this.f_timeHelper)) {
+                ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommandFormInputProcessor.jm_processInputList"))
+JR.cast(jlate(JR.cast(this)))
+})
+                ignore(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameCommandCanvas.f_repaintBehavior"))
+JR.cast(jlate(JR.cast(this.f_gameCommandCanvas)))
+})))
+            }
+        }
+}
     
-
-    method onUpGameKeyEvent : 'any1. 'any1 -> unit = fun (gameKeyEvent) ->
-        let gameKeyEvent = Obj.repr gameKeyEvent in
-        begin
-        (try
-            ignore (super#onUpGameKeyEvent ((Obj.magic gameKeyEvent)));
-            if (timeHelper#isTimeTNT ()) then begin
-                ignore (self#processInputList ());
-                ignore ((Obj.magic gameCommandCanvas)#repaintBehavior#onChangeRepaint ((self#getCanvas ())))
-            end
-        with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#gameInputStrings)#oN_UP_GAME_KEY, e))
-        end)
-        end [@@warning "-7-20"]
+and jm_onDownGameKeyEvent = (this: ImmediateCommandFormInputProcessor, gameKeyEvent: GameKeyEvent) => {
+        {
+            ignore(jm_onDownGameKeyEvent(this, gameKeyEvent))
+            if (TimeDelayHelper.jm_isTimeTNT(this.f_timeHelper)) {
+                ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommandFormInputProcessor.jm_processInputList"))
+JR.cast(jlate(JR.cast(this)))
+})
+                ignore(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameCommandCanvas.f_repaintBehavior"))
+JR.cast(jlate(JR.cast(this.f_gameCommandCanvas)))
+})))
+            }
+        }
+}
     
+and jm_onUpGameKeyEvent = (this: ImmediateCommandFormInputProcessor, gameKeyEvent: GameKeyEvent) => {
+        {
+            ignore(jm_onUpGameKeyEvent(this, gameKeyEvent))
+            if (TimeDelayHelper.jm_isTimeTNT(this.f_timeHelper)) {
+                ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommandFormInputProcessor.jm_processInputList"))
+JR.cast(jlate(JR.cast(this)))
+})
+                ignore(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameCommandCanvas.f_repaintBehavior"))
+JR.cast(jlate(JR.cast(this.f_gameCommandCanvas)))
+})))
+            }
+        }
+}
+    
+and jm_onMotionGestureEvent = (this: ImmediateCommandFormInputProcessor, motionGestureEvent: MotionGestureEvent) => {
+        {
+            ignore(jm_onMotionGestureEvent(this, motionGestureEvent))
+            if (TimeDelayHelper.jm_isTimeTNT(this.f_timeHelper)) {
+                ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommandFormInputProcessor.jm_processInputList"))
+JR.cast(jlate(JR.cast(this)))
+})
+                ignore(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameCommandCanvas.f_repaintBehavior"))
+JR.cast(jlate(JR.cast(this.f_gameCommandCanvas)))
+})))
+            }
+        }
+}
 
-    method onMotionGestureEvent : 'any1. 'any1 -> unit = fun (motionGestureEvent) ->
-        let motionGestureEvent = Obj.repr motionGestureEvent in
-        begin
-        (try
-            ignore (super#onMotionGestureEvent ((Obj.magic motionGestureEvent)));
-            if (timeHelper#isTimeTNT ()) then begin
-                ignore (self#processInputList ());
-                ignore ((Obj.magic gameCommandCanvas)#repaintBehavior#onChangeRepaint ((self#getCanvas ())))
-            end
-        with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), "onMotionGestureEvent", e))
-        end)
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        timeHelper <- ((new TimeDelayHelper.timeDelayHelper (25)) :> TimeDelayHelper.timeDelayHelper);
-        ();
-        ();
-        (* super(...) is the inherit clause *) ();
-        gameCommandCanvas <- Obj.repr (gameCommandCanvas_arg)
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "ImmediateCommandFormInputProcessor" (fun arguments -> Obj.repr (new immediateCommandFormInputProcessor (Obj.obj arguments)))
+JR.registerLateBound("ImmediateCommandFormInputProcessor.jnew_4", jnew_4)
+JR.registerLateBound("ImmediateCommandFormInputProcessor.jm_onPressGameKeyEvent", jm_onPressGameKeyEvent)
+JR.registerLateBound("ImmediateCommandFormInputProcessor.jm_onDownGameKeyEvent", jm_onDownGameKeyEvent)
+JR.registerLateBound("ImmediateCommandFormInputProcessor.jm_onUpGameKeyEvent", jm_onUpGameKeyEvent)
+JR.registerLateBound("ImmediateCommandFormInputProcessor.jm_onMotionGestureEvent", jm_onMotionGestureEvent)
+JR.registerLateBound("ImmediateCommandFormInputProcessor.f_timeHelper", (this: ImmediateCommandFormInputProcessor) => this.f_timeHelper)
+JR.registerLateBound("ImmediateCommandFormInputProcessor.f_gameCommandCanvas", (this: ImmediateCommandFormInputProcessor) => this.f_gameCommandCanvas)
+JR.registerLateBound("ImmediateCommandFormInputProcessor.set_f_gameCommandCanvas", (this: ImmediateCommandFormInputProcessor, jvalue) => { this.f_gameCommandCanvas = jvalue; jvalue })
 
 

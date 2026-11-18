@@ -1,84 +1,102 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.configuration
+module GameConfigurationSingleton
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.configuration *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.StdUtil *)
-(* import org.allbinary.util.ABHashtable *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
+provide record GameConfigurationSingleton {
+  jobject: JObject,
+  mut f_list: BasicArrayList,
+  mut f_hashtable: JObject,
+}
 
-let sINGLETON_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
-let get_sINGLETON : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !sINGLETON_cell with Lazy.Undefined -> java_null)
-let set_sINGLETON value' = sINGLETON_cell := Lazy.from_val (Obj.repr value')
-let () = java_register_static "GameConfigurationSingleton.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
-let () = java_register_static "GameConfigurationSingleton.set_sINGLETON" (fun value' -> set_sINGLETON value'; Obj.repr ())
-class gameConfigurationSingleton () =
-  object
-    val mutable list : BasicArrayList.basicArrayList = (Obj.magic 0)
-    method list = list
-    method set_list value' = list <- value'
-    val mutable hashtable : Obj.t = Obj.repr 0
-    method hashtable : 'r. 'r = Obj.magic hashtable
-    method set_hashtable : 'v. 'v -> unit = fun value' -> hashtable <- Obj.repr value'
+let mut jcell_SINGLETON: Option<GameConfigurationSingleton> = None
+
+provide let rec jclassName = () => "GameConfigurationSingleton"
+
+and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
+  Some(value) => value,
+  None => {
+    let value: GameConfigurationSingleton = jnew_0()
+    jcell_SINGLETON = Some(value)
+    value
+  },
+}
+    
+and jm_getInstance = () => {
+        return jstatic_SINGLETON()
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("GameConfigurationSingleton"), f_list: JR.nullOf(), f_hashtable: JR.jnull, }
     
     
-
-    method getInstanceByName : 'return. string -> 'return = fun ((name : string)) ->
-        begin
-        (Obj.magic ((Obj.magic ((Obj.magic hashtable)#get (name)))))
-        end
+        this.f_list = JR.cast(BasicArrayListD.jnew_0())
+        this.f_hashtable = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashtable"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+}
+    this
+}
     
-
-    method getOptionsBasicArrayList : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (list))
-        end
+and jm_getInstanceByName = (this: GameConfigurationSingleton, name: String) => {
+        return JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
+JR.cast(jlate(JR.cast(this.f_hashtable), JR.cast(name)))
+})
+}
     
-
-    method add : 'any1. 'any1 -> unit = fun (gameConfiguration) ->
-        let gameConfiguration = Obj.repr gameConfiguration in
-        begin
-        ignore (list#add ((Obj.magic gameConfiguration)))
-        end [@@warning "-20"]
+and jm_getOptionsBasicArrayList = (this: GameConfigurationSingleton) => {
+        return this.f_list
+}
     
+and jm_add = (this: GameConfigurationSingleton, gameConfiguration: JObject) => {
+        ignore(BasicArrayList.jm_add(this.f_list, JR.cast(gameConfiguration)))
+}
+    
+and jm_getHashtable = (this: GameConfigurationSingleton) => {
+        return this.f_hashtable
+}
 
-    method getHashtable : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic hashtable)))
-        end
-
-    initializer
-      begin
-        ();
-        ();
-        ();
-        list <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
-        hashtable <- Obj.repr (((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashtable ()))
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "GameConfigurationSingleton" (fun arguments -> Obj.repr (new gameConfigurationSingleton (Obj.obj arguments)))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic (get_sINGLETON ()))))
-        end
-let () = java_register_static "GameConfigurationSingleton.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-
-let () = sINGLETON_cell := lazy (Obj.repr ((new gameConfigurationSingleton ())))
+JR.registerLateBound("GameConfigurationSingleton.jnew_0", jnew_0)
+JR.registerLateBound("GameConfigurationSingleton.jm_getInstance", jm_getInstance)
+JR.registerLateBound("GameConfigurationSingleton.jm_getInstanceByName", jm_getInstanceByName)
+JR.registerLateBound("GameConfigurationSingleton.jm_getOptionsBasicArrayList", jm_getOptionsBasicArrayList)
+JR.registerLateBound("GameConfigurationSingleton.jm_add", jm_add)
+JR.registerLateBound("GameConfigurationSingleton.jm_getHashtable", jm_getHashtable)
+JR.registerLateBound("GameConfigurationSingleton.f_list", (this: GameConfigurationSingleton) => this.f_list)
+JR.registerLateBound("GameConfigurationSingleton.set_f_list", (this: GameConfigurationSingleton, jvalue) => { this.f_list = jvalue; jvalue })
+JR.registerLateBound("GameConfigurationSingleton.f_hashtable", (this: GameConfigurationSingleton) => this.f_hashtable)
+JR.registerLateBound("GameConfigurationSingleton.set_f_hashtable", (this: GameConfigurationSingleton, jvalue) => { this.f_hashtable = jvalue; jvalue })
+JR.registerLateBound("GameConfigurationSingleton.jstatic_SINGLETON", jstatic_SINGLETON)
 
 

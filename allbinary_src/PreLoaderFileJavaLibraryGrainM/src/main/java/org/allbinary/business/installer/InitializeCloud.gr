@@ -1,104 +1,158 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.business.installer
+module InitializeCloud
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.business.installer *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/globals/PATH_GLOBALS.gr" include PATH_GLOBALS
+use PATH_GLOBALS.{ type PATH_GLOBALS }
+from "../../../../org/allbinary/globals/URLGLOBALS.gr" include URLGLOBALS
+use URLGLOBALS.{ type URLGLOBALS }
+from "../../../../org/allbinary/logic/io/AbIOSystem.gr" include AbIOSystem
+use AbIOSystem.{ type AbIOSystem }
+from "../../../../org/allbinary/logic/io/file/FileUtil.gr" include FileUtil
+use FileUtil.{ type FileUtil }
+from "../../../../org/allbinary/logic/io/file/directory/Directory.gr" include Directory
+use Directory.{ type Directory }
+from "../../../../org/allbinary/logic/io/path/AbPath.gr" include AbPath
+use AbPath.{ type AbPath }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.globals.PATH_GLOBALS *)
-(* import org.allbinary.globals.URLGLOBALS *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.io.AbIOSystem *)
-(* import org.allbinary.logic.io.file.AbFile *)
-(* import org.allbinary.logic.io.file.FileUtil *)
-(* import org.allbinary.logic.io.file.directory.Directory *)
-(* import org.allbinary.logic.io.path.AbPath *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.util.BasicArrayList *)
+provide record InitializeCloud {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+}
 
-let cLOUD : string = "cloud/"
-let get_cLOUD () = cLOUD
-let () = java_register_static "InitializeCloud.get_cLOUD" (fun _ -> Obj.repr (get_cLOUD ()))
-let cLOUD_UPDATE : string = "cloudupdate/"
-let get_cLOUD_UPDATE () = cLOUD_UPDATE
-let () = java_register_static "InitializeCloud.get_cLOUD_UPDATE" (fun _ -> Obj.repr (get_cLOUD_UPDATE ()))
-class initializeCloud () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+let mut jcell_CLOUD: Option<String> = None
+let mut jcell_CLOUD_UPDATE: Option<String> = None
+
+provide let rec jclassName = () => "InitializeCloud"
+
+and jstatic_CLOUD = () => match (jcell_CLOUD) {
+  Some(value) => value,
+  None => {
+    let value: String = "cloud/"
+    jcell_CLOUD = Some(value)
+    value
+  },
+}
+
+and jstatic_CLOUD_UPDATE = () => match (jcell_CLOUD_UPDATE) {
+  Some(value) => value,
+  None => {
+    let value: String = "cloudupdate/"
+    jcell_CLOUD_UPDATE = Some(value)
+    value
+  },
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("InitializeCloud"), f_logUtil: JR.jnull, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        void
+    this
+}
     
+and jm_initialize = (this: InitializeCloud, cloud: String, overwriteNewer: Bool, overwriteAll: Bool, current: Int32, total: Int32) => {
+        {
+            if (AbIOSystem.jm_isType(AbIOSystem.jm_getInstance(), "com.vobject.appengine.java.io")) {
+                let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+                ignore(StringMaker.jm_append(stringBuffer, URLGLOBALS.jm_getWebappPath()))
+                ignore(StringMaker.jm_append(stringBuffer, cloud))
+                ignore(StringMaker.jm_append(stringBuffer, PATH_GLOBALS.jm_getInstance().f_DATA_PATH))
+                let mut path: AbPath = AbPath.jnew_2(StringMaker.jm_toString(stringBuffer), StringUtil.jm_getInstance().f_EMPTY_STRING)
+                ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
+                ignore(StringMaker.jm_append(stringBuffer, URLGLOBALS.jm_getWebappPath()))
+                let mut realPath: AbPath = AbPath.jnew_2(StringMaker.jm_toString(stringBuffer), StringUtil.jm_getInstance().f_EMPTY_STRING)
+                let mut file: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
+JR.cast(jlate(JR.cast(path)))
+})
+                let mut fileBasicArrayList: BasicArrayList = JR.cast(Directory.jm_search(Directory.jm_getInstance(), JR.cast(file), true))
+                let mut size: Int32 = BasicArrayList.jm_size(fileBasicArrayList)
+                ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
+                ignore(StringMaker.jm_append(stringBuffer, "Searched: "))
+                ignore(StringMaker.jm_append(stringBuffer, AbPath.jm_toFileSystemString(path)))
+                ignore(StringMaker.jm_append(stringBuffer, " BasicArrayList: "))
+                ignore(StringMaker.jm_appendint(stringBuffer, size))
+                let mut portion: Int32 = Int32.(+)(Int32.(/)(size, total), 1l)
+                let mut start: Int32 = Int32.(*)(portion, current)
+                let mut end: Int32 = Int32.(+)(start, portion)
+                if (Int32.(>)(end, size)) {
+                    end = size
+                }
+                ignore(StringMaker.jm_append(stringBuffer, " Section: "))
+                ignore(StringMaker.jm_appendint(stringBuffer, start))
+                ignore(StringMaker.jm_append(stringBuffer, " - "))
+                ignore(StringMaker.jm_appendint(stringBuffer, end))
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast("initialize()")))
+})
+                let mut nextFile: JObject = JR.jnull
+                {
+                    let mut index: Int32 = start
+                    let mut jfirst = true
+                    while (true) {
+                        if (!jfirst) {
+                            index = Int32.(+)(index, 1l)
+                        }
+                        jfirst = false
+                        if (!(Int32.(<)(index, end))) break
+                    nextFile = JR.cast(BasicArrayList.jm_get(fileBasicArrayList, index))
+                    if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
+JR.cast(jlate(JR.cast(nextFile)))
+}) {
+                        void
+                    } else {
+                        ignore(FileUtil.jm_copyToCloud(FileUtil.jm_getInstance(), nextFile, path, realPath, cloud, overwriteNewer, overwriteAll))
+                    }
+                    }
+                }
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Copied Files To Cloud"), JR.cast(this), JR.cast("initialize()")))
+})
+            }
+            return true
+        }
+    return false
+}
 
-    method initialize ((cloud : string), (overwriteNewer : bool), (overwriteAll : bool), (current : int), (total : int)) : bool =
-        begin
-        (try
-            if ((AbIOSystem.getInstance ())#isType ("com.vobject.appengine.java.io")) then begin
-                let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-                ignore (!stringBuffer#append ((URLGLOBALS.getWebappPath ())));
-                ignore (!stringBuffer#append (cloud));
-                ignore (!stringBuffer#append ((PATH_GLOBALS.getInstance ())#dATA_PATH));
-                let path : AbPath.abPath ref = ref (((new AbPath.abPath ((java_string_of (Obj.repr !stringBuffer)), (StringUtil.getInstance ())#eMPTY_STRING)) :> AbPath.abPath)) in ();
-                ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-                ignore (!stringBuffer#append ((URLGLOBALS.getWebappPath ())));
-                let realPath : AbPath.abPath ref = ref (((new AbPath.abPath ((java_string_of (Obj.repr !stringBuffer)), (StringUtil.getInstance ())#eMPTY_STRING)) :> AbPath.abPath)) in ();
-                let file : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFile.createAbFileFromAbPath" (Obj.repr (!path)))))) in ();
-                let fileBasicArrayList : BasicArrayList.basicArrayList ref = ref ((((Directory.getInstance ())#search ((Obj.magic !file), true)) :> BasicArrayList.basicArrayList)) in ();
-                let size : int ref = ref ((!fileBasicArrayList#size ())) in ();
-                ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-                ignore (!stringBuffer#append ("Searched: "));
-                ignore (!stringBuffer#append ((!path#toFileSystemString ())));
-                ignore (!stringBuffer#append (" BasicArrayList: "));
-                ignore (!stringBuffer#appendint (!size));
-                let portion : int ref = ref (((!size / total) + 1)) in ();
-                let start : int ref = ref ((!portion * current)) in ();
-                let end_ : int ref = ref ((!start + !portion)) in ();
-                if (!end_ > !size) then begin
-                    end_ := !size
-                end;
-                ignore (!stringBuffer#append (" Section: "));
-                ignore (!stringBuffer#appendint (!start));
-                ignore (!stringBuffer#append (" - "));
-                ignore (!stringBuffer#appendint (!end_));
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), "initialize()"));
-                let nextFile : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-                for index = !start to !end_ - 1 do
-                    nextFile := Obj.repr ((Obj.magic (!fileBasicArrayList#get (index))));
-                    if ((Obj.magic !nextFile)#isDirectory ()) then begin
-                        ()
-                    end else begin
-                        ignore ((FileUtil.getInstance ())#copyToCloud ((Obj.magic !nextFile), !path, !realPath, cloud, overwriteNewer, overwriteAll))
-                    end
-                done;
-                ignore ((Obj.magic logUtil)#putF ("Copied Files To Cloud", (Obj.magic self), "initialize()"))
-            end;
-            true
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put ("Unable to copy installer files into cloud", (Obj.magic self), "initialize()", e));
-            false
-        end)
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "InitializeCloud" (fun arguments -> Obj.repr (new initializeCloud (Obj.obj arguments)))
+JR.registerLateBound("InitializeCloud.jnew_0", jnew_0)
+JR.registerLateBound("InitializeCloud.jm_initialize", jm_initialize)
+JR.registerLateBound("InitializeCloud.f_logUtil", (this: InitializeCloud) => this.f_logUtil)
+JR.registerLateBound("InitializeCloud.jstatic_CLOUD", jstatic_CLOUD)
+JR.registerLateBound("InitializeCloud.jstatic_CLOUD_UPDATE", jstatic_CLOUD_UPDATE)
 
 

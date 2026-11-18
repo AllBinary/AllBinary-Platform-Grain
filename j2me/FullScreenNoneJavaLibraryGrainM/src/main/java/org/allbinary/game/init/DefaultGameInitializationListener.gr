@@ -1,86 +1,116 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.init
+module DefaultGameInitializationListener
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.init *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/configuration/event/GameInitializedEvent.gr" include GameInitializedEvent
+use GameInitializedEvent.{ type GameInitializedEvent }
+from "../../../../org/allbinary/game/configuration/event/GameInitializedEventHandler.gr" include GameInitializedEventHandler
+use GameInitializedEventHandler.{ type GameInitializedEventHandler }
+from "../../../../org/allbinary/game/configuration/event/GameInitializedListenerInterface.gr" include GameInitializedListenerInterface
+use GameInitializedListenerInterface.{ type GameInitializedListenerInterface }
+from "../../../../org/allbinary/game/resource/FeatureResourceInitializationUtil.gr" include FeatureResourceInitializationUtil
+use FeatureResourceInitializationUtil.{ type FeatureResourceInitializationUtil }
+from "../../../../org/allbinary/logic/communication/log/ForcedLogUtil.gr" include ForcedLogUtil
+use ForcedLogUtil.{ type ForcedLogUtil }
+from "../../../../org/allbinary/logic/util/event/AllBinaryEventObject.gr" include AllBinaryEventObject
+use AllBinaryEventObject.{ type AllBinaryEventObject }
+from "../../../../org/allbinary/logic/util/event/EventStrings.gr" include EventStrings
+use EventStrings.{ type EventStrings }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../java/lang/Thread.gr" include Thread
+use Thread.{ type Thread }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.configuration.event.GameInitializedEvent *)
-(* import org.allbinary.game.configuration.event.GameInitializedEventHandler *)
-(* import org.allbinary.game.configuration.event.GameInitializedListenerInterface *)
-(* import org.allbinary.game.resource.FeatureResourceInitializationUtil *)
-(* import org.allbinary.graphics.threed.SWTJOGLProcessor *)
-(* import org.allbinary.logic.communication.log.ForcedLogUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.util.event.AllBinaryEventObject *)
-(* import org.allbinary.logic.util.event.EventStrings *)
-(* import org.allbinary.string.CommonStrings *)
+provide record DefaultGameInitializationListener {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_swtJOGLProcessor: JObject,
+  mut f_firstTime: Bool,
+}
 
-class defaultGameInitializationListener () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable swtJOGLProcessor : Obj.t = Obj.repr 0
-    method swtJOGLProcessor : 'r. 'r = Obj.magic swtJOGLProcessor
-    method set_swtJOGLProcessor : 'v. 'v -> unit = fun value' -> swtJOGLProcessor <- Obj.repr value'
-    val mutable firstTime : bool = false
-    method firstTime = firstTime
-    method set_firstTime value' = firstTime <- value'
+
+provide let rec jclassName = () => "DefaultGameInitializationListener"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("DefaultGameInitializationListener"), f_logUtil: JR.jnull, f_swtJOGLProcessor: JR.jnull, f_firstTime: false, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_swtJOGLProcessor = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("SWTJOGLProcessor.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_firstTime = true
+        let mut gameInitializedEventHandler: GameInitializedEventHandler = JR.cast(GameInitializedEventHandler.jm_getInstance())
+        ignore(GameInitializedEventHandler.jm_removeAllListeners(gameInitializedEventHandler))
+        ignore(GameInitializedEventHandler.jm_addListenerInterface(gameInitializedEventHandler, JR.cast(this)))
+    this
+}
     
-
-    method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
-        begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
-        end [@@warning "-20"]
+and jm_onEvent = (this: DefaultGameInitializationListener, eventObject: AllBinaryEventObject) => {
+        ignore(ForcedLogUtil.jm_log(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE, JR.cast(this)))
+}
     
+and jm_onGameInitialized = (this: DefaultGameInitializationListener, gameInitializedEvent: GameInitializedEvent) => {
+        let mut l_ON_GAME_INITIALIZED: String = "onGameInitialized"
+        let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
+        {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(commonStrings.f_START), JR.cast(this), JR.cast(l_ON_GAME_INITIALIZED)))
+})
+            while (!{
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SWTJOGLProcessor.jm_isHolderCreated"))
+JR.cast(jlate(JR.cast(this.f_swtJOGLProcessor)))
+}) {
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(commonStrings.f_UPDATE), JR.cast(this), JR.cast(l_ON_GAME_INITIALIZED)))
+})
+                ignore(Thread.jm_sleep(20l))
+            }
+            ignore(FeatureResourceInitializationUtil.jm_init(FeatureResourceInitializationUtil.jm_getInstance(), GameInitializedEvent.jm_getLevel(gameInitializedEvent)))
+            if (this.f_firstTime) {
+                this.f_firstTime = false
+            } else {
+                ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SWTJOGLProcessor.jm_onSurfaceChanged"))
+JR.cast(jlate(JR.cast(this.f_swtJOGLProcessor)))
+})
+            }
+        }
+}
 
-    method onGameInitialized : 'any1. 'any1 -> unit = fun (gameInitializedEvent) ->
-        let gameInitializedEvent = Obj.repr gameInitializedEvent in
-        begin
-        let oN_GAME_INITIALIZED : string ref = ref ("onGameInitialized") in ();
-        let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        (try
-            ignore ((Obj.magic logUtil)#putF (!commonStrings#sTART, (Obj.magic self), !oN_GAME_INITIALIZED));
-            while (not ((Obj.magic swtJOGLProcessor)#isHolderCreated ())) do
-                ignore ((Obj.magic logUtil)#putF (!commonStrings#uPDATE, (Obj.magic self), !oN_GAME_INITIALIZED));
-                ignore (Unix.sleepf (Float.of_int (20) /. 1000.0))
-            done;
-            ignore ((FeatureResourceInitializationUtil.getInstance ())#init (((Obj.magic gameInitializedEvent)#getLevel ())));
-            if firstTime then begin
-                firstTime <- false
-            end else begin
-                ignore ((Obj.magic swtJOGLProcessor)#onSurfaceChanged ())
-            end
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !oN_GAME_INITIALIZED, e))
-        end)
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        swtJOGLProcessor <- (Obj.repr (Obj.magic (java_call_static "SWTJOGLProcessor.getInstance" (Obj.repr ()))));
-        firstTime <- true;
-        ();
-        let gameInitializedEventHandler : GameInitializedEventHandler.gameInitializedEventHandler ref = ref (((GameInitializedEventHandler.getInstance ()) :> GameInitializedEventHandler.gameInitializedEventHandler)) in ();
-        ignore (!gameInitializedEventHandler#removeAllListeners ());
-        ignore (!gameInitializedEventHandler#addListenerInterface ((Obj.magic (Obj.magic self))))
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "DefaultGameInitializationListener" (fun arguments -> Obj.repr (new defaultGameInitializationListener (Obj.obj arguments)))
+JR.registerLateBound("DefaultGameInitializationListener.jnew_0", jnew_0)
+JR.registerLateBound("DefaultGameInitializationListener.jm_onEvent", jm_onEvent)
+JR.registerLateBound("DefaultGameInitializationListener.jm_onGameInitialized", jm_onGameInitialized)
+JR.registerLateBound("DefaultGameInitializationListener.f_logUtil", (this: DefaultGameInitializationListener) => this.f_logUtil)
+JR.registerLateBound("DefaultGameInitializationListener.f_swtJOGLProcessor", (this: DefaultGameInitializationListener) => this.f_swtJOGLProcessor)
+JR.registerLateBound("DefaultGameInitializationListener.f_firstTime", (this: DefaultGameInitializationListener) => this.f_firstTime)
+JR.registerLateBound("DefaultGameInitializationListener.set_f_firstTime", (this: DefaultGameInitializationListener, jvalue) => { this.f_firstTime = jvalue; jvalue })
 
 

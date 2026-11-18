@@ -1,53 +1,68 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.bounds
+module RectangleLayerBounds
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.bounds *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/graphics/Rectangle.gr" include Rectangle
+use Rectangle.{ type Rectangle }
+from "./LayerBounds.gr" include LayerBounds
+use LayerBounds.{ type LayerBounds }
+from "./BoundsVisitorInterface.gr" include BoundsVisitorInterface
+use BoundsVisitorInterface.{ type BoundsVisitorInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.graphics.Rectangle *)
+provide record RectangleLayerBounds {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_rectangle: JObject,
+}
 
-class rectangleLayerBounds ((rectangle : Rectangle.rectangle)) =
-  object (self)
-    inherit LayerBounds.layerBounds (rectangle)
+
+provide let rec jclassName = () => "RectangleLayerBounds"
     
+and jnew_1 = (rectangle: Rectangle) => {
+    let this = { jobject: JR.newJObject("RectangleLayerBounds"), f_logUtil: JR.jnull, f_rectangle: JR.jnull, }
+        void
+    this
+}
     
+and jm_visit = (this: RectangleLayerBounds, boundsVisitorInterface: BoundsVisitorInterface) => {
+        if (Int32.(>)(BoundsVisitorInterface.jm_getX(boundsVisitorInterface), Rectangle.jm_getMaxX(JR.cast(this.f_rectangle)))) {
+            ignore(BoundsVisitorInterface.jm_maxX(boundsVisitorInterface))
+        }
+        if (Int32.(>)(BoundsVisitorInterface.jm_getY(boundsVisitorInterface), Rectangle.jm_getMaxY(JR.cast(this.f_rectangle)))) {
+            ignore(BoundsVisitorInterface.jm_maxY(boundsVisitorInterface))
+        }
+        if (Int32.(<)(BoundsVisitorInterface.jm_getX(boundsVisitorInterface), JR.className(JR.cast(Rectangle.jm_getPoint(JR.cast(this.f_rectangle)))))) {
+            ignore(BoundsVisitorInterface.jm_minX(boundsVisitorInterface))
+        }
+        if (Int32.(<)(BoundsVisitorInterface.jm_getY(boundsVisitorInterface), JR.className(JR.cast(Rectangle.jm_getPoint(JR.cast(this.f_rectangle)))))) {
+            ignore(BoundsVisitorInterface.jm_minY(boundsVisitorInterface))
+        }
+}
 
-    method visit : 'any1. 'any1 -> unit = fun (boundsVisitorInterface) ->
-        let boundsVisitorInterface = Obj.repr boundsVisitorInterface in
-        begin
-        if (((Obj.magic boundsVisitorInterface)#getX ()) > ((self#rectangle)#getMaxX ())) then begin
-            ignore ((Obj.magic boundsVisitorInterface)#maxX ())
-        end;
-        if (((Obj.magic boundsVisitorInterface)#getY ()) > ((self#rectangle)#getMaxY ())) then begin
-            ignore ((Obj.magic boundsVisitorInterface)#maxY ())
-        end;
-        if (((Obj.magic boundsVisitorInterface)#getX ()) < (((self#rectangle)#getPoint ())#getX ())) then begin
-            ignore ((Obj.magic boundsVisitorInterface)#minX ())
-        end;
-        if (((Obj.magic boundsVisitorInterface)#getY ()) < (((self#rectangle)#getPoint ())#getY ())) then begin
-            ignore ((Obj.magic boundsVisitorInterface)#minY ())
-        end
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "RectangleLayerBounds" (fun arguments -> Obj.repr (new rectangleLayerBounds (Obj.obj arguments)))
+JR.registerLateBound("RectangleLayerBounds.jnew_1", jnew_1)
+JR.registerLateBound("RectangleLayerBounds.jm_visit", jm_visit)
 
 

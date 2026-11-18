@@ -1,68 +1,86 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.pipeline
+module RandomRotationFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.pipeline *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/rand/MyRandomFactory.gr" include MyRandomFactory
+use MyRandomFactory.{ type MyRandomFactory }
+from "../../../../org/allbinary/math/AngleFactory.gr" include AngleFactory
+use AngleFactory.{ type AngleFactory }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "./BasicGraphicsPipeline.gr" include BasicGraphicsPipeline
+use BasicGraphicsPipeline.{ type BasicGraphicsPipeline }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.rand.MyRandomFactory *)
-(* import org.allbinary.math.AngleFactory *)
-(* import org.allbinary.util.BasicArrayList *)
+provide record RandomRotationFactory {
+  jobject: JObject,
+  mut f_myRandomFactory: MyRandomFactory,
+  mut f_angleFactory: AngleFactory,
+}
 
-class randomRotationFactory () =
-  object (self)
-    val mutable myRandomFactory : MyRandomFactory.myRandomFactory = (Obj.magic 0)
-    method myRandomFactory = myRandomFactory
-    method set_myRandomFactory value' = myRandomFactory <- value'
-    val mutable angleFactory : AngleFactory.angleFactory = (Obj.magic 0)
-    method angleFactory = angleFactory
-    method set_angleFactory value' = angleFactory <- value'
+let mut jcell_instance: Option<RandomRotationFactory> = None
+
+provide let rec jclassName = () => "RandomRotationFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: RandomRotationFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("RandomRotationFactory"), f_myRandomFactory: JR.nullOf(), f_angleFactory: JR.nullOf(), }
+    this.f_myRandomFactory = JR.cast(MyRandomFactory.jm_getInstance())
+    this.f_angleFactory = JR.cast(AngleFactory.jm_getInstance())
+    this
+}
     
-
-    method getInstanceList : 'any1 'return. 'any1 * int -> 'return = fun (vector, (howMuch : int)) ->
-        let vector = Obj.repr vector in
-        begin
-        let graphicsPipe : BasicGraphicsPipeline.basicGraphicsPipeline ref = ref (((new BasicGraphicsPipeline.basicGraphicsPipeline ((Obj.magic vector))) :> BasicGraphicsPipeline.basicGraphicsPipeline)) in ();
-        ignore (!graphicsPipe#createMatrix ());
-        ignore (!graphicsPipe#rotateToAngle ((angleFactory#getAt ((self#getNextRandomAngle (howMuch))))));
-        (Obj.magic ((!graphicsPipe#getMatrix ())))
-        end [@@warning "-20"]
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jm_getInstanceList = (this: RandomRotationFactory, vector: BasicArrayList, howMuch: Int32) => {
+        let mut graphicsPipe: BasicGraphicsPipeline = BasicGraphicsPipeline.jnew_1(vector)
+        ignore(BasicGraphicsPipeline.jm_createMatrix(graphicsPipe))
+        ignore(BasicGraphicsPipeline.jm_rotateToAngle(graphicsPipe, AngleFactory.jm_getAt(this.f_angleFactory, jm_getNextRandomAngle(this, howMuch))))
+        return BasicGraphicsPipeline.jm_getMatrix(graphicsPipe)
+}
+    
+and jm_getNextRandomAngle = (this: RandomRotationFactory, howMuch: Int32) => {
+        return MyRandomFactory.jm_getNextInt(this.f_myRandomFactory, Int32.(*)(howMuch, 10l))
+}
 
-    method getNextRandomAngle ((howMuch : int)) : int =
-        begin
-        (myRandomFactory#getNextInt ((howMuch * 10)))
-        end
-
-    initializer
-      begin
-        myRandomFactory <- ((MyRandomFactory.getInstance ()) :> MyRandomFactory.myRandomFactory);
-        angleFactory <- ((AngleFactory.getInstance ()) :> AngleFactory.angleFactory);
-        ()
-      end
-  end
-let () = java_register_constructor "RandomRotationFactory" (fun arguments -> Obj.repr (new randomRotationFactory (Obj.obj arguments)))
-
-let instance = (new randomRotationFactory ())
-let get_instance () = instance
-let () = java_register_static "RandomRotationFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "RandomRotationFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("RandomRotationFactory.jnew_0", jnew_0)
+JR.registerLateBound("RandomRotationFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("RandomRotationFactory.jm_getInstanceList", jm_getInstanceList)
+JR.registerLateBound("RandomRotationFactory.jm_getNextRandomAngle", jm_getNextRandomAngle)
+JR.registerLateBound("RandomRotationFactory.f_myRandomFactory", (this: RandomRotationFactory) => this.f_myRandomFactory)
+JR.registerLateBound("RandomRotationFactory.f_angleFactory", (this: RandomRotationFactory) => this.f_angleFactory)
+JR.registerLateBound("RandomRotationFactory.jstatic_instance", jstatic_instance)
 
 

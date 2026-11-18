@@ -1,115 +1,146 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.data.resource
+module ResourceUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/io/InputStream.gr" include InputStream
+use InputStream.{ type InputStream }
+from "../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/lang/Thread.gr" include Thread
+use Thread.{ type Thread }
+
+//J2SE - J2ME
+provide record ResourceUtil {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+}
+
+let mut jcell_classLoader: Option<JObject> = None
+let mut jcell_instance: Option<ResourceUtil> = None
+
+provide let rec jclassName = () => "ResourceUtil"
+
+and jstatic_classLoader = () => match (jcell_classLoader) {
+  Some(value) => value,
+  None => {
+    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    jcell_classLoader = Some(value)
+    value
+  },
+}
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: ResourceUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.data.resource *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.InputStream *)
-(* import org.allbinary.logic.NullUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.string.CommonSeps *)
-(* import org.allbinary.string.CommonStrings *)
-
-let classLoader : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT))
-let get_classLoader () = !classLoader
-let set_classLoader value' = classLoader := value'
-let () = java_register_static "ResourceUtil.get_classLoader" (fun _ -> Obj.repr (get_classLoader ()))
-let () = java_register_static "ResourceUtil.set_classLoader" (fun value' -> set_classLoader (Obj.obj value'); Obj.repr ())
-class resourceUtil () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ResourceUtil"), f_logUtil: JR.jnull, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        void
+    this
+}
     
-
-    method setLoadingPaths ((_path : string), (_ext : string)) : unit =
-        begin
-        ignore ((Obj.magic logUtil)#putF ((CommonStrings.getInstance ())#nOT_IMPLEMENTED, (Obj.magic self), "setLoadingPaths"))
-        end
+and jm_setLoadingPaths = (this: ResourceUtil, path: String, ext: String) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(CommonStrings.jm_getInstance().f_NOT_IMPLEMENTED), JR.cast(this), JR.cast("setLoadingPaths")))
+})
+}
     
-
-    method setClassLoader : 'any1. 'any1 -> unit = fun (classLoader_arg) ->
-        let classLoader_arg = Obj.repr classLoader_arg in
-        begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Resource Loader: "))#append ((java_get_class (Obj.repr (Obj.magic classLoader_arg))))))), (Obj.magic self), "setClassLoader"));
-        classLoader := (Obj.repr ((Obj.magic classLoader_arg)))
-        end [@@warning "-20"]
+and jm_setClassLoader = (this: ResourceUtil, classLoader: ClassLoader) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Resource Loader: "), classLoader.jobject.cls))), JR.cast(this), JR.cast("setClassLoader")))
+})
+        jstatic_classLoader() = classLoader
+}
     
-
-    method getResourceAsStream : 'return. string -> 'return = fun ((resource : string)) ->
-        begin
-        let inputStream : Obj.t ref = ref ((Obj.repr (self#getResourceAsStreamAtStart (resource, 2)))) in ();
-        if ((Obj.magic !inputStream) == (Obj.magic 0)) then begin
-            inputStream := Obj.repr ((self#getResourceAsStreamAtStart (resource, 1)));
-            if ((Obj.magic !inputStream) == (Obj.magic 0)) then begin
-                raise (Failure ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Unable to obtain: "))#append (resource))))))
-            end
-        end;
-        (Obj.magic ((Obj.magic !inputStream)))
-        end
+and jm_getResourceAsStream = (this: ResourceUtil, resource: String) => {
+        let mut inputStream: InputStream = JR.cast(jm_getResourceAsStreamAtStart(this, resource, 2l))
+        if (JR.isNull(inputStream)) {
+            inputStream = jm_getResourceAsStreamAtStart(this, resource, 1l)
+            if (JR.isNull(inputStream)) {
+                fail JR.toStringOf(JR.newJObject("Exception"))
+            }
+        }
+        return inputStream
+}
     
-
-    method getResourceAsStreamAtStart : 'return. string * int -> 'return = fun ((resource : string), (startIndex : int)) ->
-        try
-        begin
-        let commonSeps : CommonSeps.commonSeps ref = ref (((CommonSeps.getInstance ()) :> CommonSeps.commonSeps)) in ();
-        let index : int ref = ref ((java_string_index_of resource (Obj.repr (!commonSeps#cOLON)))) in ();
-        let resourcePath : string ref = ref ((String.sub resource ((!index + startIndex)) (String.length resource - ((!index + startIndex))))) in ();
-        let inputStream : Obj.t ref = ref ((Obj.repr (java_get_resource_as_stream (!resourcePath)))) in ();
-        if ((Obj.magic !inputStream) != (Obj.magic 0)) then begin
-            raise (Java_return (Obj.repr ((Obj.magic !inputStream))))
-        end;
-        let classLoader_arg : Obj.t ref = ref ((Obj.repr (Obj.magic !classLoader))) in ();
-        inputStream := Obj.repr (((Obj.magic !classLoader_arg)#getResourceAsStream (!resourcePath)));
-        if ((Obj.magic !inputStream) != (Obj.magic 0)) then begin
-            raise (Java_return (Obj.repr ((Obj.magic !inputStream))))
-        end;
-        inputStream := Obj.repr ((((Obj.magic (java_call_static "Thread.currentThread" (Obj.repr ())))#getContextClassLoader ())#getResourceAsStream (!resourcePath)));
-        if ((Obj.magic !inputStream) != (Obj.magic 0)) then begin
-            raise (Java_return (Obj.repr ((Obj.magic !inputStream))))
-        end;
-        (Obj.magic ((Obj.magic !inputStream)))
-        end
-        with Java_return value -> Obj.obj value
+and jm_getResourceAsStreamAtStart = (this: ResourceUtil, resource: String, startIndex: Int32) => {
+        let mut commonSeps: CommonSeps = JR.cast(CommonSeps.jm_getInstance())
+        let mut index: Int32 = JR.indexOf(resource, commonSeps.f_COLON)
+        let mut resourcePath: String = JR.substringFrom(resource, Int32.(+)(index, startIndex))
+        let mut inputStream: InputStream = JR.cast(JR.className(JR.cast(resource.jobject.cls)))
+        if (!JR.isNull(inputStream)) {
+            return inputStream
+        }
+        let mut classLoader: ClassLoader = JR.cast(jstatic_classLoader())
+        inputStream = ClassLoader.jm_getResourceAsStream(classLoader, resourcePath)
+        if (!JR.isNull(inputStream)) {
+            return inputStream
+        }
+        inputStream = JR.className(JR.cast(JR.className(JR.cast(Thread.jm_currentThread()))))
+        if (!JR.isNull(inputStream)) {
+            return inputStream
+        }
+        return inputStream
+}
     
+and jm_addResource = (this: ResourceUtil, resource: String, value: Int32) => {
+    void
+}
 
-    method addResource ((_resource : string), (_value : int)) : unit =
-        begin
-        ()
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "ResourceUtil" (fun arguments -> Obj.repr (new resourceUtil (Obj.obj arguments)))
-
-let instance = (new resourceUtil ())
-let get_instance () = instance
-let () = java_register_static "ResourceUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "ResourceUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("ResourceUtil.jnew_0", jnew_0)
+JR.registerLateBound("ResourceUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("ResourceUtil.jm_setLoadingPaths", jm_setLoadingPaths)
+JR.registerLateBound("ResourceUtil.jm_setClassLoader", jm_setClassLoader)
+JR.registerLateBound("ResourceUtil.jm_getResourceAsStream", jm_getResourceAsStream)
+JR.registerLateBound("ResourceUtil.jm_getResourceAsStreamAtStart", jm_getResourceAsStreamAtStart)
+JR.registerLateBound("ResourceUtil.jm_addResource", jm_addResource)
+JR.registerLateBound("ResourceUtil.f_logUtil", (this: ResourceUtil) => this.f_logUtil)
+JR.registerLateBound("ResourceUtil.jstatic_classLoader", jstatic_classLoader)
+JR.registerLateBound("ResourceUtil.jstatic_instance", jstatic_instance)
 
 

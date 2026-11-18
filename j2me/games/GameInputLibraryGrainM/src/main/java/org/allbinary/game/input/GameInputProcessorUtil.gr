@@ -1,45 +1,68 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.input
+module GameInputProcessorUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.input *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./GameInputProcessor.gr" include GameInputProcessor
+use GameInputProcessor.{ type GameInputProcessor }
+from "./InputFactory.gr" include InputFactory
+use InputFactory.{ type InputFactory }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
+provide record GameInputProcessorUtil {
+  jobject: JObject,
+}
 
 
-let init ((inputProcessorArray : GameInputProcessor.gameInputProcessor array)) : unit =
-        begin
-        let noInputProcessor : GameInputProcessor.gameInputProcessor ref = ref (((GameInputProcessor.getInstance ()) :> GameInputProcessor.gameInputProcessor)) in ();
-        let total : int ref = ref ((InputFactory.getInstance ())#mAX) in ();
-        for index = 0 to !total - 1 do
-            let inputProcessorCanBeNull : GameInputProcessor.gameInputProcessor ref = ref ((inputProcessorArray.(index) :> GameInputProcessor.gameInputProcessor)) in ();
-            if (!inputProcessorCanBeNull == (Obj.magic 0)) then begin
-                inputProcessorArray.(index) <- (!noInputProcessor :> GameInputProcessor.gameInputProcessor)
-            end
-        done
-        end
+provide let rec jclassName = () => "GameInputProcessorUtil"
 
-let () = java_register_static "GameInputProcessorUtil.init" (fun arguments -> Obj.repr (init (Obj.obj arguments)))
-class gameInputProcessorUtil () =
-  object
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("GameInputProcessorUtil"), }
+    this
+}
+    
+and jm_init = (inputProcessorArray: Array<GameInputProcessor>) => {
+        let mut noInputProcessor: GameInputProcessor = JR.cast(GameInputProcessor.jm_getInstance())
+        let mut total: Int32 = InputFactory.jm_getInstance().f_MAX
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, total))) break
+            let mut inputProcessorCanBeNull: GameInputProcessor = JR.cast(inputProcessorArray[Int32.toNumber(index)])
+            if (JR.isNull(inputProcessorCanBeNull)) {
+                inputProcessorArray[Int32.toNumber(index)] = JR.cast(noInputProcessor)
+            }
+            }
+        }
+}
 
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "GameInputProcessorUtil" (fun arguments -> Obj.repr (new gameInputProcessorUtil (Obj.obj arguments)))
+JR.registerLateBound("GameInputProcessorUtil.jnew_0", jnew_0)
+JR.registerLateBound("GameInputProcessorUtil.jm_init", jm_init)
 
 

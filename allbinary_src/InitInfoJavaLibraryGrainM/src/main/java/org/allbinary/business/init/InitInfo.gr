@@ -1,246 +1,297 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.business.init
+module InitInfo
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.business.init *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/util/HashMap.gr" include HashMap
+use HashMap.{ type HashMap }
+from "../../../../org/allbinary/logic/io/path/AbPath.gr" include AbPath
+use AbPath.{ type AbPath }
+from "../../../../org/allbinary/logic/java/bool/BooleanUtil.gr" include BooleanUtil
+use BooleanUtil.{ type BooleanUtil }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "./InitException.gr" include InitException
+use InitException.{ type InitException }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.util.HashMap *)
-(* import org.allbinary.logic.StdUtil *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.logic.communication.log.config.type.LogConfigTypeFactory *)
-(* import org.allbinary.logic.communication.log.config.type.LogConfigTypes *)
-(* import org.allbinary.logic.io.path.AbPath *)
-(* import org.allbinary.logic.java.bool.BooleanUtil *)
-(* import org.allbinary.logic.string.StringUtil *)
+provide record InitInfo {
+  jobject: JObject,
+  mut f_TESTING: String,
+  mut f_MAINPATH: String,
+  mut f_TESTHTMLPATH: String,
+  mut f_testing: String,
+  mut f_mainPath: AbPath,
+  mut f_testHtmlPath: AbPath,
+  mut f_hasRead: Bool,
+}
 
-let instance_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
-let get_instance : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instance_cell with Lazy.Undefined -> java_null)
-let set_instance value' = instance_cell := Lazy.from_val (Obj.repr value')
-let () = java_register_static "InitInfo.get_instance" (fun _ -> Obj.repr (get_instance ()))
-let () = java_register_static "InitInfo.set_instance" (fun value' -> set_instance value'; Obj.repr ())
-class initInfo () =
-  object (self)
-    val mutable tESTING : string = ""
-    method tESTING = tESTING
-    method set_tESTING value' = tESTING <- value'
-    val mutable mAINPATH : string = ""
-    method mAINPATH = mAINPATH
-    method set_mAINPATH value' = mAINPATH <- value'
-    val mutable tESTHTMLPATH : string = ""
-    method tESTHTMLPATH = tESTHTMLPATH
-    method set_tESTHTMLPATH value' = tESTHTMLPATH <- value'
-    val mutable testing : string = ""
-    method testing = testing
-    method set_testing value' = testing <- value'
-    val mutable mainPath : AbPath.abPath = (Obj.magic 0)
-    method mainPath = mainPath
-    method set_mainPath value' = mainPath <- value'
-    val mutable testHtmlPath : AbPath.abPath = (Obj.magic 0)
-    method testHtmlPath = testHtmlPath
-    method set_testHtmlPath value' = testHtmlPath <- value'
-    val mutable hasRead : bool = false
-    method hasRead = hasRead
-    method set_hasRead value' = hasRead <- value'
+let mut jcell_instance: Option<InitInfo> = None
+
+provide let rec jclassName = () => "InitInfo"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: InitInfo = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method set () : unit =
-        begin
-        (try
-            let initInfoEntity : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "InitInfoEntity" (Obj.repr ()))))) in ();
-            if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#pRELOADER)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("created entity", "InitInfo", "set()"))))
-            end;
-            if (not ((Obj.magic !initInfoEntity)#is ())) then begin
-                if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#pRELOADER)) then begin
-                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("adding", "InitInfo", "set()"))))
-                end;
-                ignore ((Obj.magic !initInfoEntity)#add ())
-            end else begin
-                if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#pRELOADER)) then begin
-                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ("update", "InitInfo", "set()"))))
-                end;
-                ignore ((Obj.magic !initInfoEntity)#update ())
-            end;
-            hasRead <- false
-        with e -> begin
-            if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#pRELOADERERROR)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("error", "InitInfo", "set()", e))))
-            end
-        end)
-        end
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("InitInfo"), f_TESTING: "", f_MAINPATH: "", f_TESTHTMLPATH: "", f_testing: "", f_mainPath: JR.nullOf(), f_testHtmlPath: JR.nullOf(), f_hasRead: false, }
+    this.f_TESTING = "TESTING"
+    this.f_MAINPATH = "MAINPATH"
+    this.f_TESTHTMLPATH = "TESTHTMLPATH"
+    this.f_testing = JR.nullOf()
+    this.f_mainPath = JR.nullOf()
+    this.f_testHtmlPath = JR.nullOf()
+    this.f_hasRead = false
+        void
+    this
+}
     
-
-    (* Java overload set(HashMap) is not converted: OCaml has one method per name *)
+and jm_set_0 = (this: InitInfo) => {
+        {
+            let mut initInfoEntity: JObject = {
+let jlate: () => JObject = JR.cast(JR.lateBound("InitInfoEntity.jnew_0"))
+JR.cast(jlate())
+}
+            if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypes.jstatic_LOGGING"))
+JR.cast(jlate())
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_PRELOADER"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+}) {
+                ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast("created entity"), JR.cast("InitInfo"), JR.cast("set()")))
+})
+            }
+            if (!{
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("InitInfoEntity.jm_is"))
+JR.cast(jlate(JR.cast(initInfoEntity)))
+}) {
+                if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypes.jstatic_LOGGING"))
+JR.cast(jlate())
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_PRELOADER"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+}) {
+                    ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast("adding"), JR.cast("InitInfo"), JR.cast("set()")))
+})
+                }
+                ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("InitInfoEntity.jm_add"))
+JR.cast(jlate(JR.cast(initInfoEntity)))
+})
+            } else {
+                if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypes.jstatic_LOGGING"))
+JR.cast(jlate())
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_PRELOADER"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+}) {
+                    ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast("update"), JR.cast("InitInfo"), JR.cast("set()")))
+})
+                }
+                ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("InitInfoEntity.jm_update"))
+JR.cast(jlate(JR.cast(initInfoEntity)))
+})
+            }
+            this.f_hasRead = false
+        }
+}
     
-
-    method get () : unit =
-        begin
-        (try
-            testing <- (Obj.magic 0);
-            mainPath <- (Obj.magic 0);
-            testHtmlPath <- (Obj.magic 0);
-            let initInfoEntity : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "InitInfoEntity" (Obj.repr ()))))) in ();
-            ignore ((Obj.magic !initInfoEntity)#get ())
-        with e -> begin
-            if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#pRELOADERERROR)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("error", "InitInfo", "set()", e))))
-            end;
-            ()
-        end)
-        end
+and jm_set_1 = (this: InitInfo, hashMap: HashMap) => {
+        {
+            this.f_testing = JR.cast(HashMap.jm_get_1(hashMap, this.f_TESTING))
+            this.f_mainPath = AbPath.jnew_2(JR.cast(HashMap.jm_get_1(hashMap, this.f_MAINPATH)), StringUtil.jm_getInstance().f_EMPTY_STRING)
+            this.f_testHtmlPath = AbPath.jnew_2(JR.cast(HashMap.jm_get_1(hashMap, this.f_TESTHTMLPATH)), StringUtil.jm_getInstance().f_EMPTY_STRING)
+        }
+}
     
-
-    method setHasRead ((value : bool)) : unit =
-        begin
-        hasRead <- value
-        end
+and jm_get = (this: InitInfo) => {
+        {
+            this.f_testing = JR.nullOf()
+            this.f_mainPath = JR.nullOf()
+            this.f_testHtmlPath = JR.nullOf()
+            let mut initInfoEntity: JObject = {
+let jlate: () => JObject = JR.cast(JR.lateBound("InitInfoEntity.jnew_0"))
+JR.cast(jlate())
+}
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("InitInfoEntity.jm_get"))
+JR.cast(jlate(JR.cast(initInfoEntity)))
+})
+        }
+    return void
+}
     
-
-    method updateIfNeeded () : unit =
-        begin
-        (try
-            if (not hasRead) then begin
-                hasRead <- true;
-                (self#get ())
-            end
-        with e -> begin
-            if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#pRELOADERERROR)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("error", "InitInfo", "updateIfNeeded()", e))))
-            end;
-            ()
-        end)
-        end
+and jm_setHasRead = (this: InitInfo, value: Bool) => {
+        this.f_hasRead = value
+}
     
-
-    method isTesting () : bool =
-        begin
-        (try
-            (self#updateIfNeeded ());
-            ((BooleanUtil.getInstance ())#getFromString (testing))
-        with e -> begin
-            if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#pRELOADERERROR)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ("error", "InitInfo", "updateIfNeeded()", e))))
-            end;
-            false
-        end)
-        end
+and jm_updateIfNeeded = (this: InitInfo) => {
+        {
+            if (!this.f_hasRead) {
+                this.f_hasRead = true
+                ignore(jm_get(this))
+            }
+        }
+    return void
+}
     
-
-    method getTesting () : string =
-        begin
-        (self#updateIfNeeded ());
-        testing
-        end
+and jm_isTesting = (this: InitInfo) => {
+        {
+            ignore(jm_updateIfNeeded(this))
+            return BooleanUtil.jm_getFromString(BooleanUtil.jm_getInstance(), this.f_testing)
+        }
+    return false
+}
     
-
-    method getTestHtmlPath () : string =
-        try
-        begin
-        (self#updateIfNeeded ());
-        if (testHtmlPath != (Obj.magic 0)) then begin
-            raise (Java_return (Obj.repr ((java_string_of (Obj.repr testHtmlPath)))))
-        end else begin
-            raise (Java_return (Obj.repr ((Obj.magic 0))))
-        end
-        end
-        with Java_return value -> Obj.obj value
+and jm_getTesting = (this: InitInfo) => {
+        ignore(jm_updateIfNeeded(this))
+        return this.f_testing
+}
     
-
-    method getMainPath () : string =
-        try
-        begin
-        (self#updateIfNeeded ());
-        if (mainPath != (Obj.magic 0)) then begin
-            raise (Java_return (Obj.repr ((java_string_of (Obj.repr mainPath)))))
-        end else begin
-            raise (Java_return (Obj.repr ((Obj.magic 0))))
-        end
-        end
-        with Java_return value -> Obj.obj value
+and jm_getTestHtmlPath = (this: InitInfo) => {
+        ignore(jm_updateIfNeeded(this))
+        if (!JR.isNull(this.f_testHtmlPath)) {
+            return AbPath.jm_toString(this.f_testHtmlPath)
+        } else {
+            return JR.nullOf()
+        }
+}
     
-
-    method setTesting ((value : string)) : unit =
-        begin
-        testing <- value
-        end
+and jm_getMainPath = (this: InitInfo) => {
+        ignore(jm_updateIfNeeded(this))
+        if (!JR.isNull(this.f_mainPath)) {
+            return AbPath.jm_toString(this.f_mainPath)
+        } else {
+            return JR.nullOf()
+        }
+}
     
-
-    method setTestHtmlPath : 'any1. 'any1 -> unit = fun (value) ->
-        let value = Obj.repr value in
-        begin
-        testHtmlPath <- (Obj.magic value)
-        end [@@warning "-20"]
+and jm_setTesting = (this: InitInfo, value: String) => {
+        this.f_testing = value
+}
     
-
-    method setMainPath : 'any1. 'any1 -> unit = fun (value) ->
-        let value = Obj.repr value in
-        begin
-        mainPath <- (Obj.magic value)
-        end [@@warning "-20"]
+and jm_setTestHtmlPath = (this: InitInfo, value: AbPath) => {
+        this.f_testHtmlPath = value
+}
     
-
-    method isMainPathValid : 'any1. 'any1 -> bool = fun (_abPath) ->
-        begin
-        true
-        end [@@warning "-20"]
+and jm_setMainPath = (this: InitInfo, value: AbPath) => {
+        this.f_mainPath = value
+}
     
-
-    method isTestHtmlPathValid : 'any1. 'any1 -> bool = fun (_abPath) ->
-        begin
-        true
-        end [@@warning "-20"]
+and jm_isMainPathValid = (this: InitInfo, abPath: AbPath) => {
+        return true
+}
     
-
-    method isTestingValid ((testing_arg : string)) : bool =
-        begin
-        ((BooleanUtil.getInstance ())#isStringBoolean (testing_arg))
-        end
+and jm_isTestHtmlPathValid = (this: InitInfo, abPath: AbPath) => {
+        return true
+}
     
+and jm_isTestingValid = (this: InitInfo, testing: String) => {
+        return BooleanUtil.jm_isStringBoolean(BooleanUtil.jm_getInstance(), testing)
+}
+    
+and jm_toHashMap = (this: InitInfo) => {
+        let mut hashMap: HashMap = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashMap"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+})
+        ignore(HashMap.jm_put_2(hashMap, this.f_TESTING, jm_getTesting(this)))
+        ignore(HashMap.jm_put_2(hashMap, this.f_MAINPATH, jm_getMainPath(this)))
+        ignore(HashMap.jm_put_2(hashMap, this.f_TESTHTMLPATH, jm_getTestHtmlPath(this)))
+        return hashMap
+}
 
-    method toHashMap () : java_hash_map =
-        begin
-        let hashMap : java_hash_map ref = ref ((((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashMap ()) :> java_hash_map)) in ();
-        ignore (!hashMap#put (tESTING, (self#getTesting ())));
-        ignore (!hashMap#put (mAINPATH, (self#getMainPath ())));
-        ignore (!hashMap#put (tESTHTMLPATH, (self#getTestHtmlPath ())));
-        (!hashMap :> java_hash_map)
-        end
-
-    initializer
-      begin
-        tESTING <- "TESTING";
-        mAINPATH <- "MAINPATH";
-        tESTHTMLPATH <- "TESTHTMLPATH";
-        testing <- (Obj.magic 0);
-        mainPath <- ((Obj.magic 0) :> AbPath.abPath);
-        testHtmlPath <- ((Obj.magic 0) :> AbPath.abPath);
-        hasRead <- false;
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "InitInfo" (fun arguments -> Obj.repr (new initInfo (Obj.obj arguments)))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic (get_instance ()))))
-        end
-let () = java_register_static "InitInfo.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-
-let () = instance_cell := lazy (Obj.repr ((new initInfo ())))
+JR.registerLateBound("InitInfo.jnew_0", jnew_0)
+JR.registerLateBound("InitInfo.jm_getInstance", jm_getInstance)
+JR.registerLateBound("InitInfo.jm_set_0", jm_set_0)
+JR.registerLateBound("InitInfo.jm_set_1", jm_set_1)
+JR.registerLateBound("InitInfo.jm_get", jm_get)
+JR.registerLateBound("InitInfo.jm_setHasRead", jm_setHasRead)
+JR.registerLateBound("InitInfo.jm_updateIfNeeded", jm_updateIfNeeded)
+JR.registerLateBound("InitInfo.jm_isTesting", jm_isTesting)
+JR.registerLateBound("InitInfo.jm_getTesting", jm_getTesting)
+JR.registerLateBound("InitInfo.jm_getTestHtmlPath", jm_getTestHtmlPath)
+JR.registerLateBound("InitInfo.jm_getMainPath", jm_getMainPath)
+JR.registerLateBound("InitInfo.jm_setTesting", jm_setTesting)
+JR.registerLateBound("InitInfo.jm_setTestHtmlPath", jm_setTestHtmlPath)
+JR.registerLateBound("InitInfo.jm_setMainPath", jm_setMainPath)
+JR.registerLateBound("InitInfo.jm_isMainPathValid", jm_isMainPathValid)
+JR.registerLateBound("InitInfo.jm_isTestHtmlPathValid", jm_isTestHtmlPathValid)
+JR.registerLateBound("InitInfo.jm_isTestingValid", jm_isTestingValid)
+JR.registerLateBound("InitInfo.jm_toHashMap", jm_toHashMap)
+JR.registerLateBound("InitInfo.f_TESTING", (this: InitInfo) => this.f_TESTING)
+JR.registerLateBound("InitInfo.f_MAINPATH", (this: InitInfo) => this.f_MAINPATH)
+JR.registerLateBound("InitInfo.f_TESTHTMLPATH", (this: InitInfo) => this.f_TESTHTMLPATH)
+JR.registerLateBound("InitInfo.f_testing", (this: InitInfo) => this.f_testing)
+JR.registerLateBound("InitInfo.set_f_testing", (this: InitInfo, jvalue) => { this.f_testing = jvalue; jvalue })
+JR.registerLateBound("InitInfo.f_mainPath", (this: InitInfo) => this.f_mainPath)
+JR.registerLateBound("InitInfo.set_f_mainPath", (this: InitInfo, jvalue) => { this.f_mainPath = jvalue; jvalue })
+JR.registerLateBound("InitInfo.f_testHtmlPath", (this: InitInfo) => this.f_testHtmlPath)
+JR.registerLateBound("InitInfo.set_f_testHtmlPath", (this: InitInfo, jvalue) => { this.f_testHtmlPath = jvalue; jvalue })
+JR.registerLateBound("InitInfo.f_hasRead", (this: InitInfo) => this.f_hasRead)
+JR.registerLateBound("InitInfo.set_f_hasRead", (this: InitInfo, jvalue) => { this.f_hasRead = jvalue; jvalue })
+JR.registerLateBound("InitInfo.jstatic_instance", jstatic_instance)
 
 

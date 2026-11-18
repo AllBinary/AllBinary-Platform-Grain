@@ -1,81 +1,94 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.tracking
+module TrackingEvent
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.tracking *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/logic/util/event/AllBinaryEventObject.gr" include AllBinaryEventObject
+use AllBinaryEventObject.{ type AllBinaryEventObject }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.util.event.AllBinaryEventObject *)
+provide record TrackingEvent {
+  jobject: JObject,
+  mut f_source: JObject,
+  mut f_layerInterface: AllBinaryLayer,
+}
 
-class trackingEvent ((allBinaryLayerInterface : Obj.t)) =
-  object (self)
-    inherit AllBinaryEventObject.allBinaryEventObject ((Obj.repr (allBinaryLayerInterface)))
-    val mutable layerInterface : AllBinaryLayer.allBinaryLayer = (Obj.magic 0)
-    method layerInterface = layerInterface
-    method set_layerInterface value' = layerInterface <- value'
+
+provide let rec jclassName = () => "TrackingEvent"
     
+and jnew_1 = (allBinaryLayerInterface: JObject) => {
+    let this = { jobject: JR.newJObject("TrackingEvent"), f_source: JR.jnull, f_layerInterface: JR.nullOf(), }
+    this.jobject.toStringFunction = () => jm_toString(this)
+    this.f_layerInterface = JR.cast(AllBinaryLayer.jstatic_NULL_ALLBINARY_LAYER())
+        void
+        if ((!JR.isSame(allBinaryLayerInterface, {
+let jlate: () => JObject = JR.cast(JR.lateBound("TrackingEventHandler.jm_getInstance"))
+JR.cast(jlate())
+}))) {
+            ignore(jm_setLayerInterface(this, JR.cast(allBinaryLayerInterface)))
+        }
+    this
+}
     
-
-    method init : 'any1. 'any1 -> unit = fun (anyType) ->
-        let anyType = Obj.repr anyType in
-        begin
-        ignore (self#setSource (anyType))
-        end [@@warning "-7"]
+and jm_init = (this: TrackingEvent, anyType: JObject) => {
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryEventObject.jm_setSource"))
+JR.cast(jlate(JR.cast(this), JR.cast(anyType)))
+})
+}
     
-
-    method getLayerInterface : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (layerInterface))
-        end [@@warning "-7"]
+and jm_getLayerInterface = (this: TrackingEvent) => {
+        return this.f_layerInterface
+}
     
-
-    method setLayerInterface : 'any1. 'any1 -> unit = fun (layerInterface_arg) ->
-        let layerInterface_arg = Obj.repr layerInterface_arg in
-        begin
-        layerInterface <- (Obj.magic layerInterface_arg)
-        end [@@warning "-7-20"]
+and jm_setLayerInterface = (this: TrackingEvent, layerInterface: AllBinaryLayer) => {
+        this.f_layerInterface = layerInterface
+}
     
-
-    method setLayerInterfaceForCircularStaticPool : 'any1. 'any1 -> unit = fun (layerInterface_arg) ->
-        let layerInterface_arg = Obj.repr layerInterface_arg in
-        begin
-        layerInterface <- (Obj.magic layerInterface_arg)
-        end [@@warning "-7-20"]
+and jm_setLayerInterfaceForCircularStaticPool = (this: TrackingEvent, layerInterface: AllBinaryLayer) => {
+        this.f_layerInterface = layerInterface
+}
     
+and jm_toString = (this: TrackingEvent) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, "TrackingEvent: \n"))
+        ignore(StringMaker.jm_append(stringBuffer, "LayerInterface: "))
+        ignore(StringMaker.jm_append(stringBuffer, AllBinaryLayer.jm_toString(this.f_layerInterface)))
+        return StringMaker.jm_toString(stringBuffer)
+}
 
-    method toString () : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ("TrackingEvent: \n"));
-        ignore (!stringBuffer#append ("LayerInterface: "));
-        ignore (!stringBuffer#append ((java_string_of (Obj.repr layerInterface))));
-        (java_string_of (Obj.repr !stringBuffer))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        layerInterface <- ((AllBinaryLayer.get_nULL_ALLBINARY_LAYER ()) :> AllBinaryLayer.allBinaryLayer);
-        ();
-        (* super(...) is the inherit clause *) ();
-        if ((Obj.repr allBinaryLayerInterface) != (Obj.repr (Obj.magic (java_call_static "TrackingEventHandler.getInstance" (Obj.repr ()))))) then begin
-            (self#setLayerInterface ((Obj.magic allBinaryLayerInterface)))
-        end
-      end
-  end
-let () = java_register_constructor "TrackingEvent" (fun arguments -> Obj.repr (new trackingEvent (Obj.obj arguments)))
+JR.registerLateBound("TrackingEvent.jnew_1", jnew_1)
+JR.registerLateBound("TrackingEvent.jm_init", jm_init)
+JR.registerLateBound("TrackingEvent.jm_getLayerInterface", jm_getLayerInterface)
+JR.registerLateBound("TrackingEvent.jm_setLayerInterface", jm_setLayerInterface)
+JR.registerLateBound("TrackingEvent.jm_setLayerInterfaceForCircularStaticPool", jm_setLayerInterfaceForCircularStaticPool)
+JR.registerLateBound("TrackingEvent.jm_toString", jm_toString)
+JR.registerLateBound("TrackingEvent.f_layerInterface", (this: TrackingEvent) => this.f_layerInterface)
+JR.registerLateBound("TrackingEvent.set_f_layerInterface", (this: TrackingEvent, jvalue) => { this.f_layerInterface = jvalue; jvalue })
 
 

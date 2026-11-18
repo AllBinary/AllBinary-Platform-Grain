@@ -1,49 +1,67 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.paint
+module ColorFillPaintable
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.paint *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
+use BasicColor.{ type BasicColor }
+from "../../../../org/allbinary/graphics/displayable/DisplayInfoSingleton.gr" include DisplayInfoSingleton
+use DisplayInfoSingleton.{ type DisplayInfoSingleton }
+from "./ColorFillBasePaintable.gr" include ColorFillBasePaintable
+use ColorFillBasePaintable.{ type ColorFillBasePaintable }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Graphics *)
-(* import org.allbinary.graphics.color.BasicColor *)
-(* import org.allbinary.graphics.displayable.DisplayInfoSingleton *)
+provide record ColorFillPaintable {
+  jobject: JObject,
+  mut f_basicColor: JObject,
+  mut f_colorP: Int32,
+  mut f_displayInfoSingleton: DisplayInfoSingleton,
+}
 
-class colorFillPaintable ((basicColor : BasicColor.basicColor)) =
-  object (self)
-    inherit ColorFillBasePaintable.colorFillBasePaintable (basicColor)
-    val mutable displayInfoSingleton : DisplayInfoSingleton.displayInfoSingleton = (Obj.magic 0)
-    method displayInfoSingleton = displayInfoSingleton
-    method set_displayInfoSingleton value' = displayInfoSingleton <- value'
+
+provide let rec jclassName = () => "ColorFillPaintable"
     
+and jnew_1 = (basicColor: BasicColor) => {
+    let this = { jobject: JR.newJObject("ColorFillPaintable"), f_basicColor: JR.jnull, f_colorP: 0l, f_displayInfoSingleton: JR.nullOf(), }
+    this.f_displayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
+        void
+    this
+}
     
+and jm_paint = (this: ColorFillPaintable, graphics: JObject) => {
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_setColor"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(JR.cast(this.f_colorP))))
+})
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_fillRect"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(0l), JR.cast(0l), JR.cast(DisplayInfoSingleton.jm_getLastWidth(this.f_displayInfoSingleton)), JR.cast(DisplayInfoSingleton.jm_getLastHeight(this.f_displayInfoSingleton))))
+})
+}
 
-    method paint : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore ((Obj.magic graphics)#setColor ((self#colorP)));
-        ignore ((Obj.magic graphics)#fillRect (0, 0, (displayInfoSingleton#getLastWidth ()), (displayInfoSingleton#getLastHeight ())))
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        displayInfoSingleton <- ((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton);
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "ColorFillPaintable" (fun arguments -> Obj.repr (new colorFillPaintable (Obj.obj arguments)))
+JR.registerLateBound("ColorFillPaintable.jnew_1", jnew_1)
+JR.registerLateBound("ColorFillPaintable.jm_paint", jm_paint)
+JR.registerLateBound("ColorFillPaintable.f_displayInfoSingleton", (this: ColorFillPaintable) => this.f_displayInfoSingleton)
 
 

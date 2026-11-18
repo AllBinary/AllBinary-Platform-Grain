@@ -1,103 +1,115 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.direction
+module Direction
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.direction *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.string.StringMaker *)
+provide record Direction {
+  jobject: JObject,
+  mut f_name: String,
+  mut f_otherName: String,
+  mut f_value: Int32,
+  mut f_frameFactor: Int32,
+}
 
-let directionArray : Obj.t ref = ref ((Obj.repr (Array.make (13) (Obj.magic 0))))
-let get_directionArray () = Obj.magic !directionArray
-let set_directionArray value' = directionArray := Obj.repr value'
-let () = java_register_static "Direction.get_directionArray" (fun _ -> Obj.repr (get_directionArray ()))
-let () = java_register_static "Direction.set_directionArray" (fun value' -> set_directionArray (Obj.obj value'); Obj.repr ())
+let mut jcell_directionArray: Option<Array<Direction>> = None
 
-let getInstance : 'return. int -> 'return = fun ((direction : int)) ->
-        begin
-        (Obj.magic ((Obj.magic !directionArray).(direction)))
-        end
+provide let rec jclassName = () => "Direction"
 
-let () = java_register_static "Direction.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-class direction ((name_arg : string), (otherName_arg : string), (value_arg : int), (frameFactor_arg : int)) =
-  object (self)
-    val mutable name : string = ""
-    method name = name
-    method set_name value' = name <- value'
-    val mutable otherName : string = ""
-    method otherName = otherName
-    method set_otherName value' = otherName <- value'
-    val mutable value : int = 0
-    method value = value
-    method set_value value' = value <- value'
-    val mutable frameFactor : int = 0
-    method frameFactor = frameFactor
-    method set_frameFactor value' = frameFactor <- value'
+and jstatic_directionArray = () => match (jcell_directionArray) {
+  Some(value) => value,
+  None => {
+    let value: Array<Direction> = Array.make(Int32.toNumber(13l), JR.nullOf())
+    jcell_directionArray = Some(value)
+    value
+  },
+}
+    
+and jnew_4 = (name: String, otherName: String, value: Int32, frameFactor: Int32) => {
+    let this = { jobject: JR.newJObject("Direction"), f_name: "", f_otherName: "", f_value: 0l, f_frameFactor: 0l, }
+    this.jobject.toStringFunction = () => jm_toString(this)
     
     
-
-    method getValue () : int =
-        begin
-        value
-        end
     
-
-    method getFrameFactor () : int =
-        begin
-        frameFactor
-        end
     
-
-    method getOtherName () : string =
-        begin
-        otherName
-        end
+        this.f_name = name
+        this.f_otherName = otherName
+        this.f_value = value
+        this.f_frameFactor = frameFactor
+        jstatic_directionArray()[Int32.toNumber(value)] = this
+    this
+}
     
-
-    method getName () : string =
-        begin
-        name
-        end
+and jm_getInstance = (direction: Int32) => {
+        return jstatic_directionArray()[Int32.toNumber(direction)]
+}
     
+and jm_getValue = (this: Direction) => {
+        return this.f_value
+}
+    
+and jm_getFrameFactor = (this: Direction) => {
+        return this.f_frameFactor
+}
+    
+and jm_getOtherName = (this: Direction) => {
+        return this.f_otherName
+}
+    
+and jm_getName = (this: Direction) => {
+        return this.f_name
+}
+    
+and jm_toString = (this: Direction) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, "Direction: "))
+        ignore(StringMaker.jm_append(stringBuffer, jm_getName(this)))
+        ignore(StringMaker.jm_append(stringBuffer, " Or: "))
+        ignore(StringMaker.jm_append(stringBuffer, jm_getOtherName(this)))
+        ignore(StringMaker.jm_append(stringBuffer, " Value: "))
+        ignore(StringMaker.jm_appendint(stringBuffer, this.f_value))
+        return StringMaker.jm_toString(stringBuffer)
+}
 
-    method toString () : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ("Direction: "));
-        ignore (!stringBuffer#append ((self#getName ())));
-        ignore (!stringBuffer#append (" Or: "));
-        ignore (!stringBuffer#append ((self#getOtherName ())));
-        ignore (!stringBuffer#append (" Value: "));
-        ignore (!stringBuffer#appendint (value));
-        (java_string_of (Obj.repr !stringBuffer))
-        end
-
-    initializer
-      begin
-        ();
-        ();
-        ();
-        ();
-        ();
-        name <- name_arg;
-        otherName <- otherName_arg;
-        value <- value_arg;
-        frameFactor <- frameFactor_arg;
-        (Obj.magic !directionArray).(value_arg) <- (Obj.magic self)
-      end
-  end
-let () = java_register_constructor "Direction" (fun arguments -> Obj.repr (new direction (Obj.obj arguments)))
+JR.registerLateBound("Direction.jnew_4", jnew_4)
+JR.registerLateBound("Direction.jm_getInstance", jm_getInstance)
+JR.registerLateBound("Direction.jm_getValue", jm_getValue)
+JR.registerLateBound("Direction.jm_getFrameFactor", jm_getFrameFactor)
+JR.registerLateBound("Direction.jm_getOtherName", jm_getOtherName)
+JR.registerLateBound("Direction.jm_getName", jm_getName)
+JR.registerLateBound("Direction.jm_toString", jm_toString)
+JR.registerLateBound("Direction.f_name", (this: Direction) => this.f_name)
+JR.registerLateBound("Direction.set_f_name", (this: Direction, jvalue) => { this.f_name = jvalue; jvalue })
+JR.registerLateBound("Direction.f_otherName", (this: Direction) => this.f_otherName)
+JR.registerLateBound("Direction.set_f_otherName", (this: Direction, jvalue) => { this.f_otherName = jvalue; jvalue })
+JR.registerLateBound("Direction.f_value", (this: Direction) => this.f_value)
+JR.registerLateBound("Direction.set_f_value", (this: Direction, jvalue) => { this.f_value = jvalue; jvalue })
+JR.registerLateBound("Direction.f_frameFactor", (this: Direction) => this.f_frameFactor)
+JR.registerLateBound("Direction.set_f_frameFactor", (this: Direction, jvalue) => { this.f_frameFactor = jvalue; jvalue })
+JR.registerLateBound("Direction.jstatic_directionArray", jstatic_directionArray)
 
 

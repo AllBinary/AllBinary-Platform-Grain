@@ -1,55 +1,75 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.configuration
+module GameSpeed
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.configuration *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./GameConfigurationCentral.gr" include GameConfigurationCentral
+use GameConfigurationCentral.{ type GameConfigurationCentral }
+from "./GameConfiguration.gr" include GameConfiguration
+use GameConfiguration.{ type GameConfiguration }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
+provide record GameSpeed {
+  jobject: JObject,
+}
 
-class gameSpeed () =
-  object
+let mut jcell_instance: Option<GameSpeed> = None
+
+provide let rec jclassName = () => "GameSpeed"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: GameSpeed = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("GameSpeed"), }
+    this
+}
     
-
-    method getSpeed () : int =
-        begin
-        let speedGameConfiguration : GameConfiguration.gameConfiguration ref = ref (((GameConfigurationCentral.getInstance ())#sPEED :> GameConfiguration.gameConfiguration)) in ();
-        ((((java_int_value (Obj.repr (!speedGameConfiguration#getMaxValue ()))) - (java_int_value (Obj.repr (!speedGameConfiguration#getValue ())))) + 1))
-        end
+and jm_getSpeed = (this: GameSpeed) => {
+        let mut speedGameConfiguration: GameConfiguration = JR.cast(GameConfigurationCentral.jm_getInstance().f_SPEED)
+        return (Int32.(+)(Int32.(-)(JR.className(JR.cast(GameConfiguration.jm_getMaxValue(speedGameConfiguration))), JR.className(JR.cast(GameConfiguration.jm_getValue(speedGameConfiguration)))), 1l))
+}
     
+and jm_getDelay = (this: GameSpeed) => {
+        let mut speedGameConfiguration: GameConfiguration = JR.cast(GameConfigurationCentral.jm_getInstance().f_SPEED)
+        return Int32.(*)(19l, (Int32.(-)(JR.className(JR.cast(GameConfiguration.jm_getMaxValue(speedGameConfiguration))), JR.className(JR.cast(GameConfiguration.jm_getValue(speedGameConfiguration))))))
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
 
-    method getDelay () : int =
-        begin
-        let speedGameConfiguration : GameConfiguration.gameConfiguration ref = ref (((GameConfigurationCentral.getInstance ())#sPEED :> GameConfiguration.gameConfiguration)) in ();
-        (19 * (((java_int_value (Obj.repr (!speedGameConfiguration#getMaxValue ()))) - (java_int_value (Obj.repr (!speedGameConfiguration#getValue ()))))))
-        end
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "GameSpeed" (fun arguments -> Obj.repr (new gameSpeed (Obj.obj arguments)))
-
-let instance = (new gameSpeed ())
-let get_instance () = instance
-let () = java_register_static "GameSpeed.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "GameSpeed.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("GameSpeed.jnew_0", jnew_0)
+JR.registerLateBound("GameSpeed.jm_getSpeed", jm_getSpeed)
+JR.registerLateBound("GameSpeed.jm_getDelay", jm_getDelay)
+JR.registerLateBound("GameSpeed.jm_getInstance", jm_getInstance)
+JR.registerLateBound("GameSpeed.jstatic_instance", jstatic_instance)
 
 

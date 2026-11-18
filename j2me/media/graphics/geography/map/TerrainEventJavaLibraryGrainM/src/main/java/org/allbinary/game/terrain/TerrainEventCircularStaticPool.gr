@@ -1,61 +1,83 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.terrain
+module TerrainEventCircularStaticPool
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.terrain *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/logic/util/event/AllBinaryEventCircularPool.gr" include AllBinaryEventCircularPool
+use AllBinaryEventCircularPool.{ type AllBinaryEventCircularPool }
+from "./TerrainEventFactory.gr" include TerrainEventFactory
+use TerrainEventFactory.{ type TerrainEventFactory }
+from "./TerrainEvent.gr" include TerrainEvent
+use TerrainEvent.{ type TerrainEvent }
+from "./BasicTerrainInfo.gr" include BasicTerrainInfo
+use BasicTerrainInfo.{ type BasicTerrainInfo }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.util.event.AllBinaryEventCircularPool *)
+provide record TerrainEventCircularStaticPool {
+  jobject: JObject,
+  mut f_EVENT_POOL: AllBinaryEventCircularPool,
+}
 
-class terrainEventCircularStaticPool () =
-  object
-    val mutable eVENT_POOL : AllBinaryEventCircularPool.allBinaryEventCircularPool = (Obj.magic 0)
-    method eVENT_POOL = eVENT_POOL
-    method set_eVENT_POOL value' = eVENT_POOL <- value'
+let mut jcell_instance: Option<TerrainEventCircularStaticPool> = None
+
+provide let rec jclassName = () => "TerrainEventCircularStaticPool"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: TerrainEventCircularStaticPool = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("TerrainEventCircularStaticPool"), f_EVENT_POOL: JR.nullOf(), }
+    this.f_EVENT_POOL = AllBinaryEventCircularPool.jnew_1(20l)
+    this
+}
     
-
-    method init () : unit =
-        begin
-        ignore (eVENT_POOL#initAllBinaryEventCircularPool ((new TerrainEventFactory.terrainEventFactory ())))
-        end
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jm_init = (this: TerrainEventCircularStaticPool) => {
+        ignore(AllBinaryEventCircularPool.jm_initAllBinaryEventCircularPool(this.f_EVENT_POOL, JR.cast(TerrainEventFactory.jnew_0())))
+}
+    
+and jm_getNext = (this: TerrainEventCircularStaticPool, basicTerrainInfo: BasicTerrainInfo) => {
+        let mut trackingEvent: TerrainEvent = JR.cast(AllBinaryEventCircularPool.jm_getNextInstance(this.f_EVENT_POOL))
+        ignore(TerrainEvent.jm_setBasicTerrainInfoForCircularStaticPool(trackingEvent, basicTerrainInfo))
+        return trackingEvent
+}
 
-    method getNext : 'any1 'return. 'any1 -> 'return = fun (basicTerrainInfo) ->
-        let basicTerrainInfo = Obj.repr basicTerrainInfo in
-        begin
-        let trackingEvent : TerrainEvent.terrainEvent ref = ref (((Obj.magic (eVENT_POOL#getNextInstance ())) :> TerrainEvent.terrainEvent)) in ();
-        ignore (!trackingEvent#setBasicTerrainInfoForCircularStaticPool ((Obj.magic basicTerrainInfo)));
-        (Obj.magic (!trackingEvent))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        eVENT_POOL <- ((new AllBinaryEventCircularPool.allBinaryEventCircularPool (20)) :> AllBinaryEventCircularPool.allBinaryEventCircularPool);
-        ()
-      end
-  end
-let () = java_register_constructor "TerrainEventCircularStaticPool" (fun arguments -> Obj.repr (new terrainEventCircularStaticPool (Obj.obj arguments)))
-
-let instance = (new terrainEventCircularStaticPool ())
-let get_instance () = instance
-let () = java_register_static "TerrainEventCircularStaticPool.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "TerrainEventCircularStaticPool.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("TerrainEventCircularStaticPool.jnew_0", jnew_0)
+JR.registerLateBound("TerrainEventCircularStaticPool.jm_getInstance", jm_getInstance)
+JR.registerLateBound("TerrainEventCircularStaticPool.jm_init", jm_init)
+JR.registerLateBound("TerrainEventCircularStaticPool.jm_getNext", jm_getNext)
+JR.registerLateBound("TerrainEventCircularStaticPool.f_EVENT_POOL", (this: TerrainEventCircularStaticPool) => this.f_EVENT_POOL)
+JR.registerLateBound("TerrainEventCircularStaticPool.set_f_EVENT_POOL", (this: TerrainEventCircularStaticPool, jvalue) => { this.f_EVENT_POOL = jvalue; jvalue })
+JR.registerLateBound("TerrainEventCircularStaticPool.jstatic_instance", jstatic_instance)
 
 

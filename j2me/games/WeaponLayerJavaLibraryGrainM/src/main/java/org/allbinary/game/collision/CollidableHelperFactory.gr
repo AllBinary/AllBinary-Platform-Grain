@@ -1,46 +1,62 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.collision
+module CollidableHelperFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.collision *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/configuration/feature/Features.gr" include Features
+use Features.{ type Features }
+from "../../../../org/allbinary/game/configuration/feature/GameFeatureFactory.gr" include GameFeatureFactory
+use GameFeatureFactory.{ type GameFeatureFactory }
+from "../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "./SourceCollisionHelper.gr" include SourceCollisionHelper
+use SourceCollisionHelper.{ type SourceCollisionHelper }
+from "./CollisionHelper.gr" include CollisionHelper
+use CollisionHelper.{ type CollisionHelper }
 
-open Allbinary_java [@@warning "-33"]
-(* import org.allbinary.game.configuration.feature.Features *)
-(* import org.allbinary.game.configuration.feature.GameFeatureFactory *)
-(* import org.allbinary.layer.AllBinaryLayer *)
+provide record CollidableHelperFactory {
+  jobject: JObject,
+}
 
 
-let getInstance : 'return. unit -> 'return = fun () ->
-        try
-        begin
-        if ((Features.getInstance ())#isFeature ((GameFeatureFactory.getInstance ())#cOLLISIONS_WITH_SOURCE)) then begin
-            raise (Java_return (Obj.repr ((new CollisionHelper.collisionHelper ((AllBinaryLayer.get_nULL_ALLBINARY_LAYER ()))))))
-        end else begin
-            raise (Java_return (Obj.repr ((new SourceCollisionHelper.sourceCollisionHelper ((AllBinaryLayer.get_nULL_ALLBINARY_LAYER ()))))))
-        end
-        end
-        with Java_return value -> Obj.obj value
+provide let rec jclassName = () => "CollidableHelperFactory"
 
-let () = java_register_static "CollidableHelperFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-class collidableHelperFactory () =
-  object
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("CollidableHelperFactory"), }
+    this
+}
+    
+and jm_getInstance = () => {
+        if (Features.jm_isFeature(Features.jm_getInstance(), JR.cast(GameFeatureFactory.jm_getInstance().f_COLLISIONS_WITH_SOURCE))) {
+            return CollisionHelper.jnew_1(AllBinaryLayer.jstatic_NULL_ALLBINARY_LAYER())
+        } else {
+            return JR.cast(SourceCollisionHelper.jnew_1(AllBinaryLayer.jstatic_NULL_ALLBINARY_LAYER()))
+        }
+}
 
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "CollidableHelperFactory" (fun arguments -> Obj.repr (new collidableHelperFactory (Obj.obj arguments)))
+JR.registerLateBound("CollidableHelperFactory.jnew_0", jnew_0)
+JR.registerLateBound("CollidableHelperFactory.jm_getInstance", jm_getInstance)
 
 

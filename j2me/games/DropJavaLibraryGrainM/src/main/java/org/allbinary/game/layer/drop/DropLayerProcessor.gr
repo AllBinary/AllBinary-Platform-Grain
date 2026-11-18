@@ -1,65 +1,99 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.layer.drop
+module DropLayerProcessor
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.layer.drop *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
+from "../../../../../org/allbinary/layer/BasicLayerProcessor.gr" include BasicLayerProcessor
+use BasicLayerProcessor.{ type BasicLayerProcessor }
+from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "./DropLayerInterface.gr" include DropLayerInterface
+use DropLayerInterface.{ type DropLayerInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
-(* import org.allbinary.layer.BasicLayerProcessor *)
-(* import org.allbinary.util.BasicArrayList *)
+provide record DropLayerProcessor {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_list: JObject,
+}
 
-class dropLayerProcessor () =
-  object (self)
-    inherit BasicLayerProcessor.basicLayerProcessor ()
+let mut jcell_LAYER_PROCESSOR: Option<BasicLayerProcessor> = None
+
+provide let rec jclassName = () => "DropLayerProcessor"
+
+and jstatic_LAYER_PROCESSOR = () => match (jcell_LAYER_PROCESSOR) {
+  Some(value) => value,
+  None => {
+    let value: BasicLayerProcessor = JR.cast(jnew_0())
+    jcell_LAYER_PROCESSOR = Some(value)
+    value
+  },
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("DropLayerProcessor"), f_logUtil: JR.jnull, f_list: JR.jnull, }
+        void
+    this
+}
     
+and jm_getInstance = () => {
+        return jstatic_LAYER_PROCESSOR()
+}
+    
+and jm_process = (this: DropLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager) => {
+        let mut list: BasicArrayList = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicLayerProcessor.jm_getList"))
+JR.cast(jlate(JR.cast(this)))
+})
+        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut layerInterface: AllBinaryLayer = JR.nullOf()
+        let mut dropLayerInterface: DropLayerInterface = JR.nullOf()
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            layerInterface = JR.cast(list.f_objectArray[Int32.toNumber(index)])
+            dropLayerInterface = JR.cast(layerInterface)
+            layerInterface = JR.cast(DropLayerInterface.jm_getDroppedLayer(dropLayerInterface))
+            ignore(AllBinaryLayerManager.jm_append(allBinaryLayerManager, layerInterface))
+            }
+        }
+        ignore(BasicArrayList.jm_clear(list))
+}
 
-    method process : 'any1. 'any1 -> unit = fun (allBinaryLayerManager) ->
-        let allBinaryLayerManager = Obj.repr allBinaryLayerManager in
-        begin
-        let list : BasicArrayList.basicArrayList ref = ref (((self#getList ()) :> BasicArrayList.basicArrayList)) in ();
-        let size : int ref = ref ((!list#size ())) in ();
-        let layerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((Obj.magic 0) :> AllBinaryLayer.allBinaryLayer)) in ();
-        let dropLayerInterface : DropLayerInterface.dropLayerInterface ref = ref (((Obj.magic 0) :> DropLayerInterface.dropLayerInterface)) in ();
-        for index = 0 to !size - 1 do
-            layerInterface := (Obj.magic !list#objectArray.(index));
-            dropLayerInterface := (Obj.magic !layerInterface);
-            layerInterface := (Obj.magic (!dropLayerInterface#getDroppedLayer ()));
-            ignore ((Obj.magic allBinaryLayerManager)#append (!layerInterface))
-        done;
-        ignore (!list#clear ())
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "DropLayerProcessor" (fun arguments -> Obj.repr (new dropLayerProcessor (Obj.obj arguments)))
-
-let lAYER_PROCESSOR : BasicLayerProcessor.basicLayerProcessor = ((new dropLayerProcessor ()) :> BasicLayerProcessor.basicLayerProcessor)
-let get_lAYER_PROCESSOR () = lAYER_PROCESSOR
-let () = java_register_static "DropLayerProcessor.get_lAYER_PROCESSOR" (fun _ -> Obj.repr (get_lAYER_PROCESSOR ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (lAYER_PROCESSOR))
-        end
-let () = java_register_static "DropLayerProcessor.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("DropLayerProcessor.jnew_0", jnew_0)
+JR.registerLateBound("DropLayerProcessor.jm_getInstance", jm_getInstance)
+JR.registerLateBound("DropLayerProcessor.jm_process", jm_process)
+JR.registerLateBound("DropLayerProcessor.jstatic_LAYER_PROCESSOR", jstatic_LAYER_PROCESSOR)
 
 

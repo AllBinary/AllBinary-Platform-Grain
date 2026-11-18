@@ -1,414 +1,449 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.layer.special
+module CollidableDestroyableDamageableLayer
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.layer.special *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/collision/CollidableNeverCollideBehaviorFactory.gr" include CollidableNeverCollideBehaviorFactory
+use CollidableNeverCollideBehaviorFactory.{ type CollidableNeverCollideBehaviorFactory }
+from "../../../../../org/allbinary/game/combat/damage/DamageableInterface.gr" include DamageableInterface
+use DamageableInterface.{ type DamageableInterface }
+from "../../../../../org/allbinary/game/combat/destroy/DestroyableInterface.gr" include DestroyableInterface
+use DestroyableInterface.{ type DestroyableInterface }
+from "../../../../../org/allbinary/game/identification/BasicGroupFactory.gr" include BasicGroupFactory
+use BasicGroupFactory.{ type BasicGroupFactory }
+from "../../../../../org/allbinary/game/identification/Group.gr" include Group
+use Group.{ type Group }
+from "../../../../../org/allbinary/game/input/event/GameKeyEvent.gr" include GameKeyEvent
+use GameKeyEvent.{ type GameKeyEvent }
+from "../../../../../org/allbinary/game/layer/AllBinaryGameLayerManager.gr" include AllBinaryGameLayerManager
+use AllBinaryGameLayerManager.{ type AllBinaryGameLayerManager }
+from "../../../../../org/allbinary/game/layer/CollidableCompositeLayer.gr" include CollidableCompositeLayer
+use CollidableCompositeLayer.{ type CollidableCompositeLayer }
+from "../../../../../org/allbinary/game/layer/pickup/PickedUpLayerInterfaceFactoryInterface.gr" include PickedUpLayerInterfaceFactoryInterface
+use PickedUpLayerInterfaceFactoryInterface.{ type PickedUpLayerInterfaceFactoryInterface }
+from "../../../../../org/allbinary/game/layer/pickup/PickupCompositeInterface.gr" include PickupCompositeInterface
+use PickupCompositeInterface.{ type PickupCompositeInterface }
+from "../../../../../org/allbinary/game/part/PartInterface.gr" include PartInterface
+use PartInterface.{ type PartInterface }
+from "../../../../../org/allbinary/game/part/PartInterfaceUtil.gr" include PartInterfaceUtil
+use PartInterfaceUtil.{ type PartInterfaceUtil }
+from "../../../../../org/allbinary/graphics/Rectangle.gr" include Rectangle
+use Rectangle.{ type Rectangle }
+from "../../../../../org/allbinary/graphics/RectangleFactory.gr" include RectangleFactory
+use RectangleFactory.{ type RectangleFactory }
+from "../../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
+from "../../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../../org/allbinary/math/PositionStrings.gr" include PositionStrings
+use PositionStrings.{ type PositionStrings }
+from "../../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../../../org/allbinary/view/ViewPositionBase.gr" include ViewPositionBase
+use ViewPositionBase.{ type ViewPositionBase }
+from "./SpecialGameInputInterface.gr" include SpecialGameInputInterface
+use SpecialGameInputInterface.{ type SpecialGameInputInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Graphics *)
-(* import org.allbinary.game.collision.CollidableNeverCollideBehaviorFactory *)
-(* import org.allbinary.game.combat.damage.DamageableInterface *)
-(* import org.allbinary.game.combat.destroy.DestroyableInterface *)
-(* import org.allbinary.game.combat.destroy.event.DestroyedEvent *)
-(* import org.allbinary.game.identification.BasicGroupFactory *)
-(* import org.allbinary.game.identification.Group *)
-(* import org.allbinary.game.input.event.GameKeyEvent *)
-(* import org.allbinary.game.layer.AllBinaryGameLayerManager *)
-(* import org.allbinary.game.layer.CollidableCompositeLayer *)
-(* import org.allbinary.game.layer.pickup.PickedUpLayerInterfaceFactoryInterface *)
-(* import org.allbinary.game.layer.pickup.PickupBehavior *)
-(* import org.allbinary.game.layer.pickup.PickupCompositeInterface *)
-(* import org.allbinary.game.part.PartInterface *)
-(* import org.allbinary.game.part.PartInterfaceUtil *)
-(* import org.allbinary.graphics.Rectangle *)
-(* import org.allbinary.graphics.RectangleFactory *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
-(* import org.allbinary.logic.NullUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.math.PositionStrings *)
-(* import org.allbinary.string.CommonSeps *)
-(* import org.allbinary.view.ViewPositionBase *)
+provide record CollidableDestroyableDamageableLayer {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_x: Int32,
+  mut f_y: Int32,
+  mut f_z: Int32,
+  mut f_width: Int32,
+  mut f_height: Int32,
+  mut f_visible: Bool,
+  mut f_viewPositionEvent: JObject,
+  mut f_halfWidth: Int32,
+  mut f_halfHeight: Int32,
+  mut f_name: String,
+  mut f_viewPosition: JObject,
+  mut f_commonStrings: JObject,
+  mut f_basicSetColorUtil: JObject,
+  mut f_RED: JObject,
+  mut f_paintable: JObject,
+  mut f_gameKeyEventList: JObject,
+  mut f_collidableInferface: JObject,
+  mut f_groupInterface: Array<Group>,
+  mut f_readyForExplosion: Bool,
+  mut f_initWidth: Int32,
+  mut f_initHeight: Int32,
+  mut f_initX: Int32,
+  mut f_initY: Int32,
+  mut f_initZ: Int32,
+  mut f_partInterfaceArrayP: Array<PartInterface>,
+  mut f_pickupBehavior: JObject,
+  mut f_allBinaryGameLayerManagerP: AllBinaryGameLayerManager,
+  mut f_isDraggable: Bool,
+  mut f_isDragged: Bool,
+  mut f_isDropped: Bool,
+}
 
-let nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT))
-let get_nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER () = !nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER
-let set_nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER value' = nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER := value'
-let () = java_register_static "CollidableDestroyableDamageableLayer.get_nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER" (fun _ -> Obj.repr (get_nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER ()))
-let () = java_register_static "CollidableDestroyableDamageableLayer.set_nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER" (fun value' -> set_nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER (Obj.obj value'); Obj.repr ())
-let rEADYFOREXPLOSION : string = "ReadyForExplosion: "
-let get_rEADYFOREXPLOSION () = rEADYFOREXPLOSION
-let () = java_register_static "CollidableDestroyableDamageableLayer.get_rEADYFOREXPLOSION" (fun _ -> Obj.repr (get_rEADYFOREXPLOSION ()))
-class collidableDestroyableDamageableLayer ((groupInterface_arg : Group.group array), (name : string), (layerInfo : Rectangle.rectangle), (viewPosition : ViewPositionBase.viewPositionBase)) =
-  object (self)
-    inherit CollidableCompositeLayer.collidableCompositeLayer (name, layerInfo, viewPosition, (CollidableNeverCollideBehaviorFactory.getInstance ())) as super
-    val mutable groupInterface : Group.group array = (Obj.magic 0)
-    method groupInterface = groupInterface
-    method set_groupInterface value' = groupInterface <- value'
-    val mutable readyForExplosion : bool = false
-    method readyForExplosion = readyForExplosion
-    method set_readyForExplosion value' = readyForExplosion <- value'
-    val mutable initWidth : int = 0
-    method initWidth = initWidth
-    method set_initWidth value' = initWidth <- value'
-    val mutable initHeight : int = 0
-    method initHeight = initHeight
-    method set_initHeight value' = initHeight <- value'
-    val mutable initX : int = 0
-    method initX = initX
-    method set_initX value' = initX <- value'
-    val mutable initY : int = 0
-    method initY = initY
-    method set_initY value' = initY <- value'
-    val mutable initZ : int = 0
-    method initZ = initZ
-    method set_initZ value' = initZ <- value'
-    val mutable partInterfaceArrayP : PartInterface.partInterface array = (Obj.magic 0)
-    method partInterfaceArrayP = partInterfaceArrayP
-    method set_partInterfaceArrayP value' = partInterfaceArrayP <- value'
-    val mutable pickupBehavior : Obj.t = Obj.repr 0
-    method pickupBehavior : 'r. 'r = Obj.magic pickupBehavior
-    method set_pickupBehavior : 'v. 'v -> unit = fun value' -> pickupBehavior <- Obj.repr value'
-    val mutable allBinaryGameLayerManagerP : AllBinaryGameLayerManager.allBinaryGameLayerManager = (Obj.magic 0)
-    method allBinaryGameLayerManagerP = allBinaryGameLayerManagerP
-    method set_allBinaryGameLayerManagerP value' = allBinaryGameLayerManagerP <- value'
-    val mutable isDraggable : bool = false
-    method isDraggable = isDraggable
-    method set_isDraggable value' = isDraggable <- value'
-    val mutable isDragged : bool = false
-    method isDragged = isDragged
-    method set_isDragged value' = isDragged <- value'
-    val mutable isDropped : bool = false
-    method isDropped = isDropped
-    method set_isDropped value' = isDropped <- value'
+let mut jcell_NULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER: Option<JObject> = None
+let mut jcell_READYFOREXPLOSION: Option<String> = None
+
+provide let rec jclassName = () => "CollidableDestroyableDamageableLayer"
+
+and jstatic_NULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER = () => match (jcell_NULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER) {
+  Some(value) => value,
+  None => {
+    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    jcell_NULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER = Some(value)
+    value
+  },
+}
+
+and jstatic_READYFOREXPLOSION = () => match (jcell_READYFOREXPLOSION) {
+  Some(value) => value,
+  None => {
+    let value: String = "ReadyForExplosion: "
+    jcell_READYFOREXPLOSION = Some(value)
+    value
+  },
+}
+    
+and jm_getNullInstance = () => {
+        if (JR.isSame(jstatic_NULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER(), NullUtil.jm_getInstance().f_NULL_OBJECT)) {
+            jstatic_NULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER() = JR.cast(jnew_4(BasicGroupFactory.jm_getInstance().f_NONE_ARRAY, StringUtil.jm_getInstance().f_EMPTY_STRING, RectangleFactory.jstatic_SINGLETON(), ViewPositionBase.jstatic_NULL_VIEW_POSITION()))
+        }
+        return JR.cast(jstatic_NULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER())
+}
+    
+and jnew_4 = (groupInterface: Array<Group>, name: String, layerInfo: Rectangle, viewPosition: ViewPositionBase) => {
+    let this = { jobject: JR.newJObject("CollidableDestroyableDamageableLayer"), f_logUtil: JR.jnull, f_x: 0l, f_y: 0l, f_z: 0l, f_width: 0l, f_height: 0l, f_visible: false, f_viewPositionEvent: JR.jnull, f_halfWidth: 0l, f_halfHeight: 0l, f_name: "", f_viewPosition: JR.jnull, f_commonStrings: JR.jnull, f_basicSetColorUtil: JR.jnull, f_RED: JR.jnull, f_paintable: JR.jnull, f_gameKeyEventList: JR.jnull, f_collidableInferface: JR.jnull, f_groupInterface: [> ], f_readyForExplosion: false, f_initWidth: 0l, f_initHeight: 0l, f_initX: 0l, f_initY: 0l, f_initZ: 0l, f_partInterfaceArrayP: [> ], f_pickupBehavior: JR.jnull, f_allBinaryGameLayerManagerP: JR.nullOf(), f_isDraggable: false, f_isDragged: false, f_isDropped: false, }
+    this.jobject.toStringFunction = () => jm_toString(this)
     
     
-
-    method initPosition () : unit =
-        begin
-        ignore (self#setPosition (initX, initY, initZ))
-        end [@@warning "-7"]
     
-
-    method initPositionXYZ ((x : int), (y : int), (z : int)) : unit =
-        begin
-        initX <- x;
-        initY <- y;
-        initZ <- z
-        end [@@warning "-7"]
     
-
-    method paint : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore (super#paint ((Obj.magic graphics)))
-        end [@@warning "-7-20"]
     
-
-    method damage ((_damage : int), (_damageType : int)) : unit =
-        begin
-        raise (Failure ((self#commonStrings)#nOT_IMPLEMENTED))
-        end [@@warning "-7"]
     
-
-    method getDamage ((_damageType : int)) : int =
-        begin
-        raise (Failure ((self#commonStrings)#nOT_IMPLEMENTED))
-        end [@@warning "-7"]
     
-
-    method isDestroyed () : bool =
-        begin
-        raise (Failure ((self#commonStrings)#nOT_IMPLEMENTED))
-        end [@@warning "-7"]
+    this.f_partInterfaceArrayP = PartInterfaceUtil.jm_getZeroArray()
     
-
-    method getGroupInterface : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (groupInterface))
-        end [@@warning "-7"]
+    this.f_allBinaryGameLayerManagerP = JR.cast(AllBinaryGameLayerManager.jm_getNullInstance())
+    this.f_isDraggable = false
+    this.f_isDragged = false
+    this.f_isDropped = false
+        void
+        this.f_initWidth = Rectangle.jm_getWidth(layerInfo)
+        this.f_initHeight = Rectangle.jm_getHeight(layerInfo)
+        this.f_groupInterface = groupInterface
+        this.f_pickupBehavior = {
+let jlate: () => JObject = JR.cast(JR.lateBound("PickupBehavior.jm_getNullInstance"))
+JR.cast(jlate())
+}
+    this
+}
     
-
-    method setGroupInterface ((teamInterface : Group.group array)) : unit =
-        begin
-        groupInterface <- teamInterface
-        end [@@warning "-7"]
+and jm_initPosition = (this: CollidableDestroyableDamageableLayer) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_setPosition"))
+JR.cast(jlate(JR.cast(this), JR.cast(this.f_initX), JR.cast(this.f_initY), JR.cast(this.f_initZ)))
+})
+}
     
-
-    method setAllBinaryGameLayerManager : 'any1. 'any1 -> unit = fun (allBinaryGameLayerManager) ->
-        let allBinaryGameLayerManager = Obj.repr allBinaryGameLayerManager in
-        begin
-        allBinaryGameLayerManagerP <- (Obj.magic allBinaryGameLayerManager);
-        if (allBinaryGameLayerManagerP == (Obj.magic 0)) then begin
-            raise (Failure ("RuntimeException"))
-        end
-        end [@@warning "-7-20"]
+and jm_initPositionXYZ = (this: CollidableDestroyableDamageableLayer, x: Int32, y: Int32, z: Int32) => {
+        this.f_initX = x
+        this.f_initY = y
+        this.f_initZ = z
+}
     
-
-    method isReadyForExplosion () : bool =
-        begin
-        readyForExplosion
-        end [@@warning "-7"]
+and jm_paint = (this: CollidableDestroyableDamageableLayer, graphics: JObject) => {
+        ignore(jm_paint(this, graphics))
+}
     
-
-    method setReadyForExplosion ((isReadyForExplosion : bool)) : unit =
-        begin
-        readyForExplosion <- isReadyForExplosion
-        end [@@warning "-7"]
+and jm_damage = (this: CollidableDestroyableDamageableLayer, damage: Int32, damageType: Int32) => {
+        fail JR.toStringOf(JR.newJObject("Exception"))
+}
     
-
-    method getInitWidth () : int =
-        begin
-        initWidth
-        end [@@warning "-7"]
+and jm_getDamage = (this: CollidableDestroyableDamageableLayer, damageType: Int32) => {
+        fail JR.toStringOf(JR.newJObject("Exception"))
+}
     
-
-    method getInitHeight () : int =
-        begin
-        initHeight
-        end [@@warning "-7"]
+and jm_isDestroyed = (this: CollidableDestroyableDamageableLayer) => {
+        fail JR.toStringOf(JR.newJObject("Exception"))
+}
     
-
-    method getInitX () : int =
-        begin
-        initX
-        end [@@warning "-7"]
+and jm_getGroupInterface = (this: CollidableDestroyableDamageableLayer) => {
+        return this.f_groupInterface
+}
     
-
-    method getInitY () : int =
-        begin
-        initY
-        end [@@warning "-7"]
+and jm_setGroupInterface = (this: CollidableDestroyableDamageableLayer, teamInterface: Array<Group>) => {
+        this.f_groupInterface = teamInterface
+}
     
-
-    method up () : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_setAllBinaryGameLayerManager = (this: CollidableDestroyableDamageableLayer, allBinaryGameLayerManager: AllBinaryGameLayerManager) => {
+        this.f_allBinaryGameLayerManagerP = allBinaryGameLayerManager
+        if (JR.isNull(this.f_allBinaryGameLayerManagerP)) {
+            fail JR.toStringOf(JR.newJObject("RuntimeException"))
+        }
+}
     
-
-    method down () : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_isReadyForExplosion = (this: CollidableDestroyableDamageableLayer) => {
+        return this.f_readyForExplosion
+}
     
-
-    method right () : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_setReadyForExplosion = (this: CollidableDestroyableDamageableLayer, isReadyForExplosion: Bool) => {
+        this.f_readyForExplosion = isReadyForExplosion
+}
     
-
-    method left () : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_getInitWidth = (this: CollidableDestroyableDamageableLayer) => {
+        return this.f_initWidth
+}
     
-
-    method strafeLeft () : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_getInitHeight = (this: CollidableDestroyableDamageableLayer) => {
+        return this.f_initHeight
+}
     
-
-    method strafeRight () : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_getInitX = (this: CollidableDestroyableDamageableLayer) => {
+        return this.f_initX
+}
     
-
-    method fire : 'any1 'any2. 'any1 * 'any2 -> unit = fun (_layerManager, _gameKeyEvent) ->
-        begin
-        ()
-        end [@@warning "-7-20"]
+and jm_getInitY = (this: CollidableDestroyableDamageableLayer) => {
+        return this.f_initY
+}
     
-
-    method special1 : 'any1 'any2. 'any1 * 'any2 -> unit = fun (_layerManager, _gameKeyEvent) ->
-        begin
-        ()
-        end [@@warning "-7-20"]
+and jm_up = (this: CollidableDestroyableDamageableLayer) => {
+    void
+}
     
-
-    method special2 : 'any1 'any2. 'any1 * 'any2 -> unit = fun (_layerManager, _gameKeyEvent) ->
-        begin
-        ()
-        end [@@warning "-7-20"]
+and jm_down = (this: CollidableDestroyableDamageableLayer) => {
+    void
+}
     
-
-    method special3 : 'any1 'any2. 'any1 * 'any2 -> unit = fun (_layerManager, _gameKeyEvent) ->
-        begin
-        ()
-        end [@@warning "-7-20"]
+and jm_right = (this: CollidableDestroyableDamageableLayer) => {
+    void
+}
     
-
-    method special4 : 'any1 'any2. 'any1 * 'any2 -> unit = fun (_layerManager, _gameKeyEvent) ->
-        begin
-        ()
-        end [@@warning "-7-20"]
+and jm_left = (this: CollidableDestroyableDamageableLayer) => {
+    void
+}
     
-
-    method special5 : 'any1 'any2. 'any1 * 'any2 -> unit = fun (_layerManager, _gameKeyEvent) ->
-        begin
-        ()
-        end [@@warning "-7-20"]
+and jm_strafeLeft = (this: CollidableDestroyableDamageableLayer) => {
+    void
+}
     
-
-    method upAnalog ((_yAnalogValue : int)) : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_strafeRight = (this: CollidableDestroyableDamageableLayer) => {
+    void
+}
     
-
-    method downAnalog ((_yAnalogValue : int)) : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_fire = (this: CollidableDestroyableDamageableLayer, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) => {
+    void
+}
     
-
-    method rightAnalog ((_xAnalogValue : int)) : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_special1 = (this: CollidableDestroyableDamageableLayer, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) => {
+    void
+}
     
-
-    method leftAnalog ((_xAnalogValue : int)) : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_special2 = (this: CollidableDestroyableDamageableLayer, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) => {
+    void
+}
     
-
-    method rightTrigger : 'any1 'any2. 'any1 * 'any2 * int -> unit = fun (_layerManager, _gameKeyEvent, (_xAnalogValue : int)) ->
-        begin
-        ()
-        end [@@warning "-7-20"]
+and jm_special3 = (this: CollidableDestroyableDamageableLayer, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) => {
+    void
+}
     
-
-    method leftTrigger : 'any1 'any2. 'any1 * 'any2 * int -> unit = fun (_layerManager, _gameKeyEvent, (_xAnalogValue : int)) ->
-        begin
-        ()
-        end [@@warning "-7-20"]
+and jm_special4 = (this: CollidableDestroyableDamageableLayer, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) => {
+    void
+}
     
-
-    method onDestroyed : 'any1. 'any1 -> unit = fun (_destroyedEvent) ->
-        begin
-        ()
-        end [@@warning "-7-20"]
+and jm_special5 = (this: CollidableDestroyableDamageableLayer, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) => {
+    void
+}
     
-
-    method getPickupBehavior : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic pickupBehavior)))
-        end [@@warning "-7"]
+and jm_upAnalog = (this: CollidableDestroyableDamageableLayer, yAnalogValue: Int32) => {
+    void
+}
     
-
-    method setPickupBehavior : 'any1. 'any1 -> unit = fun (pickupBehavior_arg) ->
-        let pickupBehavior_arg = Obj.repr pickupBehavior_arg in
-        begin
-        pickupBehavior <- Obj.repr ((Obj.magic pickupBehavior_arg))
-        end [@@warning "-7-20"]
+and jm_downAnalog = (this: CollidableDestroyableDamageableLayer, yAnalogValue: Int32) => {
+    void
+}
     
-
-    method addPart : 'any1. 'any1 -> unit = fun (_pickedUpLayerInterfaceFactoryInterface) ->
-        begin
-        ()
-        end [@@warning "-7-20"]
+and jm_rightAnalog = (this: CollidableDestroyableDamageableLayer, xAnalogValue: Int32) => {
+    void
+}
     
-
-    method setPartInterfaceArray ((partInterfaceArray : PartInterface.partInterface array)) : unit =
-        begin
-        partInterfaceArrayP <- partInterfaceArray
-        end [@@warning "-7"]
+and jm_leftAnalog = (this: CollidableDestroyableDamageableLayer, xAnalogValue: Int32) => {
+    void
+}
     
-
-    method getPartInterfaceArray : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (partInterfaceArrayP))
-        end [@@warning "-7"]
+and jm_rightTrigger = (this: CollidableDestroyableDamageableLayer, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent, xAnalogValue: Int32) => {
+    void
+}
     
-
-    method toStringAppend : 'any1. 'any1 -> unit = fun (stringBuffer) ->
-        let stringBuffer = Obj.repr stringBuffer in
-        begin
-        let commonSeps : CommonSeps.commonSeps ref = ref (((CommonSeps.getInstance ()) :> CommonSeps.commonSeps)) in ();
-        let positionStrings : PositionStrings.positionStrings ref = ref (((PositionStrings.getInstance ()) :> PositionStrings.positionStrings)) in ();
-        ignore (super#toStringAppend ((Obj.magic stringBuffer)));
-        ignore ((Obj.magic stringBuffer)#append (!commonSeps#nEW_LINE));
-        let groupInterfaceArray : Group.group array ref = ref ((self#getGroupInterface ())) in ();
-        let size : int ref = ref ((Array.length !groupInterfaceArray)) in ();
-        for index = 0 to !size - 1 do
-            ignore ((Obj.magic stringBuffer)#append ((java_string_of (Obj.repr !groupInterfaceArray.(index)))));
-            ignore ((Obj.magic stringBuffer)#append (!commonSeps#cOMMA))
-        done;
-        let pickupBehavior_arg : Obj.t ref = ref ((Obj.repr (self#getPickupBehavior ()))) in ();
-        if ((Obj.magic !pickupBehavior_arg) != (Obj.magic 0)) then begin
-            ignore ((Obj.magic stringBuffer)#append (!commonSeps#nEW_LINE));
-            ignore ((Obj.magic stringBuffer)#append ((java_string_of (Obj.repr (Obj.magic !pickupBehavior_arg)))))
-        end;
-        ignore ((Obj.magic stringBuffer)#append (!commonSeps#nEW_LINE));
-        ignore ((Obj.magic stringBuffer)#append (rEADYFOREXPLOSION));
-        ignore ((Obj.magic stringBuffer)#appendboolean (readyForExplosion));
-        ignore ((Obj.magic stringBuffer)#append (!commonSeps#nEW_LINE));
-        ignore ((Obj.magic stringBuffer)#append ((self#commonStrings)#iNIT));
-        ignore ((Obj.magic stringBuffer)#append (!commonSeps#sPACE));
-        ignore ((Obj.magic stringBuffer)#append (!positionStrings#x_LABEL));
-        ignore ((Obj.magic stringBuffer)#appendint (initX));
-        ignore ((Obj.magic stringBuffer)#append (!positionStrings#y_LABEL));
-        ignore ((Obj.magic stringBuffer)#appendint (initX));
-        ignore ((Obj.magic stringBuffer)#append (!positionStrings#z_LABEL));
-        ignore ((Obj.magic stringBuffer)#appendint (initZ))
-        end [@@warning "-7-20"]
+and jm_leftTrigger = (this: CollidableDestroyableDamageableLayer, layerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent, xAnalogValue: Int32) => {
+    void
+}
     
+and jm_onDestroyed = (this: CollidableDestroyableDamageableLayer, destroyedEvent: JObject) => {
+    void
+}
+    
+and jm_getPickupBehavior = (this: CollidableDestroyableDamageableLayer) => {
+        return this.f_pickupBehavior
+}
+    
+and jm_setPickupBehavior = (this: CollidableDestroyableDamageableLayer, pickupBehavior: JObject) => {
+        this.f_pickupBehavior = pickupBehavior
+}
+    
+and jm_addPart = (this: CollidableDestroyableDamageableLayer, pickedUpLayerInterfaceFactoryInterface: PickedUpLayerInterfaceFactoryInterface) => {
+    void
+}
+    
+and jm_setPartInterfaceArray = (this: CollidableDestroyableDamageableLayer, partInterfaceArray: Array<PartInterface>) => {
+        this.f_partInterfaceArrayP = partInterfaceArray
+}
+    
+and jm_getPartInterfaceArray = (this: CollidableDestroyableDamageableLayer) => {
+        return this.f_partInterfaceArrayP
+}
+    
+and jm_toStringAppend = (this: CollidableDestroyableDamageableLayer, stringBuffer: StringMaker) => {
+        let mut commonSeps: CommonSeps = JR.cast(CommonSeps.jm_getInstance())
+        let mut positionStrings: PositionStrings = JR.cast(PositionStrings.jm_getInstance())
+        ignore(jm_toStringAppend(this, stringBuffer))
+        ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_NEW_LINE))
+        let mut groupInterfaceArray: Array<Group> = jm_getGroupInterface(this)
+        let mut size: Int32 = Int32.fromNumber(Array.length(groupInterfaceArray))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            ignore(StringMaker.jm_append(stringBuffer, JR.toStringOf(JR.cast(groupInterfaceArray[Int32.toNumber(index)]))))
+            ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_COMMA))
+            }
+        }
+        let mut pickupBehavior: JObject = JR.cast(jm_getPickupBehavior(this))
+        if (!JR.isNull(pickupBehavior)) {
+            ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_NEW_LINE))
+            ignore(StringMaker.jm_append(stringBuffer, JR.toStringOf(pickupBehavior.jobject)))
+        }
+        ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_NEW_LINE))
+        ignore(StringMaker.jm_append(stringBuffer, jstatic_READYFOREXPLOSION()))
+        ignore(StringMaker.jm_appendboolean(stringBuffer, this.f_readyForExplosion))
+        ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_NEW_LINE))
+        ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_INIT"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+}))
+        ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_SPACE))
+        ignore(StringMaker.jm_append(stringBuffer, positionStrings.f_X_LABEL))
+        ignore(StringMaker.jm_appendint(stringBuffer, this.f_initX))
+        ignore(StringMaker.jm_append(stringBuffer, positionStrings.f_Y_LABEL))
+        ignore(StringMaker.jm_appendint(stringBuffer, this.f_initX))
+        ignore(StringMaker.jm_append(stringBuffer, positionStrings.f_Z_LABEL))
+        ignore(StringMaker.jm_appendint(stringBuffer, this.f_initZ))
+}
+    
+and jm_toString = (this: CollidableDestroyableDamageableLayer) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(jm_toStringAppend(this, stringBuffer))
+        return StringMaker.jm_toString(stringBuffer)
+}
 
-    method toString () : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        (self#toStringAppend (!stringBuffer));
-        (java_string_of (Obj.repr !stringBuffer))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        readyForExplosion <- false;
-        ();
-        ();
-        initX <- 0;
-        initY <- 0;
-        initZ <- 0;
-        partInterfaceArrayP <- (PartInterfaceUtil.getZeroArray ());
-        ();
-        allBinaryGameLayerManagerP <- ((AllBinaryGameLayerManager.getNullInstance ()) :> AllBinaryGameLayerManager.allBinaryGameLayerManager);
-        isDraggable <- false;
-        isDragged <- false;
-        isDropped <- false;
-        ();
-        (* super(...) is the inherit clause *) ();
-        initWidth <- (layerInfo#getWidth ());
-        initHeight <- (layerInfo#getHeight ());
-        groupInterface <- groupInterface_arg;
-        pickupBehavior <- Obj.repr ((Obj.magic (java_call_static "PickupBehavior.getNullInstance" (Obj.repr ()))))
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "CollidableDestroyableDamageableLayer" (fun arguments -> Obj.repr (new collidableDestroyableDamageableLayer (Obj.obj arguments)))
-
-let getNullInstance : 'return. unit -> 'return = fun () ->
-        begin
-        if ((Obj.repr !nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER := (Obj.repr ((new collidableDestroyableDamageableLayer ((BasicGroupFactory.getInstance ())#nONE_ARRAY, (StringUtil.getInstance ())#eMPTY_STRING, (RectangleFactory.get_sINGLETON ()), (ViewPositionBase.get_nULL_VIEW_POSITION ())))))
-        end;
-        (Obj.magic ((Obj.magic !nULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER)))
-        end
-let () = java_register_static "CollidableDestroyableDamageableLayer.getNullInstance" (fun arguments -> Obj.repr (getNullInstance (Obj.obj arguments)))
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jnew_4", jnew_4)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_getNullInstance", jm_getNullInstance)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_initPosition", jm_initPosition)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_initPositionXYZ", jm_initPositionXYZ)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_paint", jm_paint)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_damage", jm_damage)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_getDamage", jm_getDamage)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_isDestroyed", jm_isDestroyed)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_getGroupInterface", jm_getGroupInterface)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_setGroupInterface", jm_setGroupInterface)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_setAllBinaryGameLayerManager", jm_setAllBinaryGameLayerManager)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_isReadyForExplosion", jm_isReadyForExplosion)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_setReadyForExplosion", jm_setReadyForExplosion)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_getInitWidth", jm_getInitWidth)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_getInitHeight", jm_getInitHeight)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_getInitX", jm_getInitX)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_getInitY", jm_getInitY)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_up", jm_up)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_down", jm_down)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_right", jm_right)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_left", jm_left)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_strafeLeft", jm_strafeLeft)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_strafeRight", jm_strafeRight)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_fire", jm_fire)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_special1", jm_special1)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_special2", jm_special2)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_special3", jm_special3)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_special4", jm_special4)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_special5", jm_special5)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_upAnalog", jm_upAnalog)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_downAnalog", jm_downAnalog)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_rightAnalog", jm_rightAnalog)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_leftAnalog", jm_leftAnalog)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_rightTrigger", jm_rightTrigger)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_leftTrigger", jm_leftTrigger)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_onDestroyed", jm_onDestroyed)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_getPickupBehavior", jm_getPickupBehavior)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_setPickupBehavior", jm_setPickupBehavior)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_addPart", jm_addPart)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_setPartInterfaceArray", jm_setPartInterfaceArray)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_getPartInterfaceArray", jm_getPartInterfaceArray)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_toStringAppend", jm_toStringAppend)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jm_toString", jm_toString)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.f_groupInterface", (this: CollidableDestroyableDamageableLayer) => this.f_groupInterface)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.set_f_groupInterface", (this: CollidableDestroyableDamageableLayer, jvalue) => { this.f_groupInterface = jvalue; jvalue })
+JR.registerLateBound("CollidableDestroyableDamageableLayer.f_readyForExplosion", (this: CollidableDestroyableDamageableLayer) => this.f_readyForExplosion)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.set_f_readyForExplosion", (this: CollidableDestroyableDamageableLayer, jvalue) => { this.f_readyForExplosion = jvalue; jvalue })
+JR.registerLateBound("CollidableDestroyableDamageableLayer.f_initWidth", (this: CollidableDestroyableDamageableLayer) => this.f_initWidth)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.set_f_initWidth", (this: CollidableDestroyableDamageableLayer, jvalue) => { this.f_initWidth = jvalue; jvalue })
+JR.registerLateBound("CollidableDestroyableDamageableLayer.f_initHeight", (this: CollidableDestroyableDamageableLayer) => this.f_initHeight)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.set_f_initHeight", (this: CollidableDestroyableDamageableLayer, jvalue) => { this.f_initHeight = jvalue; jvalue })
+JR.registerLateBound("CollidableDestroyableDamageableLayer.f_initX", (this: CollidableDestroyableDamageableLayer) => this.f_initX)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.set_f_initX", (this: CollidableDestroyableDamageableLayer, jvalue) => { this.f_initX = jvalue; jvalue })
+JR.registerLateBound("CollidableDestroyableDamageableLayer.f_initY", (this: CollidableDestroyableDamageableLayer) => this.f_initY)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.set_f_initY", (this: CollidableDestroyableDamageableLayer, jvalue) => { this.f_initY = jvalue; jvalue })
+JR.registerLateBound("CollidableDestroyableDamageableLayer.f_initZ", (this: CollidableDestroyableDamageableLayer) => this.f_initZ)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.set_f_initZ", (this: CollidableDestroyableDamageableLayer, jvalue) => { this.f_initZ = jvalue; jvalue })
+JR.registerLateBound("CollidableDestroyableDamageableLayer.f_partInterfaceArrayP", (this: CollidableDestroyableDamageableLayer) => this.f_partInterfaceArrayP)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.set_f_partInterfaceArrayP", (this: CollidableDestroyableDamageableLayer, jvalue) => { this.f_partInterfaceArrayP = jvalue; jvalue })
+JR.registerLateBound("CollidableDestroyableDamageableLayer.f_pickupBehavior", (this: CollidableDestroyableDamageableLayer) => this.f_pickupBehavior)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.set_f_pickupBehavior", (this: CollidableDestroyableDamageableLayer, jvalue) => { this.f_pickupBehavior = jvalue; jvalue })
+JR.registerLateBound("CollidableDestroyableDamageableLayer.f_allBinaryGameLayerManagerP", (this: CollidableDestroyableDamageableLayer) => this.f_allBinaryGameLayerManagerP)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.set_f_allBinaryGameLayerManagerP", (this: CollidableDestroyableDamageableLayer, jvalue) => { this.f_allBinaryGameLayerManagerP = jvalue; jvalue })
+JR.registerLateBound("CollidableDestroyableDamageableLayer.f_isDraggable", (this: CollidableDestroyableDamageableLayer) => this.f_isDraggable)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.set_f_isDraggable", (this: CollidableDestroyableDamageableLayer, jvalue) => { this.f_isDraggable = jvalue; jvalue })
+JR.registerLateBound("CollidableDestroyableDamageableLayer.f_isDragged", (this: CollidableDestroyableDamageableLayer) => this.f_isDragged)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.set_f_isDragged", (this: CollidableDestroyableDamageableLayer, jvalue) => { this.f_isDragged = jvalue; jvalue })
+JR.registerLateBound("CollidableDestroyableDamageableLayer.f_isDropped", (this: CollidableDestroyableDamageableLayer) => this.f_isDropped)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.set_f_isDropped", (this: CollidableDestroyableDamageableLayer, jvalue) => { this.f_isDropped = jvalue; jvalue })
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jstatic_NULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER", jstatic_NULL_COLLIDABLE_DESTROYABLE_DAMAGE_LAYER)
+JR.registerLateBound("CollidableDestroyableDamageableLayer.jstatic_READYFOREXPLOSION", jstatic_READYFOREXPLOSION)
 
 

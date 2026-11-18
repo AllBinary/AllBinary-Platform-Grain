@@ -1,67 +1,84 @@
-(*
- 
-  AllBinary Open License Version 1 
-  Copyright (c) 2025 AllBinary 
-   
-  By agreeing to this license you and any business entity you represent are 
-  legally bound to the AllBinary Open License Version 1 legal agreement. 
-   
-  You may obtain the AllBinary Open License Version 1 legal agreement from 
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-   
-  Created By: Travis Berthelot 
+/*
+ * 
+ * AllBinary Open License Version 1 
+ * Copyright (c) 2025 AllBinary 
+ *  
+ * By agreeing to this license you and any business entity you represent are 
+ * legally bound to the AllBinary Open License Version 1 legal agreement. 
+ *  
+ * You may obtain the AllBinary Open License Version 1 legal agreement from 
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+ *  
+ * Created By: Travis Berthelot 
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary
+module J2SEUtil
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../java/util/HashMap.gr" include HashMap
+use HashMap.{ type HashMap }
+from "../../java/util/Map.gr" include Map
+use Map.{ type Map }
+from "../../java/util/Set.gr" include Set
+use Set.{ type Set }
+
+//J2SEForJ2ME
+provide record J2SEUtil {
+  jobject: JObject,
+}
+
+let mut jcell_instance: Option<J2SEUtil> = None
+
+provide let rec jclassName = () => "J2SEUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: J2SEUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("J2SEUtil"), }
+    this
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.util.HashMap *)
-(* import java.util.Map *)
-(* import java.util.Set *)
-
-class j2SEUtil () =
-  object
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method getHashMapAsArray : 'return. java_hash_map -> 'return = fun ((hashMap : java_hash_map)) ->
-        begin
-        let objectArray : Obj.t array ref = ref (((hashMap#keySet ())#toArray ())) in ();
-        (Obj.magic (!objectArray))
-        end
+and jm_getHashMapAsArray = (this: J2SEUtil, hashMap: HashMap) => {
+        let mut objectArray: Array<JObject> = JR.className(JR.cast(HashMap.jm_keySet_0(hashMap)))
+        return objectArray
+}
     
-
-    method getMapAsArray : 'any1 'return. 'any1 -> 'return = fun (map) ->
-        let map = Obj.repr map in
-        begin
-        let objectArray : Obj.t array ref = ref ((((Obj.magic map)#keySet ())#toArray ())) in ();
-        (Obj.magic (!objectArray))
-        end [@@warning "-20"]
+and jm_getMapAsArray = (this: J2SEUtil, map: Map) => {
+        let mut objectArray: Array<JObject> = JR.className(JR.cast(Map.jm_keySet(map)))
+        return objectArray
+}
     
+and jm_getSetAsArray = (this: J2SEUtil, set: Set) => {
+        let mut objectArray: Array<JObject> = Set.jm_toArray_0(set)
+        return objectArray
+}
 
-    method getSetAsArray : 'any1 'return. 'any1 -> 'return = fun (set) ->
-        let set = Obj.repr set in
-        begin
-        let objectArray : Obj.t array ref = ref (((Obj.magic set)#toArray ())) in ();
-        (Obj.magic (!objectArray))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "J2SEUtil" (fun arguments -> Obj.repr (new j2SEUtil (Obj.obj arguments)))
-
-let instance = (new j2SEUtil ())
-let get_instance () = instance
-let () = java_register_static "J2SEUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "J2SEUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("J2SEUtil.jnew_0", jnew_0)
+JR.registerLateBound("J2SEUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("J2SEUtil.jm_getHashMapAsArray", jm_getHashMapAsArray)
+JR.registerLateBound("J2SEUtil.jm_getMapAsArray", jm_getMapAsArray)
+JR.registerLateBound("J2SEUtil.jm_getSetAsArray", jm_getSetAsArray)
+JR.registerLateBound("J2SEUtil.jstatic_instance", jstatic_instance)
 
 

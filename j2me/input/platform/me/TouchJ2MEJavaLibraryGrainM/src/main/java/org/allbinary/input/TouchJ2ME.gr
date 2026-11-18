@@ -1,85 +1,104 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.input
+module TouchJ2ME
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.input *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/input/motion/gesture/observer/GameMotionGestureListener.gr" include GameMotionGestureListener
+use GameMotionGestureListener.{ type GameMotionGestureListener }
+from "../../../org/allbinary/input/motion/gesture/observer/MotionGestureReceiveInterfaceFactory.gr" include MotionGestureReceiveInterfaceFactory
+use MotionGestureReceiveInterfaceFactory.{ type MotionGestureReceiveInterfaceFactory }
+from "../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.input.motion.AllMotionRecognizer *)
-(* import org.allbinary.input.motion.gesture.observer.BasicMotionGesturesHandler *)
-(* import org.allbinary.input.motion.gesture.observer.GameMotionGestureListener *)
-(* import org.allbinary.input.motion.gesture.observer.MotionGestureReceiveInterfaceFactory *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+//TouchJ2ME
+provide record TouchJ2ME {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_DEVICE_ID: Int32,
+  mut f_motionRecognizer: JObject,
+}
 
-class touchJ2ME () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable dEVICE_ID : int = 0
-    method dEVICE_ID = dEVICE_ID
-    method set_dEVICE_ID value' = dEVICE_ID <- value'
-    val mutable motionRecognizer : Obj.t = Obj.repr 0
-    method motionRecognizer : 'r. 'r = Obj.magic motionRecognizer
-    method set_motionRecognizer : 'v. 'v -> unit = fun value' -> motionRecognizer <- Obj.repr value'
+
+provide let rec jclassName = () => "TouchJ2ME"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("TouchJ2ME"), f_logUtil: JR.jnull, f_DEVICE_ID: 0l, f_motionRecognizer: JR.jnull, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_DEVICE_ID = 0l
+    this.f_motionRecognizer = {
+let jlate: () => JObject = JR.cast(JR.lateBound("AllMotionRecognizer.jnew_0"))
+JR.cast(jlate())
+}
+        let mut motionGesturesHandler: JObject = JR.cast(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllMotionRecognizer.jm_getMotionGestureRecognizer"))
+JR.cast(jlate(JR.cast(this.f_motionRecognizer)))
+})))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicMotionGesturesHandler.jm_addListenerInterface"))
+JR.cast(jlate(JR.cast(motionGesturesHandler), JR.cast(GameMotionGestureListener.jnew_1(MotionGestureReceiveInterfaceFactory.jm_getInstance()))))
+})
+    this
+}
     
-
-    method pointerDragged ((x : int), (y : int)) : unit =
-        begin
-        (try
-            ignore ((Obj.magic motionRecognizer)#processDraggedMotionEvent (x, y, dEVICE_ID, 0))
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), "pointerDragged", e))
-        end)
-        end
+and jm_pointerDragged = (this: TouchJ2ME, x: Int32, y: Int32) => {
+        {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("AllMotionRecognizer.jm_processDraggedMotionEvent"))
+JR.cast(jlate(JR.cast(this.f_motionRecognizer), JR.cast(x), JR.cast(y), JR.cast(this.f_DEVICE_ID), JR.cast(0l)))
+})
+        }
+}
     
-
-    method pointerPressed ((x : int), (y : int)) : unit =
-        begin
-        (try
-            ignore ((Obj.magic motionRecognizer)#processStartMotionEvent (x, y, dEVICE_ID, 0))
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), "pointerPressed", e))
-        end)
-        end
+and jm_pointerPressed = (this: TouchJ2ME, x: Int32, y: Int32) => {
+        {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("AllMotionRecognizer.jm_processStartMotionEvent"))
+JR.cast(jlate(JR.cast(this.f_motionRecognizer), JR.cast(x), JR.cast(y), JR.cast(this.f_DEVICE_ID), JR.cast(0l)))
+})
+        }
+}
     
+and jm_pointerReleased = (this: TouchJ2ME, x: Int32, y: Int32) => {
+        {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("AllMotionRecognizer.jm_processEndMotionEvent"))
+JR.cast(jlate(JR.cast(this.f_motionRecognizer), JR.cast(x), JR.cast(y), JR.cast(this.f_DEVICE_ID), JR.cast(0l)))
+})
+        }
+}
 
-    method pointerReleased ((x : int), (y : int)) : unit =
-        begin
-        (try
-            ignore ((Obj.magic motionRecognizer)#processEndMotionEvent (x, y, dEVICE_ID, 0))
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), "pointerReleased", e))
-        end)
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        dEVICE_ID <- 0;
-        motionRecognizer <- (Obj.repr (Obj.obj (java_new "AllMotionRecognizer" (Obj.repr ()))));
-        ();
-        let motionGesturesHandler : Obj.t ref = ref ((Obj.repr (((Obj.magic motionRecognizer)#getMotionGestureRecognizer ())#getMotionGesturesHandler ()))) in ();
-        ignore ((Obj.magic !motionGesturesHandler)#addListenerInterface ((new GameMotionGestureListener.gameMotionGestureListener ((MotionGestureReceiveInterfaceFactory.getInstance ())))))
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "TouchJ2ME" (fun arguments -> Obj.repr (new touchJ2ME (Obj.obj arguments)))
+JR.registerLateBound("TouchJ2ME.jnew_0", jnew_0)
+JR.registerLateBound("TouchJ2ME.jm_pointerDragged", jm_pointerDragged)
+JR.registerLateBound("TouchJ2ME.jm_pointerPressed", jm_pointerPressed)
+JR.registerLateBound("TouchJ2ME.jm_pointerReleased", jm_pointerReleased)
+JR.registerLateBound("TouchJ2ME.f_logUtil", (this: TouchJ2ME) => this.f_logUtil)
+JR.registerLateBound("TouchJ2ME.f_DEVICE_ID", (this: TouchJ2ME) => this.f_DEVICE_ID)
+JR.registerLateBound("TouchJ2ME.f_motionRecognizer", (this: TouchJ2ME) => this.f_motionRecognizer)
+JR.registerLateBound("TouchJ2ME.set_f_motionRecognizer", (this: TouchJ2ME, jvalue) => { this.f_motionRecognizer = jvalue; jvalue })
 
 

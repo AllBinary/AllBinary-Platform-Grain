@@ -1,66 +1,85 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.input
+module PlatformInputMappingFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.input *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/input/mapping/PersistentInputMapping.gr" include PersistentInputMapping
+use PersistentInputMapping.{ type PersistentInputMapping }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./MotionJ2MEGameInputMapping.gr" include MotionJ2MEGameInputMapping
+use MotionJ2MEGameInputMapping.{ type MotionJ2MEGameInputMapping }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.input.mapping.PersistentInputMapping *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record PlatformInputMappingFactory {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_inputToGameKeyMapping: PersistentInputMapping,
+}
 
-class platformInputMappingFactory () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable inputToGameKeyMapping : PersistentInputMapping.persistentInputMapping = (Obj.magic 0)
-    method inputToGameKeyMapping = inputToGameKeyMapping
-    method set_inputToGameKeyMapping value' = inputToGameKeyMapping <- value'
+let mut jcell_instance: Option<PlatformInputMappingFactory> = None
+
+provide let rec jclassName = () => "PlatformInputMappingFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: PlatformInputMappingFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("PlatformInputMappingFactory"), f_logUtil: JR.jnull, f_inputToGameKeyMapping: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_inputToGameKeyMapping = JR.cast(PersistentInputMapping.jm_getNullInstance())
+    this
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jm_getPersistentInputMappingInstance = (this: PlatformInputMappingFactory) => {
+        {
+            if (JR.isSame(this.f_inputToGameKeyMapping, PersistentInputMapping.jm_getNullInstance())) {
+                this.f_inputToGameKeyMapping = JR.cast(MotionJ2MEGameInputMapping.jnew_0())
+            }
+        }
+        return this.f_inputToGameKeyMapping
+}
 
-    method getPersistentInputMappingInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (try
-            if ((Obj.repr inputToGameKeyMapping) == (Obj.repr (PersistentInputMapping.getNullInstance ()))) then begin
-                inputToGameKeyMapping <- ((new MotionJ2MEGameInputMapping.motionJ2MEGameInputMapping ()) :> PersistentInputMapping.persistentInputMapping)
-            end
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#gET_INSTANCE, e))
-        end);
-        (Obj.magic (inputToGameKeyMapping))
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        inputToGameKeyMapping <- ((PersistentInputMapping.getNullInstance ()) :> PersistentInputMapping.persistentInputMapping);
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "PlatformInputMappingFactory" (fun arguments -> Obj.repr (new platformInputMappingFactory (Obj.obj arguments)))
-
-let instance = (new platformInputMappingFactory ())
-let get_instance () = instance
-let () = java_register_static "PlatformInputMappingFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "PlatformInputMappingFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("PlatformInputMappingFactory.jnew_0", jnew_0)
+JR.registerLateBound("PlatformInputMappingFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("PlatformInputMappingFactory.jm_getPersistentInputMappingInstance", jm_getPersistentInputMappingInstance)
+JR.registerLateBound("PlatformInputMappingFactory.f_logUtil", (this: PlatformInputMappingFactory) => this.f_logUtil)
+JR.registerLateBound("PlatformInputMappingFactory.f_inputToGameKeyMapping", (this: PlatformInputMappingFactory) => this.f_inputToGameKeyMapping)
+JR.registerLateBound("PlatformInputMappingFactory.set_f_inputToGameKeyMapping", (this: PlatformInputMappingFactory, jvalue) => { this.f_inputToGameKeyMapping = jvalue; jvalue })
+JR.registerLateBound("PlatformInputMappingFactory.jstatic_instance", jstatic_instance)
 
 

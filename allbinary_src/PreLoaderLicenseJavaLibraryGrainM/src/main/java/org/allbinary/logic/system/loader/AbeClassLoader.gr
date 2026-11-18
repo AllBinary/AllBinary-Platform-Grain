@@ -1,192 +1,216 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.system.loader
+module AbeClassLoader
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.system.loader *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../java/io/FileInputStream.gr" include FileInputStream
+use FileInputStream.{ type FileInputStream }
+from "../../../../../java/io/IOException.gr" include IOException
+use IOException.{ type IOException }
+from "../../../../../java/util/Map.gr" include Map
+use Map.{ type Map }
+from "../../../../../org/allbinary/logic/communication/log/LogBuffer.gr" include LogBuffer
+use LogBuffer.{ type LogBuffer }
+from "../../../../../org/allbinary/logic/io/StreamUtil.gr" include StreamUtil
+use StreamUtil.{ type StreamUtil }
+from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../../org/allbinary/logic/system/security/AbCryptUtil.gr" include AbCryptUtil
+use AbCryptUtil.{ type AbCryptUtil }
+from "./NoClassDefFoundError.gr" include NoClassDefFoundError
+use NoClassDefFoundError.{ type NoClassDefFoundError }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.FileInputStream *)
-(* import java.io.IOException *)
-(* import java.util.Map *)
-(* import org.allbinary.logic.StdUtil *)
-(* import org.allbinary.logic.communication.log.LogBuffer *)
-(* import org.allbinary.logic.communication.log.LogFactory *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.io.StreamUtil *)
-(* import org.allbinary.logic.io.path.AbPathData *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.logic.system.security.AbCryptUtil *)
+provide record AbeClassLoader {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_abCryptUtil: AbCryptUtil,
+  mut f_LOAD_CLASS: String,
+  mut f_ENCRYPTED_EXTENSION: String,
+  mut f_key: String,
+}
 
-let classes : Obj.t ref = ref ((Obj.repr ((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashMap ())))
-let get_classes () = Obj.magic !classes
-let set_classes value' = classes := Obj.repr value'
-let () = java_register_static "AbeClassLoader.get_classes" (fun _ -> Obj.repr (get_classes ()))
-let () = java_register_static "AbeClassLoader.set_classes" (fun value' -> set_classes (Obj.obj value'); Obj.repr ())
-let pATH : string ref = ref ((Obj.magic 0))
-let get_pATH () = !pATH
-let set_pATH value' = pATH := value'
-let () = java_register_static "AbeClassLoader.get_pATH" (fun _ -> Obj.repr (get_pATH ()))
-let () = java_register_static "AbeClassLoader.set_pATH" (fun value' -> set_pATH (Obj.obj value'); Obj.repr ())
-class abeClassLoader (parent, (key_arg : string)) =
-  object (self)
-    inherit ClassLoader.classLoader (parent) as super
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable abCryptUtil : AbCryptUtil.abCryptUtil = (Obj.magic 0)
-    method abCryptUtil = abCryptUtil
-    method set_abCryptUtil value' = abCryptUtil <- value'
-    val mutable lOAD_CLASS : string = ""
-    method lOAD_CLASS = lOAD_CLASS
-    method set_lOAD_CLASS value' = lOAD_CLASS <- value'
-    val mutable eNCRYPTED_EXTENSION : string = ""
-    method eNCRYPTED_EXTENSION = eNCRYPTED_EXTENSION
-    method set_eNCRYPTED_EXTENSION value' = eNCRYPTED_EXTENSION <- value'
-    val mutable key : string = ""
-    method key = key
-    method set_key value' = key <- value'
+let mut jcell_classes: Option<Map> = None
+let mut jcell_PATH: Option<String> = None
+
+provide let rec jclassName = () => "AbeClassLoader"
+
+and jstatic_classes = () => match (jcell_classes) {
+  Some(value) => value,
+  None => {
+    let value: Map = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashMap"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+}
+    jcell_classes = Some(value)
+    value
+  },
+}
+
+and jstatic_PATH = () => match (jcell_PATH) {
+  Some(value) => value,
+  None => {
+    let value: String = ""
+    jcell_PATH = Some(value)
+    value
+  },
+}
     
+and jnew_2 = (parent: ClassLoader, key: String) => {
+    let this = { jobject: JR.newJObject("AbeClassLoader"), f_logUtil: JR.jnull, f_abCryptUtil: JR.nullOf(), f_LOAD_CLASS: "", f_ENCRYPTED_EXTENSION: "", f_key: "", }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_abCryptUtil = JR.cast(AbCryptUtil.jm_getInstance())
+    this.f_LOAD_CLASS = "loadClass"
+    this.f_ENCRYPTED_EXTENSION = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_EXTENSION_SEP"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("AbPathData.jm_getInstance"))
+JR.cast(jlate())
+})))
+} ++ "abc"
     
-
-    method findLoadedClass1 ((name : string)) : string =
-        begin
-        (Obj.magic ((Obj.magic !classes)#get (name)))
-        end [@@warning "-7"]
+        void
+        this.f_key = key
+        jstatic_PATH() = JR.className(JR.cast(org.jstatic_allbinary().f_globals.f_URLGLOBALS)) ++ "WEB-INF/classes/"
+    this
+}
     
-
-    (* Java overload loadClass(String) is not converted: OCaml has one method per name *)
+and jm_findLoadedClass1 = (this: AbeClassLoader, name: String) => {
+        return JR.cast(JR.className(JR.cast(jstatic_classes())))
+}
     
-
-    method loadClass ((name : string), (resolve : bool)) : string =
-        try
-        begin
-        let loadedWith : string ref = ref ("findLoadedClass1") in ();
-        let logBuffer : LogBuffer.logBuffer ref = ref (((new LogBuffer.logBuffer ()) :> LogBuffer.logBuffer)) in ();
-        (try
-            let myClass : string ref = ref ((self#findLoadedClass1 (name))) in ();
-            if (!myClass == (Obj.magic 0)) then begin
-                (try
-                    loadedWith := "super.loadClass";
-                    let normalClass : string ref = ref ((super#loadClass (name, resolve))) in ();
-                    if (!normalClass != (Obj.magic 0)) then begin
-                        raise (Java_return (Obj.repr (!normalClass)))
-                    end
-                with e -> begin
-                    ignore (!logBuffer#add ((Obj.magic (java_call_static "LogFactory.getInstance" (Obj.repr (((("Failed to Load Class: " ^ name) ^ "\nwith: ") ^ !loadedWith), (Obj.magic self), lOAD_CLASS, e))))))
-                end);
-                let classBytes : int array ref = ref ((self#loadClassBytesFromFile (name))) in ();
-                if (!classBytes == (Obj.magic 0)) then begin
-                    raise (Failure (((("My Bytes not loaded for: " ^ name) ^ "\nwith: ") ^ "loadClassBytes")))
-                end;
-                myClass := (self#defineClass (name, !classBytes, 0, (Array.length !classBytes)));
-                if (!myClass == (Obj.magic 0)) then begin
-                    raise (Failure (((("My Class Not Defineable for: " ^ name) ^ "\nwith: ") ^ "loadClassBytes")))
-                end;
-                ignore ((Obj.magic !classes)#put (name, !myClass))
-            end else begin
-                ignore (!logBuffer#add ((Obj.magic (java_call_static "LogFactory.getInstanceF" (Obj.repr (((("Already Loaded: " ^ name) ^ "\nwith: ") ^ !loadedWith), (Obj.magic self), lOAD_CLASS))))))
-            end;
-            ignore (self#resolveClass (!myClass));
-            !myClass
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#lOADERERROR)) then begin
-                ignore (!logBuffer#logAll ());
-                ignore ((Obj.magic logUtil)#put (((("Failure loading: " ^ name) ^ "\nwith: ") ^ !loadedWith), (Obj.magic self), lOAD_CLASS, e))
-            end;
-            (Obj.magic 0)
-        end)
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7"]
+and jm_loadClass_1 = (this: AbeClassLoader, name: String) => {
+        return jm_loadClass_2(this, name, false)
+}
     
-
-    method loadClassBytesFromFile ((name : string)) : int array =
-        begin
-        let in_ : java_file_input_stream ref = ref (((Obj.magic 0) :> java_file_input_stream)) in ();
-        let cname : string ref = ref ((StringUtil.getInstance ())#eMPTY_STRING) in ();
-        (try
-            cname := ((java_string_of (Obj.repr (!pATH)) ^ (java_string_replace name (Obj.repr ('.')) (Obj.repr ((Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ())))#sEPARATORCHAR)))) ^ eNCRYPTED_EXTENSION);
-            in_ := (new java_file_input_stream (Obj.repr (!cname)));
-            let decrypted : int array ref = ref ((abCryptUtil#decrypt (!in_, key))) in ();
-            !decrypted
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#lOADERERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (((("(Before LogBuffer Output) Failure loading Encrypted: " ^ name) ^ " File: ") ^ !cname), "AbeClassLoader", "loadClassBytes", e))
-            end;
-            ignore ((StreamUtil.getInstance ())#close (!in_))
-        end);
-        (Obj.magic 0)
-        end [@@warning "-7"]
+and jm_loadClass_2 = (this: AbeClassLoader, name: String, resolve: Bool) => {
+        let mut loadedWith: String = "findLoadedClass1"
+        let mut logBuffer: LogBuffer = LogBuffer.jnew_0()
+        {
+            let mut myClass: String = jm_findLoadedClass1(this, name)
+            if (JR.isNull(myClass)) {
+                {
+                    loadedWith = "super.loadClass"
+                    let mut normalClass: String = jm_loadClass_2(this, name, resolve)
+                    if (!JR.isNull(normalClass)) {
+                        return normalClass
+                    }
+                }
+                let mut classBytes: Array<Int32> = jm_loadClassBytesFromFile(this, name)
+                if (JR.isNull(classBytes)) {
+                    fail JR.toStringOf(JR.newJObject("ClassNotFoundException"))
+                }
+                myClass = jm_defineClass(this, name, classBytes, 0l, Int32.fromNumber(Array.length(classBytes)))
+                if (JR.isNull(myClass)) {
+                    fail JR.toStringOf(JR.newJObject("ClassNotFoundException"))
+                }
+                ignore(JR.className(JR.cast(jstatic_classes())))
+            } else {
+                ignore(LogBuffer.jm_add(logBuffer, {
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogFactory.jm_getInstanceF"))
+JR.cast(jlate(JR.cast("Already Loaded: " ++ name ++ "\nwith: " ++ loadedWith), JR.cast(this), JR.cast(this.f_LOAD_CLASS)))
+}))
+            }
+            ignore(jm_resolveClass(this, myClass))
+            return myClass
+        }
+    return ""
+}
     
+and jm_loadClassBytesFromFile = (this: AbeClassLoader, name: String) => {
+        let mut in: FileInputStream = JR.nullOf()
+        let mut cname: String = StringUtil.jm_getInstance().f_EMPTY_STRING
+        {
+            cname = jstatic_PATH() ++ JR.replace(name, Int32.fromNumber(Char.code('.')), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATORCHAR"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("AbPathData.jm_getInstance"))
+JR.cast(jlate())
+})))
+}) ++ this.f_ENCRYPTED_EXTENSION
+            in = FileInputStream.jnew_1(cname)
+            let mut decrypted: Array<Int32> = AbCryptUtil.jm_decrypt(this.f_abCryptUtil, JR.cast(in), this.f_key)
+            return decrypted
+        }
+        return JR.nullOf()
+}
+    
+and jm_oldLoadClass = (this: AbeClassLoader, name: String, resolve: Bool) => {
+        let mut loadedWith: String = "findLoadedClass1"
+        {
+            let mut myClass: String = jm_findLoadedClass1(this, name)
+            if (JR.isNull(myClass)) {
+                {
+                    loadedWith = "super.loadClass"
+                    let mut normalClass: String = jm_loadClass_2(this, name, resolve)
+                    if (!JR.isNull(normalClass)) {
+                        return normalClass
+                    }
+                }
+                loadedWith = "loadClassBytes"
+                let mut classBytes: Array<Int32> = jm_loadClassBytesFromFile(this, name)
+                if (JR.isNull(classBytes)) {
+                    fail JR.toStringOf(JR.newJObject("ClassNotFoundException"))
+                }
+                myClass = jm_defineClass(this, name, classBytes, 0l, Int32.fromNumber(Array.length(classBytes)))
+                if (JR.isNull(myClass)) {
+                    fail JR.toStringOf(JR.newJObject("ClassNotFoundException"))
+                }
+                ignore(JR.className(JR.cast(jstatic_classes())))
+            } else {
+                if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                    ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Already Loaded: " ++ name ++ " with: " ++ loadedWith), JR.cast(this), JR.cast(this.f_LOAD_CLASS)))
+})
+                }
+            }
+            ignore(jm_resolveClass(this, myClass))
+            return myClass
+        }
+    return ""
+}
 
-    method oldLoadClass ((name : string), (resolve : bool)) : string =
-        try
-        begin
-        let loadedWith : string ref = ref ("findLoadedClass1") in ();
-        (try
-            let myClass : string ref = ref ((self#findLoadedClass1 (name))) in ();
-            if (!myClass == (Obj.magic 0)) then begin
-                (try
-                    loadedWith := "super.loadClass";
-                    let normalClass : string ref = ref ((super#loadClass (name, resolve))) in ();
-                    if (!normalClass != (Obj.magic 0)) then begin
-                        raise (Java_return (Obj.repr (!normalClass)))
-                    end
-                with e -> begin
-                    if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#lOADER)) then begin
-                        ignore ((Obj.magic logUtil)#putF (((("Failed Loaded Class: " ^ name) ^ " with: ") ^ !loadedWith), (Obj.magic self), lOAD_CLASS))
-                    end
-                end);
-                loadedWith := "loadClassBytes";
-                let classBytes : int array ref = ref ((self#loadClassBytesFromFile (name))) in ();
-                if (!classBytes == (Obj.magic 0)) then begin
-                    raise (Failure (("Bytes not loaded for: " ^ name)))
-                end;
-                myClass := (self#defineClass (name, !classBytes, 0, (Array.length !classBytes)));
-                if (!myClass == (Obj.magic 0)) then begin
-                    raise (Failure (("Class Not Defineable for: " ^ name)))
-                end;
-                ignore ((Obj.magic !classes)#put (name, !myClass))
-            end else begin
-                if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#lOADER)) then begin
-                    ignore ((Obj.magic logUtil)#putF (((("Already Loaded: " ^ name) ^ " with: ") ^ !loadedWith), (Obj.magic self), lOAD_CLASS))
-                end
-            end;
-            ignore (self#resolveClass (!myClass));
-            !myClass
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#lOADERERROR)) then begin
-                ignore ((Obj.magic logUtil)#put (("Failure loading: " ^ name), "AbeClassLoader", lOAD_CLASS, e))
-            end;
-            (Obj.magic 0)
-        end)
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        abCryptUtil <- ((AbCryptUtil.getInstance ()) :> AbCryptUtil.abCryptUtil);
-        lOAD_CLASS <- "loadClass";
-        eNCRYPTED_EXTENSION <- (java_string_of (Obj.repr ((Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ())))#eXTENSION_SEP)) ^ "abc");
-        ();
-        ();
-        (* super(...) is the inherit clause *) ();
-        key <- key_arg;
-        pATH := (java_string_of (Obj.repr (((org.get_allbinary ())#globals#uRLGLOBALS#getWebappPath ()))) ^ "WEB-INF/classes/")
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "AbeClassLoader" (fun arguments -> Obj.repr (new abeClassLoader (Obj.obj arguments)))
+JR.registerLateBound("AbeClassLoader.jnew_2", jnew_2)
+JR.registerLateBound("AbeClassLoader.jm_findLoadedClass1", jm_findLoadedClass1)
+JR.registerLateBound("AbeClassLoader.jm_loadClass_1", jm_loadClass_1)
+JR.registerLateBound("AbeClassLoader.jm_loadClass_2", jm_loadClass_2)
+JR.registerLateBound("AbeClassLoader.jm_loadClassBytesFromFile", jm_loadClassBytesFromFile)
+JR.registerLateBound("AbeClassLoader.jm_oldLoadClass", jm_oldLoadClass)
+JR.registerLateBound("AbeClassLoader.f_logUtil", (this: AbeClassLoader) => this.f_logUtil)
+JR.registerLateBound("AbeClassLoader.f_abCryptUtil", (this: AbeClassLoader) => this.f_abCryptUtil)
+JR.registerLateBound("AbeClassLoader.f_LOAD_CLASS", (this: AbeClassLoader) => this.f_LOAD_CLASS)
+JR.registerLateBound("AbeClassLoader.f_ENCRYPTED_EXTENSION", (this: AbeClassLoader) => this.f_ENCRYPTED_EXTENSION)
+JR.registerLateBound("AbeClassLoader.f_key", (this: AbeClassLoader) => this.f_key)
+JR.registerLateBound("AbeClassLoader.set_f_key", (this: AbeClassLoader, jvalue) => { this.f_key = jvalue; jvalue })
+JR.registerLateBound("AbeClassLoader.jstatic_classes", jstatic_classes)
+JR.registerLateBound("AbeClassLoader.jstatic_PATH", jstatic_PATH)
 
 

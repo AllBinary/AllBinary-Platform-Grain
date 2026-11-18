@@ -1,58 +1,77 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.input.motion.gesture.observer
+module MotionEventCircularPool
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.input.motion.gesture.observer *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/game/input/InputFactory.gr" include InputFactory
+use InputFactory.{ type InputFactory }
+from "../../../../../../org/allbinary/input/motion/gesture/MotionGestureInput.gr" include MotionGestureInput
+use MotionGestureInput.{ type MotionGestureInput }
+from "../../../../../../org/allbinary/logic/util/event/AllBinaryEventCircularPool.gr" include AllBinaryEventCircularPool
+use AllBinaryEventCircularPool.{ type AllBinaryEventCircularPool }
+from "./MotionEventFactory.gr" include MotionEventFactory
+use MotionEventFactory.{ type MotionEventFactory }
+from "./MotionGestureEvent.gr" include MotionGestureEvent
+use MotionGestureEvent.{ type MotionGestureEvent }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.input.InputFactory *)
-(* import org.allbinary.input.motion.gesture.MotionGestureInput *)
-(* import org.allbinary.input.motion.gesture.TouchMotionGestureFactory *)
-(* import org.allbinary.logic.util.event.AllBinaryEventCircularPool *)
+provide record MotionEventCircularPool {
+  jobject: JObject,
+  mut f_MIN: Int32,
+  mut f_eventPool: AllBinaryEventCircularPool,
+}
 
-class motionEventCircularPool ((id : int)) =
-  object
-    val mutable mIN : int = 0
-    method mIN = mIN
-    method set_mIN value' = mIN <- value'
-    val mutable eventPool : AllBinaryEventCircularPool.allBinaryEventCircularPool = (Obj.magic 0)
-    method eventPool = eventPool
-    method set_eventPool value' = eventPool <- value'
+
+provide let rec jclassName = () => "MotionEventCircularPool"
     
+and jm_createPool = (id: Int32) => {
+        return jnew_1(id)
+}
     
+and jnew_1 = (id: Int32) => {
+    let this = { jobject: JR.newJObject("MotionEventCircularPool"), f_MIN: 0l, f_eventPool: JR.nullOf(), }
+    this.f_MIN = JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.f_LAST_MOTION"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+}))
+    this.f_eventPool = AllBinaryEventCircularPool.jnew_1(Int32.(-)((Int32.(-)(InputFactory.jm_getInstance().f_MAX, 1l)), this.f_MIN))
+        ignore(AllBinaryEventCircularPool.jm_initAllBinaryEventCircularPool(this.f_eventPool, JR.cast(MotionEventFactory.jnew_2(this.f_eventPool, id))))
+    this
+}
+    
+and jm_getInstance = (this: MotionEventCircularPool, motionGestureInput: MotionGestureInput) => {
+        return JR.cast(AllBinaryEventCircularPool.jm_getInstance(this.f_eventPool, Int32.(-)(MotionGestureInput.jm_getId(motionGestureInput), this.f_MIN)))
+}
 
-    method getInstance : 'any1 'return. 'any1 -> 'return = fun (motionGestureInput) ->
-        let motionGestureInput = Obj.repr motionGestureInput in
-        begin
-        (Obj.magic ((Obj.magic (eventPool#getInstance ((((Obj.magic motionGestureInput)#getId ()) - mIN))))))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        mIN <- ((Obj.magic (java_call_static "TouchMotionGestureFactory.getInstance" (Obj.repr ())))#lAST_MOTION#getId ());
-        eventPool <- ((new AllBinaryEventCircularPool.allBinaryEventCircularPool (((((InputFactory.getInstance ())#mAX - 1)) - mIN))) :> AllBinaryEventCircularPool.allBinaryEventCircularPool);
-        ();
-        ignore (eventPool#initAllBinaryEventCircularPool ((new MotionEventFactory.motionEventFactory ((Obj.repr (eventPool)), id))))
-      end
-  end
-let () = java_register_constructor "MotionEventCircularPool" (fun arguments -> Obj.repr (new motionEventCircularPool (Obj.obj arguments)))
-
-let createPool : 'return. int -> 'return = fun ((id : int)) ->
-        begin
-        (Obj.magic ((new motionEventCircularPool (id))))
-        end
-let () = java_register_static "MotionEventCircularPool.createPool" (fun arguments -> Obj.repr (createPool (Obj.obj arguments)))
+JR.registerLateBound("MotionEventCircularPool.jnew_1", jnew_1)
+JR.registerLateBound("MotionEventCircularPool.jm_createPool", jm_createPool)
+JR.registerLateBound("MotionEventCircularPool.jm_getInstance", jm_getInstance)
+JR.registerLateBound("MotionEventCircularPool.f_MIN", (this: MotionEventCircularPool) => this.f_MIN)
+JR.registerLateBound("MotionEventCircularPool.f_eventPool", (this: MotionEventCircularPool) => this.f_eventPool)
+JR.registerLateBound("MotionEventCircularPool.set_f_eventPool", (this: MotionEventCircularPool, jvalue) => { this.f_eventPool = jvalue; jvalue })
 
 

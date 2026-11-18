@@ -1,179 +1,242 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.business.init
+module InstallerInfo
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.business.init *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/globals/PATH_GLOBALS.gr" include PATH_GLOBALS
+use PATH_GLOBALS.{ type PATH_GLOBALS }
+from "../../../../org/allbinary/globals/URLGLOBALS.gr" include URLGLOBALS
+use URLGLOBALS.{ type URLGLOBALS }
+from "../../../../org/allbinary/logic/io/AbDataInputStream.gr" include AbDataInputStream
+use AbDataInputStream.{ type AbDataInputStream }
+from "../../../../org/allbinary/logic/io/AbDataOutputStream.gr" include AbDataOutputStream
+use AbDataOutputStream.{ type AbDataOutputStream }
+from "../../../../org/allbinary/logic/io/AbFileLocalInputStream.gr" include AbFileLocalInputStream
+use AbFileLocalInputStream.{ type AbFileLocalInputStream }
+from "../../../../org/allbinary/logic/io/path/AbPath.gr" include AbPath
+use AbPath.{ type AbPath }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../org/allbinary/logic/system/security/crypt/DatabaseEncoder.gr" include DatabaseEncoder
+use DatabaseEncoder.{ type DatabaseEncoder }
+from "../../../../org/allbinary/logic/system/security/crypt/WeakCrypt.gr" include WeakCrypt
+use WeakCrypt.{ type WeakCrypt }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.globals.PATH_GLOBALS *)
-(* import org.allbinary.globals.URLGLOBALS *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.io.AbDataInputStream *)
-(* import org.allbinary.logic.io.AbDataOutputStream *)
-(* import org.allbinary.logic.io.AbFileLocalInputStream *)
-(* import org.allbinary.logic.io.DataOutputStreamFactory *)
-(* import org.allbinary.logic.io.file.AbFile *)
-(* import org.allbinary.logic.io.path.AbPath *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.logic.system.security.crypt.DatabaseEncoder *)
-(* import org.allbinary.logic.system.security.crypt.WeakCrypt *)
+provide record InstallerInfo {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+}
 
-let iNITFILENAME : string = "installerdata.dat"
-let get_iNITFILENAME () = iNITFILENAME
-let () = java_register_static "InstallerInfo.get_iNITFILENAME" (fun _ -> Obj.repr (get_iNITFILENAME ()))
-let pACKAGE : string = (PATH_GLOBALS.getInstance ())#iNIT_PATH
-let get_pACKAGE () = pACKAGE
-let () = java_register_static "InstallerInfo.get_pACKAGE" (fun _ -> Obj.repr (get_pACKAGE ()))
-let userName : string ref = ref ((StringUtil.getInstance ())#eMPTY_STRING)
-let get_userName () = !userName
-let set_userName value' = userName := value'
-let () = java_register_static "InstallerInfo.get_userName" (fun _ -> Obj.repr (get_userName ()))
-let () = java_register_static "InstallerInfo.set_userName" (fun value' -> set_userName (Obj.obj value'); Obj.repr ())
-let password : string ref = ref ((StringUtil.getInstance ())#eMPTY_STRING)
-let get_password () = !password
-let set_password value' = password := value'
-let () = java_register_static "InstallerInfo.get_password" (fun _ -> Obj.repr (get_password ()))
-let () = java_register_static "InstallerInfo.set_password" (fun value' -> set_password (Obj.obj value'); Obj.repr ())
-let hasRead : bool ref = ref (false)
-let get_hasRead () = !hasRead
-let set_hasRead value' = hasRead := value'
-let () = java_register_static "InstallerInfo.get_hasRead" (fun _ -> Obj.repr (get_hasRead ()))
-let () = java_register_static "InstallerInfo.set_hasRead" (fun value' -> set_hasRead (Obj.obj value'); Obj.repr ())
+let mut jcell_instance: Option<InstallerInfo> = None
+let mut jcell_INITFILENAME: Option<String> = None
+let mut jcell_PACKAGE: Option<String> = None
+let mut jcell_userName: Option<String> = None
+let mut jcell_password: Option<String> = None
+let mut jcell_hasRead: Option<Bool> = None
 
-let setHasRead ((value : bool)) : unit =
-        begin
-        hasRead := value
-        end
+provide let rec jclassName = () => "InstallerInfo"
 
-let () = java_register_static "InstallerInfo.setHasRead" (fun arguments -> Obj.repr (setHasRead (Obj.obj arguments)))
-class installerInfo () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: InstallerInfo = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jstatic_INITFILENAME = () => match (jcell_INITFILENAME) {
+  Some(value) => value,
+  None => {
+    let value: String = "installerdata.dat"
+    jcell_INITFILENAME = Some(value)
+    value
+  },
+}
+
+and jstatic_PACKAGE = () => match (jcell_PACKAGE) {
+  Some(value) => value,
+  None => {
+    let value: String = PATH_GLOBALS.jm_getInstance().f_INIT_PATH
+    jcell_PACKAGE = Some(value)
+    value
+  },
+}
+
+and jstatic_userName = () => match (jcell_userName) {
+  Some(value) => value,
+  None => {
+    let value: String = StringUtil.jm_getInstance().f_EMPTY_STRING
+    jcell_userName = Some(value)
+    value
+  },
+}
+
+and jstatic_password = () => match (jcell_password) {
+  Some(value) => value,
+  None => {
+    let value: String = StringUtil.jm_getInstance().f_EMPTY_STRING
+    jcell_password = Some(value)
+    value
+  },
+}
+
+and jstatic_hasRead = () => match (jcell_hasRead) {
+  Some(value) => value,
+  None => {
+    let value: Bool = false
+    jcell_hasRead = Some(value)
+    value
+  },
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("InstallerInfo"), f_logUtil: JR.jnull, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        void
+    this
+}
     
-
-    method write () : unit =
-        begin
-        let fILEABPATH : AbPath.abPath ref = ref (((new AbPath.abPath (((URLGLOBALS.getMainPath ()) + pACKAGE), iNITFILENAME)) :> AbPath.abPath)) in ();
-        (try
-            let newFile : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFile.createAbFileFromAbPath" (Obj.repr (!fILEABPATH)))))) in ();
-            ignore ((Obj.magic !newFile)#createNewFile ());
-            let dataOutputStream : AbDataOutputStream.abDataOutputStream ref = ref ((((Obj.magic (java_call_static "DataOutputStreamFactory.getInstance" (Obj.repr ())))#getInstanceForAbFile ((Obj.magic !newFile))) :> AbDataOutputStream.abDataOutputStream)) in ();
-            let cryptedUserName : int array ref = ref ((((new WeakCrypt.weakCrypt (1))#encrypt ((self#getUserName ())))#getBytes ())) in ();
-            let cryptedPassword : int array ref = ref ((((new WeakCrypt.weakCrypt (2))#encrypt ((self#getPassword ())))#getBytes ())) in ();
-            ignore (!dataOutputStream#writeUTF ((DatabaseEncoder.encode (!cryptedUserName))));
-            ignore (!dataOutputStream#writeUTF ((DatabaseEncoder.encode (!cryptedPassword))));
-            hasRead := false
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#pRELOADERERROR)) then begin
-                ignore ((Obj.magic logUtil)#putF ("Failed", (Obj.magic self), "write"))
-            end;
-            raise e
-        end)
-        end
+and jm_write = (this: InstallerInfo) => {
+        let mut l_FILEABPATH: AbPath = AbPath.jnew_2(URLGLOBALS.jm_getMainPath() ++ jstatic_PACKAGE(), jstatic_INITFILENAME())
+        {
+            let mut newFile: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
+JR.cast(jlate(JR.cast(l_FILEABPATH)))
+})
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createNewFile"))
+JR.cast(jlate(JR.cast(newFile)))
+})
+            let mut dataOutputStream: AbDataOutputStream = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getInstanceForAbFile"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(newFile)))
+})
+            let mut cryptedUserName: Array<Int32> = JR.className(JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(1l), jm_getUserName(this))))
+            let mut cryptedPassword: Array<Int32> = JR.className(JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(2l), jm_getPassword(this))))
+            ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(cryptedUserName)))
+            ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(cryptedPassword)))
+            jstatic_hasRead() = false
+        }
+}
     
-
-    method read () : unit =
-        begin
-        let fILEABPATH : AbPath.abPath ref = ref (((new AbPath.abPath (((URLGLOBALS.getMainPath ()) + pACKAGE), iNITFILENAME)) :> AbPath.abPath)) in ();
-        (try
-            let file : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFile.createAbFileFromAbPath" (Obj.repr (!fILEABPATH)))))) in ();
-            if ((Obj.magic !file)#isFile ()) then begin
-                let iFile : AbFileLocalInputStream.abFileLocalInputStream ref = ref (((new AbFileLocalInputStream.abFileLocalInputStream ((Obj.magic !file))) :> AbFileLocalInputStream.abFileLocalInputStream)) in ();
-                let iData : AbDataInputStream.abDataInputStream ref = ref (((new AbDataInputStream.abDataInputStream (!iFile)) :> AbDataInputStream.abDataInputStream)) in ();
-                let decryptedUserName : string ref = ref ((Obj.obj (java_new "String" (Obj.repr ((DatabaseEncoder.decode ((!iData#readUTF ())))))))) in ();
-                let decryptedPassword : string ref = ref ((Obj.obj (java_new "String" (Obj.repr ((DatabaseEncoder.decode ((!iData#readUTF ())))))))) in ();
-                (self#setUserName (((new WeakCrypt.weakCrypt (1))#decrypt (!decryptedUserName))));
-                (self#setPassword (((new WeakCrypt.weakCrypt (2))#decrypt (!decryptedPassword))))
-            end else begin
-                if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#pRELOADER)) then begin
-                    ignore ((Obj.magic logUtil)#putF (("Not a File - Failed Loading: " ^ (java_string_of (Obj.repr !fILEABPATH))), (Obj.magic self), "read"))
-                end
-            end
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#pRELOADERERROR)) then begin
-                ignore ((Obj.magic logUtil)#putF ("Failed", (Obj.magic self), "read"))
-            end
-        end)
-        end
+and jm_read = (this: InstallerInfo) => {
+        let mut l_FILEABPATH: AbPath = AbPath.jnew_2(URLGLOBALS.jm_getMainPath() ++ jstatic_PACKAGE(), jstatic_INITFILENAME())
+        {
+            let mut file: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
+JR.cast(jlate(JR.cast(l_FILEABPATH)))
+})
+            if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isFile"))
+JR.cast(jlate(JR.cast(file)))
+}) {
+                let mut iFile: AbFileLocalInputStream = AbFileLocalInputStream.jnew_1(file)
+                let mut iData: AbDataInputStream = AbDataInputStream.jnew_1(iFile)
+                let mut decryptedUserName: String = DatabaseEncoder.jm_decode(AbDataInputStream.jm_readUTF(iData))
+                let mut decryptedPassword: String = DatabaseEncoder.jm_decode(AbDataInputStream.jm_readUTF(iData))
+                ignore(jm_setUserName(this, WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(1l), decryptedUserName)))
+                ignore(jm_setPassword(this, WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(2l), decryptedPassword)))
+            } else {
+                if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                    ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Not a File - Failed Loading: " ++ AbPath.jm_toString(l_FILEABPATH)), JR.cast(this), JR.cast("read")))
+})
+                }
+            }
+        }
+}
     
-
-    method setUserName ((userName_arg : string)) : unit =
-        begin
-        userName := userName_arg
-        end
+and jm_setHasRead = (value: Bool) => {
+        jstatic_hasRead() = value
+}
     
-
-    method setPassword ((password_arg : string)) : unit =
-        begin
-        password := password_arg
-        end
+and jm_setUserName = (this: InstallerInfo, userName: String) => {
+        jstatic_userName() = userName
+}
     
-
-    method updateIfNeeded () : unit =
-        begin
-        if (not !hasRead) then begin
-            hasRead := true;
-            (self#read ());
-            if ((!userName == (Obj.magic 0)) || (!password == (Obj.magic 0))) then begin
-                if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#pRELOADER)) then begin
-                    ignore ((Obj.magic logUtil)#putF ("Failed", (Obj.magic self), "updateIfNeeded"))
-                end
-            end
-        end
-        end
+and jm_setPassword = (this: InstallerInfo, password: String) => {
+        jstatic_password() = password
+}
     
-
-    method getUserName () : string =
-        begin
-        (self#updateIfNeeded ());
-        !userName
-        end
+and jm_updateIfNeeded = (this: InstallerInfo) => {
+        if (!jstatic_hasRead()) {
+            jstatic_hasRead() = true
+            ignore(jm_read(this))
+            if ((false || false)) {
+                if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                    ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Failed"), JR.cast(this), JR.cast("updateIfNeeded")))
+})
+                }
+            }
+        }
+}
     
-
-    method getPassword () : string =
-        begin
-        (self#updateIfNeeded ());
-        !password
-        end
+and jm_getUserName = (this: InstallerInfo) => {
+        ignore(jm_updateIfNeeded(this))
+        return jstatic_userName()
+}
     
+and jm_getPassword = (this: InstallerInfo) => {
+        ignore(jm_updateIfNeeded(this))
+        return jstatic_password()
+}
+    
+and jm_isValid = (this: InstallerInfo, userName: String, password: String) => {
+        ignore(jm_updateIfNeeded(this))
+        if ((((true && (JR.compareTo(jstatic_userName(), userName) == 0l)) && true) && (JR.compareTo(jstatic_password(), password) == 0l))) {
+            return true
+        }
+        return false
+}
 
-    method isValid ((userName_arg : string), (password_arg : string)) : bool =
-        try
-        begin
-        (self#updateIfNeeded ());
-        if ((((userName <> (Obj.magic 0)) && ((String.compare userName (userName_arg)) == 0)) && (password <> (Obj.magic 0))) && ((String.compare password (password_arg)) == 0)) then begin
-            raise (Java_return (Obj.repr (true)))
-        end;
-        false
-        end
-        with Java_return value -> Obj.obj value
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "InstallerInfo" (fun arguments -> Obj.repr (new installerInfo (Obj.obj arguments)))
-
-let instance = (new installerInfo ())
-let get_instance () = instance
-let () = java_register_static "InstallerInfo.get_instance" (fun _ -> Obj.repr (get_instance ()))
+JR.registerLateBound("InstallerInfo.jnew_0", jnew_0)
+JR.registerLateBound("InstallerInfo.jm_write", jm_write)
+JR.registerLateBound("InstallerInfo.jm_read", jm_read)
+JR.registerLateBound("InstallerInfo.jm_setHasRead", jm_setHasRead)
+JR.registerLateBound("InstallerInfo.jm_setUserName", jm_setUserName)
+JR.registerLateBound("InstallerInfo.jm_setPassword", jm_setPassword)
+JR.registerLateBound("InstallerInfo.jm_updateIfNeeded", jm_updateIfNeeded)
+JR.registerLateBound("InstallerInfo.jm_getUserName", jm_getUserName)
+JR.registerLateBound("InstallerInfo.jm_getPassword", jm_getPassword)
+JR.registerLateBound("InstallerInfo.jm_isValid", jm_isValid)
+JR.registerLateBound("InstallerInfo.f_logUtil", (this: InstallerInfo) => this.f_logUtil)
+JR.registerLateBound("InstallerInfo.jstatic_instance", jstatic_instance)
+JR.registerLateBound("InstallerInfo.jstatic_INITFILENAME", jstatic_INITFILENAME)
+JR.registerLateBound("InstallerInfo.jstatic_PACKAGE", jstatic_PACKAGE)
+JR.registerLateBound("InstallerInfo.jstatic_userName", jstatic_userName)
+JR.registerLateBound("InstallerInfo.jstatic_password", jstatic_password)
+JR.registerLateBound("InstallerInfo.jstatic_hasRead", jstatic_hasRead)
 
 

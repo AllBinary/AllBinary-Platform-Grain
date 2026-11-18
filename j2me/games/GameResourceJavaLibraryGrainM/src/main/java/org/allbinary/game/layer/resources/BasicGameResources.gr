@@ -1,93 +1,146 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.layer.resources
+module BasicGameResources
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.layer.resources *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/configuration/GameConfigurationCentral.gr" include GameConfigurationCentral
+use GameConfigurationCentral.{ type GameConfigurationCentral }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./GameGraphicsResourceUtil.gr" include GameGraphicsResourceUtil
+use GameGraphicsResourceUtil.{ type GameGraphicsResourceUtil }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.configuration.GameConfigurationCentral *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record BasicGameResources {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_RESOURCE: String,
+  mut f_RESOURCE_DESTROY: String,
+}
 
-let stringBuffer : StringMaker.stringMaker = ((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)
-let get_stringBuffer () = stringBuffer
-let () = java_register_static "BasicGameResources.get_stringBuffer" (fun _ -> Obj.repr (get_stringBuffer ()))
-class basicGameResources () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable rESOURCE : string = ""
-    method rESOURCE = rESOURCE
-    method set_rESOURCE value' = rESOURCE <- value'
-    val mutable rESOURCE_DESTROY : string = ""
-    method rESOURCE_DESTROY = rESOURCE_DESTROY
-    method set_rESOURCE_DESTROY value' = rESOURCE_DESTROY <- value'
+let mut jcell_stringBuffer: Option<StringMaker> = None
+
+provide let rec jclassName = () => "BasicGameResources"
+
+and jstatic_stringBuffer = () => match (jcell_stringBuffer) {
+  Some(value) => value,
+  None => {
+    let value: StringMaker = StringMaker.jnew_0()
+    jcell_stringBuffer = Some(value)
+    value
+  },
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("BasicGameResources"), f_logUtil: JR.jnull, f_RESOURCE: "", f_RESOURCE_DESTROY: "", }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_RESOURCE = StringUtil.jm_getInstance().f_EMPTY_STRING
+    this.f_RESOURCE_DESTROY = StringUtil.jm_getInstance().f_EMPTY_STRING
+        void
+    this
+}
     
-
-    method init ((rOOT : string), (sIZE : string array)) : unit =
-        begin
-        (try
-            let scale : int ref = ref ((java_int_value (Obj.repr ((GameConfigurationCentral.getInstance ())#sCALE#getValue ())))) in ();
-            if ((!scale > 1) && ((!scale - 1) < (Array.length sIZE))) then begin
-                (self#append (rOOT, sIZE.((!scale - 1))))
-            end else begin
-                raise (Failure ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Invalid Value: "))#appendint (!scale))))))
-            end
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#iNIT, e))
-        end)
-        end
+and jm_init = (this: BasicGameResources, l_ROOT: String, l_SIZE: Array<String>) => {
+        {
+            let mut scale: Int32 = JR.className(JR.cast(JR.className(JR.cast(GameConfigurationCentral.jm_getInstance().f_SCALE))))
+            if ((Int32.(>)(scale, 1l) && Int32.(<)(Int32.(-)(scale, 1l), Int32.fromNumber(Array.length(l_SIZE))))) {
+                ignore(jm_append(this, l_ROOT, l_SIZE[Int32.toNumber(Int32.(-)(scale, 1l))]))
+            } else {
+                fail JR.toStringOf(JR.newJObject("Exception"))
+            }
+        }
+}
     
-
-    method append ((rOOT : string), (sizeString : string)) : unit =
-        begin
-        let dESTROY : string ref = ref ("_destroy") in ();
-        let string : string ref = ref ((self#getString ())) in ();
-        ignore (stringBuffer#delete (0, (stringBuffer#length ())));
-        ignore (stringBuffer#append (rOOT));
-        ignore (stringBuffer#append (!string));
-        ignore (stringBuffer#append (sizeString));
-        rESOURCE <- (java_string_of (Obj.repr stringBuffer));
-        ignore (stringBuffer#delete (0, (stringBuffer#length ())));
-        ignore (stringBuffer#append (rOOT));
-        ignore (stringBuffer#append (!dESTROY));
-        ignore (stringBuffer#append (!string));
-        ignore (stringBuffer#append (sizeString));
-        rESOURCE_DESTROY <- (java_string_of (Obj.repr stringBuffer))
-        end
+and jm_append = (this: BasicGameResources, l_ROOT: String, sizeString: String) => {
+        let mut l_DESTROY: String = "_destroy"
+        let mut string: String = jm_getString(this)
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_delete"))
+JR.cast(jlate(JR.cast(jstatic_stringBuffer()), JR.cast(0l), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_length"))
+JR.cast(jlate(JR.cast(jstatic_stringBuffer())))
+})))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_append"))
+JR.cast(jlate(JR.cast(jstatic_stringBuffer()), JR.cast(l_ROOT)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_append"))
+JR.cast(jlate(JR.cast(jstatic_stringBuffer()), JR.cast(string)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_append"))
+JR.cast(jlate(JR.cast(jstatic_stringBuffer()), JR.cast(sizeString)))
+})
+        this.f_RESOURCE = JR.toStringOf(JR.cast(jstatic_stringBuffer()))
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_delete"))
+JR.cast(jlate(JR.cast(jstatic_stringBuffer()), JR.cast(0l), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_length"))
+JR.cast(jlate(JR.cast(jstatic_stringBuffer())))
+})))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_append"))
+JR.cast(jlate(JR.cast(jstatic_stringBuffer()), JR.cast(l_ROOT)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_append"))
+JR.cast(jlate(JR.cast(jstatic_stringBuffer()), JR.cast(l_DESTROY)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_append"))
+JR.cast(jlate(JR.cast(jstatic_stringBuffer()), JR.cast(string)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_append"))
+JR.cast(jlate(JR.cast(jstatic_stringBuffer()), JR.cast(sizeString)))
+})
+        this.f_RESOURCE_DESTROY = JR.toStringOf(JR.cast(jstatic_stringBuffer()))
+}
     
+and jm_getString = (this: BasicGameResources) => {
+        return GameGraphicsResourceUtil.jm_getName(GameGraphicsResourceUtil.jm_getInstance())
+}
 
-    method getString () : string =
-        begin
-        ((GameGraphicsResourceUtil.getInstance ())#getName ())
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        rESOURCE <- (StringUtil.getInstance ())#eMPTY_STRING;
-        rESOURCE_DESTROY <- (StringUtil.getInstance ())#eMPTY_STRING;
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "BasicGameResources" (fun arguments -> Obj.repr (new basicGameResources (Obj.obj arguments)))
+JR.registerLateBound("BasicGameResources.jnew_0", jnew_0)
+JR.registerLateBound("BasicGameResources.jm_init", jm_init)
+JR.registerLateBound("BasicGameResources.jm_append", jm_append)
+JR.registerLateBound("BasicGameResources.jm_getString", jm_getString)
+JR.registerLateBound("BasicGameResources.f_logUtil", (this: BasicGameResources) => this.f_logUtil)
+JR.registerLateBound("BasicGameResources.f_RESOURCE", (this: BasicGameResources) => this.f_RESOURCE)
+JR.registerLateBound("BasicGameResources.set_f_RESOURCE", (this: BasicGameResources, jvalue) => { this.f_RESOURCE = jvalue; jvalue })
+JR.registerLateBound("BasicGameResources.f_RESOURCE_DESTROY", (this: BasicGameResources) => this.f_RESOURCE_DESTROY)
+JR.registerLateBound("BasicGameResources.set_f_RESOURCE_DESTROY", (this: BasicGameResources, jvalue) => { this.f_RESOURCE_DESTROY = jvalue; jvalue })
+JR.registerLateBound("BasicGameResources.jstatic_stringBuffer", jstatic_stringBuffer)
 
 

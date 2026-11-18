@@ -1,40 +1,65 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics
+module GPointCircularPool
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/logic/util/cache/BaseCircularPool.gr" include BaseCircularPool
+use BaseCircularPool.{ type BaseCircularPool }
+from "../../../org/allbinary/util/CircularIndexUtil.gr" include CircularIndexUtil
+use CircularIndexUtil.{ type CircularIndexUtil }
+from "./CustomGPoint.gr" include CustomGPoint
+use CustomGPoint.{ type CustomGPoint }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.util.cache.BaseCircularPool *)
-(* import org.allbinary.util.CircularIndexUtil *)
+provide record GPointCircularPool {
+  jobject: JObject,
+  mut f_circularIndexUtil: JObject,
+  mut f_OBJECT_ARRAY: Array<JObject>,
+}
 
-class gPointCircularPool ((size : int)) =
-  object (self)
-    inherit BaseCircularPool.baseCircularPool ()
+
+provide let rec jclassName = () => "GPointCircularPool"
     
+and jnew_1 = (size: Int32) => {
+    let this = { jobject: JR.newJObject("GPointCircularPool"), f_circularIndexUtil: JR.jnull, f_OBJECT_ARRAY: [> ], }
+        this.f_circularIndexUtil = JR.cast(CircularIndexUtil.jm_createInstance(size))
+        this.f_OBJECT_ARRAY = JR.cast(Array.make(Int32.toNumber(size), JR.jnull))
+        {
+            let mut index: Int32 = Int32.(-)(size, 1l)
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(-)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(>=)(index, 0l))) break
+            JR.cast(this.f_OBJECT_ARRAY)[Int32.toNumber(index)] = JR.cast(CustomGPoint.jm_getInstance3(0l, 0l))
+            }
+        }
+    this
+}
 
-    initializer
-      begin
-        ();
-        (self#set_circularIndexUtil) ((CircularIndexUtil.createInstance (size)));
-        (self#set_oBJECT_ARRAY) ((Array.make (size) (Obj.magic 0)));
-        for index = (size - 1) downto 0 do
-            (self#oBJECT_ARRAY).(index) <- (Obj.magic ((CustomGPoint.getInstance3 (0, 0))))
-        done
-      end
-  end
-let () = java_register_constructor "GPointCircularPool" (fun arguments -> Obj.repr (new gPointCircularPool (Obj.obj arguments)))
+JR.registerLateBound("GPointCircularPool.jnew_1", jnew_1)
 
 

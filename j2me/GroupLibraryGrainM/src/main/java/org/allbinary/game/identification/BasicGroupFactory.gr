@@ -1,86 +1,96 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.identification
+module BasicGroupFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.identification *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
+from "./Group.gr" include Group
+use Group.{ type Group }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.NullUtil *)
+provide record BasicGroupFactory {
+  jobject: JObject,
+  mut f_NAME: String,
+  mut f_NO_SUCH_GROUP: String,
+  mut f_GOOD: Group,
+  mut f_ENEMY: Group,
+  mut f_ENEMY_ON_LEVEL: Group,
+  mut f_NONE: Group,
+  mut f_GOOD_ARRAY: Array<Group>,
+  mut f_ENEMY_ARRAY: Array<Group>,
+  mut f_ENEMY_ON_LEVEL_ARRAY: Array<Group>,
+  mut f_NONE_ARRAY: Array<Group>,
+}
 
-let instance : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT))
-let get_instance () = !instance
-let set_instance value' = instance := value'
-let () = java_register_static "BasicGroupFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-let () = java_register_static "BasicGroupFactory.set_instance" (fun value' -> set_instance (Obj.obj value'); Obj.repr ())
-class basicGroupFactory () =
-  object
-    val mutable nAME : string = ""
-    method nAME = nAME
-    method set_nAME value' = nAME <- value'
-    val mutable nO_SUCH_GROUP : string = ""
-    method nO_SUCH_GROUP = nO_SUCH_GROUP
-    method set_nO_SUCH_GROUP value' = nO_SUCH_GROUP <- value'
-    val mutable gOOD : Group.group = (Obj.magic 0)
-    method gOOD = gOOD
-    method set_gOOD value' = gOOD <- value'
-    val mutable eNEMY : Group.group = (Obj.magic 0)
-    method eNEMY = eNEMY
-    method set_eNEMY value' = eNEMY <- value'
-    val mutable eNEMY_ON_LEVEL : Group.group = (Obj.magic 0)
-    method eNEMY_ON_LEVEL = eNEMY_ON_LEVEL
-    method set_eNEMY_ON_LEVEL value' = eNEMY_ON_LEVEL <- value'
-    val mutable nONE : Group.group = (Obj.magic 0)
-    method nONE = nONE
-    method set_nONE value' = nONE <- value'
-    val mutable gOOD_ARRAY : Group.group array = (Obj.magic 0)
-    method gOOD_ARRAY = gOOD_ARRAY
-    method set_gOOD_ARRAY value' = gOOD_ARRAY <- value'
-    val mutable eNEMY_ARRAY : Group.group array = (Obj.magic 0)
-    method eNEMY_ARRAY = eNEMY_ARRAY
-    method set_eNEMY_ARRAY value' = eNEMY_ARRAY <- value'
-    val mutable eNEMY_ON_LEVEL_ARRAY : Group.group array = (Obj.magic 0)
-    method eNEMY_ON_LEVEL_ARRAY = eNEMY_ON_LEVEL_ARRAY
-    method set_eNEMY_ON_LEVEL_ARRAY value' = eNEMY_ON_LEVEL_ARRAY <- value'
-    val mutable nONE_ARRAY : Group.group array = (Obj.magic 0)
-    method nONE_ARRAY = nONE_ARRAY
-    method set_nONE_ARRAY value' = nONE_ARRAY <- value'
+let mut jcell_instance: Option<JObject> = None
 
-    initializer
-      begin
-        nAME <- "GROUP_NAME";
-        nO_SUCH_GROUP <- "No Such Group: ";
-        gOOD <- ((new Group.group ("Good Guys", 0)) :> Group.group);
-        eNEMY <- ((new Group.group ("Bad Guys", 1)) :> Group.group);
-        eNEMY_ON_LEVEL <- ((new Group.group ("Bad Guys on Level", 2)) :> Group.group);
-        nONE <- ((new Group.group ("Not On A Team", 3)) :> Group.group);
-        gOOD_ARRAY <- [| gOOD |];
-        eNEMY_ARRAY <- [| eNEMY |];
-        eNEMY_ON_LEVEL_ARRAY <- [| eNEMY; eNEMY_ON_LEVEL |];
-        nONE_ARRAY <- [| nONE |];
-        ()
-      end
-  end
-let () = java_register_constructor "BasicGroupFactory" (fun arguments -> Obj.repr (new basicGroupFactory (Obj.obj arguments)))
+provide let rec jclassName = () => "BasicGroupFactory"
 
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        if ((Obj.repr !instance) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            instance := (Obj.repr ((new basicGroupFactory ())))
-        end;
-        (Obj.magic ((Obj.magic !instance)))
-        end
-let () = java_register_static "BasicGroupFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("BasicGroupFactory"), f_NAME: "", f_NO_SUCH_GROUP: "", f_GOOD: JR.nullOf(), f_ENEMY: JR.nullOf(), f_ENEMY_ON_LEVEL: JR.nullOf(), f_NONE: JR.nullOf(), f_GOOD_ARRAY: [> ], f_ENEMY_ARRAY: [> ], f_ENEMY_ON_LEVEL_ARRAY: [> ], f_NONE_ARRAY: [> ], }
+    this.f_NAME = "GROUP_NAME"
+    this.f_NO_SUCH_GROUP = "No Such Group: "
+    this.f_GOOD = Group.jnew_2("Good Guys", JR.i16(0l))
+    this.f_ENEMY = Group.jnew_2("Bad Guys", JR.i16(1l))
+    this.f_ENEMY_ON_LEVEL = Group.jnew_2("Bad Guys on Level", JR.i16(2l))
+    this.f_NONE = Group.jnew_2("Not On A Team", JR.i16(3l))
+    this.f_GOOD_ARRAY = [> this.f_GOOD]
+    this.f_ENEMY_ARRAY = [> this.f_ENEMY]
+    this.f_ENEMY_ON_LEVEL_ARRAY = [> this.f_ENEMY, this.f_ENEMY_ON_LEVEL]
+    this.f_NONE_ARRAY = [> this.f_NONE]
+    this
+}
+    
+and jm_getInstance = () => {
+        if (JR.isSame(jstatic_instance(), NullUtil.jm_getInstance().f_NULL_OBJECT)) {
+            jstatic_instance() = JR.cast(jnew_0())
+        }
+        return JR.cast(jstatic_instance())
+}
+
+JR.registerLateBound("BasicGroupFactory.jnew_0", jnew_0)
+JR.registerLateBound("BasicGroupFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("BasicGroupFactory.f_NAME", (this: BasicGroupFactory) => this.f_NAME)
+JR.registerLateBound("BasicGroupFactory.f_NO_SUCH_GROUP", (this: BasicGroupFactory) => this.f_NO_SUCH_GROUP)
+JR.registerLateBound("BasicGroupFactory.f_GOOD", (this: BasicGroupFactory) => this.f_GOOD)
+JR.registerLateBound("BasicGroupFactory.f_ENEMY", (this: BasicGroupFactory) => this.f_ENEMY)
+JR.registerLateBound("BasicGroupFactory.f_ENEMY_ON_LEVEL", (this: BasicGroupFactory) => this.f_ENEMY_ON_LEVEL)
+JR.registerLateBound("BasicGroupFactory.f_NONE", (this: BasicGroupFactory) => this.f_NONE)
+JR.registerLateBound("BasicGroupFactory.f_GOOD_ARRAY", (this: BasicGroupFactory) => this.f_GOOD_ARRAY)
+JR.registerLateBound("BasicGroupFactory.f_ENEMY_ARRAY", (this: BasicGroupFactory) => this.f_ENEMY_ARRAY)
+JR.registerLateBound("BasicGroupFactory.f_ENEMY_ON_LEVEL_ARRAY", (this: BasicGroupFactory) => this.f_ENEMY_ON_LEVEL_ARRAY)
+JR.registerLateBound("BasicGroupFactory.f_NONE_ARRAY", (this: BasicGroupFactory) => this.f_NONE_ARRAY)
+JR.registerLateBound("BasicGroupFactory.jstatic_instance", jstatic_instance)
 
 

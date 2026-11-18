@@ -1,116 +1,117 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io
+module LineReader
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/io/DataInputStream.gr" include DataInputStream
+use DataInputStream.{ type DataInputStream }
+from "../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+
+provide record LineReader {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_fileName: String,
+  mut f_string: String,
+  mut f_index: Int32,
+  mut f_idFile: JObject,
+  mut f_idData: DataInputStream,
+}
+
+
+provide let rec jclassName = () => "LineReader"
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.DataInputStream *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonSeps *)
-(* import org.allbinary.string.CommonStrings *)
-
-class lineReader ((fileName_arg : string)) =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable fileName : string = ""
-    method fileName = fileName
-    method set_fileName value' = fileName <- value'
-    val mutable string : string = ""
-    method string = string
-    method set_string value' = string <- value'
-    val mutable index : int = 0
-    method index = index
-    method set_index value' = index <- value'
-    val mutable idFile : Obj.t = Obj.repr 0
-    method idFile : 'r. 'r = Obj.magic idFile
-    method set_idFile : 'v. 'v -> unit = fun value' -> idFile <- Obj.repr value'
-    val mutable idData : java_data_input_stream = (Obj.magic 0)
-    method idData = idData
-    method set_idData value' = idData <- value'
+and jnew_1 = (fileName: String) => {
+    let this = { jobject: JR.newJObject("LineReader"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_fileName: "", f_string: "", f_index: 0l, f_idFile: JR.jnull, f_idData: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
     
     
-
-    method hasNext () : bool =
-        try
-        begin
-        (try
-            let nextIndex : int ref = ref ((java_string_index_of_from string (Obj.repr ((CommonSeps.getInstance ())#nEW_LINE)) (index))) in ();
-            if (!nextIndex = (- 1)) then begin
-                raise (Java_return (Obj.repr (false)))
-            end;
-            true
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "hasNext", e));
-            begin
-                ()
-            end;
-            false
-        end)
-        end
-        with Java_return value -> Obj.obj value
+    this.f_index = 0l
     
+    
+        {
+            let mut bytes: Array<Int32> = Array.make(Int32.toNumber(100000l), 0l)
+            this.f_fileName = fileName
+            this.f_idFile = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFileInputStream.jnew_1"))
+JR.cast(jlate(JR.cast(fileName)))
+}
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbFileInputStream.jm_read"))
+JR.cast(jlate(JR.cast(this.f_idFile), JR.cast(bytes)))
+})
+            this.f_string = bytes
+        }
+    this
+}
+    
+and jm_hasNext = (this: LineReader) => {
+        {
+            let mut nextIndex: Int32 = JR.indexOf(this.f_string, CommonSeps.jm_getInstance().f_NEW_LINE, this.f_index)
+            if ((nextIndex == Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
+                return false
+            }
+            return true
+        }
+    return false
+}
+    
+and jm_next = (this: LineReader) => {
+        {
+            let mut nextIndex: Int32 = JR.indexOf(this.f_string, CommonSeps.jm_getInstance().f_NEW_LINE, this.f_index)
+            if ((nextIndex == Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
+                fail JR.toStringOf(JR.newJObject("Exception"))
+            }
+            let mut temp: String = JR.substring(this.f_string, this.f_index, nextIndex)
+            this.f_index = Int32.(+)(nextIndex, 1l)
+            return temp
+        }
+    return ""
+}
 
-    method next () : string =
-        begin
-        (try
-            let nextIndex : int ref = ref ((java_string_index_of_from string (Obj.repr ((CommonSeps.getInstance ())#nEW_LINE)) (index))) in ();
-            if (!nextIndex = (- 1)) then begin
-                raise (Failure ("next() should have been called first"))
-            end;
-            let temp : string ref = ref ((String.sub string (index) ((!nextIndex) - (index)))) in ();
-            index <- (!nextIndex + 1);
-            !temp
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "next", e));
-            begin
-                ()
-            end;
-            raise e
-        end)
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        fileName <- "";
-        string <- "";
-        index <- 0;
-        idFile <- (Obj.repr (Obj.magic 0));
-        idData <- ((Obj.magic 0) :> java_data_input_stream);
-        ();
-        (try
-            let bytes : int array ref = ref ((Array.make (100000) 0)) in ();
-            fileName <- fileName_arg;
-            idFile <- Obj.repr ((Obj.obj (java_new "AbFileInputStream" (Obj.repr (fileName_arg)))));
-            ignore ((Obj.magic idFile)#read (!bytes));
-            string <- (Obj.obj (java_new "String" (Obj.repr (!bytes))))
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put (("File: " ^ fileName_arg), (Obj.magic self), "LineReader", e));
-            begin
-                ()
-            end
-        end)
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "LineReader" (fun arguments -> Obj.repr (new lineReader (Obj.obj arguments)))
+JR.registerLateBound("LineReader.jnew_1", jnew_1)
+JR.registerLateBound("LineReader.jm_hasNext", jm_hasNext)
+JR.registerLateBound("LineReader.jm_next", jm_next)
+JR.registerLateBound("LineReader.f_logUtil", (this: LineReader) => this.f_logUtil)
+JR.registerLateBound("LineReader.f_commonStrings", (this: LineReader) => this.f_commonStrings)
+JR.registerLateBound("LineReader.f_fileName", (this: LineReader) => this.f_fileName)
+JR.registerLateBound("LineReader.set_f_fileName", (this: LineReader, jvalue) => { this.f_fileName = jvalue; jvalue })
+JR.registerLateBound("LineReader.f_string", (this: LineReader) => this.f_string)
+JR.registerLateBound("LineReader.set_f_string", (this: LineReader, jvalue) => { this.f_string = jvalue; jvalue })
+JR.registerLateBound("LineReader.f_index", (this: LineReader) => this.f_index)
+JR.registerLateBound("LineReader.set_f_index", (this: LineReader, jvalue) => { this.f_index = jvalue; jvalue })
+JR.registerLateBound("LineReader.f_idFile", (this: LineReader) => this.f_idFile)
+JR.registerLateBound("LineReader.set_f_idFile", (this: LineReader, jvalue) => { this.f_idFile = jvalue; jvalue })
+JR.registerLateBound("LineReader.f_idData", (this: LineReader) => this.f_idData)
+JR.registerLateBound("LineReader.set_f_idData", (this: LineReader, jvalue) => { this.f_idData = jvalue; jvalue })
 
 

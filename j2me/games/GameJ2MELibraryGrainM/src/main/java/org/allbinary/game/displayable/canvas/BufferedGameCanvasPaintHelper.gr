@@ -1,87 +1,106 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.displayable.canvas
+module BufferedGameCanvasPaintHelper
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.displayable.canvas *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/graphics/Anchor.gr" include Anchor
+use Anchor.{ type Anchor }
+from "../../../../../org/allbinary/graphics/displayable/MyCanvas.gr" include MyCanvas
+use MyCanvas.{ type MyCanvas }
+from "../../../../../org/allbinary/graphics/paint/ProcessPaintable.gr" include ProcessPaintable
+use ProcessPaintable.{ type ProcessPaintable }
+from "../../../../../org/allbinary/util/CircularIndexUtil.gr" include CircularIndexUtil
+use CircularIndexUtil.{ type CircularIndexUtil }
+from "./AllBinaryGameCanvas.gr" include AllBinaryGameCanvas
+use AllBinaryGameCanvas.{ type AllBinaryGameCanvas }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Canvas *)
-(* import javax.microedition.lcdui.Graphics *)
-(* import javax.microedition.lcdui.Image *)
-(* import javax.microedition.lcdui.NullCanvas *)
-(* import javax.microedition.lcdui.NullImage *)
-(* import org.allbinary.graphics.Anchor *)
-(* import org.allbinary.graphics.displayable.MyCanvas *)
-(* import org.allbinary.graphics.paint.ProcessPaintable *)
-(* import org.allbinary.util.CircularIndexUtil *)
+provide record BufferedGameCanvasPaintHelper {
+  jobject: JObject,
+  mut f_gameCanvas: JObject,
+  mut f_offScreenImage: Array<JObject>,
+  mut f_previousImage: JObject,
+  mut f_circularIndexUtil: CircularIndexUtil,
+  mut f_drawCircularIndexUtil: CircularIndexUtil,
+  mut f_anchor: Int32,
+}
 
-let mAX_IMAGES : int = 4
-let get_mAX_IMAGES () = mAX_IMAGES
-let () = java_register_static "BufferedGameCanvasPaintHelper.get_mAX_IMAGES" (fun _ -> Obj.repr (get_mAX_IMAGES ()))
-class bufferedGameCanvasPaintHelper ((_gameCanvas_arg : AllBinaryGameCanvas.allBinaryGameCanvas)) =
-  object
-    inherit ProcessPaintable.processPaintable ()
-    val mutable gameCanvas : Obj.t = Obj.repr 0
-    method gameCanvas : 'r. 'r = Obj.magic gameCanvas
-    method set_gameCanvas : 'v. 'v -> unit = fun value' -> gameCanvas <- Obj.repr value'
-    val mutable offScreenImage : Obj.t = Obj.repr 0
-    method offScreenImage : 'r. 'r = Obj.magic offScreenImage
-    method set_offScreenImage : 'v. 'v -> unit = fun value' -> offScreenImage <- Obj.repr value'
-    val mutable previousImage : Obj.t = Obj.repr 0
-    method previousImage : 'r. 'r = Obj.magic previousImage
-    method set_previousImage : 'v. 'v -> unit = fun value' -> previousImage <- Obj.repr value'
-    val mutable circularIndexUtil : CircularIndexUtil.circularIndexUtil = (Obj.magic 0)
-    method circularIndexUtil = circularIndexUtil
-    method set_circularIndexUtil value' = circularIndexUtil <- value'
-    val mutable drawCircularIndexUtil : CircularIndexUtil.circularIndexUtil = (Obj.magic 0)
-    method drawCircularIndexUtil = drawCircularIndexUtil
-    method set_drawCircularIndexUtil value' = drawCircularIndexUtil <- value'
-    val mutable anchor : int = 0
-    method anchor = anchor
-    method set_anchor value' = anchor <- value'
+let mut jcell_MAX_IMAGES: Option<Int32> = None
+
+provide let rec jclassName = () => "BufferedGameCanvasPaintHelper"
+
+and jstatic_MAX_IMAGES = () => match (jcell_MAX_IMAGES) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = 4l
+    jcell_MAX_IMAGES = Some(value)
+    value
+  },
+}
     
+and jnew_1 = (gameCanvas: AllBinaryGameCanvas) => {
+    let this = { jobject: JR.newJObject("BufferedGameCanvasPaintHelper"), f_gameCanvas: JR.jnull, f_offScreenImage: [> ], f_previousImage: JR.jnull, f_circularIndexUtil: JR.nullOf(), f_drawCircularIndexUtil: JR.nullOf(), f_anchor: 0l, }
+    this.f_gameCanvas = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("NullCanvas.jstatic_NULL_CANVAS"))
+JR.cast(jlate())
+})
+    this.f_offScreenImage = Array.make(Int32.toNumber(jstatic_MAX_IMAGES()), JR.jnull)
+    this.f_previousImage = JR.cast(NullImage.jstatic_NULL_IMAGE())
+    this.f_circularIndexUtil = JR.cast(CircularIndexUtil.jm_createInstance(jstatic_MAX_IMAGES()))
+    this.f_drawCircularIndexUtil = JR.cast(CircularIndexUtil.jm_createInstanceAt(Int32.(-)(jstatic_MAX_IMAGES(), 1l), jstatic_MAX_IMAGES()))
+    this.f_anchor = Anchor.jstatic_TOP_LEFT()
+        fail JR.toStringOf(JR.newJObject("Exception"))
+    this
+}
     
-
-    method process () : unit =
-        begin
-        let myCanvas : MyCanvas.myCanvas ref = ref ((((Obj.magic (Obj.magic gameCanvas))) :> MyCanvas.myCanvas)) in ();
-        ignore (!myCanvas#draw (((Obj.magic offScreenImage).((circularIndexUtil#getIndex ()))#getGraphics ())));
-        ignore (circularIndexUtil#next ());
-        ignore (drawCircularIndexUtil#next ())
-        end [@@warning "-7"]
+and jm_process = (this: BufferedGameCanvasPaintHelper) => {
+        let mut myCanvas: MyCanvas = (JR.cast(this.f_gameCanvas))
+        ignore(MyCanvas.jm_draw(myCanvas, JR.className(JR.cast(this.f_offScreenImage[Int32.toNumber(CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil))]))))
+        ignore(CircularIndexUtil.jm_next(this.f_circularIndexUtil))
+        ignore(CircularIndexUtil.jm_next(this.f_drawCircularIndexUtil))
+}
     
+and jm_paint = (this: BufferedGameCanvasPaintHelper, graphics: JObject) => {
+        this.f_previousImage = this.f_offScreenImage[Int32.toNumber(CircularIndexUtil.jm_getIndex(this.f_drawCircularIndexUtil))]
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawImage"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_previousImage), JR.cast(0l), JR.cast(0l), JR.cast(this.f_anchor)))
+})
+}
 
-    method paint : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        previousImage <- Obj.repr ((Obj.magic offScreenImage).((drawCircularIndexUtil#getIndex ())));
-        ignore ((Obj.magic graphics)#drawImage ((Obj.magic previousImage), 0, 0, anchor))
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        gameCanvas <- (Obj.repr (Obj.magic (java_call_static "NullCanvas.get_nULL_CANVAS" (Obj.repr ()))));
-        offScreenImage <- (Obj.repr (Array.make (mAX_IMAGES) (Obj.magic 0)));
-        previousImage <- (Obj.repr (NullImage.get_nULL_IMAGE ()));
-        circularIndexUtil <- ((CircularIndexUtil.createInstance (mAX_IMAGES)) :> CircularIndexUtil.circularIndexUtil);
-        drawCircularIndexUtil <- ((CircularIndexUtil.createInstanceAt ((mAX_IMAGES - 1), mAX_IMAGES)) :> CircularIndexUtil.circularIndexUtil);
-        anchor <- (Anchor.get_tOP_LEFT ());
-        ();
-        raise (Failure ("No Longer Used"))
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "BufferedGameCanvasPaintHelper" (fun arguments -> Obj.repr (new bufferedGameCanvasPaintHelper (Obj.obj arguments)))
+JR.registerLateBound("BufferedGameCanvasPaintHelper.jnew_1", jnew_1)
+JR.registerLateBound("BufferedGameCanvasPaintHelper.jm_process", jm_process)
+JR.registerLateBound("BufferedGameCanvasPaintHelper.jm_paint", jm_paint)
+JR.registerLateBound("BufferedGameCanvasPaintHelper.f_gameCanvas", (this: BufferedGameCanvasPaintHelper) => this.f_gameCanvas)
+JR.registerLateBound("BufferedGameCanvasPaintHelper.set_f_gameCanvas", (this: BufferedGameCanvasPaintHelper, jvalue) => { this.f_gameCanvas = jvalue; jvalue })
+JR.registerLateBound("BufferedGameCanvasPaintHelper.f_offScreenImage", (this: BufferedGameCanvasPaintHelper) => this.f_offScreenImage)
+JR.registerLateBound("BufferedGameCanvasPaintHelper.f_previousImage", (this: BufferedGameCanvasPaintHelper) => this.f_previousImage)
+JR.registerLateBound("BufferedGameCanvasPaintHelper.set_f_previousImage", (this: BufferedGameCanvasPaintHelper, jvalue) => { this.f_previousImage = jvalue; jvalue })
+JR.registerLateBound("BufferedGameCanvasPaintHelper.f_circularIndexUtil", (this: BufferedGameCanvasPaintHelper) => this.f_circularIndexUtil)
+JR.registerLateBound("BufferedGameCanvasPaintHelper.f_drawCircularIndexUtil", (this: BufferedGameCanvasPaintHelper) => this.f_drawCircularIndexUtil)
+JR.registerLateBound("BufferedGameCanvasPaintHelper.f_anchor", (this: BufferedGameCanvasPaintHelper) => this.f_anchor)
+JR.registerLateBound("BufferedGameCanvasPaintHelper.set_f_anchor", (this: BufferedGameCanvasPaintHelper, jvalue) => { this.f_anchor = jvalue; jvalue })
+JR.registerLateBound("BufferedGameCanvasPaintHelper.jstatic_MAX_IMAGES", jstatic_MAX_IMAGES)
 
 

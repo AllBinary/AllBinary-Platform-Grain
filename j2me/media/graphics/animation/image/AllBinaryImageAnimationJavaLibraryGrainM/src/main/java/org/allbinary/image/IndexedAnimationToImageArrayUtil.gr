@@ -1,47 +1,67 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.image
+module IndexedAnimationToImageArrayUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.image *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/animation/IndexedAnimation.gr" include IndexedAnimation
+use IndexedAnimation.{ type IndexedAnimation }
+from "./AnimationFrameToImageUtil.gr" include AnimationFrameToImageUtil
+use AnimationFrameToImageUtil.{ type AnimationFrameToImageUtil }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Image *)
-(* import org.allbinary.animation.IndexedAnimation *)
+provide record IndexedAnimationToImageArrayUtil {
+  jobject: JObject,
+}
 
 
-let getInstance : 'any3 'return. int * int * 'any3 -> 'return = fun ((width : int), (height : int), sequentialAnimationInterface) ->
-        let sequentialAnimationInterface = Obj.repr sequentialAnimationInterface in
-        begin
-        let size : int ref = ref (((Obj.magic sequentialAnimationInterface)#getAnimationSize ())) in ();
-        let imageArray : Obj.t ref = ref ((Obj.repr (Array.make (!size) (Obj.magic 0)))) in ();
-        for index = 0 to !size - 1 do
-            ignore ((Obj.magic sequentialAnimationInterface)#setFrame (index));
-            (Obj.magic !imageArray).(index) <- ((AnimationFrameToImageUtil.getInstance ())#getInstanceWH (width, height, (Obj.magic sequentialAnimationInterface)))
-        done;
-        (Obj.magic ((Obj.magic !imageArray)))
-        end [@@warning "-20"]
+provide let rec jclassName = () => "IndexedAnimationToImageArrayUtil"
 
-let () = java_register_static "IndexedAnimationToImageArrayUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-class indexedAnimationToImageArrayUtil () =
-  object
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("IndexedAnimationToImageArrayUtil"), }
+    this
+}
+    
+and jm_getInstance = (width: Int32, height: Int32, sequentialAnimationInterface: IndexedAnimation) => {
+        let mut size: Int32 = IndexedAnimation.jm_getAnimationSize(sequentialAnimationInterface)
+        let mut imageArray: Array<JObject> = Array.make(Int32.toNumber(size), JR.jnull)
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            ignore(IndexedAnimation.jm_setFrame(sequentialAnimationInterface, index))
+            imageArray[Int32.toNumber(index)] = JR.cast(AnimationFrameToImageUtil.jm_getInstanceWH(AnimationFrameToImageUtil.jm_getInstance(), width, height, JR.cast(sequentialAnimationInterface)))
+            }
+        }
+        return imageArray
+}
 
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "IndexedAnimationToImageArrayUtil" (fun arguments -> Obj.repr (new indexedAnimationToImageArrayUtil (Obj.obj arguments)))
+JR.registerLateBound("IndexedAnimationToImageArrayUtil.jnew_0", jnew_0)
+JR.registerLateBound("IndexedAnimationToImageArrayUtil.jm_getInstance", jm_getInstance)
 
 

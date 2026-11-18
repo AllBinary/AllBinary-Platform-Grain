@@ -1,74 +1,95 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.displayable.canvas
+module GameCanvasRunnable
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.displayable.canvas *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/graphics/displayable/GameTickDisplayInfoSingleton.gr" include GameTickDisplayInfoSingleton
+use GameTickDisplayInfoSingleton.{ type GameTickDisplayInfoSingleton }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../../org/allbinary/time/GameTickTimeDelayHelper.gr" include GameTickTimeDelayHelper
+use GameTickTimeDelayHelper.{ type GameTickTimeDelayHelper }
+from "../../../../../org/allbinary/time/GameTickTimeDelayHelperFactory.gr" include GameTickTimeDelayHelperFactory
+use GameTickTimeDelayHelperFactory.{ type GameTickTimeDelayHelperFactory }
+from "./GameRunnable.gr" include GameRunnable
+use GameRunnable.{ type GameRunnable }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.graphics.displayable.GameTickDisplayInfoSingleton *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.allbinary.time.GameTickTimeDelayHelper *)
-(* import org.allbinary.time.GameTickTimeDelayHelperFactory *)
+provide record GameCanvasRunnable {
+  jobject: JObject,
+  mut f_WAIT: Int32,
+  mut f_FAST: Int32,
+  mut f_waitInMillis: Int64,
+  mut f_logUtil: JObject,
+  mut f_gameTickDisplayInfoSingleton: GameTickDisplayInfoSingleton,
+  mut f_allBinaryGameCanvas: JObject,
+  mut f_gameTickTimeDelayHelper: GameTickTimeDelayHelper,
+}
 
-class gameCanvasRunnable (allBinaryGameCanvas_arg) =
-  object (self)
-    inherit GameRunnable.gameRunnable ()
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable gameTickDisplayInfoSingleton : GameTickDisplayInfoSingleton.gameTickDisplayInfoSingleton = (Obj.magic 0)
-    method gameTickDisplayInfoSingleton = gameTickDisplayInfoSingleton
-    method set_gameTickDisplayInfoSingleton value' = gameTickDisplayInfoSingleton <- value'
-    val mutable allBinaryGameCanvas : Obj.t = Obj.repr 0
-    method allBinaryGameCanvas : 'r. 'r = Obj.magic allBinaryGameCanvas
-    method set_allBinaryGameCanvas : 'v. 'v -> unit = fun value' -> allBinaryGameCanvas <- Obj.repr value'
-    val mutable gameTickTimeDelayHelper : GameTickTimeDelayHelper.gameTickTimeDelayHelper = (Obj.magic 0)
-    method gameTickTimeDelayHelper = gameTickTimeDelayHelper
-    method set_gameTickTimeDelayHelper value' = gameTickTimeDelayHelper <- value'
+
+provide let rec jclassName = () => "GameCanvasRunnable"
     
+and jnew_1 = (allBinaryGameCanvas: JObject) => {
+    let this = { jobject: JR.newJObject("GameCanvasRunnable"), f_WAIT: 0l, f_FAST: 0l, f_waitInMillis: 0L, f_logUtil: JR.jnull, f_gameTickDisplayInfoSingleton: JR.nullOf(), f_allBinaryGameCanvas: JR.jnull, f_gameTickTimeDelayHelper: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_gameTickDisplayInfoSingleton = JR.cast(GameTickDisplayInfoSingleton.jm_getInstance())
     
-
-    method run () : unit =
-        begin
-        (try
-            ignore (((Obj.magic allBinaryGameCanvas)#getLoopTimeHelperP ())#setStartTime ((gameTickTimeDelayHelper#setStartTime ())));
-            ignore (gameTickDisplayInfoSingleton#update ());
-            ignore ((Obj.magic allBinaryGameCanvas)#processGame ())
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#rUN, e))
-        end)
-        end [@@warning "-7"]
+    this.f_gameTickTimeDelayHelper = JR.cast(GameTickTimeDelayHelperFactory.jm_getInstance())
+        this.f_allBinaryGameCanvas = allBinaryGameCanvas
+    this
+}
     
+and jm_run = (this: GameCanvasRunnable) => {
+        {
+            ignore(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_getLoopTimeHelperP"))
+JR.cast(jlate(JR.cast(this.f_allBinaryGameCanvas)))
+})))
+            ignore(GameTickDisplayInfoSingleton.jm_update(this.f_gameTickDisplayInfoSingleton))
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_processGame"))
+JR.cast(jlate(JR.cast(this.f_allBinaryGameCanvas)))
+})
+        }
+}
+    
+and jm_processLoopSleep = (this: GameCanvasRunnable) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_processLoopSleep"))
+JR.cast(jlate(JR.cast(this.f_allBinaryGameCanvas)))
+})
+}
 
-    method processLoopSleep () : unit =
-        begin
-        ignore ((Obj.magic allBinaryGameCanvas)#processLoopSleep ())
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        gameTickDisplayInfoSingleton <- ((GameTickDisplayInfoSingleton.getInstance ()) :> GameTickDisplayInfoSingleton.gameTickDisplayInfoSingleton);
-        ();
-        gameTickTimeDelayHelper <- ((GameTickTimeDelayHelperFactory.getInstance ()) :> GameTickTimeDelayHelper.gameTickTimeDelayHelper);
-        ();
-        allBinaryGameCanvas <- Obj.repr (allBinaryGameCanvas_arg)
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "GameCanvasRunnable" (fun arguments -> Obj.repr (new gameCanvasRunnable (Obj.obj arguments)))
+JR.registerLateBound("GameCanvasRunnable.jnew_1", jnew_1)
+JR.registerLateBound("GameCanvasRunnable.jm_run", jm_run)
+JR.registerLateBound("GameCanvasRunnable.jm_processLoopSleep", jm_processLoopSleep)
+JR.registerLateBound("GameCanvasRunnable.f_logUtil", (this: GameCanvasRunnable) => this.f_logUtil)
+JR.registerLateBound("GameCanvasRunnable.f_gameTickDisplayInfoSingleton", (this: GameCanvasRunnable) => this.f_gameTickDisplayInfoSingleton)
+JR.registerLateBound("GameCanvasRunnable.f_allBinaryGameCanvas", (this: GameCanvasRunnable) => this.f_allBinaryGameCanvas)
+JR.registerLateBound("GameCanvasRunnable.f_gameTickTimeDelayHelper", (this: GameCanvasRunnable) => this.f_gameTickTimeDelayHelper)
 
 

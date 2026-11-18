@@ -1,89 +1,110 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.input
+module TextNotificationUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.input *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/layer/hud/event/GameNotificationEvent.gr" include GameNotificationEvent
+use GameNotificationEvent.{ type GameNotificationEvent }
+from "../../../../org/allbinary/game/layer/hud/event/GameNotificationEventHandler.gr" include GameNotificationEventHandler
+use GameNotificationEventHandler.{ type GameNotificationEventHandler }
+from "../../../../org/allbinary/graphics/color/BasicColorFactory.gr" include BasicColorFactory
+use BasicColorFactory.{ type BasicColorFactory }
+from "../../../../org/allbinary/logic/java/bool/BooleanFactory.gr" include BooleanFactory
+use BooleanFactory.{ type BooleanFactory }
+from "../../../../org/allbinary/logic/math/SmallIntegerSingletonFactory.gr" include SmallIntegerSingletonFactory
+use SmallIntegerSingletonFactory.{ type SmallIntegerSingletonFactory }
+from "../../../../org/allbinary/media/audio/ErrorSound.gr" include ErrorSound
+use ErrorSound.{ type ErrorSound }
+from "../../../../org/allbinary/media/audio/PrimaryPlayerQueueFactory.gr" include PrimaryPlayerQueueFactory
+use PrimaryPlayerQueueFactory.{ type PrimaryPlayerQueueFactory }
+from "../../../../org/allbinary/media/audio/SelectSound.gr" include SelectSound
+use SelectSound.{ type SelectSound }
+from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/lang/Boolean.gr" include Boolean
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.layer.hud.event.GameNotificationEvent *)
-(* import org.allbinary.game.layer.hud.event.GameNotificationEventHandler *)
-(* import org.allbinary.graphics.color.BasicColorFactory *)
-(* import org.allbinary.logic.java.bool.BooleanFactory *)
-(* import org.allbinary.logic.math.SmallIntegerSingletonFactory *)
-(* import org.allbinary.media.audio.ErrorSound *)
-(* import org.allbinary.media.audio.PrimaryPlayerQueueFactory *)
-(* import org.allbinary.media.audio.SelectSound *)
+provide record TextNotificationUtil {
+  jobject: JObject,
+  mut f_TWO: Int32,
+  mut f_FALSE: Bool,
+  mut f_gameNotificationEventHandler: GameNotificationEventHandler,
+}
 
-class textNotificationUtil () =
-  object (self)
-    val mutable tWO : int = (Obj.magic 0)
-    method tWO = tWO
-    method set_tWO value' = tWO <- value'
-    val mutable fALSE : bool = (Obj.magic 0)
-    method fALSE = fALSE
-    method set_fALSE value' = fALSE <- value'
-    val mutable gameNotificationEventHandler : GameNotificationEventHandler.gameNotificationEventHandler = (Obj.magic 0)
-    method gameNotificationEventHandler = gameNotificationEventHandler
-    method set_gameNotificationEventHandler value' = gameNotificationEventHandler <- value'
+let mut jcell_instance: Option<TextNotificationUtil> = None
+
+provide let rec jclassName = () => "TextNotificationUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: TextNotificationUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("TextNotificationUtil"), f_TWO: 0l, f_FALSE: false, f_gameNotificationEventHandler: JR.nullOf(), }
+    this.f_TWO = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 2l)
+    this.f_FALSE = BooleanFactory.jm_getInstance().f_FALSE
+    this.f_gameNotificationEventHandler = JR.cast(GameNotificationEventHandler.jm_getInstance())
+    this
+}
     
-
-    method fireError ((message : string)) : unit =
-        begin
-        ignore ((PrimaryPlayerQueueFactory.getInstance ())#add ((ErrorSound.getInstance ())));
-        (self#fire (message))
-        end
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method fireNew ((message : string)) : unit =
-        begin
-        ignore ((PrimaryPlayerQueueFactory.getInstance ())#add ((SelectSound.getInstance ())));
-        (self#fire (message))
-        end
+and jm_fireError = (this: TextNotificationUtil, message: String) => {
+        ignore(PrimaryPlayerQueueFactory.jm_add(PrimaryPlayerQueueFactory.jm_getInstance(), ErrorSound.jm_getInstance()))
+        ignore(jm_fire(this, message))
+}
     
-
-    method fireSuccess ((message : string)) : unit =
-        begin
-        ignore ((PrimaryPlayerQueueFactory.getInstance ())#add ((SelectSound.getInstance ())));
-        (self#fire (message))
-        end
+and jm_fireNew = (this: TextNotificationUtil, message: String) => {
+        ignore(PrimaryPlayerQueueFactory.jm_add(PrimaryPlayerQueueFactory.jm_getInstance(), SelectSound.jm_getInstance()))
+        ignore(jm_fire(this, message))
+}
     
+and jm_fireSuccess = (this: TextNotificationUtil, message: String) => {
+        ignore(PrimaryPlayerQueueFactory.jm_add(PrimaryPlayerQueueFactory.jm_getInstance(), SelectSound.jm_getInstance()))
+        ignore(jm_fire(this, message))
+}
+    
+and jm_fire = (this: TextNotificationUtil, message: String) => {
+        let mut gameNotificationEvent: GameNotificationEvent = GameNotificationEvent.jnew_5(this, message, this.f_TWO, BasicColorFactory.jm_getInstance().f_RED, this.f_FALSE)
+        ignore(GameNotificationEventHandler.jm_fireEvent(this.f_gameNotificationEventHandler, gameNotificationEvent))
+}
 
-    method fire ((message : string)) : unit =
-        begin
-        let gameNotificationEvent : GameNotificationEvent.gameNotificationEvent ref = ref (((new GameNotificationEvent.gameNotificationEvent ((Obj.magic self), message, tWO, (BasicColorFactory.getInstance ())#rED, fALSE)) :> GameNotificationEvent.gameNotificationEvent)) in ();
-        ignore (gameNotificationEventHandler#fireEvent (!gameNotificationEvent))
-        end
-
-    initializer
-      begin
-        tWO <- ((SmallIntegerSingletonFactory.getInstance ())#getAt (2));
-        fALSE <- (BooleanFactory.getInstance ())#fALSE;
-        gameNotificationEventHandler <- ((GameNotificationEventHandler.getInstance ()) :> GameNotificationEventHandler.gameNotificationEventHandler);
-        ()
-      end
-  end
-let () = java_register_constructor "TextNotificationUtil" (fun arguments -> Obj.repr (new textNotificationUtil (Obj.obj arguments)))
-
-let instance = (new textNotificationUtil ())
-let get_instance () = instance
-let () = java_register_static "TextNotificationUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "TextNotificationUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("TextNotificationUtil.jnew_0", jnew_0)
+JR.registerLateBound("TextNotificationUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("TextNotificationUtil.jm_fireError", jm_fireError)
+JR.registerLateBound("TextNotificationUtil.jm_fireNew", jm_fireNew)
+JR.registerLateBound("TextNotificationUtil.jm_fireSuccess", jm_fireSuccess)
+JR.registerLateBound("TextNotificationUtil.jm_fire", jm_fire)
+JR.registerLateBound("TextNotificationUtil.f_TWO", (this: TextNotificationUtil) => this.f_TWO)
+JR.registerLateBound("TextNotificationUtil.f_FALSE", (this: TextNotificationUtil) => this.f_FALSE)
+JR.registerLateBound("TextNotificationUtil.f_gameNotificationEventHandler", (this: TextNotificationUtil) => this.f_gameNotificationEventHandler)
+JR.registerLateBound("TextNotificationUtil.jstatic_instance", jstatic_instance)
 
 

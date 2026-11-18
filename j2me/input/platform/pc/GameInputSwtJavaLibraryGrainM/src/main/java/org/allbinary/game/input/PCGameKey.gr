@@ -1,59 +1,75 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.input
+module PCGameKey
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.input *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "./Input.gr" include Input
+use Input.{ type Input }
+from "./InputFactory.gr" include InputFactory
+use InputFactory.{ type InputFactory }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.string.StringUtil *)
+provide record PCGameKey {
+  jobject: JObject,
+  mut f_id: Int32,
+  mut f_name: String,
+}
 
 
-let getString ((keyCode : int)) : string =
-        try
-        begin
-        let input : Input.input ref = ref ((((InputFactory.getInstance ())#getInstanceById (keyCode)) :> Input.input)) in ();
-        if (!input != (Obj.magic 0)) then begin
-            raise (Java_return (Obj.repr ((!input#getName ()))))
-        end else begin
-            raise (Java_return (Obj.repr ((StringUtil.getInstance ())#eMPTY_STRING)))
-        end
-        end
-        with Java_return value -> Obj.obj value
-
-let () = java_register_static "PCGameKey.getString" (fun arguments -> Obj.repr (getString (Obj.obj arguments)))
-class pCGameKey ((keyCode : int), (name : string)) =
-  object (self)
-    inherit Input.input (keyCode, name) as super
+provide let rec jclassName = () => "PCGameKey"
     
+and jnew_2 = (keyCode: Int32, name: String) => {
+    let this = { jobject: JR.newJObject("PCGameKey"), f_id: 0l, f_name: "", }
+    this.jobject.toStringFunction = () => jm_toString(this)
+        void
+        let mut id: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Input.jm_getId"))
+JR.cast(jlate(JR.cast(this)))
+}
+        if (Int32.(>=)(id, 0l)) {
+            ignore(InputFactory.jm_add(InputFactory.jm_getInstance(), id, JR.cast(this)))
+        }
+    this
+}
     
+and jm_toString = (this: PCGameKey) => {
+        return "PCGameKey: " ++ jm_toString(this)
+}
+    
+and jm_getString = (keyCode: Int32) => {
+        let mut input: Input = JR.cast(InputFactory.jm_getInstanceById(InputFactory.jm_getInstance(), keyCode))
+        if (!JR.isNull(input)) {
+            return Input.jm_getName(input)
+        } else {
+            return StringUtil.jm_getInstance().f_EMPTY_STRING
+        }
+}
 
-    method toString () : string =
-        begin
-        ("PCGameKey: " ^ (super#toString ()))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        (* super(...) is the inherit clause *) ();
-        let id : int ref = ref ((self#getId ())) in ();
-        if (!id >= 0) then begin
-            ignore ((InputFactory.getInstance ())#add (!id, (Obj.magic self)))
-        end
-      end
-  end
-let () = java_register_constructor "PCGameKey" (fun arguments -> Obj.repr (new pCGameKey (Obj.obj arguments)))
+JR.registerLateBound("PCGameKey.jnew_2", jnew_2)
+JR.registerLateBound("PCGameKey.jm_toString", jm_toString)
+JR.registerLateBound("PCGameKey.jm_getString", jm_getString)
 
 

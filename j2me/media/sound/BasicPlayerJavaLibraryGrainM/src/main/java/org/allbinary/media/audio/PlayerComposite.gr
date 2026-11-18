@@ -1,197 +1,223 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.media.audio
+module PlayerComposite
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.media.audio *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../org/allbinary/time/GameTickTimeDelayHelper.gr" include GameTickTimeDelayHelper
+use GameTickTimeDelayHelper.{ type GameTickTimeDelayHelper }
+from "../../../../org/allbinary/time/GameTickTimeDelayHelperFactory.gr" include GameTickTimeDelayHelperFactory
+use GameTickTimeDelayHelperFactory.{ type GameTickTimeDelayHelperFactory }
+from "../../../../org/allbinary/time/TimeDelayHelper.gr" include TimeDelayHelper
+use TimeDelayHelper.{ type TimeDelayHelper }
+from "./Controllable2.gr" include Controllable2
+use Controllable2.{ type Controllable2 }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.media.Control *)
-(* import javax.microedition.media.Controllable *)
-(* import javax.microedition.media.Player *)
-(* import javax.microedition.media.PlayerListener *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.allbinary.time.GameTickTimeDelayHelper *)
-(* import org.allbinary.time.GameTickTimeDelayHelperFactory *)
-(* import org.allbinary.time.TimeDelayHelper *)
+//BasicPlayer
+provide record PlayerComposite {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_player: JObject,
+  mut f_timeElapsedHelper: TimeDelayHelper,
+  mut f_gameTickTimeDelayHelper: GameTickTimeDelayHelper,
+}
 
-class playerComposite (player_arg, (repeatTime : int)) =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable player : Obj.t = Obj.repr 0
-    method player : 'r. 'r = Obj.magic player
-    method set_player : 'v. 'v -> unit = fun value' -> player <- Obj.repr value'
-    val mutable timeElapsedHelper : TimeDelayHelper.timeDelayHelper = (Obj.magic 0)
-    method timeElapsedHelper = timeElapsedHelper
-    method set_timeElapsedHelper value' = timeElapsedHelper <- value'
-    val mutable gameTickTimeDelayHelper : GameTickTimeDelayHelper.gameTickTimeDelayHelper = (Obj.magic 0)
-    method gameTickTimeDelayHelper = gameTickTimeDelayHelper
-    method set_gameTickTimeDelayHelper value' = gameTickTimeDelayHelper <- value'
+
+provide let rec jclassName = () => "PlayerComposite"
     
+and jnew_2 = (player: JObject, repeatTime: Int32) => {
+    let this = { jobject: JR.newJObject("PlayerComposite"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_player: JR.jnull, f_timeElapsedHelper: JR.nullOf(), f_gameTickTimeDelayHelper: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
     
-
-    method addPlayerListener : 'any1. 'any1 -> unit = fun (playerListener) ->
-        let playerListener = Obj.repr playerListener in
-        begin
-        ignore ((Obj.magic player)#addPlayerListener ((Obj.magic playerListener)))
-        end [@@warning "-20"]
+    this.f_timeElapsedHelper = TimeDelayHelper.jnew_1(0l)
+    this.f_gameTickTimeDelayHelper = JR.cast(GameTickTimeDelayHelperFactory.jm_getInstance())
+        this.f_player = player
+        this.f_timeElapsedHelper.f_delay = repeatTime
+    this
+}
     
-
-    method removePlayerListener : 'any1. 'any1 -> unit = fun (playerListener) ->
-        let playerListener = Obj.repr playerListener in
-        begin
-        ignore ((Obj.magic player)#removePlayerListener ((Obj.magic playerListener)))
-        end [@@warning "-20"]
+and jm_addPlayerListener = (this: PlayerComposite, playerListener: JObject) => {
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Player.jm_addPlayerListener"))
+JR.cast(jlate(JR.cast(this.f_player), JR.cast(playerListener)))
+})
+}
     
-
-    method close () : unit =
-        begin
-        ignore ((Obj.magic player)#close ())
-        end
+and jm_removePlayerListener = (this: PlayerComposite, playerListener: JObject) => {
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Player.jm_removePlayerListener"))
+JR.cast(jlate(JR.cast(this.f_player), JR.cast(playerListener)))
+})
+}
     
-
-    method deallocate () : unit =
-        begin
-        ignore ((Obj.magic player)#deallocate ())
-        end
+and jm_close = (this: PlayerComposite) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Player.jm_close"))
+JR.cast(jlate(JR.cast(this.f_player)))
+})
+}
     
-
-    method getContentType () : string =
-        begin
-        ((Obj.magic player)#getContentType ())
-        end
+and jm_deallocate = (this: PlayerComposite) => {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Player.jm_deallocate"))
+JR.cast(jlate(JR.cast(this.f_player)))
+})
+}
     
-
-    method getDuration () : int =
-        begin
-        ((Obj.magic player)#getDuration ())
-        end
+and jm_getContentType = (this: PlayerComposite) => {
+        return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Player.jm_getContentType"))
+JR.cast(jlate(JR.cast(this.f_player)))
+}
+}
     
-
-    method getMediaTime () : int =
-        begin
-        ((Obj.magic player)#getMediaTime ())
-        end
+and jm_getDuration = (this: PlayerComposite) => {
+        return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Player.jm_getDuration"))
+JR.cast(jlate(JR.cast(this.f_player)))
+}
+}
     
-
-    method prefetch () : unit =
-        begin
-        (try
-            ignore ((Obj.magic player)#prefetch ())
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "prefetch", e))
-        end)
-        end
+and jm_getMediaTime = (this: PlayerComposite) => {
+        return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Player.jm_getMediaTime"))
+JR.cast(jlate(JR.cast(this.f_player)))
+}
+}
     
-
-    method realize () : unit =
-        begin
-        (try
-            ignore ((Obj.magic player)#realize ())
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "realize", e))
-        end)
-        end
+and jm_prefetch = (this: PlayerComposite) => {
+        {
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Player.jm_prefetch"))
+JR.cast(jlate(JR.cast(this.f_player)))
+})
+        }
+}
     
-
-    method getState () : int =
-        begin
-        ((Obj.magic player)#getState ())
-        end
+and jm_realize = (this: PlayerComposite) => {
+        {
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Player.jm_realize"))
+JR.cast(jlate(JR.cast(this.f_player)))
+})
+        }
+}
     
-
-    method setLoopCount ((count : int)) : unit =
-        begin
-        ignore ((Obj.magic player)#setLoopCount (count))
-        end
+and jm_getState = (this: PlayerComposite) => {
+        return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Player.jm_getState"))
+JR.cast(jlate(JR.cast(this.f_player)))
+}
+}
     
-
-    method setMediaTime ((now : int)) : int =
-        begin
-        (try
-            ((Obj.magic player)#setMediaTime (now))
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "setMediaTime", e));
-            (- 1)
-        end)
-        end
+and jm_setLoopCount = (this: PlayerComposite, count: Int32) => {
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Player.jm_setLoopCount"))
+JR.cast(jlate(JR.cast(this.f_player), JR.cast(count)))
+})
+}
     
-
-    method start () : unit =
-        begin
-        (try
-            if (timeElapsedHelper#isTime (gameTickTimeDelayHelper#startTime)) then begin
-                ignore ((Obj.magic player)#start ())
-            end
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#sTART_METHOD_NAME, e))
-        end)
-        end
+and jm_setMediaTime = (this: PlayerComposite, now: Int64) => {
+        {
+            return {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Player.jm_setMediaTime"))
+JR.cast(jlate(JR.cast(this.f_player), JR.cast(now)))
+}
+        }
+    return 0L
+}
     
-
-    method stop () : unit =
-        begin
-        (try
-            ignore ((Obj.magic player)#stop ())
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "stop", e))
-        end)
-        end
+and jm_start = (this: PlayerComposite) => {
+        {
+            if (TimeDelayHelper.jm_isTime(this.f_timeElapsedHelper, this.f_gameTickTimeDelayHelper.f_startTime)) {
+                ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Player.jm_start"))
+JR.cast(jlate(JR.cast(this.f_player)))
+})
+            }
+        }
+}
     
-
-    method getControl : 'return. string -> 'return = fun ((controlType : string)) ->
-        begin
-        (Obj.magic (((Obj.magic player)#getControl (controlType))))
-        end
+and jm_stop = (this: PlayerComposite) => {
+        {
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Player.jm_stop"))
+JR.cast(jlate(JR.cast(this.f_player)))
+})
+        }
+}
     
-
-    method getControls : 'return. unit -> 'return = fun () ->
-        begin
-        raise (Failure ("RuntimeException"))
-        end
+and jm_getControl = (this: PlayerComposite, controlType: String) => {
+        return {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Player.jm_getControl"))
+JR.cast(jlate(JR.cast(this.f_player), JR.cast(controlType)))
+}
+}
     
-
-    method setVolume ((leftVolume : int), (rightVolume : int)) : unit =
-        begin
-        let controllable2 : Controllable2.controllable2 ref = ref ((((Obj.magic (Obj.magic player))) :> Controllable2.controllable2)) in ();
-        ignore (!controllable2#setVolume (leftVolume, rightVolume))
-        end
+and jm_getControls = (this: PlayerComposite) => {
+        fail JR.toStringOf(JR.newJObject("RuntimeException"))
+}
     
+and jm_setVolume = (this: PlayerComposite, leftVolume: Int32, rightVolume: Int32) => {
+        let mut controllable2: Controllable2 = (JR.cast(this.f_player))
+        ignore(Controllable2.jm_setVolume(controllable2, leftVolume, rightVolume))
+}
+    
+and jm_getPlayerP = (this: PlayerComposite) => {
+        return this.f_player
+}
 
-    method getPlayerP : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic player)))
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        ();
-        timeElapsedHelper <- ((new TimeDelayHelper.timeDelayHelper (0)) :> TimeDelayHelper.timeDelayHelper);
-        gameTickTimeDelayHelper <- ((GameTickTimeDelayHelperFactory.getInstance ()) :> GameTickTimeDelayHelper.gameTickTimeDelayHelper);
-        ();
-        player <- Obj.repr (player_arg);
-        timeElapsedHelper#set_delay (repeatTime)
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "PlayerComposite" (fun arguments -> Obj.repr (new playerComposite (Obj.obj arguments)))
+JR.registerLateBound("PlayerComposite.jnew_2", jnew_2)
+JR.registerLateBound("PlayerComposite.jm_addPlayerListener", jm_addPlayerListener)
+JR.registerLateBound("PlayerComposite.jm_removePlayerListener", jm_removePlayerListener)
+JR.registerLateBound("PlayerComposite.jm_close", jm_close)
+JR.registerLateBound("PlayerComposite.jm_deallocate", jm_deallocate)
+JR.registerLateBound("PlayerComposite.jm_getContentType", jm_getContentType)
+JR.registerLateBound("PlayerComposite.jm_getDuration", jm_getDuration)
+JR.registerLateBound("PlayerComposite.jm_getMediaTime", jm_getMediaTime)
+JR.registerLateBound("PlayerComposite.jm_prefetch", jm_prefetch)
+JR.registerLateBound("PlayerComposite.jm_realize", jm_realize)
+JR.registerLateBound("PlayerComposite.jm_getState", jm_getState)
+JR.registerLateBound("PlayerComposite.jm_setLoopCount", jm_setLoopCount)
+JR.registerLateBound("PlayerComposite.jm_setMediaTime", jm_setMediaTime)
+JR.registerLateBound("PlayerComposite.jm_start", jm_start)
+JR.registerLateBound("PlayerComposite.jm_stop", jm_stop)
+JR.registerLateBound("PlayerComposite.jm_getControl", jm_getControl)
+JR.registerLateBound("PlayerComposite.jm_getControls", jm_getControls)
+JR.registerLateBound("PlayerComposite.jm_setVolume", jm_setVolume)
+JR.registerLateBound("PlayerComposite.jm_getPlayerP", jm_getPlayerP)
+JR.registerLateBound("PlayerComposite.f_logUtil", (this: PlayerComposite) => this.f_logUtil)
+JR.registerLateBound("PlayerComposite.f_commonStrings", (this: PlayerComposite) => this.f_commonStrings)
+JR.registerLateBound("PlayerComposite.f_player", (this: PlayerComposite) => this.f_player)
+JR.registerLateBound("PlayerComposite.f_timeElapsedHelper", (this: PlayerComposite) => this.f_timeElapsedHelper)
+JR.registerLateBound("PlayerComposite.f_gameTickTimeDelayHelper", (this: PlayerComposite) => this.f_gameTickTimeDelayHelper)
 
 

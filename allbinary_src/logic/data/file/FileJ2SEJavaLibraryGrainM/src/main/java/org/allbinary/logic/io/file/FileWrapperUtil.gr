@@ -1,59 +1,80 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io.file
+module FileWrapperUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io.file *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../java/io/File.gr" include File
+use File.{ type File }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.File *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
+provide record FileWrapperUtil {
+  jobject: JObject,
+}
 
-class fileWrapperUtil () =
-  object
 
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "FileWrapperUtil" (fun arguments -> Obj.repr (new fileWrapperUtil (Obj.obj arguments)))
+provide let rec jclassName = () => "FileWrapperUtil"
 
-let wrapFiles : 'return. Obj.t array -> 'return = fun ((files : Obj.t array)) ->
-        begin
-        (try
-            let abFileArray : Obj.t ref = ref ((Obj.repr (Array.make ((Array.length files)) (Obj.magic 0)))) in ();
-            for index = ((Array.length files) - 1) downto 0 do
-                (Obj.magic !abFileArray).(index) <- (Obj.obj (java_new "AbFile" (Obj.repr ((Obj.magic files.(index))))))
-            done;
-            (Obj.magic ((Obj.magic !abFileArray)))
-        with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putSE" (Obj.repr ("Exception Wrapping Files", "FileWrapperUtil", "wrapFiles", e))));
-            (Obj.magic ((Array.make (0) (Obj.magic 0))))
-        end)
-        end
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("FileWrapperUtil"), }
+    this
+}
+    
+and jm_wrapFiles = (files: Array<JObject>) => {
+        {
+            let mut abFileArray: Array<JObject> = Array.make(Int32.toNumber(Int32.fromNumber(Array.length(files))), JR.jnull)
+            {
+                let mut index: Int32 = Int32.(-)(Int32.fromNumber(Array.length(files)), 1l)
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(-)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(>=)(index, 0l))) break
+                abFileArray[Int32.toNumber(index)] = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jnew_1"))
+JR.cast(jlate(JR.cast(JR.cast(files[Int32.toNumber(index)]))))
+})
+                }
+            }
+            return abFileArray
+        }
+    return [> ]
+}
+    
+and jm_wrapFile = (file: File) => {
+        {
+            return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jnew_1"))
+JR.cast(jlate(JR.cast(file)))
+}
+        }
+    return JR.jnull
+}
 
-and wrapFile : 'return. java_file -> 'return = fun ((file : java_file)) ->
-        begin
-        (try
-            (Obj.magic ((Obj.obj (java_new "AbFile" (Obj.repr (file))))))
-        with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putSE" (Obj.repr ("Exception Wrapping File", "FileWrapperUtil", "wrapFile", e))));
-            (Obj.magic ((Obj.magic (java_call_static "AbFile.get_nULL_FILE" (Obj.repr ())))))
-        end)
-        end
-let () = java_register_static "FileWrapperUtil.wrapFiles" (fun arguments -> Obj.repr (wrapFiles (Obj.obj arguments)))
-let () = java_register_static "FileWrapperUtil.wrapFile" (fun arguments -> Obj.repr (wrapFile (Obj.obj arguments)))
+JR.registerLateBound("FileWrapperUtil.jnew_0", jnew_0)
+JR.registerLateBound("FileWrapperUtil.jm_wrapFiles", jm_wrapFiles)
+JR.registerLateBound("FileWrapperUtil.jm_wrapFile", jm_wrapFile)
 
 

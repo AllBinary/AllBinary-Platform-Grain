@@ -1,54 +1,73 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.displayable.canvas
+module FormUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.displayable.canvas *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/graphics/PointFactory.gr" include PointFactory
+use PointFactory.{ type PointFactory }
+from "../../../../../org/allbinary/graphics/Rectangle.gr" include Rectangle
+use Rectangle.{ type Rectangle }
+from "../../../../../org/allbinary/graphics/displayable/DisplayInfoSingleton.gr" include DisplayInfoSingleton
+use DisplayInfoSingleton.{ type DisplayInfoSingleton }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.graphics.PointFactory *)
-(* import org.allbinary.graphics.Rectangle *)
-(* import org.allbinary.graphics.displayable.DisplayInfoSingleton *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
+provide record FormUtil {
+  jobject: JObject,
+}
 
-class formUtil () =
-  object
+let mut jcell_instance: Option<FormUtil> = None
+
+provide let rec jclassName = () => "FormUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: FormUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("FormUtil"), }
+    this
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jm_createFormRectangle = (this: FormUtil) => {
+        let mut displayInfo: DisplayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
+        let mut pointFactory: PointFactory = JR.cast(PointFactory.jm_getInstance())
+        let mut rectangle: Rectangle = Rectangle.jnew_3(PointFactory.jm_createXY(pointFactory, 30l, 10l), Int32.(-)(DisplayInfoSingleton.jm_getLastWidth(displayInfo), 30l), Int32.(-)(DisplayInfoSingleton.jm_getLastHeight(displayInfo), 35l))
+        return rectangle
+}
 
-    method createFormRectangle : 'return. unit -> 'return = fun () ->
-        begin
-        let displayInfo : DisplayInfoSingleton.displayInfoSingleton ref = ref (((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton)) in ();
-        let pointFactory : PointFactory.pointFactory ref = ref (((PointFactory.getInstance ()) :> PointFactory.pointFactory)) in ();
-        let rectangle : Rectangle.rectangle ref = ref (((new Rectangle.rectangle ((!pointFactory#createXY (30, 10)), ((!displayInfo#getLastWidth ()) - 30), ((!displayInfo#getLastHeight ()) - 35))) :> Rectangle.rectangle)) in ();
-        (Obj.magic (!rectangle))
-        end
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "FormUtil" (fun arguments -> Obj.repr (new formUtil (Obj.obj arguments)))
-
-let instance = (new formUtil ())
-let get_instance () = instance
-let () = java_register_static "FormUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "FormUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("FormUtil.jnew_0", jnew_0)
+JR.registerLateBound("FormUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("FormUtil.jm_createFormRectangle", jm_createFormRectangle)
+JR.registerLateBound("FormUtil.jstatic_instance", jstatic_instance)
 
 

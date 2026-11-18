@@ -1,103 +1,119 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.resource
+module ResourceRelativeRelationshipFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.resource *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/graphics/RelativeRelationship.gr" include RelativeRelationship
+use RelativeRelationship.{ type RelativeRelationship }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../org/allbinary/util/BasicArrayListUtil.gr" include BasicArrayListUtil
+use BasicArrayListUtil.{ type BasicArrayListUtil }
+from "./ResourceRelativeRelationshipFactoryInterface.gr" include ResourceRelativeRelationshipFactoryInterface
+use ResourceRelativeRelationshipFactoryInterface.{ type ResourceRelativeRelationshipFactoryInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.graphics.RelativeRelationship *)
-(* import org.allbinary.logic.StdUtil *)
-(* import org.allbinary.util.ABHashtable *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
-(* import org.allbinary.util.BasicArrayListUtil *)
+provide record ResourceRelativeRelationshipFactory {
+  jobject: JObject,
+  mut f_basicArrayListUtil: BasicArrayListUtil,
+  mut f_hashtable: JObject,
+  mut f_initialized: Bool,
+}
 
-class resourceRelativeRelationshipFactory () =
-  object (self)
-    val mutable basicArrayListUtil : BasicArrayListUtil.basicArrayListUtil = (Obj.magic 0)
-    method basicArrayListUtil = basicArrayListUtil
-    method set_basicArrayListUtil value' = basicArrayListUtil <- value'
-    val mutable hashtable : Obj.t = Obj.repr 0
-    method hashtable : 'r. 'r = Obj.magic hashtable
-    method set_hashtable : 'v. 'v -> unit = fun value' -> hashtable <- Obj.repr value'
-    val mutable initialized : bool = false
-    method initialized = initialized
-    method set_initialized value' = initialized <- value'
+
+provide let rec jclassName = () => "ResourceRelativeRelationshipFactory"
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ResourceRelativeRelationshipFactory"), f_basicArrayListUtil: JR.nullOf(), f_hashtable: JR.jnull, f_initialized: false, }
+    this.f_basicArrayListUtil = JR.cast(BasicArrayListUtil.jm_getInstance())
+    this.f_hashtable = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashtable"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+})
     
-
-    method init ((_level : int)) : unit =
-        begin
-        (self#setInitialized (true))
-        end
+    this
+}
     
-
-    method getResourceRelativeRelationshipList : 'return. string -> 'return = fun ((resource : string)) ->
-        try
-        begin
-        let listCanBeNull : Obj.t ref = ref ((Obj.repr ((Obj.magic hashtable)#get (resource)))) in ();
-        if (!listCanBeNull == (Obj.magic 0)) then begin
-            raise (Java_return (Obj.repr ((basicArrayListUtil#getImmutableInstance ()))))
-        end;
-        (Obj.magic ((Obj.magic !listCanBeNull)))
-        end
-        with Java_return value -> Obj.obj value
+and jm_init = (this: ResourceRelativeRelationshipFactory, level: Int32) => {
+        ignore(jm_setInitialized(this, true))
+}
     
-
-    method addResourceRelativeRelationship : 'any2. string * 'any2 -> unit = fun ((resource : string), hardPoint) ->
-        let hardPoint = Obj.repr hardPoint in
-        begin
-        let list : BasicArrayList.basicArrayList ref = ref (((self#getResourceRelativeRelationshipList (resource)) :> BasicArrayList.basicArrayList)) in ();
-        if ((Obj.repr !list) == (Obj.repr (basicArrayListUtil#getImmutableInstance ()))) then begin
-            list := ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)
-        end;
-        ignore (!list#add ((Obj.magic hardPoint)));
-        ignore ((Obj.magic hashtable)#put (resource, !list))
-        end [@@warning "-20"]
+and jm_getResourceRelativeRelationshipList = (this: ResourceRelativeRelationshipFactory, resource: String) => {
+        let mut listCanBeNull: JObject = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
+JR.cast(jlate(JR.cast(this.f_hashtable), JR.cast(resource)))
+})
+        if (JR.isNull(listCanBeNull)) {
+            return BasicArrayListUtil.jm_getImmutableInstance(this.f_basicArrayListUtil)
+        }
+        return JR.cast(listCanBeNull)
+}
     
-
-    method isLoadingLevel ((_level : int)) : bool =
-        begin
-        false
-        end
+and jm_addResourceRelativeRelationship = (this: ResourceRelativeRelationshipFactory, resource: String, hardPoint: RelativeRelationship) => {
+        let mut list: BasicArrayList = JR.cast(jm_getResourceRelativeRelationshipList(this, resource))
+        if (JR.isSame(list, BasicArrayListUtil.jm_getImmutableInstance(this.f_basicArrayListUtil))) {
+            list = JR.cast(BasicArrayListD.jnew_0())
+        }
+        ignore(BasicArrayList.jm_add(list, JR.cast(hardPoint)))
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
+JR.cast(jlate(JR.cast(this.f_hashtable), JR.cast(resource), JR.cast(list)))
+})
+}
     
-
-    method isFeature () : bool =
-        begin
-        false
-        end
+and jm_isLoadingLevel = (this: ResourceRelativeRelationshipFactory, level: Int32) => {
+        return false
+}
     
-
-    method setInitialized ((initialized_arg : bool)) : unit =
-        begin
-        initialized <- initialized_arg
-        end
+and jm_isFeature = (this: ResourceRelativeRelationshipFactory) => {
+        return false
+}
     
+and jm_setInitialized = (this: ResourceRelativeRelationshipFactory, initialized: Bool) => {
+        this.f_initialized = initialized
+}
+    
+and jm_isInitialized = (this: ResourceRelativeRelationshipFactory) => {
+        return this.f_initialized
+}
 
-    method isInitialized () : bool =
-        begin
-        initialized
-        end
-
-    initializer
-      begin
-        basicArrayListUtil <- ((BasicArrayListUtil.getInstance ()) :> BasicArrayListUtil.basicArrayListUtil);
-        hashtable <- (Obj.repr ((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashtable ()));
-        initialized <- false;
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "ResourceRelativeRelationshipFactory" (fun arguments -> Obj.repr (new resourceRelativeRelationshipFactory (Obj.obj arguments)))
+JR.registerLateBound("ResourceRelativeRelationshipFactory.jnew_0", jnew_0)
+JR.registerLateBound("ResourceRelativeRelationshipFactory.jm_init", jm_init)
+JR.registerLateBound("ResourceRelativeRelationshipFactory.jm_getResourceRelativeRelationshipList", jm_getResourceRelativeRelationshipList)
+JR.registerLateBound("ResourceRelativeRelationshipFactory.jm_addResourceRelativeRelationship", jm_addResourceRelativeRelationship)
+JR.registerLateBound("ResourceRelativeRelationshipFactory.jm_isLoadingLevel", jm_isLoadingLevel)
+JR.registerLateBound("ResourceRelativeRelationshipFactory.jm_isFeature", jm_isFeature)
+JR.registerLateBound("ResourceRelativeRelationshipFactory.jm_setInitialized", jm_setInitialized)
+JR.registerLateBound("ResourceRelativeRelationshipFactory.jm_isInitialized", jm_isInitialized)
+JR.registerLateBound("ResourceRelativeRelationshipFactory.f_basicArrayListUtil", (this: ResourceRelativeRelationshipFactory) => this.f_basicArrayListUtil)
+JR.registerLateBound("ResourceRelativeRelationshipFactory.f_hashtable", (this: ResourceRelativeRelationshipFactory) => this.f_hashtable)
+JR.registerLateBound("ResourceRelativeRelationshipFactory.f_initialized", (this: ResourceRelativeRelationshipFactory) => this.f_initialized)
+JR.registerLateBound("ResourceRelativeRelationshipFactory.set_f_initialized", (this: ResourceRelativeRelationshipFactory, jvalue) => { this.f_initialized = jvalue; jvalue })
 
 

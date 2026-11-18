@@ -1,76 +1,90 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.combat
+module CombatBaseBehavior
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.combat *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/combat/damage/DamageableBaseBehavior.gr" include DamageableBaseBehavior
+use DamageableBaseBehavior.{ type DamageableBaseBehavior }
+from "../../../../org/allbinary/game/combat/destroy/DestroyableBaseBehavior.gr" include DestroyableBaseBehavior
+use DestroyableBaseBehavior.{ type DestroyableBaseBehavior }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.combat.damage.DamageableBaseBehavior *)
-(* import org.allbinary.game.combat.destroy.DestroyableBaseBehavior *)
+provide record CombatBaseBehavior {
+  jobject: JObject,
+  mut f_damageableBaseBehavior: DamageableBaseBehavior,
+  mut f_destroyableBaseBehavior: DestroyableBaseBehavior,
+  mut f_readyForExplosion: Bool,
+}
 
-class combatBaseBehavior ((damageableBaseBehavior_arg : DamageableBaseBehavior.damageableBaseBehavior), (destroyableBaseBehavior_arg : DestroyableBaseBehavior.destroyableBaseBehavior)) =
-  object
-    val mutable damageableBaseBehavior : DamageableBaseBehavior.damageableBaseBehavior = (Obj.magic 0)
-    method damageableBaseBehavior = damageableBaseBehavior
-    method set_damageableBaseBehavior value' = damageableBaseBehavior <- value'
-    val mutable destroyableBaseBehavior : DestroyableBaseBehavior.destroyableBaseBehavior = (Obj.magic 0)
-    method destroyableBaseBehavior = destroyableBaseBehavior
-    method set_destroyableBaseBehavior value' = destroyableBaseBehavior <- value'
-    val mutable readyForExplosion : bool = false
-    method readyForExplosion = readyForExplosion
-    method set_readyForExplosion value' = readyForExplosion <- value'
+let mut jcell_NULL_COMBAT_BEHAVIOR: Option<CombatBaseBehavior> = None
+
+provide let rec jclassName = () => "CombatBaseBehavior"
+
+and jstatic_NULL_COMBAT_BEHAVIOR = () => match (jcell_NULL_COMBAT_BEHAVIOR) {
+  Some(value) => value,
+  None => {
+    let value: CombatBaseBehavior = jnew_2(DamageableBaseBehavior.jm_getInstance(), DestroyableBaseBehavior.jm_getInstance())
+    jcell_NULL_COMBAT_BEHAVIOR = Some(value)
+    value
+  },
+}
+    
+and jnew_2 = (damageableBaseBehavior: DamageableBaseBehavior, destroyableBaseBehavior: DestroyableBaseBehavior) => {
+    let this = { jobject: JR.newJObject("CombatBaseBehavior"), f_damageableBaseBehavior: JR.nullOf(), f_destroyableBaseBehavior: JR.nullOf(), f_readyForExplosion: false, }
     
     
-
-    method getDamageableBaseBehavior : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (damageableBaseBehavior))
-        end
     
-
-    method getDestroyableBaseBehavior : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (destroyableBaseBehavior))
-        end
+        this.f_damageableBaseBehavior = damageableBaseBehavior
+        this.f_destroyableBaseBehavior = destroyableBaseBehavior
+    this
+}
     
-
-    method isReadyForExplosion () : bool =
-        begin
-        readyForExplosion
-        end
+and jm_getDamageableBaseBehavior = (this: CombatBaseBehavior) => {
+        return this.f_damageableBaseBehavior
+}
     
+and jm_getDestroyableBaseBehavior = (this: CombatBaseBehavior) => {
+        return this.f_destroyableBaseBehavior
+}
+    
+and jm_isReadyForExplosion = (this: CombatBaseBehavior) => {
+        return this.f_readyForExplosion
+}
+    
+and jm_setReadyForExplosion = (this: CombatBaseBehavior, readyForExplosion: Bool) => {
+        this.f_readyForExplosion = readyForExplosion
+}
 
-    method setReadyForExplosion ((readyForExplosion_arg : bool)) : unit =
-        begin
-        readyForExplosion <- readyForExplosion_arg
-        end
-
-    initializer
-      begin
-        ();
-        ();
-        readyForExplosion <- false;
-        ();
-        damageableBaseBehavior <- damageableBaseBehavior_arg;
-        destroyableBaseBehavior <- destroyableBaseBehavior_arg
-      end
-  end
-let () = java_register_constructor "CombatBaseBehavior" (fun arguments -> Obj.repr (new combatBaseBehavior (Obj.obj arguments)))
-
-let nULL_COMBAT_BEHAVIOR = (new combatBaseBehavior ((DamageableBaseBehavior.getInstance ()), (DestroyableBaseBehavior.getInstance ())))
-let get_nULL_COMBAT_BEHAVIOR () = nULL_COMBAT_BEHAVIOR
-let () = java_register_static "CombatBaseBehavior.get_nULL_COMBAT_BEHAVIOR" (fun _ -> Obj.repr (get_nULL_COMBAT_BEHAVIOR ()))
+JR.registerLateBound("CombatBaseBehavior.jnew_2", jnew_2)
+JR.registerLateBound("CombatBaseBehavior.jm_getDamageableBaseBehavior", jm_getDamageableBaseBehavior)
+JR.registerLateBound("CombatBaseBehavior.jm_getDestroyableBaseBehavior", jm_getDestroyableBaseBehavior)
+JR.registerLateBound("CombatBaseBehavior.jm_isReadyForExplosion", jm_isReadyForExplosion)
+JR.registerLateBound("CombatBaseBehavior.jm_setReadyForExplosion", jm_setReadyForExplosion)
+JR.registerLateBound("CombatBaseBehavior.f_damageableBaseBehavior", (this: CombatBaseBehavior) => this.f_damageableBaseBehavior)
+JR.registerLateBound("CombatBaseBehavior.f_destroyableBaseBehavior", (this: CombatBaseBehavior) => this.f_destroyableBaseBehavior)
+JR.registerLateBound("CombatBaseBehavior.f_readyForExplosion", (this: CombatBaseBehavior) => this.f_readyForExplosion)
+JR.registerLateBound("CombatBaseBehavior.set_f_readyForExplosion", (this: CombatBaseBehavior, jvalue) => { this.f_readyForExplosion = jvalue; jvalue })
+JR.registerLateBound("CombatBaseBehavior.jstatic_NULL_COMBAT_BEHAVIOR", jstatic_NULL_COMBAT_BEHAVIOR)
 
 

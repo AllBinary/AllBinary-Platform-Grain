@@ -1,55 +1,83 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.ai.sequence
+module NumberLayersSequenceAI
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.ai.sequence *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/ai/ArtificialIntelligenceInterface.gr" include ArtificialIntelligenceInterface
+use ArtificialIntelligenceInterface.{ type ArtificialIntelligenceInterface }
+from "../../../../../../org/allbinary/game/input/GameInput.gr" include GameInput
+use GameInput.{ type GameInput }
+from "../../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
+from "./SequenceAI.gr" include SequenceAI
+use SequenceAI.{ type SequenceAI }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.ai.ArtificialIntelligenceInterface *)
-(* import org.allbinary.game.input.GameInput *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
+provide record NumberLayersSequenceAI {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_gameKeyEventFactory: JObject,
+  mut f_ownerLayerInterface: JObject,
+  mut f_gameInput: JObject,
+  mut f_lastKey: Int32,
+  mut f_artificialIntelligenceInterfaceArray: Array<JObject>,
+  mut f_index: Int32,
+  mut f_numberOfLayersLeft: Int32,
+}
 
-class numberLayersSequenceAI ((numberOfEnemiesLeft : int), (artificialIntelligenceInterface : ArtificialIntelligenceInterface.artificialIntelligenceInterface array), (ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gameInput : GameInput.gameInput)) =
-  object (self)
-    inherit SequenceAI.sequenceAI (artificialIntelligenceInterface, ownerLayerInterface, gameInput) as super
-    val mutable numberOfLayersLeft : int = 0
-    method numberOfLayersLeft = numberOfLayersLeft
-    method set_numberOfLayersLeft value' = numberOfLayersLeft <- value'
+
+provide let rec jclassName = () => "NumberLayersSequenceAI"
     
+and jnew_4 = (numberOfEnemiesLeft: Int32, artificialIntelligenceInterface: Array<ArtificialIntelligenceInterface>, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
+    let this = { jobject: JR.newJObject("NumberLayersSequenceAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_artificialIntelligenceInterfaceArray: [> ], f_index: 0l, f_numberOfLayersLeft: 0l, }
     
+        void
+        this.f_numberOfLayersLeft = numberOfEnemiesLeft
+    this
+}
+    
+and jm_processAI = (this: NumberLayersSequenceAI, allBinaryLayerManager: AllBinaryLayerManager) => {
+        if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SequenceAI.jm_getIndex"))
+JR.cast(jlate(JR.cast(this)))
+} == 0l)) {
+            if (Int32.(<)(AllBinaryLayerManager.jm_getSize(allBinaryLayerManager), this.f_numberOfLayersLeft)) {
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("SequenceAI.jm_setIndex"))
+JR.cast(jlate(JR.cast(this), JR.cast(1l)))
+})
+            }
+        }
+        ignore(jm_processAI(this, allBinaryLayerManager))
+}
 
-    method processAI : 'any1. 'any1 -> unit = fun (allBinaryLayerManager) ->
-        let allBinaryLayerManager = Obj.repr allBinaryLayerManager in
-        begin
-        if ((self#getIndex ()) == 0) then begin
-            if (((Obj.magic allBinaryLayerManager)#getSize ()) < numberOfLayersLeft) then begin
-                ignore (self#setIndex (1))
-            end
-        end;
-        ignore (super#processAI ((Obj.magic allBinaryLayerManager)))
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        ();
-        (* super(...) is the inherit clause *) ();
-        numberOfLayersLeft <- numberOfEnemiesLeft
-      end
-  end
-let () = java_register_constructor "NumberLayersSequenceAI" (fun arguments -> Obj.repr (new numberLayersSequenceAI (Obj.obj arguments)))
+JR.registerLateBound("NumberLayersSequenceAI.jnew_4", jnew_4)
+JR.registerLateBound("NumberLayersSequenceAI.jm_processAI", jm_processAI)
+JR.registerLateBound("NumberLayersSequenceAI.f_numberOfLayersLeft", (this: NumberLayersSequenceAI) => this.f_numberOfLayersLeft)
+JR.registerLateBound("NumberLayersSequenceAI.set_f_numberOfLayersLeft", (this: NumberLayersSequenceAI, jvalue) => { this.f_numberOfLayersLeft = jvalue; jvalue })
 
 

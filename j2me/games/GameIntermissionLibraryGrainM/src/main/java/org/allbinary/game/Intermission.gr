@@ -1,75 +1,87 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game
+module Intermission
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/time/TimeDelayHelper.gr" include TimeDelayHelper
+use TimeDelayHelper.{ type TimeDelayHelper }
+from "./IntermissionInterface.gr" include IntermissionInterface
+use IntermissionInterface.{ type IntermissionInterface }
+from "./NullIntermissionEnableListener.gr" include NullIntermissionEnableListener
+use NullIntermissionEnableListener.{ type NullIntermissionEnableListener }
+from "./IntermissionEnableListenerInterface.gr" include IntermissionEnableListenerInterface
+use IntermissionEnableListenerInterface.{ type IntermissionEnableListenerInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.time.TimeDelayHelper *)
+provide record Intermission {
+  jobject: JObject,
+  mut f_enabled: Bool,
+  mut f_timeElapsedHelper: TimeDelayHelper,
+  mut f_intermissionEnableListener: IntermissionEnableListenerInterface,
+}
 
-class intermission () =
-  object (self)
-    val mutable enabled : bool = false
-    method enabled = enabled
-    method set_enabled value' = enabled <- value'
-    val mutable timeElapsedHelper : TimeDelayHelper.timeDelayHelper = (Obj.magic 0)
-    method timeElapsedHelper = timeElapsedHelper
-    method set_timeElapsedHelper value' = timeElapsedHelper <- value'
-    val mutable intermissionEnableListener : IntermissionEnableListenerInterface.intermissionEnableListenerInterface = (Obj.magic 0)
-    method intermissionEnableListener = intermissionEnableListener
-    method set_intermissionEnableListener value' = intermissionEnableListener <- value'
+
+provide let rec jclassName = () => "Intermission"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("Intermission"), f_enabled: false, f_timeElapsedHelper: JR.nullOf(), f_intermissionEnableListener: JR.nullOf(), }
     
-
-    method setListener : 'any1. 'any1 -> unit = fun (enableListener) ->
-        let enableListener = Obj.repr enableListener in
-        begin
-        intermissionEnableListener <- (Obj.magic enableListener)
-        end [@@warning "-20"]
+    this.f_timeElapsedHelper = TimeDelayHelper.jnew_1(0l)
+    this.f_intermissionEnableListener = JR.cast(NullIntermissionEnableListener.jm_getInstance())
+        void
+    this
+}
     
-
-    method getTimeDelayHelper : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (timeElapsedHelper))
-        end
+and jm_setListener = (this: Intermission, enableListener: IntermissionEnableListenerInterface) => {
+        this.f_intermissionEnableListener = enableListener
+}
     
-
-    method setEnabled ((enabled_arg : bool)) : unit =
-        begin
-        enabled <- enabled_arg;
-        if (self#isEnabled ()) then begin
-            ignore ((self#getTimeDelayHelper ())#setStartTimeTNT ())
-        end;
-        ignore (intermissionEnableListener#notifyIntermission (enabled_arg))
-        end
+and jm_getTimeDelayHelper = (this: Intermission) => {
+        return this.f_timeElapsedHelper
+}
     
+and jm_setEnabled = (this: Intermission, enabled: Bool) => {
+        this.f_enabled = enabled
+        if (jm_isEnabled(this)) {
+            ignore(TimeDelayHelper.jm_setStartTimeTNT(jm_getTimeDelayHelper(this)))
+        }
+        ignore(IntermissionEnableListenerInterface.jm_notifyIntermission(this.f_intermissionEnableListener, enabled))
+}
+    
+and jm_isEnabled = (this: Intermission) => {
+        return this.f_enabled
+}
 
-    method isEnabled () : bool =
-        begin
-        enabled
-        end
-
-    initializer
-      begin
-        enabled <- false;
-        timeElapsedHelper <- ((new TimeDelayHelper.timeDelayHelper (0)) :> TimeDelayHelper.timeDelayHelper);
-        intermissionEnableListener <- ((NullIntermissionEnableListener.getInstance ()) :> IntermissionEnableListenerInterface.intermissionEnableListenerInterface);
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "Intermission" (fun arguments -> Obj.repr (new intermission (Obj.obj arguments)))
+JR.registerLateBound("Intermission.jnew_0", jnew_0)
+JR.registerLateBound("Intermission.jm_setListener", jm_setListener)
+JR.registerLateBound("Intermission.jm_getTimeDelayHelper", jm_getTimeDelayHelper)
+JR.registerLateBound("Intermission.jm_setEnabled", jm_setEnabled)
+JR.registerLateBound("Intermission.jm_isEnabled", jm_isEnabled)
+JR.registerLateBound("Intermission.f_enabled", (this: Intermission) => this.f_enabled)
+JR.registerLateBound("Intermission.set_f_enabled", (this: Intermission, jvalue) => { this.f_enabled = jvalue; jvalue })
+JR.registerLateBound("Intermission.f_timeElapsedHelper", (this: Intermission) => this.f_timeElapsedHelper)
+JR.registerLateBound("Intermission.f_intermissionEnableListener", (this: Intermission) => this.f_intermissionEnableListener)
+JR.registerLateBound("Intermission.set_f_intermissionEnableListener", (this: Intermission, jvalue) => { this.f_intermissionEnableListener = jvalue; jvalue })
 
 

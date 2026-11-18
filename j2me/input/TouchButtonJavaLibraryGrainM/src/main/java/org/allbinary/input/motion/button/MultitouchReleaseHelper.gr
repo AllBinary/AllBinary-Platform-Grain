@@ -1,53 +1,93 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ *
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ *
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ *
+ * Created By: Travis Berthelot
+ * 
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.input.motion.button
+module MultitouchReleaseHelper
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
- 
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
- 
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
- 
-  Created By: Travis Berthelot
-  
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.input.motion.button *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/input/event/GameKeyEvent.gr" include GameKeyEvent
+use GameKeyEvent.{ type GameKeyEvent }
+from "./ReleaseHelper.gr" include ReleaseHelper
+use ReleaseHelper.{ type ReleaseHelper }
+from "./CancelTouchButtonInputFactory.gr" include CancelTouchButtonInputFactory
+use CancelTouchButtonInputFactory.{ type CancelTouchButtonInputFactory }
+from "./TouchButtonInput.gr" include TouchButtonInput
+use TouchButtonInput.{ type TouchButtonInput }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.input.event.GameKeyEvent *)
+provide record MultitouchReleaseHelper {
+  jobject: JObject,
+  mut f_touchButtonRecognizer: JObject,
+}
 
-class multitouchReleaseHelper (touchButtonRecognizer) =
-  object (self)
-    inherit ReleaseHelper.releaseHelper (touchButtonRecognizer)
+
+provide let rec jclassName = () => "MultitouchReleaseHelper"
     
+and jnew_1 = (touchButtonRecognizer: JObject) => {
+    let this = { jobject: JR.newJObject("MultitouchReleaseHelper"), f_touchButtonRecognizer: JR.jnull, }
+        void
+    this
+}
     
+and jm_release = (this: MultitouchReleaseHelper, touchButtonInput: TouchButtonInput, deviceId: Int32) => {
+        let mut cancelTouchButtonInput: TouchButtonInput = JR.cast(CancelTouchButtonInputFactory.jm_getCancel(CancelTouchButtonInputFactory.jm_getInstance(), touchButtonInput))
+        let mut nextTouchButtonInput: TouchButtonInput = JR.nullOf()
+        let mut gameKeyEvent: GameKeyEvent = JR.nullOf()
+        {
+            let mut index: Int32 = Int32.(-)(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchButtonRecognizer.f_currentlyPressedTouchButtonSingleton"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_touchButtonRecognizer))))
+})), 1l)
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(-)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(>=)(index, 0l))) break
+            nextTouchButtonInput = JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchButtonRecognizer.f_currentlyPressedTouchButtonSingleton"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_touchButtonRecognizer))))
+}))
+            if (JR.isSame(cancelTouchButtonInput, nextTouchButtonInput)) {
+                gameKeyEvent = TouchButtonInput.jm_getGameKeyEvent(nextTouchButtonInput)
+                ignore(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchButtonRecognizer.f_upGameKeyEventHandler"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_touchButtonRecognizer))))
+})))
+                ignore(JR.className(JR.cast(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchButtonRecognizer.f_upGameKeyEventHandler"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_touchButtonRecognizer))))
+})))))
+                ignore(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchButtonRecognizer.f_currentlyPressedTouchButtonSingleton"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_touchButtonRecognizer))))
+})))
+            }
+            }
+        }
+}
 
-    method release : 'any1. 'any1 * int -> unit = fun (touchButtonInput, (deviceId : int)) ->
-        let touchButtonInput = Obj.repr touchButtonInput in
-        begin
-        let cancelTouchButtonInput : TouchButtonInput.touchButtonInput ref = ref ((((CancelTouchButtonInputFactory.getInstance ())#getCancel ((Obj.magic touchButtonInput))) :> TouchButtonInput.touchButtonInput)) in ();
-        let nextTouchButtonInput : TouchButtonInput.touchButtonInput ref = ref (((Obj.magic 0) :> TouchButtonInput.touchButtonInput)) in ();
-        let gameKeyEvent : GameKeyEvent.gameKeyEvent ref = ref (((Obj.magic 0) :> GameKeyEvent.gameKeyEvent)) in ();
-        for index = (((self#touchButtonRecognizer)#currentlyPressedTouchButtonSingleton#size ()) - 1) downto 0 do
-            nextTouchButtonInput := ((self#touchButtonRecognizer)#currentlyPressedTouchButtonSingleton#get (index));
-            if ((Obj.repr !cancelTouchButtonInput) == (Obj.repr !nextTouchButtonInput)) then begin
-                gameKeyEvent := (!nextTouchButtonInput#getGameKeyEvent ());
-                ignore ((self#touchButtonRecognizer)#upGameKeyEventHandler#fireEvent (!gameKeyEvent));
-                ignore (((self#touchButtonRecognizer)#upGameKeyEventHandler#getInstanceForDevice (deviceId))#fireEvent (!gameKeyEvent));
-                ignore ((self#touchButtonRecognizer)#currentlyPressedTouchButtonSingleton#removeAt (index))
-            end
-        done
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "MultitouchReleaseHelper" (fun arguments -> Obj.repr (new multitouchReleaseHelper (Obj.obj arguments)))
+JR.registerLateBound("MultitouchReleaseHelper.jnew_1", jnew_1)
+JR.registerLateBound("MultitouchReleaseHelper.jm_release", jm_release)
 
 

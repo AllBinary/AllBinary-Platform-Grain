@@ -1,59 +1,71 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.input
+module GameInputLayerProcessor
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.input *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
+from "../../../../org/allbinary/layer/LayerProcessor.gr" include LayerProcessor
+use LayerProcessor.{ type LayerProcessor }
+from "./GameInputLayerManager.gr" include GameInputLayerManager
+use GameInputLayerManager.{ type GameInputLayerManager }
+from "./GameInputInterface.gr" include GameInputInterface
+use GameInputInterface.{ type GameInputInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
-(* import org.allbinary.layer.LayerProcessor *)
+provide record GameInputLayerProcessor {
+  jobject: JObject,
+  mut f_commonStrings: JObject,
+  mut f_layerManager: JObject,
+}
 
-class gameInputLayerProcessor () =
-  object
-    inherit LayerProcessor.layerProcessor (((new GameInputLayerManager.gameInputLayerManager ()) : GameInputLayerManager.gameInputLayerManager :> LayerManager.layerManager))
+
+provide let rec jclassName = () => "GameInputLayerProcessor"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("GameInputLayerProcessor"), f_commonStrings: JR.jnull, f_layerManager: JR.jnull, }
+        void
+    this
+}
     
-
-    method processAt : 'any1 'any2. 'any1 * 'any2 * int -> unit = fun (allBinaryLayerManager, layerInterface, (_index : int)) ->
-        let allBinaryLayerManager = Obj.repr allBinaryLayerManager in
-        let layerInterface = Obj.repr layerInterface in
-        begin
-        let gameInputInterface : GameInputInterface.gameInputInterface ref = ref (((Obj.magic (Obj.magic layerInterface)) :> GameInputInterface.gameInputInterface)) in ();
-        ignore (!gameInputInterface#processInput ((Obj.magic allBinaryLayerManager)))
-        end [@@warning "-7-20"]
+and jm_processAt = (this: GameInputLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: Int32) => {
+        let mut gameInputInterface: GameInputInterface = JR.cast(layerInterface)
+        ignore(GameInputInterface.jm_processInput(gameInputInterface, allBinaryLayerManager))
+}
     
+and jm_isProcessorLayer = (this: GameInputLayerProcessor, layerInterface: AllBinaryLayer) => {
+        if (AllBinaryLayer.jm_implmentsGameInputInterface(layerInterface)) {
+            return true
+        } else {
+            return false
+        }
+}
 
-    method isProcessorLayer : 'any1. 'any1 -> bool = fun (layerInterface) ->
-        let layerInterface = Obj.repr layerInterface in
-        try
-        begin
-        if ((Obj.magic layerInterface)#implmentsGameInputInterface ()) then begin
-            raise (Java_return (Obj.repr (true)))
-        end else begin
-            raise (Java_return (Obj.repr (false)))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "GameInputLayerProcessor" (fun arguments -> Obj.repr (new gameInputLayerProcessor (Obj.obj arguments)))
+JR.registerLateBound("GameInputLayerProcessor.jnew_0", jnew_0)
+JR.registerLateBound("GameInputLayerProcessor.jm_processAt", jm_processAt)
+JR.registerLateBound("GameInputLayerProcessor.jm_isProcessorLayer", jm_isProcessorLayer)
 
 

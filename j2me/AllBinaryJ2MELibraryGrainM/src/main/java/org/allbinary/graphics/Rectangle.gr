@@ -1,117 +1,124 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics
+module Rectangle
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../org/allbinary/string/CommonLabels.gr" include CommonLabels
+use CommonLabels.{ type CommonLabels }
+from "../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "./GPoint.gr" include GPoint
+use GPoint.{ type GPoint }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.string.CommonLabels *)
-(* import org.allbinary.string.CommonSeps *)
+provide record Rectangle {
+  jobject: JObject,
+  mut f_point: GPoint,
+  mut f_width: Int32,
+  mut f_height: Int32,
+}
 
-class rectangle ((point_arg : GPoint.gPoint), (width_arg : int), (height_arg : int)) =
-  object (self)
-    val mutable point : GPoint.gPoint = (Obj.magic 0)
-    method point = point
-    method set_point value' = point <- value'
-    val mutable width : int = 0
-    method width = width
-    method set_width value' = width <- value'
-    val mutable height : int = 0
-    method height = height
-    method set_height value' = height <- value'
+
+provide let rec jclassName = () => "Rectangle"
+    
+and jnew_3 = (point: GPoint, width: Int32, height: Int32) => {
+    let this = { jobject: JR.newJObject("Rectangle"), f_point: JR.nullOf(), f_width: 0l, f_height: 0l, }
+    this.jobject.toStringFunction = () => jm_toString(this)
     
     
-
-    method getPoint : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (point))
-        end
     
-
-    method setPoint : 'any1. 'any1 -> unit = fun (point_arg) ->
-        let point_arg = Obj.repr point_arg in
-        begin
-        point <- (Obj.magic point_arg)
-        end [@@warning "-20"]
+        this.f_point = point
+        this.f_width = width
+        this.f_height = height
+    this
+}
     
-
-    method getMaxX () : int =
-        begin
-        ((point#getX ()) + width)
-        end
+and jm_getPoint = (this: Rectangle) => {
+        return this.f_point
+}
     
-
-    method getMaxY () : int =
-        begin
-        ((point#getY ()) + height)
-        end
+and jm_setPoint = (this: Rectangle, point: GPoint) => {
+        this.f_point = point
+}
     
-
-    method getWidth () : int =
-        begin
-        width
-        end
+and jm_getMaxX = (this: Rectangle) => {
+        return Int32.(+)(GPoint.jm_getX(this.f_point), this.f_width)
+}
     
-
-    method setWidth ((width_arg : int)) : unit =
-        begin
-        width <- width_arg
-        end
+and jm_getMaxY = (this: Rectangle) => {
+        return Int32.(+)(GPoint.jm_getY(this.f_point), this.f_height)
+}
     
-
-    method getHeight () : int =
-        begin
-        height
-        end
+and jm_getWidth = (this: Rectangle) => {
+        return this.f_width
+}
     
-
-    method setHeight ((height_arg : int)) : unit =
-        begin
-        height <- height_arg
-        end
+and jm_setWidth = (this: Rectangle, width: Int32) => {
+        this.f_width = width
+}
     
+and jm_getHeight = (this: Rectangle) => {
+        return this.f_height
+}
+    
+and jm_setHeight = (this: Rectangle, height: Int32) => {
+        this.f_height = height
+}
+    
+and jm_toString = (this: Rectangle) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, GPoint.jm_toString(jm_getPoint(this))))
+        ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
+        ignore(StringMaker.jm_append(stringBuffer, CommonLabels.jm_getInstance().f_WIDTH_LABEL))
+        ignore(StringMaker.jm_appendint(stringBuffer, jm_getWidth(this)))
+        ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
+        ignore(StringMaker.jm_append(stringBuffer, CommonLabels.jm_getInstance().f_HEIGHT_LABEL))
+        ignore(StringMaker.jm_appendint(stringBuffer, jm_getHeight(this)))
+        ignore(StringMaker.jm_append(stringBuffer, " MaxX: "))
+        ignore(StringMaker.jm_appendint(stringBuffer, jm_getMaxX(this)))
+        ignore(StringMaker.jm_append(stringBuffer, " MaxY: "))
+        ignore(StringMaker.jm_appendint(stringBuffer, jm_getMaxY(this)))
+        return StringMaker.jm_toString(stringBuffer)
+}
 
-    method toString () : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ((java_string_of (Obj.repr (self#getPoint ())))));
-        ignore (!stringBuffer#append ((CommonSeps.getInstance ())#sPACE));
-        ignore (!stringBuffer#append ((CommonLabels.getInstance ())#wIDTH_LABEL));
-        ignore (!stringBuffer#appendint ((self#getWidth ())));
-        ignore (!stringBuffer#append ((CommonSeps.getInstance ())#sPACE));
-        ignore (!stringBuffer#append ((CommonLabels.getInstance ())#hEIGHT_LABEL));
-        ignore (!stringBuffer#appendint ((self#getHeight ())));
-        ignore (!stringBuffer#append (" MaxX: "));
-        ignore (!stringBuffer#appendint ((self#getMaxX ())));
-        ignore (!stringBuffer#append (" MaxY: "));
-        ignore (!stringBuffer#appendint ((self#getMaxY ())));
-        (java_string_of (Obj.repr !stringBuffer))
-        end
-
-    initializer
-      begin
-        ();
-        ();
-        ();
-        ();
-        point <- point_arg;
-        width <- width_arg;
-        height <- height_arg
-      end
-  end
-let () = java_register_constructor "Rectangle" (fun arguments -> Obj.repr (new rectangle (Obj.obj arguments)))
+JR.registerLateBound("Rectangle.jnew_3", jnew_3)
+JR.registerLateBound("Rectangle.jm_getPoint", jm_getPoint)
+JR.registerLateBound("Rectangle.jm_setPoint", jm_setPoint)
+JR.registerLateBound("Rectangle.jm_getMaxX", jm_getMaxX)
+JR.registerLateBound("Rectangle.jm_getMaxY", jm_getMaxY)
+JR.registerLateBound("Rectangle.jm_getWidth", jm_getWidth)
+JR.registerLateBound("Rectangle.jm_setWidth", jm_setWidth)
+JR.registerLateBound("Rectangle.jm_getHeight", jm_getHeight)
+JR.registerLateBound("Rectangle.jm_setHeight", jm_setHeight)
+JR.registerLateBound("Rectangle.jm_toString", jm_toString)
+JR.registerLateBound("Rectangle.f_point", (this: Rectangle) => this.f_point)
+JR.registerLateBound("Rectangle.set_f_point", (this: Rectangle, jvalue) => { this.f_point = jvalue; jvalue })
+JR.registerLateBound("Rectangle.f_width", (this: Rectangle) => this.f_width)
+JR.registerLateBound("Rectangle.set_f_width", (this: Rectangle, jvalue) => { this.f_width = jvalue; jvalue })
+JR.registerLateBound("Rectangle.f_height", (this: Rectangle) => this.f_height)
+JR.registerLateBound("Rectangle.set_f_height", (this: Rectangle, jvalue) => { this.f_height = jvalue; jvalue })
 
 

@@ -1,95 +1,183 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.input
+module InputPersistance
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.input *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/configuration/persistance/NullRecordComparator.gr" include NullRecordComparator
+use NullRecordComparator.{ type NullRecordComparator }
+from "../../../../org/allbinary/game/configuration/persistance/NullRecordFilter.gr" include NullRecordFilter
+use NullRecordFilter.{ type NullRecordFilter }
+from "../../../../org/allbinary/logic/math/SmallIntegerSingletonFactory.gr" include SmallIntegerSingletonFactory
+use SmallIntegerSingletonFactory.{ type SmallIntegerSingletonFactory }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../org/allbinary/logic/system/security/licensing/AbeClientInformationInterface.gr" include AbeClientInformationInterface
+use AbeClientInformationInterface.{ type AbeClientInformationInterface }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../org/allbinary/util/HashtableUtil.gr" include HashtableUtil
+use HashtableUtil.{ type HashtableUtil }
+from "./Input.gr" include Input
+use Input.{ type Input }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.rms.RecordEnumeration *)
-(* import javax.microedition.rms.RecordStore *)
-(* import org.allbinary.game.configuration.persistance.BasicPersitance *)
-(* import org.allbinary.game.configuration.persistance.NullRecordComparator *)
-(* import org.allbinary.game.configuration.persistance.NullRecordFilter *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.logic.math.SmallIntegerSingletonFactory *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.logic.system.security.licensing.AbeClientInformationInterface *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.HashtableUtil *)
-(* import org.allbinary.logic.StdUtil *)
-(* import org.allbinary.util.ABHashtable *)
+//GameInputNoPersistanceLibrary
+provide record InputPersistance {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_persistanceStrings: JObject,
+  mut f_platformRecordIdUtil: JObject,
+  mut f_recordId: String,
+  mut f_valueList: JObject,
+  mut f_idList: JObject,
+  mut f_hashtableUtil: HashtableUtil,
+}
 
-class inputPersistance ((name : string)) =
-  object (self)
-    inherit BasicPersitance.basicPersitance (name)
-    val mutable hashtableUtil : HashtableUtil.hashtableUtil = (Obj.magic 0)
-    method hashtableUtil = hashtableUtil
-    method set_hashtableUtil value' = hashtableUtil <- value'
+
+provide let rec jclassName = () => "InputPersistance"
     
+and jnew_1 = (name: String) => {
+    let this = { jobject: JR.newJObject("InputPersistance"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_persistanceStrings: JR.jnull, f_platformRecordIdUtil: JR.jnull, f_recordId: "", f_valueList: JR.jnull, f_idList: JR.jnull, f_hashtableUtil: JR.nullOf(), }
+    this.f_hashtableUtil = JR.cast(HashtableUtil.jm_getInstance())
+        void
+    this
+}
     
-
-    method loadAll : 'any1. 'any1 -> unit = fun (abeClientInformation) ->
-        let abeClientInformation = Obj.repr abeClientInformation in
-        begin
-        let recordStore : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "RecordStore.openRecordStore" (Obj.repr ((self#getRecordId ((Obj.magic abeClientInformation))), true)))))) in ();
-        let recordEnum : Obj.t ref = ref ((Obj.repr ((Obj.magic !recordStore)#enumerateRecords ((NullRecordFilter.get_nULL_RECORD_FILTER ()), (NullRecordComparator.get_nULL_RECORD_COMPARATOR ()), true)))) in ();
-        let hashtable : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        let smallIntegerSingletonFactory : SmallIntegerSingletonFactory.smallIntegerSingletonFactory ref = ref (((SmallIntegerSingletonFactory.getInstance ()) :> SmallIntegerSingletonFactory.smallIntegerSingletonFactory)) in ();
-        let id : int ref = ref (0) in ();
-        while ((Obj.magic !recordEnum)#hasNextElement ()) do
-            id := ((Obj.magic !recordEnum)#nextRecordId ());
-            ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-            ignore ((self#logUtil)#putF ((java_string_of (Obj.repr ((!stringBuffer#append ((self#persistanceStrings)#lOADING_ID))#appendint (!id)))), (Obj.magic self), (self#persistanceStrings)#lOAD_ALL));
-            hashtable := Obj.repr (((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashtable ()));
-            ignore ((self#valueList)#add ((Obj.magic !hashtable)));
-            ignore ((self#idList)#add ((!smallIntegerSingletonFactory#getAt (!id))))
-        done;
-        ignore ((Obj.magic !recordStore)#closeRecordStore ())
-        end [@@warning "-7-20"]
+and jm_loadAll = (this: InputPersistance, abeClientInformation: AbeClientInformationInterface) => {
+        let mut recordStore: JObject = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_openRecordStore"))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicPersitance.jm_getRecordId"))
+JR.cast(jlate(JR.cast(this), JR.cast(abeClientInformation)))
+}), JR.cast(true)))
+})
+        let mut recordEnum: RecordEnumeration = JR.cast({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_enumerateRecords"))
+JR.cast(jlate(JR.cast(recordStore), JR.cast(NullRecordFilter.jstatic_NULL_RECORD_FILTER()), JR.cast(NullRecordComparator.jstatic_NULL_RECORD_COMPARATOR()), JR.cast(true)))
+})
+        let mut hashtable: JObject = JR.jnull
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        let mut smallIntegerSingletonFactory: SmallIntegerSingletonFactory = JR.cast(SmallIntegerSingletonFactory.jm_getInstance())
+        let mut id: Int32 = 0l
+        while (RecordEnumeration.jm_hasNextElement(recordEnum)) {
+            id = RecordEnumeration.jm_nextRecordId(recordEnum)
+            ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PersistanceStrings.f_LOADING_ID"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_persistanceStrings))))
+}), id))), JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PersistanceStrings.f_LOAD_ALL"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_persistanceStrings))))
+})))
+})
+            hashtable = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashtable"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+}
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_add"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_valueList)), JR.cast(hashtable)))
+})
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_add"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_idList)), JR.cast(SmallIntegerSingletonFactory.jm_getAt(smallIntegerSingletonFactory, id))))
+})
+        }
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_closeRecordStore"))
+JR.cast(jlate(JR.cast(recordStore)))
+})
+}
     
+and jm_save = (this: InputPersistance, abeClientInformation: AbeClientInformationInterface, hashtable: JObject) => {
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PersistanceStrings.f_NOT_SAVING"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_persistanceStrings))))
+}), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(hashtable))))), JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_SAVE"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
+})))
+})
+        let mut recordStore: JObject = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_openRecordStore"))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicPersitance.jm_getRecordId"))
+JR.cast(jlate(JR.cast(this), JR.cast(abeClientInformation)))
+}), JR.cast(true)))
+})
+        let mut gameActionInput: Input = JR.nullOf()
+        let mut list: BasicArrayList = JR.nullOf()
+        let mut input: Input = JR.nullOf()
+        let mut inputObjectArray: Array<JObject> = HashtableUtil.jm_getKeysAsArray(this.f_hashtableUtil, hashtable)
+        let mut size: Int32 = Int32.fromNumber(Array.length(inputObjectArray))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            gameActionInput = JR.cast(inputObjectArray[Int32.toNumber(index)])
+            list = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
+JR.cast(jlate(JR.cast(hashtable), JR.cast(inputObjectArray[Int32.toNumber(index)])))
+})
+            {
+                let mut index2: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index2 = Int32.(+)(index2, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index2, BasicArrayList.jm_size(list)))) break
+                input = JR.cast(BasicArrayList.jm_get(list, index2))
+                }
+            }
+            }
+        }
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_closeRecordStore"))
+JR.cast(jlate(JR.cast(recordStore)))
+})
+}
 
-    method save : 'any1 'any2. 'any1 * 'any2 -> unit = fun (abeClientInformation, hashtable) ->
-        let abeClientInformation = Obj.repr abeClientInformation in
-        let hashtable = Obj.repr hashtable in
-        begin
-        ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((self#persistanceStrings)#nOT_SAVING))#append (((StringUtil.getInstance ())#toString ((Obj.magic hashtable))))))), (Obj.magic self), (self#commonStrings)#sAVE))));
-        let recordStore : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "RecordStore.openRecordStore" (Obj.repr ((self#getRecordId ((Obj.magic abeClientInformation))), true)))))) in ();
-        let gameActionInput : Input.input ref = ref (((Obj.magic 0) :> Input.input)) in ();
-        let list : BasicArrayList.basicArrayList ref = ref (((Obj.magic 0) :> BasicArrayList.basicArrayList)) in ();
-        let input : Input.input ref = ref (((Obj.magic 0) :> Input.input)) in ();
-        let inputObjectArray : Obj.t array ref = ref ((hashtableUtil#getKeysAsArray ((Obj.magic hashtable)))) in ();
-        let size : int ref = ref ((Array.length !inputObjectArray)) in ();
-        for index = 0 to !size - 1 do
-            gameActionInput := (Obj.magic !inputObjectArray.(index));
-            list := (Obj.magic ((Obj.magic hashtable)#get (!inputObjectArray.(index))));
-            for index2 = 0 to (!list#size ()) - 1 do
-                input := (Obj.magic (!list#get (index2)))
-            done
-        done;
-        ignore ((Obj.magic !recordStore)#closeRecordStore ())
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        hashtableUtil <- ((HashtableUtil.getInstance ()) :> HashtableUtil.hashtableUtil);
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "InputPersistance" (fun arguments -> Obj.repr (new inputPersistance (Obj.obj arguments)))
+JR.registerLateBound("InputPersistance.jnew_1", jnew_1)
+JR.registerLateBound("InputPersistance.jm_loadAll", jm_loadAll)
+JR.registerLateBound("InputPersistance.jm_save", jm_save)
+JR.registerLateBound("InputPersistance.f_hashtableUtil", (this: InputPersistance) => this.f_hashtableUtil)
 
 

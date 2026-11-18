@@ -1,98 +1,119 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.form.item.validation
+module TextFieldItemValidator
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.form.item.validation *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/logic/control/validate/ValidatorBase.gr" include ValidatorBase
+use ValidatorBase.{ type ValidatorBase }
+from "../../../../../../org/allbinary/logic/java/bool/BooleanFactory.gr" include BooleanFactory
+use BooleanFactory.{ type BooleanFactory }
+from "../../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../../../java/lang/Boolean.gr" include Boolean
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.graphics.form.item.ABTextFieldItem *)
-(* import org.allbinary.logic.control.validate.ValidatorBase *)
-(* import org.allbinary.logic.java.bool.BooleanFactory *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
+provide record TextFieldItemValidator {
+  jobject: JObject,
+  mut f_textFieldItem: JObject,
+  mut f_min: Int32,
+  mut f_max: Int32,
+  mut f_allowOnEmpty: Bool,
+}
 
-class textFieldItemValidator (textFieldItem_arg, (min_arg : int), (max_arg : int), (allowOnEmpty_arg : bool)) =
-  object
-    inherit ValidatorBase.validatorBase ()
-    val mutable textFieldItem : Obj.t = Obj.repr 0
-    method textFieldItem : 'r. 'r = Obj.magic textFieldItem
-    method set_textFieldItem : 'v. 'v -> unit = fun value' -> textFieldItem <- Obj.repr value'
-    val mutable min : int = 0
-    method min = min
-    method set_min value' = min <- value'
-    val mutable max : int = 0
-    method max = max
-    method set_max value' = max <- value'
-    val mutable allowOnEmpty : bool = false
-    method allowOnEmpty = allowOnEmpty
-    method set_allowOnEmpty value' = allowOnEmpty <- value'
+
+provide let rec jclassName = () => "TextFieldItemValidator"
+    
+and jnew_4 = (textFieldItem: JObject, min: Int32, max: Int32, allowOnEmpty: Bool) => {
+    let this = { jobject: JR.newJObject("TextFieldItemValidator"), f_textFieldItem: JR.jnull, f_min: 0l, f_max: 0l, f_allowOnEmpty: false, }
     
     
-
-    method isValid () : bool =
-        begin
-        let booleanFactory : BooleanFactory.booleanFactory ref = ref (((BooleanFactory.getInstance ()) :> BooleanFactory.booleanFactory)) in ();
-        let result : bool ref = ref (!booleanFactory#tRUE) in ();
-        let string : string ref = ref (((Obj.magic textFieldItem)#getString ())) in ();
-        let textLength : int ref = ref ((String.length !string)) in ();
-        if ((((!textLength = 0) && allowOnEmpty)) || ((!textLength > min) && (!textLength < max))) then begin
-            ()
-        end else begin
-            if (!textLength < min) then begin
-                result := !booleanFactory#fALSE
-            end else if (!textLength > max) then begin
-                result := !booleanFactory#fALSE
-            end
-        end;
-        !result
-        end [@@warning "-7"]
     
+    
+        this.f_textFieldItem = textFieldItem
+        this.f_min = min
+        this.f_max = max
+        this.f_allowOnEmpty = allowOnEmpty
+    this
+}
+    
+and jm_isValid = (this: TextFieldItemValidator) => {
+        let mut booleanFactory: BooleanFactory = JR.cast(BooleanFactory.jm_getInstance())
+        let mut result: Bool = booleanFactory.f_TRUE
+        let mut string: String = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABTextFieldItem.jm_getString"))
+JR.cast(jlate(JR.cast(this.f_textFieldItem)))
+}
+        let mut textLength: Int32 = JR.length(string)
+        if (((((textLength == 0l) && this.f_allowOnEmpty)) || (Int32.(>)(textLength, this.f_min) && Int32.(<)(textLength, this.f_max)))) {
+            void
+        } else {
+            if (Int32.(<)(textLength, this.f_min)) {
+                result = booleanFactory.f_FALSE
+            } else if (Int32.(>)(textLength, this.f_max)) {
+                result = booleanFactory.f_FALSE
+            }
+        }
+        return result
+}
+    
+and jm_toList = (this: TextFieldItemValidator) => {
+        let mut list: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+        let mut string: String = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABTextFieldItem.jm_getString"))
+JR.cast(jlate(JR.cast(this.f_textFieldItem)))
+}
+        let mut textLength: Int32 = JR.length(string)
+        if ((Int32.(>)(textLength, this.f_min) && Int32.(<)(textLength, this.f_max))) {
+            void
+        } else {
+            let mut label: String = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABTextFieldItem.jm_getLabel"))
+JR.cast(jlate(JR.cast(this.f_textFieldItem)))
+}
+            let mut name: String = JR.substring(label, 0l, Int32.(-)(JR.length(label), 2l))
+            if (Int32.(<)(textLength, this.f_min)) {
+                ignore(BasicArrayList.jm_add(list, JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), name), " is to short")))))
+            } else if (Int32.(>)(textLength, this.f_max)) {
+                ignore(BasicArrayList.jm_add(list, JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), name), " is to long")))))
+            }
+        }
+        return list
+}
 
-    method toList : 'return. unit -> 'return = fun () ->
-        begin
-        let list : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-        let string : string ref = ref (((Obj.magic textFieldItem)#getString ())) in ();
-        let textLength : int ref = ref ((String.length !string)) in ();
-        if ((!textLength > min) && (!textLength < max)) then begin
-            ()
-        end else begin
-            let label : string ref = ref (((Obj.magic textFieldItem)#getLabel ())) in ();
-            let name : string ref = ref ((String.sub !label (0) ((((String.length !label) - 2)) - (0)))) in ();
-            if (!textLength < min) then begin
-                ignore (!list#add ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (!name))#append (" is to short"))))))
-            end else if (!textLength > max) then begin
-                ignore (!list#add ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append (!name))#append (" is to long"))))))
-            end
-        end;
-        (Obj.magic (!list))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        ();
-        ();
-        ();
-        ();
-        textFieldItem <- Obj.repr (textFieldItem_arg);
-        min <- min_arg;
-        max <- max_arg;
-        allowOnEmpty <- allowOnEmpty_arg
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "TextFieldItemValidator" (fun arguments -> Obj.repr (new textFieldItemValidator (Obj.obj arguments)))
+JR.registerLateBound("TextFieldItemValidator.jnew_4", jnew_4)
+JR.registerLateBound("TextFieldItemValidator.jm_isValid", jm_isValid)
+JR.registerLateBound("TextFieldItemValidator.jm_toList", jm_toList)
+JR.registerLateBound("TextFieldItemValidator.f_textFieldItem", (this: TextFieldItemValidator) => this.f_textFieldItem)
+JR.registerLateBound("TextFieldItemValidator.f_min", (this: TextFieldItemValidator) => this.f_min)
+JR.registerLateBound("TextFieldItemValidator.set_f_min", (this: TextFieldItemValidator, jvalue) => { this.f_min = jvalue; jvalue })
+JR.registerLateBound("TextFieldItemValidator.f_max", (this: TextFieldItemValidator) => this.f_max)
+JR.registerLateBound("TextFieldItemValidator.set_f_max", (this: TextFieldItemValidator, jvalue) => { this.f_max = jvalue; jvalue })
+JR.registerLateBound("TextFieldItemValidator.f_allowOnEmpty", (this: TextFieldItemValidator) => this.f_allowOnEmpty)
+JR.registerLateBound("TextFieldItemValidator.set_f_allowOnEmpty", (this: TextFieldItemValidator, jvalue) => { this.f_allowOnEmpty = jvalue; jvalue })
 
 

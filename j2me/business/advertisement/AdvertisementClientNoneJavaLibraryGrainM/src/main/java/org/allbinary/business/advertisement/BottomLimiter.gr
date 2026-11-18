@@ -1,93 +1,111 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.business.advertisement
+module BottomLimiter
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.business.advertisement *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/graphics/displayable/DisplayInfoSingleton.gr" include DisplayInfoSingleton
+use DisplayInfoSingleton.{ type DisplayInfoSingleton }
+from "./GameAdStateFactory.gr" include GameAdStateFactory
+use GameAdStateFactory.{ type GameAdStateFactory }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.GameAdState *)
-(* import org.allbinary.graphics.displayable.DisplayInfoSingleton *)
+provide record BottomLimiter {
+  jobject: JObject,
+  mut f_bottom: Int32,
+  mut f_deltaY: Int32,
+  mut f_lower: Int32,
+  mut f_higher: Int32,
+}
 
-class bottomLimiter () =
-  object
-    val mutable bottom : int = 0
-    method bottom = bottom
-    method set_bottom value' = bottom <- value'
-    val mutable deltaY : int = 0
-    method deltaY = deltaY
-    method set_deltaY value' = deltaY <- value'
-    val mutable lower : int = 0
-    method lower = lower
-    method set_lower value' = lower <- value'
-    val mutable higher : int = 0
-    method higher = higher
-    method set_higher value' = higher <- value'
+let mut jcell_instance: Option<BottomLimiter> = None
+
+provide let rec jclassName = () => "BottomLimiter"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: BottomLimiter = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+    
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("BottomLimiter"), f_bottom: 0l, f_deltaY: 0l, f_lower: 0l, f_higher: 0l, }
     
     
-
-    method init ((lower_arg : int), (higher_arg : int)) : unit =
-        begin
-        lower <- lower_arg;
-        higher <- higher_arg
-        end
     
-
-    method update () : unit =
-        begin
-        let displayInfo : DisplayInfoSingleton.displayInfoSingleton ref = ref (((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton)) in ();
-        let gameAdState : Obj.t ref = ref ((Obj.repr ((GameAdStateFactory.getInstance ())#getCurrentInstance ()))) in ();
-        if ((Obj.magic !gameAdState)#isShowingAt ()) then begin
-            deltaY <- higher
-        end else begin
-            deltaY <- lower
-        end;
-        bottom <- ((!displayInfo#getLastHeight ()) - deltaY)
-        end
     
-
-    method getDeltaY () : int =
-        begin
-        deltaY
-        end
+        void
+    this
+}
     
+and jm_init = (this: BottomLimiter, lower: Int32, higher: Int32) => {
+        this.f_lower = lower
+        this.f_higher = higher
+}
+    
+and jm_update = (this: BottomLimiter) => {
+        let mut displayInfo: DisplayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
+        let mut gameAdState: JObject = JR.cast(GameAdStateFactory.jm_getCurrentInstance(GameAdStateFactory.jm_getInstance()))
+        if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameAdState.jm_isShowingAt"))
+JR.cast(jlate(JR.cast(gameAdState)))
+}) {
+            this.f_deltaY = this.f_higher
+        } else {
+            this.f_deltaY = this.f_lower
+        }
+        this.f_bottom = Int32.(-)(DisplayInfoSingleton.jm_getLastHeight(displayInfo), this.f_deltaY)
+}
+    
+and jm_getDeltaY = (this: BottomLimiter) => {
+        return this.f_deltaY
+}
+    
+and jm_getBottom = (this: BottomLimiter) => {
+        return this.f_bottom
+}
 
-    method getBottom () : int =
-        begin
-        bottom
-        end
-
-    initializer
-      begin
-        bottom <- 0;
-        deltaY <- 0;
-        lower <- 0;
-        higher <- 0;
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "BottomLimiter" (fun arguments -> Obj.repr (new bottomLimiter (Obj.obj arguments)))
-
-let instance = (new bottomLimiter ())
-let get_instance () = instance
-let () = java_register_static "BottomLimiter.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "BottomLimiter.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("BottomLimiter.jnew_0", jnew_0)
+JR.registerLateBound("BottomLimiter.jm_getInstance", jm_getInstance)
+JR.registerLateBound("BottomLimiter.jm_init", jm_init)
+JR.registerLateBound("BottomLimiter.jm_update", jm_update)
+JR.registerLateBound("BottomLimiter.jm_getDeltaY", jm_getDeltaY)
+JR.registerLateBound("BottomLimiter.jm_getBottom", jm_getBottom)
+JR.registerLateBound("BottomLimiter.f_bottom", (this: BottomLimiter) => this.f_bottom)
+JR.registerLateBound("BottomLimiter.set_f_bottom", (this: BottomLimiter, jvalue) => { this.f_bottom = jvalue; jvalue })
+JR.registerLateBound("BottomLimiter.f_deltaY", (this: BottomLimiter) => this.f_deltaY)
+JR.registerLateBound("BottomLimiter.set_f_deltaY", (this: BottomLimiter, jvalue) => { this.f_deltaY = jvalue; jvalue })
+JR.registerLateBound("BottomLimiter.f_lower", (this: BottomLimiter) => this.f_lower)
+JR.registerLateBound("BottomLimiter.set_f_lower", (this: BottomLimiter, jvalue) => { this.f_lower = jvalue; jvalue })
+JR.registerLateBound("BottomLimiter.f_higher", (this: BottomLimiter) => this.f_higher)
+JR.registerLateBound("BottomLimiter.set_f_higher", (this: BottomLimiter, jvalue) => { this.f_higher = jvalue; jvalue })
+JR.registerLateBound("BottomLimiter.jstatic_instance", jstatic_instance)
 
 

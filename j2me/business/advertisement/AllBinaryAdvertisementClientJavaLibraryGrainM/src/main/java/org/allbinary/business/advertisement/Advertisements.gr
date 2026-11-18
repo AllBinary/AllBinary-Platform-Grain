@@ -1,133 +1,156 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.business.advertisement
+module Advertisements
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.business.advertisement *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/rand/MyRandomFactory.gr" include MyRandomFactory
+use MyRandomFactory.{ type MyRandomFactory }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "./AdvertisementProcessorInterface.gr" include AdvertisementProcessorInterface
+use AdvertisementProcessorInterface.{ type AdvertisementProcessorInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.rand.MyRandomFactory *)
-(* import org.allbinary.logic.system.security.licensing.LockedUtil *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
+provide record Advertisements {
+  jobject: JObject,
+  mut f_bannerList: BasicArrayList,
+  mut f_pageList: BasicArrayList,
+  mut f_myRandomFactory: MyRandomFactory,
+}
 
-class advertisements () =
-  object (self)
-    val mutable bannerList : BasicArrayList.basicArrayList = (Obj.magic 0)
-    method bannerList = bannerList
-    method set_bannerList value' = bannerList <- value'
-    val mutable pageList : BasicArrayList.basicArrayList = (Obj.magic 0)
-    method pageList = pageList
-    method set_pageList value' = pageList <- value'
-    val mutable myRandomFactory : MyRandomFactory.myRandomFactory = (Obj.magic 0)
-    method myRandomFactory = myRandomFactory
-    method set_myRandomFactory value' = myRandomFactory <- value'
+
+provide let rec jclassName = () => "Advertisements"
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("Advertisements"), f_bannerList: JR.nullOf(), f_pageList: JR.nullOf(), f_myRandomFactory: JR.nullOf(), }
+    this.f_bannerList = JR.cast(BasicArrayListD.jnew_0())
+    this.f_pageList = JR.cast(BasicArrayListD.jnew_0())
+    this.f_myRandomFactory = JR.cast(MyRandomFactory.jm_getInstance())
+    this
+}
     
-
-    method addPage : 'any1. 'any1 -> unit = fun (advertisementProcessorInterface) ->
-        let advertisementProcessorInterface = Obj.repr advertisementProcessorInterface in
-        begin
-        if (not (pageList#contains ((Obj.magic advertisementProcessorInterface)))) then begin
-            ignore (pageList#add ((Obj.magic advertisementProcessorInterface)))
-        end
-        end [@@warning "-20"]
+and jm_addPage = (this: Advertisements, advertisementProcessorInterface: AdvertisementProcessorInterface) => {
+        if (!BasicArrayList.jm_contains(this.f_pageList, JR.cast(advertisementProcessorInterface))) {
+            ignore(BasicArrayList.jm_add(this.f_pageList, JR.cast(advertisementProcessorInterface)))
+        }
+}
     
-
-    method startRandomPage () : unit =
-        begin
-        let size : int ref = ref ((pageList#size ())) in ();
-        if (!size > 0) then begin
-            let random : int ref = ref ((myRandomFactory#getAbsoluteNextInt (!size))) in ();
-            let advertisementProcessorInterface : AdvertisementProcessorInterface.advertisementProcessorInterface ref = ref (((Obj.magic pageList#objectArray.(!random)) :> AdvertisementProcessorInterface.advertisementProcessorInterface)) in ();
-            ignore (!advertisementProcessorInterface#start ())
-        end
-        end
+and jm_startRandomPage = (this: Advertisements) => {
+        let mut size: Int32 = BasicArrayList.jm_size(this.f_pageList)
+        if (Int32.(>)(size, 0l)) {
+            let mut random: Int32 = MyRandomFactory.jm_getAbsoluteNextInt(this.f_myRandomFactory, size)
+            let mut advertisementProcessorInterface: AdvertisementProcessorInterface = JR.cast(this.f_pageList.f_objectArray[Int32.toNumber(random)])
+            ignore(AdvertisementProcessorInterface.jm_start(advertisementProcessorInterface))
+        }
+}
     
-
-    method processRandomPage () : unit =
-        begin
-        if ((Obj.magic (java_call_static "LockedUtil.getInstance" (Obj.repr ())))#isLocked ()) then begin
-            let size : int ref = ref ((pageList#size ())) in ();
-            if (!size > 0) then begin
-                let random : int ref = ref ((myRandomFactory#getAbsoluteNextInt (!size))) in ();
-                let advertisementProcessorInterface : AdvertisementProcessorInterface.advertisementProcessorInterface ref = ref (((Obj.magic pageList#objectArray.(!random)) :> AdvertisementProcessorInterface.advertisementProcessorInterface)) in ();
-                ignore (!advertisementProcessorInterface#process ())
-            end
-        end
-        end
+and jm_processRandomPage = (this: Advertisements) => {
+        if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LockedUtil.jm_isLocked"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LockedUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+}) {
+            let mut size: Int32 = BasicArrayList.jm_size(this.f_pageList)
+            if (Int32.(>)(size, 0l)) {
+                let mut random: Int32 = MyRandomFactory.jm_getAbsoluteNextInt(this.f_myRandomFactory, size)
+                let mut advertisementProcessorInterface: AdvertisementProcessorInterface = JR.cast(this.f_pageList.f_objectArray[Int32.toNumber(random)])
+                ignore(AdvertisementProcessorInterface.jm_process(advertisementProcessorInterface))
+            }
+        }
+}
     
-
-    method stopAllPage () : unit =
-        begin
-        let index : int ref = ref ((pageList#size ())) in ();
-        while ((index := !index - 1; !index) >= 0) do
-            let advertisementProcessorInterface : AdvertisementProcessorInterface.advertisementProcessorInterface ref = ref (((Obj.magic pageList#objectArray.(!index)) :> AdvertisementProcessorInterface.advertisementProcessorInterface)) in ();
-            ignore (!advertisementProcessorInterface#stop ())
-        done
-        end
+and jm_stopAllPage = (this: Advertisements) => {
+        {
+            let mut index: Int32 = BasicArrayList.jm_size(this.f_pageList)
+            let mut jfirst = true
+            while (true) {
+                jfirst = false
+                if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
+            let mut advertisementProcessorInterface: AdvertisementProcessorInterface = JR.cast(this.f_pageList.f_objectArray[Int32.toNumber(index)])
+            ignore(AdvertisementProcessorInterface.jm_stop(advertisementProcessorInterface))
+            }
+        }
+}
     
-
-    method addBanner : 'any1. 'any1 -> unit = fun (advertisementProcessorInterface) ->
-        let advertisementProcessorInterface = Obj.repr advertisementProcessorInterface in
-        begin
-        if (not (bannerList#contains ((Obj.magic advertisementProcessorInterface)))) then begin
-            ignore (bannerList#add ((Obj.magic advertisementProcessorInterface)))
-        end
-        end [@@warning "-20"]
+and jm_addBanner = (this: Advertisements, advertisementProcessorInterface: AdvertisementProcessorInterface) => {
+        if (!BasicArrayList.jm_contains(this.f_bannerList, JR.cast(advertisementProcessorInterface))) {
+            ignore(BasicArrayList.jm_add(this.f_bannerList, JR.cast(advertisementProcessorInterface)))
+        }
+}
     
-
-    method startAll () : unit =
-        begin
-        let index : int ref = ref ((bannerList#size ())) in ();
-        while ((index := !index - 1; !index) >= 0) do
-            let advertisementProcessorInterface : AdvertisementProcessorInterface.advertisementProcessorInterface ref = ref (((Obj.magic bannerList#objectArray.(!index)) :> AdvertisementProcessorInterface.advertisementProcessorInterface)) in ();
-            ignore (!advertisementProcessorInterface#start ())
-        done
-        end
+and jm_startAll = (this: Advertisements) => {
+        {
+            let mut index: Int32 = BasicArrayList.jm_size(this.f_bannerList)
+            let mut jfirst = true
+            while (true) {
+                jfirst = false
+                if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
+            let mut advertisementProcessorInterface: AdvertisementProcessorInterface = JR.cast(this.f_bannerList.f_objectArray[Int32.toNumber(index)])
+            ignore(AdvertisementProcessorInterface.jm_start(advertisementProcessorInterface))
+            }
+        }
+}
     
-
-    method stopAllBanner () : unit =
-        begin
-        let index : int ref = ref ((bannerList#size ())) in ();
-        while ((index := !index - 1; !index) >= 0) do
-            let advertisementProcessorInterface : AdvertisementProcessorInterface.advertisementProcessorInterface ref = ref (((Obj.magic bannerList#objectArray.(!index)) :> AdvertisementProcessorInterface.advertisementProcessorInterface)) in ();
-            ignore (!advertisementProcessorInterface#stop ())
-        done
-        end
+and jm_stopAllBanner = (this: Advertisements) => {
+        {
+            let mut index: Int32 = BasicArrayList.jm_size(this.f_bannerList)
+            let mut jfirst = true
+            while (true) {
+                jfirst = false
+                if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
+            let mut advertisementProcessorInterface: AdvertisementProcessorInterface = JR.cast(this.f_bannerList.f_objectArray[Int32.toNumber(index)])
+            ignore(AdvertisementProcessorInterface.jm_stop(advertisementProcessorInterface))
+            }
+        }
+}
     
-
-    method getBanner : 'return. int -> 'return = fun ((index : int)) ->
-        begin
-        let advertisementProcessorInterface : AdvertisementProcessorInterface.advertisementProcessorInterface ref = ref (((Obj.magic bannerList#objectArray.(index)) :> AdvertisementProcessorInterface.advertisementProcessorInterface)) in ();
-        (Obj.magic (!advertisementProcessorInterface))
-        end
+and jm_getBanner = (this: Advertisements, index: Int32) => {
+        let mut advertisementProcessorInterface: AdvertisementProcessorInterface = JR.cast(this.f_bannerList.f_objectArray[Int32.toNumber(index)])
+        return advertisementProcessorInterface
+}
     
+and jm_stopAll = (this: Advertisements) => {
+        ignore(jm_stopAllBanner(this))
+        ignore(jm_stopAllPage(this))
+}
 
-    method stopAll () : unit =
-        begin
-        (self#stopAllBanner ());
-        (self#stopAllPage ())
-        end
-
-    initializer
-      begin
-        bannerList <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
-        pageList <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
-        myRandomFactory <- ((MyRandomFactory.getInstance ()) :> MyRandomFactory.myRandomFactory);
-        ()
-      end
-  end
-let () = java_register_constructor "Advertisements" (fun arguments -> Obj.repr (new advertisements (Obj.obj arguments)))
+JR.registerLateBound("Advertisements.jnew_0", jnew_0)
+JR.registerLateBound("Advertisements.jm_addPage", jm_addPage)
+JR.registerLateBound("Advertisements.jm_startRandomPage", jm_startRandomPage)
+JR.registerLateBound("Advertisements.jm_processRandomPage", jm_processRandomPage)
+JR.registerLateBound("Advertisements.jm_stopAllPage", jm_stopAllPage)
+JR.registerLateBound("Advertisements.jm_addBanner", jm_addBanner)
+JR.registerLateBound("Advertisements.jm_startAll", jm_startAll)
+JR.registerLateBound("Advertisements.jm_stopAllBanner", jm_stopAllBanner)
+JR.registerLateBound("Advertisements.jm_getBanner", jm_getBanner)
+JR.registerLateBound("Advertisements.jm_stopAll", jm_stopAll)
+JR.registerLateBound("Advertisements.f_bannerList", (this: Advertisements) => this.f_bannerList)
+JR.registerLateBound("Advertisements.f_pageList", (this: Advertisements) => this.f_pageList)
+JR.registerLateBound("Advertisements.f_myRandomFactory", (this: Advertisements) => this.f_myRandomFactory)
 
 

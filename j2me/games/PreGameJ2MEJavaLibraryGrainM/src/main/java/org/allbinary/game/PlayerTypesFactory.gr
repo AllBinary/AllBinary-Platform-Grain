@@ -1,53 +1,70 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game
+module PlayerTypesFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./PlayerType.gr" include PlayerType
+use PlayerType.{ type PlayerType }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
+provide record PlayerTypesFactory {
+  jobject: JObject,
+  mut f_PLAYER_TYPE_ONE: PlayerType,
+  mut f_PLAYER_TYPE_TWO: PlayerType,
+  mut f_PLAYER_TYPE_THREE: PlayerType,
+}
 
-class playerTypesFactory () =
-  object
-    val mutable pLAYER_TYPE_ONE : PlayerType.playerType = (Obj.magic 0)
-    method pLAYER_TYPE_ONE = pLAYER_TYPE_ONE
-    method set_pLAYER_TYPE_ONE value' = pLAYER_TYPE_ONE <- value'
-    val mutable pLAYER_TYPE_TWO : PlayerType.playerType = (Obj.magic 0)
-    method pLAYER_TYPE_TWO = pLAYER_TYPE_TWO
-    method set_pLAYER_TYPE_TWO value' = pLAYER_TYPE_TWO <- value'
-    val mutable pLAYER_TYPE_THREE : PlayerType.playerType = (Obj.magic 0)
-    method pLAYER_TYPE_THREE = pLAYER_TYPE_THREE
-    method set_pLAYER_TYPE_THREE value' = pLAYER_TYPE_THREE <- value'
+let mut jcell_SINGLETON: Option<PlayerTypesFactory> = None
 
-    initializer
-      begin
-        pLAYER_TYPE_ONE <- ((new PlayerType.playerType ("Player Type One", 0)) :> PlayerType.playerType);
-        pLAYER_TYPE_TWO <- ((new PlayerType.playerType ("Player Type Two", 1)) :> PlayerType.playerType);
-        pLAYER_TYPE_THREE <- ((new PlayerType.playerType ("Player Type Three", 2)) :> PlayerType.playerType);
-        ()
-      end
-  end
-let () = java_register_constructor "PlayerTypesFactory" (fun arguments -> Obj.repr (new playerTypesFactory (Obj.obj arguments)))
+provide let rec jclassName = () => "PlayerTypesFactory"
 
-let sINGLETON = (new playerTypesFactory ())
-let get_sINGLETON () = sINGLETON
-let () = java_register_static "PlayerTypesFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
+and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
+  Some(value) => value,
+  None => {
+    let value: PlayerTypesFactory = jnew_0()
+    jcell_SINGLETON = Some(value)
+    value
+  },
+}
 
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (sINGLETON))
-        end
-let () = java_register_static "PlayerTypesFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("PlayerTypesFactory"), f_PLAYER_TYPE_ONE: JR.nullOf(), f_PLAYER_TYPE_TWO: JR.nullOf(), f_PLAYER_TYPE_THREE: JR.nullOf(), }
+    this.f_PLAYER_TYPE_ONE = PlayerType.jnew_2("Player Type One", 0l)
+    this.f_PLAYER_TYPE_TWO = PlayerType.jnew_2("Player Type Two", 1l)
+    this.f_PLAYER_TYPE_THREE = PlayerType.jnew_2("Player Type Three", 2l)
+    this
+}
+    
+and jm_getInstance = () => {
+        return jstatic_SINGLETON()
+}
+
+JR.registerLateBound("PlayerTypesFactory.jnew_0", jnew_0)
+JR.registerLateBound("PlayerTypesFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("PlayerTypesFactory.f_PLAYER_TYPE_ONE", (this: PlayerTypesFactory) => this.f_PLAYER_TYPE_ONE)
+JR.registerLateBound("PlayerTypesFactory.f_PLAYER_TYPE_TWO", (this: PlayerTypesFactory) => this.f_PLAYER_TYPE_TWO)
+JR.registerLateBound("PlayerTypesFactory.f_PLAYER_TYPE_THREE", (this: PlayerTypesFactory) => this.f_PLAYER_TYPE_THREE)
+JR.registerLateBound("PlayerTypesFactory.jstatic_SINGLETON", jstatic_SINGLETON)
 
 

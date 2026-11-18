@@ -1,48 +1,69 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.image
+module PaintableToImageUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.image *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/graphics/paint/PaintableInterface.gr" include PaintableInterface
+use PaintableInterface.{ type PaintableInterface }
+from "./GameFeatureImageCacheFactory.gr" include GameFeatureImageCacheFactory
+use GameFeatureImageCacheFactory.{ type GameFeatureImageCacheFactory }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Graphics *)
-(* import javax.microedition.lcdui.Image *)
-(* import org.allbinary.graphics.paint.PaintableInterface *)
+provide record PaintableToImageUtil {
+  jobject: JObject,
+}
 
-class paintableToImageUtil () =
-  object
+let mut jcell_instance: Option<PaintableToImageUtil> = None
 
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "PaintableToImageUtil" (fun arguments -> Obj.repr (new paintableToImageUtil (Obj.obj arguments)))
+provide let rec jclassName = () => "PaintableToImageUtil"
 
-let instance = (new paintableToImageUtil ())
-let get_instance () = instance
-let () = java_register_static "PaintableToImageUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: PaintableToImageUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
 
-let getImage : 'any1 'return. 'any1 * int * int -> 'return = fun (paintableInterface, (width : int), (height : int)) ->
-        let paintableInterface = Obj.repr paintableInterface in
-        begin
-        let image : Obj.t ref = ref ((Obj.repr ((GameFeatureImageCacheFactory.getInstance ())#get ((java_get_class (Obj.repr instance)), width, height)))) in ();
-        let graphics : Obj.t ref = ref ((Obj.repr ((Obj.magic !image)#getGraphics ()))) in ();
-        ignore ((Obj.magic paintableInterface)#paint ((Obj.magic !graphics)));
-        (Obj.magic ((Obj.magic !image)))
-        end [@@warning "-20"]
-let () = java_register_static "PaintableToImageUtil.getImage" (fun arguments -> Obj.repr (getImage (Obj.obj arguments)))
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("PaintableToImageUtil"), }
+    this
+}
+    
+and jm_getImage = (paintableInterface: PaintableInterface, width: Int32, height: Int32) => {
+        let mut image: JObject = JR.cast(GameFeatureImageCacheFactory.jm_get(GameFeatureImageCacheFactory.jm_getInstance(), jstatic_instance().jobject.cls, width, height))
+        let mut graphics: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getGraphics"))
+JR.cast(jlate(JR.cast(image)))
+})
+        ignore(PaintableInterface.jm_paint(paintableInterface, graphics))
+        return image
+}
+
+JR.registerLateBound("PaintableToImageUtil.jnew_0", jnew_0)
+JR.registerLateBound("PaintableToImageUtil.jm_getImage", jm_getImage)
+JR.registerLateBound("PaintableToImageUtil.jstatic_instance", jstatic_instance)
 
 

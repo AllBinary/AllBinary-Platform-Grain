@@ -1,55 +1,68 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io
+module BufferedIOUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/io/BufferedReader.gr" include BufferedReader
+use BufferedReader.{ type BufferedReader }
+from "../../../../java/io/BufferedWriter.gr" include BufferedWriter
+use BufferedWriter.{ type BufferedWriter }
+from "../../../../java/io/FileReader.gr" include FileReader
+use FileReader.{ type FileReader }
+from "../../../../java/io/FileWriter.gr" include FileWriter
+use FileWriter.{ type FileWriter }
+from "../../../../org/allbinary/logic/io/file/AbFileNativeUtil.gr" include AbFileNativeUtil
+use AbFileNativeUtil.{ type AbFileNativeUtil }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.BufferedReader *)
-(* import java.io.BufferedWriter *)
-(* import java.io.FileReader *)
-(* import java.io.FileWriter *)
-(* import org.allbinary.logic.io.file.AbFile *)
-(* import org.allbinary.logic.io.file.AbFileNativeUtil *)
-(* import org.allbinary.logic.string.StringUtil *)
+provide record BufferedIOUtil {
+  jobject: JObject,
+}
 
 
-let copy : 'any1 'any2. 'any1 * 'any2 -> unit = fun (backupFile, backupFileBak) ->
-        let backupFile = Obj.repr backupFile in
-        let backupFileBak = Obj.repr backupFileBak in
-        begin
-        let line : string ref = ref ((StringUtil.getInstance ())#eMPTY_STRING) in ();
-        let tmpOut : java_buffered_writer ref = ref (((new java_buffered_writer (Obj.repr ((new java_file_writer (Obj.repr ((AbFileNativeUtil.get ((Obj.magic backupFileBak))))))))) :> java_buffered_writer)) in ();
-        let tmpIn : java_buffered_reader ref = ref (((new java_buffered_reader (Obj.repr ((new java_file_reader (Obj.repr ((AbFileNativeUtil.get ((Obj.magic backupFile))))))))) :> java_buffered_reader)) in ();
-        while (!tmpIn#ready ()) do
-            line := (!tmpIn#readLine ());
-            ignore (!tmpOut#write (!line, 0, (String.length !line)));
-            ignore (!tmpOut#newLine ())
-        done;
-        ignore (!tmpOut#flush ())
-        end [@@warning "-20"]
+provide let rec jclassName = () => "BufferedIOUtil"
 
-let () = java_register_static "BufferedIOUtil.copy" (fun arguments -> Obj.repr (copy (Obj.obj arguments)))
-class bufferedIOUtil () =
-  object
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("BufferedIOUtil"), }
+    this
+}
+    
+and jm_copy = (backupFile: JObject, backupFileBak: JObject) => {
+        let mut line: String = StringUtil.jm_getInstance().f_EMPTY_STRING
+        let mut tmpOut: BufferedWriter = BufferedWriter.jnew_1(FileWriter.jnew_1(AbFileNativeUtil.jm_get(backupFileBak)))
+        let mut tmpIn: BufferedReader = BufferedReader.jnew_1(FileReader.jnew_1(AbFileNativeUtil.jm_get(backupFile)))
+        while (BufferedReader.jm_ready(tmpIn)) {
+            line = BufferedReader.jm_readLine(tmpIn)
+            ignore(BufferedWriter.jm_write(tmpOut, line, 0l, JR.length(line)))
+            ignore(BufferedWriter.jm_newLine(tmpOut))
+        }
+        ignore(BufferedWriter.jm_flush(tmpOut))
+}
 
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "BufferedIOUtil" (fun arguments -> Obj.repr (new bufferedIOUtil (Obj.obj arguments)))
+JR.registerLateBound("BufferedIOUtil.jnew_0", jnew_0)
+JR.registerLateBound("BufferedIOUtil.jm_copy", jm_copy)
 
 

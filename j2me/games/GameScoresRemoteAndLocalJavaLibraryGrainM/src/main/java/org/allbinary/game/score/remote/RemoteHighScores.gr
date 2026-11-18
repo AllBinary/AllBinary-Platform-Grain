@@ -1,165 +1,231 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.score.remote
+module RemoteHighScores
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../java/util/Enumeration.gr" include Enumeration
+use Enumeration.{ type Enumeration }
+from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../../org/allbinary/game/GameInfo.gr" include GameInfo
+use GameInfo.{ type GameInfo }
+from "../../../../../org/allbinary/game/score/RemoteErrorHighScoresSingletonFactory.gr" include RemoteErrorHighScoresSingletonFactory
+use RemoteErrorHighScoresSingletonFactory.{ type RemoteErrorHighScoresSingletonFactory }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/logic/system/SoftwareInformation.gr" include SoftwareInformation
+use SoftwareInformation.{ type SoftwareInformation }
+from "../../../../../org/allbinary/logic/system/security/licensing/AbeClientInformationInterface.gr" include AbeClientInformationInterface
+use AbeClientInformationInterface.{ type AbeClientInformationInterface }
+from "../../../../../org/allbinary/string/CommonLabels.gr" include CommonLabels
+use CommonLabels.{ type CommonLabels }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../../org/allbinary/util/EnumerationUtil.gr" include EnumerationUtil
+use EnumerationUtil.{ type EnumerationUtil }
+from "../../../../../java/lang/Long.gr" include Long
+from "../../../../../java/lang/Boolean.gr" include Boolean
+from "./RemoteHighScoresData.gr" include RemoteHighScoresData
+use RemoteHighScoresData.{ type RemoteHighScoresData }
+
+provide record RemoteHighScores {
+  jobject: JObject,
+  mut f_orderedHighScoresList: JObject,
+  mut f_name: String,
+  mut f_heading: String,
+  mut f_columnOneHeading: String,
+  mut f_columnTwoHeading: String,
+  mut f_logUtil: JObject,
+  mut f_enumerationUtil: EnumerationUtil,
+  mut f_abeClientInformation: AbeClientInformationInterface,
+  mut f_softwareInformation: SoftwareInformation,
+  mut f_ascending: Bool,
+  mut f_ASCENDING: String,
+}
+
+let mut jcell_hashTable: Option<JObject> = None
+
+provide let rec jclassName = () => "RemoteHighScores"
+
+and jstatic_hashTable = () => match (jcell_hashTable) {
+  Some(value) => value,
+  None => {
+    let value: JObject = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashtable"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+}
+    jcell_hashTable = Some(value)
+    value
+  },
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.score.remote *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.util.Enumeration *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.game.GameInfo *)
-(* import org.allbinary.game.score.HighScore *)
-(* import org.allbinary.game.score.HighScores *)
-(* import org.allbinary.game.score.RemoteErrorHighScoresSingletonFactory *)
-(* import org.allbinary.logic.StdUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.system.SoftwareInformation *)
-(* import org.allbinary.logic.system.security.licensing.AbeClientInformationInterface *)
-(* import org.allbinary.string.CommonLabels *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.allbinary.util.ABHashtable *)
-(* import org.allbinary.util.EnumerationUtil *)
-
-let hashTable : Obj.t = (Obj.repr ((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashtable ()))
-let get_hashTable () = Obj.magic hashTable
-let () = java_register_static "RemoteHighScores.get_hashTable" (fun _ -> Obj.repr (get_hashTable ()))
-class remoteHighScores ((abeClientInformation_arg : AbeClientInformationInterface.abeClientInformationInterface), (softwareInformation_arg : SoftwareInformation.softwareInformation), (gameInfo : GameInfo.gameInfo), (heading : string), (columnTwoHeading : string), (ascending_arg : bool), (preload : bool)) =
-  object (self)
-    inherit HighScores.highScores ((java_string_of (Obj.repr gameInfo)), heading, columnTwoHeading)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable enumerationUtil : EnumerationUtil.enumerationUtil = (Obj.magic 0)
-    method enumerationUtil = enumerationUtil
-    method set_enumerationUtil value' = enumerationUtil <- value'
-    val mutable abeClientInformation : AbeClientInformationInterface.abeClientInformationInterface = (Obj.magic 0)
-    method abeClientInformation = abeClientInformation
-    method set_abeClientInformation value' = abeClientInformation <- value'
-    val mutable softwareInformation : SoftwareInformation.softwareInformation = (Obj.magic 0)
-    method softwareInformation = softwareInformation
-    method set_softwareInformation value' = softwareInformation <- value'
-    val mutable ascending : bool = (Obj.magic 0)
-    method ascending = ascending
-    method set_ascending value' = ascending <- value'
-    val mutable aSCENDING : string = ""
-    method aSCENDING = aSCENDING
-    method set_aSCENDING value' = aSCENDING <- value'
+and jnew_7 = (abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: String, columnTwoHeading: String, ascending: Bool, preload: Bool) => {
+    let this = { jobject: JR.newJObject("RemoteHighScores"), f_orderedHighScoresList: JR.jnull, f_name: "", f_heading: "", f_columnOneHeading: "", f_columnTwoHeading: "", f_logUtil: JR.jnull, f_enumerationUtil: JR.nullOf(), f_abeClientInformation: JR.nullOf(), f_softwareInformation: JR.nullOf(), f_ascending: false, f_ASCENDING: "", }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_enumerationUtil = JR.cast(EnumerationUtil.jm_getInstance())
     
     
-
-    method addHighScore : 'any1. 'any1 -> unit = fun (newHighScore) ->
-        let newHighScore = Obj.repr newHighScore in
-        begin
-        ignore ((Obj.magic (java_call_static "RemoteHighScoresSubmissionProcessorFactory.getInstance" (Obj.repr ())))#process ((Obj.magic self), abeClientInformation, (Obj.magic newHighScore)))
-        end [@@warning "-7-20"]
     
-
-    method update : 'any1. 'any1 -> unit = fun (hashtable) ->
-        let hashtable = Obj.repr hashtable in
-        begin
-        ignore ((self#getList ())#clear ());
-        let vector : BasicArrayList.basicArrayList ref = ref (((Obj.magic ((Obj.magic hashtable)#get ((Obj.magic (RemoteHighScoresData.getInstance ())#hIGH_SCORES)))) :> BasicArrayList.basicArrayList)) in ();
-        if (!vector != (Obj.magic 0)) then begin
-            let size : int ref = ref ((!vector#size ())) in ();
-            for index = 0 to !size - 1 do
-                let highScoreVector : BasicArrayList.basicArrayList ref = ref (((Obj.magic (!vector#get (index))) :> BasicArrayList.basicArrayList)) in ();
-                let displayName : string ref = ref ((Obj.magic (!highScoreVector#get (0)))) in ();
-                let score : string ref = ref ((Obj.magic (!highScoreVector#get (1)))) in ();
-                let longScore : int ref = ref ((int_of_string (!score))) in ();
-                let highScore : Obj.t ref = ref ((Obj.repr (Obj.obj (java_new "HighScore" (Obj.repr ((- 1), !displayName, (Obj.magic 0), !longScore)))))) in ();
-                ignore ((self#getList ())#add ((Obj.magic !highScore)))
-            done
-        end else begin
-            let nEXT_ELEMENT : string ref = ref ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ((CommonLabels.getInstance ())#nEXT))#append ("Element: "))))) in ();
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            let enumeration : java_enumeration ref = ref ((((Obj.magic hashtable)#elements ()) :> java_enumeration)) in ();
-            let nextElement : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-            while (enumerationUtil#hasMoreElements (!enumeration)) do
-                nextElement := (Obj.repr ((enumerationUtil#nextElement (!enumeration))));
-                ignore ((Obj.magic logUtil)#putF ((!nEXT_ELEMENT ^ java_string_of (Obj.repr (!nextElement))), (Obj.magic self), !commonStrings#pROCESS))
-            done
-        end
-        end [@@warning "-7-20"]
+    this.f_ASCENDING = "ASCENDING"
+        void
+        this.f_abeClientInformation = abeClientInformation
+        this.f_softwareInformation = softwareInformation
+        ignore(jm_setAscending(this, ascending))
+        if (preload) {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("RemoteHighScoresProcessorFactory.jm_process"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("RemoteHighScoresProcessorFactory.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(this), JR.cast(this.f_abeClientInformation), JR.cast(gameInfo)))
+})
+        }
+    this
+}
     
-
-    method setAscending ((ascending_arg : bool)) : unit =
-        begin
-        ascending <- ascending_arg
-        end [@@warning "-7"]
+and jm_getInstance = (abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: String, columnTwoHeading: String, isAscending: Bool) => {
+        return jm_getInstancePreload(abeClientInformation, softwareInformation, gameInfo, heading, columnTwoHeading, isAscending, true)
+}
     
-
-    method getAscending () : bool =
-        begin
-        ascending
-        end [@@warning "-7"]
+and jm_getInstancePreload = (abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: String, columnTwoHeading: String, isAscending: Bool, preload: Bool) => {
+        let mut logUtil: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        {
+            let mut highScores: JObject = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
+JR.cast(jlate(JR.cast(jstatic_hashTable()), JR.cast(gameInfo)))
+})
+            if (JR.isNull(highScores)) {
+                highScores = JR.cast(jnew_7(abeClientInformation, softwareInformation, gameInfo, heading, columnTwoHeading, isAscending, preload))
+                ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
+JR.cast(jlate(JR.cast(jstatic_hashTable()), JR.cast(gameInfo), JR.cast(highScores)))
+})
+            }
+            return highScores
+        }
+    return JR.jnull
+}
     
+and jm_addHighScore = (this: RemoteHighScores, newHighScore: JObject) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("RemoteHighScoresSubmissionProcessorFactory.jm_process"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("RemoteHighScoresSubmissionProcessorFactory.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(this), JR.cast(this.f_abeClientInformation), JR.cast(newHighScore)))
+})
+}
+    
+and jm_update = (this: RemoteHighScores, hashtable: JObject) => {
+        ignore(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getList"))
+JR.cast(jlate(JR.cast(this)))
+})))
+        let mut vector: BasicArrayList = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
+JR.cast(jlate(JR.cast(hashtable), JR.cast(JR.cast(RemoteHighScoresData.jm_getInstance().f_HIGH_SCORES))))
+})
+        if (!JR.isNull(vector)) {
+            let mut size: Int32 = BasicArrayList.jm_size(vector)
+            {
+                let mut index: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(+)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index, size))) break
+                let mut highScoreVector: BasicArrayList = JR.cast(BasicArrayList.jm_get(vector, index))
+                let mut displayName: String = JR.cast(BasicArrayList.jm_get(highScoreVector, 0l))
+                let mut score: String = JR.cast(BasicArrayList.jm_get(highScoreVector, 1l))
+                let mut longScore: Int64 = Long.jm_parseLong(score)
+                let mut highScore: JObject = {
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("HighScore.jnew_4"))
+JR.cast(jlate(JR.cast(Int32.(-)(1l, Int32.(+)(1l, 1l))), JR.cast(displayName), JR.cast(JR.nullOf()), JR.cast(longScore)))
+}
+                ignore(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getList"))
+JR.cast(jlate(JR.cast(this)))
+})))
+                }
+            }
+        } else {
+            let mut l_NEXT_ELEMENT: String = StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), CommonLabels.jm_getInstance().f_NEXT), "Element: "))
+            let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
+            let mut enumeration: Enumeration = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_elements"))
+JR.cast(jlate(JR.cast(hashtable)))
+})
+            let mut nextElement: JObject = JR.jnull
+            while (EnumerationUtil.jm_hasMoreElements(this.f_enumerationUtil, enumeration)) {
+                nextElement = EnumerationUtil.jm_nextElement(this.f_enumerationUtil, enumeration)
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(l_NEXT_ELEMENT ++ toString(nextElement)), JR.cast(this), JR.cast(commonStrings.f_PROCESS)))
+})
+            }
+        }
+}
+    
+and jm_setAscending = (this: RemoteHighScores, ascending: Bool) => {
+        this.f_ascending = ascending
+}
+    
+and jm_getAscending = (this: RemoteHighScores) => {
+        return this.f_ascending
+}
+    
+and jm_getSoftwareInformation = (this: RemoteHighScores) => {
+        return this.f_softwareInformation
+}
 
-    method getSoftwareInformation : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (softwareInformation))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        enumerationUtil <- ((EnumerationUtil.getInstance ()) :> EnumerationUtil.enumerationUtil);
-        ();
-        ();
-        ascending <- (Obj.magic 0);
-        aSCENDING <- "ASCENDING";
-        ();
-        (* super(...) is the inherit clause *) ();
-        abeClientInformation <- abeClientInformation_arg;
-        softwareInformation <- softwareInformation_arg;
-        (self#setAscending (ascending_arg));
-        if preload then begin
-            ignore ((Obj.magic (java_call_static "RemoteHighScoresProcessorFactory.getInstance" (Obj.repr ())))#process ((Obj.magic self), abeClientInformation, gameInfo))
-        end
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "RemoteHighScores" (fun arguments -> Obj.repr (new remoteHighScores (Obj.obj arguments)))
-
-let rec getInstance : 'any1 'any2 'any3 'return. 'any1 * 'any2 * 'any3 * string * string * bool -> 'return = fun (abeClientInformation_arg, softwareInformation_arg, gameInfo, (heading : string), (columnTwoHeading : string), (isAscending : bool)) ->
-        let abeClientInformation_arg = Obj.repr abeClientInformation_arg in
-        let softwareInformation_arg = Obj.repr softwareInformation_arg in
-        let gameInfo = Obj.repr gameInfo in
-        begin
-        (Obj.magic ((getInstancePreload ((Obj.magic abeClientInformation_arg), (Obj.magic softwareInformation_arg), (Obj.magic gameInfo), heading, columnTwoHeading, isAscending, true))))
-        end [@@warning "-20"]
-
-and getInstancePreload : 'any1 'any2 'any3 'return. 'any1 * 'any2 * 'any3 * string * string * bool * bool -> 'return = fun (abeClientInformation_arg, softwareInformation_arg, gameInfo, (heading : string), (columnTwoHeading : string), (isAscending : bool), (preload : bool)) ->
-        let abeClientInformation_arg = Obj.repr abeClientInformation_arg in
-        let softwareInformation_arg = Obj.repr softwareInformation_arg in
-        let gameInfo = Obj.repr gameInfo in
-        begin
-        let logUtil_arg : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
-        (try
-            let highScores : Obj.t ref = ref ((Obj.repr (Obj.magic ((Obj.magic hashTable)#get ((Obj.magic gameInfo)))))) in ();
-            if ((Obj.magic !highScores) == (Obj.magic 0)) then begin
-                highScores := Obj.repr ((new remoteHighScores ((Obj.magic abeClientInformation_arg), (Obj.magic softwareInformation_arg), (Obj.magic gameInfo), heading, columnTwoHeading, isAscending, preload)));
-                ignore ((Obj.magic hashTable)#put ((Obj.magic gameInfo), (Obj.magic !highScores)))
-            end;
-            (Obj.magic ((Obj.magic !highScores)))
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic !logUtil_arg)#put (!commonStrings#eXCEPTION, (RemoteErrorHighScoresSingletonFactory.getInstance ()), !commonStrings#gET_INSTANCE, e));
-            (Obj.magic ((RemoteErrorHighScoresSingletonFactory.getInstance ())))
-        end)
-        end [@@warning "-20"]
-let () = java_register_static "RemoteHighScores.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-let () = java_register_static "RemoteHighScores.getInstancePreload" (fun arguments -> Obj.repr (getInstancePreload (Obj.obj arguments)))
+JR.registerLateBound("RemoteHighScores.jnew_7", jnew_7)
+JR.registerLateBound("RemoteHighScores.jm_getInstance", jm_getInstance)
+JR.registerLateBound("RemoteHighScores.jm_getInstancePreload", jm_getInstancePreload)
+JR.registerLateBound("RemoteHighScores.jm_addHighScore", jm_addHighScore)
+JR.registerLateBound("RemoteHighScores.jm_update", jm_update)
+JR.registerLateBound("RemoteHighScores.jm_setAscending", jm_setAscending)
+JR.registerLateBound("RemoteHighScores.jm_getAscending", jm_getAscending)
+JR.registerLateBound("RemoteHighScores.jm_getSoftwareInformation", jm_getSoftwareInformation)
+JR.registerLateBound("RemoteHighScores.f_logUtil", (this: RemoteHighScores) => this.f_logUtil)
+JR.registerLateBound("RemoteHighScores.f_enumerationUtil", (this: RemoteHighScores) => this.f_enumerationUtil)
+JR.registerLateBound("RemoteHighScores.f_abeClientInformation", (this: RemoteHighScores) => this.f_abeClientInformation)
+JR.registerLateBound("RemoteHighScores.f_softwareInformation", (this: RemoteHighScores) => this.f_softwareInformation)
+JR.registerLateBound("RemoteHighScores.f_ascending", (this: RemoteHighScores) => this.f_ascending)
+JR.registerLateBound("RemoteHighScores.set_f_ascending", (this: RemoteHighScores, jvalue) => { this.f_ascending = jvalue; jvalue })
+JR.registerLateBound("RemoteHighScores.f_ASCENDING", (this: RemoteHighScores) => this.f_ASCENDING)
+JR.registerLateBound("RemoteHighScores.jstatic_hashTable", jstatic_hashTable)
 
 

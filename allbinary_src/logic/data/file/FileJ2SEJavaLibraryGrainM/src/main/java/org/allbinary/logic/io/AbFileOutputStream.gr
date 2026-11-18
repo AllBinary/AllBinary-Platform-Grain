@@ -1,64 +1,74 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io
+module AbFileOutputStream
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/io/FileNotFoundException.gr" include FileNotFoundException
+use FileNotFoundException.{ type FileNotFoundException }
+from "../../../../java/io/FileOutputStream.gr" include FileOutputStream
+use FileOutputStream.{ type FileOutputStream }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.FileNotFoundException *)
-(* import java.io.FileOutputStream *)
-(* import org.allbinary.logic.io.file.AbFile *)
-(* import org.allbinary.logic.io.file.AbFileNativeUtil *)
+provide record AbFileOutputStream {
+  jobject: JObject,
+}
 
-class abFileOutputStream ((name : string), (append : bool)) =
-  object
-    inherit java_file_output_stream (Obj.magic (name, append))
+
+provide let rec jclassName = () => "AbFileOutputStream"
     
+and jm_createFromAbFile = (file: JObject) => {
+        return jnew_2({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(file)))
+}, false)
+}
+    
+and jm_createFromAbFileAppend = (file: JObject, append: Bool) => {
+        return jnew_2({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(file)))
+}, append)
+}
+    
+and jm_createFromFilePath = (name: String) => {
+        return jnew_2(name, false)
+}
+    
+and jm_createFromFilePathAppend = (name: String, append: Bool) => {
+        return jnew_2(name, append)
+}
+    
+and jnew_2 = (name: String, append: Bool) => {
+    let this = { jobject: JR.newJObject("AbFileOutputStream"), }
+        void
+    this
+}
 
-    initializer
-      begin
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "AbFileOutputStream" (fun arguments -> Obj.repr (new abFileOutputStream (Obj.obj arguments)))
-
-let createFromAbFile : 'any1 'return. 'any1 -> 'return = fun (file) ->
-        let file = Obj.repr file in
-        begin
-        (Obj.magic ((new abFileOutputStream (((Obj.magic file)#getPath ()), false))))
-        end [@@warning "-20"]
-
-and createFromAbFileAppend : 'any1 'return. 'any1 * bool -> 'return = fun (file, (append : bool)) ->
-        let file = Obj.repr file in
-        begin
-        (Obj.magic ((new abFileOutputStream (((Obj.magic file)#getPath ()), append))))
-        end [@@warning "-20"]
-
-and createFromFilePath : 'return. string -> 'return = fun ((name : string)) ->
-        begin
-        (Obj.magic ((new abFileOutputStream (name, false))))
-        end
-
-and createFromFilePathAppend : 'return. string * bool -> 'return = fun ((name : string), (append : bool)) ->
-        begin
-        (Obj.magic ((new abFileOutputStream (name, append))))
-        end
-let () = java_register_static "AbFileOutputStream.createFromAbFile" (fun arguments -> Obj.repr (createFromAbFile (Obj.obj arguments)))
-let () = java_register_static "AbFileOutputStream.createFromAbFileAppend" (fun arguments -> Obj.repr (createFromAbFileAppend (Obj.obj arguments)))
-let () = java_register_static "AbFileOutputStream.createFromFilePath" (fun arguments -> Obj.repr (createFromFilePath (Obj.obj arguments)))
-let () = java_register_static "AbFileOutputStream.createFromFilePathAppend" (fun arguments -> Obj.repr (createFromFilePathAppend (Obj.obj arguments)))
+JR.registerLateBound("AbFileOutputStream.jnew_2", jnew_2)
+JR.registerLateBound("AbFileOutputStream.jm_createFromAbFile", jm_createFromAbFile)
+JR.registerLateBound("AbFileOutputStream.jm_createFromAbFileAppend", jm_createFromAbFileAppend)
+JR.registerLateBound("AbFileOutputStream.jm_createFromFilePath", jm_createFromFilePath)
+JR.registerLateBound("AbFileOutputStream.jm_createFromFilePathAppend", jm_createFromFilePathAppend)
 
 

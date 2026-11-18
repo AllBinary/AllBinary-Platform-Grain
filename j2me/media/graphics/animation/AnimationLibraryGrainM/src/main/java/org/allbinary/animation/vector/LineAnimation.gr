@@ -1,104 +1,125 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.animation.vector
+module LineAnimation
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.animation.vector *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/animation/Animation.gr" include Animation
+use Animation.{ type Animation }
+from "../../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
+use BasicColor.{ type BasicColor }
+from "../../../../org/allbinary/graphics/color/ColorCompositeInterface.gr" include ColorCompositeInterface
+use ColorCompositeInterface.{ type ColorCompositeInterface }
+from "../../../../org/allbinary/layer/PositionInterface.gr" include PositionInterface
+use PositionInterface.{ type PositionInterface }
+from "../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Graphics *)
-(* import org.allbinary.animation.Animation *)
-(* import org.allbinary.graphics.color.BasicColor *)
-(* import org.allbinary.graphics.color.ColorCompositeInterface *)
-(* import org.allbinary.layer.PositionInterface *)
-(* import org.allbinary.logic.NullUtil *)
+provide record LineAnimation {
+  jobject: JObject,
+  mut f_basicSetColorUtil: JObject,
+  mut f_basicColor: JObject,
+  mut f_colorP: Int32,
+  mut f_changeBasicColorP: JObject,
+  mut f_changeColorP: Int32,
+  mut f_alphaP: Int32,
+  mut f_newLine: Array<Array<Int32>>,
+  mut f_tempLine: Array<Array<Int32>>,
+  mut f_line: Array<Array<Int32>>,
+}
 
-class lineAnimation ((basicColor : BasicColor.basicColor)) =
-  object (self)
-    inherit Animation.animation () as super
-    val mutable newLine : int array array = (Obj.magic 0)
-    method newLine = newLine
-    method set_newLine value' = newLine <- value'
-    val mutable tempLine : int array array = (Obj.magic 0)
-    method tempLine = tempLine
-    method set_tempLine value' = tempLine <- value'
-    val mutable line : int array array = (Obj.magic 0)
-    method line = line
-    method set_line value' = line <- value'
+
+provide let rec jclassName = () => "LineAnimation"
     
+and jnew_1 = (basicColor: BasicColor) => {
+    let this = { jobject: JR.newJObject("LineAnimation"), f_basicSetColorUtil: JR.jnull, f_basicColor: JR.jnull, f_colorP: 0l, f_changeBasicColorP: JR.jnull, f_changeColorP: 0l, f_alphaP: 0l, f_newLine: [> ], f_tempLine: [> ], f_line: [> ], }
+    this.f_newLine = Array.init(Int32.toNumber(2l), jindex1 => Array.make(Int32.toNumber(2l), 0l))
+    this.f_tempLine = NullUtil.jm_getInstance().f_NULL_INT_ARRAY_ARRAY
+    this.f_line = Array.init(Int32.toNumber(2l), jindex1 => Array.make(Int32.toNumber(2l), 0l))
+        ignore(jm_setBasicColorP(this, basicColor))
+    this
+}
     
-
-    method init ((x : int), (y : int)) : unit =
-        begin
-        newLine.(0).(0) <- x;
-        newLine.(0).(1) <- y;
-        newLine.(1).(0) <- x;
-        newLine.(1).(1) <- y;
-        tempLine <- line;
-        line <- newLine;
-        newLine <- tempLine
-        end [@@warning "-7"]
+and jm_init = (this: LineAnimation, x: Int32, y: Int32) => {
+        this.f_newLine[Int32.toNumber(0l)][Int32.toNumber(0l)] = x
+        this.f_newLine[Int32.toNumber(0l)][Int32.toNumber(1l)] = y
+        this.f_newLine[Int32.toNumber(1l)][Int32.toNumber(0l)] = x
+        this.f_newLine[Int32.toNumber(1l)][Int32.toNumber(1l)] = y
+        this.f_tempLine = this.f_line
+        this.f_line = this.f_newLine
+        this.f_newLine = this.f_tempLine
+}
     
-
-    method setPosition ((x : int), (y : int), (_z : int)) : unit =
-        begin
-        newLine.(0).(0) <- line.(1).(0);
-        newLine.(0).(1) <- line.(1).(1);
-        newLine.(1).(0) <- x;
-        newLine.(1).(1) <- y;
-        tempLine <- line;
-        line <- newLine;
-        newLine <- tempLine
-        end [@@warning "-7"]
+and jm_setPosition = (this: LineAnimation, x: Int32, y: Int32, z: Int32) => {
+        this.f_newLine[Int32.toNumber(0l)][Int32.toNumber(0l)] = this.f_line[Int32.toNumber(1l)][Int32.toNumber(0l)]
+        this.f_newLine[Int32.toNumber(0l)][Int32.toNumber(1l)] = this.f_line[Int32.toNumber(1l)][Int32.toNumber(1l)]
+        this.f_newLine[Int32.toNumber(1l)][Int32.toNumber(0l)] = x
+        this.f_newLine[Int32.toNumber(1l)][Int32.toNumber(1l)] = y
+        this.f_tempLine = this.f_line
+        this.f_line = this.f_newLine
+        this.f_newLine = this.f_tempLine
+}
     
-
-    method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (_x : int), (_y : int)) ->
-        let graphics = Obj.repr graphics in
-        begin
-        let currentLine : int array array ref = ref (line) in ();
-        ignore ((self#basicSetColorUtil)#setBasicColorP3 ((Obj.magic graphics), (self#getBasicColorP ()), (self#getColor ())));
-        ignore ((Obj.magic graphics)#drawLine (!currentLine.(0).(0), !currentLine.(0).(1), !currentLine.(1).(0), !currentLine.(1).(1)))
-        end [@@warning "-7-20"]
+and jm_paintXY = (this: LineAnimation, graphics: JObject, x: Int32, y: Int32) => {
+        let mut currentLine: Array<Array<Int32>> = this.f_line
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicColorSetUtil.jm_setBasicColorP3"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_basicSetColorUtil)), JR.cast(graphics), JR.cast(jm_getBasicColorP(this)), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Animation.jm_getColor"))
+JR.cast(jlate(JR.cast(this)))
+})))
+})
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawLine"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(currentLine[Int32.toNumber(0l)][Int32.toNumber(0l)]), JR.cast(currentLine[Int32.toNumber(0l)][Int32.toNumber(1l)]), JR.cast(currentLine[Int32.toNumber(1l)][Int32.toNumber(0l)]), JR.cast(currentLine[Int32.toNumber(1l)][Int32.toNumber(1l)])))
+})
+}
     
-
-    method nextFrame () : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_nextFrame = (this: LineAnimation) => {
+    void
+}
     
-
-    method getBasicColorP : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((super#getBasicColorP ())))
-        end [@@warning "-7"]
+and jm_getBasicColorP = (this: LineAnimation) => {
+        return jm_getBasicColorP(this)
+}
     
+and jm_setBasicColorP = (this: LineAnimation, basicColor: BasicColor) => {
+        ignore(jm_setBasicColorP(this, basicColor))
+}
 
-    method setBasicColorP : 'any1. 'any1 -> unit = fun (basicColor) ->
-        let basicColor = Obj.repr basicColor in
-        begin
-        ignore (super#setBasicColorP ((Obj.magic basicColor)))
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        newLine <- (Array.make_matrix (2) (2) 0);
-        tempLine <- (NullUtil.getInstance ())#nULL_INT_ARRAY_ARRAY;
-        line <- (Array.make_matrix (2) (2) 0);
-        ();
-        (self#setBasicColorP (basicColor))
-      end
-  end
-let () = java_register_constructor "LineAnimation" (fun arguments -> Obj.repr (new lineAnimation (Obj.obj arguments)))
+JR.registerLateBound("LineAnimation.jnew_1", jnew_1)
+JR.registerLateBound("LineAnimation.jm_init", jm_init)
+JR.registerLateBound("LineAnimation.jm_setPosition", jm_setPosition)
+JR.registerLateBound("LineAnimation.jm_paintXY", jm_paintXY)
+JR.registerLateBound("LineAnimation.jm_nextFrame", jm_nextFrame)
+JR.registerLateBound("LineAnimation.jm_getBasicColorP", jm_getBasicColorP)
+JR.registerLateBound("LineAnimation.jm_setBasicColorP", jm_setBasicColorP)
+JR.registerLateBound("LineAnimation.f_newLine", (this: LineAnimation) => this.f_newLine)
+JR.registerLateBound("LineAnimation.set_f_newLine", (this: LineAnimation, jvalue) => { this.f_newLine = jvalue; jvalue })
+JR.registerLateBound("LineAnimation.f_tempLine", (this: LineAnimation) => this.f_tempLine)
+JR.registerLateBound("LineAnimation.set_f_tempLine", (this: LineAnimation, jvalue) => { this.f_tempLine = jvalue; jvalue })
+JR.registerLateBound("LineAnimation.f_line", (this: LineAnimation) => this.f_line)
+JR.registerLateBound("LineAnimation.set_f_line", (this: LineAnimation, jvalue) => { this.f_line = jvalue; jvalue })
 
 

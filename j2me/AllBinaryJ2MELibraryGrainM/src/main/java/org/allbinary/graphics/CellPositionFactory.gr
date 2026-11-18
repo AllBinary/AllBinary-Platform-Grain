@@ -1,123 +1,155 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics
+module CellPositionFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./CellPosition.gr" include CellPosition
+use CellPosition.{ type CellPosition }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.string.CommonStrings *)
+provide record CellPositionFactory {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_NONE: CellPosition,
+  mut f_cellPositionArray: Array<Array<CellPosition>>,
+  mut f_columns: Int32,
+  mut f_rows: Int32,
+}
 
-class cellPositionFactory () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable nONE : CellPosition.cellPosition = (Obj.magic 0)
-    method nONE = nONE
-    method set_nONE value' = nONE <- value'
-    val mutable cellPositionArray : CellPosition.cellPosition array array = (Obj.magic 0)
-    method cellPositionArray = cellPositionArray
-    method set_cellPositionArray value' = cellPositionArray <- value'
-    val mutable columns : int = 0
-    method columns = columns
-    method set_columns value' = columns <- value'
-    val mutable rows : int = 0
-    method rows = rows
-    method set_rows value' = rows <- value'
+let mut jcell_SINGLETON: Option<CellPositionFactory> = None
+
+provide let rec jclassName = () => "CellPositionFactory"
+
+and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
+  Some(value) => value,
+  None => {
+    let value: CellPositionFactory = jnew_0()
+    jcell_SINGLETON = Some(value)
+    value
+  },
+}
+    
+and jm_getInstance = () => {
+        return jstatic_SINGLETON()
+}
+    
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("CellPositionFactory"), f_logUtil: JR.jnull, f_NONE: JR.nullOf(), f_cellPositionArray: [> ], f_columns: 0l, f_rows: 0l, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_NONE = CellPosition.jnew_4(Int32.(-)(1l, Int32.(+)(1l, 1l)), Int32.(-)(1l, Int32.(+)(1l, 1l)), Int32.(-)(1l, Int32.(+)(1l, 1l)), Int32.(-)(1l, Int32.(+)(1l, 1l)))
+    this.f_cellPositionArray = Array.init(Int32.toNumber(0l), jindex1 => Array.make(Int32.toNumber(0l), JR.nullOf()))
     
     
-
-    method init ((columns_arg : int), (rows_arg : int)) : unit =
-        begin
-        let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ("Init: columns: "));
-        ignore (!stringBuffer#appendint (columns_arg));
-        ignore (!stringBuffer#append (" rows: "));
-        ignore (!stringBuffer#appendint (rows_arg));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), !commonStrings#iNIT));
-        cellPositionArray <- (Array.make_matrix (columns_arg) (rows_arg) (Obj.magic 0));
-        columns <- columns_arg;
-        rows <- rows_arg;
-        for column = 0 to columns_arg - 1 do
-            for row = 0 to rows_arg - 1 do
-                ignore (self#createInstance (column, row))
-            done
-        done
-        end
+        void
+    this
+}
     
-
-    method getInstanceColRow : 'return. int * int -> 'return = fun ((i_column : int), (i_row : int)) ->
-        begin
-        (try
-            (Obj.magic (cellPositionArray.(i_column).(i_row)))
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr (((((((((new StringMaker.stringMaker ())#append ("columns: "))#appendint ((self#getColumns ())))#append (" rows: "))#appendint ((self#getRows ())))#append (" col: "))#appendint (i_column))#append (" row: "))#appendint (i_row)))), (Obj.magic self), !commonStrings#gET_INSTANCE, e));
-            (Obj.magic (nONE))
-        end)
-        end
+and jm_init = (this: CellPositionFactory, columns: Int32, rows: Int32) => {
+        let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, "Init: columns: "))
+        ignore(StringMaker.jm_appendint(stringBuffer, columns))
+        ignore(StringMaker.jm_append(stringBuffer, " rows: "))
+        ignore(StringMaker.jm_appendint(stringBuffer, rows))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast(commonStrings.f_INIT)))
+})
+        this.f_cellPositionArray = Array.init(Int32.toNumber(columns), jindex1 => Array.make(Int32.toNumber(rows), JR.nullOf()))
+        this.f_columns = columns
+        this.f_rows = rows
+        {
+            let mut column: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    column = Int32.(+)(column, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(column, columns))) break
+            {
+                let mut row: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        row = Int32.(+)(row, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(row, rows))) break
+                ignore(jm_createInstance(this, column, row))
+                }
+            }
+            }
+        }
+}
     
-
-    method createInstance : 'return. int * int -> 'return = fun ((i_column : int), (i_row : int)) ->
-        begin
-        let cellPositionCanBeNull : CellPosition.cellPosition ref = ref ((cellPositionArray.(i_column).(i_row) :> CellPosition.cellPosition)) in ();
-        if (!cellPositionCanBeNull == (Obj.magic 0)) then begin
-            cellPositionCanBeNull := (new CellPosition.cellPosition (i_column, i_row, columns, rows));
-            cellPositionArray.(i_column).(i_row) <- !cellPositionCanBeNull
-        end;
-        (Obj.magic (!cellPositionCanBeNull))
-        end
+and jm_getInstanceColRow = (this: CellPositionFactory, i_column: Int32, i_row: Int32) => {
+        {
+            return this.f_cellPositionArray[Int32.toNumber(i_column)][Int32.toNumber(i_row)]
+        }
+    return JR.nullOf()
+}
     
-
-    method getColumns () : int =
-        begin
-        columns
-        end
+and jm_createInstance = (this: CellPositionFactory, i_column: Int32, i_row: Int32) => {
+        let mut cellPositionCanBeNull: CellPosition = JR.cast(this.f_cellPositionArray[Int32.toNumber(i_column)][Int32.toNumber(i_row)])
+        if (JR.isNull(cellPositionCanBeNull)) {
+            cellPositionCanBeNull = CellPosition.jnew_4(i_column, i_row, this.f_columns, this.f_rows)
+            this.f_cellPositionArray[Int32.toNumber(i_column)][Int32.toNumber(i_row)] = JR.cast(cellPositionCanBeNull)
+        }
+        return cellPositionCanBeNull
+}
     
+and jm_getColumns = (this: CellPositionFactory) => {
+        return this.f_columns
+}
+    
+and jm_getRows = (this: CellPositionFactory) => {
+        return this.f_rows
+}
 
-    method getRows () : int =
-        begin
-        rows
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        nONE <- ((new CellPosition.cellPosition ((- 1), (- 1), (- 1), (- 1))) :> CellPosition.cellPosition);
-        cellPositionArray <- (Array.make_matrix (0) (0) (Obj.magic 0));
-        columns <- 0;
-        rows <- 0;
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "CellPositionFactory" (fun arguments -> Obj.repr (new cellPositionFactory (Obj.obj arguments)))
-
-let sINGLETON = ref ((new cellPositionFactory ()))
-let get_sINGLETON () = !sINGLETON
-let set_sINGLETON value' = sINGLETON := value'
-let () = java_register_static "CellPositionFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
-let () = java_register_static "CellPositionFactory.set_sINGLETON" (fun value' -> set_sINGLETON (Obj.obj value'); Obj.repr ())
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (!sINGLETON))
-        end
-let () = java_register_static "CellPositionFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("CellPositionFactory.jnew_0", jnew_0)
+JR.registerLateBound("CellPositionFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("CellPositionFactory.jm_init", jm_init)
+JR.registerLateBound("CellPositionFactory.jm_getInstanceColRow", jm_getInstanceColRow)
+JR.registerLateBound("CellPositionFactory.jm_createInstance", jm_createInstance)
+JR.registerLateBound("CellPositionFactory.jm_getColumns", jm_getColumns)
+JR.registerLateBound("CellPositionFactory.jm_getRows", jm_getRows)
+JR.registerLateBound("CellPositionFactory.f_logUtil", (this: CellPositionFactory) => this.f_logUtil)
+JR.registerLateBound("CellPositionFactory.f_NONE", (this: CellPositionFactory) => this.f_NONE)
+JR.registerLateBound("CellPositionFactory.f_cellPositionArray", (this: CellPositionFactory) => this.f_cellPositionArray)
+JR.registerLateBound("CellPositionFactory.set_f_cellPositionArray", (this: CellPositionFactory, jvalue) => { this.f_cellPositionArray = jvalue; jvalue })
+JR.registerLateBound("CellPositionFactory.f_columns", (this: CellPositionFactory) => this.f_columns)
+JR.registerLateBound("CellPositionFactory.set_f_columns", (this: CellPositionFactory, jvalue) => { this.f_columns = jvalue; jvalue })
+JR.registerLateBound("CellPositionFactory.f_rows", (this: CellPositionFactory) => this.f_rows)
+JR.registerLateBound("CellPositionFactory.set_f_rows", (this: CellPositionFactory, jvalue) => { this.f_rows = jvalue; jvalue })
+JR.registerLateBound("CellPositionFactory.jstatic_SINGLETON", jstatic_SINGLETON)
 
 

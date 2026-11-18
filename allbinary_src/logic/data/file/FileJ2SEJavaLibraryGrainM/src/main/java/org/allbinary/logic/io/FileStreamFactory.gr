@@ -1,78 +1,119 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io
+module FileStreamFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
+from "../../../../org/allbinary/logic/io/path/AbPath.gr" include AbPath
+use AbPath.{ type AbPath }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.NullUtil *)
-(* import org.allbinary.logic.io.file.AbFile *)
-(* import org.allbinary.logic.io.path.AbPath *)
+provide record FileStreamFactory {
+  jobject: JObject,
+}
 
-let sINGLETON : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT))
-let get_sINGLETON () = !sINGLETON
-let set_sINGLETON value' = sINGLETON := value'
-let () = java_register_static "FileStreamFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
-let () = java_register_static "FileStreamFactory.set_sINGLETON" (fun value' -> set_sINGLETON (Obj.obj value'); Obj.repr ())
-class fileStreamFactory () =
-  object
+let mut jcell_SINGLETON: Option<JObject> = None
+
+provide let rec jclassName = () => "FileStreamFactory"
+
+and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
+  Some(value) => value,
+  None => {
+    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    jcell_SINGLETON = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        if (JR.isSame(jstatic_SINGLETON(), NullUtil.jm_getInstance().f_NULL_OBJECT)) {
+            jstatic_SINGLETON() = JR.cast(jnew_0())
+        }
+        return JR.cast(jstatic_SINGLETON())
+}
     
-
-    method getFileInputStreamInstance : 'return. string * string -> 'return = fun ((path : string), (fileName : string)) ->
-        begin
-        let fILEABPATH : AbPath.abPath ref = ref (((new AbPath.abPath (path, fileName)) :> AbPath.abPath)) in ();
-        let file : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFile.createAbFileFromAbPath" (Obj.repr (!fILEABPATH)))))) in ();
-        (Obj.magic ((Obj.magic (java_call_static "AbFileInputStream.createFromAbFile" (Obj.repr ((Obj.magic !file)))))))
-        end
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("FileStreamFactory"), }
+        void
+    this
+}
     
-
-    method getFileOutputStreamInstance : 'return. string * string -> 'return = fun ((path : string), (fileName : string)) ->
-        begin
-        let fILEABPATH : AbPath.abPath ref = ref (((new AbPath.abPath (path, fileName)) :> AbPath.abPath)) in ();
-        let file : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFile.createAbFileFromAbPath" (Obj.repr (!fILEABPATH)))))) in ();
-        if ((Obj.magic !file)#exists ()) then begin
-            ignore ((Obj.magic !file)#delete ());
-            ignore ((Obj.magic !file)#createNewFile ())
-        end;
-        (Obj.magic ((Obj.magic (java_call_static "AbFileOutputStream.createFromAbFile" (Obj.repr ((Obj.magic !file)))))))
-        end
+and jm_getFileInputStreamInstance = (this: FileStreamFactory, path: String, fileName: String) => {
+        let mut l_FILEABPATH: AbPath = AbPath.jnew_2(path, fileName)
+        let mut file: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
+JR.cast(jlate(JR.cast(l_FILEABPATH)))
+})
+        return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFileInputStream.jm_createFromAbFile"))
+JR.cast(jlate(JR.cast(file)))
+}
+}
     
+and jm_getFileOutputStreamInstance = (this: FileStreamFactory, path: String, fileName: String) => {
+        let mut l_FILEABPATH: AbPath = AbPath.jnew_2(path, fileName)
+        let mut file: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
+JR.cast(jlate(JR.cast(l_FILEABPATH)))
+})
+        if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_exists"))
+JR.cast(jlate(JR.cast(file)))
+}) {
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_delete"))
+JR.cast(jlate(JR.cast(file)))
+})
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createNewFile"))
+JR.cast(jlate(JR.cast(file)))
+})
+        }
+        return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFileOutputStream.jm_createFromAbFile"))
+JR.cast(jlate(JR.cast(file)))
+}
+}
+    
+and jm_delete = (this: FileStreamFactory, path: String, fileName: String) => {
+        let mut l_FILEABPATH: AbPath = AbPath.jnew_2(path, fileName)
+        let mut file: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
+JR.cast(jlate(JR.cast(l_FILEABPATH)))
+})
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_delete"))
+JR.cast(jlate(JR.cast(file)))
+})
+}
 
-    method delete ((path : string), (fileName : string)) : unit =
-        begin
-        let fILEABPATH : AbPath.abPath ref = ref (((new AbPath.abPath (path, fileName)) :> AbPath.abPath)) in ();
-        let file : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFile.createAbFileFromAbPath" (Obj.repr (!fILEABPATH)))))) in ();
-        ignore ((Obj.magic !file)#delete ())
-        end
-
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "FileStreamFactory" (fun arguments -> Obj.repr (new fileStreamFactory (Obj.obj arguments)))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        if ((Obj.repr !sINGLETON) == (Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) then begin
-            sINGLETON := (Obj.repr ((new fileStreamFactory ())))
-        end;
-        (Obj.magic ((Obj.magic !sINGLETON)))
-        end
-let () = java_register_static "FileStreamFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("FileStreamFactory.jnew_0", jnew_0)
+JR.registerLateBound("FileStreamFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("FileStreamFactory.jm_getFileInputStreamInstance", jm_getFileInputStreamInstance)
+JR.registerLateBound("FileStreamFactory.jm_getFileOutputStreamInstance", jm_getFileOutputStreamInstance)
+JR.registerLateBound("FileStreamFactory.jm_delete", jm_delete)
+JR.registerLateBound("FileStreamFactory.jstatic_SINGLETON", jstatic_SINGLETON)
 
 

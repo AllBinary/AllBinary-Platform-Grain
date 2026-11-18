@@ -1,153 +1,196 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.input
+module LocalPlayerInputIdFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.input *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/input/analog/AnalogLocationInputFactory.gr" include AnalogLocationInputFactory
+use AnalogLocationInputFactory.{ type AnalogLocationInputFactory }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.input.analog.AnalogLocationInputFactory *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
+provide record LocalPlayerInputIdFactory {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_MAX_NUMBER_OF_PLAYERS: Int32,
+  mut f_MAX_FAST_DEVICEID: Int32,
+  mut f_deviceIdToplayerId: Array<Int32>,
+  mut f_playerIdToDeviceId: Array<Int32>,
+  mut f_playersInPlay: Array<Bool>,
+  mut f_totalDevicesMapped: Int32,
+}
 
-class localPlayerInputIdFactory () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable mAX_NUMBER_OF_PLAYERS : int = 0
-    method mAX_NUMBER_OF_PLAYERS = mAX_NUMBER_OF_PLAYERS
-    method set_mAX_NUMBER_OF_PLAYERS value' = mAX_NUMBER_OF_PLAYERS <- value'
-    val mutable mAX_FAST_DEVICEID : int = 0
-    method mAX_FAST_DEVICEID = mAX_FAST_DEVICEID
-    method set_mAX_FAST_DEVICEID value' = mAX_FAST_DEVICEID <- value'
-    val mutable deviceIdToplayerId : int array = (Obj.magic 0)
-    method deviceIdToplayerId = deviceIdToplayerId
-    method set_deviceIdToplayerId value' = deviceIdToplayerId <- value'
-    val mutable playerIdToDeviceId : int array = (Obj.magic 0)
-    method playerIdToDeviceId = playerIdToDeviceId
-    method set_playerIdToDeviceId value' = playerIdToDeviceId <- value'
-    val mutable playersInPlay : bool array = (Obj.magic 0)
-    method playersInPlay = playersInPlay
-    method set_playersInPlay value' = playersInPlay <- value'
-    val mutable totalDevicesMapped : int = 0
-    method totalDevicesMapped = totalDevicesMapped
-    method set_totalDevicesMapped value' = totalDevicesMapped <- value'
+let mut jcell_instance: Option<LocalPlayerInputIdFactory> = None
+
+provide let rec jclassName = () => "LocalPlayerInputIdFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: LocalPlayerInputIdFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("LocalPlayerInputIdFactory"), f_logUtil: JR.jnull, f_MAX_NUMBER_OF_PLAYERS: 0l, f_MAX_FAST_DEVICEID: 0l, f_deviceIdToplayerId: [> ], f_playerIdToDeviceId: [> ], f_playersInPlay: [> ], f_totalDevicesMapped: 0l, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_MAX_NUMBER_OF_PLAYERS = 6l
+    this.f_MAX_FAST_DEVICEID = 65l
+    this.f_deviceIdToplayerId = Array.make(Int32.toNumber(this.f_MAX_FAST_DEVICEID), 0l)
+    this.f_playerIdToDeviceId = Array.make(Int32.toNumber(this.f_MAX_NUMBER_OF_PLAYERS), 0l)
+    this.f_playersInPlay = Array.make(Int32.toNumber(this.f_MAX_NUMBER_OF_PLAYERS), false)
+    this.f_totalDevicesMapped = 0l
+        {
+            let mut index: Int32 = Int32.(-)(Int32.fromNumber(Array.length(this.f_deviceIdToplayerId)), 1l)
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(-)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(>=)(index, 0l))) break
+            this.f_deviceIdToplayerId[Int32.toNumber(index)] = Int32.(-)(1l, Int32.(+)(1l, 1l))
+            }
+        }
+    this
+}
     
-
-    method getDeviceId ((playerInputId : int)) : int =
-        begin
-        playerIdToDeviceId.(playerInputId)
-        end
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method getPlayerForDevice ((deviceId : int)) : int =
-        try
-        begin
-        let index : int ref = ref (0) in ();
-        if (deviceId < mAX_FAST_DEVICEID) then begin
-            let playerInputId : int ref = ref (deviceIdToplayerId.(deviceId)) in ();
-            if (!playerInputId <> (- 1)) then begin
-                raise (Java_return (Obj.repr (!playerInputId)))
-            end
-        end else begin
-            index := (totalDevicesMapped - 1);
-            while (!index >= 0) do
-                if (playerIdToDeviceId.(!index) = deviceId) then begin
-                    raise (Java_return (Obj.repr (!index)))
-                end;
-                index := !index - 1
-            done
-        end;
-        index := totalDevicesMapped;
-        if (deviceId < mAX_FAST_DEVICEID) then begin
-            deviceIdToplayerId.(deviceId) <- !index
-        end else begin
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append ("Added DeviceId: "))#appendint (deviceId))#append (" beyond fast Id list")))), (Obj.magic self), "getPlayerForDevice"))
-        end;
-        playerIdToDeviceId.(!index) <- deviceId;
-        ignore ((AnalogLocationInputFactory.getInstance ())#addPlayer (totalDevicesMapped));
-        totalDevicesMapped <- totalDevicesMapped + 1;
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((((((new StringMaker.stringMaker ())#append ("Added DeviceId: "))#appendint (deviceId))#append (" at: "))#appendint (!index))#append (" Total: "))#appendint (totalDevicesMapped)))), (Obj.magic self), "getPlayerForDevice"));
-        !index
-        end
-        with Java_return value -> Obj.obj value
+and jm_getDeviceId = (this: LocalPlayerInputIdFactory, playerInputId: Int32) => {
+        return this.f_playerIdToDeviceId[Int32.toNumber(playerInputId)]
+}
     
-
-    method getTotalDevicesInPlay () : int =
-        begin
-        let total : int ref = ref (0) in ();
-        for index = (totalDevicesMapped - 1) downto 0 do
-            if (playersInPlay.(index) = true) then begin
-                total := !total + 1
-            end
-        done;
-        !total
-        end
+and jm_getPlayerForDevice = (this: LocalPlayerInputIdFactory, deviceId: Int32) => {
+        let mut index: Int32 = 0l
+        if (Int32.(<)(deviceId, this.f_MAX_FAST_DEVICEID)) {
+            let mut playerInputId: Int32 = this.f_deviceIdToplayerId[Int32.toNumber(deviceId)]
+            if ((playerInputId != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
+                return playerInputId
+            }
+        } else {
+            {
+                index = Int32.(-)(this.f_totalDevicesMapped, 1l)
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(-)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(>=)(index, 0l))) break
+                if ((this.f_playerIdToDeviceId[Int32.toNumber(index)] == deviceId)) {
+                    return index
+                }
+                }
+            }
+        }
+        index = this.f_totalDevicesMapped
+        if (Int32.(<)(deviceId, this.f_MAX_FAST_DEVICEID)) {
+            this.f_deviceIdToplayerId[Int32.toNumber(deviceId)] = index
+        } else {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), "Added DeviceId: "), deviceId), " beyond fast Id list"))), JR.cast(this), JR.cast("getPlayerForDevice")))
+})
+        }
+        this.f_playerIdToDeviceId[Int32.toNumber(index)] = deviceId
+        ignore(AnalogLocationInputFactory.jm_addPlayer(AnalogLocationInputFactory.jm_getInstance(), this.f_totalDevicesMapped))
+        this.f_totalDevicesMapped = Int32.(+)(this.f_totalDevicesMapped, 1l)
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), "Added DeviceId: "), deviceId), " at: "), index), " Total: "), this.f_totalDevicesMapped))), JR.cast(this), JR.cast("getPlayerForDevice")))
+})
+        return index
+}
     
-
-    method isPlayerInPlay ((playerInputId : int)) : bool =
-        begin
-        playersInPlay.(playerInputId)
-        end
+and jm_getTotalDevicesInPlay = (this: LocalPlayerInputIdFactory) => {
+        let mut total: Int32 = 0l
+        {
+            let mut index: Int32 = Int32.(-)(this.f_totalDevicesMapped, 1l)
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(-)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(>=)(index, 0l))) break
+            if (JR.isSame(this.f_playersInPlay[Int32.toNumber(index)], true)) {
+                total = Int32.(+)(total, 1l)
+            }
+            }
+        }
+        return total
+}
     
-
-    method setPlayerInPlay ((playerInputId : int)) : unit =
-        begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Setting PlayerInPlay with playerInputId: "))#appendint (playerInputId)))), (Obj.magic self), "setPlayerInPlay"));
-        playersInPlay.(playerInputId) <- true
-        end
+and jm_isPlayerInPlay = (this: LocalPlayerInputIdFactory, playerInputId: Int32) => {
+        return this.f_playersInPlay[Int32.toNumber(playerInputId)]
+}
     
-
-    method setPlayerOutOfPlay ((playerInputId : int)) : unit =
-        begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Setting PlayerOutOfPlay with playerInputId: "))#appendint (playerInputId)))), (Obj.magic self), "setPlayerOutOfPlay"));
-        playersInPlay.(playerInputId) <- false
-        end
+and jm_setPlayerInPlay = (this: LocalPlayerInputIdFactory, playerInputId: Int32) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), "Setting PlayerInPlay with playerInputId: "), playerInputId))), JR.cast(this), JR.cast("setPlayerInPlay")))
+})
+        this.f_playersInPlay[Int32.toNumber(playerInputId)] = true
+}
     
+and jm_setPlayerOutOfPlay = (this: LocalPlayerInputIdFactory, playerInputId: Int32) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), "Setting PlayerOutOfPlay with playerInputId: "), playerInputId))), JR.cast(this), JR.cast("setPlayerOutOfPlay")))
+})
+        this.f_playersInPlay[Int32.toNumber(playerInputId)] = false
+}
+    
+and jm_getPlayersInPlay = (this: LocalPlayerInputIdFactory) => {
+        return this.f_playersInPlay
+}
 
-    method getPlayersInPlay () : bool array =
-        begin
-        playersInPlay
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        mAX_NUMBER_OF_PLAYERS <- 6;
-        mAX_FAST_DEVICEID <- 65;
-        deviceIdToplayerId <- (Array.make (mAX_FAST_DEVICEID) 0);
-        playerIdToDeviceId <- (Array.make (mAX_NUMBER_OF_PLAYERS) 0);
-        playersInPlay <- (Array.make (mAX_NUMBER_OF_PLAYERS) false);
-        totalDevicesMapped <- 0;
-        ();
-        for index = ((Array.length deviceIdToplayerId) - 1) downto 0 do
-            deviceIdToplayerId.(index) <- (- 1)
-        done
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "LocalPlayerInputIdFactory" (fun arguments -> Obj.repr (new localPlayerInputIdFactory (Obj.obj arguments)))
-
-let instance = (new localPlayerInputIdFactory ())
-let get_instance () = instance
-let () = java_register_static "LocalPlayerInputIdFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "LocalPlayerInputIdFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("LocalPlayerInputIdFactory.jnew_0", jnew_0)
+JR.registerLateBound("LocalPlayerInputIdFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("LocalPlayerInputIdFactory.jm_getDeviceId", jm_getDeviceId)
+JR.registerLateBound("LocalPlayerInputIdFactory.jm_getPlayerForDevice", jm_getPlayerForDevice)
+JR.registerLateBound("LocalPlayerInputIdFactory.jm_getTotalDevicesInPlay", jm_getTotalDevicesInPlay)
+JR.registerLateBound("LocalPlayerInputIdFactory.jm_isPlayerInPlay", jm_isPlayerInPlay)
+JR.registerLateBound("LocalPlayerInputIdFactory.jm_setPlayerInPlay", jm_setPlayerInPlay)
+JR.registerLateBound("LocalPlayerInputIdFactory.jm_setPlayerOutOfPlay", jm_setPlayerOutOfPlay)
+JR.registerLateBound("LocalPlayerInputIdFactory.jm_getPlayersInPlay", jm_getPlayersInPlay)
+JR.registerLateBound("LocalPlayerInputIdFactory.f_logUtil", (this: LocalPlayerInputIdFactory) => this.f_logUtil)
+JR.registerLateBound("LocalPlayerInputIdFactory.f_MAX_NUMBER_OF_PLAYERS", (this: LocalPlayerInputIdFactory) => this.f_MAX_NUMBER_OF_PLAYERS)
+JR.registerLateBound("LocalPlayerInputIdFactory.f_MAX_FAST_DEVICEID", (this: LocalPlayerInputIdFactory) => this.f_MAX_FAST_DEVICEID)
+JR.registerLateBound("LocalPlayerInputIdFactory.f_deviceIdToplayerId", (this: LocalPlayerInputIdFactory) => this.f_deviceIdToplayerId)
+JR.registerLateBound("LocalPlayerInputIdFactory.f_playerIdToDeviceId", (this: LocalPlayerInputIdFactory) => this.f_playerIdToDeviceId)
+JR.registerLateBound("LocalPlayerInputIdFactory.f_playersInPlay", (this: LocalPlayerInputIdFactory) => this.f_playersInPlay)
+JR.registerLateBound("LocalPlayerInputIdFactory.f_totalDevicesMapped", (this: LocalPlayerInputIdFactory) => this.f_totalDevicesMapped)
+JR.registerLateBound("LocalPlayerInputIdFactory.set_f_totalDevicesMapped", (this: LocalPlayerInputIdFactory, jvalue) => { this.f_totalDevicesMapped = jvalue; jvalue })
+JR.registerLateBound("LocalPlayerInputIdFactory.jstatic_instance", jstatic_instance)
 
 

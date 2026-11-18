@@ -1,54 +1,81 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.form.item
+module SelectableTextItem
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.form.item *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
+use BasicColor.{ type BasicColor }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Graphics *)
-(* import org.allbinary.graphics.color.BasicColor *)
+provide record SelectableTextItem {
+  jobject: JObject,
+  mut f_updateMyFontProcessor: JObject,
+  mut f_myFontProcessor: JObject,
+}
 
-class selectableTextItem ((label : string), (layout : int), (altText : string), (backgroundBasicColor : BasicColor.basicColor), (foregroundBasicColor : BasicColor.basicColor)) =
-  object (self)
-    inherit ABTextItem.aBTextItem (label, layout, altText, backgroundBasicColor, foregroundBasicColor)
+
+provide let rec jclassName = () => "SelectableTextItem"
     
+and jnew_5 = (label: String, layout: Int32, altText: String, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
+    let this = { jobject: JR.newJObject("SelectableTextItem"), f_updateMyFontProcessor: JR.jnull, f_myFontProcessor: JR.jnull, }
+        void
+    this
+}
     
-
-    method isFocusable () : bool =
-        begin
-        true
-        end [@@warning "-7"]
+and jm_isFocusable = (this: SelectableTextItem) => {
+        return true
+}
     
+and jm_paintXY = (this: SelectableTextItem, graphics: JObject, x: Int32, y: Int32) => {
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("MyFontProcessor.jm_process"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_myFontProcessor)), JR.cast(graphics)))
+})
+        let mut stringComponent: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABTextItem.jm_getLabelStringComponent"))
+JR.cast(jlate(JR.cast(this)))
+})
+        if (!JR.isNull(stringComponent)) {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_setColor"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABStringComponent.jm_getForegroundBasicColor"))
+JR.cast(jlate(JR.cast(stringComponent)))
+})))))
+})
+        }
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
+JR.cast(jlate(JR.cast(graphics), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABTextItem.jm_getLabel"))
+JR.cast(jlate(JR.cast(this)))
+}), JR.cast(Int32.(+)(x, 2l)), JR.cast(y), JR.cast(0l)))
+})
+}
 
-    method paintXY : 'any1. 'any1 * int * int -> unit = fun (graphics, (x : int), (y : int)) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore ((self#myFontProcessor)#process ((Obj.magic graphics)));
-        let stringComponent : Obj.t ref = ref ((Obj.repr (self#getLabelStringComponent ()))) in ();
-        if ((Obj.magic !stringComponent) != (Obj.magic 0)) then begin
-            ignore ((Obj.magic graphics)#setColor ((java_int_value (Obj.repr ((Obj.magic !stringComponent)#getForegroundBasicColor ())))))
-        end;
-        ignore ((Obj.magic graphics)#drawString ((self#getLabel ()), (x + 2), y, 0))
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "SelectableTextItem" (fun arguments -> Obj.repr (new selectableTextItem (Obj.obj arguments)))
+JR.registerLateBound("SelectableTextItem.jnew_5", jnew_5)
+JR.registerLateBound("SelectableTextItem.jm_isFocusable", jm_isFocusable)
+JR.registerLateBound("SelectableTextItem.jm_paintXY", jm_paintXY)
 
 

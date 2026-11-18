@@ -1,63 +1,91 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io.file
+module FileFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io.file *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
+provide record FileFactory {
+  jobject: JObject,
+}
 
-class fileFactory () =
-  object
+let mut jcell_instance: Option<FileFactory> = None
+
+provide let rec jclassName = () => "FileFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: FileFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("FileFactory"), }
+    this
+}
     
-
-    method getInstance : 'return. string -> 'return = fun ((filePath : string)) ->
-        begin
-        (Obj.magic ((Obj.magic (java_call_static "AbFile.createAbFileFromRawPath" (Obj.repr (filePath))))))
-        end
+and jm_getInstance_0 = () => {
+        return jstatic_instance()
+}
     
-
-    (* Java overload getInstance(AbFile, String) is not converted: OCaml has one method per name *)
+and jm_getInstance_1 = (this: FileFactory, filePath: String) => {
+        return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromRawPath"))
+JR.cast(jlate(JR.cast(filePath)))
+}
+}
     
+and jm_getInstance_2 = (this: FileFactory, file: JObject, childFilePath: String) => {
+        return {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileWithChild"))
+JR.cast(jlate(JR.cast(file), JR.cast(childFilePath)))
+}
+}
+    
+and jm_isFile = (this: FileFactory, path: String) => {
+        let mut file: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFile"))
+JR.cast(jlate(JR.cast(path)))
+})
+        if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_exists"))
+JR.cast(jlate(JR.cast(file)))
+}) {
+            return true
+        } else {
+            return false
+        }
+}
 
-    method isFile ((path : string)) : bool =
-        try
-        begin
-        let file : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFile.createAbFile" (Obj.repr (path)))))) in ();
-        if ((Obj.magic !file)#exists ()) then begin
-            raise (Java_return (Obj.repr (true)))
-        end else begin
-            raise (Java_return (Obj.repr (false)))
-        end
-        end
-        with Java_return value -> Obj.obj value
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "FileFactory" (fun arguments -> Obj.repr (new fileFactory (Obj.obj arguments)))
-
-let instance = (new fileFactory ())
-let get_instance () = instance
-let () = java_register_static "FileFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "FileFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("FileFactory.jnew_0", jnew_0)
+JR.registerLateBound("FileFactory.jm_getInstance_0", jm_getInstance_0)
+JR.registerLateBound("FileFactory.jm_getInstance_1", jm_getInstance_1)
+JR.registerLateBound("FileFactory.jm_getInstance_2", jm_getInstance_2)
+JR.registerLateBound("FileFactory.jm_isFile", jm_isFile)
+JR.registerLateBound("FileFactory.jstatic_instance", jstatic_instance)
 
 

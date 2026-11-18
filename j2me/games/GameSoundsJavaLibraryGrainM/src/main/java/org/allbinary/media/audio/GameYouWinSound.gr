@@ -1,46 +1,67 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.media.audio
+module GameYouWinSound
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.media.audio *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./CompositeSound.gr" include CompositeSound
+use CompositeSound.{ type CompositeSound }
+from "./Sound.gr" include Sound
+use Sound.{ type Sound }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
+//Use 8hz16bitmono for most J2ME
+provide record GameYouWinSound {
+  jobject: JObject,
+  mut f_resource: String,
+  mut f_player: JObject,
+}
 
-class gameYouWinSound () =
-  object
-    inherit CompositeSound.compositeSound ("resource:/wav/youwin.wav")
+let mut jcell_soundInterface: Option<Sound> = None
+
+provide let rec jclassName = () => "GameYouWinSound"
+
+and jstatic_soundInterface = () => match (jcell_soundInterface) {
+  Some(value) => value,
+  None => {
+    let value: Sound = JR.cast(jnew_0())
+    jcell_soundInterface = Some(value)
+    value
+  },
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("GameYouWinSound"), f_resource: "", f_player: JR.jnull, }
+        void
+    this
+}
+    
+and jm_getInstance = () => {
+        return jstatic_soundInterface()
+}
 
-    initializer
-      begin
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "GameYouWinSound" (fun arguments -> Obj.repr (new gameYouWinSound (Obj.obj arguments)))
-
-let soundInterface : Sound.sound ref = ref (((new gameYouWinSound ()) :> Sound.sound))
-let get_soundInterface () = !soundInterface
-let set_soundInterface value' = soundInterface := value'
-let () = java_register_static "GameYouWinSound.get_soundInterface" (fun _ -> Obj.repr (get_soundInterface ()))
-let () = java_register_static "GameYouWinSound.set_soundInterface" (fun value' -> set_soundInterface (Obj.obj value'); Obj.repr ())
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (!soundInterface))
-        end
-let () = java_register_static "GameYouWinSound.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("GameYouWinSound.jnew_0", jnew_0)
+JR.registerLateBound("GameYouWinSound.jm_getInstance", jm_getInstance)
+JR.registerLateBound("GameYouWinSound.jstatic_soundInterface", jstatic_soundInterface)
 
 

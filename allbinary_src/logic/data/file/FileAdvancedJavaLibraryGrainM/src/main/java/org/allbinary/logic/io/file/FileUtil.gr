@@ -1,438 +1,860 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io.file
+module FileUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io.file *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../java/io/InputStream.gr" include InputStream
+use InputStream.{ type InputStream }
+from "../../../../../java/io/OutputStream.gr" include OutputStream
+use OutputStream.{ type OutputStream }
+from "../../../../../org/allbinary/globals/URLGLOBALS.gr" include URLGLOBALS
+use URLGLOBALS.{ type URLGLOBALS }
+from "../../../../../org/allbinary/logic/io/AbDataOutputStream.gr" include AbDataOutputStream
+use AbDataOutputStream.{ type AbDataOutputStream }
+from "../../../../../org/allbinary/logic/io/AbFileLocalInputStream.gr" include AbFileLocalInputStream
+use AbFileLocalInputStream.{ type AbFileLocalInputStream }
+from "../../../../../org/allbinary/logic/io/AbIOSystem.gr" include AbIOSystem
+use AbIOSystem.{ type AbIOSystem }
+from "../../../../../org/allbinary/logic/io/StreamUtil.gr" include StreamUtil
+use StreamUtil.{ type StreamUtil }
+from "../../../../../org/allbinary/logic/io/file/directory/Directory.gr" include Directory
+use Directory.{ type Directory }
+from "../../../../../org/allbinary/logic/io/path/AbPath.gr" include AbPath
+use AbPath.{ type AbPath }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../../org/allbinary/string/CommonLabels.gr" include CommonLabels
+use CommonLabels.{ type CommonLabels }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "./FilePathData.gr" include FilePathData
+use FilePathData.{ type FilePathData }
+from "./FileUtil2.gr" include FileUtil2
+use FileUtil2.{ type FileUtil2 }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.InputStream *)
-(* import java.io.OutputStream *)
-(* import org.allbinary.globals.URLGLOBALS *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.logic.communication.log.config.type.LogConfigTypeFactory *)
-(* import org.allbinary.logic.io.AbDataOutputStream *)
-(* import org.allbinary.logic.io.AbFileInputStream *)
-(* import org.allbinary.logic.io.AbFileLocalInputStream *)
-(* import org.allbinary.logic.io.AbIOSystem *)
-(* import org.allbinary.logic.io.DataOutputStreamFactory *)
-(* import org.allbinary.logic.io.FileStreamFactory *)
-(* import org.allbinary.logic.io.StreamUtil *)
-(* import org.allbinary.logic.io.file.directory.Directory *)
-(* import org.allbinary.logic.io.path.AbPath *)
-(* import org.allbinary.logic.io.path.AbPathData *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.string.CommonLabels *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.allbinary.util.BasicArrayList *)
+//data/init/views/TestStore/template/type/genericTemplateObjectConfig.xml
+provide record FileUtil {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_directory: Directory,
+  mut f_logConfigTypeFactory: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_streamUtil: StreamUtil,
+  mut f_WRITE_LABEL: String,
+  mut f_DATA_LABEL: String,
+  mut f_WRITE_METHOD: String,
+}
 
+let mut jcell_instance: Option<FileUtil> = None
 
-let getNewDirectory : 'any1. 'any1 -> string = fun (fromFile) ->
-        let fromFile = Obj.repr fromFile in
-        begin
-        let newDirectory : string ref = ref (((Obj.magic fromFile)#getPath ())) in ();
-        let separatorChar : string ref = ref ((FilePathData.getInstance ())#pATH_START) in ();
-        if ((AbIOSystem.getInstance ())#isType ("com.vobject.appengine.java.io")) then begin
-            separatorChar := (Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ())))#sEPARATOR
-        end;
-        let lastIndex : int ref = ref ((java_string_last_index_of !newDirectory (Obj.repr (!separatorChar)))) in ();
-        if (!lastIndex >= (String.length !newDirectory)) then begin
-            newDirectory := (String.sub !newDirectory (0) ((((String.length !newDirectory) - 1)) - (0)));
-            lastIndex := (java_string_last_index_of !newDirectory (Obj.repr (!separatorChar)))
-        end;
-        (String.sub !newDirectory (!lastIndex) (((String.length !newDirectory)) - (!lastIndex)))
-        end [@@warning "-20"]
+provide let rec jclassName = () => "FileUtil"
 
-let () = java_register_static "FileUtil.getNewDirectory" (fun arguments -> Obj.repr (getNewDirectory (Obj.obj arguments)))
-class fileUtil () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable directory : Directory.directory = (Obj.magic 0)
-    method directory = directory
-    method set_directory value' = directory <- value'
-    val mutable logConfigTypeFactory : Obj.t = Obj.repr 0
-    method logConfigTypeFactory : 'r. 'r = Obj.magic logConfigTypeFactory
-    method set_logConfigTypeFactory : 'v. 'v -> unit = fun value' -> logConfigTypeFactory <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable streamUtil : StreamUtil.streamUtil = (Obj.magic 0)
-    method streamUtil = streamUtil
-    method set_streamUtil value' = streamUtil <- value'
-    val mutable wRITE_LABEL : string = ""
-    method wRITE_LABEL = wRITE_LABEL
-    method set_wRITE_LABEL value' = wRITE_LABEL <- value'
-    val mutable dATA_LABEL : string = ""
-    method dATA_LABEL = dATA_LABEL
-    method set_dATA_LABEL value' = dATA_LABEL <- value'
-    val mutable wRITE_METHOD : string = ""
-    method wRITE_METHOD = wRITE_METHOD
-    method set_wRITE_METHOD value' = wRITE_METHOD <- value'
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: FileUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    (* Java overload write(InputStream, AbFile) is not converted: OCaml has one method per name *)
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("FileUtil"), f_logUtil: JR.jnull, f_directory: JR.nullOf(), f_logConfigTypeFactory: JR.jnull, f_commonStrings: JR.nullOf(), f_streamUtil: JR.nullOf(), f_WRITE_LABEL: "", f_DATA_LABEL: "", f_WRITE_METHOD: "", }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_directory = JR.cast(Directory.jm_getInstance())
+    this.f_logConfigTypeFactory = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this.f_streamUtil = JR.cast(StreamUtil.jm_getInstance())
+    this.f_WRITE_LABEL = "Write file: "
+    this.f_DATA_LABEL = " data: "
+    this.f_WRITE_METHOD = "write"
+        void
+    this
+}
     
-
-    method write : 'any1 'any2. 'any1 * 'any2 -> unit = fun (inputStream, dataOutputStream) ->
-        let inputStream = Obj.repr inputStream in
-        let dataOutputStream = Obj.repr dataOutputStream in
-        let dataOutputStream = ref dataOutputStream in
-        begin
-        Fun.protect ~finally:(fun () -> 
-            ignore ((StreamUtil.getInstance ())#close ((Obj.magic !dataOutputStream)))
-        ) (fun () -> (try
-            dataOutputStream := Obj.repr ((Obj.magic ((StreamUtil.getInstance ())#get ((Obj.magic inputStream), (Obj.magic !dataOutputStream), (Array.make (16384) 0)))));
-            ignore ((Obj.magic !dataOutputStream)#flush ())
-        with exception_value -> raise exception_value))
-        end [@@warning "-20"]
+and jm_write_2 = (this: FileUtil, inputStream: InputStream, file: JObject) => {
+        let mut dataOutputStream: AbDataOutputStream = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getInstanceForAbFile"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(file)))
+})
+        ignore(jm_write_2(this, inputStream, JR.cast(dataOutputStream)))
+}
     
-
-    (* Java overload write(InputStream, AbDataOutputStream, ArrayType) is not converted: OCaml has one method per name *)
+and jm_write_2 = (this: FileUtil, inputStream: InputStream, dataOutputStream: AbDataOutputStream) => {
+    let mut dataOutputStream = dataOutputStream
+        {
+            dataOutputStream = JR.cast(StreamUtil.jm_get(StreamUtil.jm_getInstance(), inputStream, JR.cast(dataOutputStream), Array.make(Int32.toNumber(16384l), 0l)))
+            ignore(AbDataOutputStream.jm_flush(dataOutputStream))
+        }
+        {
+            ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), JR.cast(dataOutputStream)))
+        }
+}
     
-
-    method copy : 'any1 'any2. 'any1 * 'any2 -> unit = fun (dataInputStream, dataOutputStream) ->
-        let dataInputStream = Obj.repr dataInputStream in
-        let dataOutputStream = Obj.repr dataOutputStream in
-        let dataOutputStream = ref dataOutputStream in
-        begin
-        Fun.protect ~finally:(fun () -> 
-            ignore ((StreamUtil.getInstance ())#close ((Obj.magic !dataOutputStream)));
-            ignore ((StreamUtil.getInstance ())#close ((Obj.magic dataInputStream)))
-        ) (fun () -> (try
-            dataOutputStream := Obj.repr ((Obj.magic ((StreamUtil.getInstance ())#get ((Obj.magic dataInputStream), (Obj.magic !dataOutputStream), (Array.make (16384) 0)))));
-            ignore ((Obj.magic !dataOutputStream)#flush ())
-        with exception_value -> raise exception_value))
-        end [@@warning "-20"]
+and jm_write_3 = (this: FileUtil, inputStream: InputStream, dataOutputStream: AbDataOutputStream, buffer: Array<Int32>) => {
+    let mut dataOutputStream = dataOutputStream
+        {
+            dataOutputStream = JR.cast(StreamUtil.jm_get(StreamUtil.jm_getInstance(), inputStream, JR.cast(dataOutputStream), buffer))
+            ignore(AbDataOutputStream.jm_flush(dataOutputStream))
+        }
+        {
+            ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), JR.cast(dataOutputStream)))
+        }
+}
     
-
-    method fixPath : 'any1 'any2 'any3 'return. 'any1 * 'any2 * 'any3 * string -> 'return = fun (file, _path, realPath, (cloud : string)) ->
-        let file = Obj.repr file in
-        let realPath = Obj.repr realPath in
-        begin
-        let beginIndex : int ref = ref (((java_string_index_of ((Obj.magic file)#getPath ()) (Obj.repr (cloud))) + (String.length cloud))) in ();
-        let endIndex : int ref = ref ((java_string_index_of ((Obj.magic file)#getPath ()) (Obj.repr (((Obj.magic file)#getName ()))))) in ();
-        let fixedPathString : string ref = ref ((java_string_of (Obj.repr (((Obj.magic realPath)#toFileSystemString ()))) ^ (String.sub ((Obj.magic file)#getPath ()) (!beginIndex) ((!endIndex) - (!beginIndex))))) in ();
-        let fixedPath : AbPath.abPath ref = ref (((new AbPath.abPath (!fixedPathString, (StringUtil.getInstance ())#eMPTY_STRING)) :> AbPath.abPath)) in ();
-        ignore (directory#create (!fixedPath));
-        let string : string ref = ref ((!fixedPath#toFileSystemString ())) in ();
-        if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains ((Obj.magic logConfigTypeFactory)#fILE)) then begin
-            ignore ((Obj.magic logUtil)#putF (!string, (Obj.magic self), "fixPath"))
-        end;
-        let outPath : AbPath.abPath ref = ref (((new AbPath.abPath (!string, ((Obj.magic file)#getName ()))) :> AbPath.abPath)) in ();
-        (Obj.magic (!outPath))
-        end [@@warning "-20"]
+and jm_copy_2 = (this: FileUtil, dataInputStream: JObject, dataOutputStream: AbDataOutputStream) => {
+    let mut dataOutputStream = dataOutputStream
+        {
+            dataOutputStream = JR.cast(StreamUtil.jm_get(StreamUtil.jm_getInstance(), JR.cast(dataInputStream), JR.cast(dataOutputStream), Array.make(Int32.toNumber(16384l), 0l)))
+            ignore(AbDataOutputStream.jm_flush(dataOutputStream))
+        }
+        {
+            ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), JR.cast(dataOutputStream)))
+            ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), JR.cast(dataInputStream)))
+        }
+}
     
-
-    (* Java overload copyToCloud(AbFile, AbPath, AbPath, String) is not converted: OCaml has one method per name *)
+and jm_fixPath = (this: FileUtil, file: JObject, path: AbPath, realPath: AbPath, cloud: String) => {
+        let mut beginIndex: Int32 = Int32.(+)(JR.indexOf({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(file)))
+}, cloud), JR.length(cloud))
+        let mut endIndex: Int32 = JR.indexOf({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(file)))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getName"))
+JR.cast(jlate(JR.cast(file)))
+})
+        let mut fixedPathString: String = AbPath.jm_toFileSystemString(realPath) ++ JR.substring({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(file)))
+}, beginIndex, endIndex)
+        let mut fixedPath: AbPath = AbPath.jnew_2(fixedPathString, StringUtil.jm_getInstance().f_EMPTY_STRING)
+        ignore(Directory.jm_create(this.f_directory, fixedPath))
+        let mut string: String = AbPath.jm_toFileSystemString(fixedPath)
+        if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(string), JR.cast(this), JR.cast("fixPath")))
+})
+        }
+        let mut outPath: AbPath = AbPath.jnew_2(string, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getName"))
+JR.cast(jlate(JR.cast(file)))
+})
+        return outPath
+}
     
-
-    method copyToCloud : 'any1 'any2 'any3. 'any1 * 'any2 * 'any3 * string * bool * bool -> unit = fun (file, path, realPath, (cloud : string), (overwriteNewer : bool), (overwriteAll : bool)) ->
-        let file = Obj.repr file in
-        let path = Obj.repr path in
-        let realPath = Obj.repr realPath in
-        try
-        begin
-        (try
-            let outPath : AbPath.abPath ref = ref (((self#fixPath ((Obj.magic file), (Obj.magic path), (Obj.magic realPath), cloud)) :> AbPath.abPath)) in ();
-            let outFile : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFile.createAbFileFromAbPath" (Obj.repr (!outPath)))))) in ();
-            if (not (self#copyPrepare ((Obj.magic file), (Obj.magic !outFile), overwriteNewer, overwriteAll))) then begin
-                raise (Java_return (Obj.repr (())))
-            end else begin
-                if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains ((Obj.magic logConfigTypeFactory)#fILE)) then begin
-                    let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-                    ignore (!stringBuffer#append ("Out File: "));
-                    ignore (!stringBuffer#append (((Obj.magic !outFile)#getPath ())));
-                    ignore (!stringBuffer#append (" In File: "));
-                    ignore (!stringBuffer#append (((Obj.magic file)#getPath ())));
-                    ignore (!stringBuffer#append (" to cloud."));
-                    ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (getInstance ()), "copyToCloud"))
-                end
-            end;
-            let dataOutputStream : AbDataOutputStream.abDataOutputStream ref = ref ((((Obj.magic (java_call_static "DataOutputStreamFactory.getInstance" (Obj.repr ())))#getInstanceForAbFile ((Obj.magic !outFile))) :> AbDataOutputStream.abDataOutputStream)) in ();
-            let fileInputStream : Obj.t ref = ref ((Obj.repr (new AbFileLocalInputStream.abFileLocalInputStream ((Obj.magic file))))) in ();
-            ignore (self#copy ((Obj.magic !fileInputStream), !dataOutputStream))
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains ((Obj.magic logConfigTypeFactory)#fILEERROR)) then begin
-                let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-                ignore (!stringBuffer#append ("Error Copying File File: "));
-                ignore (!stringBuffer#append ((java_string_of (Obj.repr (Obj.magic file)))));
-                ignore (!stringBuffer#append (" to cloud."));
-                ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr !stringBuffer)), (getInstance ()), "copyToCloud", e))
-            end;
-            raise e
-        end)
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
+and jm_copyToCloud_4 = (this: FileUtil, file: JObject, path: AbPath, realPath: AbPath, cloud: String) => {
+        ignore(jm_copyToCloud_6(this, file, path, realPath, cloud, false, false))
+}
     
-
-    (* Java overload copyToCloud(AbFile, AbFile) is not converted: OCaml has one method per name *)
+and jm_copyToCloud_6 = (this: FileUtil, file: JObject, path: AbPath, realPath: AbPath, cloud: String, overwriteNewer: Bool, overwriteAll: Bool) => {
+        {
+            let mut outPath: AbPath = JR.cast(jm_fixPath(this, file, path, realPath, cloud))
+            let mut outFile: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
+JR.cast(jlate(JR.cast(outPath)))
+})
+            if (!jm_copyPrepare(this, file, outFile, overwriteNewer, overwriteAll)) {
+                return void
+            } else {
+                if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                    let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+                    ignore(StringMaker.jm_append(stringBuffer, "Out File: "))
+                    ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(outFile)))
+}))
+                    ignore(StringMaker.jm_append(stringBuffer, " In File: "))
+                    ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(file)))
+}))
+                    ignore(StringMaker.jm_append(stringBuffer, " to cloud."))
+                    ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast("copyToCloud")))
+})
+                }
+            }
+            let mut dataOutputStream: AbDataOutputStream = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getInstanceForAbFile"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(outFile)))
+})
+            let mut fileInputStream: JObject = JR.cast(AbFileLocalInputStream.jnew_1(file))
+            ignore(jm_copy_2(this, fileInputStream, dataOutputStream))
+        }
+    return void
+}
     
-
-    (* Java overload copyToCloud(AbFile, AbFile, BOOLEAN, BOOLEAN) is not converted: OCaml has one method per name *)
+and jm_copyToCloud_2 = (this: FileUtil, file: JObject, outFile: JObject) => {
+        ignore(jm_copyToCloud_4(this, file, JR.cast(outFile), false, false))
+}
     
-
-    method copyPrepare : 'any1 'any2. 'any1 * 'any2 * bool * bool -> bool = fun (fromFile, toFile, (overwriteNewer : bool), (overwriteAll : bool)) ->
-        let fromFile = Obj.repr fromFile in
-        let toFile = Obj.repr toFile in
-        try
-        begin
-        if ((Obj.magic toFile)#exists ()) then begin
-            let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            if overwriteAll then begin
-                if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains ((Obj.magic logConfigTypeFactory)#fILE)) then begin
-                    ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-                    ignore (!stringBuffer#append ("Overwriting File: "));
-                    ignore (!stringBuffer#append (((Obj.magic toFile)#getPath ())));
-                    ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (getInstance ()), "copyFile"))
-                end;
-                ignore ((Obj.magic toFile)#delete ());
-                ignore ((Obj.magic toFile)#createNewFile ())
-            end else if ((((Obj.magic toFile)#lastModified ()) < ((Obj.magic fromFile)#lastModified ())) && overwriteNewer) then begin
-                if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains ((Obj.magic logConfigTypeFactory)#fILE)) then begin
-                    ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-                    ignore (!stringBuffer#append ("Newer by: "));
-                    ignore (!stringBuffer#appendlong ((((Obj.magic fromFile)#lastModified ()) - ((Obj.magic toFile)#lastModified ()))));
-                    ignore (!stringBuffer#append ("ms "));
-                    ignore (!stringBuffer#append ("Copying File: "));
-                    ignore (!stringBuffer#append (((Obj.magic toFile)#getPath ())));
-                    ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (getInstance ()), "copyFile"))
-                end;
-                ignore ((Obj.magic toFile)#delete ());
-                ignore ((Obj.magic toFile)#createNewFile ())
-            end else begin
-                if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains ((Obj.magic logConfigTypeFactory)#fILE)) then begin
-                    ignore (!stringBuffer#delete (0, (!stringBuffer#length ())));
-                    ignore (!stringBuffer#append ("File Already Exists"));
-                    if overwriteNewer then begin
-                        ignore (!stringBuffer#append (" And Is Not Older"))
-                    end else begin
-                        ignore (!stringBuffer#append (" And Not A In Overwrite Mode"))
-                    end;
-                    ignore (!stringBuffer#append ((CommonLabels.getInstance ())#cOLON_SEP));
-                    ignore (!stringBuffer#append (((Obj.magic toFile)#getPath ())));
-                    ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (getInstance ()), "copyFile"))
-                end;
-                raise (Java_return (Obj.repr (false)))
-            end
-        end else begin
-            ignore ((Obj.magic toFile)#createNewFile ())
-        end;
-        true
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
+and jm_copyToCloud_4 = (this: FileUtil, file: JObject, outFile: JObject, overwriteNewer: Bool, overwriteAll: Bool) => {
+        {
+            let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+            if (!jm_copyPrepare(this, file, outFile, overwriteNewer, overwriteAll)) {
+                return void
+            } else {
+                if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                    ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
+                    ignore(StringMaker.jm_append(stringBuffer, "Out File: "))
+                    ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(outFile)))
+}))
+                    ignore(StringMaker.jm_append(stringBuffer, " In File: "))
+                    ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(file)))
+}))
+                    ignore(StringMaker.jm_append(stringBuffer, " to cloud."))
+                    ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast("copyToCloud")))
+})
+                }
+            }
+            let mut dataOutputStream: AbDataOutputStream = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getInstanceForAbFile"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(outFile)))
+})
+            let mut fileInputStream: JObject = JR.cast(AbFileLocalInputStream.jnew_1(file))
+            ignore(jm_copy_2(this, fileInputStream, dataOutputStream))
+        }
+    return void
+}
     
-
-    (* Java overload copyFile(AbFile, AbFile) is not converted: OCaml has one method per name *)
+and jm_copyPrepare = (this: FileUtil, fromFile: JObject, toFile: JObject, overwriteNewer: Bool, overwriteAll: Bool) => {
+        if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_exists"))
+JR.cast(jlate(JR.cast(toFile)))
+}) {
+            let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+            if (overwriteAll) {
+                if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                    ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
+                    ignore(StringMaker.jm_append(stringBuffer, "Overwriting File: "))
+                    ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(toFile)))
+}))
+                    ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast("copyFile")))
+})
+                }
+                ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_delete"))
+JR.cast(jlate(JR.cast(toFile)))
+})
+                ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createNewFile"))
+JR.cast(jlate(JR.cast(toFile)))
+})
+            } else if ((Int64.(<)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_lastModified"))
+JR.cast(jlate(JR.cast(toFile)))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_lastModified"))
+JR.cast(jlate(JR.cast(fromFile)))
+}) && overwriteNewer)) {
+                if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                    ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
+                    ignore(StringMaker.jm_append(stringBuffer, "Newer by: "))
+                    ignore(StringMaker.jm_appendlong(stringBuffer, Int64.(-)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_lastModified"))
+JR.cast(jlate(JR.cast(fromFile)))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_lastModified"))
+JR.cast(jlate(JR.cast(toFile)))
+})))
+                    ignore(StringMaker.jm_append(stringBuffer, "ms "))
+                    ignore(StringMaker.jm_append(stringBuffer, "Copying File: "))
+                    ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(toFile)))
+}))
+                    ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast("copyFile")))
+})
+                }
+                ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_delete"))
+JR.cast(jlate(JR.cast(toFile)))
+})
+                ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createNewFile"))
+JR.cast(jlate(JR.cast(toFile)))
+})
+            } else {
+                if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                    ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
+                    ignore(StringMaker.jm_append(stringBuffer, "File Already Exists"))
+                    if (overwriteNewer) {
+                        ignore(StringMaker.jm_append(stringBuffer, " And Is Not Older"))
+                    } else {
+                        ignore(StringMaker.jm_append(stringBuffer, " And Not A In Overwrite Mode"))
+                    }
+                    ignore(StringMaker.jm_append(stringBuffer, CommonLabels.jm_getInstance().f_COLON_SEP))
+                    ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(toFile)))
+}))
+                    ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast("copyFile")))
+})
+                }
+                return false
+            }
+        } else {
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createNewFile"))
+JR.cast(jlate(JR.cast(toFile)))
+})
+        }
+        return true
+}
     
-
-    method copyFile : 'any1 'any2. 'any1 * 'any2 * bool * bool -> unit = fun (fromFile, toFile, (overwriteNewer : bool), (overwriteAll : bool)) ->
-        let fromFile = Obj.repr fromFile in
-        let toFile = Obj.repr toFile in
-        try
-        begin
-        (try
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains ((Obj.magic logConfigTypeFactory)#fILE)) then begin
-                let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-                ignore (!stringBuffer#append ("Copying "));
-                ignore (!stringBuffer#appendlong (((Obj.magic fromFile)#length ())));
-                ignore (!stringBuffer#append (" bytes from File: "));
-                ignore (!stringBuffer#append (((Obj.magic fromFile)#getPath ())));
-                ignore (!stringBuffer#append (" to: "));
-                ignore (!stringBuffer#append (((Obj.magic toFile)#getPath ())));
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (getInstance ()), "copyFile"))
-            end;
-            if (not (self#copyPrepare ((Obj.magic fromFile), (Obj.magic toFile), overwriteNewer, overwriteAll))) then begin
-                raise (Java_return (Obj.repr (())))
-            end;
-            let dataOutputStream : AbDataOutputStream.abDataOutputStream ref = ref ((((Obj.magic (java_call_static "DataOutputStreamFactory.getInstance" (Obj.repr ())))#getInstanceForAbFile ((Obj.magic toFile))) :> AbDataOutputStream.abDataOutputStream)) in ();
-            let fileInputStream : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFileInputStream.createFromAbFile" (Obj.repr ((Obj.magic fromFile))))))) in ();
-            ignore (self#copy ((Obj.magic !fileInputStream), !dataOutputStream))
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains ((Obj.magic logConfigTypeFactory)#fILEERROR)) then begin
-                let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-                ignore (!stringBuffer#append ("Error Copying File fromFile: "));
-                ignore (!stringBuffer#append ((java_string_of (Obj.repr (Obj.magic fromFile)))));
-                ignore (!stringBuffer#append (" to: "));
-                ignore (!stringBuffer#append ((java_string_of (Obj.repr (Obj.magic toFile)))));
-                ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr !stringBuffer)), (getInstance ()), "copyFile", e))
-            end;
-            raise e
-        end)
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
+and jm_copyFile_2 = (this: FileUtil, fromFile: JObject, toFile: JObject) => {
+        ignore(jm_copyFile_4(this, fromFile, toFile, false, false))
+}
     
-
-    method copyDirectoryPortion : 'any1 'any2. 'any1 * 'any2 * bool * bool * int * int -> unit = fun (fromDirectoryAbPath, toDirectoryAbPath, (overwriteNewer : bool), (overwriteAll : bool), (current : int), (total : int)) ->
-        let fromDirectoryAbPath = Obj.repr fromDirectoryAbPath in
-        let toDirectoryAbPath = Obj.repr toDirectoryAbPath in
-        begin
-        let file : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFile.createAbFileFromAbPath" (Obj.repr ((Obj.magic fromDirectoryAbPath))))))) in ();
-        if (not ((Obj.magic !file)#isDirectory ())) then begin
-            raise (Failure (("Not a directory: " ^ java_string_of (Obj.repr (((Obj.magic !file)#getPath ()))))))
-        end;
-        let fileList : BasicArrayList.basicArrayList ref = ref (((directory#search ((Obj.magic !file), true)) :> BasicArrayList.basicArrayList)) in ();
-        let size : int ref = ref ((!fileList#size ())) in ();
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ("Searched: "));
-        ignore (!stringBuffer#append (((Obj.magic !file)#getPath ())));
-        ignore (!stringBuffer#append (" Total: "));
-        ignore (!stringBuffer#appendint (!size));
-        let portion : int ref = ref (((!size / total) + 1)) in ();
-        let start : int ref = ref ((!portion * current)) in ();
-        let end_ : int ref = ref ((!start + !portion)) in ();
-        if (!end_ > !size) then begin
-            end_ := !size
-        end;
-        ignore (!stringBuffer#append (" Section: "));
-        ignore (!stringBuffer#appendint (!start));
-        ignore (!stringBuffer#append (" - "));
-        ignore (!stringBuffer#appendint (!end_));
-        if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains ((Obj.magic logConfigTypeFactory)#fILE)) then begin
-            ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (getInstance ()), "copySomeFilesToDirectory()"))
-        end;
-        let nextFile : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        for index = !start to !end_ - 1 do
-            nextFile := Obj.repr ((Obj.magic (!fileList#get (index))));
-            if ((Obj.magic !nextFile)#isDirectory ()) then begin
-                ()
-            end else begin
-                let path : string ref = ref (((new AbPath.abPath (((Obj.magic !nextFile)#getPath ()), (StringUtil.getInstance ())#eMPTY_STRING))#getPath ())) in ();
-                let beginIndex : int ref = ref ((String.length ((Obj.magic fromDirectoryAbPath)#getPath ()))) in ();
-                if ((java_string_index_of !path (Obj.repr ((URLGLOBALS.getWebappPath ())))) < 0) then begin
-                    beginIndex := (!beginIndex - (((new AbPath.abPath ((URLGLOBALS.getWebappPath ()), (StringUtil.getInstance ())#eMPTY_STRING))#getPath ())#length ()))
-                end;
-                let newPath : string ref = ref ((java_string_of (Obj.repr (((Obj.magic toDirectoryAbPath)#toFileSystemString ()))) ^ (String.sub !path (!beginIndex) (String.length !path - (!beginIndex))))) in ();
-                let toFile : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFile.createAbFileFromAbPath" (Obj.repr ((new AbPath.abPath (!newPath, (StringUtil.getInstance ())#eMPTY_STRING)))))))) in ();
-                (self#copyFile ((Obj.magic !nextFile), (Obj.magic !toFile), overwriteNewer, overwriteAll))
-            end
-        done
-        end [@@warning "-20"]
+and jm_copyFile_4 = (this: FileUtil, fromFile: JObject, toFile: JObject, overwriteNewer: Bool, overwriteAll: Bool) => {
+        {
+            if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+                ignore(StringMaker.jm_append(stringBuffer, "Copying "))
+                ignore(StringMaker.jm_appendlong(stringBuffer, Int64.fromNumber(Int32.toNumber({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_length"))
+JR.cast(jlate(JR.cast(fromFile)))
+}))))
+                ignore(StringMaker.jm_append(stringBuffer, " bytes from File: "))
+                ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(fromFile)))
+}))
+                ignore(StringMaker.jm_append(stringBuffer, " to: "))
+                ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(toFile)))
+}))
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast("copyFile")))
+})
+            }
+            if (!jm_copyPrepare(this, fromFile, toFile, overwriteNewer, overwriteAll)) {
+                return void
+            }
+            let mut dataOutputStream: AbDataOutputStream = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getInstanceForAbFile"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast(toFile)))
+})
+            let mut fileInputStream: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFileInputStream.jm_createFromAbFile"))
+JR.cast(jlate(JR.cast(fromFile)))
+})
+            ignore(jm_copy_2(this, fileInputStream, dataOutputStream))
+        }
+    return void
+}
     
-
-    method copyDirectory : 'any1 'any2. 'any1 * 'any2 -> unit = fun (fromFile, to_) ->
-        let fromFile = Obj.repr fromFile in
-        let to_ = Obj.repr to_ in
-        begin
-        (try
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains ((Obj.magic logConfigTypeFactory)#fILE)) then begin
-                let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-                ignore (!stringBuffer#append ("Copying Directory from: "));
-                ignore (!stringBuffer#append (((Obj.magic fromFile)#getPath ())));
-                ignore (!stringBuffer#append (" to: "));
-                ignore (!stringBuffer#append (((Obj.magic to_)#getPath ())));
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (getInstance ()), "copyDirectory"))
-            end;
-            let newDirectory : string ref = ref ((getNewDirectory ((Obj.magic fromFile)))) in ();
-            let newDirectoryAbPath : AbPath.abPath ref = ref (((new AbPath.abPath ((java_string_of (Obj.repr ((((Obj.magic to_)#getPath ()) + (Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ())))#sEPARATOR))) ^ !newDirectory), (StringUtil.getInstance ())#eMPTY_STRING)) :> AbPath.abPath)) in ();
-            if (not (directory#create (!newDirectoryAbPath))) then begin
-                raise (Failure (("Failed to create directory: " ^ java_string_of (Obj.repr (!newDirectoryAbPath)))))
-            end;
-            let fileArray : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "FileWrapperUtil.wrapFiles" (Obj.repr (((Obj.magic fromFile)#listFiles ()))))))) in ();
-            let size : int ref = ref ((Array.length (Obj.magic !fileArray))) in ();
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains ((Obj.magic logConfigTypeFactory)#fILE)) then begin
-                let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-                ignore (!stringBuffer#append ("Copying "));
-                ignore (!stringBuffer#appendint (!size));
-                ignore (!stringBuffer#append (" files from: "));
-                ignore (!stringBuffer#append (((Obj.magic fromFile)#getPath ())));
-                ignore (!stringBuffer#append (" to: "));
-                ignore (!stringBuffer#append (((Obj.magic to_)#getPath ())));
-                ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (getInstance ()), "copyDirectory"))
-            end;
-            let file : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-            for index = 0 to !size - 1 do
-                file := Obj.repr ((Obj.magic !fileArray).(index));
-                if ((Obj.magic !file)#isFile ()) then begin
-                    (self#copyFile ((Obj.magic !file), (Obj.magic (java_call_static "AbFile.createAbFilePathAndName" (Obj.repr ((java_string_of (Obj.repr !newDirectoryAbPath)), ((Obj.magic !file)#getName ()))))), false, false))
-                end else if ((Obj.magic !file)#isDirectory ()) then begin
-                    (self#copyDirectory ((Obj.magic !file), (Obj.magic (java_call_static "AbFile.createAbFileFromAbPath" (Obj.repr (!newDirectoryAbPath))))))
-                end else begin
-                    raise (Failure ("File Copy Error"))
-                end
-            done
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains ((Obj.magic logConfigTypeFactory)#fILEERROR)) then begin
-                let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-                ignore (!stringBuffer#append ("Error Copying Directory fromFile: "));
-                ignore (!stringBuffer#append ((java_string_of (Obj.repr (Obj.magic fromFile)))));
-                ignore (!stringBuffer#append (" to: "));
-                ignore (!stringBuffer#append ((java_string_of (Obj.repr (Obj.magic to_)))));
-                ignore ((Obj.magic logUtil)#put ((java_string_of (Obj.repr !stringBuffer)), (getInstance ()), "copyDirectory", e))
-            end;
-            raise e
-        end)
-        end [@@warning "-20"]
+and jm_getNewDirectory = (fromFile: JObject) => {
+        let mut newDirectory: String = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(fromFile)))
+}
+        let mut separatorChar: String = FilePathData.jm_getInstance().f_PATH_START
+        if (AbIOSystem.jm_isType(AbIOSystem.jm_getInstance(), "com.vobject.appengine.java.io")) {
+            separatorChar = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATOR"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("AbPathData.jm_getInstance"))
+JR.cast(jlate())
+})))
+}
+        }
+        let mut lastIndex: Int32 = JR.lastIndexOf(newDirectory, separatorChar)
+        if (Int32.(>=)(lastIndex, JR.length(newDirectory))) {
+            newDirectory = JR.substring(newDirectory, 0l, Int32.(-)(JR.length(newDirectory), 1l))
+            lastIndex = JR.lastIndexOf(newDirectory, separatorChar)
+        }
+        return JR.substring(newDirectory, lastIndex, JR.length(newDirectory))
+}
     
-
-    (* Java overload copy(AbPath, AbPath) is not converted: OCaml has one method per name *)
+and jm_copyDirectoryPortion = (this: FileUtil, fromDirectoryAbPath: AbPath, toDirectoryAbPath: AbPath, overwriteNewer: Bool, overwriteAll: Bool, current: Int32, total: Int32) => {
+        let mut file: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
+JR.cast(jlate(JR.cast(fromDirectoryAbPath)))
+})
+        if (!{
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
+JR.cast(jlate(JR.cast(file)))
+}) {
+            fail JR.toStringOf(JR.newJObject("Exception"))
+        }
+        let mut fileList: BasicArrayList = JR.cast(Directory.jm_search(this.f_directory, JR.cast(file), true))
+        let mut size: Int32 = BasicArrayList.jm_size(fileList)
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, "Searched: "))
+        ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(file)))
+}))
+        ignore(StringMaker.jm_append(stringBuffer, " Total: "))
+        ignore(StringMaker.jm_appendint(stringBuffer, size))
+        let mut portion: Int32 = Int32.(+)(Int32.(/)(size, total), 1l)
+        let mut start: Int32 = Int32.(*)(portion, current)
+        let mut end: Int32 = Int32.(+)(start, portion)
+        if (Int32.(>)(end, size)) {
+            end = size
+        }
+        ignore(StringMaker.jm_append(stringBuffer, " Section: "))
+        ignore(StringMaker.jm_appendint(stringBuffer, start))
+        ignore(StringMaker.jm_append(stringBuffer, " - "))
+        ignore(StringMaker.jm_appendint(stringBuffer, end))
+        if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast("copySomeFilesToDirectory()")))
+})
+        }
+        let mut nextFile: JObject = JR.jnull
+        {
+            let mut index: Int32 = start
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, end))) break
+            nextFile = JR.cast(BasicArrayList.jm_get(fileList, index))
+            if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
+JR.cast(jlate(JR.cast(nextFile)))
+}) {
+                void
+            } else {
+                let mut path: String = AbPath.jm_getPath(AbPath.jnew_2({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(nextFile)))
+}, StringUtil.jm_getInstance().f_EMPTY_STRING))
+                let mut beginIndex: Int32 = JR.length(AbPath.jm_getPath(fromDirectoryAbPath))
+                if (Int32.(<)(JR.indexOf(path, URLGLOBALS.jm_getWebappPath()), 0l)) {
+                    beginIndex = Int32.(-)(beginIndex, JR.length(AbPath.jm_getPath(AbPath.jnew_2(URLGLOBALS.jm_getWebappPath(), StringUtil.jm_getInstance().f_EMPTY_STRING))))
+                }
+                let mut newPath: String = AbPath.jm_toFileSystemString(toDirectoryAbPath) ++ JR.substringFrom(path, beginIndex)
+                let mut toFile: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
+JR.cast(jlate(JR.cast(AbPath.jnew_2(newPath, StringUtil.jm_getInstance().f_EMPTY_STRING))))
+})
+                ignore(jm_copyFile_4(this, nextFile, toFile, overwriteNewer, overwriteAll))
+            }
+            }
+        }
+}
     
-
-    method shouldSkip : 'any1. 'any1 * string array -> bool = fun (file, (skipFiles : string array)) ->
-        let file = Obj.repr file in
-        try
-        begin
-        let size : int ref = ref ((Array.length skipFiles)) in ();
-        let skipFile : string ref = ref ("") in ();
-        for index = 0 to !size - 1 do
-            skipFile := skipFiles.(index);
-            if ((String.compare ((Obj.magic file)#getPath ()) (!skipFile)) == 0) then begin
-                raise (Java_return (Obj.repr (true)))
-            end
-        done;
-        false
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
+and jm_copyDirectory = (this: FileUtil, fromFile: JObject, to: JObject) => {
+        {
+            if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+                ignore(StringMaker.jm_append(stringBuffer, "Copying Directory from: "))
+                ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(fromFile)))
+}))
+                ignore(StringMaker.jm_append(stringBuffer, " to: "))
+                ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(to)))
+}))
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast("copyDirectory")))
+})
+            }
+            let mut newDirectory: String = jm_getNewDirectory(fromFile)
+            let mut newDirectoryAbPath: AbPath = AbPath.jnew_2({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(to)))
+} ++ {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATOR"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("AbPathData.jm_getInstance"))
+JR.cast(jlate())
+})))
+} ++ newDirectory, StringUtil.jm_getInstance().f_EMPTY_STRING)
+            if (!Directory.jm_create(this.f_directory, newDirectoryAbPath)) {
+                fail JR.toStringOf(JR.newJObject("Exception"))
+            }
+            let mut fileArray: Array<JObject> = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FileWrapperUtil.jm_wrapFiles"))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_listFiles"))
+JR.cast(jlate(JR.cast(fromFile)))
+})))
+}
+            let mut size: Int32 = Int32.fromNumber(Array.length(fileArray))
+            if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+                ignore(StringMaker.jm_append(stringBuffer, "Copying "))
+                ignore(StringMaker.jm_appendint(stringBuffer, size))
+                ignore(StringMaker.jm_append(stringBuffer, " files from: "))
+                ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(fromFile)))
+}))
+                ignore(StringMaker.jm_append(stringBuffer, " to: "))
+                ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(to)))
+}))
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast("copyDirectory")))
+})
+            }
+            let mut file: JObject = JR.jnull
+            {
+                let mut index: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(+)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index, size))) break
+                file = fileArray[Int32.toNumber(index)]
+                if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isFile"))
+JR.cast(jlate(JR.cast(file)))
+}) {
+                    ignore(jm_copyFile_2(this, file, {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFilePathAndName"))
+JR.cast(jlate(JR.cast(AbPath.jm_toString(newDirectoryAbPath)), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getName"))
+JR.cast(jlate(JR.cast(file)))
+})))
+}))
+                } else if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
+JR.cast(jlate(JR.cast(file)))
+}) {
+                    ignore(jm_copyDirectory(this, file, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
+JR.cast(jlate(JR.cast(newDirectoryAbPath)))
+}))
+                } else {
+                    fail JR.toStringOf(JR.newJObject("Exception"))
+                }
+                }
+            }
+        }
+}
     
-
-    (* Java overload write(String, String) is not converted: OCaml has one method per name *)
+and jm_copy_2 = (this: FileUtil, fromAbPath: AbPath, to: AbPath) => {
+        let mut l_COPY: String = "copy"
+        {
+            if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+                ignore(StringMaker.jm_append(stringBuffer, "Copying AbPaths from: "))
+                ignore(StringMaker.jm_append(stringBuffer, AbPath.jm_toString(fromAbPath)))
+                ignore(StringMaker.jm_append(stringBuffer, " to: "))
+                ignore(StringMaker.jm_append(stringBuffer, AbPath.jm_toString(to)))
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast(l_COPY)))
+})
+            }
+            if (JR.isNull(fromAbPath)) {
+                fail JR.toStringOf(JR.newJObject("Exception"))
+            }
+            if (JR.isNull(to)) {
+                fail JR.toStringOf(JR.newJObject("Exception"))
+            }
+            let mut fromLocationFile: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
+JR.cast(jlate(JR.cast(fromAbPath)))
+})
+            let mut toLocationFile: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
+JR.cast(jlate(JR.cast(to)))
+})
+            if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isFile"))
+JR.cast(jlate(JR.cast(fromLocationFile)))
+}) {
+                if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
+JR.cast(jlate(JR.cast(toLocationFile)))
+}) {
+                    let mut file: JObject = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileWithChild"))
+JR.cast(jlate(JR.cast(toLocationFile), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getName"))
+JR.cast(jlate(JR.cast(fromLocationFile)))
+})))
+})
+                    ignore(jm_copyFile_2(this, fromLocationFile, file))
+                    if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+                        ignore(StringMaker.jm_append(stringBuffer, "Copied file="))
+                        ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getName"))
+JR.cast(jlate(JR.cast(fromLocationFile)))
+}))
+                        ignore(StringMaker.jm_append(stringBuffer, " from: "))
+                        ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(fromLocationFile)))
+}))
+                        ignore(StringMaker.jm_append(stringBuffer, " to: "))
+                        ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(toLocationFile)))
+}))
+                        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast(l_COPY)))
+})
+                    }
+                } else {
+                    ignore(jm_copyFile_2(this, fromLocationFile, toLocationFile))
+                    if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+                        ignore(StringMaker.jm_append(stringBuffer, "Copied file with new name "))
+                        ignore(StringMaker.jm_append(stringBuffer, " from: "))
+                        ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(fromLocationFile)))
+}))
+                        ignore(StringMaker.jm_append(stringBuffer, " to: "))
+                        ignore(StringMaker.jm_append(stringBuffer, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(toLocationFile)))
+}))
+                        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast(l_COPY)))
+})
+                    }
+                }
+            } else if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
+JR.cast(jlate(JR.cast(fromLocationFile)))
+} && {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
+JR.cast(jlate(JR.cast(toLocationFile)))
+})) {
+                if ((JR.charAt(AbPath.jm_toFileSystemString(fromAbPath), Int32.(-)(JR.length(AbPath.jm_toFileSystemString(fromAbPath)), 1l)) == File.jstatic_separatorChar())) {
+                    if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Copying subdirectories"), JR.cast(jm_getInstance()), JR.cast(l_COPY)))
+})
+                    }
+                    let mut fileArray: Array<JObject> = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FileWrapperUtil.jm_wrapFiles"))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_listFiles"))
+JR.cast(jlate(JR.cast(fromLocationFile)))
+})))
+}
+                    {
+                        let mut index: Int32 = 0l
+                        let mut jfirst = true
+                        while (true) {
+                            if (!jfirst) {
+                                index = Int32.(+)(index, 1l)
+                            }
+                            jfirst = false
+                            if (!(Int32.(<)(index, Int32.fromNumber(Array.length(fileArray))))) break
+                        let mut file: JObject = JR.cast(fileArray[Int32.toNumber(index)])
+                        if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isFile"))
+JR.cast(jlate(JR.cast(file)))
+}) {
+                            let mut aFile: JObject = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileWithChild"))
+JR.cast(jlate(JR.cast(toLocationFile), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getName"))
+JR.cast(jlate(JR.cast(file)))
+})))
+})
+                            ignore(jm_copyFile_2(this, file, aFile))
+                        } else if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
+JR.cast(jlate(JR.cast(file)))
+}) {
+                            ignore(jm_copyDirectory(this, file, toLocationFile))
+                        } else {
+                            fail JR.toStringOf(JR.newJObject("Exception"))
+                        }
+                        }
+                    }
+                    if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Copied subdirectories"), JR.cast(jm_getInstance()), JR.cast(l_COPY)))
+})
+                    }
+                } else {
+                    if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Copyinhg directory"), JR.cast(jm_getInstance()), JR.cast(l_COPY)))
+})
+                    }
+                    ignore(jm_copyDirectory(this, fromLocationFile, toLocationFile))
+                    if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Copied directory"), JR.cast(jm_getInstance()), JR.cast(l_COPY)))
+})
+                    }
+                }
+            }
+            return true
+        }
+    return false
+}
     
+and jm_shouldSkip = (this: FileUtil, file: JObject, skipFiles: Array<String>) => {
+        let mut size: Int32 = Int32.fromNumber(Array.length(skipFiles))
+        let mut skipFile: String = ""
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            skipFile = skipFiles[Int32.toNumber(index)]
+            if ((JR.compareTo({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(file)))
+}, skipFile) == 0l)) {
+                return true
+            }
+            }
+        }
+        return false
+}
+    
+and jm_write_2 = (this: FileUtil, filePath: String, string: String) => {
+        let mut dataOutputStream: AbDataOutputStream = JR.nullOf()
+        {
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), this.f_WRITE_LABEL), filePath), this.f_DATA_LABEL), string))), JR.cast(this), JR.cast(this.f_WRITE_METHOD)))
+})
+            let mut fileInputStreamFactory: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("FileStreamFactory.jm_getInstance"))
+JR.cast(jlate())
+})
+            let mut fileOutputStream: OutputStream = JR.cast({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("FileStreamFactory.jm_getFileOutputStreamInstance"))
+JR.cast(jlate(JR.cast(fileInputStreamFactory), JR.cast(StringUtil.jm_getInstance().f_EMPTY_STRING), JR.cast(filePath)))
+})
+            dataOutputStream = AbDataOutputStream.jnew_1(fileOutputStream)
+            ignore(AbDataOutputStream.jm_write(dataOutputStream, JR.getBytes(string), 0l, JR.length(string)))
+            ignore(AbDataOutputStream.jm_flush(dataOutputStream))
+        }
+        {
+            ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), JR.cast(dataOutputStream)))
+        }
+}
+    
+and jm_loadFileAsList = (this: FileUtil, file: JObject, max: Int32, byteArray1: Array<Int32>) => {
+        return FileUtil2.jm_loadFileAsList(FileUtil2.jm_getInstance(), file, max, byteArray1)
+}
 
-    method loadFileAsList : 'any1 'return. 'any1 * int * int array -> 'return = fun (file, (max : int), (byteArray1 : int array)) ->
-        let file = Obj.repr file in
-        begin
-        (Obj.magic (((FileUtil2.getInstance ())#loadFileAsList ((Obj.magic file), max, byteArray1))))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        directory <- ((Directory.getInstance ()) :> Directory.directory);
-        logConfigTypeFactory <- (Obj.repr (Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        streamUtil <- ((StreamUtil.getInstance ()) :> StreamUtil.streamUtil);
-        wRITE_LABEL <- "Write file: ";
-        dATA_LABEL <- " data: ";
-        wRITE_METHOD <- "write";
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "FileUtil" (fun arguments -> Obj.repr (new fileUtil (Obj.obj arguments)))
-
-let instance = (new fileUtil ())
-let get_instance () = instance
-let () = java_register_static "FileUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "FileUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("FileUtil.jnew_0", jnew_0)
+JR.registerLateBound("FileUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("FileUtil.jm_write_2", jm_write_2)
+JR.registerLateBound("FileUtil.jm_write_2", jm_write_2)
+JR.registerLateBound("FileUtil.jm_write_3", jm_write_3)
+JR.registerLateBound("FileUtil.jm_copy_2", jm_copy_2)
+JR.registerLateBound("FileUtil.jm_fixPath", jm_fixPath)
+JR.registerLateBound("FileUtil.jm_copyToCloud_4", jm_copyToCloud_4)
+JR.registerLateBound("FileUtil.jm_copyToCloud_6", jm_copyToCloud_6)
+JR.registerLateBound("FileUtil.jm_copyToCloud_2", jm_copyToCloud_2)
+JR.registerLateBound("FileUtil.jm_copyToCloud_4", jm_copyToCloud_4)
+JR.registerLateBound("FileUtil.jm_copyPrepare", jm_copyPrepare)
+JR.registerLateBound("FileUtil.jm_copyFile_2", jm_copyFile_2)
+JR.registerLateBound("FileUtil.jm_copyFile_4", jm_copyFile_4)
+JR.registerLateBound("FileUtil.jm_getNewDirectory", jm_getNewDirectory)
+JR.registerLateBound("FileUtil.jm_copyDirectoryPortion", jm_copyDirectoryPortion)
+JR.registerLateBound("FileUtil.jm_copyDirectory", jm_copyDirectory)
+JR.registerLateBound("FileUtil.jm_copy_2", jm_copy_2)
+JR.registerLateBound("FileUtil.jm_shouldSkip", jm_shouldSkip)
+JR.registerLateBound("FileUtil.jm_write_2", jm_write_2)
+JR.registerLateBound("FileUtil.jm_loadFileAsList", jm_loadFileAsList)
+JR.registerLateBound("FileUtil.f_logUtil", (this: FileUtil) => this.f_logUtil)
+JR.registerLateBound("FileUtil.f_directory", (this: FileUtil) => this.f_directory)
+JR.registerLateBound("FileUtil.f_logConfigTypeFactory", (this: FileUtil) => this.f_logConfigTypeFactory)
+JR.registerLateBound("FileUtil.f_commonStrings", (this: FileUtil) => this.f_commonStrings)
+JR.registerLateBound("FileUtil.f_streamUtil", (this: FileUtil) => this.f_streamUtil)
+JR.registerLateBound("FileUtil.f_WRITE_LABEL", (this: FileUtil) => this.f_WRITE_LABEL)
+JR.registerLateBound("FileUtil.f_DATA_LABEL", (this: FileUtil) => this.f_DATA_LABEL)
+JR.registerLateBound("FileUtil.f_WRITE_METHOD", (this: FileUtil) => this.f_WRITE_METHOD)
+JR.registerLateBound("FileUtil.jstatic_instance", jstatic_instance)
 
 

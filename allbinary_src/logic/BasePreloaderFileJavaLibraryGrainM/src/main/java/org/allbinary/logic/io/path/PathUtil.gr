@@ -1,193 +1,228 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io.path
+module PathUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io.path *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/io/file/FilePathData.gr" include FilePathData
+use FilePathData.{ type FilePathData }
+from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../../org/allbinary/logic/string/StringValidationUtil.gr" include StringValidationUtil
+use StringValidationUtil.{ type StringValidationUtil }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.io.file.FilePathData *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.logic.string.StringValidationUtil *)
+//Used to correct user input for paths
+provide record PathUtil {
+  jobject: JObject,
+  mut f_abPathData: JObject,
+  mut f_filePathData: FilePathData,
+}
 
-let instance_cell : Obj.t Lazy.t ref = ref (Lazy.from_val java_null)
-let get_instance : 'r. unit -> 'r = fun () -> Obj.magic (try Lazy.force !instance_cell with Lazy.Undefined -> java_null)
-let set_instance value' = instance_cell := Lazy.from_val (Obj.repr value')
-let () = java_register_static "PathUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-let () = java_register_static "PathUtil.set_instance" (fun value' -> set_instance value'; Obj.repr ())
-class pathUtil () =
-  object (self)
-    val mutable abPathData : Obj.t = Obj.repr 0
-    method abPathData : 'r. 'r = Obj.magic abPathData
-    method set_abPathData : 'v. 'v -> unit = fun value' -> abPathData <- Obj.repr value'
-    val mutable filePathData : FilePathData.filePathData = (Obj.magic 0)
-    method filePathData = filePathData
-    method set_filePathData value' = filePathData <- value'
+let mut jcell_instance: Option<PathUtil> = None
+
+provide let rec jclassName = () => "PathUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: PathUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method getExtensionWithAbFilePath : 'any1. 'any1 -> string = fun (abFilePath) ->
-        let abFilePath = Obj.repr abFilePath in
-        begin
-        ((Obj.magic abPathData)#getExtension ((java_string_of (Obj.repr (Obj.magic abFilePath)))))
-        end [@@warning "-20"]
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("PathUtil"), f_abPathData: JR.jnull, f_filePathData: JR.nullOf(), }
+    this.f_abPathData = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("AbPathData.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_filePathData = JR.cast(FilePathData.jm_getInstance())
+        void
+    this
+}
     
-
-    method getExtensionWithAbPath : 'any1. 'any1 -> string = fun (abPath) ->
-        let abPath = Obj.repr abPath in
-        begin
-        ((Obj.magic abPathData)#getExtension ((java_string_of (Obj.repr (Obj.magic abPath)))))
-        end [@@warning "-20"]
+and jm_getExtensionWithAbFilePath = (this: PathUtil, abFilePath: JObject) => {
+        return {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbPathData.jm_getExtension"))
+JR.cast(jlate(JR.cast(this.f_abPathData), JR.cast(JR.toStringOf(abFilePath.jobject))))
+}
+}
     
-
-    method getWithoutExtensionWithAbFilePath : 'any1. 'any1 -> string = fun (abFilePath) ->
-        let abFilePath = Obj.repr abFilePath in
-        begin
-        (self#getWithoutExtension ((java_string_of (Obj.repr (Obj.magic abFilePath)))))
-        end [@@warning "-20"]
+and jm_getExtensionWithAbPath = (this: PathUtil, abPath: JObject) => {
+        return {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbPathData.jm_getExtension"))
+JR.cast(jlate(JR.cast(this.f_abPathData), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPath.jm_toString"))
+JR.cast(jlate(JR.cast(abPath)))
+})))
+}
+}
     
-
-    method getWithoutExtensionWithAbPath : 'any1. 'any1 -> string = fun (abPath) ->
-        let abPath = Obj.repr abPath in
-        begin
-        (self#getWithoutExtension ((java_string_of (Obj.repr (Obj.magic abPath)))))
-        end [@@warning "-20"]
+and jm_getWithoutExtensionWithAbFilePath = (this: PathUtil, abFilePath: JObject) => {
+        return jm_getWithoutExtension(this, JR.toStringOf(abFilePath.jobject))
+}
     
-
-    method getWithoutExtension ((filePath : string)) : string =
-        begin
-        let indexOfFileExtensionDelmiter : int ref = ref (((Obj.magic abPathData)#getExtensionIndex (filePath))) in ();
-        let pathWithoutExtension : string ref = ref (filePath) in ();
-        if (!indexOfFileExtensionDelmiter >= 0) then begin
-            pathWithoutExtension := (String.sub filePath (0) ((!indexOfFileExtensionDelmiter) - (0)))
-        end;
-        !pathWithoutExtension
-        end
+and jm_getWithoutExtensionWithAbPath = (this: PathUtil, abPath: JObject) => {
+        return jm_getWithoutExtension(this, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPath.jm_toString"))
+JR.cast(jlate(JR.cast(abPath)))
+})
+}
     
-
-    method isValid ((path : string)) : bool =
-        try
-        begin
-        if (self#isValidStart (path)) then begin
-            if (self#isValidEnd (path)) then begin
-                raise (Java_return (Obj.repr (true)))
-            end
-        end;
-        false
-        end
-        with Java_return value -> Obj.obj value
+and jm_getWithoutExtension = (this: PathUtil, filePath: String) => {
+        let mut indexOfFileExtensionDelmiter: Int32 = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbPathData.jm_getExtensionIndex"))
+JR.cast(jlate(JR.cast(this.f_abPathData), JR.cast(filePath)))
+}
+        let mut pathWithoutExtension: String = filePath
+        if (Int32.(>=)(indexOfFileExtensionDelmiter, 0l)) {
+            pathWithoutExtension = JR.substring(filePath, 0l, indexOfFileExtensionDelmiter)
+        }
+        return pathWithoutExtension
+}
     
-
-    method isValidStart ((path : string)) : bool =
-        try
-        begin
-        if (((String.get path (0)) == (Obj.magic abPathData)#sEPARATORCHAR) || ((String.get path (0)) == '.')) then begin
-            raise (Java_return (Obj.repr (true)))
-        end else begin
-            raise (Java_return (Obj.repr (false)))
-        end
-        end
-        with Java_return value -> Obj.obj value
+and jm_isValid = (this: PathUtil, path: String) => {
+        if (jm_isValidStart(this, path)) {
+            if (jm_isValidEnd(this, path)) {
+                return true
+            }
+        }
+        return false
+}
     
-
-    method isValidEnd ((path : string)) : bool =
-        try
-        begin
-        let stringValidationUtil : StringValidationUtil.stringValidationUtil ref = ref (((StringValidationUtil.getInstance ()) :> StringValidationUtil.stringValidationUtil)) in ();
-        if (!stringValidationUtil#isEmpty (path)) then begin
-            raise (Java_return (Obj.repr (false)))
-        end;
-        if ((String.get path (((String.length path) - 1))) == (Obj.magic abPathData)#sEPARATORCHAR) then begin
-            raise (Java_return (Obj.repr (true)))
-        end else begin
-            raise (Java_return (Obj.repr (false)))
-        end
-        end
-        with Java_return value -> Obj.obj value
+and jm_isValidStart = (this: PathUtil, path: String) => {
+        if (((JR.charAt(path, 0l) == {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATORCHAR"))
+JR.cast(jlate(JR.cast(this.f_abPathData)))
+}) || (JR.charAt(path, 0l) == Int32.fromNumber(Char.code('.'))))) {
+            return true
+        } else {
+            return false
+        }
+}
     
-
-    method adjustStart ((path : string)) : string =
-        let path = ref path in
-        begin
-        if (not (self#isValidStart (!path))) then begin
-            path := (java_string_of (Obj.repr ((Obj.magic abPathData)#sEPARATOR)) ^ !path)
-        end;
-        !path
-        end
+and jm_isValidEnd = (this: PathUtil, path: String) => {
+        let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
+        if (StringValidationUtil.jm_isEmpty(stringValidationUtil, path)) {
+            return false
+        }
+        if ((JR.charAt(path, Int32.(-)(JR.length(path), 1l)) == {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATORCHAR"))
+JR.cast(jlate(JR.cast(this.f_abPathData)))
+})) {
+            return true
+        } else {
+            return false
+        }
+}
     
-
-    method adjustEnd ((path : string)) : string =
-        let path = ref path in
-        begin
-        if (not (self#isValidEnd (!path))) then begin
-            path := (!path ^ java_string_of (Obj.repr ((Obj.magic abPathData)#sEPARATOR)))
-        end;
-        !path
-        end
+and jm_adjustStart = (this: PathUtil, path: String) => {
+    let mut path = path
+        if (!jm_isValidStart(this, path)) {
+            path = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATOR"))
+JR.cast(jlate(JR.cast(this.f_abPathData)))
+} ++ path
+        }
+        return path
+}
     
-
-    method adjust ((path : string)) : string =
-        let path = ref path in
-        try
-        begin
-        let stringValidationUtil : StringValidationUtil.stringValidationUtil ref = ref (((StringValidationUtil.getInstance ()) :> StringValidationUtil.stringValidationUtil)) in ();
-        if (!stringValidationUtil#isEmpty (!path)) then begin
-            raise (Java_return (Obj.repr ((Obj.magic abPathData)#sEPARATOR)))
-        end;
-        if ((java_string_index_of !path (Obj.repr ("\\"))) >= 0) then begin
-            path := (java_string_replace !path (Obj.repr ('\\')) (Obj.repr ((Obj.magic abPathData)#sEPARATORCHAR)))
-        end;
-        !path
-        end
-        with Java_return value -> Obj.obj value
+and jm_adjustEnd = (this: PathUtil, path: String) => {
+    let mut path = path
+        if (!jm_isValidEnd(this, path)) {
+            path = path ++ {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATOR"))
+JR.cast(jlate(JR.cast(this.f_abPathData)))
+}
+        }
+        return path
+}
     
+and jm_adjust = (this: PathUtil, path: String) => {
+    let mut path = path
+        let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
+        if (StringValidationUtil.jm_isEmpty(stringValidationUtil, path)) {
+            return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATOR"))
+JR.cast(jlate(JR.cast(this.f_abPathData)))
+}
+        }
+        if (Int32.(>=)(JR.indexOf(path, "\\"), 0l)) {
+            path = JR.replace(path, Int32.fromNumber(Char.code('\\')), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATORCHAR"))
+JR.cast(jlate(JR.cast(this.f_abPathData)))
+})
+        }
+        return path
+}
+    
+and jm_removeNameFromPath = (this: PathUtil, path: String) => {
+        let mut endIndex: Int32 = JR.lastIndexOf(path, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATOR"))
+JR.cast(jlate(JR.cast(this.f_abPathData)))
+})
+        if (Int32.(<)(endIndex, 0l)) {
+            endIndex = JR.lastIndexOf(path, JR.chr(this.f_filePathData.f_SEPARATORCHAR))
+        }
+        if (Int32.(<)(endIndex, 0l)) {
+            return {
+let jlate: () => JObject = JR.cast(JR.lateBound("AbPath.jm_createAbPath"))
+JR.cast(jlate())
+}
+        }
+        if ((JR.length(path) == Int32.(+)(endIndex, 1l))) {
+            return jm_removeNameFromPath(this, JR.substring(path, 0l, Int32.(-)(endIndex, 1l)))
+        } else {
+            let mut pathWithoutName: String = JR.substring(path, 0l, endIndex)
+            return {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbPath.jnew_2"))
+JR.cast(jlate(JR.cast(pathWithoutName), JR.cast(StringUtil.jm_getInstance().f_EMPTY_STRING)))
+}
+        }
+}
 
-    method removeNameFromPath : 'return. string -> 'return = fun ((path : string)) ->
-        try
-        begin
-        let endIndex : int ref = ref ((java_string_last_index_of path (Obj.repr ((Obj.magic abPathData)#sEPARATOR)))) in ();
-        if (!endIndex < 0) then begin
-            endIndex := (java_string_last_index_of path (Obj.repr (filePathData#sEPARATORCHAR)))
-        end;
-        if (!endIndex < 0) then begin
-            raise (Java_return (Obj.repr ((Obj.magic (java_call_static "AbPath.createAbPath" (Obj.repr ()))))))
-        end;
-        if ((String.length path) = (!endIndex + 1)) then begin
-            raise (Java_return (Obj.repr ((self#removeNameFromPath ((String.sub path (0) (((!endIndex - 1)) - (0))))))))
-        end else begin
-            let pathWithoutName : string ref = ref ((String.sub path (0) ((!endIndex) - (0)))) in ();
-            raise (Java_return (Obj.repr ((Obj.obj (java_new "AbPath" (Obj.repr (!pathWithoutName, (StringUtil.getInstance ())#eMPTY_STRING)))))))
-        end
-        end
-        with Java_return value -> Obj.obj value
-
-    initializer
-      begin
-        abPathData <- (Obj.repr (Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ()))));
-        filePathData <- ((FilePathData.getInstance ()) :> FilePathData.filePathData);
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "PathUtil" (fun arguments -> Obj.repr (new pathUtil (Obj.obj arguments)))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic (get_instance ()))))
-        end
-let () = java_register_static "PathUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-
-let () = instance_cell := lazy (Obj.repr ((new pathUtil ())))
+JR.registerLateBound("PathUtil.jnew_0", jnew_0)
+JR.registerLateBound("PathUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("PathUtil.jm_getExtensionWithAbFilePath", jm_getExtensionWithAbFilePath)
+JR.registerLateBound("PathUtil.jm_getExtensionWithAbPath", jm_getExtensionWithAbPath)
+JR.registerLateBound("PathUtil.jm_getWithoutExtensionWithAbFilePath", jm_getWithoutExtensionWithAbFilePath)
+JR.registerLateBound("PathUtil.jm_getWithoutExtensionWithAbPath", jm_getWithoutExtensionWithAbPath)
+JR.registerLateBound("PathUtil.jm_getWithoutExtension", jm_getWithoutExtension)
+JR.registerLateBound("PathUtil.jm_isValid", jm_isValid)
+JR.registerLateBound("PathUtil.jm_isValidStart", jm_isValidStart)
+JR.registerLateBound("PathUtil.jm_isValidEnd", jm_isValidEnd)
+JR.registerLateBound("PathUtil.jm_adjustStart", jm_adjustStart)
+JR.registerLateBound("PathUtil.jm_adjustEnd", jm_adjustEnd)
+JR.registerLateBound("PathUtil.jm_adjust", jm_adjust)
+JR.registerLateBound("PathUtil.jm_removeNameFromPath", jm_removeNameFromPath)
+JR.registerLateBound("PathUtil.f_abPathData", (this: PathUtil) => this.f_abPathData)
+JR.registerLateBound("PathUtil.f_filePathData", (this: PathUtil) => this.f_filePathData)
+JR.registerLateBound("PathUtil.jstatic_instance", jstatic_instance)
 
 

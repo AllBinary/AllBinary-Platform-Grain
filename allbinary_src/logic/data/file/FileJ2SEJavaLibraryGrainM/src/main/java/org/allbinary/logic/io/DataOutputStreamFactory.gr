@@ -1,60 +1,85 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io
+module DataOutputStreamFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./AbDataOutputStream.gr" include AbDataOutputStream
+use AbDataOutputStream.{ type AbDataOutputStream }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.io.file.AbFile *)
+provide record DataOutputStreamFactory {
+  jobject: JObject,
+}
 
-class dataOutputStreamFactory () =
-  object
+let mut jcell_instance: Option<DataOutputStreamFactory> = None
+
+provide let rec jclassName = () => "DataOutputStreamFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: DataOutputStreamFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("DataOutputStreamFactory"), }
+    this
+}
     
-
-    method getInstanceForAbFile : 'any1 'return. 'any1 -> 'return = fun (file) ->
-        let file = Obj.repr file in
-        begin
-        let idFileOutputStream : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbFileOutputStream.createFromAbFile" (Obj.repr ((Obj.magic file))))))) in ();
-        let idOutData : AbDataOutputStream.abDataOutputStream ref = ref (((new AbDataOutputStream.abDataOutputStream ((Obj.magic !idFileOutputStream))) :> AbDataOutputStream.abDataOutputStream)) in ();
-        (Obj.magic (!idOutData))
-        end [@@warning "-20"]
+and jm_getInstance_0 = () => {
+        return jstatic_instance()
+}
     
+and jm_getInstanceForAbFile = (this: DataOutputStreamFactory, file: JObject) => {
+        let mut idFileOutputStream: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFileOutputStream.jm_createFromAbFile"))
+JR.cast(jlate(JR.cast(file)))
+})
+        let mut idOutData: AbDataOutputStream = AbDataOutputStream.jnew_1(idFileOutputStream)
+        return idOutData
+}
+    
+and jm_getInstance_2 = (this: DataOutputStreamFactory, filePath: String, fileName: String) => {
+        let mut fileStreamFactory: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("FileStreamFactory.jm_getInstance_0"))
+JR.cast(jlate())
+})
+        let mut fileOutputStream: JObject = JR.cast({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("FileStreamFactory.jm_getFileOutputStreamInstance"))
+JR.cast(jlate(JR.cast(fileStreamFactory), JR.cast(filePath), JR.cast(fileName)))
+})
+        let mut idOutData: AbDataOutputStream = AbDataOutputStream.jnew_1(fileOutputStream)
+        return idOutData
+}
 
-    method getInstance : 'return. string * string -> 'return = fun ((filePath : string), (fileName : string)) ->
-        begin
-        let fileStreamFactory : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "FileStreamFactory.getInstance" (Obj.repr ()))))) in ();
-        let fileOutputStream : Obj.t ref = ref ((Obj.repr ((Obj.magic !fileStreamFactory)#getFileOutputStreamInstance (filePath, fileName)))) in ();
-        let idOutData : AbDataOutputStream.abDataOutputStream ref = ref (((new AbDataOutputStream.abDataOutputStream ((Obj.magic !fileOutputStream))) :> AbDataOutputStream.abDataOutputStream)) in ();
-        (Obj.magic (!idOutData))
-        end
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "DataOutputStreamFactory" (fun arguments -> Obj.repr (new dataOutputStreamFactory (Obj.obj arguments)))
-
-let instance = (new dataOutputStreamFactory ())
-let get_instance () = instance
-let () = java_register_static "DataOutputStreamFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "DataOutputStreamFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("DataOutputStreamFactory.jnew_0", jnew_0)
+JR.registerLateBound("DataOutputStreamFactory.jm_getInstance_0", jm_getInstance_0)
+JR.registerLateBound("DataOutputStreamFactory.jm_getInstanceForAbFile", jm_getInstanceForAbFile)
+JR.registerLateBound("DataOutputStreamFactory.jm_getInstance_2", jm_getInstance_2)
+JR.registerLateBound("DataOutputStreamFactory.jstatic_instance", jstatic_instance)
 
 

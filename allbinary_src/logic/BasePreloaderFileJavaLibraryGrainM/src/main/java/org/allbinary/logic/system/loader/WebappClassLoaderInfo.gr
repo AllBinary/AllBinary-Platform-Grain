@@ -1,53 +1,67 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.system.loader
+module WebappClassLoaderInfo
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.system.loader *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.NullUtil *)
+provide record WebappClassLoaderInfo {
+  jobject: JObject,
+}
 
-let classLoader : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT))
-let get_classLoader () = !classLoader
-let set_classLoader value' = classLoader := value'
-let () = java_register_static "WebappClassLoaderInfo.get_classLoader" (fun _ -> Obj.repr (get_classLoader ()))
-let () = java_register_static "WebappClassLoaderInfo.set_classLoader" (fun value' -> set_classLoader (Obj.obj value'); Obj.repr ())
+let mut jcell_classLoader: Option<JObject> = None
 
-let setLoader : 'any1. 'any1 -> unit = fun (classLoader_arg) ->
-        let classLoader_arg = Obj.repr classLoader_arg in
-        begin
-        classLoader := (Obj.repr ((Obj.magic classLoader_arg)))
-        end [@@warning "-20"]
+provide let rec jclassName = () => "WebappClassLoaderInfo"
 
-and getLoader : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic !classLoader)))
-        end
-
-let () = java_register_static "WebappClassLoaderInfo.setLoader" (fun arguments -> Obj.repr (setLoader (Obj.obj arguments)))
-let () = java_register_static "WebappClassLoaderInfo.getLoader" (fun arguments -> Obj.repr (getLoader (Obj.obj arguments)))
-class webappClassLoaderInfo () =
-  object
+and jstatic_classLoader = () => match (jcell_classLoader) {
+  Some(value) => value,
+  None => {
+    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    jcell_classLoader = Some(value)
+    value
+  },
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("WebappClassLoaderInfo"), }
+        void
+    this
+}
+    
+and jm_setLoader = (classLoader: ClassLoader) => {
+        jstatic_classLoader() = classLoader
+}
+    
+and jm_getLoader = () => {
+        return JR.cast(jstatic_classLoader())
+}
 
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "WebappClassLoaderInfo" (fun arguments -> Obj.repr (new webappClassLoaderInfo (Obj.obj arguments)))
+JR.registerLateBound("WebappClassLoaderInfo.jnew_0", jnew_0)
+JR.registerLateBound("WebappClassLoaderInfo.jm_setLoader", jm_setLoader)
+JR.registerLateBound("WebappClassLoaderInfo.jm_getLoader", jm_getLoader)
+JR.registerLateBound("WebappClassLoaderInfo.jstatic_classLoader", jstatic_classLoader)
 
 

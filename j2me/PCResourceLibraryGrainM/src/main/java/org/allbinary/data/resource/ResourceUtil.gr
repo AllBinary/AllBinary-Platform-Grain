@@ -1,109 +1,129 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.data.resource
+module ResourceUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/io/ByteArrayInputStream.gr" include ByteArrayInputStream
+use ByteArrayInputStream.{ type ByteArrayInputStream }
+from "../../../../java/io/ByteArrayOutputStream.gr" include ByteArrayOutputStream
+use ByteArrayOutputStream.{ type ByteArrayOutputStream }
+from "../../../../java/io/FileInputStream.gr" include FileInputStream
+use FileInputStream.{ type FileInputStream }
+from "../../../../java/io/InputStream.gr" include InputStream
+use InputStream.{ type InputStream }
+from "../../../../org/allbinary/logic/io/StreamUtil.gr" include StreamUtil
+use StreamUtil.{ type StreamUtil }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../java/lang/Integer.gr" include Integer
+
+//J2SE - PC
+provide record ResourceUtil {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_path: String,
+  mut f_ext: String,
+}
+
+let mut jcell_instance: Option<ResourceUtil> = None
+
+provide let rec jclassName = () => "ResourceUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: ResourceUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.data.resource *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.ByteArrayInputStream *)
-(* import java.io.ByteArrayOutputStream *)
-(* import java.io.FileInputStream *)
-(* import java.io.InputStream *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.io.StreamUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-
-class resourceUtil () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable path : string = ""
-    method path = path
-    method set_path value' = path <- value'
-    val mutable ext : string = ""
-    method ext = ext
-    method set_ext value' = ext <- value'
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ResourceUtil"), f_logUtil: JR.jnull, f_path: "", f_ext: "", }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_path = StringUtil.jm_getInstance().f_EMPTY_STRING
+    this.f_ext = StringUtil.jm_getInstance().f_EMPTY_STRING
+        void
+    this
+}
     
-
-    method setLoadingPaths ((path_arg : string), (ext_arg : string)) : unit =
-        begin
-        path <- path_arg;
-        ext <- ext_arg
-        end
+and jm_setLoadingPaths = (this: ResourceUtil, path: String, ext: String) => {
+        this.f_path = path
+        this.f_ext = ext
+}
     
-
-    method setClassLoader : 'any1. 'any1 -> unit = fun (_classLoader) ->
-        begin
-        ()
-        end [@@warning "-20"]
+and jm_setClassLoader = (this: ResourceUtil, classLoader: ClassLoader) => {
+    void
+}
     
-
-    method getResourceAsStream : 'return. string -> 'return = fun ((resource : string)) ->
-        begin
-        let inputStream : Obj.t ref = ref ((Obj.repr (self#getResourceAsStreamAtStart (resource, 2)))) in ();
-        if ((Obj.magic !inputStream) == (Obj.magic 0)) then begin
-            inputStream := Obj.repr ((self#getResourceAsStreamAtStart (resource, 1)));
-            if ((Obj.magic !inputStream) == (Obj.magic 0)) then begin
-                raise (Failure ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Unable to obtain: "))#append (resource))))))
-            end
-        end;
-        (Obj.magic ((Obj.magic !inputStream)))
-        end
+and jm_getResourceAsStream = (this: ResourceUtil, resource: String) => {
+        let mut inputStream: InputStream = JR.cast(jm_getResourceAsStreamAtStart(this, resource, 2l))
+        if (JR.isNull(inputStream)) {
+            inputStream = jm_getResourceAsStreamAtStart(this, resource, 1l)
+            if (JR.isNull(inputStream)) {
+                fail JR.toStringOf(JR.newJObject("Exception"))
+            }
+        }
+        return inputStream
+}
     
-
-    method getResourceAsStreamAtStart : 'return. string * int -> 'return = fun ((resource : string), (_startIndex : int)) ->
-        try
-        begin
-        let inputStream : Obj.t ref = ref ((Obj.repr (new java_file_input_stream (Obj.repr ((java_string_of (Obj.repr ((((new StringMaker.stringMaker ())#append (path))#append (resource))#append (ext))))))))) in ();
-        if ((Obj.magic !inputStream) != (Obj.magic 0)) then begin
-            let byteArray : int array ref = ref ((Array.make (((Obj.magic !inputStream)#available ())) 0)) in ();
-            ignore ((StreamUtil.getInstance ())#getByteArray ((Obj.magic !inputStream), (new java_byte_array_output_stream ()), !byteArray));
-            raise (Java_return (Obj.repr ((new java_byte_array_input_stream (!byteArray)))))
-        end;
-        (Obj.magic ((Obj.magic !inputStream)))
-        end
-        with Java_return value -> Obj.obj value
+and jm_getResourceAsStreamAtStart = (this: ResourceUtil, resource: String, startIndex: Int32) => {
+        let mut inputStream: InputStream = JR.cast(FileInputStream.jnew_1(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), this.f_path), resource), this.f_ext))))
+        if (!JR.isNull(inputStream)) {
+            let mut byteArray: Array<Int32> = Array.make(Int32.toNumber(InputStream.jm_available_0(inputStream)), 0l)
+            ignore(StreamUtil.jm_getByteArray(StreamUtil.jm_getInstance(), inputStream, ByteArrayOutputStream.jnew_0(), byteArray))
+            return JR.cast(ByteArrayInputStream.jnew_1(byteArray))
+        }
+        return inputStream
+}
     
+and jm_addResource = (this: ResourceUtil, resource: String, value: Int32) => {
+    void
+}
 
-    method addResource ((_resource : string), (_value : int)) : unit =
-        begin
-        ()
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        path <- (StringUtil.getInstance ())#eMPTY_STRING;
-        ext <- (StringUtil.getInstance ())#eMPTY_STRING;
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "ResourceUtil" (fun arguments -> Obj.repr (new resourceUtil (Obj.obj arguments)))
-
-let instance = (new resourceUtil ())
-let get_instance () = instance
-let () = java_register_static "ResourceUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "ResourceUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("ResourceUtil.jnew_0", jnew_0)
+JR.registerLateBound("ResourceUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("ResourceUtil.jm_setLoadingPaths", jm_setLoadingPaths)
+JR.registerLateBound("ResourceUtil.jm_setClassLoader", jm_setClassLoader)
+JR.registerLateBound("ResourceUtil.jm_getResourceAsStream", jm_getResourceAsStream)
+JR.registerLateBound("ResourceUtil.jm_getResourceAsStreamAtStart", jm_getResourceAsStreamAtStart)
+JR.registerLateBound("ResourceUtil.jm_addResource", jm_addResource)
+JR.registerLateBound("ResourceUtil.f_logUtil", (this: ResourceUtil) => this.f_logUtil)
+JR.registerLateBound("ResourceUtil.f_path", (this: ResourceUtil) => this.f_path)
+JR.registerLateBound("ResourceUtil.set_f_path", (this: ResourceUtil, jvalue) => { this.f_path = jvalue; jvalue })
+JR.registerLateBound("ResourceUtil.f_ext", (this: ResourceUtil) => this.f_ext)
+JR.registerLateBound("ResourceUtil.set_f_ext", (this: ResourceUtil, jvalue) => { this.f_ext = jvalue; jvalue })
+JR.registerLateBound("ResourceUtil.jstatic_instance", jstatic_instance)
 
 

@@ -1,61 +1,76 @@
-(*
- 
-  AllBinary Open License Version 1 
-  Copyright (c) 2011 AllBinary 
-   
-  By agreeing to this license you and any business entity you represent are 
-  legally bound to the AllBinary Open License Version 1 legal agreement. 
-   
-  You may obtain the AllBinary Open License Version 1 legal agreement from 
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-   
-  Created By: Travis Berthelot 
+/*
+ * 
+ * AllBinary Open License Version 1 
+ * Copyright (c) 2011 AllBinary 
+ *  
+ * By agreeing to this license you and any business entity you represent are 
+ * legally bound to the AllBinary Open License Version 1 legal agreement. 
+ *  
+ * You may obtain the AllBinary Open License Version 1 legal agreement from 
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+ *  
+ * Created By: Travis Berthelot 
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.business.init
+module InitInfo2
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/logic/io/file/directory/Directory.gr" include Directory
+use Directory.{ type Directory }
+from "../../../../org/allbinary/logic/io/path/AbPath.gr" include AbPath
+use AbPath.{ type AbPath }
+
+provide record InitInfo2 {
+  jobject: JObject,
+  mut f_directory: Directory,
+}
+
+let mut jcell_instance: Option<InitInfo2> = None
+
+provide let rec jclassName = () => "InitInfo2"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: InitInfo2 = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("InitInfo2"), f_directory: JR.nullOf(), }
+    this.f_directory = JR.cast(Directory.jm_getInstance())
+    this
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.business.init *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.io.file.directory.Directory *)
-(* import org.allbinary.logic.io.path.AbPath *)
-
-class initInfo2 () =
-  object
-    val mutable directory : Directory.directory = (Obj.magic 0)
-    method directory = directory
-    method set_directory value' = directory <- value'
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method isTestHtmlPathValid : 'any1. 'any1 -> bool = fun (value) ->
-        let value = Obj.repr value in
-        begin
-        (directory#create ((Obj.magic value)))
-        end [@@warning "-20"]
+and jm_isTestHtmlPathValid = (this: InitInfo2, value: AbPath) => {
+        return Directory.jm_create(this.f_directory, value)
+}
     
+and jm_isMainPathValid = (this: InitInfo2, value: AbPath) => {
+        return Directory.jm_create(this.f_directory, value)
+}
 
-    method isMainPathValid : 'any1. 'any1 -> bool = fun (value) ->
-        let value = Obj.repr value in
-        begin
-        (directory#create ((Obj.magic value)))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        directory <- ((Directory.getInstance ()) :> Directory.directory);
-        ()
-      end
-  end
-let () = java_register_constructor "InitInfo2" (fun arguments -> Obj.repr (new initInfo2 (Obj.obj arguments)))
-
-let instance = (new initInfo2 ())
-let get_instance () = instance
-let () = java_register_static "InitInfo2.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "InitInfo2.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("InitInfo2.jnew_0", jnew_0)
+JR.registerLateBound("InitInfo2.jm_getInstance", jm_getInstance)
+JR.registerLateBound("InitInfo2.jm_isTestHtmlPathValid", jm_isTestHtmlPathValid)
+JR.registerLateBound("InitInfo2.jm_isMainPathValid", jm_isMainPathValid)
+JR.registerLateBound("InitInfo2.f_directory", (this: InitInfo2) => this.f_directory)
+JR.registerLateBound("InitInfo2.jstatic_instance", jstatic_instance)
 
 

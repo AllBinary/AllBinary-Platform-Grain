@@ -1,102 +1,127 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.input.event
+module GameKeyEventHandler
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.input.event *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/util/event/EventListenerInterface.gr" include EventListenerInterface
+use EventListenerInterface.{ type EventListenerInterface }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./PressGameKeyEventHandler.gr" include PressGameKeyEventHandler
+use PressGameKeyEventHandler.{ type PressGameKeyEventHandler }
+from "./UpGameKeyEventHandler.gr" include UpGameKeyEventHandler
+use UpGameKeyEventHandler.{ type UpGameKeyEventHandler }
+from "./DownGameKeyEventHandler.gr" include DownGameKeyEventHandler
+use DownGameKeyEventHandler.{ type DownGameKeyEventHandler }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.util.event.EventListenerInterface *)
-(* import org.allbinary.string.CommonStrings *)
+provide record GameKeyEventHandler {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_pressGameKeyEventHandler: PressGameKeyEventHandler,
+  mut f_upGameKeyEventHandler: UpGameKeyEventHandler,
+  mut f_downGameKeyEventHandler: DownGameKeyEventHandler,
+}
 
-class gameKeyEventHandler () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable pressGameKeyEventHandler : PressGameKeyEventHandler.pressGameKeyEventHandler = (Obj.magic 0)
-    method pressGameKeyEventHandler = pressGameKeyEventHandler
-    method set_pressGameKeyEventHandler value' = pressGameKeyEventHandler <- value'
-    val mutable upGameKeyEventHandler : UpGameKeyEventHandler.upGameKeyEventHandler = (Obj.magic 0)
-    method upGameKeyEventHandler = upGameKeyEventHandler
-    method set_upGameKeyEventHandler value' = upGameKeyEventHandler <- value'
-    val mutable downGameKeyEventHandler : DownGameKeyEventHandler.downGameKeyEventHandler = (Obj.magic 0)
-    method downGameKeyEventHandler = downGameKeyEventHandler
-    method set_downGameKeyEventHandler value' = downGameKeyEventHandler <- value'
+let mut jcell_instance: Option<GameKeyEventHandler> = None
+
+provide let rec jclassName = () => "GameKeyEventHandler"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: GameKeyEventHandler = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("GameKeyEventHandler"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_pressGameKeyEventHandler: JR.nullOf(), f_upGameKeyEventHandler: JR.nullOf(), f_downGameKeyEventHandler: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this.f_pressGameKeyEventHandler = JR.cast(PressGameKeyEventHandler.jm_getInstance())
+    this.f_upGameKeyEventHandler = JR.cast(UpGameKeyEventHandler.jm_getInstance())
+    this.f_downGameKeyEventHandler = JR.cast(DownGameKeyEventHandler.jm_getInstance())
+    this
+}
     
-
-    method removeAllListeners () : unit =
-        begin
-        ignore (pressGameKeyEventHandler#removeAllListeners ());
-        ignore (upGameKeyEventHandler#removeAllListeners ());
-        ignore (downGameKeyEventHandler#removeAllListeners ())
-        end
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method addListenerForPlayer : 'any1. 'any1 * int -> unit = fun (eventListenerInterface, (playerInputId : int)) ->
-        let eventListenerInterface = Obj.repr eventListenerInterface in
-        begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (Obj.magic eventListenerInterface))), (Obj.magic self), commonStrings#aDD_LISTENER));
-        ignore (pressGameKeyEventHandler#addListenerSingleThreaded ((Obj.magic eventListenerInterface)));
-        ignore ((upGameKeyEventHandler#getInstanceForPlayer (playerInputId))#addListenerSingleThreaded ((Obj.magic eventListenerInterface)));
-        ignore ((downGameKeyEventHandler#getInstanceForPlayer (playerInputId))#addListenerSingleThreaded ((Obj.magic eventListenerInterface)))
-        end [@@warning "-20"]
+and jm_removeAllListeners = (this: GameKeyEventHandler) => {
+        ignore(PressGameKeyEventHandler.jm_removeAllListeners(this.f_pressGameKeyEventHandler))
+        ignore(UpGameKeyEventHandler.jm_removeAllListeners(this.f_upGameKeyEventHandler))
+        ignore(DownGameKeyEventHandler.jm_removeAllListeners(this.f_downGameKeyEventHandler))
+}
     
-
-    method addListener : 'any1. 'any1 -> unit = fun (eventListenerInterface) ->
-        let eventListenerInterface = Obj.repr eventListenerInterface in
-        begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (Obj.magic eventListenerInterface))), (Obj.magic self), commonStrings#aDD_LISTENER));
-        ignore (pressGameKeyEventHandler#addListenerSingleThreaded ((Obj.magic eventListenerInterface)));
-        ignore (upGameKeyEventHandler#addListenerSingleThreaded ((Obj.magic eventListenerInterface)));
-        ignore (downGameKeyEventHandler#addListenerSingleThreaded ((Obj.magic eventListenerInterface)))
-        end [@@warning "-20"]
+and jm_addListenerForPlayer = (this: GameKeyEventHandler, eventListenerInterface: EventListenerInterface, playerInputId: Int32) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(JR.toStringOf(eventListenerInterface.jobject)), JR.cast(this), JR.cast(this.f_commonStrings.f_ADD_LISTENER)))
+})
+        ignore(PressGameKeyEventHandler.jm_addListenerSingleThreaded(this.f_pressGameKeyEventHandler, eventListenerInterface))
+        ignore(JR.className(JR.cast(UpGameKeyEventHandler.jm_getInstanceForPlayer(this.f_upGameKeyEventHandler, playerInputId))))
+        ignore(JR.className(JR.cast(DownGameKeyEventHandler.jm_getInstanceForPlayer(this.f_downGameKeyEventHandler, playerInputId))))
+}
     
+and jm_addListener = (this: GameKeyEventHandler, eventListenerInterface: EventListenerInterface) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(JR.toStringOf(eventListenerInterface.jobject)), JR.cast(this), JR.cast(this.f_commonStrings.f_ADD_LISTENER)))
+})
+        ignore(PressGameKeyEventHandler.jm_addListenerSingleThreaded(this.f_pressGameKeyEventHandler, eventListenerInterface))
+        ignore(UpGameKeyEventHandler.jm_addListenerSingleThreaded(this.f_upGameKeyEventHandler, eventListenerInterface))
+        ignore(DownGameKeyEventHandler.jm_addListenerSingleThreaded(this.f_downGameKeyEventHandler, eventListenerInterface))
+}
+    
+and jm_removeListener = (this: GameKeyEventHandler, eventListenerInterface: EventListenerInterface) => {
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(JR.toStringOf(eventListenerInterface.jobject)), JR.cast(this), JR.cast(this.f_commonStrings.f_REMOVE_LISTENER)))
+})
+        ignore(PressGameKeyEventHandler.jm_removeListenerSingleThreaded(this.f_pressGameKeyEventHandler, eventListenerInterface))
+        ignore(UpGameKeyEventHandler.jm_removeListenerSingleThreaded(this.f_upGameKeyEventHandler, eventListenerInterface))
+        ignore(DownGameKeyEventHandler.jm_removeListenerSingleThreaded(this.f_downGameKeyEventHandler, eventListenerInterface))
+}
 
-    method removeListener : 'any1. 'any1 -> unit = fun (eventListenerInterface) ->
-        let eventListenerInterface = Obj.repr eventListenerInterface in
-        begin
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr (Obj.magic eventListenerInterface))), (Obj.magic self), commonStrings#rEMOVE_LISTENER));
-        ignore (pressGameKeyEventHandler#removeListenerSingleThreaded ((Obj.magic eventListenerInterface)));
-        ignore (upGameKeyEventHandler#removeListenerSingleThreaded ((Obj.magic eventListenerInterface)));
-        ignore (downGameKeyEventHandler#removeListenerSingleThreaded ((Obj.magic eventListenerInterface)))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        pressGameKeyEventHandler <- ((PressGameKeyEventHandler.getInstance ()) :> PressGameKeyEventHandler.pressGameKeyEventHandler);
-        upGameKeyEventHandler <- ((UpGameKeyEventHandler.getInstance ()) :> UpGameKeyEventHandler.upGameKeyEventHandler);
-        downGameKeyEventHandler <- ((DownGameKeyEventHandler.getInstance ()) :> DownGameKeyEventHandler.downGameKeyEventHandler);
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "GameKeyEventHandler" (fun arguments -> Obj.repr (new gameKeyEventHandler (Obj.obj arguments)))
-
-let instance = (new gameKeyEventHandler ())
-let get_instance () = instance
-let () = java_register_static "GameKeyEventHandler.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "GameKeyEventHandler.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("GameKeyEventHandler.jnew_0", jnew_0)
+JR.registerLateBound("GameKeyEventHandler.jm_getInstance", jm_getInstance)
+JR.registerLateBound("GameKeyEventHandler.jm_removeAllListeners", jm_removeAllListeners)
+JR.registerLateBound("GameKeyEventHandler.jm_addListenerForPlayer", jm_addListenerForPlayer)
+JR.registerLateBound("GameKeyEventHandler.jm_addListener", jm_addListener)
+JR.registerLateBound("GameKeyEventHandler.jm_removeListener", jm_removeListener)
+JR.registerLateBound("GameKeyEventHandler.f_logUtil", (this: GameKeyEventHandler) => this.f_logUtil)
+JR.registerLateBound("GameKeyEventHandler.f_commonStrings", (this: GameKeyEventHandler) => this.f_commonStrings)
+JR.registerLateBound("GameKeyEventHandler.f_pressGameKeyEventHandler", (this: GameKeyEventHandler) => this.f_pressGameKeyEventHandler)
+JR.registerLateBound("GameKeyEventHandler.f_upGameKeyEventHandler", (this: GameKeyEventHandler) => this.f_upGameKeyEventHandler)
+JR.registerLateBound("GameKeyEventHandler.f_downGameKeyEventHandler", (this: GameKeyEventHandler) => this.f_downGameKeyEventHandler)
+JR.registerLateBound("GameKeyEventHandler.jstatic_instance", jstatic_instance)
 
 

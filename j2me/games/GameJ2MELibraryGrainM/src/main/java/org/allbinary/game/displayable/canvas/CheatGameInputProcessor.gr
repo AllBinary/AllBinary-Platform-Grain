@@ -1,105 +1,169 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.displayable.canvas
+module CheatGameInputProcessor
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.displayable.canvas *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/input/GameKeyFactory.gr" include GameKeyFactory
+use GameKeyFactory.{ type GameKeyFactory }
+from "../../../../../org/allbinary/game/input/PlayerGameInput.gr" include PlayerGameInput
+use PlayerGameInput.{ type PlayerGameInput }
+from "../../../../../org/allbinary/game/input/event/GameKeyEvent.gr" include GameKeyEvent
+use GameKeyEvent.{ type GameKeyEvent }
+from "../../../../../org/allbinary/game/input/event/GameKeyEventUtil.gr" include GameKeyEventUtil
+use GameKeyEventUtil.{ type GameKeyEventUtil }
+from "../../../../../org/allbinary/game/layer/AllBinaryGameLayerManager.gr" include AllBinaryGameLayerManager
+use AllBinaryGameLayerManager.{ type AllBinaryGameLayerManager }
+from "../../../../../org/allbinary/game/layer/special/SpecialGameInputFactory.gr" include SpecialGameInputFactory
+use SpecialGameInputFactory.{ type SpecialGameInputFactory }
+from "../../../../../org/allbinary/game/layer/special/SpecialGameInputInterface.gr" include SpecialGameInputInterface
+use SpecialGameInputInterface.{ type SpecialGameInputInterface }
+from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.input.GameKeyFactory *)
-(* import org.allbinary.game.input.PlayerGameInput *)
-(* import org.allbinary.game.input.event.GameKeyEvent *)
-(* import org.allbinary.game.input.event.GameKeyEventUtil *)
-(* import org.allbinary.game.layer.AllBinaryGameLayerManager *)
-(* import org.allbinary.game.layer.special.SpecialGameInputFactory *)
-(* import org.allbinary.game.layer.special.SpecialGameInputInterface *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
+provide record CheatGameInputProcessor {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_gameKeyEventList: JObject,
+  mut f_removalGameKeyEventList: JObject,
+  mut f_isRemoveDuplicateKeyPresses: Bool,
+  mut f_gameInputStrings: JObject,
+  mut f_playerInputId: Int32,
+  mut f_PROCESS_GAME: String,
+  mut f_gameCanvas: JObject,
+  mut f_gameKeyFactory: GameKeyFactory,
+}
 
-let inputProcessor : SpecialGameInputInterface.specialGameInputInterface ref = ref (((SpecialGameInputFactory.get_nO_SPECIAL_GAME_INPUT ()) :> SpecialGameInputInterface.specialGameInputInterface))
-let get_inputProcessor () = !inputProcessor
-let set_inputProcessor value' = inputProcessor := value'
-let () = java_register_static "CheatGameInputProcessor.get_inputProcessor" (fun _ -> Obj.repr (get_inputProcessor ()))
-let () = java_register_static "CheatGameInputProcessor.set_inputProcessor" (fun value' -> set_inputProcessor (Obj.obj value'); Obj.repr ())
-class cheatGameInputProcessor (gameCanvas_arg) =
-  object (self)
-    inherit PlayerGameInput.playerGameInput (((new BasicArrayListD.basicArrayListD ()) : BasicArrayListD.basicArrayListD :> BasicArrayList.basicArrayList), ((new BasicArrayListD.basicArrayListD ()) : BasicArrayListD.basicArrayListD :> BasicArrayList.basicArrayList), (- 1))
-    val mutable pROCESS_GAME : string = ""
-    method pROCESS_GAME = pROCESS_GAME
-    method set_pROCESS_GAME value' = pROCESS_GAME <- value'
-    val mutable gameCanvas : Obj.t = Obj.repr 0
-    method gameCanvas : 'r. 'r = Obj.magic gameCanvas
-    method set_gameCanvas : 'v. 'v -> unit = fun value' -> gameCanvas <- Obj.repr value'
-    val mutable gameKeyFactory : GameKeyFactory.gameKeyFactory = (Obj.magic 0)
-    method gameKeyFactory = gameKeyFactory
-    method set_gameKeyFactory value' = gameKeyFactory <- value'
+let mut jcell_inputProcessor: Option<SpecialGameInputInterface> = None
+
+provide let rec jclassName = () => "CheatGameInputProcessor"
+
+and jstatic_inputProcessor = () => match (jcell_inputProcessor) {
+  Some(value) => value,
+  None => {
+    let value: SpecialGameInputInterface = SpecialGameInputFactory.jstatic_NO_SPECIAL_GAME_INPUT()
+    jcell_inputProcessor = Some(value)
+    value
+  },
+}
     
+and jnew_1 = (gameCanvas: JObject) => {
+    let this = { jobject: JR.newJObject("CheatGameInputProcessor"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventList: JR.jnull, f_removalGameKeyEventList: JR.jnull, f_isRemoveDuplicateKeyPresses: false, f_gameInputStrings: JR.jnull, f_playerInputId: 0l, f_PROCESS_GAME: "", f_gameCanvas: JR.jnull, f_gameKeyFactory: JR.nullOf(), }
+    this.f_PROCESS_GAME = "processGame"
     
+    this.f_gameKeyFactory = JR.cast(GameKeyFactory.jm_getInstance())
+        void
+        this.f_gameCanvas = gameCanvas
+    this
+}
+    
+and jm_update = (this: CheatGameInputProcessor) => {
+        {
+            let mut gameLayerManager: AllBinaryGameLayerManager = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_getLayerManager"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+})
+            let mut list: BasicArrayList = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInput.jm_getGameKeyEventList"))
+JR.cast(jlate(JR.cast(this)))
+})
+            let mut size: Int32 = BasicArrayList.jm_size(list)
+            {
+                let mut index: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(+)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index, size))) break
+                let mut anyType: JObject = JR.cast(list.f_objectArray[Int32.toNumber(index)])
+                let mut key: Int32 = GameKeyEventUtil.jm_getKey(anyType)
+                if ((key == JR.className(JR.cast(this.f_gameKeyFactory.f_LEVEL_DOWN)))) {
+                    ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SpecialGameInputInterface.jm_strafeLeft"))
+JR.cast(jlate(JR.cast(jstatic_inputProcessor())))
+})
+                    break
+                } else if ((key == JR.className(JR.cast(this.f_gameKeyFactory.f_LEVEL_UP)))) {
+                    ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SpecialGameInputInterface.jm_strafeRight"))
+JR.cast(jlate(JR.cast(jstatic_inputProcessor())))
+})
+                    break
+                }
+                if ((key == JR.className(JR.cast(this.f_gameKeyFactory.f_LEFT)))) {
+                    ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SpecialGameInputInterface.jm_left"))
+JR.cast(jlate(JR.cast(jstatic_inputProcessor())))
+})
+                    break
+                } else if ((key == JR.className(JR.cast(this.f_gameKeyFactory.f_RIGHT)))) {
+                    ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SpecialGameInputInterface.jm_right"))
+JR.cast(jlate(JR.cast(jstatic_inputProcessor())))
+})
+                    break
+                } else if ((key == JR.className(JR.cast(this.f_gameKeyFactory.f_UP)))) {
+                    ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SpecialGameInputInterface.jm_up"))
+JR.cast(jlate(JR.cast(jstatic_inputProcessor())))
+})
+                    break
+                } else if ((key == JR.className(JR.cast(this.f_gameKeyFactory.f_DOWN)))) {
+                    ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SpecialGameInputInterface.jm_down"))
+JR.cast(jlate(JR.cast(jstatic_inputProcessor())))
+})
+                    break
+                } else if ((key == JR.className(JR.cast(this.f_gameKeyFactory.f_KEY_NUM1)))) {
+                    ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("SpecialGameInputInterface.jm_special1"))
+JR.cast(jlate(JR.cast(jstatic_inputProcessor()), JR.cast(gameLayerManager), JR.cast(GameKeyEvent.jstatic_NONE())))
+})
+                    break
+                } else if ((key == JR.className(JR.cast(this.f_gameKeyFactory.f_KEY_NUM3)))) {
+                    ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("SpecialGameInputInterface.jm_special2"))
+JR.cast(jlate(JR.cast(jstatic_inputProcessor()), JR.cast(gameLayerManager), JR.cast(GameKeyEvent.jstatic_NONE())))
+})
+                    break
+                }
+                }
+            }
+            ignore(BasicArrayList.jm_clear(list))
+        }
+}
 
-    method update () : unit =
-        begin
-        (try
-            let gameLayerManager : AllBinaryGameLayerManager.allBinaryGameLayerManager ref = ref ((((Obj.magic gameCanvas)#getLayerManager ()) :> AllBinaryGameLayerManager.allBinaryGameLayerManager)) in ();
-            let list : BasicArrayList.basicArrayList ref = ref (((self#getGameKeyEventList ()) :> BasicArrayList.basicArrayList)) in ();
-            let size : int ref = ref ((!list#size ())) in ();
-            for index = 0 to !size - 1 do
-                let anyType : Obj.t ref = ref ((Obj.repr !list#objectArray.(index))) in ();
-                let key : int ref = ref ((GameKeyEventUtil.getKey (!anyType))) in ();
-                if (!key = (gameKeyFactory#lEVEL_DOWN#getId ())) then begin
-                    ignore (!inputProcessor#strafeLeft ());
-                    raise Java_break
-                end else if (!key = (gameKeyFactory#lEVEL_UP#getId ())) then begin
-                    ignore (!inputProcessor#strafeRight ());
-                    raise Java_break
-                end;
-                if (!key = (gameKeyFactory#lEFT#getId ())) then begin
-                    ignore (!inputProcessor#left ());
-                    raise Java_break
-                end else if (!key = (gameKeyFactory#rIGHT#getId ())) then begin
-                    ignore (!inputProcessor#right ());
-                    raise Java_break
-                end else if (!key = (gameKeyFactory#uP#getId ())) then begin
-                    ignore (!inputProcessor#up ());
-                    raise Java_break
-                end else if (!key = (gameKeyFactory#dOWN#getId ())) then begin
-                    ignore (!inputProcessor#down ());
-                    raise Java_break
-                end else if (!key = (gameKeyFactory#kEY_NUM1#getId ())) then begin
-                    ignore (!inputProcessor#special1 (!gameLayerManager, (GameKeyEvent.get_nONE ())));
-                    raise Java_break
-                end else if (!key = (gameKeyFactory#kEY_NUM3#getId ())) then begin
-                    ignore (!inputProcessor#special2 (!gameLayerManager, (GameKeyEvent.get_nONE ())));
-                    raise Java_break
-                end
-            done;
-            ignore (!list#clear ())
-        with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#commonStrings)#uPDATE, e))
-        end)
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        pROCESS_GAME <- "processGame";
-        ();
-        gameKeyFactory <- ((GameKeyFactory.getInstance ()) :> GameKeyFactory.gameKeyFactory);
-        ();
-        (* super(...) is the inherit clause *) ();
-        gameCanvas <- Obj.repr (gameCanvas_arg)
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "CheatGameInputProcessor" (fun arguments -> Obj.repr (new cheatGameInputProcessor (Obj.obj arguments)))
+JR.registerLateBound("CheatGameInputProcessor.jnew_1", jnew_1)
+JR.registerLateBound("CheatGameInputProcessor.jm_update", jm_update)
+JR.registerLateBound("CheatGameInputProcessor.f_PROCESS_GAME", (this: CheatGameInputProcessor) => this.f_PROCESS_GAME)
+JR.registerLateBound("CheatGameInputProcessor.f_gameCanvas", (this: CheatGameInputProcessor) => this.f_gameCanvas)
+JR.registerLateBound("CheatGameInputProcessor.f_gameKeyFactory", (this: CheatGameInputProcessor) => this.f_gameKeyFactory)
+JR.registerLateBound("CheatGameInputProcessor.jstatic_inputProcessor", jstatic_inputProcessor)
 
 

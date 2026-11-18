@@ -1,102 +1,135 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.ai.sequence
+module SequenceAI
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.ai.sequence *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/ai/ArtificialIntelligence.gr" include ArtificialIntelligence
+use ArtificialIntelligence.{ type ArtificialIntelligence }
+from "../../../../../../org/allbinary/ai/ArtificialIntelligenceInterface.gr" include ArtificialIntelligenceInterface
+use ArtificialIntelligenceInterface.{ type ArtificialIntelligenceInterface }
+from "../../../../../../org/allbinary/ai/ArtificialIntelligenceTransitionInterface.gr" include ArtificialIntelligenceTransitionInterface
+use ArtificialIntelligenceTransitionInterface.{ type ArtificialIntelligenceTransitionInterface }
+from "../../../../../../org/allbinary/game/ag/ai/ArrayAI.gr" include ArrayAI
+use ArrayAI.{ type ArrayAI }
+from "../../../../../../org/allbinary/game/input/GameInput.gr" include GameInput
+use GameInput.{ type GameInput }
+from "../../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
+from "../../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.ai.ArtificialIntelligence *)
-(* import org.allbinary.ai.ArtificialIntelligenceInterface *)
-(* import org.allbinary.ai.ArtificialIntelligenceTransitionInterface *)
-(* import org.allbinary.game.ag.ai.ArrayAI *)
-(* import org.allbinary.game.input.GameInput *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
+provide record SequenceAI {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_gameKeyEventFactory: JObject,
+  mut f_ownerLayerInterface: JObject,
+  mut f_gameInput: JObject,
+  mut f_lastKey: Int32,
+  mut f_artificialIntelligenceInterfaceArray: Array<JObject>,
+  mut f_index: Int32,
+}
 
-let sEQUENCE_AI : string = "Sequence AI"
-let get_sEQUENCE_AI () = sEQUENCE_AI
-let () = java_register_static "SequenceAI.get_sEQUENCE_AI" (fun _ -> Obj.repr (get_sEQUENCE_AI ()))
-class sequenceAI ((artificialIntelligenceInterfaceArray : ArtificialIntelligenceInterface.artificialIntelligenceInterface array), (ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gameInput : GameInput.gameInput)) =
-  object (self)
-    inherit ArrayAI.arrayAI (artificialIntelligenceInterfaceArray, ownerLayerInterface, gameInput) as super
-    val mutable index : int = 0
-    method index = index
-    method set_index value' = index <- value'
+let mut jcell_SEQUENCE_AI: Option<String> = None
+
+provide let rec jclassName = () => "SequenceAI"
+
+and jstatic_SEQUENCE_AI = () => match (jcell_SEQUENCE_AI) {
+  Some(value) => value,
+  None => {
+    let value: String = "Sequence AI"
+    jcell_SEQUENCE_AI = Some(value)
+    value
+  },
+}
     
+and jnew_3 = (artificialIntelligenceInterfaceArray: Array<ArtificialIntelligenceInterface>, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
+    let this = { jobject: JR.newJObject("SequenceAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_artificialIntelligenceInterfaceArray: [> ], f_index: 0l, }
+    this.jobject.toStringFunction = () => jm_toString(this)
     
-
-    method processAI : 'any1. 'any1 -> unit = fun (allBinaryLayerManager) ->
-        let allBinaryLayerManager = Obj.repr allBinaryLayerManager in
-        begin
-        ignore ((self#getArtificialIntelligenceInterface ()).(index)#processAI ((Obj.magic allBinaryLayerManager)))
-        end [@@warning "-7-20"]
+        void
+    this
+}
     
-
-    method next () : unit =
-        begin
-        index <- index + 1;
-        let artificialIntelligenceInterface : ArtificialIntelligenceInterface.artificialIntelligenceInterface ref = ref (((self#getSelectedArtificialIntelligenceInterface ()) :> ArtificialIntelligenceInterface.artificialIntelligenceInterface)) in ();
-        if ((!artificialIntelligenceInterface#getId ()) == (ArtificialIntelligence.get_aI_ID ())) then begin
-            let artificialIntelligenceTransitionInterface : ArtificialIntelligenceTransitionInterface.artificialIntelligenceTransitionInterface ref = ref (((Obj.magic !artificialIntelligenceInterface) :> ArtificialIntelligenceTransitionInterface.artificialIntelligenceTransitionInterface)) in ();
-            ignore (!artificialIntelligenceTransitionInterface#transition ())
-        end
-        end [@@warning "-7"]
+and jm_processAI = (this: SequenceAI, allBinaryLayerManager: AllBinaryLayerManager) => {
+        ignore(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ArrayAI.jm_getArtificialIntelligenceInterface"))
+JR.cast(jlate(JR.cast(this)))
+}[Int32.toNumber(this.f_index)])))
+}
     
-
-    method getIndex () : int =
-        begin
-        index
-        end [@@warning "-7"]
+and jm_next = (this: SequenceAI) => {
+        this.f_index = Int32.(+)(this.f_index, 1l)
+        let mut artificialIntelligenceInterface: ArtificialIntelligenceInterface = JR.cast(jm_getSelectedArtificialIntelligenceInterface(this))
+        if ((ArtificialIntelligenceInterface.jm_getId(artificialIntelligenceInterface) == ArtificialIntelligence.jstatic_AI_ID())) {
+            let mut artificialIntelligenceTransitionInterface: ArtificialIntelligenceTransitionInterface = JR.cast(artificialIntelligenceInterface)
+            ignore(ArtificialIntelligenceTransitionInterface.jm_transition(artificialIntelligenceTransitionInterface))
+        }
+}
     
-
-    method setIndex ((index_arg : int)) : unit =
-        begin
-        index <- index_arg
-        end [@@warning "-7"]
+and jm_getIndex = (this: SequenceAI) => {
+        return this.f_index
+}
     
-
-    method getSelectedArtificialIntelligenceInterface : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((self#getArtificialIntelligenceInterface ()).(index)))
-        end [@@warning "-7"]
+and jm_setIndex = (this: SequenceAI, index: Int32) => {
+        this.f_index = index
+}
     
-
-    method getName () : string =
-        begin
-        sEQUENCE_AI
-        end [@@warning "-7"]
+and jm_getSelectedArtificialIntelligenceInterface = (this: SequenceAI) => {
+        return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ArrayAI.jm_getArtificialIntelligenceInterface"))
+JR.cast(jlate(JR.cast(this)))
+}[Int32.toNumber(this.f_index)]
+}
     
+and jm_getName = (this: SequenceAI) => {
+        return jstatic_SEQUENCE_AI()
+}
+    
+and jm_toString = (this: SequenceAI) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, jm_toString(this)))
+        ignore(StringMaker.jm_append(stringBuffer, " Selected AI: "))
+        ignore(StringMaker.jm_append(stringBuffer, StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(jm_getSelectedArtificialIntelligenceInterface(this)))))
+        return StringMaker.jm_toString(stringBuffer)
+}
 
-    method toString () : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append ((super#toString ())));
-        ignore (!stringBuffer#append (" Selected AI: "));
-        ignore (!stringBuffer#append (((StringUtil.getInstance ())#toString ((self#getSelectedArtificialIntelligenceInterface ())))));
-        (java_string_of (Obj.repr !stringBuffer))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        index <- 0;
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "SequenceAI" (fun arguments -> Obj.repr (new sequenceAI (Obj.obj arguments)))
+JR.registerLateBound("SequenceAI.jnew_3", jnew_3)
+JR.registerLateBound("SequenceAI.jm_processAI", jm_processAI)
+JR.registerLateBound("SequenceAI.jm_next", jm_next)
+JR.registerLateBound("SequenceAI.jm_getIndex", jm_getIndex)
+JR.registerLateBound("SequenceAI.jm_setIndex", jm_setIndex)
+JR.registerLateBound("SequenceAI.jm_getSelectedArtificialIntelligenceInterface", jm_getSelectedArtificialIntelligenceInterface)
+JR.registerLateBound("SequenceAI.jm_getName", jm_getName)
+JR.registerLateBound("SequenceAI.jm_toString", jm_toString)
+JR.registerLateBound("SequenceAI.f_index", (this: SequenceAI) => this.f_index)
+JR.registerLateBound("SequenceAI.set_f_index", (this: SequenceAI, jvalue) => { this.f_index = jvalue; jvalue })
+JR.registerLateBound("SequenceAI.jstatic_SEQUENCE_AI", jstatic_SEQUENCE_AI)
 
 

@@ -1,55 +1,78 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.java.anyType
+module MethodUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.java.anyType *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "./ParamsUtil.gr" include ParamsUtil
+use ParamsUtil.{ type ParamsUtil }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.lang.reflect.Method *)
-(* import org.allbinary.logic.string.StringMaker *)
+provide record MethodUtil {
+  jobject: JObject,
+}
 
 
-let viewAll ((myClass : string), (lineBreak : string)) : string =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        let method_ : Obj.t ref = ref ((Obj.repr (myClass#getMethods ()))) in ();
-        ignore (!stringBuffer#append ("Methods: "));
-        ignore (!stringBuffer#append (lineBreak));
-        for index = 0 to (Array.length (Obj.magic !method_)) - 1 do
-            ignore (!stringBuffer#append ((((Obj.magic !method_).(index)#getReturnType ())#getName ())));
-            ignore (!stringBuffer#append (" "));
-            ignore (!stringBuffer#append (((Obj.magic !method_).(index)#getName ())));
-            ignore (!stringBuffer#append ("("));
-            ignore (ParamsUtil.viewParams (((Obj.magic !method_).(index)#getParameterTypes ())));
-            ignore (!stringBuffer#append (")"));
-            ignore (!stringBuffer#append (lineBreak))
-        done;
-        (java_string_of (Obj.repr !stringBuffer))
-        end
-
-let () = java_register_static "MethodUtil.viewAll" (fun arguments -> Obj.repr (viewAll (Obj.obj arguments)))
-class methodUtil () =
-  object
+provide let rec jclassName = () => "MethodUtil"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("MethodUtil"), }
+        void
+    this
+}
+    
+and jm_viewAll = (myClass: String, lineBreak: String) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        let mut method: Array<Method> = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Class.jm_getMethods"))
+JR.cast(jlate(JR.cast(myClass)))
+}
+        ignore(StringMaker.jm_append(stringBuffer, "Methods: "))
+        ignore(StringMaker.jm_append(stringBuffer, lineBreak))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, Int32.fromNumber(Array.length(method))))) break
+            ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(JR.className(JR.cast(method[Int32.toNumber(index)]))))))
+            ignore(StringMaker.jm_append(stringBuffer, " "))
+            ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(method[Int32.toNumber(index)]))))
+            ignore(StringMaker.jm_append(stringBuffer, "("))
+            ignore(ParamsUtil.jm_viewParams(JR.className(JR.cast(method[Int32.toNumber(index)]))))
+            ignore(StringMaker.jm_append(stringBuffer, ")"))
+            ignore(StringMaker.jm_append(stringBuffer, lineBreak))
+            }
+        }
+        return StringMaker.jm_toString(stringBuffer)
+}
 
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "MethodUtil" (fun arguments -> Obj.repr (new methodUtil (Obj.obj arguments)))
+JR.registerLateBound("MethodUtil.jnew_0", jnew_0)
+JR.registerLateBound("MethodUtil.jm_viewAll", jm_viewAll)
 
 

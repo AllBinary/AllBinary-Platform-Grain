@@ -1,162 +1,185 @@
-(*
- 
-  AllBinary Open License Version 1 
-  Copyright (c) 2025 AllBinary 
-   
-  By agreeing to this license you and any business entity you represent are 
-  legally bound to the AllBinary Open License Version 1 legal agreement. 
-   
-  You may obtain the AllBinary Open License Version 1 legal agreement from 
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-   
-  Created By: Travis Berthelot 
+/*
+ * 
+ * AllBinary Open License Version 1 
+ * Copyright (c) 2025 AllBinary 
+ *  
+ * By agreeing to this license you and any business entity you represent are 
+ * legally bound to the AllBinary Open License Version 1 legal agreement. 
+ *  
+ * You may obtain the AllBinary Open License Version 1 legal agreement from 
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+ *  
+ * Created By: Travis Berthelot 
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io.file
+module SimpleFileUtil
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../java/io/ByteArrayOutputStream.gr" include ByteArrayOutputStream
+use ByteArrayOutputStream.{ type ByteArrayOutputStream }
+from "../../../../../java/io/InputStream.gr" include InputStream
+use InputStream.{ type InputStream }
+from "../../../../../java/io/OutputStream.gr" include OutputStream
+use OutputStream.{ type OutputStream }
+from "../../../../../java/io/Reader.gr" include Reader
+use Reader.{ type Reader }
+from "../../../../../java/io/Writer.gr" include Writer
+use Writer.{ type Writer }
+from "../../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
+from "../../../../../org/allbinary/logic/io/NullOutputStream.gr" include NullOutputStream
+use NullOutputStream.{ type NullOutputStream }
+from "../../../../../org/allbinary/logic/io/NullReader.gr" include NullReader
+use NullReader.{ type NullReader }
+from "../../../../../org/allbinary/logic/io/NullWriter.gr" include NullWriter
+use NullWriter.{ type NullWriter }
+from "../../../../../org/allbinary/logic/io/StreamUtil.gr" include StreamUtil
+use StreamUtil.{ type StreamUtil }
+from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+
+provide record SimpleFileUtil {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_NULL_WRITER: Writer,
+  mut f_NULL_READER: Reader,
+  mut f_commonStrings: CommonStrings,
+  mut f_nullUtil: NullUtil,
+  mut f_streamUtil: StreamUtil,
+}
+
+let mut jcell_instance: Option<SimpleFileUtil> = None
+
+provide let rec jclassName = () => "SimpleFileUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: SimpleFileUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("SimpleFileUtil"), f_logUtil: JR.jnull, f_NULL_WRITER: JR.nullOf(), f_NULL_READER: JR.nullOf(), f_commonStrings: JR.nullOf(), f_nullUtil: JR.nullOf(), f_streamUtil: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_NULL_WRITER = JR.cast(jm_nullWriter())
+    this.f_NULL_READER = JR.cast(jm_nullReader())
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this.f_nullUtil = JR.cast(NullUtil.jm_getInstance())
+    this.f_streamUtil = JR.cast(StreamUtil.jm_getInstance())
+    this
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io.file *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.ByteArrayOutputStream *)
-(* import java.io.InputStream *)
-(* import java.io.OutputStream *)
-(* import java.io.Reader *)
-(* import java.io.Writer *)
-(* import org.allbinary.logic.NullUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.io.NullOutputStream *)
-(* import org.allbinary.logic.io.NullReader *)
-(* import org.allbinary.logic.io.NullWriter *)
-(* import org.allbinary.logic.io.StreamUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
-
-
-let nullOutputStream : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((NullOutputStream.get_nULL_OUTPUT_STREAM ())))
-        end
-
-and nullWriter : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((NullWriter.get_nULL_WRITER ())))
-        end
-
-and nullReader : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((NullReader.get_nULL_READER ())))
-        end
-
-let () = java_register_static "SimpleFileUtil.nullOutputStream" (fun arguments -> Obj.repr (nullOutputStream (Obj.obj arguments)))
-let () = java_register_static "SimpleFileUtil.nullWriter" (fun arguments -> Obj.repr (nullWriter (Obj.obj arguments)))
-let () = java_register_static "SimpleFileUtil.nullReader" (fun arguments -> Obj.repr (nullReader (Obj.obj arguments)))
-class simpleFileUtil () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable nULL_WRITER : Obj.t = Obj.repr 0
-    method nULL_WRITER : 'r. 'r = Obj.magic nULL_WRITER
-    method set_nULL_WRITER : 'v. 'v -> unit = fun value' -> nULL_WRITER <- Obj.repr value'
-    val mutable nULL_READER : Obj.t = Obj.repr 0
-    method nULL_READER : 'r. 'r = Obj.magic nULL_READER
-    method set_nULL_READER : 'v. 'v -> unit = fun value' -> nULL_READER <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable nullUtil : NullUtil.nullUtil = (Obj.magic 0)
-    method nullUtil = nullUtil
-    method set_nullUtil value' = nullUtil <- value'
-    val mutable streamUtil : StreamUtil.streamUtil = (Obj.magic 0)
-    method streamUtil = streamUtil
-    method set_streamUtil value' = streamUtil <- value'
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method loadFileAsList : 'any1 'return. 'any1 * int * int array -> 'return = fun (inputStream, (max : int), (byteArray1 : int array)) ->
-        let inputStream = Obj.repr inputStream in
-        begin
-        (Obj.magic ((self#loadFileAsListReturnLine ((Obj.magic inputStream), max, byteArray1, 0))))
-        end [@@warning "-20"]
+and jm_nullOutputStream = () => {
+        return NullOutputStream.jstatic_NULL_OUTPUT_STREAM()
+}
     
-
-    method loadFileAsListReturnLine : 'any1 'return. 'any1 * int * int array * int -> 'return = fun (inputStream, (max : int), (byteArray1 : int array), (includeReturnLine : int)) ->
-        let inputStream = Obj.repr inputStream in
-        try
-        begin
-        let stringList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-        if ((Obj.magic inputStream) == (Obj.magic 0)) then begin
-            raise (Java_return (Obj.repr (!stringList)))
-        end;
-        let byteArray : int array ref = ref (nullUtil#nULL_BYTE_ARRAY) in ();
-        (try
-            let outputStream2 : java_byte_array_output_stream ref = ref ((new java_byte_array_output_stream ())) in ();
-            byteArray := (streamUtil#getByteArray ((Obj.magic inputStream), !outputStream2, byteArray1));
-            ignore (streamUtil#close ((Obj.magic inputStream)))
-        with e -> begin
-            ignore (streamUtil#close ((Obj.magic inputStream)));
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#aDD, e))
-        end);
-        if (!byteArray == (Obj.magic 0)) then begin
-            raise (Java_return (Obj.repr (!stringList)))
-        end;
-        let size : int ref = ref ((Array.length !byteArray)) in ();
-        let index : int ref = ref (0) in ();
-        let startIndex : int ref = ref (0) in ();
-        let returnLine : int ref = ref (0) in ();
-        while (!index < !size) do
-            startIndex := !index;
-            while ((!index < (!size - 1)) && (!byteArray.(!index) <> (Char.code '\n'))) do
-                index := !index + 1
-            done;
-            if (includeReturnLine = 0) then begin
-                if ((!index > 0) && (!byteArray.((!index - 1)) = (Char.code '\r'))) then begin
-                    returnLine := 1
-                end else begin
-                    returnLine := 0
-                end
-            end;
-            let s : string ref = ref ((Obj.obj (java_new "String" (Obj.repr (!byteArray, !startIndex, ((((!index + includeReturnLine) - !returnLine) - !startIndex))))))) in ();
-            ignore (!stringList#add (!s));
-            index := !index + 1
-        done;
-        (Obj.magic (!stringList))
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
+and jm_nullWriter = () => {
+        return NullWriter.jstatic_NULL_WRITER()
+}
     
+and jm_nullReader = () => {
+        return NullReader.jstatic_NULL_READER()
+}
+    
+and jm_loadFileAsList = (this: SimpleFileUtil, inputStream: InputStream, max: Int32, byteArray1: Array<Int32>) => {
+        return jm_loadFileAsListReturnLine(this, inputStream, max, byteArray1, 0l)
+}
+    
+and jm_loadFileAsListReturnLine = (this: SimpleFileUtil, inputStream: InputStream, max: Int32, byteArray1: Array<Int32>, includeReturnLine: Int32) => {
+        let mut stringList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+        if (JR.isNull(inputStream)) {
+            return stringList
+        }
+        let mut byteArray: Array<Int32> = this.f_nullUtil.f_NULL_BYTE_ARRAY
+        {
+            let mut outputStream2: ByteArrayOutputStream = ByteArrayOutputStream.jnew_1(max)
+            byteArray = StreamUtil.jm_getByteArray(this.f_streamUtil, inputStream, outputStream2, byteArray1)
+            ignore(StreamUtil.jm_close(this.f_streamUtil, JR.cast(inputStream)))
+        }
+        if (JR.isNull(byteArray)) {
+            return stringList
+        }
+        let mut size: Int32 = Int32.fromNumber(Array.length(byteArray))
+        let mut index: Int32 = 0l
+        let mut startIndex: Int32 = 0l
+        let mut returnLine: Int32 = 0l
+        while (Int32.(<)(index, size)) {
+            startIndex = index
+            while ((Int32.(<)(index, Int32.(-)(size, 1l)) && (byteArray[Int32.toNumber(index)] != JR.i8(Int32.fromNumber(Char.code('\n')))))) {
+                index = Int32.(+)(index, 1l)
+            }
+            if ((includeReturnLine == 0l)) {
+                if ((Int32.(>)(index, 0l) && (byteArray[Int32.toNumber(Int32.(-)(index, 1l))] == JR.i8(Int32.fromNumber(Char.code('\r')))))) {
+                    returnLine = 1l
+                } else {
+                    returnLine = 0l
+                }
+            }
+            let mut s: String = JR.fromChars(byteArray, startIndex, (Int32.(-)(Int32.(-)(Int32.(+)(index, includeReturnLine), returnLine), startIndex)))
+            ignore(BasicArrayList.jm_add(stringList, JR.cast(s)))
+            index = Int32.(+)(index, 1l)
+        }
+        return stringList
+}
+    
+and jm_createStringFromArrayOfStrings = (this: SimpleFileUtil, stringArray: Array<String>) => {
+        let mut stringMaker: StringMaker = StringMaker.jnew_0()
+        let mut size: Int32 = Int32.fromNumber(Array.length(stringArray))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            ignore(StringMaker.jm_append(stringMaker, stringArray[Int32.toNumber(index)]))
+            }
+        }
+        return StringMaker.jm_toString(stringMaker)
+}
 
-    method createStringFromArrayOfStrings ((stringArray : string array)) : string =
-        begin
-        let stringMaker : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        let size : int ref = ref ((Array.length stringArray)) in ();
-        for index = 0 to !size - 1 do
-            ignore (!stringMaker#append (stringArray.(index)))
-        done;
-        (java_string_of (Obj.repr !stringMaker))
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        nULL_WRITER <- (Obj.repr (nullWriter ()));
-        nULL_READER <- (Obj.repr (nullReader ()));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        nullUtil <- ((NullUtil.getInstance ()) :> NullUtil.nullUtil);
-        streamUtil <- ((StreamUtil.getInstance ()) :> StreamUtil.streamUtil);
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "SimpleFileUtil" (fun arguments -> Obj.repr (new simpleFileUtil (Obj.obj arguments)))
-
-let instance = (new simpleFileUtil ())
-let get_instance () = instance
-let () = java_register_static "SimpleFileUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "SimpleFileUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("SimpleFileUtil.jnew_0", jnew_0)
+JR.registerLateBound("SimpleFileUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("SimpleFileUtil.jm_nullOutputStream", jm_nullOutputStream)
+JR.registerLateBound("SimpleFileUtil.jm_nullWriter", jm_nullWriter)
+JR.registerLateBound("SimpleFileUtil.jm_nullReader", jm_nullReader)
+JR.registerLateBound("SimpleFileUtil.jm_loadFileAsList", jm_loadFileAsList)
+JR.registerLateBound("SimpleFileUtil.jm_loadFileAsListReturnLine", jm_loadFileAsListReturnLine)
+JR.registerLateBound("SimpleFileUtil.jm_createStringFromArrayOfStrings", jm_createStringFromArrayOfStrings)
+JR.registerLateBound("SimpleFileUtil.f_logUtil", (this: SimpleFileUtil) => this.f_logUtil)
+JR.registerLateBound("SimpleFileUtil.f_NULL_WRITER", (this: SimpleFileUtil) => this.f_NULL_WRITER)
+JR.registerLateBound("SimpleFileUtil.f_NULL_READER", (this: SimpleFileUtil) => this.f_NULL_READER)
+JR.registerLateBound("SimpleFileUtil.f_commonStrings", (this: SimpleFileUtil) => this.f_commonStrings)
+JR.registerLateBound("SimpleFileUtil.f_nullUtil", (this: SimpleFileUtil) => this.f_nullUtil)
+JR.registerLateBound("SimpleFileUtil.f_streamUtil", (this: SimpleFileUtil) => this.f_streamUtil)
+JR.registerLateBound("SimpleFileUtil.jstatic_instance", jstatic_instance)
 
 

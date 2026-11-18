@@ -1,40 +1,65 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.media.audio
+module CompositeSound
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.media.audio *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./Sound.gr" include Sound
+use Sound.{ type Sound }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
+provide record CompositeSound {
+  jobject: JObject,
+  mut f_resource: String,
+  mut f_player: JObject,
+}
 
-class compositeSound ((resource : string)) =
-  object (self)
-    inherit Sound.sound (resource)
+
+provide let rec jclassName = () => "CompositeSound"
     
+and jnew_1 = (resource: String) => {
+    let this = { jobject: JR.newJObject("CompositeSound"), f_resource: "", f_player: JR.jnull, }
+        void
+    this
+}
     
+and jm_init = (this: CompositeSound) => {
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Sound.jm_setPlayerP"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("PlayerComposite.jnew_2"))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryMediaManager.jm_createPlayer"))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Sound.jm_getResource"))
+JR.cast(jlate(JR.cast(this)))
+})))
+}), JR.cast(570l)))
+})))
+})
+}
 
-    method init () : unit =
-        begin
-        ignore (self#setPlayerP ((Obj.obj (java_new "PlayerComposite" (Obj.repr ((Obj.magic (java_call_static "AllBinaryMediaManager.createPlayer" (Obj.repr ((self#getResource ()))))), 570))))))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "CompositeSound" (fun arguments -> Obj.repr (new compositeSound (Obj.obj arguments)))
+JR.registerLateBound("CompositeSound.jnew_1", jnew_1)
+JR.registerLateBound("CompositeSound.jm_init", jm_init)
 
 

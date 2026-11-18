@@ -1,87 +1,110 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.input.event
+module VirtualKeyboardEventHandler
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.input.event *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/logic/java/bool/BooleanFactory.gr" include BooleanFactory
+use BooleanFactory.{ type BooleanFactory }
+from "../../../../org/allbinary/logic/util/event/AllBinaryEventObject.gr" include AllBinaryEventObject
+use AllBinaryEventObject.{ type AllBinaryEventObject }
+from "../../../../org/allbinary/logic/util/event/EventListenerInterface.gr" include EventListenerInterface
+use EventListenerInterface.{ type EventListenerInterface }
+from "../../../../java/lang/Thread.gr" include Thread
+use Thread.{ type Thread }
+from "./VirtualKeyboardEvent.gr" include VirtualKeyboardEvent
+use VirtualKeyboardEvent.{ type VirtualKeyboardEvent }
+from "./VirtualKeyboardEventListenerInterface.gr" include VirtualKeyboardEventListenerInterface
+use VirtualKeyboardEventListenerInterface.{ type VirtualKeyboardEventListenerInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.java.bool.BooleanFactory *)
-(* import org.allbinary.logic.util.event.AllBinaryEventObject *)
-(* import org.allbinary.logic.util.event.EventListenerInterface *)
-(* import org.allbinary.logic.util.event.handler.BasicEventHandler *)
+provide record VirtualKeyboardEventHandler {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_eventStrings: JObject,
+  mut f_eventListenerInterfaceList: JObject,
+  mut f_SHOW_EVENT: VirtualKeyboardEvent,
+  mut f_HIDE_EVENT: VirtualKeyboardEvent,
+}
 
-class virtualKeyboardEventHandler () =
-  object (self)
-    inherit BasicEventHandler.basicEventHandler ()
-    val mutable sHOW_EVENT : VirtualKeyboardEvent.virtualKeyboardEvent = (Obj.magic 0)
-    method sHOW_EVENT = sHOW_EVENT
-    method set_sHOW_EVENT value' = sHOW_EVENT <- value'
-    val mutable hIDE_EVENT : VirtualKeyboardEvent.virtualKeyboardEvent = (Obj.magic 0)
-    method hIDE_EVENT = hIDE_EVENT
-    method set_hIDE_EVENT value' = hIDE_EVENT <- value'
+let mut jcell_gameKeyEventHandler: Option<VirtualKeyboardEventHandler> = None
+
+provide let rec jclassName = () => "VirtualKeyboardEventHandler"
+
+and jstatic_gameKeyEventHandler = () => match (jcell_gameKeyEventHandler) {
+  Some(value) => value,
+  None => {
+    let value: VirtualKeyboardEventHandler = jnew_0()
+    jcell_gameKeyEventHandler = Some(value)
+    value
+  },
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("VirtualKeyboardEventHandler"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_eventStrings: JR.jnull, f_eventListenerInterfaceList: JR.jnull, f_SHOW_EVENT: JR.nullOf(), f_HIDE_EVENT: JR.nullOf(), }
+    this.f_SHOW_EVENT = VirtualKeyboardEvent.jnew_1(BooleanFactory.jm_getInstance().f_TRUE)
+    this.f_HIDE_EVENT = VirtualKeyboardEvent.jnew_1(BooleanFactory.jm_getInstance().f_FALSE)
+        void
+    this
+}
     
-
-    method process : 'any1 'any2. 'any1 * 'any2 -> unit = fun (eventObject, eventListenerInterface) ->
-        let eventObject = Obj.repr eventObject in
-        let eventListenerInterface = Obj.repr eventListenerInterface in
-        begin
-        let virtualKeyboardEventListenerInterface : VirtualKeyboardEventListenerInterface.virtualKeyboardEventListenerInterface ref = ref (((Obj.magic (Obj.magic eventListenerInterface)) :> VirtualKeyboardEventListenerInterface.virtualKeyboardEventListenerInterface)) in ();
-        ignore (!virtualKeyboardEventListenerInterface#onVirtualKeyboardEvent ((Obj.magic (Obj.magic eventObject))))
-        end [@@warning "-7-20"]
+and jm_getInstance = () => {
+        return jstatic_gameKeyEventHandler()
+}
     
-
-    method open_ () : unit =
-        begin
-        (try
-            ignore (Unix.sleepf (Float.of_int (120) /. 1000.0));
-            ignore (self#fireEvent (sHOW_EVENT))
-        with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), "open", e))
-        end)
-        end [@@warning "-7"]
+and jm_process = (this: VirtualKeyboardEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) => {
+        let mut virtualKeyboardEventListenerInterface: VirtualKeyboardEventListenerInterface = JR.cast(eventListenerInterface)
+        ignore(VirtualKeyboardEventListenerInterface.jm_onVirtualKeyboardEvent(virtualKeyboardEventListenerInterface, JR.cast(eventObject)))
+}
     
+and jm_open = (this: VirtualKeyboardEventHandler) => {
+        {
+            ignore(Thread.jm_sleep(120l))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_fireEvent"))
+JR.cast(jlate(JR.cast(this), JR.cast(this.f_SHOW_EVENT)))
+})
+        }
+}
+    
+and jm_close = (this: VirtualKeyboardEventHandler) => {
+        {
+            ignore(Thread.jm_sleep(120l))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_fireEvent"))
+JR.cast(jlate(JR.cast(this), JR.cast(this.f_HIDE_EVENT)))
+})
+        }
+}
 
-    method close () : unit =
-        begin
-        (try
-            ignore (Unix.sleepf (Float.of_int (120) /. 1000.0));
-            ignore (self#fireEvent (hIDE_EVENT))
-        with e -> begin
-            ignore ((self#logUtil)#put ((self#commonStrings)#eXCEPTION, (Obj.magic self), (self#commonStrings)#cLOSE, e))
-        end)
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        sHOW_EVENT <- ((new VirtualKeyboardEvent.virtualKeyboardEvent ((Obj.repr ((BooleanFactory.getInstance ())#tRUE)))) :> VirtualKeyboardEvent.virtualKeyboardEvent);
-        hIDE_EVENT <- ((new VirtualKeyboardEvent.virtualKeyboardEvent ((Obj.repr ((BooleanFactory.getInstance ())#fALSE)))) :> VirtualKeyboardEvent.virtualKeyboardEvent);
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "VirtualKeyboardEventHandler" (fun arguments -> Obj.repr (new virtualKeyboardEventHandler (Obj.obj arguments)))
-
-let gameKeyEventHandler = (new virtualKeyboardEventHandler ())
-let get_gameKeyEventHandler () = gameKeyEventHandler
-let () = java_register_static "VirtualKeyboardEventHandler.get_gameKeyEventHandler" (fun _ -> Obj.repr (get_gameKeyEventHandler ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (gameKeyEventHandler))
-        end
-let () = java_register_static "VirtualKeyboardEventHandler.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("VirtualKeyboardEventHandler.jnew_0", jnew_0)
+JR.registerLateBound("VirtualKeyboardEventHandler.jm_getInstance", jm_getInstance)
+JR.registerLateBound("VirtualKeyboardEventHandler.jm_process", jm_process)
+JR.registerLateBound("VirtualKeyboardEventHandler.jm_open", jm_open)
+JR.registerLateBound("VirtualKeyboardEventHandler.jm_close", jm_close)
+JR.registerLateBound("VirtualKeyboardEventHandler.f_SHOW_EVENT", (this: VirtualKeyboardEventHandler) => this.f_SHOW_EVENT)
+JR.registerLateBound("VirtualKeyboardEventHandler.f_HIDE_EVENT", (this: VirtualKeyboardEventHandler) => this.f_HIDE_EVENT)
+JR.registerLateBound("VirtualKeyboardEventHandler.jstatic_gameKeyEventHandler", jstatic_gameKeyEventHandler)
 
 

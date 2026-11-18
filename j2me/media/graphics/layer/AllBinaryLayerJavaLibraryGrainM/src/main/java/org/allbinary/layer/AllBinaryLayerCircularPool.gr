@@ -1,47 +1,70 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.layer
+module AllBinaryLayerCircularPool
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.layer *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/logic/util/cache/BaseCircularPool.gr" include BaseCircularPool
+use BaseCircularPool.{ type BaseCircularPool }
+from "../../../org/allbinary/util/CircularIndexUtil.gr" include CircularIndexUtil
+use CircularIndexUtil.{ type CircularIndexUtil }
+from "./AllBinaryLayerFactoryInterface.gr" include AllBinaryLayerFactoryInterface
+use AllBinaryLayerFactoryInterface.{ type AllBinaryLayerFactoryInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.util.cache.BaseCircularPool *)
-(* import org.allbinary.util.CircularIndexUtil *)
+provide record AllBinaryLayerCircularPool {
+  jobject: JObject,
+  mut f_circularIndexUtil: JObject,
+  mut f_OBJECT_ARRAY: Array<JObject>,
+}
 
-class allBinaryLayerCircularPool () =
-  object (self)
-    inherit BaseCircularPool.baseCircularPool ()
+
+provide let rec jclassName = () => "AllBinaryLayerCircularPool"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("AllBinaryLayerCircularPool"), f_circularIndexUtil: JR.jnull, f_OBJECT_ARRAY: [> ], }
+        void
+    this
+}
     
+and jm_initAllBinaryLayerCircularPool = (this: AllBinaryLayerCircularPool, allbinaryLayerFactoryInterface: AllBinaryLayerFactoryInterface, total: Int32) => {
+        this.f_circularIndexUtil = JR.cast(CircularIndexUtil.jm_createInstance(total))
+        this.f_OBJECT_ARRAY = JR.cast(Array.make(Int32.toNumber(total), JR.jnull))
+        {
+            let mut localIndex: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    localIndex = Int32.(+)(localIndex, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(localIndex, total))) break
+            JR.cast(this.f_OBJECT_ARRAY)[Int32.toNumber(localIndex)] = JR.cast(AllBinaryLayerFactoryInterface.jm_getInstance(allbinaryLayerFactoryInterface))
+            }
+        }
+}
 
-    method initAllBinaryLayerCircularPool : 'any1. 'any1 * int -> unit = fun (allbinaryLayerFactoryInterface, (total : int)) ->
-        let allbinaryLayerFactoryInterface = Obj.repr allbinaryLayerFactoryInterface in
-        begin
-        (self#set_circularIndexUtil) ((CircularIndexUtil.createInstance (total)));
-        (self#set_oBJECT_ARRAY) ((Array.make (total) (Obj.magic 0)));
-        for localIndex = 0 to total - 1 do
-            (self#oBJECT_ARRAY).(localIndex) <- (Obj.magic (((Obj.magic allbinaryLayerFactoryInterface)#getInstance ())))
-        done
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "AllBinaryLayerCircularPool" (fun arguments -> Obj.repr (new allBinaryLayerCircularPool (Obj.obj arguments)))
+JR.registerLateBound("AllBinaryLayerCircularPool.jnew_0", jnew_0)
+JR.registerLateBound("AllBinaryLayerCircularPool.jm_initAllBinaryLayerCircularPool", jm_initAllBinaryLayerCircularPool)
 
 

@@ -1,105 +1,110 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics
+module Line
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "./GPoint.gr" include GPoint
+use GPoint.{ type GPoint }
+from "./PointFactory.gr" include PointFactory
+use PointFactory.{ type PointFactory }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
+provide record Line {
+  jobject: JObject,
+  mut f_p1: GPoint,
+  mut f_p2: GPoint,
+  mut f_deltaX: Float64,
+  mut f_deltaY: Float64,
+}
 
-class line ((p1_arg : GPoint.gPoint), (p2_arg : GPoint.gPoint)) =
-  object (self)
-    val mutable p1 : GPoint.gPoint = (Obj.magic 0)
-    method p1 = p1
-    method set_p1 value' = p1 <- value'
-    val mutable p2 : GPoint.gPoint = (Obj.magic 0)
-    method p2 = p2
-    method set_p2 value' = p2 <- value'
-    val mutable deltaX : float = 0.0
-    method deltaX = deltaX
-    method set_deltaX value' = deltaX <- value'
-    val mutable deltaY : float = 0.0
-    method deltaY = deltaY
-    method set_deltaY value' = deltaY <- value'
+
+provide let rec jclassName = () => "Line"
+    
+and jnew_2 = (p1: GPoint, p2: GPoint) => {
+    let this = { jobject: JR.newJObject("Line"), f_p1: JR.nullOf(), f_p2: JR.nullOf(), f_deltaX: 0.0d, f_deltaY: 0.0d, }
     
     
-
-    method getGradient () : float =
-        begin
-        ((self#getDeltaY ()) /. (self#getDeltaX ()))
-        end
     
-
-    method update () : unit =
-        begin
-        deltaX <- ((java_to_float (Obj.repr (((self#getP1 ())#getX ())))) -. ((self#getP2 ())#getX ()));
-        deltaY <- ((java_to_float (Obj.repr (((self#getP1 ())#getY ())))) -. ((self#getP2 ())#getY ()))
-        end
     
-
-    method getDeltaX () : float =
-        begin
-        deltaX
-        end
+        this.f_p1 = PointFactory.jm_getInstance().f_ZERO_ZERO
+        this.f_p2 = this.f_p1
+        ignore(jm_setP1(this, p1))
+        ignore(jm_setP2(this, p2))
+    this
+}
     
-
-    method getDeltaY () : float =
-        begin
-        deltaY
-        end
+and jm_getGradient = (this: Line) => {
+        return Float64.(/)(jm_getDeltaY(this), jm_getDeltaX(this))
+}
     
-
-    method getP1 : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (p1))
-        end
+and jm_update = (this: Line) => {
+        this.f_deltaX = Float64.(-)(Float64.fromNumber(Int32.toNumber(GPoint.jm_getX(jm_getP1(this)))), Float64.fromNumber(Int32.toNumber(GPoint.jm_getX(jm_getP2(this)))))
+        this.f_deltaY = Float64.(-)(Float64.fromNumber(Int32.toNumber(GPoint.jm_getY(jm_getP1(this)))), Float64.fromNumber(Int32.toNumber(GPoint.jm_getY(jm_getP2(this)))))
+}
     
-
-    method getP2 : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (p2))
-        end
+and jm_getDeltaX = (this: Line) => {
+        return this.f_deltaX
+}
     
-
-    method setP1 : 'any1. 'any1 -> unit = fun (p1_arg) ->
-        let p1_arg = Obj.repr p1_arg in
-        begin
-        p1 <- (Obj.magic p1_arg);
-        (self#update ())
-        end [@@warning "-20"]
+and jm_getDeltaY = (this: Line) => {
+        return this.f_deltaY
+}
     
+and jm_getP1 = (this: Line) => {
+        return this.f_p1
+}
+    
+and jm_getP2 = (this: Line) => {
+        return this.f_p2
+}
+    
+and jm_setP1 = (this: Line, p1: GPoint) => {
+        this.f_p1 = p1
+        ignore(jm_update(this))
+}
+    
+and jm_setP2 = (this: Line, p2: GPoint) => {
+        this.f_p2 = p2
+        ignore(jm_update(this))
+}
 
-    method setP2 : 'any1. 'any1 -> unit = fun (p2_arg) ->
-        let p2_arg = Obj.repr p2_arg in
-        begin
-        p2 <- (Obj.magic p2_arg);
-        (self#update ())
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        ();
-        ();
-        deltaX <- 0.0;
-        deltaY <- 0.0;
-        ();
-        p1 <- (PointFactory.getInstance ())#zERO_ZERO;
-        p2 <- p1;
-        (self#setP1 (p1_arg));
-        (self#setP2 (p2_arg))
-      end
-  end
-let () = java_register_constructor "Line" (fun arguments -> Obj.repr (new line (Obj.obj arguments)))
+JR.registerLateBound("Line.jnew_2", jnew_2)
+JR.registerLateBound("Line.jm_getGradient", jm_getGradient)
+JR.registerLateBound("Line.jm_update", jm_update)
+JR.registerLateBound("Line.jm_getDeltaX", jm_getDeltaX)
+JR.registerLateBound("Line.jm_getDeltaY", jm_getDeltaY)
+JR.registerLateBound("Line.jm_getP1", jm_getP1)
+JR.registerLateBound("Line.jm_getP2", jm_getP2)
+JR.registerLateBound("Line.jm_setP1", jm_setP1)
+JR.registerLateBound("Line.jm_setP2", jm_setP2)
+JR.registerLateBound("Line.f_p1", (this: Line) => this.f_p1)
+JR.registerLateBound("Line.set_f_p1", (this: Line, jvalue) => { this.f_p1 = jvalue; jvalue })
+JR.registerLateBound("Line.f_p2", (this: Line) => this.f_p2)
+JR.registerLateBound("Line.set_f_p2", (this: Line, jvalue) => { this.f_p2 = jvalue; jvalue })
+JR.registerLateBound("Line.f_deltaX", (this: Line) => this.f_deltaX)
+JR.registerLateBound("Line.set_f_deltaX", (this: Line, jvalue) => { this.f_deltaX = jvalue; jvalue })
+JR.registerLateBound("Line.f_deltaY", (this: Line) => this.f_deltaY)
+JR.registerLateBound("Line.set_f_deltaY", (this: Line, jvalue) => { this.f_deltaY = jvalue; jvalue })
 
 

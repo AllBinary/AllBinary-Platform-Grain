@@ -1,129 +1,144 @@
-(*
- 
-  AllBinary Open License Version 1 
-  Copyright (c) 2026 AllBinary 
-   
-  By agreeing to this license you and any business entity you represent are 
-  legally bound to the AllBinary Open License Version 1 legal agreement. 
-   
-  You may obtain the AllBinary Open License Version 1 legal agreement from 
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-   
-  Created By: Travis Berthelot 
+/*
+ * 
+ * AllBinary Open License Version 1 
+ * Copyright (c) 2026 AllBinary 
+ *  
+ * By agreeing to this license you and any business entity you represent are 
+ * legally bound to the AllBinary Open License Version 1 legal agreement. 
+ *  
+ * You may obtain the AllBinary Open License Version 1 legal agreement from 
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+ *  
+ * Created By: Travis Berthelot 
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io.file
+module AbFileSystem
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../java/io/File.gr" include File
+use File.{ type File }
+from "../../../../../java/io/FileInputStream.gr" include FileInputStream
+use FileInputStream.{ type FileInputStream }
+from "../../../../../java/io/InputStream.gr" include InputStream
+use InputStream.{ type InputStream }
+from "../../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
+from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../../java/lang/System.gr" include System
+
+//J2SEForJ2ME
+provide record AbFileSystem {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+}
+
+let mut jcell_instance: Option<AbFileSystem> = None
+
+provide let rec jclassName = () => "AbFileSystem"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: AbFileSystem = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("AbFileSystem"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io.file *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.File *)
-(* import java.io.FileInputStream *)
-(* import java.io.InputStream *)
-(* import org.allbinary.logic.NullUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.string.CommonStrings *)
-
-class abFileSystem () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method isDirectoryOrFile ((path : string)) : bool =
-        begin
-        let file : java_file ref = ref (((new java_file (Obj.repr (path))) :> java_file)) in ();
-        ((!file#isDirectory ()) || (!file#isFile ()))
-        end
+and jm_isDirectoryOrFile = (this: AbFileSystem, path: String) => {
+        let mut file: File = File.jnew_1(path)
+        return (File.jm_isDirectory_0(file) || File.jm_isFile_0(file))
+}
     
-
-    method isDirectory ((path : string)) : bool =
-        begin
-        ((new java_file (Obj.repr (path)))#isDirectory ())
-        end
+and jm_isDirectory = (this: AbFileSystem, path: String) => {
+        return File.jm_isDirectory_0(File.jnew_1(path))
+}
     
-
-    method getFilesAsStringArrayForPath ((currentDirPath : string)) : string array =
-        try
-        begin
-        let file : java_file ref = ref (((new java_file (Obj.repr (currentDirPath))) :> java_file)) in ();
-        if (!file#exists ()) then begin
-            raise (Java_return (Obj.repr ((!file#list ()))))
-        end else begin
-            raise (Java_return (Obj.repr (((StringUtil.getInstance ())#getArrayInstance ()))))
-        end
-        end
-        with Java_return value -> Obj.obj value
+and jm_getFilesAsStringArrayForPath = (this: AbFileSystem, currentDirPath: String) => {
+        let mut file: File = File.jnew_1(currentDirPath)
+        if (File.jm_exists_0(file)) {
+            return File.jm_list_0(file)
+        } else {
+            return StringUtil.jm_getArrayInstance(StringUtil.jm_getInstance())
+        }
+}
     
-
-    (* Java overload readAsString(String) is not converted: OCaml has one method per name *)
+and jm_readAsString_1 = (this: AbFileSystem, fileName: String) => {
+        let mut bytes: Array<Int32> = Array.make(Int32.toNumber(1000000l), 0l)
+        return jm_readAsString_2(this, fileName, bytes)
+}
     
-
-    method readAsString ((fileName : string), (bytes : int array)) : string =
-        try
-        begin
-        let closeable : Obj.t ref = ref ((Obj.repr (NullUtil.getInstance ())#nULL_OBJECT)) in ();
-        Fun.protect ~finally:(fun () -> 
-            ignore (self#close (!closeable))
-        ) (fun () -> (try
-            let idFile : Obj.t ref = ref ((Obj.repr (new java_file_input_stream (Obj.repr (fileName))))) in ();
-            closeable := (Obj.repr ((Obj.magic !idFile)));
-            let size : int ref = ref (((Obj.magic !idFile)#read (bytes))) in ();
-            if (!size > 0) then begin
-                raise (Java_return (Obj.repr ((Obj.obj (java_new "String" (Obj.repr (bytes, 0, !size)))))))
-            end
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), "readAsString", e))
-        end));
-        (StringUtil.getInstance ())#eMPTY_STRING
-        end
-        with Java_return value -> Obj.obj value
+and jm_readAsString_2 = (this: AbFileSystem, fileName: String, bytes: Array<Int32>) => {
+        let mut closeable: JObject = JR.cast(NullUtil.jm_getInstance().f_NULL_OBJECT)
+        {
+            let mut idFile: InputStream = JR.cast(FileInputStream.jnew_1(fileName))
+            closeable = idFile
+            let mut size: Int32 = InputStream.jm_read_1(idFile, bytes)
+            if (Int32.(>)(size, 0l)) {
+                return JR.fromChars(bytes, 0l, size)
+            }
+        }
+        {
+            ignore(jm_close(this, closeable))
+        }
+        return StringUtil.jm_getInstance().f_EMPTY_STRING
+}
     
+and jm_close = (this: AbFileSystem, closeable: JObject) => {
+        {
+            if (!JR.isNull(closeable)) {
+                let mut inputStream: InputStream = (JR.cast(closeable))
+                ignore(InputStream.jm_close_0(inputStream))
+            }
+            return true
+        }
+    return false
+}
+    
+and jm_main = (args: Array<String>) => {
+        let mut isDirectory: Bool = jm_isDirectory(jm_getInstance(), "c:")
+        ignore(print("isDirectory: " ++ toString(isDirectory)))
+}
 
-    method close : 'any1. 'any1 -> bool = fun (closeable) ->
-        let closeable = Obj.repr closeable in
-        begin
-        (try
-            if (closeable != (Obj.magic 0)) then begin
-                let inputStream : Obj.t ref = ref ((Obj.repr ((Obj.magic closeable)))) in ();
-                ignore ((Obj.magic !inputStream)#close ())
-            end;
-            true
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put (commonStrings#eXCEPTION, (Obj.magic self), commonStrings#cLOSE, e));
-            false
-        end)
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "AbFileSystem" (fun arguments -> Obj.repr (new abFileSystem (Obj.obj arguments)))
-
-let instance = (new abFileSystem ())
-let get_instance () = instance
-let () = java_register_static "AbFileSystem.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let rec getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-
-and main ((_args : string array)) : unit =
-        begin
-        let isDirectory : bool ref = ref (((getInstance ())#isDirectory ("c:"))) in ();
-        (print_endline (java_string_of (Obj.repr (("isDirectory: " ^ java_string_of (Obj.repr (!isDirectory)))))))
-        end
-let () = java_register_static "AbFileSystem.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
-let () = java_register_static "AbFileSystem.main" (fun arguments -> Obj.repr (main (Obj.obj arguments)))
+JR.registerLateBound("AbFileSystem.jnew_0", jnew_0)
+JR.registerLateBound("AbFileSystem.jm_getInstance", jm_getInstance)
+JR.registerLateBound("AbFileSystem.jm_isDirectoryOrFile", jm_isDirectoryOrFile)
+JR.registerLateBound("AbFileSystem.jm_isDirectory", jm_isDirectory)
+JR.registerLateBound("AbFileSystem.jm_getFilesAsStringArrayForPath", jm_getFilesAsStringArrayForPath)
+JR.registerLateBound("AbFileSystem.jm_readAsString_1", jm_readAsString_1)
+JR.registerLateBound("AbFileSystem.jm_readAsString_2", jm_readAsString_2)
+JR.registerLateBound("AbFileSystem.jm_close", jm_close)
+JR.registerLateBound("AbFileSystem.jm_main", jm_main)
+JR.registerLateBound("AbFileSystem.f_logUtil", (this: AbFileSystem) => this.f_logUtil)
+JR.registerLateBound("AbFileSystem.f_commonStrings", (this: AbFileSystem) => this.f_commonStrings)
+JR.registerLateBound("AbFileSystem.jstatic_instance", jstatic_instance)
 
 

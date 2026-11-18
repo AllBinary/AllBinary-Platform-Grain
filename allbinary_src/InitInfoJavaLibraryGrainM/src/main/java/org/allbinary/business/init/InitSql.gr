@@ -1,403 +1,422 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.business.init
+module InitSql
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.business.init *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../java/sql/DriverManager.gr" include DriverManager
+use DriverManager.{ type DriverManager }
+from "../../../../java/sql/ResultSet.gr" include ResultSet
+use ResultSet.{ type ResultSet }
+from "../../../../java/sql/ResultSetMetaData.gr" include ResultSetMetaData
+use ResultSetMetaData.{ type ResultSetMetaData }
+from "../../../../java/sql/SQLException.gr" include SQLException
+use SQLException.{ type SQLException }
+from "../../../../java/sql/Statement.gr" include Statement
+use Statement.{ type Statement }
+from "../../../../java/util/HashMap.gr" include HashMap
+use HashMap.{ type HashMap }
+from "../../../../java/util/Set.gr" include Set
+use Set.{ type Set }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../org/allbinary/business/init/db/DatabaseConnectionInfoInterface.gr" include DatabaseConnectionInfoInterface
+use DatabaseConnectionInfoInterface.{ type DatabaseConnectionInfoInterface }
+from "../../../../org/allbinary/business/init/db/DbConnectionInfo.gr" include DbConnectionInfo
+use DbConnectionInfo.{ type DbConnectionInfo }
+from "../../../../org/allbinary/logic/communication/sql/SqlStrings.gr" include SqlStrings
+use SqlStrings.{ type SqlStrings }
+from "../../../../org/allbinary/logic/communication/sql/SqlTypeStrings.gr" include SqlTypeStrings
+use SqlTypeStrings.{ type SqlTypeStrings }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../org/allbinary/logic/string/StringValidationUtil.gr" include StringValidationUtil
+use StringValidationUtil.{ type StringValidationUtil }
+from "../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.sql.Connection *)
-(* import java.sql.DriverManager *)
-(* import java.sql.ResultSet *)
-(* import java.sql.ResultSetMetaData *)
-(* import java.sql.SQLException *)
-(* import java.sql.Statement *)
-(* import java.util.HashMap *)
-(* import java.util.Set *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
-(* import org.allbinary.business.init.db.DatabaseConnectionInfoInterface *)
-(* import org.allbinary.business.init.db.DbConnectionInfo *)
-(* import org.allbinary.logic.StdUtil *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.logic.communication.log.config.type.LogConfigTypeFactory *)
-(* import org.allbinary.logic.communication.log.config.type.LogConfigTypes *)
-(* import org.allbinary.logic.communication.sql.SqlStrings *)
-(* import org.allbinary.logic.communication.sql.SqlTypeStrings *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.logic.string.StringValidationUtil *)
-(* import org.allbinary.string.CommonSeps *)
-(* import org.allbinary.string.CommonStrings *)
+provide record InitSql {
+  jobject: JObject,
+  mut f_stringUtil: StringUtil,
+  mut f_commonSeps: CommonSeps,
+  mut f_sqlTypeStrings: SqlTypeStrings,
+  mut f_sqlStrings: SqlStrings,
+  mut f_stdUtil: JObject,
+  mut f_INSERT: String,
+  mut f_UPDATE: String,
+  mut f_databaseConnectionInfoInterface: DbConnectionInfo,
+  mut f_userid: String,
+  mut f_password: String,
+  mut f_tableName: String,
+  mut f_conn: JObject,
+  mut f_useridAndPassword: Bool,
+  mut f_SUCCESS_SQL_STATEMENT: String,
+  mut f_FAILED_SQL_STATEMENT: String,
+  mut f_INIT_SQL: String,
+  mut f_commonStrings: CommonStrings,
+  mut f_EQUAL_QUOTE: String,
+  mut f_METHOD_GET_ROW: String,
+  mut f_METHOD_UPDATE_WHERE: String,
+  mut f_ROW_VALUE_LABEL: String,
+  mut f_NO_RESULTS_IN_RESULT_SET: String,
+  mut f_INSERT_END: String,
+}
 
-class initSql ((databaseConnectionInfoInterface_arg : DbConnectionInfo.dbConnectionInfo)) =
-  object (self)
-    val mutable stringUtil : StringUtil.stringUtil = (Obj.magic 0)
-    method stringUtil = stringUtil
-    method set_stringUtil value' = stringUtil <- value'
-    val mutable commonSeps : CommonSeps.commonSeps = (Obj.magic 0)
-    method commonSeps = commonSeps
-    method set_commonSeps value' = commonSeps <- value'
-    val mutable sqlTypeStrings : SqlTypeStrings.sqlTypeStrings = (Obj.magic 0)
-    method sqlTypeStrings = sqlTypeStrings
-    method set_sqlTypeStrings value' = sqlTypeStrings <- value'
-    val mutable sqlStrings : SqlStrings.sqlStrings = (Obj.magic 0)
-    method sqlStrings = sqlStrings
-    method set_sqlStrings value' = sqlStrings <- value'
-    val mutable stdUtil : Obj.t = Obj.repr 0
-    method stdUtil : 'r. 'r = Obj.magic stdUtil
-    method set_stdUtil : 'v. 'v -> unit = fun value' -> stdUtil <- Obj.repr value'
-    val mutable iNSERT : string = ""
-    method iNSERT = iNSERT
-    method set_iNSERT value' = iNSERT <- value'
-    val mutable uPDATE : string = ""
-    method uPDATE = uPDATE
-    method set_uPDATE value' = uPDATE <- value'
-    val mutable databaseConnectionInfoInterface : DbConnectionInfo.dbConnectionInfo = (Obj.magic 0)
-    method databaseConnectionInfoInterface = databaseConnectionInfoInterface
-    method set_databaseConnectionInfoInterface value' = databaseConnectionInfoInterface <- value'
-    val mutable userid : string = ""
-    method userid = userid
-    method set_userid value' = userid <- value'
-    val mutable password : string = ""
-    method password = password
-    method set_password value' = password <- value'
-    val mutable tableName : string = ""
-    method tableName = tableName
-    method set_tableName value' = tableName <- value'
-    val mutable conn : Obj.t = Obj.repr 0
-    method conn : 'r. 'r = Obj.magic conn
-    method set_conn : 'v. 'v -> unit = fun value' -> conn <- Obj.repr value'
-    val mutable useridAndPassword : bool = false
-    method useridAndPassword = useridAndPassword
-    method set_useridAndPassword value' = useridAndPassword <- value'
-    val mutable sUCCESS_SQL_STATEMENT : string = ""
-    method sUCCESS_SQL_STATEMENT = sUCCESS_SQL_STATEMENT
-    method set_sUCCESS_SQL_STATEMENT value' = sUCCESS_SQL_STATEMENT <- value'
-    val mutable fAILED_SQL_STATEMENT : string = ""
-    method fAILED_SQL_STATEMENT = fAILED_SQL_STATEMENT
-    method set_fAILED_SQL_STATEMENT value' = fAILED_SQL_STATEMENT <- value'
-    val mutable iNIT_SQL : string = ""
-    method iNIT_SQL = iNIT_SQL
-    method set_iNIT_SQL value' = iNIT_SQL <- value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable eQUAL_QUOTE : string = ""
-    method eQUAL_QUOTE = eQUAL_QUOTE
-    method set_eQUAL_QUOTE value' = eQUAL_QUOTE <- value'
-    val mutable mETHOD_GET_ROW : string = ""
-    method mETHOD_GET_ROW = mETHOD_GET_ROW
-    method set_mETHOD_GET_ROW value' = mETHOD_GET_ROW <- value'
-    val mutable mETHOD_UPDATE_WHERE : string = ""
-    method mETHOD_UPDATE_WHERE = mETHOD_UPDATE_WHERE
-    method set_mETHOD_UPDATE_WHERE value' = mETHOD_UPDATE_WHERE <- value'
-    val mutable rOW_VALUE_LABEL : string = ""
-    method rOW_VALUE_LABEL = rOW_VALUE_LABEL
-    method set_rOW_VALUE_LABEL value' = rOW_VALUE_LABEL <- value'
-    val mutable nO_RESULTS_IN_RESULT_SET : string = ""
-    method nO_RESULTS_IN_RESULT_SET = nO_RESULTS_IN_RESULT_SET
-    method set_nO_RESULTS_IN_RESULT_SET value' = nO_RESULTS_IN_RESULT_SET <- value'
-    val mutable iNSERT_END : string = ""
-    method iNSERT_END = iNSERT_END
-    method set_iNSERT_END value' = iNSERT_END <- value'
+
+provide let rec jclassName = () => "InitSql"
+    
+and jnew_1 = (databaseConnectionInfoInterface: DbConnectionInfo) => {
+    let this = { jobject: JR.newJObject("InitSql"), f_stringUtil: JR.nullOf(), f_commonSeps: JR.nullOf(), f_sqlTypeStrings: JR.nullOf(), f_sqlStrings: JR.nullOf(), f_stdUtil: JR.jnull, f_INSERT: "", f_UPDATE: "", f_databaseConnectionInfoInterface: JR.nullOf(), f_userid: "", f_password: "", f_tableName: "", f_conn: JR.jnull, f_useridAndPassword: false, f_SUCCESS_SQL_STATEMENT: "", f_FAILED_SQL_STATEMENT: "", f_INIT_SQL: "", f_commonStrings: JR.nullOf(), f_EQUAL_QUOTE: "", f_METHOD_GET_ROW: "", f_METHOD_UPDATE_WHERE: "", f_ROW_VALUE_LABEL: "", f_NO_RESULTS_IN_RESULT_SET: "", f_INSERT_END: "", }
+    this.f_stringUtil = JR.cast(StringUtil.jm_getInstance())
+    this.f_commonSeps = JR.cast(CommonSeps.jm_getInstance())
+    this.f_sqlTypeStrings = JR.cast(SqlTypeStrings.jm_getInstance())
+    this.f_sqlStrings = JR.cast(SqlStrings.jm_getInstance())
+    this.f_stdUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_INSERT = "insert"
+    this.f_UPDATE = "update"
     
     
-
-    method setTable ((tableName_arg : string)) : unit =
-        begin
-        tableName <- tableName_arg
-        end
     
-
-    method setDatabaseConnectionInfoInterface : 'any1. 'any1 -> unit = fun (databaseConnectionInfoInterface_arg) ->
-        let databaseConnectionInfoInterface_arg = Obj.repr databaseConnectionInfoInterface_arg in
-        begin
-        databaseConnectionInfoInterface <- (Obj.magic databaseConnectionInfoInterface_arg)
-        end [@@warning "-20"]
     
-
-    method createTable ((tableData : string)) : bool =
-        begin
-        (try
-            let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            ignore (!stringBuffer#append ("Creating Table: "));
-            ignore (!stringBuffer#append (tableData));
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr !stringBuffer)), iNIT_SQL, "createTable()"))));
-            ignore (self#executeSQLStatement (tableData));
-            true
-        with e -> begin
-            if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#sQLLOGGINGERROR)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, iNIT_SQL, "createTable()", e))))
-            end;
-            false
-        end)
-        end
     
-
-    method dropTable () : bool =
-        begin
-        let sqlStatement : string ref = ref ((java_string_of (Obj.repr (sqlStrings#dROP_TABLE)) ^ tableName)) in ();
-        (try
-            ignore (self#executeSQLStatement (!sqlStatement));
-            true
-        with e -> begin
-            if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#sQLLOGGINGERROR)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, iNIT_SQL, "dropTables()", e))))
-            end;
-            false
-        end)
-        end
     
-
-    method getRow ((keysAndValues : java_hash_map)) : java_hash_map =
-        try
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (sqlStrings#sELECT_ALL_FROM));
-        ignore (!stringBuffer#append (tableName));
-        ignore (!stringBuffer#append (sqlStrings#wHERE));
-        (try
-            let result : java_hash_map ref = ref (((Obj.magic 0) :> java_hash_map)) in ();
-            let set : Obj.t ref = ref ((Obj.repr (keysAndValues#keySet ()))) in ();
-            let keyArray : Obj.t array ref = ref (((Obj.magic !set)#toArray ())) in ();
-            let size : int ref = ref ((Array.length !keyArray)) in ();
-            for i = 0 to !size - 1 do
-                let key : string ref = ref ((Obj.magic !keyArray.(i))) in ();
-                let value : string ref = ref ((Obj.obj (java_new "String" (Obj.repr ((Obj.magic (keysAndValues#get (!key)))))))) in ();
-                ignore (!stringBuffer#append (!key));
-                ignore (!stringBuffer#append (sqlStrings#eQUAL_QUOTE));
-                ignore (!stringBuffer#append ((self#getValue (!value))));
-                ignore (!stringBuffer#append (sqlStrings#cLOSE_QUOTE));
-                if (i < (!size - 1)) then begin
-                    ignore (!stringBuffer#append (sqlStrings#aND))
-                end
-            done;
-            let sqlStatement : string ref = ref ((java_string_of (Obj.repr !stringBuffer))) in ();
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (sqlStrings#sQL_STATEMENT_LABEL)) ^ !sqlStatement), iNIT_SQL, mETHOD_GET_ROW))))
-            end;
-            let rset : Obj.t ref = ref ((Obj.repr (self#executeSQLStatement (!sqlStatement)))) in ();
-            let resultSetMetaData : Obj.t ref = ref ((Obj.repr ((Obj.magic !rset)#getMetaData ()))) in ();
-            while ((Obj.magic !rset)#next ()) do
-                result := ((Obj.magic stdUtil)#createHashMap ());
-                let columnCount : int ref = ref (((Obj.magic !resultSetMetaData)#getColumnCount ())) in ();
-                for index = 1 to !columnCount do
-                    let columnName : string ref = ref (((Obj.magic !resultSetMetaData)#getColumnName (index))) in ();
-                    let field : string ref = ref (((Obj.magic !rset)#getString (!columnName))) in ();
-                    ignore (!result#put (!columnName, !field))
-                done;
-                if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                    ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((rOW_VALUE_LABEL ^ (java_string_of (Obj.repr !result))), iNIT_SQL, mETHOD_GET_ROW))))
-                end;
-                raise (Java_return (Obj.repr (!result)))
-            done;
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGINGERROR)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr (nO_RESULTS_IN_RESULT_SET, iNIT_SQL, mETHOD_GET_ROW))))
-            end;
-            ((Obj.magic 0) :> java_hash_map)
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGINGERROR)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ((fAILED_SQL_STATEMENT ^ java_string_of (Obj.repr (!stringBuffer))), iNIT_SQL, mETHOD_GET_ROW, e))))
-            end;
-            ((Obj.magic 0) :> java_hash_map)
-        end)
-        end
-        with Java_return value -> Obj.obj value
+    this.f_SUCCESS_SQL_STATEMENT = "Success\nSQL Statement: "
+    this.f_FAILED_SQL_STATEMENT = "Failed\nSQL Statement: "
+    this.f_INIT_SQL = "InitSql"
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this.f_EQUAL_QUOTE = "=\""
+    this.f_METHOD_GET_ROW = "getRow()"
+    this.f_METHOD_UPDATE_WHERE = "updateWhere()"
+    this.f_ROW_VALUE_LABEL = "Row Value: "
+    this.f_NO_RESULTS_IN_RESULT_SET = "No Results in ResultSet"
+    this.f_INSERT_END = "')"
+        ignore(jm_setDatabaseConnectionInfoInterface(this, databaseConnectionInfoInterface))
+    this
+}
     
-
-    method updateWhere ((key : string), (value : string), (updatedKeyValuePairs : java_hash_map)) : unit =
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (sqlStrings#uPDATE));
-        ignore (!stringBuffer#append (tableName));
-        ignore (!stringBuffer#append (sqlStrings#sET));
-        (try
-            let columnArray : Obj.t array ref = ref (((updatedKeyValuePairs#keySet ())#toArray ())) in ();
-            let size : int ref = ref ((Array.length !columnArray)) in ();
-            for i = 0 to !size - 1 do
-                let columnName : string ref = ref ((java_string_of (Obj.repr !columnArray.(i)))) in ();
-                ignore (!stringBuffer#append (commonSeps#sPACE));
-                ignore (!stringBuffer#append (!columnName));
-                ignore (!stringBuffer#append (eQUAL_QUOTE));
-                let columnValue : string ref = ref ((Obj.magic (updatedKeyValuePairs#get (!columnName)))) in ();
-                if (!columnValue = (Obj.magic 0)) then begin
-                    columnValue := stringUtil#eMPTY_STRING
-                end else begin
-                    ()
-                end;
-                ignore (!stringBuffer#append ((self#getValue (!columnValue))));
-                ignore (!stringBuffer#append (sqlStrings#cLOSE_QUOTE));
-                if (i < (!size - 1)) then begin
-                    ignore (!stringBuffer#append (commonSeps#cOMMA))
-                end
-            done;
-            ignore (!stringBuffer#append (sqlStrings#wHERE));
-            ignore (!stringBuffer#append (key));
-            ignore (!stringBuffer#append (sqlStrings#eQUAL_QUOTE));
-            ignore (!stringBuffer#append ((self#getValue (value))));
-            ignore (!stringBuffer#append (sqlStrings#cLOSE_QUOTE));
-            let sqlStatement : string ref = ref ((java_string_of (Obj.repr !stringBuffer))) in ();
-            ignore (self#executeSQLStatement (!sqlStatement));
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((sUCCESS_SQL_STATEMENT ^ !sqlStatement), iNIT_SQL, mETHOD_UPDATE_WHERE))))
-            end
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGINGERROR)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ((fAILED_SQL_STATEMENT ^ java_string_of (Obj.repr (!stringBuffer))), iNIT_SQL, mETHOD_UPDATE_WHERE, e))))
-            end
-        end)
-        end
+and jm_setTable = (this: InitSql, tableName: String) => {
+        this.f_tableName = tableName
+}
     
-
-    method insert : 'any1. 'any1 -> unit = fun (values) ->
-        let values = Obj.repr values in
-        begin
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (sqlStrings#iNSERT_INTO));
-        ignore (!stringBuffer#append (tableName));
-        ignore (!stringBuffer#append (sqlStrings#vALUES));
-        (try
-            let size : int ref = ref (((Obj.magic values)#size ())) in ();
-            for i = 0 to (!size - 1) - 1 do
-                let value : string ref = ref ((self#getValue ((Obj.magic ((Obj.magic values)#get (i)))))) in ();
-                ignore (!stringBuffer#append (!value));
-                ignore (!stringBuffer#append (sqlStrings#sINGLE_QUOTE_COMMA_SEP))
-            done;
-            let value : string ref = ref ((self#getValue ((Obj.magic ((Obj.magic values)#get ((((Obj.magic values)#size ()) - 1))))))) in ();
-            ignore (!stringBuffer#append (!value));
-            ignore (!stringBuffer#append (iNSERT_END));
-            let sqlStatement : string ref = ref ((java_string_of (Obj.repr !stringBuffer))) in ();
-            ignore (self#executeSQLStatement (!sqlStatement));
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGING)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((sUCCESS_SQL_STATEMENT ^ !sqlStatement), iNIT_SQL, iNSERT))))
-            end
-        with e -> begin
-            if ((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypes#lOGGING#contains (((org.get_allbinary ())#logic#communication#log#config#type_#logConfigTypeFactory#getInstance ())#sQLLOGGINGERROR)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr ((fAILED_SQL_STATEMENT ^ (java_string_of (Obj.repr !stringBuffer))), iNIT_SQL, iNSERT, e))))
-            end
-        end)
-        end [@@warning "-20"]
+and jm_setDatabaseConnectionInfoInterface = (this: InitSql, databaseConnectionInfoInterface: DbConnectionInfo) => {
+        this.f_databaseConnectionInfoInterface = databaseConnectionInfoInterface
+}
     
-
-    method getValue ((value : string)) : string =
-        try
-        begin
-        if ((StringValidationUtil.getInstance ())#isEmpty (value)) then begin
-            raise (Java_return (Obj.repr (stringUtil#eMPTY_STRING)))
-        end else begin
-            raise (Java_return (Obj.repr (value)))
-        end
-        end
-        with Java_return value -> Obj.obj value
+and jm_createTable = (this: InitSql, tableData: String) => {
+        {
+            let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+            ignore(StringMaker.jm_append(stringBuffer, "Creating Table: "))
+            ignore(StringMaker.jm_append(stringBuffer, tableData))
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this.f_INIT_SQL), JR.cast("createTable()")))
+})
+            ignore(jm_executeSQLStatement(this, tableData))
+            return true
+        }
+    return false
+}
     
-
-    method executeSQLStatement : 'return. string -> 'return = fun ((statement : string)) ->
-        begin
-        (try
-            if ((Obj.magic conn) == (Obj.magic 0)) then begin
-                (self#initialize ())
-            end;
-            let stmt : Obj.t ref = ref ((Obj.repr ((Obj.magic conn)#createStatement ()))) in ();
-            ignore ((Obj.magic !stmt)#execute (statement));
-            let rset : Obj.t ref = ref ((Obj.repr ((Obj.magic !stmt)#getResultSet ()))) in ();
-            ignore ((Obj.magic !stmt)#close ());
-            (Obj.magic ((Obj.magic !rset)))
-        with e -> begin
-            if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#sQLLOGGINGERROR)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, iNIT_SQL, "executeSQLStatement()", e))))
-            end;
-            raise e
-        end)
-        end
+and jm_dropTable = (this: InitSql) => {
+        let mut sqlStatement: String = this.f_sqlStrings.f_DROP_TABLE ++ this.f_tableName
+        {
+            ignore(jm_executeSQLStatement(this, sqlStatement))
+            return true
+        }
+    return false
+}
     
-
-    method createConnection () : unit =
-        begin
-        (try
-            if (useridAndPassword = true) then begin
-                conn <- Obj.repr ((DriverManager.getConnection ((databaseConnectionInfoInterface#getUrl ()), userid, password)))
-            end else begin
-                conn <- Obj.repr ((DriverManager.getConnection ((databaseConnectionInfoInterface#getUrl ()))))
-            end
-        with se -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, iNIT_SQL, "createConnection()", se))));
-            raise se
-        end)
-        end
+and jm_getRow = (this: InitSql, keysAndValues: HashMap) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_SELECT_ALL_FROM))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_tableName))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_WHERE))
+        {
+            let mut result: HashMap = JR.nullOf()
+            let mut set: Set = JR.cast(HashMap.jm_keySet_0(keysAndValues))
+            let mut keyArray: Array<JObject> = Set.jm_toArray_0(set)
+            let mut size: Int32 = Int32.fromNumber(Array.length(keyArray))
+            {
+                let mut i: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        i = Int32.(+)(i, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(i, size))) break
+                let mut key: String = JR.cast(keyArray[Int32.toNumber(i)])
+                let mut value: String = JR.cast(HashMap.jm_get_1(keysAndValues, key))
+                ignore(StringMaker.jm_append(stringBuffer, key))
+                ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_EQUAL_QUOTE))
+                ignore(StringMaker.jm_append(stringBuffer, jm_getValue(this, value)))
+                ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_CLOSE_QUOTE))
+                if (Int32.(<)(i, Int32.(-)(size, 1l))) {
+                    ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_AND))
+                }
+                }
+            }
+            let mut sqlStatement: String = StringMaker.jm_toString(stringBuffer)
+            if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(this.f_sqlStrings.f_SQL_STATEMENT_LABEL ++ sqlStatement), JR.cast(this.f_INIT_SQL), JR.cast(this.f_METHOD_GET_ROW)))
+})
+            }
+            let mut rset: ResultSet = JR.cast(jm_executeSQLStatement(this, sqlStatement))
+            let mut resultSetMetaData: ResultSetMetaData = JR.cast(ResultSet.jm_getMetaData(rset))
+            while (ResultSet.jm_next(rset)) {
+                result = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashMap"))
+JR.cast(jlate(JR.cast(this.f_stdUtil)))
+}
+                let mut columnCount: Int32 = ResultSetMetaData.jm_getColumnCount(resultSetMetaData)
+                {
+                    let mut index: Int32 = 1l
+                    let mut jfirst = true
+                    while (true) {
+                        if (!jfirst) {
+                            index = Int32.(+)(index, 1l)
+                        }
+                        jfirst = false
+                        if (!(Int32.(<=)(index, columnCount))) break
+                    let mut columnName: String = ResultSetMetaData.jm_getColumnName(resultSetMetaData, index)
+                    let mut field: String = ResultSet.jm_getString(rset, columnName)
+                    ignore(HashMap.jm_put_2(result, columnName, field))
+                    }
+                }
+                if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                    ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(this.f_ROW_VALUE_LABEL ++ HashMap.jm_toString_0(result)), JR.cast(this.f_INIT_SQL), JR.cast(this.f_METHOD_GET_ROW)))
+})
+                }
+                return result
+            }
+            if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(this.f_NO_RESULTS_IN_RESULT_SET), JR.cast(this.f_INIT_SQL), JR.cast(this.f_METHOD_GET_ROW)))
+})
+            }
+            return JR.nullOf()
+        }
+    return JR.nullOf()
+}
     
-
-    method initialize () : unit =
-        begin
-        (try
-            (try
-                let jdbcDriver : string ref = ref ((databaseConnectionInfoInterface#getJdbcDriver ())) in ();
-                ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((((new StringMaker.stringMaker ())#append ("Loading DbConnnectionInfo: "))#append ((java_get_class (Obj.repr databaseConnectionInfoInterface))))#append (" Driver: "))#append (!jdbcDriver)))), iNIT_SQL, "initialize()"))));
-                ignore ((Obj.magic (java_call_static "Class.forName" (Obj.repr (!jdbcDriver))))#newInstance ())
-            with e -> begin
-                if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#sQLLOGGINGERROR)) then begin
-                    ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (("LoadDriver Failed: " ^ java_string_of (Obj.repr ((databaseConnectionInfoInterface#getJdbcDriver ())))), iNIT_SQL, "initialize()", e))))
-                end;
-                raise e
-            end);
-            if ((userid = (Obj.magic 0)) && (password = (Obj.magic 0))) then begin
-                useridAndPassword <- true
-            end;
-            (self#createConnection ())
-        with se -> begin
-            if ((Obj.magic (java_call_static "LogConfigTypes.get_lOGGING" (Obj.repr ())))#contains ((Obj.magic (java_call_static "LogConfigTypeFactory.getInstance" (Obj.repr ())))#sQLLOGGINGERROR)) then begin
-                ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (commonStrings#eXCEPTION, iNIT_SQL, "initialize()", se))))
-            end;
-            raise se
-        end)
-        end
+and jm_updateWhere = (this: InitSql, key: String, value: String, updatedKeyValuePairs: HashMap) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_UPDATE))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_tableName))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_SET))
+        {
+            let mut columnArray: Array<JObject> = JR.className(JR.cast(HashMap.jm_keySet_0(updatedKeyValuePairs)))
+            let mut size: Int32 = Int32.fromNumber(Array.length(columnArray))
+            {
+                let mut i: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        i = Int32.(+)(i, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(i, size))) break
+                let mut columnName: String = JR.toStringOf(JR.cast(columnArray[Int32.toNumber(i)]))
+                ignore(StringMaker.jm_append(stringBuffer, this.f_commonSeps.f_SPACE))
+                ignore(StringMaker.jm_append(stringBuffer, columnName))
+                ignore(StringMaker.jm_append(stringBuffer, this.f_EQUAL_QUOTE))
+                let mut columnValue: String = JR.cast(HashMap.jm_get_1(updatedKeyValuePairs, columnName))
+                if (false) {
+                    columnValue = this.f_stringUtil.f_EMPTY_STRING
+                } else {
+                    void
+                }
+                ignore(StringMaker.jm_append(stringBuffer, jm_getValue(this, columnValue)))
+                ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_CLOSE_QUOTE))
+                if (Int32.(<)(i, Int32.(-)(size, 1l))) {
+                    ignore(StringMaker.jm_append(stringBuffer, this.f_commonSeps.f_COMMA))
+                }
+                }
+            }
+            ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_WHERE))
+            ignore(StringMaker.jm_append(stringBuffer, key))
+            ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_EQUAL_QUOTE))
+            ignore(StringMaker.jm_append(stringBuffer, jm_getValue(this, value)))
+            ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_CLOSE_QUOTE))
+            let mut sqlStatement: String = StringMaker.jm_toString(stringBuffer)
+            ignore(jm_executeSQLStatement(this, sqlStatement))
+            if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(this.f_SUCCESS_SQL_STATEMENT ++ sqlStatement), JR.cast(this.f_INIT_SQL), JR.cast(this.f_METHOD_UPDATE_WHERE)))
+})
+            }
+        }
+}
     
+and jm_insert = (this: InitSql, values: BasicArrayList) => {
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_INSERT_INTO))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_tableName))
+        ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_VALUES))
+        {
+            let mut size: Int32 = BasicArrayList.jm_size(values)
+            {
+                let mut i: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        i = Int32.(+)(i, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(i, Int32.(-)(size, 1l)))) break
+                let mut value: String = jm_getValue(this, JR.cast(BasicArrayList.jm_get(values, i)))
+                ignore(StringMaker.jm_append(stringBuffer, value))
+                ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_SINGLE_QUOTE_COMMA_SEP))
+                }
+            }
+            let mut value: String = jm_getValue(this, JR.cast(BasicArrayList.jm_get(values, Int32.(-)(BasicArrayList.jm_size(values), 1l))))
+            ignore(StringMaker.jm_append(stringBuffer, value))
+            ignore(StringMaker.jm_append(stringBuffer, this.f_INSERT_END))
+            let mut sqlStatement: String = StringMaker.jm_toString(stringBuffer)
+            ignore(jm_executeSQLStatement(this, sqlStatement))
+            if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(this.f_SUCCESS_SQL_STATEMENT ++ sqlStatement), JR.cast(this.f_INIT_SQL), JR.cast(this.f_INSERT)))
+})
+            }
+        }
+}
+    
+and jm_getValue = (this: InitSql, value: String) => {
+        if (StringValidationUtil.jm_isEmpty(StringValidationUtil.jm_getInstance(), value)) {
+            return this.f_stringUtil.f_EMPTY_STRING
+        } else {
+            return value
+        }
+}
+    
+and jm_executeSQLStatement = (this: InitSql, statement: String) => {
+        {
+            if (JR.isNull(this.f_conn)) {
+                ignore(jm_initialize(this))
+            }
+            let mut stmt: Statement = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Connection.jm_createStatement"))
+JR.cast(jlate(JR.cast(this.f_conn)))
+})
+            ignore(Statement.jm_execute(stmt, statement))
+            let mut rset: ResultSet = JR.cast(Statement.jm_getResultSet(stmt))
+            ignore(Statement.jm_close(stmt))
+            return rset
+        }
+    return JR.nullOf()
+}
+    
+and jm_createConnection = (this: InitSql) => {
+        {
+            if (JR.isSame(this.f_useridAndPassword, true)) {
+                this.f_conn = DriverManager.jm_getConnection(DbConnectionInfo.jm_getUrl(this.f_databaseConnectionInfoInterface), this.f_userid, this.f_password)
+            } else {
+                this.f_conn = DriverManager.jm_getConnection(DbConnectionInfo.jm_getUrl(this.f_databaseConnectionInfoInterface))
+            }
+        }
+}
+    
+and jm_initialize = (this: InitSql) => {
+        {
+            {
+                let mut jdbcDriver: String = DbConnectionInfo.jm_getJdbcDriver(this.f_databaseConnectionInfoInterface)
+                ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Loading DbConnnectionInfo: "), this.f_databaseConnectionInfoInterface.jobject.cls), " Driver: "), jdbcDriver))), JR.cast(this.f_INIT_SQL), JR.cast("initialize()")))
+})
+                ignore(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Class.jm_forName"))
+JR.cast(jlate(JR.cast(jdbcDriver)))
+})))
+            }
+            if ((false && false)) {
+                this.f_useridAndPassword = true
+            }
+            ignore(jm_createConnection(this))
+        }
+}
+    
+and jm_getDatabaseConnectionInfoInterface = (this: InitSql) => {
+        return JR.cast(this.f_databaseConnectionInfoInterface)
+}
 
-    method getDatabaseConnectionInfoInterface : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (databaseConnectionInfoInterface))
-        end
-
-    initializer
-      begin
-        stringUtil <- ((StringUtil.getInstance ()) :> StringUtil.stringUtil);
-        commonSeps <- ((CommonSeps.getInstance ()) :> CommonSeps.commonSeps);
-        sqlTypeStrings <- ((SqlTypeStrings.getInstance ()) :> SqlTypeStrings.sqlTypeStrings);
-        sqlStrings <- ((SqlStrings.getInstance ()) :> SqlStrings.sqlStrings);
-        stdUtil <- (Obj.repr (Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ()))));
-        iNSERT <- "insert";
-        uPDATE <- "update";
-        databaseConnectionInfoInterface <- ((Obj.magic 0) :> DbConnectionInfo.dbConnectionInfo);
-        userid <- "";
-        password <- "";
-        tableName <- "";
-        conn <- (Obj.repr (Obj.magic 0));
-        useridAndPassword <- false;
-        sUCCESS_SQL_STATEMENT <- "Success\nSQL Statement: ";
-        fAILED_SQL_STATEMENT <- "Failed\nSQL Statement: ";
-        iNIT_SQL <- "InitSql";
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        eQUAL_QUOTE <- "=\"";
-        mETHOD_GET_ROW <- "getRow()";
-        mETHOD_UPDATE_WHERE <- "updateWhere()";
-        rOW_VALUE_LABEL <- "Row Value: ";
-        nO_RESULTS_IN_RESULT_SET <- "No Results in ResultSet";
-        iNSERT_END <- "')";
-        ();
-        (self#setDatabaseConnectionInfoInterface (databaseConnectionInfoInterface_arg))
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "InitSql" (fun arguments -> Obj.repr (new initSql (Obj.obj arguments)))
+JR.registerLateBound("InitSql.jnew_1", jnew_1)
+JR.registerLateBound("InitSql.jm_setTable", jm_setTable)
+JR.registerLateBound("InitSql.jm_setDatabaseConnectionInfoInterface", jm_setDatabaseConnectionInfoInterface)
+JR.registerLateBound("InitSql.jm_createTable", jm_createTable)
+JR.registerLateBound("InitSql.jm_dropTable", jm_dropTable)
+JR.registerLateBound("InitSql.jm_getRow", jm_getRow)
+JR.registerLateBound("InitSql.jm_updateWhere", jm_updateWhere)
+JR.registerLateBound("InitSql.jm_insert", jm_insert)
+JR.registerLateBound("InitSql.jm_getValue", jm_getValue)
+JR.registerLateBound("InitSql.jm_executeSQLStatement", jm_executeSQLStatement)
+JR.registerLateBound("InitSql.jm_createConnection", jm_createConnection)
+JR.registerLateBound("InitSql.jm_initialize", jm_initialize)
+JR.registerLateBound("InitSql.jm_getDatabaseConnectionInfoInterface", jm_getDatabaseConnectionInfoInterface)
+JR.registerLateBound("InitSql.f_stringUtil", (this: InitSql) => this.f_stringUtil)
+JR.registerLateBound("InitSql.f_commonSeps", (this: InitSql) => this.f_commonSeps)
+JR.registerLateBound("InitSql.f_sqlTypeStrings", (this: InitSql) => this.f_sqlTypeStrings)
+JR.registerLateBound("InitSql.f_sqlStrings", (this: InitSql) => this.f_sqlStrings)
+JR.registerLateBound("InitSql.f_stdUtil", (this: InitSql) => this.f_stdUtil)
+JR.registerLateBound("InitSql.f_INSERT", (this: InitSql) => this.f_INSERT)
+JR.registerLateBound("InitSql.f_UPDATE", (this: InitSql) => this.f_UPDATE)
+JR.registerLateBound("InitSql.f_databaseConnectionInfoInterface", (this: InitSql) => this.f_databaseConnectionInfoInterface)
+JR.registerLateBound("InitSql.set_f_databaseConnectionInfoInterface", (this: InitSql, jvalue) => { this.f_databaseConnectionInfoInterface = jvalue; jvalue })
+JR.registerLateBound("InitSql.f_userid", (this: InitSql) => this.f_userid)
+JR.registerLateBound("InitSql.set_f_userid", (this: InitSql, jvalue) => { this.f_userid = jvalue; jvalue })
+JR.registerLateBound("InitSql.f_password", (this: InitSql) => this.f_password)
+JR.registerLateBound("InitSql.set_f_password", (this: InitSql, jvalue) => { this.f_password = jvalue; jvalue })
+JR.registerLateBound("InitSql.f_tableName", (this: InitSql) => this.f_tableName)
+JR.registerLateBound("InitSql.set_f_tableName", (this: InitSql, jvalue) => { this.f_tableName = jvalue; jvalue })
+JR.registerLateBound("InitSql.f_conn", (this: InitSql) => this.f_conn)
+JR.registerLateBound("InitSql.set_f_conn", (this: InitSql, jvalue) => { this.f_conn = jvalue; jvalue })
+JR.registerLateBound("InitSql.f_useridAndPassword", (this: InitSql) => this.f_useridAndPassword)
+JR.registerLateBound("InitSql.set_f_useridAndPassword", (this: InitSql, jvalue) => { this.f_useridAndPassword = jvalue; jvalue })
+JR.registerLateBound("InitSql.f_SUCCESS_SQL_STATEMENT", (this: InitSql) => this.f_SUCCESS_SQL_STATEMENT)
+JR.registerLateBound("InitSql.f_FAILED_SQL_STATEMENT", (this: InitSql) => this.f_FAILED_SQL_STATEMENT)
+JR.registerLateBound("InitSql.f_INIT_SQL", (this: InitSql) => this.f_INIT_SQL)
+JR.registerLateBound("InitSql.f_commonStrings", (this: InitSql) => this.f_commonStrings)
+JR.registerLateBound("InitSql.f_EQUAL_QUOTE", (this: InitSql) => this.f_EQUAL_QUOTE)
+JR.registerLateBound("InitSql.f_METHOD_GET_ROW", (this: InitSql) => this.f_METHOD_GET_ROW)
+JR.registerLateBound("InitSql.f_METHOD_UPDATE_WHERE", (this: InitSql) => this.f_METHOD_UPDATE_WHERE)
+JR.registerLateBound("InitSql.f_ROW_VALUE_LABEL", (this: InitSql) => this.f_ROW_VALUE_LABEL)
+JR.registerLateBound("InitSql.f_NO_RESULTS_IN_RESULT_SET", (this: InitSql) => this.f_NO_RESULTS_IN_RESULT_SET)
+JR.registerLateBound("InitSql.f_INSERT_END", (this: InitSql) => this.f_INSERT_END)
 
 

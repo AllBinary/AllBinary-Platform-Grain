@@ -1,64 +1,79 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.math.vector
+module AxisMathVectorUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.math.vector *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/math/NoDecimalTrigTable.gr" include NoDecimalTrigTable
+use NoDecimalTrigTable.{ type NoDecimalTrigTable }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.math.NoDecimalTrigTable *)
+provide record AxisMathVectorUtil {
+  jobject: JObject,
+  mut f_noDecimalTrigTable: NoDecimalTrigTable,
+}
 
-class axisMathVectorUtil () =
-  object
-    val mutable noDecimalTrigTable : NoDecimalTrigTable.noDecimalTrigTable = (Obj.magic 0)
-    method noDecimalTrigTable = noDecimalTrigTable
-    method set_noDecimalTrigTable value' = noDecimalTrigTable <- value'
+let mut jcell_instance: Option<AxisMathVectorUtil> = None
+
+provide let rec jclassName = () => "AxisMathVectorUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: AxisMathVectorUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("AxisMathVectorUtil"), f_noDecimalTrigTable: JR.nullOf(), }
+    this.f_noDecimalTrigTable = JR.cast(NoDecimalTrigTable.jm_getInstance())
+    this
+}
     
-
-    method calculateX ((magnitude : int), (angle : int)) : int =
-        begin
-        ((magnitude * (noDecimalTrigTable#cos (angle))) / 10)
-        end
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method calculateY ((magnitude : int), (angle : int)) : int =
-        begin
-        ((magnitude * (noDecimalTrigTable#sin (angle))) / 10)
-        end
+and jm_calculateX = (this: AxisMathVectorUtil, magnitude: Int64, angle: Int32) => {
+        return Int64.(/)(Int64.(*)(magnitude, NoDecimalTrigTable.jm_cos(this.f_noDecimalTrigTable, angle)), 10L)
+}
     
+and jm_calculateY = (this: AxisMathVectorUtil, magnitude: Int64, angle: Int32) => {
+        return Int64.(/)(Int64.(*)(magnitude, NoDecimalTrigTable.jm_sin(this.f_noDecimalTrigTable, angle)), 10L)
+}
+    
+and jm_calculateZ = (this: AxisMathVectorUtil, magnitude: Int64, otherAngle: Int32) => {
+        return Int64.(/)(Int64.(*)(magnitude, NoDecimalTrigTable.jm_sin(this.f_noDecimalTrigTable, otherAngle)), 10L)
+}
 
-    method calculateZ ((magnitude : int), (otherAngle : int)) : int =
-        begin
-        ((magnitude * (noDecimalTrigTable#sin (otherAngle))) / 10)
-        end
-
-    initializer
-      begin
-        noDecimalTrigTable <- ((NoDecimalTrigTable.getInstance ()) :> NoDecimalTrigTable.noDecimalTrigTable);
-        ()
-      end
-  end
-let () = java_register_constructor "AxisMathVectorUtil" (fun arguments -> Obj.repr (new axisMathVectorUtil (Obj.obj arguments)))
-
-let instance = (new axisMathVectorUtil ())
-let get_instance () = instance
-let () = java_register_static "AxisMathVectorUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "AxisMathVectorUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("AxisMathVectorUtil.jnew_0", jnew_0)
+JR.registerLateBound("AxisMathVectorUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("AxisMathVectorUtil.jm_calculateX", jm_calculateX)
+JR.registerLateBound("AxisMathVectorUtil.jm_calculateY", jm_calculateY)
+JR.registerLateBound("AxisMathVectorUtil.jm_calculateZ", jm_calculateZ)
+JR.registerLateBound("AxisMathVectorUtil.f_noDecimalTrigTable", (this: AxisMathVectorUtil) => this.f_noDecimalTrigTable)
+JR.registerLateBound("AxisMathVectorUtil.jstatic_instance", jstatic_instance)
 
 

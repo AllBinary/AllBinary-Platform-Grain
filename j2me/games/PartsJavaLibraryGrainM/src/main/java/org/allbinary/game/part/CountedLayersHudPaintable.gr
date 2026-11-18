@@ -1,140 +1,188 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.part
+module CountedLayersHudPaintable
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/layer/pickup/PickedUpLayerInterfaceFactoryInterface.gr" include PickedUpLayerInterfaceFactoryInterface
+use PickedUpLayerInterfaceFactoryInterface.{ type PickedUpLayerInterfaceFactoryInterface }
+from "../../../../org/allbinary/graphics/displayable/DisplayInfoSingleton.gr" include DisplayInfoSingleton
+use DisplayInfoSingleton.{ type DisplayInfoSingleton }
+from "../../../../org/allbinary/graphics/font/MyFontProcessor.gr" include MyFontProcessor
+use MyFontProcessor.{ type MyFontProcessor }
+from "../../../../org/allbinary/graphics/font/UpdateMyFontInterface.gr" include UpdateMyFontInterface
+use UpdateMyFontInterface.{ type UpdateMyFontInterface }
+from "../../../../org/allbinary/graphics/font/UpdateMyFontProcessor.gr" include UpdateMyFontProcessor
+use UpdateMyFontProcessor.{ type UpdateMyFontProcessor }
+from "../../../../org/allbinary/graphics/paint/PaintableInterface.gr" include PaintableInterface
+use PaintableInterface.{ type PaintableInterface }
+from "../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "./PartInterface.gr" include PartInterface
+use PartInterface.{ type PartInterface }
+from "./CountedLayerInterfaceFactoryPart.gr" include CountedLayerInterfaceFactoryPart
+use CountedLayerInterfaceFactoryPart.{ type CountedLayerInterfaceFactoryPart }
+
+provide record CountedLayersHudPaintable {
+  jobject: JObject,
+  mut f_displayInfoSingleton: DisplayInfoSingleton,
+  mut f_partInterfaceArray: Array<PartInterface>,
+  mut f_countedTotalStringColor: Int32,
+  mut f_countedPartsBorder: Int32,
+  mut f_startIndex: Int32,
+  mut f_dropSize: Int32,
+  mut f_myFontProcessor: MyFontProcessor,
+  mut f_height: Int32,
+}
+
+let mut jcell_XXStringWidth: Option<Int32> = None
+
+provide let rec jclassName = () => "CountedLayersHudPaintable"
+
+and jstatic_XXStringWidth = () => match (jcell_XXStringWidth) {
+  Some(value) => value,
+  None => {
+    let value: Int32 = 0l
+    jcell_XXStringWidth = Some(value)
+    value
+  },
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.part *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Font *)
-(* import javax.microedition.lcdui.Graphics *)
-(* import org.allbinary.game.layer.pickup.PickedUpLayerInterfaceFactoryInterface *)
-(* import org.allbinary.graphics.displayable.DisplayInfoSingleton *)
-(* import org.allbinary.graphics.font.MyFontProcessor *)
-(* import org.allbinary.graphics.font.UpdateMyFontInterface *)
-(* import org.allbinary.graphics.font.UpdateMyFontProcessor *)
-(* import org.allbinary.graphics.paint.PaintableInterface *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-
-let xXStringWidth : int ref = ref (0)
-let get_xXStringWidth () = !xXStringWidth
-let set_xXStringWidth value' = xXStringWidth := value'
-let () = java_register_static "CountedLayersHudPaintable.get_xXStringWidth" (fun _ -> Obj.repr (get_xXStringWidth ()))
-let () = java_register_static "CountedLayersHudPaintable.set_xXStringWidth" (fun value' -> set_xXStringWidth (Obj.obj value'); Obj.repr ())
-class countedLayersHudPaintable ((partInterfaceArray_arg : PartInterface.partInterface array), (dropSize_arg : int), (startIndex_arg : int), (countedTotalStringColor_arg : int), (countedPartsBorder_arg : int)) =
-  object (self)
-    val mutable displayInfoSingleton : DisplayInfoSingleton.displayInfoSingleton = (Obj.magic 0)
-    method displayInfoSingleton = displayInfoSingleton
-    method set_displayInfoSingleton value' = displayInfoSingleton <- value'
-    val mutable partInterfaceArray : PartInterface.partInterface array = (Obj.magic 0)
-    method partInterfaceArray = partInterfaceArray
-    method set_partInterfaceArray value' = partInterfaceArray <- value'
-    val mutable countedTotalStringColor : int = 0
-    method countedTotalStringColor = countedTotalStringColor
-    method set_countedTotalStringColor value' = countedTotalStringColor <- value'
-    val mutable countedPartsBorder : int = 0
-    method countedPartsBorder = countedPartsBorder
-    method set_countedPartsBorder value' = countedPartsBorder <- value'
-    val mutable startIndex : int = 0
-    method startIndex = startIndex
-    method set_startIndex value' = startIndex <- value'
-    val mutable dropSize : int = 0
-    method dropSize = dropSize
-    method set_dropSize value' = dropSize <- value'
-    val mutable myFontProcessor : MyFontProcessor.myFontProcessor = (Obj.magic 0)
-    method myFontProcessor = myFontProcessor
-    method set_myFontProcessor value' = myFontProcessor <- value'
-    val mutable height : int = 0
-    method height = height
-    method set_height value' = height <- value'
+and jnew_5 = (partInterfaceArray: Array<PartInterface>, dropSize: Int32, startIndex: Int32, countedTotalStringColor: Int32, countedPartsBorder: Int32) => {
+    let this = { jobject: JR.newJObject("CountedLayersHudPaintable"), f_displayInfoSingleton: JR.nullOf(), f_partInterfaceArray: [> ], f_countedTotalStringColor: 0l, f_countedPartsBorder: 0l, f_startIndex: 0l, f_dropSize: 0l, f_myFontProcessor: JR.nullOf(), f_height: 0l, }
+    this.f_displayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
     
     
-
-    method updateMeasurement : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        let font : Obj.t ref = ref ((Obj.repr ((Obj.magic graphics)#getFont ()))) in ();
-        height <- ((Obj.magic !font)#getHeight ());
-        if (dropSize > ((Obj.magic !font)#getHeight ())) then begin
-            height <- dropSize
-        end;
-        if (!xXStringWidth == 0) then begin
-            let xXString : string ref = ref ("XX") in ();
-            xXStringWidth := ((Obj.magic !font)#stringWidth (!xXString))
-        end;
-        myFontProcessor <- (MyFontProcessor.getInstance ())
-        end [@@warning "-20"]
     
-
-    method paint : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore (myFontProcessor#process ((Obj.magic graphics)));
-        let lastWidth : int ref = ref ((displayInfoSingleton#getLastWidth ())) in ();
-        let widthEdge : int ref = ref ((!lastWidth - dropSize)) in ();
-        let size : int ref = ref ((Array.length partInterfaceArray)) in ();
-        let count : int ref = ref (0) in ();
-        let y : int ref = ref (0) in ();
-        let countedLayerInterfaceFactory : CountedLayerInterfaceFactoryPart.countedLayerInterfaceFactoryPart ref = ref (((Obj.magic 0) :> CountedLayerInterfaceFactoryPart.countedLayerInterfaceFactoryPart)) in ();
-        let pickedUpLayerInterfaceFactoryInterface : PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface ref = ref (((Obj.magic 0) :> PickedUpLayerInterfaceFactoryInterface.pickedUpLayerInterfaceFactoryInterface)) in ();
-        let layerInterface : AllBinaryLayer.allBinaryLayer ref = ref (((Obj.magic 0) :> AllBinaryLayer.allBinaryLayer)) in ();
-        let charArray : char array ref = ref ((Obj.magic 0)) in ();
-        for index = startIndex to !size - 1 do
-            countedLayerInterfaceFactory := (Obj.magic partInterfaceArray.(index));
-            if ((!countedLayerInterfaceFactory#getTotal ()) > 0) then begin
-                pickedUpLayerInterfaceFactoryInterface := (!countedLayerInterfaceFactory#getCountedPickedUpLayerInterfaceFactory ());
-                layerInterface := (!pickedUpLayerInterfaceFactoryInterface#getIconLayer ());
-                y := (40 + ((!count * height)));
-                ignore (!layerInterface#setPosition (!widthEdge, !y, (!layerInterface#getZP ())));
-                ignore (!layerInterface#paint ((Obj.magic graphics)));
-                ignore ((Obj.magic graphics)#setColor (countedTotalStringColor));
-                ignore (!countedLayerInterfaceFactory#paint ((Obj.magic graphics)));
-                charArray := (!countedLayerInterfaceFactory#getTotalString ());
-                ignore ((Obj.magic graphics)#drawChars (!charArray, 0, (Array.length !charArray), (!widthEdge - (!countedLayerInterfaceFactory#getXOffset ())), !y, 0));
-                count := !count + 1
-            end
-        done;
-        if (!count > 0) then begin
-            ignore ((Obj.magic graphics)#setColor (countedPartsBorder));
-            ignore ((Obj.magic graphics)#drawRect ((!lastWidth - ((!xXStringWidth + dropSize))), 40, (!xXStringWidth + dropSize), (((!count * height)) + 3)))
-        end
-        end [@@warning "-20"]
     
+    
+    this.f_myFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(this))
+    
+        this.f_partInterfaceArray = partInterfaceArray
+        this.f_startIndex = startIndex
+        this.f_countedTotalStringColor = countedTotalStringColor
+        this.f_countedPartsBorder = countedPartsBorder
+        this.f_dropSize = dropSize
+    this
+}
+    
+and jm_updateMeasurement = (this: CountedLayersHudPaintable, graphics: JObject) => {
+        let mut font: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_getFont"))
+JR.cast(jlate(JR.cast(graphics)))
+})
+        this.f_height = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Font.jm_getHeight"))
+JR.cast(jlate(JR.cast(font)))
+}
+        if (Int32.(>)(this.f_dropSize, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Font.jm_getHeight"))
+JR.cast(jlate(JR.cast(font)))
+})) {
+            this.f_height = this.f_dropSize
+        }
+        if ((jstatic_XXStringWidth() == 0l)) {
+            let mut l_XXString: String = "XX"
+            jstatic_XXStringWidth() = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Font.jm_stringWidth"))
+JR.cast(jlate(JR.cast(font), JR.cast(l_XXString)))
+}
+        }
+        this.f_myFontProcessor = MyFontProcessor.jm_getInstance()
+}
+    
+and jm_paint = (this: CountedLayersHudPaintable, graphics: JObject) => {
+        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
+        let mut lastWidth: Int32 = DisplayInfoSingleton.jm_getLastWidth(this.f_displayInfoSingleton)
+        let mut widthEdge: Int32 = Int32.(-)(lastWidth, this.f_dropSize)
+        let mut size: Int32 = Int32.fromNumber(Array.length(this.f_partInterfaceArray))
+        let mut count: Int32 = 0l
+        let mut y: Int32 = 0l
+        let mut countedLayerInterfaceFactory: CountedLayerInterfaceFactoryPart = JR.nullOf()
+        let mut pickedUpLayerInterfaceFactoryInterface: PickedUpLayerInterfaceFactoryInterface = JR.nullOf()
+        let mut layerInterface: AllBinaryLayer = JR.nullOf()
+        let mut charArray: Array<Int32> = [> ]
+        {
+            let mut index: Int32 = this.f_startIndex
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            countedLayerInterfaceFactory = JR.cast(this.f_partInterfaceArray[Int32.toNumber(index)])
+            if (Int32.(>)(CountedLayerInterfaceFactoryPart.jm_getTotal(countedLayerInterfaceFactory), 0l)) {
+                pickedUpLayerInterfaceFactoryInterface = CountedLayerInterfaceFactoryPart.jm_getCountedPickedUpLayerInterfaceFactory(countedLayerInterfaceFactory)
+                layerInterface = PickedUpLayerInterfaceFactoryInterface.jm_getIconLayer(pickedUpLayerInterfaceFactoryInterface)
+                y = Int32.(+)(40l, (Int32.(*)(count, this.f_height)))
+                ignore(AllBinaryLayer.jm_setPosition(layerInterface, widthEdge, y, AllBinaryLayer.jm_getZP(layerInterface)))
+                ignore(AllBinaryLayer.jm_paint(layerInterface, graphics))
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_setColor"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_countedTotalStringColor)))
+})
+                ignore(CountedLayerInterfaceFactoryPart.jm_paint(countedLayerInterfaceFactory, graphics))
+                charArray = CountedLayerInterfaceFactoryPart.jm_getTotalString(countedLayerInterfaceFactory)
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawChars"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(charArray), JR.cast(0l), JR.cast(Int32.fromNumber(Array.length(charArray))), JR.cast(Int32.(-)(widthEdge, CountedLayerInterfaceFactoryPart.jm_getXOffset(countedLayerInterfaceFactory))), JR.cast(y), JR.cast(0l)))
+})
+                count = Int32.(+)(count, 1l)
+            }
+            }
+        }
+        if (Int32.(>)(count, 0l)) {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_setColor"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_countedPartsBorder)))
+})
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawRect"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(Int32.(-)(lastWidth, (Int32.(+)(jstatic_XXStringWidth(), this.f_dropSize)))), JR.cast(40l), JR.cast(Int32.(+)(jstatic_XXStringWidth(), this.f_dropSize)), JR.cast(Int32.(+)((Int32.(*)(count, this.f_height)), 3l))))
+})
+        }
+}
+    
+and jm_paintThreed = (this: CountedLayersHudPaintable, graphics: JObject) => {
+    void
+}
 
-    method paintThreed : 'any1. 'any1 -> unit = fun (_graphics) ->
-        begin
-        ()
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        displayInfoSingleton <- ((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton);
-        ();
-        ();
-        ();
-        ();
-        ();
-        myFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
-        height <- 0;
-        ();
-        partInterfaceArray <- partInterfaceArray_arg;
-        startIndex <- startIndex_arg;
-        countedTotalStringColor <- countedTotalStringColor_arg;
-        countedPartsBorder <- countedPartsBorder_arg;
-        dropSize <- dropSize_arg
-      end
-  end
-let () = java_register_constructor "CountedLayersHudPaintable" (fun arguments -> Obj.repr (new countedLayersHudPaintable (Obj.obj arguments)))
+JR.registerLateBound("CountedLayersHudPaintable.jnew_5", jnew_5)
+JR.registerLateBound("CountedLayersHudPaintable.jm_updateMeasurement", jm_updateMeasurement)
+JR.registerLateBound("CountedLayersHudPaintable.jm_paint", jm_paint)
+JR.registerLateBound("CountedLayersHudPaintable.jm_paintThreed", jm_paintThreed)
+JR.registerLateBound("CountedLayersHudPaintable.f_displayInfoSingleton", (this: CountedLayersHudPaintable) => this.f_displayInfoSingleton)
+JR.registerLateBound("CountedLayersHudPaintable.f_partInterfaceArray", (this: CountedLayersHudPaintable) => this.f_partInterfaceArray)
+JR.registerLateBound("CountedLayersHudPaintable.f_countedTotalStringColor", (this: CountedLayersHudPaintable) => this.f_countedTotalStringColor)
+JR.registerLateBound("CountedLayersHudPaintable.f_countedPartsBorder", (this: CountedLayersHudPaintable) => this.f_countedPartsBorder)
+JR.registerLateBound("CountedLayersHudPaintable.f_startIndex", (this: CountedLayersHudPaintable) => this.f_startIndex)
+JR.registerLateBound("CountedLayersHudPaintable.f_dropSize", (this: CountedLayersHudPaintable) => this.f_dropSize)
+JR.registerLateBound("CountedLayersHudPaintable.f_myFontProcessor", (this: CountedLayersHudPaintable) => this.f_myFontProcessor)
+JR.registerLateBound("CountedLayersHudPaintable.set_f_myFontProcessor", (this: CountedLayersHudPaintable, jvalue) => { this.f_myFontProcessor = jvalue; jvalue })
+JR.registerLateBound("CountedLayersHudPaintable.f_height", (this: CountedLayersHudPaintable) => this.f_height)
+JR.registerLateBound("CountedLayersHudPaintable.set_f_height", (this: CountedLayersHudPaintable, jvalue) => { this.f_height = jvalue; jvalue })
+JR.registerLateBound("CountedLayersHudPaintable.jstatic_XXStringWidth", jstatic_XXStringWidth)
 
 

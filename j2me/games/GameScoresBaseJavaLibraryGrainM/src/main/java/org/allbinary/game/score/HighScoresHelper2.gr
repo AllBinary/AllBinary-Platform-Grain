@@ -1,82 +1,95 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.score
+module HighScoresHelper2
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.score *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/util/CircularIndexUtil.gr" include CircularIndexUtil
+use CircularIndexUtil.{ type CircularIndexUtil }
+from "./HighScoresHelperBase.gr" include HighScoresHelperBase
+use HighScoresHelperBase.{ type HighScoresHelperBase }
+from "./NullHighScoresSingletonFactory.gr" include NullHighScoresSingletonFactory
+use NullHighScoresSingletonFactory.{ type NullHighScoresSingletonFactory }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.util.CircularIndexUtil *)
+provide record HighScoresHelper2 {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_highScoresArrayP: Array<JObject>,
+  mut f_circularIndexUtil: CircularIndexUtil,
+  mut f_selectedHighScores: JObject,
+}
 
-class highScoresHelper2 () =
-  object (self)
-    inherit HighScoresHelperBase.highScoresHelperBase () as super
-    val mutable circularIndexUtil : CircularIndexUtil.circularIndexUtil = (Obj.magic 0)
-    method circularIndexUtil = circularIndexUtil
-    method set_circularIndexUtil value' = circularIndexUtil <- value'
-    val mutable selectedHighScores : Obj.t = Obj.repr 0
-    method selectedHighScores : 'r. 'r = Obj.magic selectedHighScores
-    method set_selectedHighScores : 'v. 'v -> unit = fun value' -> selectedHighScores <- Obj.repr value'
+
+provide let rec jclassName = () => "HighScoresHelper2"
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("HighScoresHelper2"), f_logUtil: JR.jnull, f_highScoresArrayP: [> ], f_circularIndexUtil: JR.nullOf(), f_selectedHighScores: JR.jnull, }
+    this.f_circularIndexUtil = JR.cast(CircularIndexUtil.jm_createInstanceAt(0l, 0l))
+    this.f_selectedHighScores = JR.cast(NullHighScoresSingletonFactory.jm_getInstance())
+    this
+}
     
-
-    method setSelectedHighScores : 'any1. 'any1 -> unit = fun (selectedHighScores_arg) ->
-        let selectedHighScores_arg = Obj.repr selectedHighScores_arg in
-        begin
-        selectedHighScores <- Obj.repr ((Obj.magic selectedHighScores_arg))
-        end [@@warning "-7-20"]
+and jm_setSelectedHighScores = (this: HighScoresHelper2, selectedHighScores: JObject) => {
+        this.f_selectedHighScores = selectedHighScores
+}
     
-
-    method getSelectedHighScores : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic selectedHighScores)))
-        end [@@warning "-7"]
+and jm_getSelectedHighScores = (this: HighScoresHelper2) => {
+        return this.f_selectedHighScores
+}
     
-
-    method setHighScoresArray : 'any1. 'any1 -> unit = fun (highScoresArrayP) ->
-        let highScoresArrayP = Obj.repr highScoresArrayP in
-        begin
-        ignore (super#setHighScoresArray ((Obj.magic highScoresArrayP)));
-        ignore (circularIndexUtil#setSize ((Array.length (self#highScoresArrayP))));
-        (self#selectHighScores ())
-        end [@@warning "-7-20"]
+and jm_setHighScoresArray = (this: HighScoresHelper2, highScoresArrayP: Array<JObject>) => {
+        ignore(jm_setHighScoresArray(this, highScoresArrayP))
+        ignore(CircularIndexUtil.jm_setSize(this.f_circularIndexUtil, Int32.fromNumber(Array.length(JR.cast(this.f_highScoresArrayP)))))
+        ignore(jm_selectHighScores(this))
+}
     
+and jm_selectHighScores = (this: HighScoresHelper2) => {
+        if ((Int32.fromNumber(Array.length(JR.cast(this.f_highScoresArrayP))) == 0l)) {
+            ignore(jm_setSelectedHighScores(this, NullHighScoresSingletonFactory.jm_getInstance()))
+            return void
+        }
+        ignore(CircularIndexUtil.jm_next(this.f_circularIndexUtil))
+        let mut highScores: JObject = JR.cast(this.f_highScoresArrayP)[Int32.toNumber(CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil))]
+        let mut index: Int32 = 0l
+        while ((Int32.(<)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getTotal"))
+JR.cast(jlate(JR.cast(highScores)))
+}, 1l) && Int32.(<)(index, Int32.fromNumber(Array.length(JR.cast(this.f_highScoresArrayP)))))) {
+            highScores = JR.cast(this.f_highScoresArrayP)[Int32.toNumber(CircularIndexUtil.jm_next(this.f_circularIndexUtil))]
+            index = Int32.(+)(index, 1l)
+        }
+        ignore(jm_setSelectedHighScores(this, highScores))
+    return void
+}
 
-    method selectHighScores () : unit =
-        try
-        begin
-        if ((Array.length (self#highScoresArrayP)) = 0) then begin
-            (self#setSelectedHighScores ((NullHighScoresSingletonFactory.getInstance ())));
-            raise (Java_return (Obj.repr (())))
-        end;
-        ignore (circularIndexUtil#next ());
-        let highScores : Obj.t ref = ref ((Obj.repr (self#highScoresArrayP).((circularIndexUtil#getIndex ())))) in ();
-        let index : int ref = ref (0) in ();
-        while ((((Obj.magic !highScores)#getTotal ()) < 1) && (!index < (Array.length (self#highScoresArrayP)))) do
-            highScores := Obj.repr ((self#highScoresArrayP).((circularIndexUtil#next ())));
-            index := !index + 1
-        done;
-        (self#setSelectedHighScores ((Obj.magic !highScores)))
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7"]
-
-    initializer
-      begin
-        circularIndexUtil <- ((CircularIndexUtil.createInstanceAt (0, 0)) :> CircularIndexUtil.circularIndexUtil);
-        selectedHighScores <- (Obj.repr (NullHighScoresSingletonFactory.getInstance ()));
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "HighScoresHelper2" (fun arguments -> Obj.repr (new highScoresHelper2 (Obj.obj arguments)))
+JR.registerLateBound("HighScoresHelper2.jnew_0", jnew_0)
+JR.registerLateBound("HighScoresHelper2.jm_setSelectedHighScores", jm_setSelectedHighScores)
+JR.registerLateBound("HighScoresHelper2.jm_getSelectedHighScores", jm_getSelectedHighScores)
+JR.registerLateBound("HighScoresHelper2.jm_setHighScoresArray", jm_setHighScoresArray)
+JR.registerLateBound("HighScoresHelper2.jm_selectHighScores", jm_selectHighScores)
+JR.registerLateBound("HighScoresHelper2.f_circularIndexUtil", (this: HighScoresHelper2) => this.f_circularIndexUtil)
+JR.registerLateBound("HighScoresHelper2.f_selectedHighScores", (this: HighScoresHelper2) => this.f_selectedHighScores)
+JR.registerLateBound("HighScoresHelper2.set_f_selectedHighScores", (this: HighScoresHelper2, jvalue) => { this.f_selectedHighScores = jvalue; jvalue })
 
 

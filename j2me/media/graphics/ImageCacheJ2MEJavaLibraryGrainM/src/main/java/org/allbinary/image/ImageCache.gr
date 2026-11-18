@@ -1,164 +1,218 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.image
+module ImageCache
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.image *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../java/io/InputStream.gr" include InputStream
+use InputStream.{ type InputStream }
+from "../../../org/allbinary/J2MEUtil.gr" include J2MEUtil
+use J2MEUtil.{ type J2MEUtil }
+from "../../../org/allbinary/game/gd/resource/GDResources.gr" include GDResources
+use GDResources.{ type GDResources }
+from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../org/allbinary/system/Memory.gr" include Memory
+use Memory.{ type Memory }
+from "../../../java/lang/Thread.gr" include Thread
+use Thread.{ type Thread }
+from "./ImageCacheBase.gr" include ImageCacheBase
+use ImageCacheBase.{ type ImageCacheBase }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.InputStream *)
-(* import javax.microedition.lcdui.Image *)
-(* import javax.microedition.lcdui.NullImage *)
-(* import org.allbinary.J2MEUtil *)
-(* import org.allbinary.TsUtil *)
-(* import org.allbinary.data.resource.ResourceUtil *)
-(* import org.allbinary.game.gd.resource.GDResources *)
-(* import org.allbinary.logic.ABSystemWrapper *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.allbinary.system.Memory *)
+provide record ImageCache {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_imageFactory: JObject,
+  mut f_hashtable: JObject,
+  mut f_SIZE: Int32,
+  mut f_widths: Array<Int32>,
+  mut f_heights: Array<Int32>,
+  mut f_listOfList: Array<JObject>,
+  mut f_availableListOfList: Array<JObject>,
+  mut f_volume: Int32,
+  mut f_nextIndex: Int32,
+  mut f_commonStrings: CommonStrings,
+  mut f_tsUtil: JObject,
+}
 
-class imageCache () =
-  object (self)
-    inherit ImageCacheBase.imageCacheBase ()
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable tsUtil : Obj.t = Obj.repr 0
-    method tsUtil : 'r. 'r = Obj.magic tsUtil
-    method set_tsUtil : 'v. 'v -> unit = fun value' -> tsUtil <- Obj.repr value'
+let mut jcell_NULL_IMAGE_CACHE: Option<ImageCache> = None
+
+provide let rec jclassName = () => "ImageCache"
+
+and jstatic_NULL_IMAGE_CACHE = () => match (jcell_NULL_IMAGE_CACHE) {
+  Some(value) => value,
+  None => {
+    let value: ImageCache = jnew_0()
+    jcell_NULL_IMAGE_CACHE = Some(value)
+    value
+  },
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ImageCache"), f_logUtil: JR.jnull, f_imageFactory: JR.jnull, f_hashtable: JR.jnull, f_SIZE: 0l, f_widths: [> ], f_heights: [> ], f_listOfList: [> ], f_availableListOfList: [> ], f_volume: 0l, f_nextIndex: 0l, f_commonStrings: JR.nullOf(), f_tsUtil: JR.jnull, }
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this.f_tsUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        void
+    this
+}
     
-
-    method addListener : 'any1. 'any1 -> unit = fun (_renderer) ->
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_addListener = (this: ImageCache, renderer: JObject) => {
+    void
+}
     
-
-    method getIndex : 'any1. 'any1 -> int = fun (key) ->
-        let key = Obj.repr key in
-        try
-        begin
-        let gdResources : GDResources.gDResources ref = ref (((GDResources.getInstance ()) :> GDResources.gDResources)) in ();
-        let resourceStringArray : string array ref = ref (!gdResources#resourceStringArray) in ();
-        let size : int ref = ref ((Array.length !resourceStringArray)) in ();
-        for index = 0 to !size - 1 do
-            if ((Obj.repr !resourceStringArray.(index)) == (Obj.repr key)) then begin
-                raise (Java_return (Obj.repr (index)))
-            end
-        done;
-        ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("unable to find key: "))#append (((StringUtil.getInstance ())#toString (key)))))), (Obj.magic self), commonStrings#rUN));
-        raise (Failure ("RuntimeException"))
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7"]
+and jm_getIndex = (this: ImageCache, key: JObject) => {
+        let mut gdResources: GDResources = JR.cast(GDResources.jm_getInstance())
+        let mut resourceStringArray: Array<String> = gdResources.f_resourceStringArray
+        let mut size: Int32 = Int32.fromNumber(Array.length(resourceStringArray))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            if (JR.isSame(resourceStringArray[Int32.toNumber(index)], key)) {
+                return index
+            }
+            }
+        }
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "unable to find key: "), StringUtil.jm_toString(StringUtil.jm_getInstance(), key)))), JR.cast(this), JR.cast(this.f_commonStrings.f_RUN)))
+})
+        fail JR.toStringOf(JR.newJObject("RuntimeException"))
+    return 0l
+}
     
-
-    method get : 'return. string * int * int -> 'return = fun ((caller : string), (width : int), (height : int)) ->
-        begin
-        let foundIndex : int ref = ref ((self#getIndexWH (width, height))) in ();
-        let image : Obj.t ref = ref ((Obj.repr (self#getFromAvailable (!foundIndex, width, height)))) in ();
-        if ((Obj.repr (Obj.magic !image)) == (Obj.repr (NullImage.get_nULL_IMAGE ()))) then begin
-            (self#set_volume) (((self#volume) + (width * height)));
-            if ((self#volume) > 32000) then begin
-                ignore ((Obj.magic tsUtil)#gc ());
-                (self#set_volume) (0)
-            end;
-            image := Obj.repr ((self#createImage (caller, width, height)));
-            let widths : int array ref = ref ((self#widths)) in ();
-            if ((self#nextIndex) > ((Array.length !widths) - 1)) then begin
-                if (!foundIndex = (- 1)) then begin
-                    foundIndex := (self#nextIndex);
-                    !widths.((self#nextIndex)) <- width;
-                    (self#heights).((self#nextIndex)) <- (Obj.magic (height));
-                    (self#set_nextIndex) ((self#nextIndex) + 1)
-                end;
-                ignore ((self#listOfList).(!foundIndex)#add ((Obj.magic !image)))
-            end
-        end;
-        (Obj.magic ((Obj.magic !image)))
-        end [@@warning "-7"]
+and jm_get = (this: ImageCache, caller: String, width: Int32, height: Int32) => {
+        let mut foundIndex: Int32 = {
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageCacheBase.jm_getIndexWH"))
+JR.cast(jlate(JR.cast(this), JR.cast(width), JR.cast(height)))
+}
+        let mut image: JObject = JR.cast({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageCacheBase.jm_getFromAvailable"))
+JR.cast(jlate(JR.cast(this), JR.cast(foundIndex), JR.cast(width), JR.cast(height)))
+})
+        if (JR.isSame(image, NullImage.jstatic_NULL_IMAGE())) {
+            this.f_volume = Int32.(+)(this.f_volume, Int32.(*)(width, height))
+            if (Int32.(>)(JR.cast(this.f_volume), 32000l)) {
+                ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_gc"))
+JR.cast(jlate(JR.cast(this.f_tsUtil)))
+})
+                this.f_volume = JR.cast(0l)
+            }
+            image = {
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageCacheBase.jm_createImage"))
+JR.cast(jlate(JR.cast(this), JR.cast(caller), JR.cast(width), JR.cast(height)))
+}
+            let mut widths: Array<Int32> = JR.cast(this.f_widths)
+            if (Int32.(>)(JR.cast(this.f_nextIndex), Int32.(-)(Int32.fromNumber(Array.length(widths)), 1l))) {
+                if ((foundIndex == Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
+                    foundIndex = JR.cast(this.f_nextIndex)
+                    widths[Int32.toNumber(JR.cast(this.f_nextIndex))] = width
+                    JR.cast(this.f_heights)[Int32.toNumber(JR.cast(this.f_nextIndex))] = height
+                    this.f_nextIndex = Int32.(+)(this.f_nextIndex, 1l)
+                }
+                ignore(JR.className(JR.cast(JR.cast(this.f_listOfList)[Int32.toNumber(foundIndex)])))
+            }
+        }
+        return image
+}
     
-
-    method getWithKey : 'any1 'return. 'any1 -> 'return = fun (key) ->
-        let key = Obj.repr key in
-        begin
-        let image : Obj.t ref = ref ((Obj.repr (self#getImage (key)))) in ();
-        if ((Obj.repr (Obj.magic !image)) == (Obj.repr (NullImage.get_nULL_IMAGE ()))) then begin
-            let resourceUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "ResourceUtil.getInstance" (Obj.repr ()))))) in ();
-            let resourceInputStream : Obj.t ref = ref ((Obj.repr ((Obj.magic !resourceUtil)#getResourceAsStream ((Obj.magic key))))) in ();
-            if ((Obj.magic !resourceInputStream) == (Obj.magic 0)) then begin
-                raise (Failure ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("Image resource is not available for key: "))#append (((StringUtil.getInstance ())#toString (key))))))))
-            end;
-            (try
-                image := Obj.repr ((self#createImageFromInputStream (key, (Obj.magic !resourceInputStream))))
-            with e -> begin
-                ignore ((self#logUtil)#put ("Exception: Trying Again After GC", (Obj.magic self), commonStrings#gET, e));
-                ignore ((self#logUtil)#putF ((java_string_of (Obj.repr (((new StringMaker.stringMaker ())#append ("InputStream: "))#append (((StringUtil.getInstance ())#toString ((Obj.magic !resourceInputStream))))))), (Obj.magic self), commonStrings#gET));
-                ignore ((Obj.magic tsUtil)#gc ());
-                ignore ((Obj.magic tsUtil)#gc ());
-                ignore ((self#logUtil)#putF ((Memory.getInfo ()), (Obj.magic self), commonStrings#gET));
-                ignore (Unix.sleepf (Float.of_int (100) /. 1000.0));
-                image := Obj.repr ((self#createImageFromInputStream (key, (Obj.magic !resourceInputStream))))
-            end);
-            if (J2MEUtil.isHTML ()) then begin
-                ()
-            end else begin
-                ignore ((Obj.magic !resourceInputStream)#close ())
-            end;
-            ignore ((self#hashtable)#put (key, (Obj.magic !image)))
-        end;
-        (Obj.magic ((Obj.magic !image)))
-        end [@@warning "-7"]
+and jm_getWithKey = (this: ImageCache, key: JObject) => {
+        let mut image: JObject = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageCacheBase.jm_getImage"))
+JR.cast(jlate(JR.cast(this), JR.cast(key)))
+})
+        if (JR.isSame(image, NullImage.jstatic_NULL_IMAGE())) {
+            let mut resourceUtil: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("ResourceUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+            let mut resourceInputStream: InputStream = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ResourceUtil.jm_getResourceAsStream"))
+JR.cast(jlate(JR.cast(resourceUtil), JR.cast(JR.cast(key))))
+})
+            if (JR.isNull(resourceInputStream)) {
+                fail JR.toStringOf(JR.newJObject("RuntimeException"))
+            }
+            {
+                image = {
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageCacheBase.jm_createImageFromInputStream"))
+JR.cast(jlate(JR.cast(this), JR.cast(key), JR.cast(resourceInputStream)))
+}
+            }
+            if (J2MEUtil.jm_isHTML()) {
+                void
+            } else {
+                ignore(InputStream.jm_close_0(resourceInputStream))
+            }
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_hashtable)), JR.cast(key), JR.cast(image)))
+})
+        }
+        return image
+}
     
-
-    method loadImageForAnimation () : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_loadImageForAnimation = (this: ImageCache) => {
+    void
+}
     
-
-    method progressEnded () : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_progressEnded = (this: ImageCache) => {
+    void
+}
     
-
-    method runTask () : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_runTask = (this: ImageCache) => {
+    void
+}
     
+and jm_isLazy = (this: ImageCache) => {
+        return false
+}
 
-    method isLazy () : bool =
-        begin
-        false
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        tsUtil <- (Obj.repr (Obj.magic (java_call_static "TsUtil.getInstance" (Obj.repr ()))));
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "ImageCache" (fun arguments -> Obj.repr (new imageCache (Obj.obj arguments)))
-
-let nULL_IMAGE_CACHE = (new imageCache ())
-let get_nULL_IMAGE_CACHE () = nULL_IMAGE_CACHE
-let () = java_register_static "ImageCache.get_nULL_IMAGE_CACHE" (fun _ -> Obj.repr (get_nULL_IMAGE_CACHE ()))
+JR.registerLateBound("ImageCache.jnew_0", jnew_0)
+JR.registerLateBound("ImageCache.jm_addListener", jm_addListener)
+JR.registerLateBound("ImageCache.jm_getIndex", jm_getIndex)
+JR.registerLateBound("ImageCache.jm_get", jm_get)
+JR.registerLateBound("ImageCache.jm_getWithKey", jm_getWithKey)
+JR.registerLateBound("ImageCache.jm_loadImageForAnimation", jm_loadImageForAnimation)
+JR.registerLateBound("ImageCache.jm_progressEnded", jm_progressEnded)
+JR.registerLateBound("ImageCache.jm_runTask", jm_runTask)
+JR.registerLateBound("ImageCache.jm_isLazy", jm_isLazy)
+JR.registerLateBound("ImageCache.f_commonStrings", (this: ImageCache) => this.f_commonStrings)
+JR.registerLateBound("ImageCache.f_tsUtil", (this: ImageCache) => this.f_tsUtil)
+JR.registerLateBound("ImageCache.jstatic_NULL_IMAGE_CACHE", jstatic_NULL_IMAGE_CACHE)
 
 

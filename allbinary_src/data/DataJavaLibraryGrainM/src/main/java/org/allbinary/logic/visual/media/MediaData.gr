@@ -1,117 +1,148 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.visual.media
+module MediaData
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.visual.media *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../java/util/HashMap.gr" include HashMap
+use HashMap.{ type HashMap }
+from "./MediaTypeData.gr" include MediaTypeData
+use MediaTypeData.{ type MediaTypeData }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.util.HashMap *)
-(* import org.allbinary.logic.StdUtil *)
+provide record MediaData {
+  jobject: JObject,
+  mut f_name: String,
+  mut f_type: String,
+  mut f_extension: String,
+}
 
-let hashMap : java_hash_map ref = ref ((((Obj.magic (java_call_static "StdUtil.getInstance" (Obj.repr ())))#createHashMap ()) :> java_hash_map))
-let get_hashMap () = !hashMap
-let set_hashMap value' = hashMap := value'
-let () = java_register_static "MediaData.get_hashMap" (fun _ -> Obj.repr (get_hashMap ()))
-let () = java_register_static "MediaData.set_hashMap" (fun value' -> set_hashMap (Obj.obj value'); Obj.repr ())
+let mut jcell_hashMap: Option<HashMap> = None
 
-let get : 'return. string -> 'return = fun ((a_Name : string)) ->
-        try
-        begin
-        let mediaData : Obj.t ref = ref ((Obj.repr (Obj.magic (!hashMap#get (a_Name))))) in ();
-        if ((Obj.magic !mediaData) != (Obj.magic 0)) then begin
-            raise (Java_return (Obj.repr ((Obj.magic !mediaData))))
-        end else begin
-            raise (Failure ("No Such MediaData"))
-        end
-        end
-        with Java_return value -> Obj.obj value
+provide let rec jclassName = () => "MediaData"
 
-and getDefault : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic ((Obj.magic (java_call_static "MediaDataFactory.getInstance" (Obj.repr ())))#jPG))
-        end
-
-and toHashMap () : java_hash_map =
-        begin
-        (!hashMap :> java_hash_map)
-        end
-
-let () = java_register_static "MediaData.get" (fun arguments -> Obj.repr (get (Obj.obj arguments)))
-let () = java_register_static "MediaData.getDefault" (fun arguments -> Obj.repr (getDefault (Obj.obj arguments)))
-let () = java_register_static "MediaData.toHashMap" (fun arguments -> Obj.repr (toHashMap (Obj.obj arguments)))
-class mediaData ((a_Name : string)) =
-  object (self)
-    val mutable name : string = ""
-    method name = name
-    method set_name value' = name <- value'
-    val mutable type_ : string = ""
-    method type_ = type_
-    method set_type_ value' = type_ <- value'
-    val mutable extension : string = ""
-    method extension = extension
-    method set_extension value' = extension <- value'
+and jstatic_hashMap = () => match (jcell_hashMap) {
+  Some(value) => value,
+  None => {
+    let value: HashMap = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashMap"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+JR.cast(jlate())
+})))
+}
+    jcell_hashMap = Some(value)
+    value
+  },
+}
+    
+and jnew_1 = (a_Name: String) => {
+    let this = { jobject: JR.newJObject("MediaData"), f_name: "", f_type: "", f_extension: "", }
+    this.jobject.toStringFunction = () => jm_toString(this)
     
     
-
-    method getName () : string =
-        begin
-        name
-        end
     
-
-    method getType () : string =
-        begin
-        type_
-        end
+        this.f_name = a_Name
+        this.f_extension = "." ++ this.f_name
+        this.f_type = MediaTypeData.jm_getInstance().f_NOT_RESIZABLE_MEDIA
+        ignore(JR.className(JR.cast(jstatic_hashMap())))
+    this
+}
     
-
-    method getExtension () : string =
-        begin
-        extension
-        end
+and jm_getName = (this: MediaData) => {
+        return this.f_name
+}
     
-
-    method isConvertableTo : 'any1. 'any1 -> bool = fun (mediaData) ->
-        let mediaData = Obj.repr mediaData in
-        try
-        begin
-        if (((Obj.repr (Obj.magic self)) == (Obj.repr (Obj.magic (java_call_static "MediaDataFactory.getInstance" (Obj.repr ())))#gIF)) && ((Obj.repr (Obj.magic mediaData)) == (Obj.repr (Obj.magic (java_call_static "MediaDataFactory.getInstance" (Obj.repr ())))#jPG))) then begin
-            raise (Java_return (Obj.repr (true)))
-        end;
-        false
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
+and jm_getType = (this: MediaData) => {
+        return this.f_type
+}
     
+and jm_getExtension = (this: MediaData) => {
+        return this.f_extension
+}
+    
+and jm_isConvertableTo = (this: MediaData, mediaData: MediaData) => {
+        if (((this == {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MediaDataFactory.f_GIF"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("MediaDataFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+}) && JR.isSame(mediaData, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MediaDataFactory.f_JPG"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("MediaDataFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+}))) {
+            return true
+        }
+        return false
+}
+    
+and jm_toString = (this: MediaData) => {
+        return jm_getName(this)
+}
+    
+and jm_get = (a_Name: String) => {
+        let mut mediaData: MediaData = JR.cast(JR.className(JR.cast(jstatic_hashMap())))
+        if (!JR.isNull(mediaData)) {
+            return mediaData
+        } else {
+            fail JR.toStringOf(JR.newJObject("Exception"))
+        }
+    return JR.nullOf()
+}
+    
+and jm_getDefault = () => {
+        return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MediaDataFactory.f_JPG"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("MediaDataFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+}
+}
+    
+and jm_toHashMap = () => {
+        return jstatic_hashMap()
+}
 
-    method toString () : string =
-        begin
-        (self#getName ())
-        end
-
-    initializer
-      begin
-        ();
-        ();
-        ();
-        ();
-        name <- a_Name;
-        extension <- ("." ^ name);
-        type_ <- (MediaTypeData.getInstance ())#nOT_RESIZABLE_MEDIA;
-        ignore (!hashMap#put (a_Name, (Obj.magic self)))
-      end
-  end
-let () = java_register_constructor "MediaData" (fun arguments -> Obj.repr (new mediaData (Obj.obj arguments)))
+JR.registerLateBound("MediaData.jnew_1", jnew_1)
+JR.registerLateBound("MediaData.jm_getName", jm_getName)
+JR.registerLateBound("MediaData.jm_getType", jm_getType)
+JR.registerLateBound("MediaData.jm_getExtension", jm_getExtension)
+JR.registerLateBound("MediaData.jm_isConvertableTo", jm_isConvertableTo)
+JR.registerLateBound("MediaData.jm_toString", jm_toString)
+JR.registerLateBound("MediaData.jm_get", jm_get)
+JR.registerLateBound("MediaData.jm_getDefault", jm_getDefault)
+JR.registerLateBound("MediaData.jm_toHashMap", jm_toHashMap)
+JR.registerLateBound("MediaData.f_name", (this: MediaData) => this.f_name)
+JR.registerLateBound("MediaData.set_f_name", (this: MediaData, jvalue) => { this.f_name = jvalue; jvalue })
+JR.registerLateBound("MediaData.f_type", (this: MediaData) => this.f_type)
+JR.registerLateBound("MediaData.set_f_type", (this: MediaData, jvalue) => { this.f_type = jvalue; jvalue })
+JR.registerLateBound("MediaData.f_extension", (this: MediaData) => this.f_extension)
+JR.registerLateBound("MediaData.set_f_extension", (this: MediaData, jvalue) => { this.f_extension = jvalue; jvalue })
+JR.registerLateBound("MediaData.jstatic_hashMap", jstatic_hashMap)
 
 

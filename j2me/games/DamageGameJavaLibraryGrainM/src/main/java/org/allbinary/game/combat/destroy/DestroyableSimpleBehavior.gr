@@ -1,58 +1,70 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.combat.destroy
+module DestroyableSimpleBehavior
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.combat.destroy *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/layer/CollidableCompositeLayer.gr" include CollidableCompositeLayer
+use CollidableCompositeLayer.{ type CollidableCompositeLayer }
+from "./DestroyableBaseBehavior.gr" include DestroyableBaseBehavior
+use DestroyableBaseBehavior.{ type DestroyableBaseBehavior }
+from "./DestroyedLayerProcessor.gr" include DestroyedLayerProcessor
+use DestroyedLayerProcessor.{ type DestroyedLayerProcessor }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.layer.CollidableCompositeLayer *)
+provide record DestroyableSimpleBehavior {
+  jobject: JObject,
+  mut f_ownerLayer: CollidableCompositeLayer,
+  mut f_destroyed: Bool,
+}
 
-class destroyableSimpleBehavior ((ownerLayer_arg : CollidableCompositeLayer.collidableCompositeLayer)) =
-  object (self)
-    inherit DestroyableBaseBehavior.destroyableBaseBehavior ()
-    val mutable ownerLayer : CollidableCompositeLayer.collidableCompositeLayer = (Obj.magic 0)
-    method ownerLayer = ownerLayer
-    method set_ownerLayer value' = ownerLayer <- value'
-    val mutable destroyed : bool = false
-    method destroyed = destroyed
-    method set_destroyed value' = destroyed <- value'
+
+provide let rec jclassName = () => "DestroyableSimpleBehavior"
     
+and jnew_1 = (ownerLayer: CollidableCompositeLayer) => {
+    let this = { jobject: JR.newJObject("DestroyableSimpleBehavior"), f_ownerLayer: JR.nullOf(), f_destroyed: false, }
     
-
-    method isDestroyed () : bool =
-        begin
-        destroyed
-        end [@@warning "-7"]
+    this.f_destroyed = false
+        this.f_ownerLayer = ownerLayer
+    this
+}
     
+and jm_isDestroyed = (this: DestroyableSimpleBehavior) => {
+        return this.f_destroyed
+}
+    
+and jm_setDestroyed = (this: DestroyableSimpleBehavior, destroyed: Bool) => {
+        this.f_destroyed = destroyed
+        if (jm_isDestroyed(this)) {
+            ignore(DestroyedLayerProcessor.jm_add(DestroyedLayerProcessor.jm_getInstance(), this.f_ownerLayer))
+        }
+}
 
-    method setDestroyed ((destroyed_arg : bool)) : unit =
-        begin
-        destroyed <- destroyed_arg;
-        if (self#isDestroyed ()) then begin
-            ignore ((DestroyedLayerProcessor.getInstance ())#add (ownerLayer))
-        end
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        destroyed <- false;
-        ();
-        ownerLayer <- ownerLayer_arg
-      end
-  end
-let () = java_register_constructor "DestroyableSimpleBehavior" (fun arguments -> Obj.repr (new destroyableSimpleBehavior (Obj.obj arguments)))
+JR.registerLateBound("DestroyableSimpleBehavior.jnew_1", jnew_1)
+JR.registerLateBound("DestroyableSimpleBehavior.jm_isDestroyed", jm_isDestroyed)
+JR.registerLateBound("DestroyableSimpleBehavior.jm_setDestroyed", jm_setDestroyed)
+JR.registerLateBound("DestroyableSimpleBehavior.f_ownerLayer", (this: DestroyableSimpleBehavior) => this.f_ownerLayer)
+JR.registerLateBound("DestroyableSimpleBehavior.f_destroyed", (this: DestroyableSimpleBehavior) => this.f_destroyed)
+JR.registerLateBound("DestroyableSimpleBehavior.set_f_destroyed", (this: DestroyableSimpleBehavior, jvalue) => { this.f_destroyed = jvalue; jvalue })
 
 

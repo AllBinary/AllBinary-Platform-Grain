@@ -1,50 +1,66 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary
+module AppletUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../allbinary_java.gr" include JR
+use JR.{ type JObject }
 
-open Allbinary_java [@@warning "-33"]
+//import org.allbinary.logic.communication.log.PreLogUtil;
+provide record AppletUtil {
+  jobject: JObject,
+}
 
-let applet : bool ref = ref (false)
-let get_applet () = !applet
-let set_applet value' = applet := value'
-let () = java_register_static "AppletUtil.get_applet" (fun _ -> Obj.repr (get_applet ()))
-let () = java_register_static "AppletUtil.set_applet" (fun value' -> set_applet (Obj.obj value'); Obj.repr ())
+let mut jcell_applet: Option<Bool> = None
 
-let setApplet () : unit =
-        begin
-        applet := true
-        end
+provide let rec jclassName = () => "AppletUtil"
 
-and isAppletLoader : 'any1. 'any1 -> bool = fun (_anyType) ->
-        begin
-        !applet
-        end
-
-let () = java_register_static "AppletUtil.setApplet" (fun arguments -> Obj.repr (setApplet (Obj.obj arguments)))
-let () = java_register_static "AppletUtil.isAppletLoader" (fun arguments -> Obj.repr (isAppletLoader (Obj.obj arguments)))
-class appletUtil () =
-  object
+and jstatic_applet = () => match (jcell_applet) {
+  Some(value) => value,
+  None => {
+    let value: Bool = false
+    jcell_applet = Some(value)
+    value
+  },
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("AppletUtil"), }
+        void
+    this
+}
+    
+and jm_setApplet = () => {
+        jstatic_applet() = true
+}
+    
+and jm_isAppletLoader = (anyType: JObject) => {
+        return jstatic_applet()
+}
 
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "AppletUtil" (fun arguments -> Obj.repr (new appletUtil (Obj.obj arguments)))
+JR.registerLateBound("AppletUtil.jnew_0", jnew_0)
+JR.registerLateBound("AppletUtil.jm_setApplet", jm_setApplet)
+JR.registerLateBound("AppletUtil.jm_isAppletLoader", jm_isAppletLoader)
+JR.registerLateBound("AppletUtil.jstatic_applet", jstatic_applet)
 
 

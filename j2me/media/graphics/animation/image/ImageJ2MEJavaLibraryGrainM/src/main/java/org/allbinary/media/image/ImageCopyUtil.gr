@@ -1,136 +1,184 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.media.image
+module ImageCopyUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.media.image *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/game/configuration/feature/Features.gr" include Features
+use Features.{ type Features }
+from "../../../../org/allbinary/game/configuration/feature/GameFeatureFactory.gr" include GameFeatureFactory
+use GameFeatureFactory.{ type GameFeatureFactory }
+from "../../../../org/allbinary/graphics/Anchor.gr" include Anchor
+use Anchor.{ type Anchor }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./ImageCreationUtil.gr" include ImageCreationUtil
+use ImageCreationUtil.{ type ImageCreationUtil }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Graphics *)
-(* import javax.microedition.lcdui.Image *)
-(* import org.allbinary.game.configuration.feature.Features *)
-(* import org.allbinary.game.configuration.feature.GameFeatureFactory *)
-(* import org.allbinary.graphics.Anchor *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record ImageCopyUtil {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_imageCreationUtil: ImageCreationUtil,
+  mut f_anchor: Int32,
+  mut f_gameFeatureFactory: GameFeatureFactory,
+  mut f_features: Features,
+  mut f_NO_COPY: String,
+}
 
-class imageCopyUtil () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable imageCreationUtil : ImageCreationUtil.imageCreationUtil = (Obj.magic 0)
-    method imageCreationUtil = imageCreationUtil
-    method set_imageCreationUtil value' = imageCreationUtil <- value'
-    val mutable anchor : int = 0
-    method anchor = anchor
-    method set_anchor value' = anchor <- value'
-    val mutable gameFeatureFactory : GameFeatureFactory.gameFeatureFactory = (Obj.magic 0)
-    method gameFeatureFactory = gameFeatureFactory
-    method set_gameFeatureFactory value' = gameFeatureFactory <- value'
-    val mutable features : Features.features = (Obj.magic 0)
-    method features = features
-    method set_features value' = features <- value'
-    val mutable nO_COPY : string = ""
-    method nO_COPY = nO_COPY
-    method set_nO_COPY value' = nO_COPY <- value'
+let mut jcell_instance: Option<ImageCopyUtil> = None
+
+provide let rec jclassName = () => "ImageCopyUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: ImageCopyUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method createImageForRotation : 'any1 'return. 'any1 -> 'return = fun (originalImage) ->
-        let originalImage = Obj.repr originalImage in
-        begin
-        (Obj.magic ((self#createImage ((Obj.magic originalImage)))))
-        end [@@warning "-20"]
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("ImageCopyUtil"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_imageCreationUtil: JR.nullOf(), f_anchor: 0l, f_gameFeatureFactory: JR.nullOf(), f_features: JR.nullOf(), f_NO_COPY: "", }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this.f_imageCreationUtil = JR.cast(ImageCreationUtil.jm_getInstance())
+    this.f_anchor = Anchor.jstatic_TOP_LEFT()
+    this.f_gameFeatureFactory = JR.cast(GameFeatureFactory.jm_getInstance())
+    this.f_features = JR.cast(Features.jm_getInstance())
+    this.f_NO_COPY = "J2ME does not need to copy images after initial loading"
+        void
+    this
+}
     
-
-    method createImage : 'any1 'return. 'any1 -> 'return = fun (originalImage) ->
-        let originalImage = Obj.repr originalImage in
-        try
-        begin
-        if (not (features#isFeature (gameFeatureFactory#pOST_IMAGE_LOADING_MODIFICATION))) then begin
-            ignore ((Obj.magic logUtil)#put (nO_COPY, (Obj.magic self), commonStrings#cONSTRUCTOR, (Failure ("Exception"))));
-            raise (Java_return (Obj.repr ((Obj.magic originalImage))))
-        end;
-        let image : Obj.t ref = ref ((Obj.repr (imageCreationUtil#createImageWH (((Obj.magic originalImage)#getWidth ()), ((Obj.magic originalImage)#getHeight ()))))) in ();
-        if ((Obj.magic !image)#isMutable ()) then begin
-            ignore (((Obj.magic !image)#getGraphics ())#drawImage ((Obj.magic originalImage), 0, 0, anchor));
-            raise (Java_return (Obj.repr ((Obj.magic !image))))
-        end else begin
-            raise (Failure ("Not Mutable"))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
+and jm_createImageForRotation = (this: ImageCopyUtil, originalImage: JObject) => {
+        return jm_createImage(this, originalImage)
+}
     
+and jm_createImage = (this: ImageCopyUtil, originalImage: JObject) => {
+        if (!Features.jm_isFeature(this.f_features, this.f_gameFeatureFactory.f_POST_IMAGE_LOADING_MODIFICATION)) {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_put"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_NO_COPY), JR.cast(this), JR.cast(this.f_commonStrings.f_CONSTRUCTOR), JR.cast(JR.newJObject("Exception"))))
+})
+            return originalImage
+        }
+        let mut image: JObject = JR.cast(ImageCreationUtil.jm_createImageWH(this.f_imageCreationUtil, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
+JR.cast(jlate(JR.cast(originalImage)))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
+JR.cast(jlate(JR.cast(originalImage)))
+}))
+        if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_isMutable"))
+JR.cast(jlate(JR.cast(image)))
+}) {
+            ignore(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getGraphics"))
+JR.cast(jlate(JR.cast(image)))
+})))
+            return image
+        } else {
+            fail JR.toStringOf(JR.newJObject("Exception"))
+        }
+    return JR.jnull
+}
+    
+and jm_createImageScale = (this: ImageCopyUtil, originalImage: JObject, canvasScale: Float32, resize: Bool) => {
+        if (!Features.jm_isFeature(this.f_features, this.f_gameFeatureFactory.f_POST_IMAGE_LOADING_MODIFICATION)) {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_put"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_NO_COPY), JR.cast(this), JR.cast(this.f_commonStrings.f_CONSTRUCTOR), JR.cast(JR.newJObject("Exception"))))
+})
+            return originalImage
+        }
+        let mut newWidth: Int32 = (Float32.(*)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
+JR.cast(jlate(JR.cast(originalImage)))
+}, canvasScale))
+        let mut newHeight: Int32 = (Float32.(*)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
+JR.cast(jlate(JR.cast(originalImage)))
+}, canvasScale))
+        if (resize) {
+            if (Int32.(<)(newWidth, newHeight)) {
+                newWidth = newHeight
+            }
+            if (Int32.(<)(newHeight, newWidth)) {
+                newHeight = newWidth
+            }
+        }
+        let mut image: JObject = JR.cast(ImageCreationUtil.jm_createImageWH(this.f_imageCreationUtil, newWidth, newHeight))
+        if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_isMutable"))
+JR.cast(jlate(JR.cast(image)))
+}) {
+            let mut halfWidthDelta: Int32 = Int32.(/)((Int32.(-)(newWidth, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
+JR.cast(jlate(JR.cast(originalImage)))
+})), 2l)
+            let mut halfHeightDelta: Int32 = Int32.(/)((Int32.(-)(newHeight, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
+JR.cast(jlate(JR.cast(originalImage)))
+})), 2l)
+            let mut graphics: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getGraphics"))
+JR.cast(jlate(JR.cast(image)))
+})
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawImage"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(originalImage), JR.cast(halfWidthDelta), JR.cast(halfHeightDelta), JR.cast(this.f_anchor)))
+})
+            return image
+        } else {
+            fail JR.toStringOf(JR.newJObject("Exception"))
+        }
+    return JR.jnull
+}
 
-    method createImageScale : 'any1 'return. 'any1 * float * bool -> 'return = fun (originalImage, (canvasScale : float), (resize : bool)) ->
-        let originalImage = Obj.repr originalImage in
-        try
-        begin
-        if (not (features#isFeature (gameFeatureFactory#pOST_IMAGE_LOADING_MODIFICATION))) then begin
-            ignore ((Obj.magic logUtil)#put (nO_COPY, (Obj.magic self), commonStrings#cONSTRUCTOR, (Failure ("Exception"))));
-            raise (Java_return (Obj.repr ((Obj.magic originalImage))))
-        end;
-        let newWidth : int ref = ref ((int_of_float ((((float_of_int (((Obj.magic originalImage)#getWidth ()))) *. canvasScale))))) in ();
-        let newHeight : int ref = ref ((int_of_float ((((float_of_int (((Obj.magic originalImage)#getHeight ()))) *. canvasScale))))) in ();
-        if resize then begin
-            if (!newWidth < !newHeight) then begin
-                newWidth := !newHeight
-            end;
-            if (!newHeight < !newWidth) then begin
-                newHeight := !newWidth
-            end
-        end;
-        let image : Obj.t ref = ref ((Obj.repr (imageCreationUtil#createImageWH (!newWidth, !newHeight)))) in ();
-        if ((Obj.magic !image)#isMutable ()) then begin
-            let halfWidthDelta : int ref = ref ((((!newWidth - ((Obj.magic originalImage)#getWidth ()))) / 2)) in ();
-            let halfHeightDelta : int ref = ref ((((!newHeight - ((Obj.magic originalImage)#getHeight ()))) / 2)) in ();
-            let graphics : Obj.t ref = ref ((Obj.repr ((Obj.magic !image)#getGraphics ()))) in ();
-            ignore ((Obj.magic !graphics)#drawImage ((Obj.magic originalImage), !halfWidthDelta, !halfHeightDelta, anchor));
-            raise (Java_return (Obj.repr ((Obj.magic !image))))
-        end else begin
-            raise (Failure ("Not Mutable"))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        imageCreationUtil <- ((ImageCreationUtil.getInstance ()) :> ImageCreationUtil.imageCreationUtil);
-        anchor <- (Anchor.get_tOP_LEFT ());
-        gameFeatureFactory <- ((GameFeatureFactory.getInstance ()) :> GameFeatureFactory.gameFeatureFactory);
-        features <- ((Features.getInstance ()) :> Features.features);
-        nO_COPY <- "J2ME does not need to copy images after initial loading";
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "ImageCopyUtil" (fun arguments -> Obj.repr (new imageCopyUtil (Obj.obj arguments)))
-
-let instance = (new imageCopyUtil ())
-let get_instance () = instance
-let () = java_register_static "ImageCopyUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "ImageCopyUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("ImageCopyUtil.jnew_0", jnew_0)
+JR.registerLateBound("ImageCopyUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("ImageCopyUtil.jm_createImageForRotation", jm_createImageForRotation)
+JR.registerLateBound("ImageCopyUtil.jm_createImage", jm_createImage)
+JR.registerLateBound("ImageCopyUtil.jm_createImageScale", jm_createImageScale)
+JR.registerLateBound("ImageCopyUtil.f_logUtil", (this: ImageCopyUtil) => this.f_logUtil)
+JR.registerLateBound("ImageCopyUtil.f_commonStrings", (this: ImageCopyUtil) => this.f_commonStrings)
+JR.registerLateBound("ImageCopyUtil.f_imageCreationUtil", (this: ImageCopyUtil) => this.f_imageCreationUtil)
+JR.registerLateBound("ImageCopyUtil.f_anchor", (this: ImageCopyUtil) => this.f_anchor)
+JR.registerLateBound("ImageCopyUtil.set_f_anchor", (this: ImageCopyUtil, jvalue) => { this.f_anchor = jvalue; jvalue })
+JR.registerLateBound("ImageCopyUtil.f_gameFeatureFactory", (this: ImageCopyUtil) => this.f_gameFeatureFactory)
+JR.registerLateBound("ImageCopyUtil.f_features", (this: ImageCopyUtil) => this.f_features)
+JR.registerLateBound("ImageCopyUtil.f_NO_COPY", (this: ImageCopyUtil) => this.f_NO_COPY)
+JR.registerLateBound("ImageCopyUtil.jstatic_instance", jstatic_instance)
 
 

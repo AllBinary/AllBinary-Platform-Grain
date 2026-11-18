@@ -1,40 +1,89 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io.path
+module AbFilePath
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io.path *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "./AbPath.gr" include AbPath
+use AbPath.{ type AbPath }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.string.StringUtil *)
+provide record AbFilePath {
+  jobject: JObject,
+  mut f_commonSeps: JObject,
+  mut f_abPathData: JObject,
+  mut f_abPathUtil: JObject,
+  mut f_EMPTY_STRING: String,
+  mut f_schema: String,
+  mut f_path: String,
+  mut f_nameP: String,
+  mut f_hasSchemaP: Bool,
+  mut f_numberOfSeps: Int32,
+}
 
-class abFilePath ((aPath : string)) =
-  object (self)
-    inherit AbPath.abPath ((StringUtil.getInstance ())#eMPTY_STRING, (StringUtil.getInstance ())#eMPTY_STRING)
+
+provide let rec jclassName = () => "AbFilePath"
     
+and jnew_1 = (aPath: String) => {
+    let this = { jobject: JR.newJObject("AbFilePath"), f_commonSeps: JR.jnull, f_abPathData: JR.jnull, f_abPathUtil: JR.jnull, f_EMPTY_STRING: "", f_schema: "", f_path: "", f_nameP: "", f_hasSchemaP: false, f_numberOfSeps: 0l, }
+        void
+        let mut pathData: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("AbPathData.jm_getInstance"))
+JR.cast(jlate())
+})
+        let mut abPathUtil: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("PathUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        this.f_schema = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbPath.jm_getSchema"))
+JR.cast(jlate(JR.cast(this), JR.cast(aPath)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbPath.jm_setName"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbPathData.jm_getNameFromPath"))
+JR.cast(jlate(JR.cast(pathData), JR.cast(aPath)))
+})))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbPath.jm_setPath"))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("PathUtil.jm_adjust"))
+JR.cast(jlate(JR.cast(abPathUtil), JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbPath.jm_getPathFromPath"))
+JR.cast(jlate(JR.cast(this), JR.cast(JR.toStringOf(JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("PathUtil.jm_removeNameFromPath"))
+JR.cast(jlate(JR.cast(abPathUtil), JR.cast(aPath)))
+})))))
+})))
+})))
+})
+    this
+}
 
-    initializer
-      begin
-        ();
-        (* super(...) is the inherit clause *) ();
-        let pathData : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ()))))) in ();
-        let abPathUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "PathUtil.getInstance" (Obj.repr ()))))) in ();
-        (self#set_schema) ((self#getSchema (aPath)));
-        ignore (self#setName (((Obj.magic !pathData)#getNameFromPath (aPath))));
-        ignore (self#setPath (((Obj.magic !abPathUtil)#adjust ((self#getPathFromPath ((java_string_of (Obj.repr ((Obj.magic !abPathUtil)#removeNameFromPath (aPath))))))))))
-      end
-  end
-let () = java_register_constructor "AbFilePath" (fun arguments -> Obj.repr (new abFilePath (Obj.obj arguments)))
+JR.registerLateBound("AbFilePath.jnew_1", jnew_1)
 
 

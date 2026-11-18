@@ -1,170 +1,221 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.layer
+module AllBinaryGameLayer
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.layer *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/graphics/Rectangle.gr" include Rectangle
+use Rectangle.{ type Rectangle }
+from "../../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
+use BasicColor.{ type BasicColor }
+from "../../../../org/allbinary/graphics/color/BasicColorFactory.gr" include BasicColorFactory
+use BasicColorFactory.{ type BasicColorFactory }
+from "../../../../org/allbinary/graphics/color/BasicColorSetUtil.gr" include BasicColorSetUtil
+use BasicColorSetUtil.{ type BasicColorSetUtil }
+from "../../../../org/allbinary/graphics/paint/NullPaintable.gr" include NullPaintable
+use NullPaintable.{ type NullPaintable }
+from "../../../../org/allbinary/graphics/paint/Paintable.gr" include Paintable
+use Paintable.{ type Paintable }
+from "../../../../org/allbinary/image/opengles/OpenGLSurfaceChangedInterface.gr" include OpenGLSurfaceChangedInterface
+use OpenGLSurfaceChangedInterface.{ type OpenGLSurfaceChangedInterface }
+from "../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
+use AllBinaryLayerManager.{ type AllBinaryLayerManager }
+from "../../../../org/allbinary/logic/communication/log/ForcedLogUtil.gr" include ForcedLogUtil
+use ForcedLogUtil.{ type ForcedLogUtil }
+from "../../../../org/allbinary/logic/util/event/AllBinaryEventObject.gr" include AllBinaryEventObject
+use AllBinaryEventObject.{ type AllBinaryEventObject }
+from "../../../../org/allbinary/logic/util/event/EventStrings.gr" include EventStrings
+use EventStrings.{ type EventStrings }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../org/allbinary/view/ViewPositionBase.gr" include ViewPositionBase
+use ViewPositionBase.{ type ViewPositionBase }
+from "../../../../org/allbinary/view/event/ViewPositionEvent.gr" include ViewPositionEvent
+use ViewPositionEvent.{ type ViewPositionEvent }
+from "../../../../org/allbinary/view/event/ViewPositionEventListenerInterface.gr" include ViewPositionEventListenerInterface
+use ViewPositionEventListenerInterface.{ type ViewPositionEventListenerInterface }
+from "./SWTUtil.gr" include SWTUtil
+use SWTUtil.{ type SWTUtil }
+from "./SWTBlackPaintable.gr" include SWTBlackPaintable
+use SWTBlackPaintable.{ type SWTBlackPaintable }
+from "./GameLayerUtil.gr" include GameLayerUtil
+use GameLayerUtil.{ type GameLayerUtil }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.khronos.opengles.GL *)
-(* import javax.microedition.lcdui.Graphics *)
-(* import org.allbinary.graphics.Rectangle *)
-(* import org.allbinary.graphics.color.BasicColor *)
-(* import org.allbinary.graphics.color.BasicColorFactory *)
-(* import org.allbinary.graphics.color.BasicColorSetUtil *)
-(* import org.allbinary.graphics.paint.NullPaintable *)
-(* import org.allbinary.graphics.paint.Paintable *)
-(* import org.allbinary.image.opengles.OpenGLSurfaceChangedInterface *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.layer.AllBinaryLayerManager *)
-(* import org.allbinary.logic.communication.log.ForcedLogUtil *)
-(* import org.allbinary.logic.util.event.AllBinaryEventObject *)
-(* import org.allbinary.logic.util.event.EventStrings *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
-(* import org.allbinary.view.ViewPositionBase *)
-(* import org.allbinary.view.event.ViewPositionEvent *)
-(* import org.allbinary.view.event.ViewPositionEventListenerInterface *)
+provide record AllBinaryGameLayer {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_x: Int32,
+  mut f_y: Int32,
+  mut f_z: Int32,
+  mut f_width: Int32,
+  mut f_height: Int32,
+  mut f_visible: Bool,
+  mut f_viewPositionEvent: JObject,
+  mut f_halfWidth: Int32,
+  mut f_halfHeight: Int32,
+  mut f_name: String,
+  mut f_viewPosition: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_basicSetColorUtil: BasicColorSetUtil,
+  mut f_RED: BasicColor,
+  mut f_paintable: Paintable,
+  mut f_gameKeyEventList: BasicArrayList,
+}
 
 
-let createPaintable : 'return. unit -> 'return = fun () ->
-        try
-        begin
-        if (SWTUtil.get_isSWT ()) then begin
-            raise (Java_return (Obj.repr ((new SWTBlackPaintable.sWTBlackPaintable ()))))
-        end;
-        (Obj.magic ((NullPaintable.getInstance ())))
-        end
-        with Java_return value -> Obj.obj value
-
-let () = java_register_static "AllBinaryGameLayer.createPaintable" (fun arguments -> Obj.repr (createPaintable (Obj.obj arguments)))
-class allBinaryGameLayer ((name : string), (layerInfo : Rectangle.rectangle), (viewPosition : ViewPositionBase.viewPositionBase)) =
-  object (self)
-    inherit AllBinaryLayer.allBinaryLayer (name, layerInfo, viewPosition) as super
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable basicSetColorUtil : BasicColorSetUtil.basicColorSetUtil = (Obj.magic 0)
-    method basicSetColorUtil = basicSetColorUtil
-    method set_basicSetColorUtil value' = basicSetColorUtil <- value'
-    val mutable rED : BasicColor.basicColor = (Obj.magic 0)
-    method rED = rED
-    method set_rED value' = rED <- value'
-    val mutable paintable : Paintable.paintable = (Obj.magic 0)
-    method paintable = paintable
-    method set_paintable value' = paintable <- value'
-    val mutable gameKeyEventList : BasicArrayList.basicArrayList = (Obj.magic 0)
-    method gameKeyEventList = gameKeyEventList
-    method set_gameKeyEventList value' = gameKeyEventList <- value'
+provide let rec jclassName = () => "AllBinaryGameLayer"
     
+and jm_createPaintable = () => {
+        if (SWTUtil.jstatic_isSWT()) {
+            return JR.cast(SWTBlackPaintable.jnew_0())
+        }
+        return NullPaintable.jm_getInstance()
+}
     
-
-    method set : 'any1. 'any1 -> unit = fun (_gl) ->
-        begin
-        raise (Failure (commonStrings#nOT_IMPLEMENTED))
-        end [@@warning "-7-20"]
+and jnew_3 = (name: String, layerInfo: Rectangle, viewPosition: ViewPositionBase) => {
+    let this = { jobject: JR.newJObject("AllBinaryGameLayer"), f_logUtil: JR.jnull, f_x: 0l, f_y: 0l, f_z: 0l, f_width: 0l, f_height: 0l, f_visible: false, f_viewPositionEvent: JR.jnull, f_halfWidth: 0l, f_halfHeight: 0l, f_name: "", f_viewPosition: JR.jnull, f_commonStrings: JR.nullOf(), f_basicSetColorUtil: JR.nullOf(), f_RED: JR.nullOf(), f_paintable: JR.nullOf(), f_gameKeyEventList: JR.nullOf(), }
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this.f_basicSetColorUtil = JR.cast(BasicColorSetUtil.jm_getInstance())
+    this.f_RED = JR.cast(BasicColorFactory.jm_getInstance().f_RED)
+    this.f_paintable = JR.cast(jm_createPaintable())
+    this.f_gameKeyEventList = JR.cast(BasicArrayListD.jnew_0())
+        void
+    this
+}
     
-
-    method move () : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+and jm_set = (this: AllBinaryGameLayer, gl: GL) => {
+        fail JR.toStringOf(JR.newJObject("Exception"))
+}
     
-
-    method getGameKeyEventList : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (gameKeyEventList))
-        end [@@warning "-7"]
+and jm_move = (this: AllBinaryGameLayer) => {
+    void
+}
     
-
-    method processInput : 'any1. 'any1 -> unit = fun (_allBinaryLayerManager) ->
-        begin
-        raise (Failure (commonStrings#nOT_IMPLEMENTED))
-        end [@@warning "-7-20"]
+and jm_getGameKeyEventList = (this: AllBinaryGameLayer) => {
+        return this.f_gameKeyEventList
+}
     
-
-    method processTick : 'any1. 'any1 -> unit = fun (_allBinaryLayerManager) ->
-        begin
-        raise (Failure (commonStrings#nOT_IMPLEMENTED))
-        end [@@warning "-7-20"]
+and jm_processInput = (this: AllBinaryGameLayer, allBinaryLayerManager: AllBinaryLayerManager) => {
+        fail JR.toStringOf(JR.newJObject("Exception"))
+}
     
-
-    method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
-        begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
-        end [@@warning "-7-20"]
+and jm_processTick = (this: AllBinaryGameLayer, allBinaryLayerManager: AllBinaryLayerManager) => {
+        fail JR.toStringOf(JR.newJObject("Exception"))
+}
     
-
-    method onViewPositionChangeEvent () : unit =
-        begin
-        (self#onChangeEvent ((self#viewPositionEvent)))
-        end [@@warning "-7"]
+and jm_onEvent = (this: AllBinaryGameLayer, eventObject: AllBinaryEventObject) => {
+        ignore(ForcedLogUtil.jm_log(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE, JR.cast(this)))
+}
     
-
-    method onChangeEvent : 'any1. 'any1 -> unit = fun (_layerManagerEvent) ->
-        begin
-        if (GameLayerUtil.isOnScreen ((Obj.magic self))) then begin
-            ignore (self#setVisible (true))
-        end else begin
-            ignore (self#setVisible (false))
-        end
-        end [@@warning "-7-20"]
+and jm_onViewPositionChangeEvent = (this: AllBinaryGameLayer) => {
+        ignore(jm_onChangeEvent(this, JR.cast(this.f_viewPositionEvent)))
+}
     
-
-    method paintFirst : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore (paintable#paint ((Obj.magic graphics)))
-        end [@@warning "-7-20"]
+and jm_onChangeEvent = (this: AllBinaryGameLayer, layerManagerEvent: ViewPositionEvent) => {
+        if (GameLayerUtil.jm_isOnScreen(JR.cast(this))) {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_setVisible"))
+JR.cast(jlate(JR.cast(this), JR.cast(true)))
+})
+        } else {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_setVisible"))
+JR.cast(jlate(JR.cast(this), JR.cast(false)))
+})
+        }
+}
     
-
-    method paintDebug : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        let viewPosition : ViewPositionBase.viewPositionBase ref = ref (((self#getViewPosition ()) :> ViewPositionBase.viewPositionBase)) in ();
-        let viewX : int ref = ref ((!viewPosition#getX ())) in ();
-        let viewY : int ref = ref ((!viewPosition#getY ())) in ();
-        ignore (basicSetColorUtil#setBasicColorP ((Obj.magic graphics), rED));
-        ignore ((Obj.magic graphics)#drawRect (!viewX, !viewY, (self#getWidth ()), (self#getHeight ())))
-        end [@@warning "-7-20"]
+and jm_paintFirst = (this: AllBinaryGameLayer, graphics: JObject) => {
+        ignore(Paintable.jm_paint(this.f_paintable, graphics))
+}
     
-
-    method setWidth ((width : int)) : unit =
-        begin
-        ignore (super#setLayerWidth (width));
-        ignore (self#setHalfWidth ((width asr 1)))
-        end [@@warning "-7"]
+and jm_paintDebug = (this: AllBinaryGameLayer, graphics: JObject) => {
+        let mut viewPosition: ViewPositionBase = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_getViewPosition"))
+JR.cast(jlate(JR.cast(this)))
+})
+        let mut viewX: Int32 = ViewPositionBase.jm_getX(viewPosition)
+        let mut viewY: Int32 = ViewPositionBase.jm_getY(viewPosition)
+        ignore(BasicColorSetUtil.jm_setBasicColorP(this.f_basicSetColorUtil, graphics, this.f_RED))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawRect"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(viewX), JR.cast(viewY), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_getWidth"))
+JR.cast(jlate(JR.cast(this)))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_getHeight"))
+JR.cast(jlate(JR.cast(this)))
+})))
+})
+}
     
+and jm_setWidth = (this: AllBinaryGameLayer, width: Int32) => {
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Layer.jm_setLayerWidth"))
+JR.cast(jlate(JR.cast(this), JR.cast(width)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_setHalfWidth"))
+JR.cast(jlate(JR.cast(this), JR.cast(Int32.(>>)(width, 1l))))
+})
+}
+    
+and jm_setHeight = (this: AllBinaryGameLayer, height: Int32) => {
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Layer.jm_setLayerHeight"))
+JR.cast(jlate(JR.cast(this), JR.cast(height)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_setHalfHeight"))
+JR.cast(jlate(JR.cast(this), JR.cast(Int32.(>>)(height, 1l))))
+})
+}
 
-    method setHeight ((height : int)) : unit =
-        begin
-        ignore (super#setLayerHeight (height));
-        ignore (self#setHalfHeight ((height asr 1)))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        basicSetColorUtil <- ((BasicColorSetUtil.getInstance ()) :> BasicColorSetUtil.basicColorSetUtil);
-        rED <- ((BasicColorFactory.getInstance ())#rED :> BasicColor.basicColor);
-        paintable <- ((createPaintable ()) :> Paintable.paintable);
-        gameKeyEventList <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "AllBinaryGameLayer" (fun arguments -> Obj.repr (new allBinaryGameLayer (Obj.obj arguments)))
+JR.registerLateBound("AllBinaryGameLayer.jnew_3", jnew_3)
+JR.registerLateBound("AllBinaryGameLayer.jm_createPaintable", jm_createPaintable)
+JR.registerLateBound("AllBinaryGameLayer.jm_set", jm_set)
+JR.registerLateBound("AllBinaryGameLayer.jm_move", jm_move)
+JR.registerLateBound("AllBinaryGameLayer.jm_getGameKeyEventList", jm_getGameKeyEventList)
+JR.registerLateBound("AllBinaryGameLayer.jm_processInput", jm_processInput)
+JR.registerLateBound("AllBinaryGameLayer.jm_processTick", jm_processTick)
+JR.registerLateBound("AllBinaryGameLayer.jm_onEvent", jm_onEvent)
+JR.registerLateBound("AllBinaryGameLayer.jm_onViewPositionChangeEvent", jm_onViewPositionChangeEvent)
+JR.registerLateBound("AllBinaryGameLayer.jm_onChangeEvent", jm_onChangeEvent)
+JR.registerLateBound("AllBinaryGameLayer.jm_paintFirst", jm_paintFirst)
+JR.registerLateBound("AllBinaryGameLayer.jm_paintDebug", jm_paintDebug)
+JR.registerLateBound("AllBinaryGameLayer.jm_setWidth", jm_setWidth)
+JR.registerLateBound("AllBinaryGameLayer.jm_setHeight", jm_setHeight)
+JR.registerLateBound("AllBinaryGameLayer.f_commonStrings", (this: AllBinaryGameLayer) => this.f_commonStrings)
+JR.registerLateBound("AllBinaryGameLayer.f_basicSetColorUtil", (this: AllBinaryGameLayer) => this.f_basicSetColorUtil)
+JR.registerLateBound("AllBinaryGameLayer.f_RED", (this: AllBinaryGameLayer) => this.f_RED)
+JR.registerLateBound("AllBinaryGameLayer.f_paintable", (this: AllBinaryGameLayer) => this.f_paintable)
+JR.registerLateBound("AllBinaryGameLayer.f_gameKeyEventList", (this: AllBinaryGameLayer) => this.f_gameKeyEventList)
 
 

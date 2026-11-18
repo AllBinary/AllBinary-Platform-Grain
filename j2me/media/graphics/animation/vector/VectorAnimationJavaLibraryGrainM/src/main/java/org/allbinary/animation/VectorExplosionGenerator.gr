@@ -1,166 +1,205 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.animation
+module VectorExplosionGenerator
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.animation *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/graphics/GPoint.gr" include GPoint
+use GPoint.{ type GPoint }
+from "../../../org/allbinary/graphics/PointFactory.gr" include PointFactory
+use PointFactory.{ type PointFactory }
+from "../../../org/allbinary/graphics/pipeline/RandomRotationFactory.gr" include RandomRotationFactory
+use RandomRotationFactory.{ type RandomRotationFactory }
+from "../../../org/allbinary/graphics/pipeline/RandomTranslation.gr" include RandomTranslation
+use RandomTranslation.{ type RandomTranslation }
+from "../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "../../../org/allbinary/util/BasicArrayListS.gr" include BasicArrayListS
+use BasicArrayListS.{ type BasicArrayListS }
+from "./VectorExplosionType.gr" include VectorExplosionType
+use VectorExplosionType.{ type VectorExplosionType }
+from "./VectorAnimationUtil.gr" include VectorAnimationUtil
+use VectorAnimationUtil.{ type VectorAnimationUtil }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.graphics.GPoint *)
-(* import org.allbinary.graphics.PointFactory *)
-(* import org.allbinary.graphics.pipeline.RandomRotationFactory *)
-(* import org.allbinary.graphics.pipeline.RandomTranslation *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
-(* import org.allbinary.util.BasicArrayListS *)
+provide record VectorExplosionGenerator {
+  jobject: JObject,
+  mut f_RANDOM: VectorExplosionType,
+  mut f_ROTATION: VectorExplosionType,
+  mut f_vectorAnimationUtil: VectorAnimationUtil,
+  mut f_randomRotationFactory: RandomRotationFactory,
+}
 
-class vectorExplosionGenerator () =
-  object (self)
-    val mutable rANDOM : VectorExplosionType.vectorExplosionType = (Obj.magic 0)
-    method rANDOM = rANDOM
-    method set_rANDOM value' = rANDOM <- value'
-    val mutable rOTATION : VectorExplosionType.vectorExplosionType = (Obj.magic 0)
-    method rOTATION = rOTATION
-    method set_rOTATION value' = rOTATION <- value'
-    val mutable vectorAnimationUtil : VectorAnimationUtil.vectorAnimationUtil = (Obj.magic 0)
-    method vectorAnimationUtil = vectorAnimationUtil
-    method set_vectorAnimationUtil value' = vectorAnimationUtil <- value'
-    val mutable randomRotationFactory : RandomRotationFactory.randomRotationFactory = (Obj.magic 0)
-    method randomRotationFactory = randomRotationFactory
-    method set_randomRotationFactory value' = randomRotationFactory <- value'
+let mut jcell_instance: Option<VectorExplosionGenerator> = None
+
+provide let rec jclassName = () => "VectorExplosionGenerator"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: VectorExplosionGenerator = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance_0 = () => {
+        return jstatic_instance()
+}
     
-
-    method createList : 'any1 'any3 'return. 'any1 * int * 'any3 -> 'return = fun (list, (howMuch : int), type_) ->
-        let list = Obj.repr list in
-        let type_ = Obj.repr type_ in
-        begin
-        let point : GPoint.gPoint ref = ref (((Obj.magic 0) :> GPoint.gPoint)) in ();
-        let size : int ref = ref (((Obj.magic list)#size ())) in ();
-        let points : int array array ref = ref ((Array.make_matrix (!size) (2) 0)) in ();
-        for index = 0 to !size - 1 do
-            point := (Obj.magic (Obj.magic list)#objectArray.(index));
-            !points.(index).(0) <- (!point#getX ());
-            !points.(index).(1) <- (!point#getY ())
-        done;
-        (Obj.magic ((self#createListFromPoints ((Obj.magic list), !points, howMuch, (Obj.magic type_)))))
-        end [@@warning "-20"]
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("VectorExplosionGenerator"), f_RANDOM: JR.nullOf(), f_ROTATION: JR.nullOf(), f_vectorAnimationUtil: JR.nullOf(), f_randomRotationFactory: JR.nullOf(), }
+    this.f_RANDOM = VectorExplosionType.jnew_0()
+    this.f_ROTATION = VectorExplosionType.jnew_0()
+    this.f_vectorAnimationUtil = JR.cast(VectorAnimationUtil.jm_getInstance())
+    this.f_randomRotationFactory = JR.cast(RandomRotationFactory.jm_getInstance())
+        void
+    this
+}
     
-
-    method getInstance : 'any3. int array array * int * 'any3 -> int array array array = fun ((points : int array array), (howMuch : int), type_) ->
-        let type_ = Obj.repr type_ in
-        begin
-        let pointsBasicArrayList : BasicArrayList.basicArrayList ref = ref (((self#getInstanceStartFrame (points, howMuch, (Obj.magic type_), true)) :> BasicArrayList.basicArrayList)) in ();
-        let tempBasicArrayList : BasicArrayList.basicArrayList ref = ref (((Obj.magic !pointsBasicArrayList#objectArray.(0)) :> BasicArrayList.basicArrayList)) in ();
-        let newPoints : int array array array ref = ref ((vectorAnimationUtil#toAnimationArrayFromListOfPointListWithPointsPerFrame (!pointsBasicArrayList, (!tempBasicArrayList#size ())))) in ();
-        !newPoints
-        end [@@warning "-20"]
+and jm_createList = (this: VectorExplosionGenerator, list: BasicArrayList, howMuch: Int32, type_: VectorExplosionType) => {
+        let mut point: GPoint = JR.nullOf()
+        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut points: Array<Array<Int32>> = Array.init(Int32.toNumber(size), jindex1 => Array.make(Int32.toNumber(2l), 0l))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            point = JR.cast(list.f_objectArray[Int32.toNumber(index)])
+            points[Int32.toNumber(index)][Int32.toNumber(0l)] = GPoint.jm_getX(point)
+            points[Int32.toNumber(index)][Int32.toNumber(1l)] = GPoint.jm_getY(point)
+            }
+        }
+        return jm_createListFromPoints(this, list, points, howMuch, type_)
+}
     
-
-    method getInstanceStartFrame : 'any3 'return. int array array * int * 'any3 * bool -> 'return = fun ((points : int array array), (howMuch : int), type_, (startFrame : bool)) ->
-        let type_ = Obj.repr type_ in
-        begin
-        (try
-            let pointsBasicArrayList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListS.basicArrayListS (howMuch)) :> BasicArrayList.basicArrayList)) in ();
-            ignore (!pointsBasicArrayList#add ((self#createPointsBasicArrayList (points))));
-            let frameIndex : int ref = ref (0) in ();
-            let tempBasicArrayList : BasicArrayList.basicArrayList ref = ref (((Obj.magic 0) :> BasicArrayList.basicArrayList)) in ();
-            let pointBasicArrayList : BasicArrayList.basicArrayList ref = ref (((Obj.magic 0) :> BasicArrayList.basicArrayList)) in ();
-            while (!frameIndex < howMuch) do
-                tempBasicArrayList := (Obj.magic !pointsBasicArrayList#objectArray.(!frameIndex));
-                pointBasicArrayList := (self#createListFromPoints (!tempBasicArrayList, points, howMuch, (Obj.magic type_)));
-                ignore (!pointsBasicArrayList#add (!pointBasicArrayList));
-                frameIndex := !frameIndex + 1
-            done;
-            if (not startFrame) then begin
-                ignore (!pointsBasicArrayList#removeAt (0))
-            end;
-            (Obj.magic (!pointsBasicArrayList))
-        with e -> begin
-            raise e
-        end)
-        end [@@warning "-20"]
+and jm_getInstance_3 = (this: VectorExplosionGenerator, points: Array<Array<Int32>>, howMuch: Int32, type_: VectorExplosionType) => {
+        let mut pointsBasicArrayList: BasicArrayList = JR.cast(jm_getInstanceStartFrame(this, points, howMuch, type_, true))
+        let mut tempBasicArrayList: BasicArrayList = JR.cast(pointsBasicArrayList.f_objectArray[Int32.toNumber(0l)])
+        let mut newPoints: Array<Array<Array<Int32>>> = VectorAnimationUtil.jm_toAnimationArrayFromListOfPointListWithPointsPerFrame(this.f_vectorAnimationUtil, pointsBasicArrayList, BasicArrayList.jm_size(tempBasicArrayList))
+        return newPoints
+}
     
-
-    method createListFromPoints : 'any1 'any4 'return. 'any1 * int array array * int * 'any4 -> 'return = fun (tempBasicArrayList, (points : int array array), (howMuch : int), type_) ->
-        let tempBasicArrayList = Obj.repr tempBasicArrayList in
-        let type_ = Obj.repr type_ in
-        begin
-        let index : int ref = ref (0) in ();
-        let pointBasicArrayList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList)) in ();
-        let sectionBasicArrayList : BasicArrayList.basicArrayList ref = ref (((Obj.magic 0) :> BasicArrayList.basicArrayList)) in ();
-        while (!index < (Array.length points)) do
-            sectionBasicArrayList := ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
-            while (points.(!index).(0) != 1000) do
-                ignore (!sectionBasicArrayList#add ((Obj.magic tempBasicArrayList)#objectArray.(!index)));
-                index := !index + 1;
-                if (!index >= (Array.length points)) then begin
-                    raise Java_break
-                end
-            done;
-            sectionBasicArrayList := (RandomTranslation.getInstance (!sectionBasicArrayList, howMuch));
-            if ((Obj.repr (Obj.magic type_)) == (Obj.repr rOTATION)) then begin
-                sectionBasicArrayList := (randomRotationFactory#getInstanceList (!sectionBasicArrayList, howMuch))
-            end;
-            let size : int ref = ref ((!sectionBasicArrayList#size ())) in ();
-            for index2 = 0 to !size - 1 do
-                ignore (!pointBasicArrayList#add (!sectionBasicArrayList#objectArray.(index2)))
-            done;
-            if (!index >= (Array.length points)) then begin
-                raise Java_break
-            end else if (points.(!index).(0) == 1000) then begin
-                ignore (!pointBasicArrayList#add ((Obj.magic tempBasicArrayList)#objectArray.(!index)));
-                index := !index + 1
-            end
-        done;
-        (Obj.magic (!pointBasicArrayList))
-        end [@@warning "-20"]
+and jm_getInstanceStartFrame = (this: VectorExplosionGenerator, points: Array<Array<Int32>>, howMuch: Int32, type_: VectorExplosionType, startFrame: Bool) => {
+        {
+            let mut pointsBasicArrayList: BasicArrayList = JR.cast(BasicArrayListS.jnew_1(howMuch))
+            ignore(BasicArrayList.jm_add(pointsBasicArrayList, JR.cast(jm_createPointsBasicArrayList(this, points))))
+            let mut frameIndex: Int32 = 0l
+            let mut tempBasicArrayList: BasicArrayList = JR.nullOf()
+            let mut pointBasicArrayList: BasicArrayList = JR.nullOf()
+            while (Int32.(<)(frameIndex, howMuch)) {
+                tempBasicArrayList = JR.cast(pointsBasicArrayList.f_objectArray[Int32.toNumber(frameIndex)])
+                pointBasicArrayList = jm_createListFromPoints(this, tempBasicArrayList, points, howMuch, type_)
+                ignore(BasicArrayList.jm_add(pointsBasicArrayList, JR.cast(pointBasicArrayList)))
+                frameIndex = Int32.(+)(frameIndex, 1l)
+            }
+            if (!startFrame) {
+                ignore(BasicArrayList.jm_removeAt(pointsBasicArrayList, 0l))
+            }
+            return pointsBasicArrayList
+        }
+    return JR.nullOf()
+}
     
+and jm_createListFromPoints = (this: VectorExplosionGenerator, tempBasicArrayList: BasicArrayList, points: Array<Array<Int32>>, howMuch: Int32, type_: VectorExplosionType) => {
+        let mut index: Int32 = 0l
+        let mut pointBasicArrayList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+        let mut sectionBasicArrayList: BasicArrayList = JR.nullOf()
+        while (Int32.(<)(index, Int32.fromNumber(Array.length(points)))) {
+            sectionBasicArrayList = JR.cast(BasicArrayListD.jnew_0())
+            while ((points[Int32.toNumber(index)][Int32.toNumber(0l)] != 1000l)) {
+                ignore(BasicArrayList.jm_add(sectionBasicArrayList, tempBasicArrayList.f_objectArray[Int32.toNumber(index)]))
+                index = Int32.(+)(index, 1l)
+                if (Int32.(>=)(index, Int32.fromNumber(Array.length(points)))) {
+                    break
+                }
+            }
+            sectionBasicArrayList = RandomTranslation.jm_getInstance(sectionBasicArrayList, howMuch)
+            if (JR.isSame(type_, this.f_ROTATION)) {
+                sectionBasicArrayList = RandomRotationFactory.jm_getInstanceList(this.f_randomRotationFactory, sectionBasicArrayList, howMuch)
+            }
+            let mut size: Int32 = BasicArrayList.jm_size(sectionBasicArrayList)
+            {
+                let mut index2: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index2 = Int32.(+)(index2, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index2, size))) break
+                ignore(BasicArrayList.jm_add(pointBasicArrayList, sectionBasicArrayList.f_objectArray[Int32.toNumber(index2)]))
+                }
+            }
+            if (Int32.(>=)(index, Int32.fromNumber(Array.length(points)))) {
+                break
+            } else if ((points[Int32.toNumber(index)][Int32.toNumber(0l)] == 1000l)) {
+                ignore(BasicArrayList.jm_add(pointBasicArrayList, tempBasicArrayList.f_objectArray[Int32.toNumber(index)]))
+                index = Int32.(+)(index, 1l)
+            }
+        }
+        return pointBasicArrayList
+}
+    
+and jm_createPointsBasicArrayList = (this: VectorExplosionGenerator, points: Array<Array<Int32>>) => {
+        if ((Int32.fromNumber(Array.length(points)) == 0l)) {
+            fail JR.toStringOf(JR.newJObject("Exception"))
+        }
+        let mut firstPointBasicArrayList: BasicArrayList = JR.cast(BasicArrayListS.jnew_1(Int32.fromNumber(Array.length(points))))
+        let mut pointFactory: PointFactory = JR.cast(PointFactory.jm_getInstance())
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, Int32.fromNumber(Array.length(points))))) break
+            ignore(BasicArrayList.jm_add(firstPointBasicArrayList, PointFactory.jm_createXY(pointFactory, points[Int32.toNumber(index)][Int32.toNumber(0l)], points[Int32.toNumber(index)][Int32.toNumber(1l)])))
+            }
+        }
+        return firstPointBasicArrayList
+}
 
-    method createPointsBasicArrayList : 'return. int array array -> 'return = fun ((points : int array array)) ->
-        begin
-        if ((Array.length points) = 0) then begin
-            raise (Failure ("Not Points Provided"))
-        end;
-        let firstPointBasicArrayList : BasicArrayList.basicArrayList ref = ref (((new BasicArrayListS.basicArrayListS ((Array.length points))) :> BasicArrayList.basicArrayList)) in ();
-        let pointFactory : PointFactory.pointFactory ref = ref (((PointFactory.getInstance ()) :> PointFactory.pointFactory)) in ();
-        for index = 0 to (Array.length points) - 1 do
-            ignore (!firstPointBasicArrayList#add ((!pointFactory#createXY (points.(index).(0), points.(index).(1)))))
-        done;
-        (Obj.magic (!firstPointBasicArrayList))
-        end
-
-    initializer
-      begin
-        rANDOM <- ((new VectorExplosionType.vectorExplosionType ()) :> VectorExplosionType.vectorExplosionType);
-        rOTATION <- ((new VectorExplosionType.vectorExplosionType ()) :> VectorExplosionType.vectorExplosionType);
-        vectorAnimationUtil <- ((VectorAnimationUtil.getInstance ()) :> VectorAnimationUtil.vectorAnimationUtil);
-        randomRotationFactory <- ((RandomRotationFactory.getInstance ()) :> RandomRotationFactory.randomRotationFactory);
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "VectorExplosionGenerator" (fun arguments -> Obj.repr (new vectorExplosionGenerator (Obj.obj arguments)))
-
-let instance = (new vectorExplosionGenerator ())
-let get_instance () = instance
-let () = java_register_static "VectorExplosionGenerator.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "VectorExplosionGenerator.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("VectorExplosionGenerator.jnew_0", jnew_0)
+JR.registerLateBound("VectorExplosionGenerator.jm_getInstance_0", jm_getInstance_0)
+JR.registerLateBound("VectorExplosionGenerator.jm_createList", jm_createList)
+JR.registerLateBound("VectorExplosionGenerator.jm_getInstance_3", jm_getInstance_3)
+JR.registerLateBound("VectorExplosionGenerator.jm_getInstanceStartFrame", jm_getInstanceStartFrame)
+JR.registerLateBound("VectorExplosionGenerator.jm_createListFromPoints", jm_createListFromPoints)
+JR.registerLateBound("VectorExplosionGenerator.jm_createPointsBasicArrayList", jm_createPointsBasicArrayList)
+JR.registerLateBound("VectorExplosionGenerator.f_RANDOM", (this: VectorExplosionGenerator) => this.f_RANDOM)
+JR.registerLateBound("VectorExplosionGenerator.f_ROTATION", (this: VectorExplosionGenerator) => this.f_ROTATION)
+JR.registerLateBound("VectorExplosionGenerator.f_vectorAnimationUtil", (this: VectorExplosionGenerator) => this.f_vectorAnimationUtil)
+JR.registerLateBound("VectorExplosionGenerator.f_randomRotationFactory", (this: VectorExplosionGenerator) => this.f_randomRotationFactory)
+JR.registerLateBound("VectorExplosionGenerator.jstatic_instance", jstatic_instance)
 
 

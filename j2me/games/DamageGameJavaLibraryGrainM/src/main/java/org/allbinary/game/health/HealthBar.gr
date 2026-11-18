@@ -1,73 +1,84 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.health
+module HealthBar
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.health *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/graphics/paint/Paintable.gr" include Paintable
+use Paintable.{ type Paintable }
+from "../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "./HealthListenerInterface.gr" include HealthListenerInterface
+use HealthListenerInterface.{ type HealthListenerInterface }
+from "./HealthBarAnimation.gr" include HealthBarAnimation
+use HealthBarAnimation.{ type HealthBarAnimation }
+from "./HealthInterface.gr" include HealthInterface
+use HealthInterface.{ type HealthInterface }
+from "./Health.gr" include Health
+use Health.{ type Health }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Graphics *)
-(* import org.allbinary.graphics.paint.Paintable *)
-(* import org.allbinary.layer.AllBinaryLayer *)
+provide record HealthBar {
+  jobject: JObject,
+  mut f_animationInterface: HealthBarAnimation,
+  mut f_healthInterface: HealthInterface,
+  mut f_allbinaryLayer: AllBinaryLayer,
+}
 
-class healthBar ((layerInterface : AllBinaryLayer.allBinaryLayer), (healthInterface_arg : Health.health), (animationInterface_arg : HealthBarAnimation.healthBarAnimation), (_direction : int)) =
-  object (self)
-    inherit Paintable.paintable ()
-    val mutable animationInterface : HealthBarAnimation.healthBarAnimation = (Obj.magic 0)
-    method animationInterface = animationInterface
-    method set_animationInterface value' = animationInterface <- value'
-    val mutable healthInterface : HealthInterface.healthInterface = (Obj.magic 0)
-    method healthInterface = healthInterface
-    method set_healthInterface value' = healthInterface <- value'
-    val mutable allbinaryLayer : AllBinaryLayer.allBinaryLayer = (Obj.magic 0)
-    method allbinaryLayer = allbinaryLayer
-    method set_allbinaryLayer value' = allbinaryLayer <- value'
+
+provide let rec jclassName = () => "HealthBar"
+    
+and jnew_4 = (layerInterface: AllBinaryLayer, healthInterface: Health, animationInterface: HealthBarAnimation, direction: Int32) => {
+    let this = { jobject: JR.newJObject("HealthBar"), f_animationInterface: JR.nullOf(), f_healthInterface: JR.nullOf(), f_allbinaryLayer: JR.nullOf(), }
     
     
-
-    method onHealthChange () : unit =
-        begin
-        ignore (animationInterface#onHealthChange ((((healthInterface#getHealth ()) * (allbinaryLayer#getWidth ())) / (healthInterface#getMaxHealth ()))))
-        end [@@warning "-7"]
     
-
-    method paint : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore (animationInterface#paintXY ((Obj.magic graphics), 0, 0))
-        end [@@warning "-7-20"]
+        this.f_allbinaryLayer = layerInterface
+        this.f_animationInterface = animationInterface
+        this.f_healthInterface = healthInterface
+        ignore(Health.jm_addListener(this.f_healthInterface, JR.cast(this)))
+        ignore(jm_onHealthChange(this))
+    this
+}
     
+and jm_onHealthChange = (this: HealthBar) => {
+        ignore(HealthBarAnimation.jm_onHealthChange(this.f_animationInterface, Int32.(/)(Int32.(*)(HealthInterface.jm_getHealth(this.f_healthInterface), AllBinaryLayer.jm_getWidth(this.f_allbinaryLayer)), HealthInterface.jm_getMaxHealth(this.f_healthInterface))))
+}
+    
+and jm_paint = (this: HealthBar, graphics: JObject) => {
+        ignore(HealthBarAnimation.jm_paintXY(this.f_animationInterface, graphics, 0l, 0l))
+}
+    
+and jm_paintThreed = (this: HealthBar, graphics: JObject) => {
+        ignore(HealthBarAnimation.jm_paintThreedXYZ(this.f_animationInterface, graphics, 0l, 0l, 0l))
+}
 
-    method paintThreed : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore (animationInterface#paintThreedXYZ ((Obj.magic graphics), 0, 0, 0))
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        ();
-        ();
-        ();
-        ();
-        allbinaryLayer <- layerInterface;
-        animationInterface <- animationInterface_arg;
-        healthInterface <- (healthInterface_arg :> HealthInterface.healthInterface);
-        ignore (healthInterface#addListener ((Obj.magic self)));
-        (self#onHealthChange ())
-      end
-  end
-let () = java_register_constructor "HealthBar" (fun arguments -> Obj.repr (new healthBar (Obj.obj arguments)))
+JR.registerLateBound("HealthBar.jnew_4", jnew_4)
+JR.registerLateBound("HealthBar.jm_onHealthChange", jm_onHealthChange)
+JR.registerLateBound("HealthBar.jm_paint", jm_paint)
+JR.registerLateBound("HealthBar.jm_paintThreed", jm_paintThreed)
+JR.registerLateBound("HealthBar.f_animationInterface", (this: HealthBar) => this.f_animationInterface)
+JR.registerLateBound("HealthBar.f_healthInterface", (this: HealthBar) => this.f_healthInterface)
+JR.registerLateBound("HealthBar.f_allbinaryLayer", (this: HealthBar) => this.f_allbinaryLayer)
 
 

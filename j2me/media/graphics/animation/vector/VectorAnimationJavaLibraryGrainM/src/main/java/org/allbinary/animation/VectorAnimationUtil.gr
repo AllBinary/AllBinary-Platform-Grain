@@ -1,98 +1,156 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.animation
+module VectorAnimationUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.animation *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/graphics/GPoint.gr" include GPoint
+use GPoint.{ type GPoint }
+from "../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.graphics.GPoint *)
-(* import org.allbinary.util.BasicArrayList *)
+provide record VectorAnimationUtil {
+  jobject: JObject,
+}
 
-class vectorAnimationUtil () =
-  object (self)
+let mut jcell_instance: Option<VectorAnimationUtil> = None
+
+provide let rec jclassName = () => "VectorAnimationUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: VectorAnimationUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method toAnimationArrayFromListOfPointListWithPointsPerFrame : 'any1. 'any1 * int -> int array array array = fun (vector, (pointsPerFrame : int)) ->
-        let vector = Obj.repr vector in
-        begin
-        let size : int ref = ref (((Obj.magic vector)#size ())) in ();
-        let points : int array array array ref = ref ((Array.init (!size) (fun _ -> Array.make_matrix (pointsPerFrame) (2) 0))) in ();
-        let nextBasicArrayList : BasicArrayList.basicArrayList ref = ref (((Obj.magic 0) :> BasicArrayList.basicArrayList)) in ();
-        let framePoints : int array array ref = ref ((Obj.magic 0)) in ();
-        for index = 0 to !size - 1 do
-            nextBasicArrayList := (Obj.magic (Obj.magic vector)#objectArray.(index));
-            framePoints := (self#toFrameArrayFromPointBasicArrayList (!nextBasicArrayList));
-            for pointIndex = 0 to (Array.length !framePoints) - 1 do
-                !points.(index).(pointIndex).(0) <- !framePoints.(pointIndex).(0);
-                !points.(index).(pointIndex).(1) <- !framePoints.(pointIndex).(1)
-            done
-        done;
-        !points
-        end [@@warning "-20"]
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("VectorAnimationUtil"), }
+        void
+    this
+}
     
-
-    method toAnimationArrayFromListOfPointList : 'any1. 'any1 -> int array array array = fun (vector) ->
-        let vector = Obj.repr vector in
-        begin
-        let size : int ref = ref (((Obj.magic vector)#size ())) in ();
-        let points : int array array array ref = ref ((Array.init (!size) (fun _ -> Array.make_matrix (0) (0) 0))) in ();
-        let nextBasicArrayList : BasicArrayList.basicArrayList ref = ref (((Obj.magic 0) :> BasicArrayList.basicArrayList)) in ();
-        let framePoints : int array array ref = ref ((Obj.magic 0)) in ();
-        for index = 0 to !size - 1 do
-            nextBasicArrayList := (Obj.magic (Obj.magic vector)#objectArray.(index));
-            framePoints := (self#toFrameArrayFromPointBasicArrayList (!nextBasicArrayList));
-            !points.(index) <- (Array.make_matrix ((Array.length !framePoints)) (2) 0);
-            for pointIndex = 0 to (Array.length !framePoints) - 1 do
-                !points.(index).(pointIndex).(0) <- !framePoints.(pointIndex).(0);
-                !points.(index).(pointIndex).(1) <- !framePoints.(pointIndex).(1)
-            done
-        done;
-        !points
-        end [@@warning "-20"]
+and jm_toAnimationArrayFromListOfPointListWithPointsPerFrame = (this: VectorAnimationUtil, vector: BasicArrayList, pointsPerFrame: Int32) => {
+        let mut size: Int32 = BasicArrayList.jm_size(vector)
+        let mut points: Array<Array<Array<Int32>>> = Array.init(Int32.toNumber(size), jindex1 => Array.init(Int32.toNumber(pointsPerFrame), jindex2 => Array.make(Int32.toNumber(2l), 0l)))
+        let mut nextBasicArrayList: BasicArrayList = JR.nullOf()
+        let mut framePoints: Array<Array<Int32>> = [> ]
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            nextBasicArrayList = JR.cast(vector.f_objectArray[Int32.toNumber(index)])
+            framePoints = jm_toFrameArrayFromPointBasicArrayList(this, nextBasicArrayList)
+            {
+                let mut pointIndex: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        pointIndex = Int32.(+)(pointIndex, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(pointIndex, Int32.fromNumber(Array.length(framePoints))))) break
+                points[Int32.toNumber(index)][Int32.toNumber(pointIndex)][Int32.toNumber(0l)] = framePoints[Int32.toNumber(pointIndex)][Int32.toNumber(0l)]
+                points[Int32.toNumber(index)][Int32.toNumber(pointIndex)][Int32.toNumber(1l)] = framePoints[Int32.toNumber(pointIndex)][Int32.toNumber(1l)]
+                }
+            }
+            }
+        }
+        return points
+}
     
+and jm_toAnimationArrayFromListOfPointList = (this: VectorAnimationUtil, vector: BasicArrayList) => {
+        let mut size: Int32 = BasicArrayList.jm_size(vector)
+        let mut points: Array<Array<Array<Int32>>> = Array.init(Int32.toNumber(size), jindex1 => Array.init(Int32.toNumber(0l), jindex2 => Array.make(Int32.toNumber(0l), 0l)))
+        let mut nextBasicArrayList: BasicArrayList = JR.nullOf()
+        let mut framePoints: Array<Array<Int32>> = [> ]
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            nextBasicArrayList = JR.cast(vector.f_objectArray[Int32.toNumber(index)])
+            framePoints = jm_toFrameArrayFromPointBasicArrayList(this, nextBasicArrayList)
+            points[Int32.toNumber(index)] = Array.init(Int32.toNumber(Int32.fromNumber(Array.length(framePoints))), jindex1 => Array.make(Int32.toNumber(2l), 0l))
+            {
+                let mut pointIndex: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        pointIndex = Int32.(+)(pointIndex, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(pointIndex, Int32.fromNumber(Array.length(framePoints))))) break
+                points[Int32.toNumber(index)][Int32.toNumber(pointIndex)][Int32.toNumber(0l)] = framePoints[Int32.toNumber(pointIndex)][Int32.toNumber(0l)]
+                points[Int32.toNumber(index)][Int32.toNumber(pointIndex)][Int32.toNumber(1l)] = framePoints[Int32.toNumber(pointIndex)][Int32.toNumber(1l)]
+                }
+            }
+            }
+        }
+        return points
+}
+    
+and jm_toFrameArrayFromPointBasicArrayList = (this: VectorAnimationUtil, list: BasicArrayList) => {
+        let mut points: Array<Array<Int32>> = Array.init(Int32.toNumber(BasicArrayList.jm_size(list)), jindex1 => Array.make(Int32.toNumber(2l), 0l))
+        let mut size: Int32 = BasicArrayList.jm_size(list)
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            let mut nextPoint: GPoint = JR.cast(list.f_objectArray[Int32.toNumber(index)])
+            points[Int32.toNumber(index)][Int32.toNumber(0l)] = GPoint.jm_getX(nextPoint)
+            points[Int32.toNumber(index)][Int32.toNumber(1l)] = GPoint.jm_getY(nextPoint)
+            }
+        }
+        return points
+}
 
-    method toFrameArrayFromPointBasicArrayList : 'any1. 'any1 -> int array array = fun (list) ->
-        let list = Obj.repr list in
-        begin
-        let points : int array array ref = ref ((Array.make_matrix (((Obj.magic list)#size ())) (2) 0)) in ();
-        let size : int ref = ref (((Obj.magic list)#size ())) in ();
-        for index = 0 to !size - 1 do
-            let nextPoint : GPoint.gPoint ref = ref (((Obj.magic (Obj.magic list)#objectArray.(index)) :> GPoint.gPoint)) in ();
-            !points.(index).(0) <- (!nextPoint#getX ());
-            !points.(index).(1) <- (!nextPoint#getY ())
-        done;
-        !points
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "VectorAnimationUtil" (fun arguments -> Obj.repr (new vectorAnimationUtil (Obj.obj arguments)))
-
-let instance = (new vectorAnimationUtil ())
-let get_instance () = instance
-let () = java_register_static "VectorAnimationUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "VectorAnimationUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("VectorAnimationUtil.jnew_0", jnew_0)
+JR.registerLateBound("VectorAnimationUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("VectorAnimationUtil.jm_toAnimationArrayFromListOfPointListWithPointsPerFrame", jm_toAnimationArrayFromListOfPointListWithPointsPerFrame)
+JR.registerLateBound("VectorAnimationUtil.jm_toAnimationArrayFromListOfPointList", jm_toAnimationArrayFromListOfPointList)
+JR.registerLateBound("VectorAnimationUtil.jm_toFrameArrayFromPointBasicArrayList", jm_toFrameArrayFromPointBasicArrayList)
+JR.registerLateBound("VectorAnimationUtil.jstatic_instance", jstatic_instance)
 
 

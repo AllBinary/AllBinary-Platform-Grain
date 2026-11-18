@@ -1,84 +1,112 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.system.security.crypt
+module DatabaseEncoder
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.system.security.crypt *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
+use NullUtil.{ type NullUtil }
+from "../../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../../../org/allbinary/logic/string/tokens/Tokenizer.gr" include Tokenizer
+use Tokenizer.{ type Tokenizer }
+from "../../../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
+use CommonSeps.{ type CommonSeps }
+from "../../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../../../java/lang/Byte.gr" include Byte
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.NullUtil *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.logic.string.tokens.Tokenizer *)
-(* import org.allbinary.string.CommonSeps *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
+provide record DatabaseEncoder {
+  jobject: JObject,
+}
 
 
-let encode ((value : int array)) : string =
-        begin
-        (try
-            let array : int array ref = ref (value) in ();
-            let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-            for index = 0 to (Array.length !array) - 1 do
-                ignore (!stringBuffer#append ((java_string_of (Obj.repr !array.(index)))));
-                if (index < ((Array.length !array) - 1)) then begin
-                    ignore (!stringBuffer#append ((CommonSeps.getInstance ())#sPACE))
-                end
-            done;
-            (java_string_of (Obj.repr !stringBuffer))
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore (Obj.magic (java_call_static "PreLogUtil.putOE" (Obj.repr (!commonStrings#eXCEPTION, "DatabaseEncoder", "decode", e))));
-            (StringUtil.getInstance ())#eMPTY_STRING
-        end)
-        end
-
-and decode ((value : string)) : int array =
-        begin
-        (try
-            let tokenizer : Tokenizer.tokenizer ref = ref (((new Tokenizer.tokenizer ((CommonSeps.getInstance ())#sPACE)) :> Tokenizer.tokenizer)) in ();
-            let vector : BasicArrayList.basicArrayList ref = ref (((!tokenizer#getTokensFromString (value, (new BasicArrayListD.basicArrayListD ()))) :> BasicArrayList.basicArrayList)) in ();
-            let size : int ref = ref ((!vector#size ())) in ();
-            let decode : int array ref = ref ((Array.make (!size) 0)) in ();
-            let byteOfData : string ref = ref ("") in ();
-            for index = 0 to !size - 1 do
-                byteOfData := (Obj.magic !vector#objectArray.(index));
-                !decode.(index) <- (int_of_string (!byteOfData))
-            done;
-            !decode
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore (Obj.magic (java_call_static "PreLogUtil.putSE" (Obj.repr (!commonStrings#eXCEPTION, "DatabaseEncoder", "decode", e))));
-            (NullUtil.getInstance ())#nULL_BYTE_ARRAY
-        end)
-        end
-
-let () = java_register_static "DatabaseEncoder.encode" (fun arguments -> Obj.repr (encode (Obj.obj arguments)))
-let () = java_register_static "DatabaseEncoder.decode" (fun arguments -> Obj.repr (decode (Obj.obj arguments)))
-class databaseEncoder () =
-  object
+provide let rec jclassName = () => "DatabaseEncoder"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("DatabaseEncoder"), }
+        void
+    this
+}
+    
+and jm_encode = (value: Array<Int32>) => {
+        {
+            let mut array: Array<Int32> = value
+            let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+            {
+                let mut index: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(+)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index, Int32.fromNumber(Array.length(array))))) break
+                ignore(StringMaker.jm_append(stringBuffer, Byte.jm_toString(array[Int32.toNumber(index)])))
+                if (Int32.(<)(index, Int32.(-)(Int32.fromNumber(Array.length(array)), 1l))) {
+                    ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
+                }
+                }
+            }
+            return StringMaker.jm_toString(stringBuffer)
+        }
+    return ""
+}
+    
+and jm_decode = (value: String) => {
+        {
+            let mut tokenizer: Tokenizer = Tokenizer.jnew_1(CommonSeps.jm_getInstance().f_SPACE)
+            let mut vector: BasicArrayList = JR.cast(Tokenizer.jm_getTokensFromString(tokenizer, value, JR.cast(BasicArrayListD.jnew_0())))
+            let mut size: Int32 = BasicArrayList.jm_size(vector)
+            let mut decode: Array<Int32> = Array.make(Int32.toNumber(size), 0l)
+            let mut byteOfData: String = ""
+            {
+                let mut index: Int32 = 0l
+                let mut jfirst = true
+                while (true) {
+                    if (!jfirst) {
+                        index = Int32.(+)(index, 1l)
+                    }
+                    jfirst = false
+                    if (!(Int32.(<)(index, size))) break
+                byteOfData = JR.cast(vector.f_objectArray[Int32.toNumber(index)])
+                decode[Int32.toNumber(index)] = JR.cast(Byte.jm_parseByte(byteOfData))
+                }
+            }
+            return decode
+        }
+    return [> ]
+}
 
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "DatabaseEncoder" (fun arguments -> Obj.repr (new databaseEncoder (Obj.obj arguments)))
+JR.registerLateBound("DatabaseEncoder.jnew_0", jnew_0)
+JR.registerLateBound("DatabaseEncoder.jm_encode", jm_encode)
+JR.registerLateBound("DatabaseEncoder.jm_decode", jm_decode)
 
 

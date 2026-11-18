@@ -1,103 +1,145 @@
-(*
- 
-  AllBinary Open License Version 1 
-  Copyright (c) 2026 AllBinary 
-   
-  By agreeing to this license you and any business entity you represent are 
-  legally bound to the AllBinary Open License Version 1 legal agreement. 
-   
-  You may obtain the AllBinary Open License Version 1 legal agreement from 
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-   
-  Created By: Travis Berthelot 
+/*
+ * 
+ * AllBinary Open License Version 1 
+ * Copyright (c) 2026 AllBinary 
+ *  
+ * By agreeing to this license you and any business entity you represent are 
+ * legally bound to the AllBinary Open License Version 1 legal agreement. 
+ *  
+ * You may obtain the AllBinary Open License Version 1 legal agreement from 
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+ *  
+ * Created By: Travis Berthelot 
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.java.runtime.process.git
+module GitProcessHelper
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../java/io/File.gr" include File
+use File.{ type File }
+from "../../../../../../java/io/IOException.gr" include IOException
+use IOException.{ type IOException }
+from "../../../../../../java/nio/charset/StandardCharsets.gr" include StandardCharsets
+use StandardCharsets.{ type StandardCharsets }
+from "../../../../../../java/util/ArrayList.gr" include ArrayList
+use ArrayList.{ type ArrayList }
+from "../../../../../../org/allbinary/logic/io/file/AbFileNativeUtil.gr" include AbFileNativeUtil
+use AbFileNativeUtil.{ type AbFileNativeUtil }
+from "../../../../../../org/allbinary/logic/io/file/directory/TrackedStrings.gr" include TrackedStrings
+use TrackedStrings.{ type TrackedStrings }
+from "../../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./ProcessBuilder.gr" include ProcessBuilder
+use ProcessBuilder.{ type ProcessBuilder }
+from "./Process.gr" include Process
+use Process.{ type Process }
+
+//Do not use this instead just skip target, build, Application paths.
+provide record GitProcessHelper {
+  jobject: JObject,
+  mut f_trackedStrings: TrackedStrings,
+}
+
+let mut jcell_instance: Option<GitProcessHelper> = None
+
+provide let rec jclassName = () => "GitProcessHelper"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: GitProcessHelper = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.java.runtime.process.git *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.File *)
-(* import java.io.IOException *)
-(* import java.nio.charset.StandardCharsets *)
-(* import java.util.ArrayList *)
-(* import java.util.List *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.io.file.AbFile *)
-(* import org.allbinary.logic.io.file.AbFileNativeUtil *)
-(* import org.allbinary.logic.io.file.directory.TrackedStrings *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.string.CommonStrings *)
-
-class gitProcessHelper () =
-  object (self)
-    val mutable trackedStrings : TrackedStrings.trackedStrings = (Obj.magic 0)
-    method trackedStrings = trackedStrings
-    method set_trackedStrings value' = trackedStrings <- value'
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("GitProcessHelper"), f_trackedStrings: JR.nullOf(), }
+    this.f_trackedStrings = JR.cast(TrackedStrings.jm_getInstance())
+        let mut logUtil: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
+        let mut l_THIS_IS_SLOW: String = "This is slow consider path exclusion instead"
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(logUtil), JR.cast(l_THIS_IS_SLOW), JR.cast(this), JR.cast(commonStrings.f_CONSTRUCTOR)))
+})
+    this
+}
     
-
-    (* Java overload trackedFiles(String, String) is not converted: OCaml has one method per name *)
+and jm_trackedFiles_2 = (this: GitProcessHelper, rootAsString: String, pathspec: String) => {
+        return jm_trackedFiles_3(this, rootAsString, pathspec, ".java")
+}
     
-
-    method trackedFiles : 'return. string * string * string -> 'return = fun ((rootAsString : string), (pathspec : string), (suffix : string)) ->
-        begin
-        let process : Obj.t ref = ref ((Obj.repr (((new ProcessBuilder.processBuilder (trackedStrings#gIT_COMMAND, trackedStrings#cHANGE_DIRECTORY_OPTION, rootAsString, trackedStrings#lIST_FILES_COMMAND, trackedStrings#sEP_BY_NULL_CHAR_INSTEAD_OF_NEW_LINE, trackedStrings#pATHSPEC_SEPARATOR, pathspec))#redirectError ((ProcessBuilder.get_redirect ())#iNHERIT))#start ()))) in ();
-        let output : int array ref = ref ((((Obj.magic !process)#getInputStream ())#readAllBytes ())) in ();
-        let exitCode : int ref = ref (((Obj.magic !process)#waitFor ())) in ();
-        if (!exitCode <> 0) then begin
-            raise (Failure ((java_string_of (Obj.repr (((((new StringMaker.stringMaker ())#append ("git ls-files failed for "))#append (rootAsString))#append (" with exit code "))#appendint (!exitCode))))))
-        end;
-        let files : Obj.t ref = ref ((Obj.repr (new java_vector ()))) in ();
-        let start : int ref = ref (0) in ();
-        let relativePath : string ref = ref ("") in ();
-        for index = 0 to (Array.length !output) - 1 do
-            if (!output.(index) = 0) then begin
-                relativePath := (Obj.obj (java_new "String" (Obj.repr (!output, !start, (index - !start), (StandardCharsets.get_uTF_8 ())))));
-                if (String.ends_with ~suffix:(suffix) !relativePath) then begin
-                    ignore ((Obj.magic !files)#add (!relativePath))
-                end;
-                start := (index + 1)
-            end
-        done;
-        (Obj.magic ((Obj.magic !files)))
-        end
+and jm_trackedFiles_3 = (this: GitProcessHelper, rootAsString: String, pathspec: String, suffix: String) => {
+        let mut process: Process = JR.cast(JR.className(JR.cast(ProcessBuilder.jm_redirectError(ProcessBuilder.jnew_7(this.f_trackedStrings.f_GIT_COMMAND, this.f_trackedStrings.f_CHANGE_DIRECTORY_OPTION, rootAsString, this.f_trackedStrings.f_LIST_FILES_COMMAND, this.f_trackedStrings.f_SEP_BY_NULL_CHAR_INSTEAD_OF_NEW_LINE, this.f_trackedStrings.f_PATHSPEC_SEPARATOR, pathspec), ProcessBuilder.jstatic_Redirect().f_INHERIT))))
+        let mut output: Array<Int32> = JR.className(JR.cast(Process.jm_getInputStream(process)))
+        let mut exitCode: Int32 = Process.jm_waitFor(process)
+        if ((exitCode != 0l)) {
+            fail JR.toStringOf(JR.newJObject("IllegalStateException"))
+        }
+        let mut files: JObject = JR.cast(ArrayList.jnew_0())
+        let mut start: Int32 = 0l
+        let mut relativePath: String = ""
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, Int32.fromNumber(Array.length(output))))) break
+            if ((output[Int32.toNumber(index)] == 0l)) {
+                relativePath = JR.fromChars(output, start, Int32.(-)(index, start), StandardCharsets.jstatic_UTF_8())
+                if (JR.endsWith(relativePath, suffix)) {
+                    ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("List.jm_add"))
+JR.cast(jlate(JR.cast(files), JR.cast(relativePath)))
+})
+                }
+                start = Int32.(+)(index, 1l)
+            }
+            }
+        }
+        return files
+}
     
+and jm_isTracked = (this: GitProcessHelper, file: JObject) => {
+        {
+            let mut nativeFile: File = JR.cast(AbFileNativeUtil.jm_get(file))
+            let mut parentFile: File = JR.cast(File.jm_getParentFile_0(nativeFile))
+            let mut process: Process = JR.cast(JR.className(JR.cast(ProcessBuilder.jm_redirectErrorStream(ProcessBuilder.jnew_7(this.f_trackedStrings.f_GIT_COMMAND, this.f_trackedStrings.f_CHANGE_DIRECTORY_OPTION, File.jm_getPath_0(parentFile), this.f_trackedStrings.f_LIST_FILES_COMMAND, this.f_trackedStrings.f_ERROR_UNMATCH_OPTION, this.f_trackedStrings.f_PATHSPEC_SEPARATOR, File.jm_getName_0(nativeFile)), true))))
+            ignore(JR.className(JR.cast(Process.jm_getInputStream(process))))
+            return (Process.jm_waitFor(process) == 0l)
+        }
+    return false
+}
 
-    method isTracked : 'any1. 'any1 -> bool = fun (file) ->
-        let file = Obj.repr file in
-        begin
-        (try
-            let nativeFile : java_file ref = ref (((AbFileNativeUtil.get ((Obj.magic file))) :> java_file)) in ();
-            let parentFile : java_file ref = ref (((!nativeFile#getParentFile ()) :> java_file)) in ();
-            let process : Obj.t ref = ref ((Obj.repr (((new ProcessBuilder.processBuilder (trackedStrings#gIT_COMMAND, trackedStrings#cHANGE_DIRECTORY_OPTION, (!parentFile#getPath ()), trackedStrings#lIST_FILES_COMMAND, trackedStrings#eRROR_UNMATCH_OPTION, trackedStrings#pATHSPEC_SEPARATOR, (!nativeFile#getName ())))#redirectErrorStream (true))#start ()))) in ();
-            ignore (((Obj.magic !process)#getInputStream ())#readAllBytes ());
-            (((Obj.magic !process)#waitFor ()) == 0)
-        with e -> begin
-            false
-        end)
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        trackedStrings <- ((TrackedStrings.getInstance ()) :> TrackedStrings.trackedStrings);
-        ();
-        let logUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
-        let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        let tHIS_IS_SLOW : string ref = ref ("This is slow consider path exclusion instead") in ();
-        ignore ((Obj.magic !logUtil)#putF (!tHIS_IS_SLOW, (Obj.magic self), !commonStrings#cONSTRUCTOR))
-      end
-  end
-let () = java_register_constructor "GitProcessHelper" (fun arguments -> Obj.repr (new gitProcessHelper (Obj.obj arguments)))
-
-let instance = (new gitProcessHelper ())
-let get_instance () = instance
-let () = java_register_static "GitProcessHelper.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "GitProcessHelper.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("GitProcessHelper.jnew_0", jnew_0)
+JR.registerLateBound("GitProcessHelper.jm_getInstance", jm_getInstance)
+JR.registerLateBound("GitProcessHelper.jm_trackedFiles_2", jm_trackedFiles_2)
+JR.registerLateBound("GitProcessHelper.jm_trackedFiles_3", jm_trackedFiles_3)
+JR.registerLateBound("GitProcessHelper.jm_isTracked", jm_isTracked)
+JR.registerLateBound("GitProcessHelper.f_trackedStrings", (this: GitProcessHelper) => this.f_trackedStrings)
+JR.registerLateBound("GitProcessHelper.jstatic_instance", jstatic_instance)
 
 

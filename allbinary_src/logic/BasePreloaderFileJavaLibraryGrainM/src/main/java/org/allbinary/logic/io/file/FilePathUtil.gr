@@ -1,52 +1,68 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.io.file
+module FilePathUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.io.file *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/logic/string/StringValidationUtil.gr" include StringValidationUtil
+use StringValidationUtil.{ type StringValidationUtil }
+from "./FilePathData.gr" include FilePathData
+use FilePathData.{ type FilePathData }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.io.path.AbPathData *)
-(* import org.allbinary.logic.string.StringValidationUtil *)
+//Used to correct user input for paths
+provide record FilePathUtil {
+  jobject: JObject,
+}
 
 
-let adjust ((path : string)) : string =
-        let path = ref path in
-        try
-        begin
-        let abPathData : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "AbPathData.getInstance" (Obj.repr ()))))) in ();
-        let stringValidationUtil : StringValidationUtil.stringValidationUtil ref = ref (((StringValidationUtil.getInstance ()) :> StringValidationUtil.stringValidationUtil)) in ();
-        let filePathData : FilePathData.filePathData ref = ref (((FilePathData.getInstance ()) :> FilePathData.filePathData)) in ();
-        if (!stringValidationUtil#isEmpty (!path)) then begin
-            raise (Java_return (Obj.repr (!filePathData#pATH_START)))
-        end;
-        path := (java_string_replace !path (Obj.repr ((Obj.magic !abPathData)#sEPARATORCHAR)) (Obj.repr (!filePathData#sEPARATORCHAR)));
-        !path
-        end
-        with Java_return value -> Obj.obj value
-
-let () = java_register_static "FilePathUtil.adjust" (fun arguments -> Obj.repr (adjust (Obj.obj arguments)))
-class filePathUtil () =
-  object
+provide let rec jclassName = () => "FilePathUtil"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("FilePathUtil"), }
+        void
+    this
+}
+    
+and jm_adjust = (path: String) => {
+    let mut path = path
+        let mut abPathData: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("AbPathData.jm_getInstance"))
+JR.cast(jlate())
+})
+        let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
+        let mut filePathData: FilePathData = JR.cast(FilePathData.jm_getInstance())
+        if (StringValidationUtil.jm_isEmpty(stringValidationUtil, path)) {
+            return filePathData.f_PATH_START
+        }
+        path = JR.replace(path, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATORCHAR"))
+JR.cast(jlate(JR.cast(abPathData)))
+}, filePathData.f_SEPARATORCHAR)
+        return path
+}
 
-    initializer
-      begin
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "FilePathUtil" (fun arguments -> Obj.repr (new filePathUtil (Obj.obj arguments)))
+JR.registerLateBound("FilePathUtil.jnew_0", jnew_0)
+JR.registerLateBound("FilePathUtil.jm_adjust", jm_adjust)
 
 

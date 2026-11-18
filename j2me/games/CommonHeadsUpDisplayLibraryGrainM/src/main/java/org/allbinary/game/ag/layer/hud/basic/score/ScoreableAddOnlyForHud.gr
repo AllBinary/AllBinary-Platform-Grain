@@ -1,60 +1,70 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.layer.hud.basic.score
+module ScoreableAddOnlyForHud
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.layer.hud.basic.score *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../../../org/allbinary/game/score/Scoreable.gr" include Scoreable
+use Scoreable.{ type Scoreable }
+from "./ScoreHudWidget.gr" include ScoreHudWidget
+use ScoreHudWidget.{ type ScoreHudWidget }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.score.Scoreable *)
+provide record ScoreableAddOnlyForHud {
+  jobject: JObject,
+  mut f_points: Int32,
+  mut f_scoreHudWidget: ScoreHudWidget,
+}
 
-class scoreableAddOnlyForHud ((scoreVectorGraphic : ScoreHudWidget.scoreHudWidget)) =
-  object (self)
-    inherit Scoreable.scoreable (0) as super
-    val mutable scoreHudWidget : ScoreHudWidget.scoreHudWidget = (Obj.magic 0)
-    method scoreHudWidget = scoreHudWidget
-    method set_scoreHudWidget value' = scoreHudWidget <- value'
+
+provide let rec jclassName = () => "ScoreableAddOnlyForHud"
     
+and jnew_1 = (scoreVectorGraphic: ScoreHudWidget) => {
+    let this = { jobject: JR.newJObject("ScoreableAddOnlyForHud"), f_points: 0l, f_scoreHudWidget: JR.nullOf(), }
     
-
-    method removePoints ((_points : int)) : unit =
-        begin
-        ()
-        end [@@warning "-7"]
+        void
+        this.f_scoreHudWidget = scoreVectorGraphic
+        ignore(ScoreHudWidget.jm_set(jm_getScoreHudWidget(this), 0l))
+    this
+}
     
-
-    method addPoints ((points : int)) : unit =
-        begin
-        ignore (super#addPoints (points));
-        ignore ((self#getScoreHudWidget ())#add (points))
-        end [@@warning "-7"]
+and jm_removePoints = (this: ScoreableAddOnlyForHud, points: Int32) => {
+    void
+}
     
+and jm_addPoints = (this: ScoreableAddOnlyForHud, points: Int32) => {
+        ignore(jm_addPoints(this, points))
+        ignore(ScoreHudWidget.jm_add(jm_getScoreHudWidget(this), points))
+}
+    
+and jm_getScoreHudWidget = (this: ScoreableAddOnlyForHud) => {
+        return this.f_scoreHudWidget
+}
 
-    method getScoreHudWidget : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (scoreHudWidget))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        ();
-        (* super(...) is the inherit clause *) ();
-        scoreHudWidget <- scoreVectorGraphic;
-        ignore ((self#getScoreHudWidget ())#set (0))
-      end
-  end
-let () = java_register_constructor "ScoreableAddOnlyForHud" (fun arguments -> Obj.repr (new scoreableAddOnlyForHud (Obj.obj arguments)))
+JR.registerLateBound("ScoreableAddOnlyForHud.jnew_1", jnew_1)
+JR.registerLateBound("ScoreableAddOnlyForHud.jm_removePoints", jm_removePoints)
+JR.registerLateBound("ScoreableAddOnlyForHud.jm_addPoints", jm_addPoints)
+JR.registerLateBound("ScoreableAddOnlyForHud.jm_getScoreHudWidget", jm_getScoreHudWidget)
+JR.registerLateBound("ScoreableAddOnlyForHud.f_scoreHudWidget", (this: ScoreableAddOnlyForHud) => this.f_scoreHudWidget)
 
 

@@ -1,109 +1,134 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.draw
+module DrawStringUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.draw *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/graphics/Anchor.gr" include Anchor
+use Anchor.{ type Anchor }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Font *)
-(* import javax.microedition.lcdui.Graphics *)
-(* import org.allbinary.AndroidUtil *)
-(* import org.allbinary.J2MEUtil *)
-(* import org.allbinary.graphics.Anchor *)
-(* import org.allbinary.graphics.opengles.OpenGLFeatureUtil *)
-(* import org.allbinary.logic.NullUtil *)
-(* import org.allbinary.logic.communication.log.PreLogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
+provide record DrawStringUtil {
+  jobject: JObject,
+  mut f_EMPTY_STRING: String,
+  mut f_anchor: Int32,
+}
 
-class drawStringUtil () =
-  object (self)
-    val mutable eMPTY_STRING : string = ""
-    method eMPTY_STRING = eMPTY_STRING
-    method set_eMPTY_STRING value' = eMPTY_STRING <- value'
-    val mutable anchor : int = 0
-    method anchor = anchor
-    method set_anchor value' = anchor <- value'
+let mut jcell_instance: Option<DrawStringUtil> = None
+
+provide let rec jclassName = () => "DrawStringUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: DrawStringUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("DrawStringUtil"), f_EMPTY_STRING: "", f_anchor: 0l, }
+    this.f_EMPTY_STRING = StringUtil.jm_getInstance().f_EMPTY_STRING
+    this.f_anchor = Anchor.jstatic_TOP_LEFT()
+    this
+}
     
-
-    method drawCenterString : 'any1. 'any1 * string * int * int * int * int -> unit = fun (graphics, (string : string), (offset : int), (length : int), (x : int), (y : int)) ->
-        let graphics = Obj.repr graphics in
-        begin
-        let width : int ref = ref ((((((Obj.magic graphics)#getFont ())#substringWidth (string, offset, length)) asr 1))) in ();
-        (try
-            ignore ((Obj.magic graphics)#drawSubstring (string, offset, length, (x - !width), y, anchor))
-        with e -> begin
-            ignore (Obj.magic (java_call_static "PreLogUtil.put" (Obj.repr ((java_string_of (Obj.repr (((((((new StringMaker.stringMaker ())#append ("Exception: stringLength: "))#appendint ((String.length string)))#append (" offset: "))#appendint (offset))#append (" currentLength: "))#appendint (length)))), (Obj.magic self), "drawCenterString"))))
-        end)
-        end [@@warning "-20"]
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jm_drawCenterString = (this: DrawStringUtil, graphics: JObject, string: String, offset: Int32, length: Int32, x: Int32, y: Int32) => {
+        let mut width: Int32 = (Int32.(>>)(JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_getFont"))
+JR.cast(jlate(JR.cast(graphics)))
+})), 1l))
+        {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawSubstring"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(string), JR.cast(offset), JR.cast(length), JR.cast(Int32.(-)(x, width)), JR.cast(y), JR.cast(this.f_anchor)))
+})
+        }
+}
+    
+and jm_drawCenterStrings = (this: DrawStringUtil, graphics: JObject, stringArray: Array<String>, maxWidth: Int32, charHeight: Int32, x: Int32, y: Int32) => {
+        let mut extraLines: Int32 = 0l
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, Int32.fromNumber(Array.length(stringArray))))) break
+            let mut string: String = stringArray[Int32.toNumber(index)]
+            if ((string != this.f_EMPTY_STRING)) {
+                let mut width: Int32 = JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_getFont"))
+JR.cast(jlate(JR.cast(graphics)))
+}))
+                let mut minTotalLines: Int32 = 1l
+                if (Int32.(>)(width, maxWidth)) {
+                    minTotalLines = Int32.(+)((Int32.(/)(width, maxWidth)), 1l)
+                }
+                let mut linePortion: Int32 = Int32.(/)(JR.length(string), minTotalLines)
+                let mut offset: Int32 = 0l
+                let mut currentLength: Int32 = linePortion
+                let mut size: Int32 = JR.length(string)
+                while (Int32.(<)(offset, size)) {
+                    if (Int32.(>)(Int32.(+)(offset, currentLength), size)) {
+                        currentLength = Int32.(-)(size, offset)
+                    }
+                    if ((Int32.(+)(offset, currentLength) != size)) {
+                        while ((Int32.(>)(currentLength, 0l) && (JR.className(JR.cast(stringArray[Int32.toNumber(index)])) != Int32.fromNumber(Char.code(' '))))) {
+                            currentLength = Int32.(-)(currentLength, 1l)
+                        }
+                        if (Int32.(<=)(currentLength, 4l)) {
+                            currentLength = linePortion
+                        }
+                    }
+                    ignore(jm_drawCenterString(this, graphics, string, offset, currentLength, x, Int32.(+)(y, (Int32.(*)((Int32.(+)(index, { let jold = extraLines; extraLines = Int32.(+)(jold, 1l); jold })), charHeight)))))
+                    offset = Int32.(+)(offset, currentLength)
+                    currentLength = linePortion
+                }
+                extraLines = Int32.(-)(extraLines, 1l)
+            }
+            }
+        }
+}
 
-    method drawCenterStrings : 'any1. 'any1 * string array * int * int * int * int -> unit = fun (graphics, (stringArray : string array), (maxWidth : int), (charHeight : int), (x : int), (y : int)) ->
-        let graphics = Obj.repr graphics in
-        begin
-        let extraLines : int ref = ref (0) in ();
-        for index = 0 to (Array.length stringArray) - 1 do
-            let string : string ref = ref (stringArray.(index)) in ();
-            if (!string <> eMPTY_STRING) then begin
-                let width : int ref = ref ((((Obj.magic graphics)#getFont ())#stringWidth (!string))) in ();
-                let minTotalLines : int ref = ref (1) in ();
-                if (!width > maxWidth) then begin
-                    minTotalLines := (((!width / maxWidth)) + 1)
-                end;
-                let linePortion : int ref = ref (((String.length !string) / !minTotalLines)) in ();
-                let offset : int ref = ref (0) in ();
-                let currentLength : int ref = ref (!linePortion) in ();
-                let size : int ref = ref ((String.length !string)) in ();
-                while (!offset < !size) do
-                    if ((!offset + !currentLength) > !size) then begin
-                        currentLength := (!size - !offset)
-                    end;
-                    if ((!offset + !currentLength) <> !size) then begin
-                        while ((!currentLength > 0) && ((String.get stringArray.(index) ((!offset + !currentLength))) != ' ')) do
-                            currentLength := !currentLength - 1
-                        done;
-                        if (!currentLength <= 4) then begin
-                            currentLength := !linePortion
-                        end
-                    end;
-                    (self#drawCenterString ((Obj.magic graphics), !string, !offset, !currentLength, x, (y + ((((index + (let value = !extraLines in extraLines := !extraLines + 1; value))) * charHeight)))));
-                    offset := (!offset + !currentLength);
-                    currentLength := !linePortion
-                done;
-                extraLines := !extraLines - 1
-            end
-        done
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        eMPTY_STRING <- (StringUtil.getInstance ())#eMPTY_STRING;
-        anchor <- (Anchor.get_tOP_LEFT ());
-        ()
-      end
-  end
-let () = java_register_constructor "DrawStringUtil" (fun arguments -> Obj.repr (new drawStringUtil (Obj.obj arguments)))
-
-let instance = (new drawStringUtil ())
-let get_instance () = instance
-let () = java_register_static "DrawStringUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "DrawStringUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("DrawStringUtil.jnew_0", jnew_0)
+JR.registerLateBound("DrawStringUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("DrawStringUtil.jm_drawCenterString", jm_drawCenterString)
+JR.registerLateBound("DrawStringUtil.jm_drawCenterStrings", jm_drawCenterStrings)
+JR.registerLateBound("DrawStringUtil.f_EMPTY_STRING", (this: DrawStringUtil) => this.f_EMPTY_STRING)
+JR.registerLateBound("DrawStringUtil.f_anchor", (this: DrawStringUtil) => this.f_anchor)
+JR.registerLateBound("DrawStringUtil.set_f_anchor", (this: DrawStringUtil, jvalue) => { this.f_anchor = jvalue; jvalue })
+JR.registerLateBound("DrawStringUtil.jstatic_instance", jstatic_instance)
 
 

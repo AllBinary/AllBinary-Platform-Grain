@@ -1,71 +1,92 @@
-(*
- 
-  AllBinary Open License Version 1 
-  Copyright (c) 2011 AllBinary 
-   
-  By agreeing to this license you and any business entity you represent are 
-  legally bound to the AllBinary Open License Version 1 legal agreement. 
-   
-  You may obtain the AllBinary Open License Version 1 legal agreement from 
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-   
-  Created By: Travis Berthelot 
+/*
+ * 
+ * AllBinary Open License Version 1 
+ * Copyright (c) 2011 AllBinary 
+ *  
+ * By agreeing to this license you and any business entity you represent are 
+ * legally bound to the AllBinary Open License Version 1 legal agreement. 
+ *  
+ * You may obtain the AllBinary Open License Version 1 legal agreement from 
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+ *  
+ * Created By: Travis Berthelot 
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.animation
+module RotationAnimationFactory
+
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../org/allbinary/game/configuration/GameConfigurationCentral.gr" include GameConfigurationCentral
+use GameConfigurationCentral.{ type GameConfigurationCentral }
+from "../../../org/allbinary/math/AngleFactory.gr" include AngleFactory
+use AngleFactory.{ type AngleFactory }
+from "../../../org/allbinary/math/AngleInfo.gr" include AngleInfo
+use AngleInfo.{ type AngleInfo }
+from "../../../org/allbinary/media/ScaleProperties.gr" include ScaleProperties
+use ScaleProperties.{ type ScaleProperties }
+from "./AnimationInterfaceFactoryInterface.gr" include AnimationInterfaceFactoryInterface
+use AnimationInterfaceFactoryInterface.{ type AnimationInterfaceFactoryInterface }
+from "./ProceduralAnimationInterfaceFactoryInterface.gr" include ProceduralAnimationInterfaceFactoryInterface
+use ProceduralAnimationInterfaceFactoryInterface.{ type ProceduralAnimationInterfaceFactoryInterface }
+from "./NullRotationAnimation.gr" include NullRotationAnimation
+use NullRotationAnimation.{ type NullRotationAnimation }
+from "./AnimationBehavior.gr" include AnimationBehavior
+use AnimationBehavior.{ type AnimationBehavior }
+from "./Animation.gr" include Animation
+use Animation.{ type Animation }
+
+provide record RotationAnimationFactory {
+  jobject: JObject,
+  mut f_totalAngle: Int32,
+  mut f_angleIncrement: Int32,
+}
+
+
+provide let rec jclassName = () => "RotationAnimationFactory"
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.animation *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.configuration.GameConfigurationCentral *)
-(* import org.allbinary.math.AngleFactory *)
-(* import org.allbinary.math.AngleInfo *)
-(* import org.allbinary.media.ScaleProperties *)
-
-class rotationAnimationFactory ((totalAngle_arg : int), (angleIncrement_arg : int)) =
-  object
-    val mutable totalAngle : int = 0
-    method totalAngle = totalAngle
-    method set_totalAngle value' = totalAngle <- value'
-    val mutable angleIncrement : int = 0
-    method angleIncrement = angleIncrement
-    method set_angleIncrement value' = angleIncrement <- value'
+and jm_createFactory = () => {
+        let mut totalAngle: Int32 = AngleFactory.jm_getInstance().f_TOTAL_ANGLE
+        return jnew_2(totalAngle, JR.i16((Int32.(/)(totalAngle, GameConfigurationCentral.jm_getGameControlFidelity(GameConfigurationCentral.jm_getInstance())))))
+}
+    
+and jnew_2 = (totalAngle: Int32, angleIncrement: Int32) => {
+    let this = { jobject: JR.newJObject("RotationAnimationFactory"), f_totalAngle: 0l, f_angleIncrement: 0l, }
     
     
-
-    method getInstance : 'return. int -> 'return = fun ((_instanceId : int)) ->
-        begin
-        (Obj.magic ((NullRotationAnimation.createTotalAngle ((AngleInfo.getInstance (angleIncrement)), totalAngle, (AnimationBehavior.getInstance ())))))
-        end
+        this.f_totalAngle = totalAngle
+        this.f_angleIncrement = angleIncrement
+    this
+}
     
-
-    method getInstanceAnimation : 'any1 'return. 'any1 -> 'return = fun (_animationInterface) ->
-        begin
-        (Obj.magic ((NullRotationAnimation.createTotalAngle ((AngleInfo.getInstance (angleIncrement)), totalAngle, (AnimationBehavior.getInstance ())))))
-        end [@@warning "-20"]
+and jm_getInstance = (this: RotationAnimationFactory, instanceId: Int32) => {
+        return NullRotationAnimation.jm_createTotalAngle(AngleInfo.jm_getInstance(this.f_angleIncrement), this.f_totalAngle, AnimationBehavior.jm_getInstance())
+}
     
+and jm_getInstanceAnimation = (this: RotationAnimationFactory, animationInterface: Animation) => {
+        return NullRotationAnimation.jm_createTotalAngle(AngleInfo.jm_getInstance(this.f_angleIncrement), this.f_totalAngle, AnimationBehavior.jm_getInstance())
+}
+    
+and jm_setInitialScale = (this: RotationAnimationFactory, scaleProperties: ScaleProperties) => {
+    void
+}
 
-    method setInitialScale : 'any1. 'any1 -> unit = fun (_scaleProperties) ->
-        begin
-        ()
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        ();
-        ();
-        ();
-        totalAngle <- totalAngle_arg;
-        angleIncrement <- angleIncrement_arg
-      end
-  end
-let () = java_register_constructor "RotationAnimationFactory" (fun arguments -> Obj.repr (new rotationAnimationFactory (Obj.obj arguments)))
-
-let createFactory : 'return. unit -> 'return = fun () ->
-        begin
-        let totalAngle_arg : int ref = ref ((AngleFactory.getInstance ())#tOTAL_ANGLE) in ();
-        (Obj.magic ((new rotationAnimationFactory (!totalAngle_arg, (java_to_int (Obj.repr (((!totalAngle_arg / ((GameConfigurationCentral.getInstance ())#getGameControlFidelity ()))))))))))
-        end
-let () = java_register_static "RotationAnimationFactory.createFactory" (fun arguments -> Obj.repr (createFactory (Obj.obj arguments)))
+JR.registerLateBound("RotationAnimationFactory.jnew_2", jnew_2)
+JR.registerLateBound("RotationAnimationFactory.jm_createFactory", jm_createFactory)
+JR.registerLateBound("RotationAnimationFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("RotationAnimationFactory.jm_getInstanceAnimation", jm_getInstanceAnimation)
+JR.registerLateBound("RotationAnimationFactory.jm_setInitialScale", jm_setInitialScale)
+JR.registerLateBound("RotationAnimationFactory.f_totalAngle", (this: RotationAnimationFactory) => this.f_totalAngle)
+JR.registerLateBound("RotationAnimationFactory.set_f_totalAngle", (this: RotationAnimationFactory, jvalue) => { this.f_totalAngle = jvalue; jvalue })
+JR.registerLateBound("RotationAnimationFactory.f_angleIncrement", (this: RotationAnimationFactory) => this.f_angleIncrement)
+JR.registerLateBound("RotationAnimationFactory.set_f_angleIncrement", (this: RotationAnimationFactory, jvalue) => { this.f_angleIncrement = jvalue; jvalue })
 
 

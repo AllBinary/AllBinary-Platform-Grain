@@ -1,56 +1,64 @@
-(*
- 
-  AllBinary Open License Version 1 
-  Copyright (c) 2022 AllBinary 
-  
-  By agreeing to this license you and any business entity you represent are 
-  legally bound to the AllBinary Open License Version 1 legal agreement. 
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from 
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
-  
-  Created By: Travis Berthelot 
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.displayable *)
+/*
+ * 
+ * AllBinary Open License Version 1 
+ * Copyright (c) 2022 AllBinary 
+ * 
+ * By agreeing to this license you and any business entity you represent are 
+ * legally bound to the AllBinary Open License Version 1 legal agreement. 
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from 
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository. 
+ * 
+ * Created By: Travis Berthelot 
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.displayable
+module RepaintRunnable
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Canvas *)
-(* import org.allbinary.graphics.displayable.DisplayInfoSingleton *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.allbinary.thread.ARunnable *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/graphics/displayable/DisplayInfoSingleton.gr" include DisplayInfoSingleton
+use DisplayInfoSingleton.{ type DisplayInfoSingleton }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../org/allbinary/thread/ARunnable.gr" include ARunnable
+use ARunnable.{ type ARunnable }
 
-class repaintRunnable (canvas_arg) =
-  object (self)
-    inherit ARunnable.aRunnable ()
-    val mutable canvas : Obj.t = Obj.repr 0
-    method canvas : 'r. 'r = Obj.magic canvas
-    method set_canvas : 'v. 'v -> unit = fun value' -> canvas <- Obj.repr value'
+provide record RepaintRunnable {
+  jobject: JObject,
+  mut f_canvas: JObject,
+}
+
+
+provide let rec jclassName = () => "RepaintRunnable"
     
+and jnew_1 = (canvas: JObject) => {
+    let this = { jobject: JR.newJObject("RepaintRunnable"), f_canvas: JR.jnull, }
     
+        this.f_canvas = canvas
+    this
+}
+    
+and jm_run = (this: RepaintRunnable) => {
+        {
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Canvas.jm_repaint"))
+JR.cast(jlate(JR.cast(this.f_canvas)))
+})
+            ignore(DisplayInfoSingleton.jm_process(DisplayInfoSingleton.jm_getInstance()))
+        }
+}
 
-    method run () : unit =
-        begin
-        (try
-            ignore ((Obj.magic canvas)#repaint ());
-            ignore ((DisplayInfoSingleton.getInstance ())#process ())
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            let logUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))))) in ();
-            ignore ((Obj.magic !logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#rUN, e))
-        end)
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        ();
-        canvas <- Obj.repr (canvas_arg)
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "RepaintRunnable" (fun arguments -> Obj.repr (new repaintRunnable (Obj.obj arguments)))
+JR.registerLateBound("RepaintRunnable.jnew_1", jnew_1)
+JR.registerLateBound("RepaintRunnable.jm_run", jm_run)
+JR.registerLateBound("RepaintRunnable.f_canvas", (this: RepaintRunnable) => this.f_canvas)
 
 

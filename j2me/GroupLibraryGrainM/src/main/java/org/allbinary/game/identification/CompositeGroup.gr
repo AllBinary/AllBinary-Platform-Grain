@@ -1,91 +1,105 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.identification
+module CompositeGroup
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.identification *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
+use StringMaker.{ type StringMaker }
+from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "./Group.gr" include Group
+use Group.{ type Group }
+from "./GroupCommonFactory.gr" include GroupCommonFactory
+use GroupCommonFactory.{ type GroupCommonFactory }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.string.CommonStrings *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
+provide record CompositeGroup {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_groupInterface: Group,
+  mut f_list: BasicArrayList,
+}
 
-class compositeGroup ((groupInterface_arg : Group.group)) =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable groupInterface : Group.group = (Obj.magic 0)
-    method groupInterface = groupInterface
-    method set_groupInterface value' = groupInterface <- value'
-    val mutable list : BasicArrayList.basicArrayList = (Obj.magic 0)
-    method list = list
-    method set_list value' = list <- value'
+
+provide let rec jclassName = () => "CompositeGroup"
     
+and jnew_1 = (groupInterface: Group) => {
+    let this = { jobject: JR.newJObject("CompositeGroup"), f_logUtil: JR.jnull, f_groupInterface: JR.nullOf(), f_list: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
     
-
-    method clear () : unit =
-        begin
-        ignore (list#clear ())
-        end
+    this.f_list = JR.cast(BasicArrayListD.jnew_0())
+        this.f_groupInterface = groupInterface
+    this
+}
     
-
-    method add : 'any1. 'any1 -> unit = fun (groupInterface_arg) ->
-        let groupInterface_arg = Obj.repr groupInterface_arg in
-        begin
-        let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-        let groupCommonFactory : GroupCommonFactory.groupCommonFactory ref = ref (((GroupCommonFactory.getInstance ()) :> GroupCommonFactory.groupCommonFactory)) in ();
-        let stringBuffer : StringMaker.stringMaker ref = ref (((new StringMaker.stringMaker ()) :> StringMaker.stringMaker)) in ();
-        ignore (!stringBuffer#append (!groupCommonFactory#aDDING_LABEL));
-        ignore (!stringBuffer#append ((java_string_of (Obj.repr (Obj.magic groupInterface_arg)))));
-        ignore (!stringBuffer#append (!groupCommonFactory#tO_LABEL));
-        ignore (!stringBuffer#append (((StringUtil.getInstance ())#toString (groupInterface))));
-        ignore ((Obj.magic logUtil)#putF ((java_string_of (Obj.repr !stringBuffer)), (Obj.magic self), !commonStrings#aDD));
-        ignore (list#add ((Obj.magic groupInterface_arg)))
-        end [@@warning "-20"]
+and jm_clear = (this: CompositeGroup) => {
+        ignore(BasicArrayList.jm_clear(this.f_list))
+}
     
-
-    method isInGroup : 'any1. 'any1 -> bool = fun (groupInterface_arg) ->
-        let groupInterface_arg = Obj.repr groupInterface_arg in
-        try
-        begin
-        if (list#contains ((Obj.magic groupInterface_arg))) then begin
-            raise (Java_return (Obj.repr (true)))
-        end else begin
-            raise (Java_return (Obj.repr (false)))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
+and jm_add = (this: CompositeGroup, groupInterface: Group) => {
+        let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
+        let mut groupCommonFactory: GroupCommonFactory = JR.cast(GroupCommonFactory.jm_getInstance())
+        let mut stringBuffer: StringMaker = StringMaker.jnew_0()
+        ignore(StringMaker.jm_append(stringBuffer, groupCommonFactory.f_ADDING_LABEL))
+        ignore(StringMaker.jm_append(stringBuffer, Group.jm_toString(groupInterface)))
+        ignore(StringMaker.jm_append(stringBuffer, groupCommonFactory.f_TO_LABEL))
+        ignore(StringMaker.jm_append(stringBuffer, StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(this.f_groupInterface))))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast(commonStrings.f_ADD)))
+})
+        ignore(BasicArrayList.jm_add(this.f_list, JR.cast(groupInterface)))
+}
     
+and jm_isInGroup = (this: CompositeGroup, groupInterface: Group) => {
+        if (BasicArrayList.jm_contains(this.f_list, JR.cast(groupInterface))) {
+            return true
+        } else {
+            return false
+        }
+}
+    
+and jm_getGroup = (this: CompositeGroup) => {
+        return this.f_groupInterface
+}
 
-    method getGroup : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (groupInterface))
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ();
-        list <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
-        ();
-        groupInterface <- groupInterface_arg
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "CompositeGroup" (fun arguments -> Obj.repr (new compositeGroup (Obj.obj arguments)))
+JR.registerLateBound("CompositeGroup.jnew_1", jnew_1)
+JR.registerLateBound("CompositeGroup.jm_clear", jm_clear)
+JR.registerLateBound("CompositeGroup.jm_add", jm_add)
+JR.registerLateBound("CompositeGroup.jm_isInGroup", jm_isInGroup)
+JR.registerLateBound("CompositeGroup.jm_getGroup", jm_getGroup)
+JR.registerLateBound("CompositeGroup.f_logUtil", (this: CompositeGroup) => this.f_logUtil)
+JR.registerLateBound("CompositeGroup.f_groupInterface", (this: CompositeGroup) => this.f_groupInterface)
+JR.registerLateBound("CompositeGroup.f_list", (this: CompositeGroup) => this.f_list)
 
 

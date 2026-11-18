@@ -1,132 +1,156 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.system.security.licensing
+module AbeLicenseInterfaceFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.system.security.licensing *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../java/io/IOException.gr" include IOException
+use IOException.{ type IOException }
+from "../../../../../../java/util/Calendar.gr" include Calendar
+use Calendar.{ type Calendar }
+from "../../../../../../org/allbinary/logic/system/security/licensing/client/AbeLicenseClient.gr" include AbeLicenseClient
+use AbeLicenseClient.{ type AbeLicenseClient }
+from "../../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./AbeLicenseInterface.gr" include AbeLicenseInterface
+use AbeLicenseInterface.{ type AbeLicenseInterface }
+from "./AbeClientInformationInterface.gr" include AbeClientInformationInterface
+use AbeClientInformationInterface.{ type AbeClientInformationInterface }
+from "./LicensingException.gr" include LicensingException
+use LicensingException.{ type LicensingException }
+from "./AbeNoLicense.gr" include AbeNoLicense
+use AbeNoLicense.{ type AbeNoLicense }
+from "./AbeClientInformationData.gr" include AbeClientInformationData
+use AbeClientInformationData.{ type AbeClientInformationData }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.IOException *)
-(* import java.util.Calendar *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.system.security.licensing.client.AbeLicenseClient *)
-(* import org.allbinary.string.CommonStrings *)
+provide record AbeLicenseInterfaceFactory {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_time: Int64,
+  mut f_check: Bool,
+  mut f_checkPeriod: Int32,
+  mut f_abeLicenseInterface: AbeLicenseInterface,
+}
 
-class abeLicenseInterfaceFactory () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable time : int = 0
-    method time = time
-    method set_time value' = time <- value'
-    val mutable check : bool = false
-    method check = check
-    method set_check value' = check <- value'
-    val mutable checkPeriod : int = 0
-    method checkPeriod = checkPeriod
-    method set_checkPeriod value' = checkPeriod <- value'
-    val mutable abeLicenseInterface : AbeLicenseInterface.abeLicenseInterface = (Obj.magic 0)
-    method abeLicenseInterface = abeLicenseInterface
-    method set_abeLicenseInterface value' = abeLicenseInterface <- value'
+let mut jcell_SINGLETON: Option<AbeLicenseInterfaceFactory> = None
+
+provide let rec jclassName = () => "AbeLicenseInterfaceFactory"
+
+and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
+  Some(value) => value,
+  None => {
+    let value: AbeLicenseInterfaceFactory = jnew_0()
+    jcell_SINGLETON = Some(value)
+    value
+  },
+}
     
+and jm_getInstance = () => {
+        return jstatic_SINGLETON()
+}
     
-
-    method getLicenseInstance : 'any1 'return. 'any1 -> 'return = fun (abeClientInformation) ->
-        let abeClientInformation = Obj.repr abeClientInformation in
-        try
-        begin
-        if (self#isTimeToGetKey ()) then begin
-            raise (Java_return (Obj.repr ((self#get ((Obj.magic abeClientInformation))))))
-        end else begin
-            raise (Java_return (Obj.repr (abeLicenseInterface)))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-20"]
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("AbeLicenseInterfaceFactory"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_time: 0L, f_check: false, f_checkPeriod: 0l, f_abeLicenseInterface: JR.nullOf(), }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this.f_time = 0L
+    this.f_check = false
+    this.f_checkPeriod = 36000000l
+    this.f_abeLicenseInterface = JR.nullOf()
+        void
+    this
+}
     
-
-    method get : 'any1 'return. 'any1 -> 'return = fun (abeClientInformation) ->
-        let abeClientInformation = Obj.repr abeClientInformation in
-        begin
-        (try
-            ignore ((Obj.magic logUtil)#putF ("Getting Keys", (Obj.magic self), commonStrings#gET));
-            abeLicenseInterface <- (AbeNoLicense.getInstance ());
-            let licenseClient : AbeLicenseClient.abeLicenseClient ref = ref (((new AbeLicenseClient.abeLicenseClient ()) :> AbeLicenseClient.abeLicenseClient)) in ();
-            abeLicenseInterface <- (!licenseClient#get ((Obj.magic abeClientInformation)));
-            if (abeLicenseInterface != (Obj.magic 0)) then begin
-                ignore ((Obj.magic logUtil)#putF (("Default Key: " ^ java_string_of (Obj.repr ((abeLicenseInterface#getKey ((AbeClientInformationData.getInstance ())#kEY))))), (Obj.magic self), commonStrings#gET))
-            end;
-            (Obj.magic (abeLicenseInterface))
-        with e -> begin
-            ignore ((Obj.magic logUtil)#put ("Licensing IO Error", (Obj.magic self), commonStrings#gET, e));
-            raise (Failure ("License Server Connection Error"))
-        end)
-        end [@@warning "-20"]
+and jm_getLicenseInstance = (this: AbeLicenseInterfaceFactory, abeClientInformation: AbeClientInformationInterface) => {
+        if (jm_isTimeToGetKey(this)) {
+            return jm_get(this, abeClientInformation)
+        } else {
+            return this.f_abeLicenseInterface
+        }
+}
     
-
-    method isTimeToGetKey () : bool =
-        try
-        begin
-        let calendar : java_calendar ref = ref (((java_calendar_get_instance ()) :> java_calendar)) in ();
-        let currentTime : int ref = ref ((!calendar#getTimeInMillis ())) in ();
-        if (((((abeLicenseInterface == (Obj.magic 0)) || ((Obj.repr abeLicenseInterface) == (Obj.repr (AbeNoLicense.getInstance ())))) || (not (abeLicenseInterface#hasKey ()))) || (self#isCheck ())) || ((!currentTime - checkPeriod) > time)) then begin
-            abeLicenseInterface <- (Obj.magic 0);
-            time <- !currentTime;
-            raise (Java_return (Obj.repr (true)))
-        end else begin
-            raise (Java_return (Obj.repr (false)))
-        end
-        end
-        with Java_return value -> Obj.obj value
+and jm_get = (this: AbeLicenseInterfaceFactory, abeClientInformation: AbeClientInformationInterface) => {
+        {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Getting Keys"), JR.cast(this), JR.cast(this.f_commonStrings.f_GET)))
+})
+            this.f_abeLicenseInterface = AbeNoLicense.jm_getInstance()
+            let mut licenseClient: AbeLicenseClient = AbeLicenseClient.jnew_0()
+            this.f_abeLicenseInterface = AbeLicenseClient.jm_get(licenseClient, abeClientInformation)
+            if (!JR.isNull(this.f_abeLicenseInterface)) {
+                ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Default Key: " ++ AbeLicenseInterface.jm_getKey(this.f_abeLicenseInterface, AbeClientInformationData.jm_getInstance().f_KEY)), JR.cast(this), JR.cast(this.f_commonStrings.f_GET)))
+})
+            }
+            return this.f_abeLicenseInterface
+        }
+    return JR.nullOf()
+}
     
-
-    method setCheck ((check_arg : bool)) : unit =
-        begin
-        check <- check_arg
-        end
+and jm_isTimeToGetKey = (this: AbeLicenseInterfaceFactory) => {
+        let mut calendar: Calendar = JR.cast(Calendar.jm_getInstance())
+        let mut currentTime: Int64 = Calendar.jm_getTimeInMillis_0(calendar)
+        if (((((JR.isNull(this.f_abeLicenseInterface) || JR.isSame(this.f_abeLicenseInterface, AbeNoLicense.jm_getInstance())) || !AbeLicenseInterface.jm_hasKey(this.f_abeLicenseInterface)) || jm_isCheck(this)) || Int64.(>)(Int64.(-)(currentTime, Int64.fromNumber(Int32.toNumber(this.f_checkPeriod))), this.f_time))) {
+            this.f_abeLicenseInterface = JR.nullOf()
+            this.f_time = currentTime
+            return true
+        } else {
+            return false
+        }
+}
     
+and jm_setCheck = (this: AbeLicenseInterfaceFactory, check: Bool) => {
+        this.f_check = check
+}
+    
+and jm_isCheck = (this: AbeLicenseInterfaceFactory) => {
+        return this.f_check
+}
 
-    method isCheck () : bool =
-        begin
-        check
-        end
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        time <- 0;
-        check <- false;
-        checkPeriod <- 36000000;
-        abeLicenseInterface <- ((Obj.magic 0) :> AbeLicenseInterface.abeLicenseInterface);
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "AbeLicenseInterfaceFactory" (fun arguments -> Obj.repr (new abeLicenseInterfaceFactory (Obj.obj arguments)))
-
-let sINGLETON = (new abeLicenseInterfaceFactory ())
-let get_sINGLETON () = sINGLETON
-let () = java_register_static "AbeLicenseInterfaceFactory.get_sINGLETON" (fun _ -> Obj.repr (get_sINGLETON ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (sINGLETON))
-        end
-let () = java_register_static "AbeLicenseInterfaceFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("AbeLicenseInterfaceFactory.jnew_0", jnew_0)
+JR.registerLateBound("AbeLicenseInterfaceFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("AbeLicenseInterfaceFactory.jm_getLicenseInstance", jm_getLicenseInstance)
+JR.registerLateBound("AbeLicenseInterfaceFactory.jm_get", jm_get)
+JR.registerLateBound("AbeLicenseInterfaceFactory.jm_isTimeToGetKey", jm_isTimeToGetKey)
+JR.registerLateBound("AbeLicenseInterfaceFactory.jm_setCheck", jm_setCheck)
+JR.registerLateBound("AbeLicenseInterfaceFactory.jm_isCheck", jm_isCheck)
+JR.registerLateBound("AbeLicenseInterfaceFactory.f_logUtil", (this: AbeLicenseInterfaceFactory) => this.f_logUtil)
+JR.registerLateBound("AbeLicenseInterfaceFactory.f_commonStrings", (this: AbeLicenseInterfaceFactory) => this.f_commonStrings)
+JR.registerLateBound("AbeLicenseInterfaceFactory.f_time", (this: AbeLicenseInterfaceFactory) => this.f_time)
+JR.registerLateBound("AbeLicenseInterfaceFactory.set_f_time", (this: AbeLicenseInterfaceFactory, jvalue) => { this.f_time = jvalue; jvalue })
+JR.registerLateBound("AbeLicenseInterfaceFactory.f_check", (this: AbeLicenseInterfaceFactory) => this.f_check)
+JR.registerLateBound("AbeLicenseInterfaceFactory.set_f_check", (this: AbeLicenseInterfaceFactory, jvalue) => { this.f_check = jvalue; jvalue })
+JR.registerLateBound("AbeLicenseInterfaceFactory.f_checkPeriod", (this: AbeLicenseInterfaceFactory) => this.f_checkPeriod)
+JR.registerLateBound("AbeLicenseInterfaceFactory.set_f_checkPeriod", (this: AbeLicenseInterfaceFactory, jvalue) => { this.f_checkPeriod = jvalue; jvalue })
+JR.registerLateBound("AbeLicenseInterfaceFactory.f_abeLicenseInterface", (this: AbeLicenseInterfaceFactory) => this.f_abeLicenseInterface)
+JR.registerLateBound("AbeLicenseInterfaceFactory.set_f_abeLicenseInterface", (this: AbeLicenseInterfaceFactory, jvalue) => { this.f_abeLicenseInterface = jvalue; jvalue })
+JR.registerLateBound("AbeLicenseInterfaceFactory.jstatic_SINGLETON", jstatic_SINGLETON)
 
 

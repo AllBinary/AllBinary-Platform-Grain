@@ -1,85 +1,130 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.ai.scroller
+module TerrainPatrolAI
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.ai.scroller *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/game/input/GameInput.gr" include GameInput
+use GameInput.{ type GameInput }
+from "../../../../../../org/allbinary/game/terrain/BasicTerrainInfo.gr" include BasicTerrainInfo
+use BasicTerrainInfo.{ type BasicTerrainInfo }
+from "../../../../../../org/allbinary/game/terrain/TerrainEvent.gr" include TerrainEvent
+use TerrainEvent.{ type TerrainEvent }
+from "../../../../../../org/allbinary/game/terrain/TerrainEventCircularStaticPool.gr" include TerrainEventCircularStaticPool
+use TerrainEventCircularStaticPool.{ type TerrainEventCircularStaticPool }
+from "../../../../../../org/allbinary/game/terrain/TerrainEventHandler.gr" include TerrainEventHandler
+use TerrainEventHandler.{ type TerrainEventHandler }
+from "../../../../../../org/allbinary/game/terrain/TerrainEventListener.gr" include TerrainEventListener
+use TerrainEventListener.{ type TerrainEventListener }
+from "../../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
+use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../../../org/allbinary/math/Angle.gr" include Angle
+use Angle.{ type Angle }
+from "../../../../../../org/allbinary/math/AngleFactory.gr" include AngleFactory
+use AngleFactory.{ type AngleFactory }
+from "../../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "./PacePatrolAI.gr" include PacePatrolAI
+use PacePatrolAI.{ type PacePatrolAI }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.input.GameInput *)
-(* import org.allbinary.game.terrain.BasicTerrainInfo *)
-(* import org.allbinary.game.terrain.TerrainEvent *)
-(* import org.allbinary.game.terrain.TerrainEventCircularStaticPool *)
-(* import org.allbinary.game.terrain.TerrainEventHandler *)
-(* import org.allbinary.game.terrain.TerrainEventListener *)
-(* import org.allbinary.layer.AllBinaryLayer *)
-(* import org.allbinary.math.Angle *)
-(* import org.allbinary.math.AngleFactory *)
-(* import org.allbinary.util.ABHashtable *)
-(* import org.allbinary.util.BasicArrayList *)
+provide record TerrainPatrolAI {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_gameKeyEventFactory: JObject,
+  mut f_ownerLayerInterface: JObject,
+  mut f_gameInput: JObject,
+  mut f_lastKey: Int32,
+  mut f_maxDistance: JObject,
+  mut f_currentDistance: Int32,
+  mut f_xTotalDistance: Int32,
+  mut f_lastKeyDirection: Int32,
+  mut f_keyDirection: Int32,
+  mut f_trackingList: JObject,
+  mut f_firingDistance: Int32,
+  mut f_isFollowLimitedByTerrain: Bool,
+  mut f_terrainEventListener: TerrainEventListener,
+  mut f_DOWN: Angle,
+  mut f_CLIFF: BasicTerrainInfo,
+}
 
-class terrainPatrolAI (hashtable, (ownerLayerInterface : AllBinaryLayer.allBinaryLayer), (gameInput : GameInput.gameInput)) =
-  object (self)
-    inherit PacePatrolAI.pacePatrolAI (hashtable, ownerLayerInterface, gameInput) as super
-    val mutable terrainEventListener : TerrainEventListener.terrainEventListener = (Obj.magic 0)
-    method terrainEventListener = terrainEventListener
-    method set_terrainEventListener value' = terrainEventListener <- value'
-    val mutable dOWN : Angle.angle = (Obj.magic 0)
-    method dOWN = dOWN
-    method set_dOWN value' = dOWN <- value'
-    val mutable cLIFF : BasicTerrainInfo.basicTerrainInfo = (Obj.magic 0)
-    method cLIFF = cLIFF
-    method set_cLIFF value' = cLIFF <- value'
+
+provide let rec jclassName = () => "TerrainPatrolAI"
     
+and jnew_3 = (hashtable: JObject, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
+    let this = { jobject: JR.newJObject("TerrainPatrolAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_maxDistance: JR.jnull, f_currentDistance: 0l, f_xTotalDistance: 0l, f_lastKeyDirection: 0l, f_keyDirection: 0l, f_trackingList: JR.jnull, f_firingDistance: 0l, f_isFollowLimitedByTerrain: false, f_terrainEventListener: JR.nullOf(), f_DOWN: JR.nullOf(), f_CLIFF: JR.nullOf(), }
+    this.f_terrainEventListener = TerrainEventListener.jnew_0()
+    this.f_DOWN = JR.cast(AngleFactory.jm_getInstance().f_DOWN)
+    this.f_CLIFF = BasicTerrainInfo.jnew_1(this.f_DOWN)
+        void
+        ignore(TerrainEventHandler.jm_addListener(TerrainEventHandler.jm_getInstance(JR.cast(ownerLayerInterface)), this.f_terrainEventListener))
+        ignore(TerrainEventListener.jm_onTerrainEvent(this.f_terrainEventListener, TerrainEventCircularStaticPool.jm_getNext(TerrainEventCircularStaticPool.jm_getInstance(), this.f_CLIFF)))
+    this
+}
     
-
-    method update () : unit =
-        begin
-        ignore (super#update ());
-        (self#changeDirectionIfCliffReached ())
-        end [@@warning "-7"]
+and jm_update = (this: TerrainPatrolAI) => {
+        ignore(jm_update(this))
+        ignore(jm_changeDirectionIfCliffReached(this))
+}
     
+and jm_changeDirectionIfCliffReached = (this: TerrainPatrolAI) => {
+        let mut list: BasicArrayList = JR.cast(TerrainEventListener.jm_getList(this.f_terrainEventListener))
+        let mut size: Int32 = BasicArrayList.jm_size(list)
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            let mut terrainEvent: TerrainEvent = JR.cast(BasicArrayList.jm_removeAt(list, index))
+            let mut basicTerrainInfo: BasicTerrainInfo = JR.cast(TerrainEvent.jm_getBasicTerrainInfo(terrainEvent))
+            let mut angle: Angle = JR.cast(BasicTerrainInfo.jm_getAngle(basicTerrainInfo))
+            if (JR.isSame(angle, this.f_DOWN)) {
+                ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasePatrolAI.jm_nextDirection"))
+JR.cast(jlate(JR.cast(this)))
+})
+                if (!JR.cast(this.f_isFollowLimitedByTerrain)) {
+                    ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast("Following Limited"), JR.cast(this), JR.cast("onTerrainEvent")))
+})
+                    this.f_isFollowLimitedByTerrain = JR.cast(true)
+                }
+            }
+            }
+        }
+}
 
-    method changeDirectionIfCliffReached () : unit =
-        begin
-        let list : BasicArrayList.basicArrayList ref = ref (((terrainEventListener#getList ()) :> BasicArrayList.basicArrayList)) in ();
-        let size : int ref = ref ((!list#size ())) in ();
-        for index = 0 to !size - 1 do
-            let terrainEvent : TerrainEvent.terrainEvent ref = ref (((Obj.magic (!list#removeAt (index))) :> TerrainEvent.terrainEvent)) in ();
-            let basicTerrainInfo : BasicTerrainInfo.basicTerrainInfo ref = ref (((!terrainEvent#getBasicTerrainInfo ()) :> BasicTerrainInfo.basicTerrainInfo)) in ();
-            let angle : Angle.angle ref = ref (((!basicTerrainInfo#getAngle ()) :> Angle.angle)) in ();
-            if ((Obj.repr !angle) == (Obj.repr dOWN)) then begin
-                ignore (self#nextDirection ());
-                if (not (self#isFollowLimitedByTerrain)) then begin
-                    ignore ((self#logUtil)#putF ("Following Limited", (Obj.magic self), "onTerrainEvent"));
-                    (self#set_isFollowLimitedByTerrain) (true)
-                end
-            end
-        done
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        terrainEventListener <- ((new TerrainEventListener.terrainEventListener ()) :> TerrainEventListener.terrainEventListener);
-        dOWN <- ((AngleFactory.getInstance ())#dOWN :> Angle.angle);
-        cLIFF <- ((new BasicTerrainInfo.basicTerrainInfo (dOWN)) :> BasicTerrainInfo.basicTerrainInfo);
-        ();
-        (* super(...) is the inherit clause *) ();
-        ignore ((TerrainEventHandler.getInstance (ownerLayerInterface))#addListener (terrainEventListener));
-        ignore (terrainEventListener#onTerrainEvent (((TerrainEventCircularStaticPool.getInstance ())#getNext (cLIFF))))
-      end
-  end
-let () = java_register_constructor "TerrainPatrolAI" (fun arguments -> Obj.repr (new terrainPatrolAI (Obj.obj arguments)))
+JR.registerLateBound("TerrainPatrolAI.jnew_3", jnew_3)
+JR.registerLateBound("TerrainPatrolAI.jm_update", jm_update)
+JR.registerLateBound("TerrainPatrolAI.jm_changeDirectionIfCliffReached", jm_changeDirectionIfCliffReached)
+JR.registerLateBound("TerrainPatrolAI.f_terrainEventListener", (this: TerrainPatrolAI) => this.f_terrainEventListener)
+JR.registerLateBound("TerrainPatrolAI.f_DOWN", (this: TerrainPatrolAI) => this.f_DOWN)
+JR.registerLateBound("TerrainPatrolAI.f_CLIFF", (this: TerrainPatrolAI) => this.f_CLIFF)
 
 

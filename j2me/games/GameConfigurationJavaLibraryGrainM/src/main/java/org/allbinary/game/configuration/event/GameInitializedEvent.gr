@@ -1,72 +1,81 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.configuration.event
+module GameInitializedEvent
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.configuration.event *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/resource/ResourceLoadingLevel.gr" include ResourceLoadingLevel
+use ResourceLoadingLevel.{ type ResourceLoadingLevel }
+from "../../../../../org/allbinary/game/resource/ResourceLoadingLevelFactory.gr" include ResourceLoadingLevelFactory
+use ResourceLoadingLevelFactory.{ type ResourceLoadingLevelFactory }
+from "../../../../../org/allbinary/logic/util/event/AllBinaryEventObject.gr" include AllBinaryEventObject
+use AllBinaryEventObject.{ type AllBinaryEventObject }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.resource.ResourceLoadingLevel *)
-(* import org.allbinary.game.resource.ResourceLoadingLevelFactory *)
-(* import org.allbinary.logic.util.event.AllBinaryEventObject *)
+provide record GameInitializedEvent {
+  jobject: JObject,
+  mut f_source: JObject,
+  mut f_resourceLoadingLevel: ResourceLoadingLevel,
+  mut f_level: Int32,
+}
 
-class gameInitializedEvent ((anyType : Obj.t)) =
-  object
-    inherit AllBinaryEventObject.allBinaryEventObject ((Obj.repr (anyType)))
-    val mutable resourceLoadingLevel : ResourceLoadingLevel.resourceLoadingLevel = (Obj.magic 0)
-    method resourceLoadingLevel = resourceLoadingLevel
-    method set_resourceLoadingLevel value' = resourceLoadingLevel <- value'
-    val mutable level : int = 0
-    method level = level
-    method set_level value' = level <- value'
+
+provide let rec jclassName = () => "GameInitializedEvent"
     
+and jnew_1 = (anyType: JObject) => {
+    let this = { jobject: JR.newJObject("GameInitializedEvent"), f_source: JR.jnull, f_resourceLoadingLevel: JR.nullOf(), f_level: 0l, }
+    this.f_resourceLoadingLevel = JR.cast(ResourceLoadingLevelFactory.jm_getInstance().f_LEVEL)
     
-
-    method setLevel ((level_arg : int)) : unit =
-        begin
-        level <- level_arg;
-        resourceLoadingLevel <- (ResourceLoadingLevelFactory.getInstance ())#lEVEL
-        end [@@warning "-7"]
+        void
+    this
+}
     
-
-    method getLevel () : int =
-        begin
-        level
-        end [@@warning "-7"]
+and jm_setLevel = (this: GameInitializedEvent, level: Int32) => {
+        this.f_level = level
+        this.f_resourceLoadingLevel = ResourceLoadingLevelFactory.jm_getInstance().f_LEVEL
+}
     
-
-    method setResourceLoadingLevel : 'any1. 'any1 -> unit = fun (resourceLoadingLevel_arg) ->
-        let resourceLoadingLevel_arg = Obj.repr resourceLoadingLevel_arg in
-        begin
-        resourceLoadingLevel <- (Obj.magic resourceLoadingLevel_arg);
-        level <- (resourceLoadingLevel#getLevel ())
-        end [@@warning "-7-20"]
+and jm_getLevel = (this: GameInitializedEvent) => {
+        return this.f_level
+}
     
+and jm_setResourceLoadingLevel = (this: GameInitializedEvent, resourceLoadingLevel: ResourceLoadingLevel) => {
+        this.f_resourceLoadingLevel = resourceLoadingLevel
+        this.f_level = ResourceLoadingLevel.jm_getLevel(this.f_resourceLoadingLevel)
+}
+    
+and jm_getResourceLoadingLevel = (this: GameInitializedEvent) => {
+        return this.f_resourceLoadingLevel
+}
 
-    method getResourceLoadingLevel : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (resourceLoadingLevel))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        resourceLoadingLevel <- ((ResourceLoadingLevelFactory.getInstance ())#lEVEL :> ResourceLoadingLevel.resourceLoadingLevel);
-        level <- 0;
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "GameInitializedEvent" (fun arguments -> Obj.repr (new gameInitializedEvent (Obj.obj arguments)))
+JR.registerLateBound("GameInitializedEvent.jnew_1", jnew_1)
+JR.registerLateBound("GameInitializedEvent.jm_setLevel", jm_setLevel)
+JR.registerLateBound("GameInitializedEvent.jm_getLevel", jm_getLevel)
+JR.registerLateBound("GameInitializedEvent.jm_setResourceLoadingLevel", jm_setResourceLoadingLevel)
+JR.registerLateBound("GameInitializedEvent.jm_getResourceLoadingLevel", jm_getResourceLoadingLevel)
+JR.registerLateBound("GameInitializedEvent.f_resourceLoadingLevel", (this: GameInitializedEvent) => this.f_resourceLoadingLevel)
+JR.registerLateBound("GameInitializedEvent.set_f_resourceLoadingLevel", (this: GameInitializedEvent, jvalue) => { this.f_resourceLoadingLevel = jvalue; jvalue })
+JR.registerLateBound("GameInitializedEvent.f_level", (this: GameInitializedEvent) => this.f_level)
+JR.registerLateBound("GameInitializedEvent.set_f_level", (this: GameInitializedEvent, jvalue) => { this.f_level = jvalue; jvalue })
 
 

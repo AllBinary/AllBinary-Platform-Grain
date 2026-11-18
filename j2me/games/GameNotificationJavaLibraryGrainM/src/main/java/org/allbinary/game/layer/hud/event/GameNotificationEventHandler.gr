@@ -1,81 +1,106 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.layer.hud.event
+module GameNotificationEventHandler
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.layer.hud.event *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/logic/util/event/AllBinaryEventObject.gr" include AllBinaryEventObject
+use AllBinaryEventObject.{ type AllBinaryEventObject }
+from "../../../../../../org/allbinary/logic/util/event/EventListenerInterface.gr" include EventListenerInterface
+use EventListenerInterface.{ type EventListenerInterface }
+from "../../../../../../org/allbinary/logic/util/event/NullEventListener.gr" include NullEventListener
+use NullEventListener.{ type NullEventListener }
+from "../../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "./GameNotificationListenerInterface.gr" include GameNotificationListenerInterface
+use GameNotificationListenerInterface.{ type GameNotificationListenerInterface }
+from "./GameNotificationEvent.gr" include GameNotificationEvent
+use GameNotificationEvent.{ type GameNotificationEvent }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.logic.util.event.AllBinaryEventObject *)
-(* import org.allbinary.logic.util.event.EventListenerInterface *)
-(* import org.allbinary.logic.util.event.NullEventListener *)
-(* import org.allbinary.logic.util.event.handler.BasicEventHandler *)
-(* import org.allbinary.util.BasicArrayList *)
+provide record GameNotificationEventHandler {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_eventStrings: JObject,
+  mut f_eventListenerInterfaceList: JObject,
+  mut f_enabled: Bool,
+}
 
-class gameNotificationEventHandler () =
-  object (self)
-    inherit BasicEventHandler.basicEventHandler () as super
-    val mutable enabled : bool = false
-    method enabled = enabled
-    method set_enabled value' = enabled <- value'
+let mut jcell_instance: Option<GameNotificationEventHandler> = None
+
+provide let rec jclassName = () => "GameNotificationEventHandler"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: GameNotificationEventHandler = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("GameNotificationEventHandler"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_eventStrings: JR.jnull, f_eventListenerInterfaceList: JR.jnull, f_enabled: false, }
+    this.f_enabled = true
+        void
+    this
+}
     
-
-    method removeAllListeners () : unit =
-        begin
-        let eventListenerInterface : EventListenerInterface.eventListenerInterface ref = ref (((NullEventListener.get_nULL_EVENT_LISTENER ()) :> EventListenerInterface.eventListenerInterface)) in ();
-        let list : BasicArrayList.basicArrayList ref = ref (((self#eventListenerInterfaceList) :> BasicArrayList.basicArrayList)) in ();
-        if ((!list#size ()) > 0) then begin
-            eventListenerInterface := (Obj.magic !list#objectArray.(0))
-        end;
-        ignore (super#removeAllListeners ());
-        if ((Obj.repr !eventListenerInterface) != (Obj.repr (NullEventListener.get_nULL_EVENT_LISTENER ()))) then begin
-            ignore (self#addListenerInterface (!eventListenerInterface))
-        end
-        end [@@warning "-7"]
+and jm_removeAllListeners = (this: GameNotificationEventHandler) => {
+        let mut eventListenerInterface: EventListenerInterface = JR.cast(NullEventListener.jstatic_NULL_EVENT_LISTENER())
+        let mut list: BasicArrayList = JR.cast(this.f_eventListenerInterfaceList)
+        if (Int32.(>)(BasicArrayList.jm_size(list), 0l)) {
+            eventListenerInterface = JR.cast(list.f_objectArray[Int32.toNumber(0l)])
+        }
+        ignore(jm_removeAllListeners(this))
+        if ((!JR.isSame(eventListenerInterface, NullEventListener.jstatic_NULL_EVENT_LISTENER()))) {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_addListenerInterface"))
+JR.cast(jlate(JR.cast(this), JR.cast(eventListenerInterface)))
+})
+        }
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jm_process = (this: GameNotificationEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) => {
+        if (!this.f_enabled) {
+            return void
+        }
+        let mut gameNotificationListenerInterface: GameNotificationListenerInterface = JR.cast(eventListenerInterface)
+        ignore(GameNotificationListenerInterface.jm_onGameNotificationEvent(gameNotificationListenerInterface, JR.cast(eventObject)))
+    return void
+}
 
-    method process : 'any1 'any2. 'any1 * 'any2 -> unit = fun (eventObject, eventListenerInterface) ->
-        let eventObject = Obj.repr eventObject in
-        let eventListenerInterface = Obj.repr eventListenerInterface in
-        try
-        begin
-        if (not enabled) then begin
-            raise (Java_return (Obj.repr (())))
-        end;
-        let gameNotificationListenerInterface : GameNotificationListenerInterface.gameNotificationListenerInterface ref = ref (((Obj.magic (Obj.magic eventListenerInterface)) :> GameNotificationListenerInterface.gameNotificationListenerInterface)) in ();
-        ignore (!gameNotificationListenerInterface#onGameNotificationEvent ((Obj.magic (Obj.magic eventObject))))
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7-20"]
-
-    initializer
-      begin
-        enabled <- true;
-        ();
-        ()
-      end
-  end
-let () = java_register_constructor "GameNotificationEventHandler" (fun arguments -> Obj.repr (new gameNotificationEventHandler (Obj.obj arguments)))
-
-let instance = (new gameNotificationEventHandler ())
-let get_instance () = instance
-let () = java_register_static "GameNotificationEventHandler.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "GameNotificationEventHandler.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("GameNotificationEventHandler.jnew_0", jnew_0)
+JR.registerLateBound("GameNotificationEventHandler.jm_removeAllListeners", jm_removeAllListeners)
+JR.registerLateBound("GameNotificationEventHandler.jm_getInstance", jm_getInstance)
+JR.registerLateBound("GameNotificationEventHandler.jm_process", jm_process)
+JR.registerLateBound("GameNotificationEventHandler.f_enabled", (this: GameNotificationEventHandler) => this.f_enabled)
+JR.registerLateBound("GameNotificationEventHandler.set_f_enabled", (this: GameNotificationEventHandler, jvalue) => { this.f_enabled = jvalue; jvalue })
+JR.registerLateBound("GameNotificationEventHandler.jstatic_instance", jstatic_instance)
 
 

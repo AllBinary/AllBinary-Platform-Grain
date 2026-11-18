@@ -1,50 +1,66 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.animation.compound
+module CompoundIndexedAnimationInterfaceFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.animation.compound *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/animation/Animation.gr" include Animation
+use Animation.{ type Animation }
+from "../../../../org/allbinary/animation/AnimationBehaviorFactory.gr" include AnimationBehaviorFactory
+use AnimationBehaviorFactory.{ type AnimationBehaviorFactory }
+from "../../../../org/allbinary/animation/AnimationInterfaceFactoryInterface.gr" include AnimationInterfaceFactoryInterface
+use AnimationInterfaceFactoryInterface.{ type AnimationInterfaceFactoryInterface }
+from "./CompoundAnimationInterfaceFactory.gr" include CompoundAnimationInterfaceFactory
+use CompoundAnimationInterfaceFactory.{ type CompoundAnimationInterfaceFactory }
+from "./CompoundIndexedAnimation.gr" include CompoundIndexedAnimation
+use CompoundIndexedAnimation.{ type CompoundIndexedAnimation }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.animation.Animation *)
-(* import org.allbinary.animation.AnimationBehaviorFactory *)
-(* import org.allbinary.animation.AnimationInterfaceFactoryInterface *)
-(* import org.allbinary.logic.communication.log.ForcedLogUtil *)
+provide record CompoundIndexedAnimationInterfaceFactory {
+  jobject: JObject,
+  mut f_basicAnimationInterfaceFactoryInterfaceArrayP: Array<JObject>,
+  mut f_animationBehaviorFactory: JObject,
+}
 
-class compoundIndexedAnimationInterfaceFactory ((basicAnimationInterfaceFactoryInterfaceArray : AnimationInterfaceFactoryInterface.animationInterfaceFactoryInterface array), (animationBehaviorFactory : AnimationBehaviorFactory.animationBehaviorFactory)) =
-  object (self)
-    inherit CompoundAnimationInterfaceFactory.compoundAnimationInterfaceFactory (basicAnimationInterfaceFactoryInterfaceArray, animationBehaviorFactory)
+
+provide let rec jclassName = () => "CompoundIndexedAnimationInterfaceFactory"
     
+and jnew_2 = (basicAnimationInterfaceFactoryInterfaceArray: Array<AnimationInterfaceFactoryInterface>, animationBehaviorFactory: AnimationBehaviorFactory) => {
+    let this = { jobject: JR.newJObject("CompoundIndexedAnimationInterfaceFactory"), f_basicAnimationInterfaceFactoryInterfaceArrayP: [> ], f_animationBehaviorFactory: JR.jnull, }
+        void
+    this
+}
     
-
-    method createArray : 'return. int -> 'return = fun ((size : int)) ->
-        begin
-        (Obj.magic ((Array.make (size) (Obj.magic 0))))
-        end [@@warning "-7"]
+and jm_createArray = (this: CompoundIndexedAnimationInterfaceFactory, size: Int32) => {
+        return Array.make(Int32.toNumber(size), JR.nullOf())
+}
     
+and jm_createAnimation = (this: CompoundIndexedAnimationInterfaceFactory, animationArray: Array<Animation>) => {
+        return JR.cast(CompoundIndexedAnimation.jnew_2(animationArray, AnimationBehaviorFactory.jm_getOrCreateInstance(JR.cast(this.f_animationBehaviorFactory))))
+}
 
-    method createAnimation : 'return. Animation.animation array -> 'return = fun ((animationArray : Animation.animation array)) ->
-        begin
-        (Obj.magic ((new CompoundIndexedAnimation.compoundIndexedAnimation (animationArray, ((self#animationBehaviorFactory)#getOrCreateInstance ())))))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "CompoundIndexedAnimationInterfaceFactory" (fun arguments -> Obj.repr (new compoundIndexedAnimationInterfaceFactory (Obj.obj arguments)))
+JR.registerLateBound("CompoundIndexedAnimationInterfaceFactory.jnew_2", jnew_2)
+JR.registerLateBound("CompoundIndexedAnimationInterfaceFactory.jm_createArray", jm_createArray)
+JR.registerLateBound("CompoundIndexedAnimationInterfaceFactory.jm_createAnimation", jm_createAnimation)
 
 

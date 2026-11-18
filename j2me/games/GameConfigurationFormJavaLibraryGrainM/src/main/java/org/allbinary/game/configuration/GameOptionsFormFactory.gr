@@ -1,67 +1,80 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.configuration
+module GameOptionsFormFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.configuration *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
+use BasicColor.{ type BasicColor }
+from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./GameOptionsForm.gr" include GameOptionsForm
+use GameOptionsForm.{ type GameOptionsForm }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.CommandListener *)
-(* import org.allbinary.graphics.color.BasicColor *)
-(* import org.allbinary.graphics.displayable.screen.CommandForm *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.string.CommonStrings *)
+provide record GameOptionsFormFactory {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+}
 
-class gameOptionsFormFactory () =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+let mut jcell_instance: Option<GameOptionsFormFactory> = None
+
+provide let rec jclassName = () => "GameOptionsFormFactory"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: GameOptionsFormFactory = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("GameOptionsFormFactory"), f_logUtil: JR.jnull, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        void
+    this
+}
     
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
+    
+and jm_init = (this: GameOptionsFormFactory, commandListener: CommandListener, title: String, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
+        {
+            return JR.cast(GameOptionsForm.jnew_4(commandListener, title, backgrounBasicColor, foregroundBasicColor))
+        }
+    return JR.jnull
+}
 
-    method init : 'any1 'any3 'any4 'return. 'any1 * string * 'any3 * 'any4 -> 'return = fun (commandListener, (title : string), backgrounBasicColor, foregroundBasicColor) ->
-        let commandListener = Obj.repr commandListener in
-        let backgrounBasicColor = Obj.repr backgrounBasicColor in
-        let foregroundBasicColor = Obj.repr foregroundBasicColor in
-        begin
-        (try
-            (Obj.magic ((new GameOptionsForm.gameOptionsForm ((Obj.magic commandListener), title, (Obj.magic backgrounBasicColor), (Obj.magic foregroundBasicColor)))))
-        with e -> begin
-            let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#iNIT, e));
-            (Obj.magic ((Obj.magic (java_call_static "CommandForm.getNullCommandForm" (Obj.repr ())))))
-        end)
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "GameOptionsFormFactory" (fun arguments -> Obj.repr (new gameOptionsFormFactory (Obj.obj arguments)))
-
-let instance = (new gameOptionsFormFactory ())
-let get_instance () = instance
-let () = java_register_static "GameOptionsFormFactory.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "GameOptionsFormFactory.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("GameOptionsFormFactory.jnew_0", jnew_0)
+JR.registerLateBound("GameOptionsFormFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("GameOptionsFormFactory.jm_init", jm_init)
+JR.registerLateBound("GameOptionsFormFactory.f_logUtil", (this: GameOptionsFormFactory) => this.f_logUtil)
+JR.registerLateBound("GameOptionsFormFactory.jstatic_instance", jstatic_instance)
 
 

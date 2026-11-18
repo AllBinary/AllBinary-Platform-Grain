@@ -1,79 +1,89 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.layer.special
+module CollidableDestroyableDamageableBehavior
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.layer.special *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/game/collision/CollidableBaseBehavior.gr" include CollidableBaseBehavior
+use CollidableBaseBehavior.{ type CollidableBaseBehavior }
+from "../../../../../org/allbinary/game/collision/CollidableInterfaceCompositeInterface.gr" include CollidableInterfaceCompositeInterface
+use CollidableInterfaceCompositeInterface.{ type CollidableInterfaceCompositeInterface }
+from "../../../../../org/allbinary/game/combat/damage/DamageUtil.gr" include DamageUtil
+use DamageUtil.{ type DamageUtil }
+from "../../../../../org/allbinary/game/layer/CollidableCompositeLayer.gr" include CollidableCompositeLayer
+use CollidableCompositeLayer.{ type CollidableCompositeLayer }
+from "../../../../../org/allbinary/logic/communication/log/ForcedLogUtil.gr" include ForcedLogUtil
+use ForcedLogUtil.{ type ForcedLogUtil }
+from "./CollidableDestroyableDamageableLayer.gr" include CollidableDestroyableDamageableLayer
+use CollidableDestroyableDamageableLayer.{ type CollidableDestroyableDamageableLayer }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.collision.CollidableBaseBehavior *)
-(* import org.allbinary.game.collision.CollidableInterfaceCompositeInterface *)
-(* import org.allbinary.game.combat.damage.DamageUtil *)
-(* import org.allbinary.game.layer.CollidableCompositeLayer *)
-(* import org.allbinary.logic.communication.log.ForcedLogUtil *)
+provide record CollidableDestroyableDamageableBehavior {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_layerCollisionUtil: JObject,
+  mut f_collidable: Bool,
+  mut f_damageUtil: DamageUtil,
+}
 
-class collidableDestroyableDamageableBehavior ((collidable : bool)) =
-  object (self)
-    inherit CollidableBaseBehavior.collidableBaseBehavior (collidable) as super
-    val mutable damageUtil : DamageUtil.damageUtil = (Obj.magic 0)
-    method damageUtil = damageUtil
-    method set_damageUtil value' = damageUtil <- value'
+
+provide let rec jclassName = () => "CollidableDestroyableDamageableBehavior"
     
+and jnew_1 = (collidable: Bool) => {
+    let this = { jobject: JR.newJObject("CollidableDestroyableDamageableBehavior"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_layerCollisionUtil: JR.jnull, f_collidable: false, f_damageUtil: JR.nullOf(), }
+    this.f_damageUtil = JR.cast(DamageUtil.jm_getInstance())
+        void
+    this
+}
     
-
-    method isCollision : 'any1 'any2. 'any1 * 'any2 -> bool = fun (ownerLayer, collisionLayer) ->
-        let ownerLayer = Obj.repr ownerLayer in
-        let collisionLayer = Obj.repr collisionLayer in
-        try
-        begin
-        if ((Obj.repr ((Obj.magic ownerLayer)#getGroupInterface ()).(0)) != (Obj.repr ((Obj.magic collisionLayer)#getGroupInterface ()).(0))) then begin
-            raise (Java_return (Obj.repr ((super#isCollision ((Obj.magic ownerLayer), (Obj.magic collisionLayer))))))
-        end;
-        false
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7-20"]
+and jm_isCollision = (this: CollidableDestroyableDamageableBehavior, ownerLayer: CollidableCompositeLayer, collisionLayer: CollidableCompositeLayer) => {
+        if ((CollidableCompositeLayer.jm_getGroupInterface(ownerLayer)[Int32.toNumber(0l)] != CollidableCompositeLayer.jm_getGroupInterface(collisionLayer)[Int32.toNumber(0l)])) {
+            return jm_isCollision(this, ownerLayer, collisionLayer)
+        }
+        return false
+}
     
-
-    method collide : 'any1 'any2. 'any1 * 'any2 -> unit = fun (ownerLayer, collidableInterfaceCompositeInterface) ->
-        let ownerLayer = Obj.repr ownerLayer in
-        let collidableInterfaceCompositeInterface = Obj.repr collidableInterfaceCompositeInterface in
-        begin
-        let ownerCollidableDestroyableDamageableLayer : CollidableDestroyableDamageableLayer.collidableDestroyableDamageableLayer ref = ref (((Obj.magic (Obj.magic ownerLayer)) :> CollidableDestroyableDamageableLayer.collidableDestroyableDamageableLayer)) in ();
-        let collidableDestroyableDamageableLayer : CollidableDestroyableDamageableLayer.collidableDestroyableDamageableLayer ref = ref (((Obj.magic (Obj.magic collidableInterfaceCompositeInterface)) :> CollidableDestroyableDamageableLayer.collidableDestroyableDamageableLayer)) in ();
-        ignore (!ownerCollidableDestroyableDamageableLayer#damage ((!collidableDestroyableDamageableLayer#getDamage (0)), 0))
-        end [@@warning "-7-20"]
+and jm_collide = (this: CollidableDestroyableDamageableBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableCompositeLayer) => {
+        let mut ownerCollidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer = JR.cast(ownerLayer)
+        let mut collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer = JR.cast(collidableInterfaceCompositeInterface)
+        ignore(CollidableDestroyableDamageableLayer.jm_damage(ownerCollidableDestroyableDamageableLayer, CollidableDestroyableDamageableLayer.jm_getDamage(collidableDestroyableDamageableLayer, 0l), 0l))
+}
     
-
-    method isCollisionInterface : 'any1 'any2. 'any1 * 'any2 -> bool = fun (_ownerLayer, _collidableInterfaceCompositeInterface) ->
-        begin
-        ignore (ForcedLogUtil.log ("No Longer Used", (Obj.magic self)));
-        false
-        end [@@warning "-7-20"]
+and jm_isCollisionInterface = (this: CollidableDestroyableDamageableBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) => {
+        ignore(ForcedLogUtil.jm_log("No Longer Used", JR.cast(this)))
+        return false
+}
     
+and jm_collideInterface = (this: CollidableDestroyableDamageableBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) => {
+        ignore(ForcedLogUtil.jm_log("No Longer Used", JR.cast(this)))
+}
 
-    method collideInterface : 'any1 'any2. 'any1 * 'any2 -> unit = fun (_ownerLayer, _collidableInterfaceCompositeInterface) ->
-        begin
-        ignore (ForcedLogUtil.log ("No Longer Used", (Obj.magic self)))
-        end [@@warning "-7-20"]
-
-    initializer
-      begin
-        damageUtil <- ((DamageUtil.getInstance ()) :> DamageUtil.damageUtil);
-        ();
-        (* super(...) is the inherit clause *) ()
-      end
-  end
-let () = java_register_constructor "CollidableDestroyableDamageableBehavior" (fun arguments -> Obj.repr (new collidableDestroyableDamageableBehavior (Obj.obj arguments)))
+JR.registerLateBound("CollidableDestroyableDamageableBehavior.jnew_1", jnew_1)
+JR.registerLateBound("CollidableDestroyableDamageableBehavior.jm_isCollision", jm_isCollision)
+JR.registerLateBound("CollidableDestroyableDamageableBehavior.jm_collide", jm_collide)
+JR.registerLateBound("CollidableDestroyableDamageableBehavior.jm_isCollisionInterface", jm_isCollisionInterface)
+JR.registerLateBound("CollidableDestroyableDamageableBehavior.jm_collideInterface", jm_collideInterface)
+JR.registerLateBound("CollidableDestroyableDamageableBehavior.f_damageUtil", (this: CollidableDestroyableDamageableBehavior) => this.f_damageUtil)
 
 

@@ -1,69 +1,79 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.form.item.validation
+module TextItemNumberVisitor
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.form.item.validation *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/game/input/TextNotificationUtil.gr" include TextNotificationUtil
+use TextNotificationUtil.{ type TextNotificationUtil }
+from "../../../../../../org/allbinary/logic/java/bool/BooleanFactory.gr" include BooleanFactory
+use BooleanFactory.{ type BooleanFactory }
+from "../../../../../../org/allbinary/logic/string/StringValidationUtil.gr" include StringValidationUtil
+use StringValidationUtil.{ type StringValidationUtil }
+from "../../../../../../org/allbinary/logic/util/visitor/Visitor.gr" include Visitor
+use Visitor.{ type Visitor }
+from "../../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.input.TextNotificationUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.java.bool.BooleanFactory *)
-(* import org.allbinary.logic.string.StringValidationUtil *)
-(* import org.allbinary.logic.util.visitor.Visitor *)
-(* import org.allbinary.string.CommonStrings *)
+provide record TextItemNumberVisitor {
+  jobject: JObject,
+  mut f_nullUtil: JObject,
+  mut f_logUtil: JObject,
+}
 
-class textItemNumberVisitor () =
-  object (self)
-    inherit Visitor.visitor ()
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
+
+provide let rec jclassName = () => "TextItemNumberVisitor"
     
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("TextItemNumberVisitor"), f_nullUtil: JR.jnull, f_logUtil: JR.jnull, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        void
+    this
+}
     
+and jm_visit = (this: TextItemNumberVisitor, anyType: JObject) => {
+        let mut value: String = JR.cast(anyType)
+        if (Int32.(<)(JR.length(value), 2l)) {
+            let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
+            if (StringValidationUtil.jm_isNumber(stringValidationUtil, value)) {
+                return BooleanFactory.jm_getInstance().f_TRUE
+            } else {
+                {
+                    ignore(TextNotificationUtil.jm_fireError(TextNotificationUtil.jm_getInstance(), "Numbers Only"))
+                }
+                return BooleanFactory.jm_getInstance().f_FALSE
+            }
+        } else {
+            return BooleanFactory.jm_getInstance().f_FALSE
+        }
+}
 
-    method visit : 'any1. 'any1 -> Obj.t = fun (anyType) ->
-        let anyType = Obj.repr anyType in
-        try
-        begin
-        let value : string ref = ref ((Obj.magic anyType)) in ();
-        if ((String.length !value) < 2) then begin
-            let stringValidationUtil : StringValidationUtil.stringValidationUtil ref = ref (((StringValidationUtil.getInstance ()) :> StringValidationUtil.stringValidationUtil)) in ();
-            if (!stringValidationUtil#isNumber (!value)) then begin
-                raise (Java_return (Obj.repr ((BooleanFactory.getInstance ())#tRUE)))
-            end else begin
-                (try
-                    ignore ((TextNotificationUtil.getInstance ())#fireError ("Numbers Only"))
-                with e -> begin
-                    let commonStrings : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-                    ignore ((Obj.magic logUtil)#put (!commonStrings#eXCEPTION, (Obj.magic self), !commonStrings#vISIT, e))
-                end);
-                raise (Java_return (Obj.repr ((BooleanFactory.getInstance ())#fALSE)))
-            end
-        end else begin
-            raise (Java_return (Obj.repr ((BooleanFactory.getInstance ())#fALSE)))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        ();
-        ()
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "TextItemNumberVisitor" (fun arguments -> Obj.repr (new textItemNumberVisitor (Obj.obj arguments)))
+JR.registerLateBound("TextItemNumberVisitor.jnew_0", jnew_0)
+JR.registerLateBound("TextItemNumberVisitor.jm_visit", jm_visit)
+JR.registerLateBound("TextItemNumberVisitor.f_logUtil", (this: TextItemNumberVisitor) => this.f_logUtil)
 
 

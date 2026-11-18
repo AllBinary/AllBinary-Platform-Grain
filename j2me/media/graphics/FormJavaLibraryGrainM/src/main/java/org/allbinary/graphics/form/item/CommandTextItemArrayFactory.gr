@@ -1,86 +1,124 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.graphics.form.item
+module CommandTextItemArrayFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.graphics.form.item *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
+use BasicColor.{ type BasicColor }
+from "../../../../../org/allbinary/graphics/displayable/DisplayInfoSingleton.gr" include DisplayInfoSingleton
+use DisplayInfoSingleton.{ type DisplayInfoSingleton }
+from "../../../../../org/allbinary/graphics/form/ScreenInfo.gr" include ScreenInfo
+use ScreenInfo.{ type ScreenInfo }
+from "../../../../../org/allbinary/logic/VectorUtil.gr" include VectorUtil
+use VectorUtil.{ type VectorUtil }
+from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
+use StringUtil.{ type StringUtil }
+from "../../../../../org/allbinary/logic/util/visitor/Visitor.gr" include Visitor
+use Visitor.{ type Visitor }
+from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
+use BasicArrayList.{ type BasicArrayList }
+from "../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
+use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../../java/lang/Boolean.gr" include Boolean
+from "./CommandTextItem.gr" include CommandTextItem
+use CommandTextItem.{ type CommandTextItem }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Command *)
-(* import javax.microedition.lcdui.ImageItem *)
-(* import org.allbinary.graphics.color.BasicColor *)
-(* import org.allbinary.graphics.displayable.DisplayInfoSingleton *)
-(* import org.allbinary.graphics.form.ScreenInfo *)
-(* import org.allbinary.logic.VectorUtil *)
-(* import org.allbinary.logic.string.StringUtil *)
-(* import org.allbinary.logic.util.visitor.Visitor *)
-(* import org.allbinary.util.BasicArrayList *)
-(* import org.allbinary.util.BasicArrayListD *)
+provide record CommandTextItemArrayFactory {
+  jobject: JObject,
+  mut f_list: BasicArrayList,
+  mut f_visitorInterface: Visitor,
+}
 
-class commandTextItemArrayFactory ((visitorInterface_arg : Visitor.visitor)) =
-  object
-    val mutable list : BasicArrayList.basicArrayList = (Obj.magic 0)
-    method list = list
-    method set_list value' = list <- value'
-    val mutable visitorInterface : Visitor.visitor = (Obj.magic 0)
-    method visitorInterface = visitorInterface
-    method set_visitorInterface value' = visitorInterface <- value'
+
+provide let rec jclassName = () => "CommandTextItemArrayFactory"
     
+and jnew_1 = (visitorInterface: Visitor) => {
+    let this = { jobject: JR.newJObject("CommandTextItemArrayFactory"), f_list: JR.nullOf(), f_visitorInterface: JR.nullOf(), }
+    this.f_list = JR.cast(BasicArrayListD.jnew_0())
     
+        this.f_visitorInterface = visitorInterface
+    this
+}
+    
+and jm_getInstance = (this: CommandTextItemArrayFactory, vector: JObject, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
+        let mut vectorUtil: VectorUtil = JR.cast(VectorUtil.jm_getInstance())
+        let mut size: Int32 = VectorUtil.jm_getSize(vectorUtil, vector)
+        ignore(BasicArrayList.jm_clear(this.f_list))
+        let mut textItem: CommandTextItem = JR.nullOf()
+        let mut priorityLimit: Int32 = 7l
+        let mut displayInfo: DisplayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
+        let mut isLargeEnoughDisplayForBigMenu: Bool = (((DisplayInfoSingleton.jm_isPortrait(displayInfo) && Int32.(>=)(DisplayInfoSingleton.jm_getLastHeight(displayInfo), ScreenInfo.jm_getInstance().f_MEDIUM_WIDTH))) || ((!DisplayInfoSingleton.jm_isPortrait(displayInfo) && Int32.(>=)(DisplayInfoSingleton.jm_getLastWidth(displayInfo), ScreenInfo.jm_getInstance().f_MEDIUM_WIDTH))))
+        if ((!isLargeEnoughDisplayForBigMenu && Int32.(>)(size, 3l))) {
+            priorityLimit = 3l
+        }
+        let mut command: JObject = JR.jnull
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size))) break
+            command = JR.cast(VectorUtil.jm_elementAt(vectorUtil, vector, index))
+            if (Int32.(<)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Command.jm_getPriority"))
+JR.cast(jlate(JR.cast(command)))
+}, priorityLimit)) {
+                let mut aBoolean: Bool = JR.cast(Visitor.jm_visit(this.f_visitorInterface, JR.cast(command)))
+                if (Boolean.jm_booleanValue(aBoolean)) {
+                    textItem = CommandTextItem.jnew_5(command, {
+let jlate: () => JObject = JR.cast(JR.lateBound("ImageItem.jstatic_LAYOUT_DEFAULT"))
+JR.cast(jlate())
+}, StringUtil.jm_getInstance().f_EMPTY_STRING, backgroundBasicColor, foregroundBasicColor)
+                    ignore(BasicArrayList.jm_add(this.f_list, JR.cast(textItem)))
+                }
+            }
+            }
+        }
+        let mut textItemArray: Array<JObject> = Array.make(Int32.toNumber(BasicArrayList.jm_size(this.f_list)), JR.jnull)
+        let mut size2: Int32 = Int32.fromNumber(Array.length(textItemArray))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, size2))) break
+            textItemArray[Int32.toNumber(index)] = JR.cast(this.f_list.f_objectArray[Int32.toNumber(index)])
+            }
+        }
+        return textItemArray
+}
 
-    method getInstance : 'any1 'any2 'any3 'return. 'any1 * 'any2 * 'any3 -> 'return = fun (vector, backgroundBasicColor, foregroundBasicColor) ->
-        let vector = Obj.repr vector in
-        let backgroundBasicColor = Obj.repr backgroundBasicColor in
-        let foregroundBasicColor = Obj.repr foregroundBasicColor in
-        begin
-        let vectorUtil : VectorUtil.vectorUtil ref = ref (((VectorUtil.getInstance ()) :> VectorUtil.vectorUtil)) in ();
-        let size : int ref = ref ((!vectorUtil#getSize (vector))) in ();
-        ignore (list#clear ());
-        let textItem : CommandTextItem.commandTextItem ref = ref (((Obj.magic 0) :> CommandTextItem.commandTextItem)) in ();
-        let priorityLimit : int ref = ref (7) in ();
-        let displayInfo : DisplayInfoSingleton.displayInfoSingleton ref = ref (((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton)) in ();
-        let isLargeEnoughDisplayForBigMenu : bool ref = ref (((((!displayInfo#isPortrait ()) && ((!displayInfo#getLastHeight ()) >= (ScreenInfo.getInstance ())#mEDIUM_WIDTH))) || (((not (!displayInfo#isPortrait ())) && ((!displayInfo#getLastWidth ()) >= (ScreenInfo.getInstance ())#mEDIUM_WIDTH))))) in ();
-        if ((not !isLargeEnoughDisplayForBigMenu) && (!size > 3)) then begin
-            priorityLimit := 3
-        end;
-        let command : Obj.t ref = ref ((Obj.repr (Obj.magic 0))) in ();
-        for index = 0 to !size - 1 do
-            command := Obj.repr ((Obj.magic (!vectorUtil#elementAt (vector, index))));
-            if (((Obj.magic !command)#getPriority ()) < !priorityLimit) then begin
-                let aBoolean : bool ref = ref ((Obj.magic (visitorInterface#visit ((Obj.magic !command))))) in ();
-                if !aBoolean then begin
-                    textItem := (new CommandTextItem.commandTextItem ((Obj.magic !command), (Obj.magic (java_call_static "ImageItem.get_lAYOUT_DEFAULT" (Obj.repr ()))), (StringUtil.getInstance ())#eMPTY_STRING, (Obj.magic backgroundBasicColor), (Obj.magic foregroundBasicColor)));
-                    ignore (list#add (!textItem))
-                end
-            end
-        done;
-        let textItemArray : Obj.t ref = ref ((Obj.repr (Array.make ((list#size ())) (Obj.magic 0)))) in ();
-        let size2 : int ref = ref ((Array.length (Obj.magic !textItemArray))) in ();
-        for index = 0 to !size2 - 1 do
-            (Obj.magic !textItemArray).(index) <- (Obj.magic list#objectArray.(index))
-        done;
-        (Obj.magic ((Obj.magic !textItemArray)))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        list <- ((new BasicArrayListD.basicArrayListD ()) :> BasicArrayList.basicArrayList);
-        ();
-        ();
-        visitorInterface <- visitorInterface_arg
-      end
-  end
-let () = java_register_constructor "CommandTextItemArrayFactory" (fun arguments -> Obj.repr (new commandTextItemArrayFactory (Obj.obj arguments)))
+JR.registerLateBound("CommandTextItemArrayFactory.jnew_1", jnew_1)
+JR.registerLateBound("CommandTextItemArrayFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("CommandTextItemArrayFactory.f_list", (this: CommandTextItemArrayFactory) => this.f_list)
+JR.registerLateBound("CommandTextItemArrayFactory.f_visitorInterface", (this: CommandTextItemArrayFactory) => this.f_visitorInterface)
 
 

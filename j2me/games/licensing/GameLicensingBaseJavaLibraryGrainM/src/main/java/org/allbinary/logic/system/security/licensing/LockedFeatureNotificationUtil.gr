@@ -1,69 +1,93 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.logic.system.security.licensing
+module LockedFeatureNotificationUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.logic.system.security.licensing *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../org/allbinary/game/layer/hud/event/GameNotificationEvent.gr" include GameNotificationEvent
+use GameNotificationEvent.{ type GameNotificationEvent }
+from "../../../../../../org/allbinary/game/layer/hud/event/GameNotificationEventHandler.gr" include GameNotificationEventHandler
+use GameNotificationEventHandler.{ type GameNotificationEventHandler }
+from "../../../../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
+use BasicColor.{ type BasicColor }
+from "../../../../../../org/allbinary/graphics/color/BasicColorFactory.gr" include BasicColorFactory
+use BasicColorFactory.{ type BasicColorFactory }
+from "../../../../../../org/allbinary/logic/java/bool/BooleanFactory.gr" include BooleanFactory
+use BooleanFactory.{ type BooleanFactory }
+from "../../../../../../org/allbinary/logic/math/SmallIntegerSingletonFactory.gr" include SmallIntegerSingletonFactory
+use SmallIntegerSingletonFactory.{ type SmallIntegerSingletonFactory }
+from "../../../../../../org/allbinary/media/audio/ErrorSound.gr" include ErrorSound
+use ErrorSound.{ type ErrorSound }
+from "../../../../../../org/allbinary/media/audio/PrimaryPlayerQueueFactory.gr" include PrimaryPlayerQueueFactory
+use PrimaryPlayerQueueFactory.{ type PrimaryPlayerQueueFactory }
+from "./LicenseStrings.gr" include LicenseStrings
+use LicenseStrings.{ type LicenseStrings }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import org.allbinary.game.layer.hud.event.GameNotificationEvent *)
-(* import org.allbinary.game.layer.hud.event.GameNotificationEventHandler *)
-(* import org.allbinary.graphics.color.BasicColor *)
-(* import org.allbinary.graphics.color.BasicColorFactory *)
-(* import org.allbinary.logic.java.bool.BooleanFactory *)
-(* import org.allbinary.logic.math.SmallIntegerSingletonFactory *)
-(* import org.allbinary.media.audio.ErrorSound *)
-(* import org.allbinary.media.audio.PrimaryPlayerQueueFactory *)
+provide record LockedFeatureNotificationUtil {
+  jobject: JObject,
+  mut f_gameNotificationEvent: GameNotificationEvent,
+}
 
-class lockedFeatureNotificationUtil () =
-  object (self)
-    val mutable gameNotificationEvent : GameNotificationEvent.gameNotificationEvent = (Obj.magic 0)
-    method gameNotificationEvent = gameNotificationEvent
-    method set_gameNotificationEvent value' = gameNotificationEvent <- value'
+let mut jcell_instance: Option<LockedFeatureNotificationUtil> = None
+
+provide let rec jclassName = () => "LockedFeatureNotificationUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: LockedFeatureNotificationUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("LockedFeatureNotificationUtil"), f_gameNotificationEvent: JR.nullOf(), }
+    this.f_gameNotificationEvent = GameNotificationEvent.jnew_5(this, LicenseStrings.jm_getInstance().f_LOCKED, SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 3l), BasicColorFactory.jm_getInstance().f_RED, BooleanFactory.jm_getInstance().f_FALSE)
+    this
+}
     
-
-    method fire () : unit =
-        begin
-        ignore ((PrimaryPlayerQueueFactory.getInstance ())#add ((ErrorSound.getInstance ())));
-        ignore ((GameNotificationEventHandler.getInstance ())#fireEvent (gameNotificationEvent))
-        end
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
+and jm_fire = (this: LockedFeatureNotificationUtil) => {
+        ignore(PrimaryPlayerQueueFactory.jm_add(PrimaryPlayerQueueFactory.jm_getInstance(), ErrorSound.jm_getInstance()))
+        ignore(GameNotificationEventHandler.jm_fireEvent(GameNotificationEventHandler.jm_getInstance(), this.f_gameNotificationEvent))
+}
+    
+and jm_fireWithColor = (this: LockedFeatureNotificationUtil, basicColor: BasicColor) => {
+        ignore(PrimaryPlayerQueueFactory.jm_add(PrimaryPlayerQueueFactory.jm_getInstance(), ErrorSound.jm_getInstance()))
+        ignore(GameNotificationEvent.jm_setBasicColorP(this.f_gameNotificationEvent, basicColor))
+        ignore(GameNotificationEventHandler.jm_fireEvent(GameNotificationEventHandler.jm_getInstance(), this.f_gameNotificationEvent))
+}
 
-    method fireWithColor : 'any1. 'any1 -> unit = fun (basicColor) ->
-        let basicColor = Obj.repr basicColor in
-        begin
-        ignore ((PrimaryPlayerQueueFactory.getInstance ())#add ((ErrorSound.getInstance ())));
-        ignore (gameNotificationEvent#setBasicColorP ((Obj.magic basicColor)));
-        ignore ((GameNotificationEventHandler.getInstance ())#fireEvent (gameNotificationEvent))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        gameNotificationEvent <- ((new GameNotificationEvent.gameNotificationEvent ((Obj.magic self), (LicenseStrings.getInstance ())#lOCKED, ((SmallIntegerSingletonFactory.getInstance ())#getAt (3)), (BasicColorFactory.getInstance ())#rED, (BooleanFactory.getInstance ())#fALSE)) :> GameNotificationEvent.gameNotificationEvent);
-        ()
-      end
-  end
-let () = java_register_constructor "LockedFeatureNotificationUtil" (fun arguments -> Obj.repr (new lockedFeatureNotificationUtil (Obj.obj arguments)))
-
-let instance = (new lockedFeatureNotificationUtil ())
-let get_instance () = instance
-let () = java_register_static "LockedFeatureNotificationUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "LockedFeatureNotificationUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("LockedFeatureNotificationUtil.jnew_0", jnew_0)
+JR.registerLateBound("LockedFeatureNotificationUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("LockedFeatureNotificationUtil.jm_fire", jm_fire)
+JR.registerLateBound("LockedFeatureNotificationUtil.jm_fireWithColor", jm_fireWithColor)
+JR.registerLateBound("LockedFeatureNotificationUtil.f_gameNotificationEvent", (this: LockedFeatureNotificationUtil) => this.f_gameNotificationEvent)
+JR.registerLateBound("LockedFeatureNotificationUtil.jstatic_instance", jstatic_instance)
 
 

@@ -1,108 +1,153 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.ag.layer.hud.basic.life
+module LivesHudWidget
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.ag.layer.hud.basic.life *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../../../../org/allbinary/animation/Animation.gr" include Animation
+use Animation.{ type Animation }
+from "../../../../../../../../org/allbinary/game/ag/life/Life.gr" include Life
+use Life.{ type Life }
+from "../../../../../../../../org/allbinary/game/graphics/hud/BasicHud.gr" include BasicHud
+use BasicHud.{ type BasicHud }
+from "../../../../../../../../org/allbinary/graphics/color/BasicColorFactory.gr" include BasicColorFactory
+use BasicColorFactory.{ type BasicColorFactory }
+from "../../../../../../../../org/allbinary/graphics/displayable/event/DisplayChangeEvent.gr" include DisplayChangeEvent
+use DisplayChangeEvent.{ type DisplayChangeEvent }
+from "../../../../../../../../org/allbinary/graphics/paint/PaintableInterface.gr" include PaintableInterface
+use PaintableInterface.{ type PaintableInterface }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Graphics *)
-(* import org.allbinary.animation.Animation *)
-(* import org.allbinary.game.ag.life.Life *)
-(* import org.allbinary.game.graphics.hud.BasicHud *)
-(* import org.allbinary.graphics.color.BasicColorFactory *)
-(* import org.allbinary.graphics.displayable.event.DisplayChangeEvent *)
-(* import org.allbinary.graphics.paint.PaintableInterface *)
+provide record LivesHudWidget {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: JObject,
+  mut f_canvasStrings: JObject,
+  mut f_basicSetColorUtil: JObject,
+  mut f_displayInfo: JObject,
+  mut f_updateMyFontProcessor: JObject,
+  mut f_myFontProcessor: JObject,
+  mut f_location: Int32,
+  mut f_direction: Int32,
+  mut f_bufferZone: Int32,
+  mut f_bufferZoneY: Int32,
+  mut f_hudGraphicsPosition: JObject,
+  mut f_x: Int32,
+  mut f_y: Int32,
+  mut f_basicColor: JObject,
+  mut f_color: Int32,
+  mut f_updateMaxWidth: Int32,
+  mut f_updateMaxHeight: Int32,
+  mut f_offsetY: Int32,
+  mut f_lifeInterface: Life,
+  mut f_xArray: Array<Int32>,
+  mut f_animationInterface: Animation,
+}
 
-class livesHudWidget ((animationInterface_arg : Animation.animation), (lifeInterface_arg : Life.life), (location : int), (direction : int)) =
-  object (self)
-    inherit BasicHud.basicHud (location, direction, 2, (BasicColorFactory.getInstance ())#wHITE) as super
-    val mutable lifeInterface : Life.life = (Obj.magic 0)
-    method lifeInterface = lifeInterface
-    method set_lifeInterface value' = lifeInterface <- value'
-    val mutable xArray : int array = (Obj.magic 0)
-    method xArray = xArray
-    method set_xArray value' = xArray <- value'
-    val mutable animationInterface : Animation.animation = (Obj.magic 0)
-    method animationInterface = animationInterface
-    method set_animationInterface value' = animationInterface <- value'
+
+provide let rec jclassName = () => "LivesHudWidget"
+    
+and jnew_4 = (animationInterface: Animation, lifeInterface: Life, location: Int32, direction: Int32) => {
+    let this = { jobject: JR.newJObject("LivesHudWidget"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_canvasStrings: JR.jnull, f_basicSetColorUtil: JR.jnull, f_displayInfo: JR.jnull, f_updateMyFontProcessor: JR.jnull, f_myFontProcessor: JR.jnull, f_location: 0l, f_direction: 0l, f_bufferZone: 0l, f_bufferZoneY: 0l, f_hudGraphicsPosition: JR.jnull, f_x: 0l, f_y: 0l, f_basicColor: JR.jnull, f_color: 0l, f_updateMaxWidth: 0l, f_updateMaxHeight: 0l, f_offsetY: 0l, f_lifeInterface: JR.nullOf(), f_xArray: [> ], f_animationInterface: JR.nullOf(), }
     
     
-
-    method updateMeasurement : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore (super#updateMeasurement ((Obj.magic graphics)));
-        let maxLives : int ref = ref ((java_to_int (Obj.repr (((self#getLifeInterface ())#getMaxlives ()))))) in ();
-        for index = 0 to !maxLives - 1 do
-            xArray.(index) <- ((self#getX ()) + ((index * 16)))
-        done
-        end [@@warning "-7-20"]
     
-
-    method onDisplayChangeEvent : 'any1. 'any1 -> unit = fun (displayChangeEvent) ->
-        let displayChangeEvent = Obj.repr displayChangeEvent in
-        begin
-        ignore (super#onDisplayChangeEvent ((Obj.magic displayChangeEvent)));
-        (self#set_myFontProcessor) ((self#updateMyFontProcessor))
-        end [@@warning "-7-20"]
+        void
+        this.f_lifeInterface = lifeInterface
+        let mut size: Int32 = Life.jm_getMaxlives(jm_getLifeInterface(this))
+        this.f_xArray = Array.make(Int32.toNumber(size), 0l)
+        this.f_animationInterface = animationInterface
+        this.f_updateMaxWidth = JR.cast(Int32.(*)(Life.jm_getMaxlives(this.f_lifeInterface), 16l))
+        this.f_updateMaxHeight = JR.cast(16l)
+    this
+}
     
-
-    method setX ((x : int)) : unit =
-        begin
-        ignore (super#setX (x));
-        (self#set_myFontProcessor) ((self#updateMyFontProcessor))
-        end [@@warning "-7"]
+and jm_updateMeasurement = (this: LivesHudWidget, graphics: JObject) => {
+        ignore(jm_updateMeasurement(this, graphics))
+        let mut maxLives: Int32 = Life.jm_getMaxlives(jm_getLifeInterface(this))
+        {
+            let mut index: Int32 = 0l
+            let mut jfirst = true
+            while (true) {
+                if (!jfirst) {
+                    index = Int32.(+)(index, 1l)
+                }
+                jfirst = false
+                if (!(Int32.(<)(index, maxLives))) break
+            this.f_xArray[Int32.toNumber(index)] = Int32.(+)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicHud.jm_getX"))
+JR.cast(jlate(JR.cast(this)))
+}, (Int32.(*)(index, 16l)))
+            }
+        }
+}
     
-
-    method paint : 'any1. 'any1 -> unit = fun (graphics) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore ((self#myFontProcessor)#process ((Obj.magic graphics)));
-        let index : int ref = ref ((java_to_int (Obj.repr (((self#getLifeInterface ())#get ()))))) in ();
-        while ((index := !index - 1; !index) >= 0) do
-            ignore (animationInterface#paintXY ((Obj.magic graphics), xArray.(!index), (self#getY ())))
-        done
-        end [@@warning "-7-20"]
+and jm_onDisplayChangeEvent = (this: LivesHudWidget, displayChangeEvent: DisplayChangeEvent) => {
+        ignore(jm_onDisplayChangeEvent(this, displayChangeEvent))
+        this.f_myFontProcessor = JR.cast(JR.cast(this.f_updateMyFontProcessor))
+}
     
-
-    method paintThreed : 'any1. 'any1 -> unit = fun (_graphics) ->
-        begin
-        ()
-        end [@@warning "-7-20"]
+and jm_setX = (this: LivesHudWidget, x: Int32) => {
+        ignore(jm_setX(this, x))
+        this.f_myFontProcessor = JR.cast(JR.cast(this.f_updateMyFontProcessor))
+}
     
+and jm_paint = (this: LivesHudWidget, graphics: JObject) => {
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("MyFontProcessor.jm_process"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_myFontProcessor)), JR.cast(graphics)))
+})
+        {
+            let mut index: Int32 = Life.jm_get(jm_getLifeInterface(this))
+            let mut jfirst = true
+            while (true) {
+                jfirst = false
+                if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
+            ignore(Animation.jm_paintXY(this.f_animationInterface, graphics, this.f_xArray[Int32.toNumber(index)], {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicHud.jm_getY"))
+JR.cast(jlate(JR.cast(this)))
+}))
+            }
+        }
+}
+    
+and jm_paintThreed = (this: LivesHudWidget, graphics: JObject) => {
+    void
+}
+    
+and jm_getLifeInterface = (this: LivesHudWidget) => {
+        return this.f_lifeInterface
+}
 
-    method getLifeInterface : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (lifeInterface))
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        ();
-        ();
-        ();
-        (* super(...) is the inherit clause *) ();
-        lifeInterface <- lifeInterface_arg;
-        let size : int ref = ref ((java_to_int (Obj.repr (((self#getLifeInterface ())#getMaxlives ()))))) in ();
-        xArray <- (Array.make (!size) 0);
-        animationInterface <- animationInterface_arg;
-        (self#set_updateMaxWidth) (((lifeInterface#getMaxlives ()) * 16));
-        (self#set_updateMaxHeight) (16)
-      end
-  end
-let () = java_register_constructor "LivesHudWidget" (fun arguments -> Obj.repr (new livesHudWidget (Obj.obj arguments)))
+JR.registerLateBound("LivesHudWidget.jnew_4", jnew_4)
+JR.registerLateBound("LivesHudWidget.jm_updateMeasurement", jm_updateMeasurement)
+JR.registerLateBound("LivesHudWidget.jm_onDisplayChangeEvent", jm_onDisplayChangeEvent)
+JR.registerLateBound("LivesHudWidget.jm_setX", jm_setX)
+JR.registerLateBound("LivesHudWidget.jm_paint", jm_paint)
+JR.registerLateBound("LivesHudWidget.jm_paintThreed", jm_paintThreed)
+JR.registerLateBound("LivesHudWidget.jm_getLifeInterface", jm_getLifeInterface)
+JR.registerLateBound("LivesHudWidget.f_lifeInterface", (this: LivesHudWidget) => this.f_lifeInterface)
+JR.registerLateBound("LivesHudWidget.f_xArray", (this: LivesHudWidget) => this.f_xArray)
+JR.registerLateBound("LivesHudWidget.f_animationInterface", (this: LivesHudWidget) => this.f_animationInterface)
 
 

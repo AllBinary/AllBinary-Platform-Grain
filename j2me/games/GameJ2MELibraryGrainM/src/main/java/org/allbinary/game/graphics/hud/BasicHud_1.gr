@@ -1,347 +1,400 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *   
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.game.graphics.hud
+module BasicHud_1
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../../org/allbinary/graphics/Anchor.gr" include Anchor
+use Anchor.{ type Anchor }
+from "../../../../../org/allbinary/graphics/GPoint.gr" include GPoint
+use GPoint.{ type GPoint }
+from "../../../../../org/allbinary/graphics/PointFactory.gr" include PointFactory
+use PointFactory.{ type PointFactory }
+from "../../../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
+use BasicColor.{ type BasicColor }
+from "../../../../../org/allbinary/graphics/color/BasicColorFactory.gr" include BasicColorFactory
+use BasicColorFactory.{ type BasicColorFactory }
+from "../../../../../org/allbinary/graphics/color/BasicColorSetUtil.gr" include BasicColorSetUtil
+use BasicColorSetUtil.{ type BasicColorSetUtil }
+from "../../../../../org/allbinary/graphics/displayable/CanvasStrings.gr" include CanvasStrings
+use CanvasStrings.{ type CanvasStrings }
+from "../../../../../org/allbinary/graphics/displayable/DisplayInfoSingleton.gr" include DisplayInfoSingleton
+use DisplayInfoSingleton.{ type DisplayInfoSingleton }
+from "../../../../../org/allbinary/graphics/displayable/event/DisplayChangeEvent.gr" include DisplayChangeEvent
+use DisplayChangeEvent.{ type DisplayChangeEvent }
+from "../../../../../org/allbinary/graphics/font/MyFontProcessor.gr" include MyFontProcessor
+use MyFontProcessor.{ type MyFontProcessor }
+from "../../../../../org/allbinary/graphics/font/UpdateMyFontInterface.gr" include UpdateMyFontInterface
+use UpdateMyFontInterface.{ type UpdateMyFontInterface }
+from "../../../../../org/allbinary/graphics/font/UpdateMyFontProcessor.gr" include UpdateMyFontProcessor
+use UpdateMyFontProcessor.{ type UpdateMyFontProcessor }
+from "../../../../../org/allbinary/logic/communication/log/ForcedLogUtil.gr" include ForcedLogUtil
+use ForcedLogUtil.{ type ForcedLogUtil }
+from "../../../../../org/allbinary/logic/util/event/AllBinaryEventObject.gr" include AllBinaryEventObject
+use AllBinaryEventObject.{ type AllBinaryEventObject }
+from "../../../../../org/allbinary/logic/util/event/EventStrings.gr" include EventStrings
+use EventStrings.{ type EventStrings }
+from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
+use CommonStrings.{ type CommonStrings }
+from "./HudGraphicsPosition.gr" include HudGraphicsPosition
+use HudGraphicsPosition.{ type HudGraphicsPosition }
+from "./BasicHudFactory.gr" include BasicHudFactory
+use BasicHudFactory.{ type BasicHudFactory }
+
+provide record BasicHud_1 {
+  jobject: JObject,
+  mut f_logUtil: JObject,
+  mut f_commonStrings: CommonStrings,
+  mut f_canvasStrings: CanvasStrings,
+  mut f_basicSetColorUtil: BasicColorSetUtil,
+  mut f_displayInfo: DisplayInfoSingleton,
+  mut f_updateMyFontProcessor: MyFontProcessor,
+  mut f_myFontProcessor: MyFontProcessor,
+  mut f_location: Int32,
+  mut f_direction: Int32,
+  mut f_bufferZone: Int32,
+  mut f_hudGraphicsPosition: HudGraphicsPosition,
+  mut f_x: Int32,
+  mut f_y: Int32,
+  mut f_basicColor: BasicColor,
+  mut f_color: Int32,
+  mut f_updateMaxWidth: Int32,
+  mut f_updateMaxHeight: Int32,
+  mut f_offsetY: Int32,
+}
+
+
+provide let rec jclassName = () => "BasicHud_1"
     
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.game.graphics.hud *)
-
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Graphics *)
-(* import org.allbinary.graphics.Anchor *)
-(* import org.allbinary.graphics.GPoint *)
-(* import org.allbinary.graphics.PointFactory *)
-(* import org.allbinary.graphics.color.BasicColor *)
-(* import org.allbinary.graphics.color.BasicColorFactory *)
-(* import org.allbinary.graphics.color.BasicColorSetUtil *)
-(* import org.allbinary.graphics.displayable.CanvasStrings *)
-(* import org.allbinary.graphics.displayable.DisplayInfoSingleton *)
-(* import org.allbinary.graphics.displayable.event.DisplayChangeEvent *)
-(* import org.allbinary.graphics.font.MyFontProcessor *)
-(* import org.allbinary.graphics.font.UpdateMyFontInterface *)
-(* import org.allbinary.graphics.font.UpdateMyFontProcessor *)
-(* import org.allbinary.logic.communication.log.ForcedLogUtil *)
-(* import org.allbinary.logic.communication.log.LogUtil *)
-(* import org.allbinary.logic.string.StringMaker *)
-(* import org.allbinary.logic.util.event.AllBinaryEventObject *)
-(* import org.allbinary.logic.util.event.EventStrings *)
-(* import org.allbinary.string.CommonStrings *)
-
-class basicHud_1 ((location_arg : int), (direction_arg : int), (bufferZone_arg : int), (basicColor_arg : BasicColor.basicColor)) =
-  object (self)
-    val mutable logUtil : Obj.t = Obj.repr 0
-    method logUtil : 'r. 'r = Obj.magic logUtil
-    method set_logUtil : 'v. 'v -> unit = fun value' -> logUtil <- Obj.repr value'
-    val mutable commonStrings : CommonStrings.commonStrings = (Obj.magic 0)
-    method commonStrings = commonStrings
-    method set_commonStrings value' = commonStrings <- value'
-    val mutable canvasStrings : CanvasStrings.canvasStrings = (Obj.magic 0)
-    method canvasStrings = canvasStrings
-    method set_canvasStrings value' = canvasStrings <- value'
-    val mutable basicSetColorUtil : BasicColorSetUtil.basicColorSetUtil = (Obj.magic 0)
-    method basicSetColorUtil = basicSetColorUtil
-    method set_basicSetColorUtil value' = basicSetColorUtil <- value'
-    val mutable displayInfo : DisplayInfoSingleton.displayInfoSingleton = (Obj.magic 0)
-    method displayInfo = displayInfo
-    method set_displayInfo value' = displayInfo <- value'
-    val mutable updateMyFontProcessor : MyFontProcessor.myFontProcessor = (Obj.magic 0)
-    method updateMyFontProcessor = updateMyFontProcessor
-    method set_updateMyFontProcessor value' = updateMyFontProcessor <- value'
-    val mutable myFontProcessor : MyFontProcessor.myFontProcessor = (Obj.magic 0)
-    method myFontProcessor = myFontProcessor
-    method set_myFontProcessor value' = myFontProcessor <- value'
-    val mutable location : int = 0
-    method location = location
-    method set_location value' = location <- value'
-    val mutable direction : int = 0
-    method direction = direction
-    method set_direction value' = direction <- value'
-    val mutable bufferZone : int = 0
-    method bufferZone = bufferZone
-    method set_bufferZone value' = bufferZone <- value'
-    val mutable hudGraphicsPosition : HudGraphicsPosition.hudGraphicsPosition = (Obj.magic 0)
-    method hudGraphicsPosition = hudGraphicsPosition
-    method set_hudGraphicsPosition value' = hudGraphicsPosition <- value'
-    val mutable x : int = 0
-    method x = x
-    method set_x value' = x <- value'
-    val mutable y : int = 0
-    method y = y
-    method set_y value' = y <- value'
-    val mutable basicColor : BasicColor.basicColor = (Obj.magic 0)
-    method basicColor = basicColor
-    method set_basicColor value' = basicColor <- value'
-    val mutable color : int = 0
-    method color = color
-    method set_color value' = color <- value'
-    val mutable updateMaxWidth : int = 0
-    method updateMaxWidth = updateMaxWidth
-    method set_updateMaxWidth value' = updateMaxWidth <- value'
-    val mutable updateMaxHeight : int = 0
-    method updateMaxHeight = updateMaxHeight
-    method set_updateMaxHeight value' = updateMaxHeight <- value'
-    val mutable offsetY : int = 0
-    method offsetY = offsetY
-    method set_offsetY value' = offsetY <- value'
+and jnew_4 = (location: Int32, direction: Int32, bufferZone: Int32, basicColor: BasicColor) => {
+    let this = { jobject: JR.newJObject("BasicHud_1"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_canvasStrings: JR.nullOf(), f_basicSetColorUtil: JR.nullOf(), f_displayInfo: JR.nullOf(), f_updateMyFontProcessor: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_location: 0l, f_direction: 0l, f_bufferZone: 0l, f_hudGraphicsPosition: JR.nullOf(), f_x: 0l, f_y: 0l, f_basicColor: JR.nullOf(), f_color: 0l, f_updateMaxWidth: 0l, f_updateMaxHeight: 0l, f_offsetY: 0l, }
+    this.f_logUtil = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
+    this.f_canvasStrings = JR.cast(CanvasStrings.jm_getInstance())
+    this.f_basicSetColorUtil = JR.cast(BasicColorSetUtil.jm_getInstance())
+    this.f_displayInfo = JR.cast(DisplayInfoSingleton.jm_getInstance())
+    this.f_updateMyFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(this))
+    this.f_myFontProcessor = JR.cast(this.f_updateMyFontProcessor)
     
     
-
-    method updateMeasurement : 'any1. 'any1 -> unit = fun (_graphics) ->
-        begin
-        (try
-            hudGraphicsPosition <- (self#getHudGraphicsPositionWH ((displayInfo#getLastWidth ()), (displayInfo#getLastHeight ()), updateMaxWidth, updateMaxHeight));
-            x <- ((hudGraphicsPosition#getPoint ())#getX ());
-            (self#setY (((hudGraphicsPosition#getPoint ())#getY ())))
-        with e -> begin
-            let commonStrings_arg : CommonStrings.commonStrings ref = ref (((CommonStrings.getInstance ()) :> CommonStrings.commonStrings)) in ();
-            ignore ((Obj.magic logUtil)#put (!commonStrings_arg#eXCEPTION, (Obj.magic self), canvasStrings#oN_DISPLAY_CHANGE_EVENT, e))
-        end);
-        myFontProcessor <- (MyFontProcessor.getInstance ())
-        end [@@warning "-20"]
     
-
-    method getLocation () : int =
-        begin
-        location
-        end
+    this.f_hudGraphicsPosition = JR.cast(HudGraphicsPosition.jstatic_NULL_HUD_GRAPHICS_POSITION())
     
-
-    method getDirection () : int =
-        begin
-        direction
-        end
     
-
-    method getHudGraphicsPositionWH : 'return. int * int * int * int -> 'return = fun ((width : int), (height : int), (maxWidth : int), (maxHeight : int)) ->
-        begin
-        let x_arg : int ref = ref (0) in ();
-        let y_arg : int ref = ref (0) in ();
-        let anchor : int ref = ref (0) in ();
-        let basicHudFactory : BasicHudFactory.basicHudFactory ref = ref (((BasicHudFactory.getInstance ()) :> BasicHudFactory.basicHudFactory)) in ();
-        if (!basicHudFactory#bOTTOMLEFT = (self#getLocation ())) then begin
-            x_arg := (bufferZone + 2);
-            y_arg := ((height - maxHeight) - bufferZone);
-            anchor := ((Obj.magic (java_call_static "Graphics.get_bOTTOM" (Obj.repr ()))) land (Obj.magic (java_call_static "Graphics.get_lEFT" (Obj.repr ()))))
-        end else if (!basicHudFactory#bOTTOMRIGHT = (self#getLocation ())) then begin
-            x_arg := (width - maxWidth);
-            y_arg := ((height - maxHeight) - bufferZone);
-            anchor := ((Obj.magic (java_call_static "Graphics.get_bOTTOM" (Obj.repr ()))) land (Obj.magic (java_call_static "Graphics.get_rIGHT" (Obj.repr ()))))
-        end else if (!basicHudFactory#tOPLEFT = (self#getLocation ())) then begin
-            x_arg := (bufferZone + 2);
-            y_arg := (bufferZone + 5);
-            anchor := (Anchor.get_tOP_LEFT ())
-        end else if (!basicHudFactory#tOPRIGHT = (self#getLocation ())) then begin
-            x_arg := (width - maxWidth);
-            y_arg := (bufferZone + 5);
-            anchor := ((Obj.magic (java_call_static "Graphics.get_tOP" (Obj.repr ()))) land (Obj.magic (java_call_static "Graphics.get_rIGHT" (Obj.repr ()))))
-        end else if (!basicHudFactory#tOPCENTER = (self#getLocation ())) then begin
-            x_arg := ((((width - maxWidth)) / 2));
-            y_arg := (bufferZone + 5);
-            anchor := ((Obj.magic (java_call_static "Graphics.get_tOP" (Obj.repr ()))) land (Obj.magic (java_call_static "Graphics.get_hCENTER" (Obj.repr ()))))
-        end else if (!basicHudFactory#bOTTOMCENTER = (self#getLocation ())) then begin
-            x_arg := ((((width - maxWidth)) / 2));
-            y_arg := ((height - maxHeight) - bufferZone);
-            anchor := ((Obj.magic (java_call_static "Graphics.get_bOTTOM" (Obj.repr ()))) land (Obj.magic (java_call_static "Graphics.get_hCENTER" (Obj.repr ()))))
-        end else if (!basicHudFactory#aBSOLUTE = (self#getLocation ())) then begin
-            x_arg := maxHeight;
-            y_arg := maxWidth;
-            anchor := 0
-        end;
-        (Obj.magic ((new HudGraphicsPosition.hudGraphicsPosition ((self#getPoint (!x_arg, !y_arg)), !anchor))))
-        end
+    this.f_basicColor = JR.cast(BasicColorFactory.jm_getInstance().f_BLACK)
     
-
-    method onEvent : 'any1. 'any1 -> unit = fun (_eventObject) ->
-        begin
-        ignore (ForcedLogUtil.log ((EventStrings.getInstance ())#pERFORMANCE_MESSAGE, (Obj.magic self)))
-        end [@@warning "-20"]
     
-
-    method onDisplayChangeEvent : 'any1. 'any1 -> unit = fun (_displayChangeEvent) ->
-        begin
-        myFontProcessor <- updateMyFontProcessor
-        end [@@warning "-20"]
     
-
-    method getPoint : 'return. int * int -> 'return = fun ((x_arg : int), (y_arg : int)) ->
-        begin
-        (Obj.magic (((PointFactory.getInstance ())#createXY (x_arg, y_arg))))
-        end
     
-
-    method getBufferZone () : int =
-        begin
-        bufferZone
-        end
+        ignore(jm_setLocation(this, location))
+        ignore(jm_setDirection(this, direction))
+        ignore(jm_setBufferZone(this, bufferZone))
+        ignore(jm_onDisplayChangeEvent(this, DisplayInfoSingleton.jm_getInstance().f_displayChangeEvent))
+        ignore(jm_setBasicColorP(this, basicColor))
+        this.f_color = BasicColor.jm_intValue(basicColor)
+    this
+}
     
-
-    method setBufferZone ((bufferZone_arg : int)) : unit =
-        begin
-        bufferZone <- bufferZone_arg
-        end
+and jm_updateMeasurement = (this: BasicHud_1, graphics: JObject) => {
+        {
+            this.f_hudGraphicsPosition = jm_getHudGraphicsPositionWH(this, DisplayInfoSingleton.jm_getLastWidth(this.f_displayInfo), DisplayInfoSingleton.jm_getLastHeight(this.f_displayInfo), this.f_updateMaxWidth, this.f_updateMaxHeight)
+            this.f_x = JR.className(JR.cast(HudGraphicsPosition.jm_getPoint(this.f_hudGraphicsPosition)))
+            ignore(jm_setY(this, JR.className(JR.cast(HudGraphicsPosition.jm_getPoint(this.f_hudGraphicsPosition)))))
+        }
+        this.f_myFontProcessor = MyFontProcessor.jm_getInstance()
+}
     
-
-    method setLocation ((location_arg : int)) : unit =
-        begin
-        location <- location_arg
-        end
+and jm_getLocation = (this: BasicHud_1) => {
+        return this.f_location
+}
     
-
-    method setDirection ((direction_arg : int)) : unit =
-        begin
-        direction <- direction_arg
-        end
+and jm_getDirection = (this: BasicHud_1) => {
+        return this.f_direction
+}
     
-
-    method getHudGraphicsPosition : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (hudGraphicsPosition))
-        end
+and jm_getHudGraphicsPositionWH = (this: BasicHud_1, width: Int32, height: Int32, maxWidth: Int32, maxHeight: Int32) => {
+        let mut x: Int32 = 0l
+        let mut y: Int32 = 0l
+        let mut anchor: Int32 = 0l
+        let mut basicHudFactory: BasicHudFactory = JR.cast(BasicHudFactory.jm_getInstance())
+        if ((basicHudFactory.f_BOTTOMLEFT == jm_getLocation(this))) {
+            x = Int32.(+)(this.f_bufferZone, 2l)
+            y = Int32.(-)(Int32.(-)(height, maxHeight), this.f_bufferZone)
+            anchor = Int32.(&)({
+let jlate: () => JObject = JR.cast(JR.lateBound("Graphics.jstatic_BOTTOM"))
+JR.cast(jlate())
+}, {
+let jlate: () => JObject = JR.cast(JR.lateBound("Graphics.jstatic_LEFT"))
+JR.cast(jlate())
+})
+        } else if ((basicHudFactory.f_BOTTOMRIGHT == jm_getLocation(this))) {
+            x = Int32.(-)(width, maxWidth)
+            y = Int32.(-)(Int32.(-)(height, maxHeight), this.f_bufferZone)
+            anchor = Int32.(&)({
+let jlate: () => JObject = JR.cast(JR.lateBound("Graphics.jstatic_BOTTOM"))
+JR.cast(jlate())
+}, {
+let jlate: () => JObject = JR.cast(JR.lateBound("Graphics.jstatic_RIGHT"))
+JR.cast(jlate())
+})
+        } else if ((basicHudFactory.f_TOPLEFT == jm_getLocation(this))) {
+            x = Int32.(+)(this.f_bufferZone, 2l)
+            y = Int32.(+)(this.f_bufferZone, 5l)
+            anchor = Anchor.jstatic_TOP_LEFT()
+        } else if ((basicHudFactory.f_TOPRIGHT == jm_getLocation(this))) {
+            x = Int32.(-)(width, maxWidth)
+            y = Int32.(+)(this.f_bufferZone, 5l)
+            anchor = Int32.(&)({
+let jlate: () => JObject = JR.cast(JR.lateBound("Graphics.jstatic_TOP"))
+JR.cast(jlate())
+}, {
+let jlate: () => JObject = JR.cast(JR.lateBound("Graphics.jstatic_RIGHT"))
+JR.cast(jlate())
+})
+        } else if ((basicHudFactory.f_TOPCENTER == jm_getLocation(this))) {
+            x = (Int32.(/)((Int32.(-)(width, maxWidth)), 2l))
+            y = Int32.(+)(this.f_bufferZone, 5l)
+            anchor = Int32.(&)({
+let jlate: () => JObject = JR.cast(JR.lateBound("Graphics.jstatic_TOP"))
+JR.cast(jlate())
+}, {
+let jlate: () => JObject = JR.cast(JR.lateBound("Graphics.jstatic_HCENTER"))
+JR.cast(jlate())
+})
+        } else if ((basicHudFactory.f_BOTTOMCENTER == jm_getLocation(this))) {
+            x = (Int32.(/)((Int32.(-)(width, maxWidth)), 2l))
+            y = Int32.(-)(Int32.(-)(height, maxHeight), this.f_bufferZone)
+            anchor = Int32.(&)({
+let jlate: () => JObject = JR.cast(JR.lateBound("Graphics.jstatic_BOTTOM"))
+JR.cast(jlate())
+}, {
+let jlate: () => JObject = JR.cast(JR.lateBound("Graphics.jstatic_HCENTER"))
+JR.cast(jlate())
+})
+        } else if ((basicHudFactory.f_ABSOLUTE == jm_getLocation(this))) {
+            x = maxHeight
+            y = maxWidth
+            anchor = 0l
+        }
+        return HudGraphicsPosition.jnew_2(jm_getPoint(this, x, y), anchor)
+}
     
-
-    method getColor () : int =
-        begin
-        color
-        end
+and jm_onEvent = (this: BasicHud_1, eventObject: AllBinaryEventObject) => {
+        ignore(ForcedLogUtil.jm_log(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE, JR.cast(this)))
+}
     
-
-    method getX () : int =
-        begin
-        x
-        end
+and jm_onDisplayChangeEvent = (this: BasicHud_1, displayChangeEvent: DisplayChangeEvent) => {
+        this.f_myFontProcessor = this.f_updateMyFontProcessor
+}
     
-
-    method setX ((x_arg : int)) : unit =
-        begin
-        x <- x_arg
-        end
+and jm_getPoint = (this: BasicHud_1, x: Int32, y: Int32) => {
+        return PointFactory.jm_createXY(PointFactory.jm_getInstance(), x, y)
+}
     
-
-    method setBasicColorP : 'any1. 'any1 -> unit = fun (basicColor_arg) ->
-        let basicColor_arg = Obj.repr basicColor_arg in
-        begin
-        basicColor <- (Obj.magic basicColor_arg)
-        end [@@warning "-20"]
+and jm_getBufferZone = (this: BasicHud_1) => {
+        return this.f_bufferZone
+}
     
-
-    method getBasicColorP : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (basicColor))
-        end
+and jm_setBufferZone = (this: BasicHud_1, bufferZone: Int32) => {
+        this.f_bufferZone = bufferZone
+}
     
-
-    method setY ((y_arg : int)) : unit =
-        begin
-        y <- y_arg
-        end
+and jm_setLocation = (this: BasicHud_1, location: Int32) => {
+        this.f_location = location
+}
     
-
-    method getY () : int =
-        begin
-        y
-        end
+and jm_setDirection = (this: BasicHud_1, direction: Int32) => {
+        this.f_direction = direction
+}
     
-
-    method paintSSO : 'any1. 'any1 * string * string * int -> unit = fun (graphics, (string : string), (string2 : string), (offset : int)) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore (myFontProcessor#process ((Obj.magic graphics)));
-        ignore (basicSetColorUtil#setBasicColorP ((Obj.magic graphics), (self#getBasicColorP ())));
-        ignore ((Obj.magic graphics)#drawString (string, x, (self#getY ()), (hudGraphicsPosition#getAnchor ())));
-        ignore ((Obj.magic graphics)#drawString (string2, (x + offset), (self#getY ()), (hudGraphicsPosition#getAnchor ())))
-        end [@@warning "-20"]
+and jm_getHudGraphicsPosition = (this: BasicHud_1) => {
+        return this.f_hudGraphicsPosition
+}
     
-
-    method paintSSOO : 'any1. 'any1 * string * string * int * int -> unit = fun (graphics, (string : string), (string2 : string), (offset : int), (offset2 : int)) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore (myFontProcessor#process ((Obj.magic graphics)));
-        ignore ((Obj.magic graphics)#setColor ((self#getColor ())));
-        ignore ((Obj.magic graphics)#drawString (string, (x + offset), (self#getY ()), (hudGraphicsPosition#getAnchor ())));
-        ignore ((Obj.magic graphics)#drawString (string2, (x + offset2), (self#getY ()), (hudGraphicsPosition#getAnchor ())))
-        end [@@warning "-20"]
+and jm_getColor = (this: BasicHud_1) => {
+        return this.f_color
+}
     
-
-    method paintDXY : 'any1. 'any1 * char array * int * int * char array * int * int * int * int -> unit = fun (graphics, (charArray : char array), (offset : int), (len : int), (charArray2 : char array), (offset2 : int), (len2 : int), (xOffset : int), (xOffset2 : int)) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore (myFontProcessor#process ((Obj.magic graphics)));
-        ignore (basicSetColorUtil#setBasicColorP ((Obj.magic graphics), (self#getBasicColorP ())));
-        let y_arg : int ref = ref ((self#getY ())) in ();
-        ignore ((Obj.magic graphics)#drawChars (charArray, offset, len, (x + xOffset), !y_arg, (hudGraphicsPosition#getAnchor ())));
-        ignore ((Obj.magic graphics)#drawChars (charArray2, offset2, len2, (x + xOffset2), !y_arg, (hudGraphicsPosition#getAnchor ())))
-        end [@@warning "-20"]
+and jm_getX = (this: BasicHud_1) => {
+        return this.f_x
+}
     
-
-    method paintDX : 'any1. 'any1 * char array * int * int * char array * int * int * int -> unit = fun (graphics, (charArray : char array), (offset : int), (len : int), (charArray2 : char array), (offset2 : int), (len2 : int), (xOffset : int)) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore (myFontProcessor#process ((Obj.magic graphics)));
-        ignore (basicSetColorUtil#setBasicColorP ((Obj.magic graphics), (self#getBasicColorP ())));
-        let y_arg : int ref = ref ((self#getY ())) in ();
-        ignore ((Obj.magic graphics)#drawChars (charArray, offset, len, x, !y_arg, (hudGraphicsPosition#getAnchor ())));
-        ignore ((Obj.magic graphics)#drawChars (charArray2, offset2, len2, (x + xOffset), !y_arg, (hudGraphicsPosition#getAnchor ())))
-        end [@@warning "-20"]
+and jm_setX = (this: BasicHud_1, x: Int32) => {
+        this.f_x = x
+}
     
-
-    method paintOffsetAndLength : 'any1. 'any1 * char array * int * int -> unit = fun (graphics, (charArray : char array), (offset : int), (len : int)) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore (myFontProcessor#process ((Obj.magic graphics)));
-        ignore (basicSetColorUtil#setBasicColorP ((Obj.magic graphics), (self#getBasicColorP ())));
-        let y_arg : int ref = ref ((self#getY ())) in ();
-        ignore ((Obj.magic graphics)#drawChars (charArray, offset, len, x, !y_arg, (hudGraphicsPosition#getAnchor ())))
-        end [@@warning "-20"]
+and jm_setBasicColorP = (this: BasicHud_1, basicColor: BasicColor) => {
+        this.f_basicColor = basicColor
+}
     
+and jm_getBasicColorP = (this: BasicHud_1) => {
+        return this.f_basicColor
+}
+    
+and jm_setY = (this: BasicHud_1, y: Int32) => {
+        this.f_y = y
+}
+    
+and jm_getY = (this: BasicHud_1) => {
+        return this.f_y
+}
+    
+and jm_paintSSO = (this: BasicHud_1, graphics: JObject, string: String, string2: String, offset: Int32) => {
+        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
+        ignore(BasicColorSetUtil.jm_setBasicColorP(this.f_basicSetColorUtil, graphics, jm_getBasicColorP(this)))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(string), JR.cast(this.f_x), JR.cast(jm_getY(this)), JR.cast(HudGraphicsPosition.jm_getAnchor(this.f_hudGraphicsPosition))))
+})
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(string2), JR.cast(Int32.(+)(this.f_x, offset)), JR.cast(jm_getY(this)), JR.cast(HudGraphicsPosition.jm_getAnchor(this.f_hudGraphicsPosition))))
+})
+}
+    
+and jm_paintSSOO = (this: BasicHud_1, graphics: JObject, string: String, string2: String, offset: Int32, offset2: Int32) => {
+        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_setColor"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(jm_getColor(this))))
+})
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(string), JR.cast(Int32.(+)(this.f_x, offset)), JR.cast(jm_getY(this)), JR.cast(HudGraphicsPosition.jm_getAnchor(this.f_hudGraphicsPosition))))
+})
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(string2), JR.cast(Int32.(+)(this.f_x, offset2)), JR.cast(jm_getY(this)), JR.cast(HudGraphicsPosition.jm_getAnchor(this.f_hudGraphicsPosition))))
+})
+}
+    
+and jm_paintDXY = (this: BasicHud_1, graphics: JObject, charArray: Array<Int32>, offset: Int32, len: Int32, charArray2: Array<Int32>, offset2: Int32, len2: Int32, xOffset: Int32, xOffset2: Int32) => {
+        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
+        ignore(BasicColorSetUtil.jm_setBasicColorP(this.f_basicSetColorUtil, graphics, jm_getBasicColorP(this)))
+        let mut y: Int32 = jm_getY(this)
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawChars"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(charArray), JR.cast(offset), JR.cast(len), JR.cast(Int32.(+)(this.f_x, xOffset)), JR.cast(y), JR.cast(HudGraphicsPosition.jm_getAnchor(this.f_hudGraphicsPosition))))
+})
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawChars"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(charArray2), JR.cast(offset2), JR.cast(len2), JR.cast(Int32.(+)(this.f_x, xOffset2)), JR.cast(y), JR.cast(HudGraphicsPosition.jm_getAnchor(this.f_hudGraphicsPosition))))
+})
+}
+    
+and jm_paintDX = (this: BasicHud_1, graphics: JObject, charArray: Array<Int32>, offset: Int32, len: Int32, charArray2: Array<Int32>, offset2: Int32, len2: Int32, xOffset: Int32) => {
+        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
+        ignore(BasicColorSetUtil.jm_setBasicColorP(this.f_basicSetColorUtil, graphics, jm_getBasicColorP(this)))
+        let mut y: Int32 = jm_getY(this)
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawChars"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(charArray), JR.cast(offset), JR.cast(len), JR.cast(this.f_x), JR.cast(y), JR.cast(HudGraphicsPosition.jm_getAnchor(this.f_hudGraphicsPosition))))
+})
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawChars"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(charArray2), JR.cast(offset2), JR.cast(len2), JR.cast(Int32.(+)(this.f_x, xOffset)), JR.cast(y), JR.cast(HudGraphicsPosition.jm_getAnchor(this.f_hudGraphicsPosition))))
+})
+}
+    
+and jm_paintOffsetAndLength = (this: BasicHud_1, graphics: JObject, charArray: Array<Int32>, offset: Int32, len: Int32) => {
+        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
+        ignore(BasicColorSetUtil.jm_setBasicColorP(this.f_basicSetColorUtil, graphics, jm_getBasicColorP(this)))
+        let mut y: Int32 = jm_getY(this)
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawChars"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(charArray), JR.cast(offset), JR.cast(len), JR.cast(this.f_x), JR.cast(y), JR.cast(HudGraphicsPosition.jm_getAnchor(this.f_hudGraphicsPosition))))
+})
+}
+    
+and jm_paintString = (this: BasicHud_1, graphics: JObject, string: String) => {
+        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
+        ignore(BasicColorSetUtil.jm_setBasicColorP(this.f_basicSetColorUtil, graphics, jm_getBasicColorP(this)))
+        let mut y: Int32 = Int32.(+)(jm_getY(this), this.f_offsetY)
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
+JR.cast(jlate(JR.cast(graphics), JR.cast(string), JR.cast(this.f_x), JR.cast(y), JR.cast(HudGraphicsPosition.jm_getAnchor(this.f_hudGraphicsPosition))))
+})
+}
 
-    method paintString : 'any1. 'any1 * string -> unit = fun (graphics, (string : string)) ->
-        let graphics = Obj.repr graphics in
-        begin
-        ignore (myFontProcessor#process ((Obj.magic graphics)));
-        ignore (basicSetColorUtil#setBasicColorP ((Obj.magic graphics), (self#getBasicColorP ())));
-        let y_arg : int ref = ref (((self#getY ()) + offsetY)) in ();
-        ignore ((Obj.magic graphics)#drawString (string, x, !y_arg, (hudGraphicsPosition#getAnchor ())))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        logUtil <- (Obj.repr (Obj.magic (java_call_static "LogUtil.getInstance" (Obj.repr ()))));
-        commonStrings <- ((CommonStrings.getInstance ()) :> CommonStrings.commonStrings);
-        canvasStrings <- ((CanvasStrings.getInstance ()) :> CanvasStrings.canvasStrings);
-        basicSetColorUtil <- ((BasicColorSetUtil.getInstance ()) :> BasicColorSetUtil.basicColorSetUtil);
-        displayInfo <- ((DisplayInfoSingleton.getInstance ()) :> DisplayInfoSingleton.displayInfoSingleton);
-        updateMyFontProcessor <- ((new UpdateMyFontProcessor.updateMyFontProcessor ((Obj.magic self))) :> MyFontProcessor.myFontProcessor);
-        myFontProcessor <- (updateMyFontProcessor :> MyFontProcessor.myFontProcessor);
-        location <- 0;
-        direction <- 0;
-        bufferZone <- 0;
-        hudGraphicsPosition <- ((HudGraphicsPosition.get_nULL_HUD_GRAPHICS_POSITION ()) :> HudGraphicsPosition.hudGraphicsPosition);
-        x <- 0;
-        y <- 0;
-        basicColor <- ((BasicColorFactory.getInstance ())#bLACK :> BasicColor.basicColor);
-        ();
-        updateMaxWidth <- 0;
-        updateMaxHeight <- 0;
-        offsetY <- 0;
-        ();
-        (self#setLocation (location_arg));
-        (self#setDirection (direction_arg));
-        (self#setBufferZone (bufferZone_arg));
-        (self#onDisplayChangeEvent ((DisplayInfoSingleton.getInstance ())#displayChangeEvent));
-        (self#setBasicColorP (basicColor_arg));
-        color <- (basicColor_arg#intValue ())
-      end
-  end [@@warning "-20"]
-let () = java_register_constructor "BasicHud_1" (fun arguments -> Obj.repr (new basicHud_1 (Obj.obj arguments)))
+JR.registerLateBound("BasicHud_1.jnew_4", jnew_4)
+JR.registerLateBound("BasicHud_1.jm_updateMeasurement", jm_updateMeasurement)
+JR.registerLateBound("BasicHud_1.jm_getLocation", jm_getLocation)
+JR.registerLateBound("BasicHud_1.jm_getDirection", jm_getDirection)
+JR.registerLateBound("BasicHud_1.jm_getHudGraphicsPositionWH", jm_getHudGraphicsPositionWH)
+JR.registerLateBound("BasicHud_1.jm_onEvent", jm_onEvent)
+JR.registerLateBound("BasicHud_1.jm_onDisplayChangeEvent", jm_onDisplayChangeEvent)
+JR.registerLateBound("BasicHud_1.jm_getPoint", jm_getPoint)
+JR.registerLateBound("BasicHud_1.jm_getBufferZone", jm_getBufferZone)
+JR.registerLateBound("BasicHud_1.jm_setBufferZone", jm_setBufferZone)
+JR.registerLateBound("BasicHud_1.jm_setLocation", jm_setLocation)
+JR.registerLateBound("BasicHud_1.jm_setDirection", jm_setDirection)
+JR.registerLateBound("BasicHud_1.jm_getHudGraphicsPosition", jm_getHudGraphicsPosition)
+JR.registerLateBound("BasicHud_1.jm_getColor", jm_getColor)
+JR.registerLateBound("BasicHud_1.jm_getX", jm_getX)
+JR.registerLateBound("BasicHud_1.jm_setX", jm_setX)
+JR.registerLateBound("BasicHud_1.jm_setBasicColorP", jm_setBasicColorP)
+JR.registerLateBound("BasicHud_1.jm_getBasicColorP", jm_getBasicColorP)
+JR.registerLateBound("BasicHud_1.jm_setY", jm_setY)
+JR.registerLateBound("BasicHud_1.jm_getY", jm_getY)
+JR.registerLateBound("BasicHud_1.jm_paintSSO", jm_paintSSO)
+JR.registerLateBound("BasicHud_1.jm_paintSSOO", jm_paintSSOO)
+JR.registerLateBound("BasicHud_1.jm_paintDXY", jm_paintDXY)
+JR.registerLateBound("BasicHud_1.jm_paintDX", jm_paintDX)
+JR.registerLateBound("BasicHud_1.jm_paintOffsetAndLength", jm_paintOffsetAndLength)
+JR.registerLateBound("BasicHud_1.jm_paintString", jm_paintString)
+JR.registerLateBound("BasicHud_1.f_logUtil", (this: BasicHud_1) => this.f_logUtil)
+JR.registerLateBound("BasicHud_1.f_commonStrings", (this: BasicHud_1) => this.f_commonStrings)
+JR.registerLateBound("BasicHud_1.f_canvasStrings", (this: BasicHud_1) => this.f_canvasStrings)
+JR.registerLateBound("BasicHud_1.f_basicSetColorUtil", (this: BasicHud_1) => this.f_basicSetColorUtil)
+JR.registerLateBound("BasicHud_1.f_displayInfo", (this: BasicHud_1) => this.f_displayInfo)
+JR.registerLateBound("BasicHud_1.f_updateMyFontProcessor", (this: BasicHud_1) => this.f_updateMyFontProcessor)
+JR.registerLateBound("BasicHud_1.f_myFontProcessor", (this: BasicHud_1) => this.f_myFontProcessor)
+JR.registerLateBound("BasicHud_1.set_f_myFontProcessor", (this: BasicHud_1, jvalue) => { this.f_myFontProcessor = jvalue; jvalue })
+JR.registerLateBound("BasicHud_1.f_location", (this: BasicHud_1) => this.f_location)
+JR.registerLateBound("BasicHud_1.set_f_location", (this: BasicHud_1, jvalue) => { this.f_location = jvalue; jvalue })
+JR.registerLateBound("BasicHud_1.f_direction", (this: BasicHud_1) => this.f_direction)
+JR.registerLateBound("BasicHud_1.set_f_direction", (this: BasicHud_1, jvalue) => { this.f_direction = jvalue; jvalue })
+JR.registerLateBound("BasicHud_1.f_bufferZone", (this: BasicHud_1) => this.f_bufferZone)
+JR.registerLateBound("BasicHud_1.set_f_bufferZone", (this: BasicHud_1, jvalue) => { this.f_bufferZone = jvalue; jvalue })
+JR.registerLateBound("BasicHud_1.f_hudGraphicsPosition", (this: BasicHud_1) => this.f_hudGraphicsPosition)
+JR.registerLateBound("BasicHud_1.set_f_hudGraphicsPosition", (this: BasicHud_1, jvalue) => { this.f_hudGraphicsPosition = jvalue; jvalue })
+JR.registerLateBound("BasicHud_1.f_x", (this: BasicHud_1) => this.f_x)
+JR.registerLateBound("BasicHud_1.set_f_x", (this: BasicHud_1, jvalue) => { this.f_x = jvalue; jvalue })
+JR.registerLateBound("BasicHud_1.f_y", (this: BasicHud_1) => this.f_y)
+JR.registerLateBound("BasicHud_1.set_f_y", (this: BasicHud_1, jvalue) => { this.f_y = jvalue; jvalue })
+JR.registerLateBound("BasicHud_1.f_basicColor", (this: BasicHud_1) => this.f_basicColor)
+JR.registerLateBound("BasicHud_1.set_f_basicColor", (this: BasicHud_1, jvalue) => { this.f_basicColor = jvalue; jvalue })
+JR.registerLateBound("BasicHud_1.f_color", (this: BasicHud_1) => this.f_color)
+JR.registerLateBound("BasicHud_1.set_f_color", (this: BasicHud_1, jvalue) => { this.f_color = jvalue; jvalue })
+JR.registerLateBound("BasicHud_1.f_updateMaxWidth", (this: BasicHud_1) => this.f_updateMaxWidth)
+JR.registerLateBound("BasicHud_1.set_f_updateMaxWidth", (this: BasicHud_1, jvalue) => { this.f_updateMaxWidth = jvalue; jvalue })
+JR.registerLateBound("BasicHud_1.f_updateMaxHeight", (this: BasicHud_1) => this.f_updateMaxHeight)
+JR.registerLateBound("BasicHud_1.set_f_updateMaxHeight", (this: BasicHud_1, jvalue) => { this.f_updateMaxHeight = jvalue; jvalue })
+JR.registerLateBound("BasicHud_1.f_offsetY", (this: BasicHud_1) => this.f_offsetY)
+JR.registerLateBound("BasicHud_1.set_f_offsetY", (this: BasicHud_1, jvalue) => { this.f_offsetY = jvalue; jvalue })
 
 

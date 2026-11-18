@@ -1,105 +1,173 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2011 AllBinary
+ * 
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ * 
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ * 
+ * Created By: Travis Berthelot
+ *  
+ */
+// Generated Code Do Not Modify
+// package org.allbinary.animation.image
+module AllBinaryJ2SEImageRotationAnimationFactory
 
-  AllBinary Open License Version 1
-  Copyright (c) 2011 AllBinary
-  
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
-  
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
-  
-  Created By: Travis Berthelot
-   
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary.animation.image *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../../../org/allbinary/animation/Animation.gr" include Animation
+use Animation.{ type Animation }
+from "../../../../org/allbinary/animation/AnimationBehaviorFactory.gr" include AnimationBehaviorFactory
+use AnimationBehaviorFactory.{ type AnimationBehaviorFactory }
+from "../../../../org/allbinary/game/configuration/feature/Features.gr" include Features
+use Features.{ type Features }
+from "../../../../org/allbinary/graphics/opengles/OpenGLFeatureFactory.gr" include OpenGLFeatureFactory
+use OpenGLFeatureFactory.{ type OpenGLFeatureFactory }
+from "../../../../org/allbinary/logic/math/PrimitiveIntUtil.gr" include PrimitiveIntUtil
+use PrimitiveIntUtil.{ type PrimitiveIntUtil }
+from "../../../../org/allbinary/math/AngleFactory.gr" include AngleFactory
+use AngleFactory.{ type AngleFactory }
+from "../../../../org/allbinary/math/AngleInfo.gr" include AngleInfo
+use AngleInfo.{ type AngleInfo }
+from "./BaseImageAnimationFactory.gr" include BaseImageAnimationFactory
+use BaseImageAnimationFactory.{ type BaseImageAnimationFactory }
+from "./AllBinaryJ2SEImageRotationAnimation.gr" include AllBinaryJ2SEImageRotationAnimation
+use AllBinaryJ2SEImageRotationAnimation.{ type AllBinaryJ2SEImageRotationAnimation }
+from "./AllBinaryAdjustedJ2SEImageRotationAnimation.gr" include AllBinaryAdjustedJ2SEImageRotationAnimation
+use AllBinaryAdjustedJ2SEImageRotationAnimation.{ type AllBinaryAdjustedJ2SEImageRotationAnimation }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import javax.microedition.lcdui.Image *)
-(* import org.allbinary.animation.Animation *)
-(* import org.allbinary.animation.AnimationBehaviorFactory *)
-(* import org.allbinary.game.configuration.feature.Features *)
-(* import org.allbinary.graphics.opengles.OpenGLFeatureFactory *)
-(* import org.allbinary.graphics.opengles.OpenGLUtil *)
-(* import org.allbinary.logic.math.PrimitiveIntUtil *)
-(* import org.allbinary.math.AngleFactory *)
-(* import org.allbinary.math.AngleInfo *)
-(* import org.allbinary.media.image.ImageCopyUtil *)
+provide record AllBinaryJ2SEImageRotationAnimationFactory {
+  jobject: JObject,
+  mut f_animationFactoryImageScaleUtil: JObject,
+  mut f_image: JObject,
+  mut f_animationBehaviorFactory: JObject,
+  mut f_sequenceArray: Array<Int32>,
+  mut f_animationFactoryInitializationVisitor: JObject,
+  mut f_scaleProperties: JObject,
+  mut f_angleIncrementP: Int32,
+  mut f_resizeCanvasForRotation: Bool,
+}
 
-class allBinaryJ2SEImageRotationAnimationFactory (image, (width : int), (height : int), (angleIncrement : int), (animationBehaviorFactory : AnimationBehaviorFactory.animationBehaviorFactory), (resizeCanvasForRotation_arg : bool)) =
-  object (self)
-    inherit BaseImageAnimationFactory.baseImageAnimationFactory (image, (PrimitiveIntUtil.getArrayInstance ()), width, height, 0, 0, animationBehaviorFactory)
-    val mutable angleIncrementP : int = 0
-    method angleIncrementP = angleIncrementP
-    method set_angleIncrementP value' = angleIncrementP <- value'
-    val mutable resizeCanvasForRotation : bool = false
-    method resizeCanvasForRotation = resizeCanvasForRotation
-    method set_resizeCanvasForRotation value' = resizeCanvasForRotation <- value'
+
+provide let rec jclassName = () => "AllBinaryJ2SEImageRotationAnimationFactory"
+    
+and jm_createDXY = (image: JObject, width: Int32, height: Int32, dx: Int32, dy: Int32, angleIncrement: Int32, animationBehaviorFactory: AnimationBehaviorFactory, resizeCanvasForRotation: Bool) => {
+        let mut imageRotationAnimationFactory: AllBinaryJ2SEImageRotationAnimationFactory = jnew_6(image, width, height, angleIncrement, animationBehaviorFactory, resizeCanvasForRotation)
+        imageRotationAnimationFactory.f_animationFactoryInitializationVisitor.f_dx = dx
+        imageRotationAnimationFactory.f_animationFactoryInitializationVisitor.f_dy = dy
+        imageRotationAnimationFactory.f_animationFactoryInitializationVisitor.f_originalDx = dx
+        imageRotationAnimationFactory.f_animationFactoryInitializationVisitor.f_originalDy = dy
+        return imageRotationAnimationFactory
+}
+    
+and jnew_6 = (image: JObject, width: Int32, height: Int32, angleIncrement: Int32, animationBehaviorFactory: AnimationBehaviorFactory, resizeCanvasForRotation: Bool) => {
+    let this = { jobject: JR.newJObject("AllBinaryJ2SEImageRotationAnimationFactory"), f_animationFactoryImageScaleUtil: JR.jnull, f_image: JR.jnull, f_animationBehaviorFactory: JR.jnull, f_sequenceArray: [> ], f_animationFactoryInitializationVisitor: JR.jnull, f_scaleProperties: JR.jnull, f_angleIncrementP: 0l, f_resizeCanvasForRotation: false, }
     
     
-
-    method getCanvasImage : 'return. unit -> 'return = fun () ->
-        try
-        begin
-        let features : Features.features ref = ref (((Features.getInstance ()) :> Features.features)) in ();
-        if (resizeCanvasForRotation && (not (!features#isDefault ((OpenGLFeatureFactory.getInstance ())#oPENGL)))) then begin
-            raise (Java_return (Obj.repr (((Obj.magic (java_call_static "ImageCopyUtil.getInstance" (Obj.repr ())))#createImageScale ((self#getImage ()), 1.44, false)))))
-        end else begin
-            raise (Java_return (Obj.repr ((self#getImage ()))))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7"]
+        void
+        this.f_angleIncrementP = angleIncrement
+        this.f_resizeCanvasForRotation = resizeCanvasForRotation
+    this
+}
     
-
-    method getInstance : 'return. int -> 'return = fun ((_instanceId : int)) ->
-        try
-        begin
-        let imageCopyUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "ImageCopyUtil.getInstance" (Obj.repr ()))))) in ();
-        let canvasImage : Obj.t ref = ref ((Obj.repr (self#getCanvasImage ()))) in ();
-        let scaledImage : Obj.t ref = ref ((Obj.repr ((self#animationFactoryImageScaleUtil)#createImage ((Obj.magic !canvasImage), (self#animationFactoryInitializationVisitor)#width, (self#animationFactoryInitializationVisitor)#height, (self#scaleProperties)#scaleWidth, (self#scaleProperties)#scaleHeight)))) in ();
-        let openGLUtil : Obj.t ref = ref ((Obj.repr (Obj.magic (java_call_static "OpenGLUtil.getInstance" (Obj.repr ()))))) in ();
-        scaledImage := Obj.repr (((Obj.magic !openGLUtil)#addImage ((Obj.magic !scaledImage))));
-        let copyOfScaledImage : Obj.t ref = ref ((Obj.repr ((Obj.magic !imageCopyUtil)#createImageForRotation ((Obj.magic !scaledImage))))) in ();
-        if (((self#animationFactoryInitializationVisitor)#dx != 0) || ((self#animationFactoryInitializationVisitor)#dy != 0)) then begin
-            ignore ((self#animationFactoryImageScaleUtil)#processAdjust ((Obj.magic self)));
-            raise (Java_return (Obj.repr ((new AllBinaryAdjustedJ2SEImageRotationAnimation.allBinaryAdjustedJ2SEImageRotationAnimation ((Obj.magic !scaledImage), (Obj.magic !copyOfScaledImage), (AngleInfo.getInstance (angleIncrementP)), (AngleFactory.getInstance ())#tOTAL_ANGLE, (self#animationFactoryInitializationVisitor)#dx, (self#animationFactoryInitializationVisitor)#dy, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
-        end else begin
-            raise (Java_return (Obj.repr ((new AllBinaryJ2SEImageRotationAnimation.allBinaryJ2SEImageRotationAnimation ((Obj.magic !scaledImage), (Obj.magic !copyOfScaledImage), (AngleInfo.getInstance (angleIncrementP)), (AngleFactory.getInstance ())#tOTAL_ANGLE, ((self#animationBehaviorFactory)#getOrCreateInstance ()))))))
-        end
-        end
-        with Java_return value -> Obj.obj value [@@warning "-7"]
+and jm_getCanvasImage = (this: AllBinaryJ2SEImageRotationAnimationFactory) => {
+        let mut features: Features = JR.cast(Features.jm_getInstance())
+        if ((this.f_resizeCanvasForRotation && !Features.jm_isDefault(features, JR.cast(OpenGLFeatureFactory.jm_getInstance().f_OPENGL)))) {
+            return {
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageCopyUtil.jm_createImageScale"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("ImageCopyUtil.jm_getInstance"))
+JR.cast(jlate())
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseImageAnimationFactory.jm_getImage"))
+JR.cast(jlate(JR.cast(this)))
+}), JR.cast(1.44f), JR.cast(false)))
+}
+        } else {
+            return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseImageAnimationFactory.jm_getImage"))
+JR.cast(jlate(JR.cast(this)))
+}
+        }
+}
     
+and jm_getInstance = (this: AllBinaryJ2SEImageRotationAnimationFactory, instanceId: Int32) => {
+        let mut imageCopyUtil: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("ImageCopyUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        let mut canvasImage: JObject = JR.cast(jm_getCanvasImage(this))
+        let mut scaledImage: JObject = JR.cast({
+let jlate: (JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryImageScaleUtil.jm_createImage"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryImageScaleUtil)), JR.cast(canvasImage), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_width"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_height"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ScaleProperties.f_scaleWidth"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_scaleProperties))))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ScaleProperties.f_scaleHeight"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_scaleProperties))))
+})))
+})
+        let mut openGLUtil: JObject = JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("OpenGLUtil.jm_getInstance"))
+JR.cast(jlate())
+})
+        scaledImage = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("OpenGLUtil.jm_addImage"))
+JR.cast(jlate(JR.cast(openGLUtil), JR.cast(scaledImage)))
+}
+        let mut copyOfScaledImage: JObject = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageCopyUtil.jm_createImageForRotation"))
+JR.cast(jlate(JR.cast(imageCopyUtil), JR.cast(scaledImage)))
+})
+        if ((({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_dx"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
+} != 0l) || ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_dy"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
+} != 0l))) {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryImageScaleUtil.jm_processAdjust"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryImageScaleUtil)), JR.cast(this)))
+})
+            return JR.cast(AllBinaryAdjustedJ2SEImageRotationAnimation.jnew_7(scaledImage, copyOfScaledImage, AngleInfo.jm_getInstance(this.f_angleIncrementP), AngleFactory.jm_getInstance().f_TOTAL_ANGLE, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_dx"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_dy"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
+}, AnimationBehaviorFactory.jm_getOrCreateInstance(JR.cast(this.f_animationBehaviorFactory))))
+        } else {
+            return JR.cast(AllBinaryJ2SEImageRotationAnimation.jnew_5(scaledImage, copyOfScaledImage, AngleInfo.jm_getInstance(this.f_angleIncrementP), AngleFactory.jm_getInstance().f_TOTAL_ANGLE, AnimationBehaviorFactory.jm_getOrCreateInstance(JR.cast(this.f_animationBehaviorFactory))))
+        }
+}
+    
+and jm_getAngleIncrement = (this: AllBinaryJ2SEImageRotationAnimationFactory) => {
+        return this.f_angleIncrementP
+}
 
-    method getAngleIncrement () : int =
-        begin
-        angleIncrementP
-        end [@@warning "-7"]
-
-    initializer
-      begin
-        ();
-        ();
-        ();
-        (* super(...) is the inherit clause *) ();
-        angleIncrementP <- angleIncrement;
-        resizeCanvasForRotation <- resizeCanvasForRotation_arg
-      end
-  end
-let () = java_register_constructor "AllBinaryJ2SEImageRotationAnimationFactory" (fun arguments -> Obj.repr (new allBinaryJ2SEImageRotationAnimationFactory (Obj.obj arguments)))
-
-let createDXY : 'any1 'any7 'return. 'any1 * int * int * int * int * int * 'any7 * bool -> 'return = fun (image, (width : int), (height : int), (dx : int), (dy : int), (angleIncrement : int), animationBehaviorFactory, (resizeCanvasForRotation_arg : bool)) ->
-        let image = Obj.repr image in
-        let animationBehaviorFactory = Obj.repr animationBehaviorFactory in
-        begin
-        let imageRotationAnimationFactory : Obj.t ref = ref ((Obj.repr (new allBinaryJ2SEImageRotationAnimationFactory ((Obj.magic image), width, height, angleIncrement, (Obj.magic animationBehaviorFactory), resizeCanvasForRotation_arg)))) in ();
-        ignore ((Obj.magic !imageRotationAnimationFactory)#animationFactoryInitializationVisitor#set_dx (dx));
-        ignore ((Obj.magic !imageRotationAnimationFactory)#animationFactoryInitializationVisitor#set_dy (dy));
-        ignore ((Obj.magic !imageRotationAnimationFactory)#animationFactoryInitializationVisitor#set_originalDx (dx));
-        ignore ((Obj.magic !imageRotationAnimationFactory)#animationFactoryInitializationVisitor#set_originalDy (dy));
-        (Obj.magic ((Obj.magic !imageRotationAnimationFactory)))
-        end [@@warning "-20"]
-let () = java_register_static "AllBinaryJ2SEImageRotationAnimationFactory.createDXY" (fun arguments -> Obj.repr (createDXY (Obj.obj arguments)))
+JR.registerLateBound("AllBinaryJ2SEImageRotationAnimationFactory.jnew_6", jnew_6)
+JR.registerLateBound("AllBinaryJ2SEImageRotationAnimationFactory.jm_createDXY", jm_createDXY)
+JR.registerLateBound("AllBinaryJ2SEImageRotationAnimationFactory.jm_getCanvasImage", jm_getCanvasImage)
+JR.registerLateBound("AllBinaryJ2SEImageRotationAnimationFactory.jm_getInstance", jm_getInstance)
+JR.registerLateBound("AllBinaryJ2SEImageRotationAnimationFactory.jm_getAngleIncrement", jm_getAngleIncrement)
+JR.registerLateBound("AllBinaryJ2SEImageRotationAnimationFactory.f_angleIncrementP", (this: AllBinaryJ2SEImageRotationAnimationFactory) => this.f_angleIncrementP)
+JR.registerLateBound("AllBinaryJ2SEImageRotationAnimationFactory.f_resizeCanvasForRotation", (this: AllBinaryJ2SEImageRotationAnimationFactory) => this.f_resizeCanvasForRotation)
 
 

@@ -1,83 +1,104 @@
-(*
+/*
+ *
+ * AllBinary Open License Version 1
+ * Copyright (c) 2026 AllBinary
+ *
+ * By agreeing to this license you and any business entity you represent are
+ * legally bound to the AllBinary Open License Version 1 legal agreement.
+ *
+ * You may obtain the AllBinary Open License Version 1 legal agreement from
+ * AllBinary or the root directory of AllBinary's AllBinary Platform repository.
+ *
+ * Created By: Travis Berthelot
+ * 
+ */
+// Generated Code Do Not Modify
+// package org.allbinary
+module MIDPUtil
 
-  AllBinary Open License Version 1
-  Copyright (c) 2026 AllBinary
- 
-  By agreeing to this license you and any business entity you represent are
-  legally bound to the AllBinary Open License Version 1 legal agreement.
- 
-  You may obtain the AllBinary Open License Version 1 legal agreement from
-  AllBinary or the root directory of AllBinary's AllBinary Platform repository.
- 
-  Created By: Travis Berthelot
-  
-*)
-(* Generated Code Do Not Modify *)
-(* package org.allbinary *)
+from "int32" include Int32
+from "int64" include Int64
+from "float32" include Float32
+from "float64" include Float64
+from "number" include Number
+from "char" include Char
+from "array" include Array
+from "../../allbinary_java.gr" include JR
+use JR.{ type JObject }
+from "../../java/io/IOException.gr" include IOException
+use IOException.{ type IOException }
+from "../../java/io/InputStream.gr" include InputStream
+use InputStream.{ type InputStream }
 
-open Allbinary_java [@@warning "-33"]
-[@@@warning "-20"]
-(* import java.io.IOException *)
-(* import java.io.InputStream *)
-(* import javax.microedition.lcdui.Form *)
-(* import javax.microedition.lcdui.Image *)
-(* import javax.microedition.lcdui.Item *)
-(* import javax.microedition.media.Manager *)
-(* import javax.microedition.media.MediaException *)
-(* import javax.microedition.media.Player *)
+//like microemu-playn, so the languages without overloading can be generated. J2ME uses the MIDP overloads.
+provide record MIDPUtil {
+  jobject: JObject,
+}
 
-class mIDPUtil () =
-  object
+let mut jcell_instance: Option<MIDPUtil> = None
+
+provide let rec jclassName = () => "MIDPUtil"
+
+and jstatic_instance = () => match (jcell_instance) {
+  Some(value) => value,
+  None => {
+    let value: MIDPUtil = jnew_0()
+    jcell_instance = Some(value)
+    value
+  },
+}
+
+and jnew_0 = () => {
+    let this = { jobject: JR.newJObject("MIDPUtil"), }
+    this
+}
     
-
-    method createImageWH : 'return. int * int -> 'return = fun ((width : int), (height : int)) ->
-        begin
-        (Obj.magic ((Obj.magic (java_call_static "Image.createImage" (Obj.repr (width, height))))))
-        end
+and jm_getInstance = () => {
+        return jstatic_instance()
+}
     
-
-    method createImageFromByteArray : 'return. int array * int * int -> 'return = fun ((imageData : int array), (imageOffset : int), (imageLength : int)) ->
-        begin
-        (Obj.magic ((Obj.magic (java_call_static "Image.createImage" (Obj.repr (imageData, imageOffset, imageLength))))))
-        end
+and jm_createImageWH = (this: MIDPUtil, width: Int32, height: Int32) => {
+        return {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Image.jm_createImage"))
+JR.cast(jlate(JR.cast(width), JR.cast(height)))
+}
+}
     
-
-    method createImageFromInputStream : 'any1 'return. 'any1 -> 'return = fun (inputStream) ->
-        let inputStream = Obj.repr inputStream in
-        begin
-        (Obj.magic ((Obj.magic (java_call_static "Image.createImage" (Obj.repr ((Obj.magic inputStream)))))))
-        end [@@warning "-20"]
+and jm_createImageFromByteArray = (this: MIDPUtil, imageData: Array<Int32>, imageOffset: Int32, imageLength: Int32) => {
+        return {
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Image.jm_createImage"))
+JR.cast(jlate(JR.cast(imageData), JR.cast(imageOffset), JR.cast(imageLength)))
+}
+}
     
-
-    method createPlayerFromInputStream : 'any1 'return. 'any1 * string -> 'return = fun (inputStream, (type_ : string)) ->
-        let inputStream = Obj.repr inputStream in
-        begin
-        (Obj.magic ((Obj.magic (java_call_static "Manager.createPlayer" (Obj.repr ((Obj.magic inputStream), type_))))))
-        end [@@warning "-20"]
+and jm_createImageFromInputStream = (this: MIDPUtil, inputStream: InputStream) => {
+        return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_createImage"))
+JR.cast(jlate(JR.cast(inputStream)))
+}
+}
     
+and jm_createPlayerFromInputStream = (this: MIDPUtil, inputStream: InputStream, type_: String) => {
+        return {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Manager.jm_createPlayer"))
+JR.cast(jlate(JR.cast(inputStream), JR.cast(type_)))
+}
+}
+    
+and jm_appendItem = (this: MIDPUtil, form: JObject, item: JObject) => {
+        return {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Form.jm_append"))
+JR.cast(jlate(JR.cast(form), JR.cast(item)))
+}
+}
 
-    method appendItem : 'any1 'any2. 'any1 * 'any2 -> int = fun (form, item) ->
-        let form = Obj.repr form in
-        let item = Obj.repr item in
-        begin
-        ((Obj.magic form)#append ((Obj.magic item)))
-        end [@@warning "-20"]
-
-    initializer
-      begin
-        ()
-      end
-  end
-let () = java_register_constructor "MIDPUtil" (fun arguments -> Obj.repr (new mIDPUtil (Obj.obj arguments)))
-
-let instance = (new mIDPUtil ())
-let get_instance () = instance
-let () = java_register_static "MIDPUtil.get_instance" (fun _ -> Obj.repr (get_instance ()))
-
-let getInstance : 'return. unit -> 'return = fun () ->
-        begin
-        (Obj.magic (instance))
-        end
-let () = java_register_static "MIDPUtil.getInstance" (fun arguments -> Obj.repr (getInstance (Obj.obj arguments)))
+JR.registerLateBound("MIDPUtil.jnew_0", jnew_0)
+JR.registerLateBound("MIDPUtil.jm_getInstance", jm_getInstance)
+JR.registerLateBound("MIDPUtil.jm_createImageWH", jm_createImageWH)
+JR.registerLateBound("MIDPUtil.jm_createImageFromByteArray", jm_createImageFromByteArray)
+JR.registerLateBound("MIDPUtil.jm_createImageFromInputStream", jm_createImageFromInputStream)
+JR.registerLateBound("MIDPUtil.jm_createPlayerFromInputStream", jm_createPlayerFromInputStream)
+JR.registerLateBound("MIDPUtil.jm_appendItem", jm_appendItem)
+JR.registerLateBound("MIDPUtil.jstatic_instance", jstatic_instance)
 
 
