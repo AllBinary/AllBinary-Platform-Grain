@@ -72,6 +72,10 @@ and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
     value
   },
 }
+
+and jset_SINGLETON = (value: GroupLayerManagerListener) => {
+  jcell_SINGLETON = Some(value)
+}
     
 and jm_getInstance = () => {
         return jstatic_SINGLETON()
@@ -173,7 +177,7 @@ and jm_isIdInList = (this: GroupLayerManagerListener, id: Int32, excludeGroupLis
                 }
                 jfirst = false
                 if (!(Int32.(>=)(index, 0l))) break
-            groupInterfaceArray = excludeGroupList.f_objectArray[Int32.toNumber(index)]
+            groupInterfaceArray = JR.cast(excludeGroupList.f_objectArray[Int32.toNumber(index)])
             let mut size2: Int32 = Int32.fromNumber(Array.length(groupInterfaceArray))
             {
                 let mut index2: Int32 = 0l
@@ -243,7 +247,10 @@ and jm_onCreateLayerManagerEvent = (this: GroupLayerManagerListener, layerManage
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            id = JR.className(JR.cast(groupInterfaceArray[Int32.toNumber(index)]))
+            id = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Group.jm_getGroupId"))
+JR.cast(jlate(JR.cast(groupInterfaceArray[Int32.toNumber(index)])))
+}
             groupList = JR.cast(this.f_list.f_objectArray[Int32.toNumber(id)])
             if (JR.isNull(groupList)) {
                 ignore({
@@ -275,7 +282,10 @@ and jm_onDeleteLayerManagerEvent = (this: GroupLayerManagerListener, layerManage
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            id = JR.className(JR.cast(groupInterfaceArray[Int32.toNumber(index)]))
+            id = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Group.jm_getGroupId"))
+JR.cast(jlate(JR.cast(groupInterfaceArray[Int32.toNumber(index)])))
+}
             groupList = JR.cast(this.f_list.f_objectArray[Int32.toNumber(id)])
             ignore(BasicArrayList.jm_remove(groupList, JR.cast(layerInterface)))
             }
@@ -331,5 +341,6 @@ JR.registerLateBound("GroupLayerManagerListener.jm_log", jm_log)
 JR.registerLateBound("GroupLayerManagerListener.f_logUtil", (this: GroupLayerManagerListener) => this.f_logUtil)
 JR.registerLateBound("GroupLayerManagerListener.f_list", (this: GroupLayerManagerListener) => this.f_list)
 JR.registerLateBound("GroupLayerManagerListener.jstatic_SINGLETON", jstatic_SINGLETON)
+JR.registerLateBound("GroupLayerManagerListener.jset_SINGLETON", jset_SINGLETON)
 
 

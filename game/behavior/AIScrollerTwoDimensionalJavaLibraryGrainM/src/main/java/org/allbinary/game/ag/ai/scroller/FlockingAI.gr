@@ -95,7 +95,7 @@ and jm_processAI = (this: FlockingAI, allBinaryLayerManager: AllBinaryLayerManag
                 let mut distance: Int32 = jm_getXYDistance(this, allBinaryLayer)
                 if (Int32.(>)(distance, maxDistance)) {
                     maxDistance = distance
-                    farAllbinaryLayer = allBinaryLayer
+                    farAllbinaryLayer = JR.cast(allBinaryLayer)
                     if (Int32.(>)(distance, this.f_allowedDistance)) {
                         break
                     }
@@ -105,10 +105,10 @@ and jm_processAI = (this: FlockingAI, allBinaryLayerManager: AllBinaryLayerManag
         }
         if (Int32.(>)(maxDistance, this.f_allowedDistance)) {
             if ((!JR.isSame(farAllbinaryLayer, AllBinaryLayer.jstatic_NULL_ALLBINARY_LAYER()))) {
-                ownerLayerInterface = {
+                ownerLayerInterface = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
 JR.cast(jlate(JR.cast(this)))
-}
+})
                 if (Int32.(<)(AllBinaryLayer.jm_getXP(farAllbinaryLayer), AllBinaryLayer.jm_getXP(ownerLayerInterface))) {
                     ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))

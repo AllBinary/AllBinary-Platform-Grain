@@ -54,6 +54,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: BasicCryptUtil) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("BasicCryptUtil"), f_logUtil: JR.jnull, f_tsUtil: JR.jnull, f_XML_START: "", }
     this.f_logUtil = JR.cast({
@@ -83,7 +87,7 @@ and jm_getDecryptedInputStream = (this: BasicCryptUtil, inputStream: InputStream
             ignore(ByteArrayOutputStream.jm_write_1(buffer, ch))
         }
         let mut decrypted: Array<Int32> = CryptInterface.jm_decrypt(cryptInterface, ByteArrayOutputStream.jm_toByteArray_0(buffer))
-        let mut decryptedString: String = decrypted
+        let mut decryptedString: String = JR.fromBytes(decrypted)
         let mut index: Int32 = JR.indexOf(decryptedString, this.f_XML_START)
         if (Int32.(>)(index, 0l)) {
             decryptedString = JR.substringFrom(decryptedString, index)
@@ -101,5 +105,6 @@ JR.registerLateBound("BasicCryptUtil.f_logUtil", (this: BasicCryptUtil) => this.
 JR.registerLateBound("BasicCryptUtil.f_tsUtil", (this: BasicCryptUtil) => this.f_tsUtil)
 JR.registerLateBound("BasicCryptUtil.f_XML_START", (this: BasicCryptUtil) => this.f_XML_START)
 JR.registerLateBound("BasicCryptUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("BasicCryptUtil.jset_instance", jset_instance)
 
 

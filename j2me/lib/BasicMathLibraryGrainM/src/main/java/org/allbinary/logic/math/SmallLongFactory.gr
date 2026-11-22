@@ -50,6 +50,10 @@ and jstatic_instance = () => match (jcell_instance) {
     value
   },
 }
+
+and jset_instance = (value: SmallLongFactory) => {
+  jcell_instance = Some(value)
+}
     
 and jm_getInstance = () => {
         return jstatic_instance()
@@ -145,7 +149,7 @@ and jm_getInstanceNoThrow = (this: SmallLongFactory, index: Int64) => {
 and jm_getString = (this: SmallLongFactory, index: Int32) => {
         let mut i: Int32 = Int32.(+)(index, this.f_NEGATIVE_MAX)
         if (JR.isNull(this.f_STRING_ARRAY[Int32.toNumber(i)])) {
-            this.f_STRING_ARRAY[Int32.toNumber(i)] = JR.cast(toString(this.f_INTEGER_ARRAY[Int32.toNumber(i)]))
+            this.f_STRING_ARRAY[Int32.toNumber(i)] = JR.cast(JR.toStringOf(JR.cast(this.f_INTEGER_ARRAY[Int32.toNumber(i)])))
         }
         return this.f_STRING_ARRAY[Int32.toNumber(i)]
 }
@@ -167,5 +171,6 @@ JR.registerLateBound("SmallLongFactory.set_f_lastMin", (this: SmallLongFactory, 
 JR.registerLateBound("SmallLongFactory.f_lastNegativeMin", (this: SmallLongFactory) => this.f_lastNegativeMin)
 JR.registerLateBound("SmallLongFactory.set_f_lastNegativeMin", (this: SmallLongFactory, jvalue) => { this.f_lastNegativeMin = jvalue; jvalue })
 JR.registerLateBound("SmallLongFactory.jstatic_instance", jstatic_instance)
+JR.registerLateBound("SmallLongFactory.jset_instance", jset_instance)
 
 

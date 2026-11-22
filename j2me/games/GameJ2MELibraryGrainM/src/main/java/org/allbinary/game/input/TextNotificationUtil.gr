@@ -64,6 +64,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: TextNotificationUtil) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("TextNotificationUtil"), f_TWO: 0l, f_FALSE: false, f_gameNotificationEventHandler: JR.nullOf(), }
     this.f_TWO = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 2l)
@@ -92,8 +96,11 @@ and jm_fireSuccess = (this: TextNotificationUtil, message: String) => {
 }
     
 and jm_fire = (this: TextNotificationUtil, message: String) => {
-        let mut gameNotificationEvent: GameNotificationEvent = GameNotificationEvent.jnew_5(this, message, this.f_TWO, BasicColorFactory.jm_getInstance().f_RED, this.f_FALSE)
-        ignore(GameNotificationEventHandler.jm_fireEvent(this.f_gameNotificationEventHandler, gameNotificationEvent))
+        let mut gameNotificationEvent: GameNotificationEvent = GameNotificationEvent.jnew_5(JR.cast(this), message, this.f_TWO, JR.cast(BasicColorFactory.jm_getInstance().f_RED), this.f_FALSE)
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_fireEvent"))
+JR.cast(jlate(JR.cast(this.f_gameNotificationEventHandler), JR.cast(gameNotificationEvent)))
+})
 }
 
 JR.registerLateBound("TextNotificationUtil.jnew_0", jnew_0)
@@ -106,5 +113,6 @@ JR.registerLateBound("TextNotificationUtil.f_TWO", (this: TextNotificationUtil) 
 JR.registerLateBound("TextNotificationUtil.f_FALSE", (this: TextNotificationUtil) => this.f_FALSE)
 JR.registerLateBound("TextNotificationUtil.f_gameNotificationEventHandler", (this: TextNotificationUtil) => this.f_gameNotificationEventHandler)
 JR.registerLateBound("TextNotificationUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("TextNotificationUtil.jset_instance", jset_instance)
 
 

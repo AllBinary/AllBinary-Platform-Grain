@@ -64,22 +64,29 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: GameInitializationUtil) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("GameInitializationUtil"), f_EVENT: JR.nullOf(), }
-    this.f_EVENT = GameInitializedEvent.jnew_1(this)
+    this.f_EVENT = GameInitializedEvent.jnew_1(JR.cast(this))
     this
 }
     
 and jm_initDemo = (this: GameInitializationUtil, abeClientInformation: AbeClientInformationInterface, canvas: MyCanvas, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory) => {
         let mut mainFeatureFactory: MainFeatureFactory = JR.cast(MainFeatureFactory.jm_getInstance())
-        if (ChangedGameFeatureListener.jm_isChangedFeature(ChangedGameFeatureListener.jm_getInstance(), mainFeatureFactory.f_STATIC)) {
+        if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BaseChangedGameFeatureListener.jm_isChangedFeature"))
+JR.cast(jlate(JR.cast(ChangedGameFeatureListener.jm_getInstance()), JR.cast(mainFeatureFactory.f_STATIC)))
+}) {
             let mut gameInitializationInterface: GameInitializationInterface = JR.cast(BasicBuildGameInitializerFactory.jm_getInstance(gameInitializationInterfaceFactoryInterface))
             let mut features: Features = JR.cast(Features.jm_getInstance())
             if (Features.jm_isFeature(features, mainFeatureFactory.f_LOAD_ALL)) {
                 ignore(jm_initGame(this, abeClientInformation, canvas, gameInitializationInterfaceFactoryInterface))
             } else if (Features.jm_isFeature(features, mainFeatureFactory.f_LOAD_ONDEMAND)) {
                 let mut resourceLoadingLevelFactory: ResourceLoadingLevelFactory = JR.cast(ResourceLoadingLevelFactory.jm_getInstance())
-                ignore(GameInitializationInterface.jm_init(gameInitializationInterface, abeClientInformation, MyCanvas.jm_getCustomCommandListener(canvas), {
+                ignore(GameInitializationInterface.jm_init(gameInitializationInterface, abeClientInformation, JR.cast(MyCanvas.jm_getCustomCommandListener(canvas)), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ResourceLoadingLevel.jm_getLevel"))
 JR.cast(jlate(JR.cast(resourceLoadingLevelFactory.f_LOAD_EARLY)))
 }))
@@ -87,21 +94,33 @@ JR.cast(jlate(JR.cast(resourceLoadingLevelFactory.f_LOAD_EARLY)))
             } else {
                 fail JR.toStringOf(JR.newJObject("Exception"))
             }
-            ignore(GameInitializedEventHandler.jm_fireEvent(GameInitializedEventHandler.jm_getInstance(), this.f_EVENT))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_fireEvent"))
+JR.cast(jlate(JR.cast(GameInitializedEventHandler.jm_getInstance()), JR.cast(this.f_EVENT)))
+})
         }
 }
     
 and jm_initGame = (this: GameInitializationUtil, abeClientInformation: AbeClientInformationInterface, canvas: MyCanvas, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory) => {
-        if (ChangedGameFeatureListener.jm_isChangedFeature(ChangedGameFeatureListener.jm_getInstance(), MainFeatureFactory.jm_getInstance().f_STATIC)) {
+        if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BaseChangedGameFeatureListener.jm_isChangedFeature"))
+JR.cast(jlate(JR.cast(ChangedGameFeatureListener.jm_getInstance()), JR.cast(MainFeatureFactory.jm_getInstance().f_STATIC)))
+}) {
             let mut gameInitializationInterface: GameInitializationInterface = JR.cast(BasicBuildGameInitializerFactory.jm_getInstance(gameInitializationInterfaceFactoryInterface))
             let mut resourceLoadingLevelFactory: ResourceLoadingLevelFactory = JR.cast(ResourceLoadingLevelFactory.jm_getInstance())
-            ignore(GameInitializationInterface.jm_init(gameInitializationInterface, abeClientInformation, MyCanvas.jm_getCustomCommandListener(canvas), {
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Feature.jm_getLevel"))
+            ignore(GameInitializationInterface.jm_init(gameInitializationInterface, abeClientInformation, JR.cast(MyCanvas.jm_getCustomCommandListener(canvas)), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ResourceLoadingLevel.jm_getLevel"))
 JR.cast(jlate(JR.cast(resourceLoadingLevelFactory.f_LOAD_ALL)))
 }))
             ignore(GameInitializedEvent.jm_setResourceLoadingLevel(this.f_EVENT, JR.cast(resourceLoadingLevelFactory.f_LOAD_ALL)))
-            ignore(GameInitializedEventHandler.jm_fireEvent(GameInitializedEventHandler.jm_getInstance(), this.f_EVENT))
-            ignore(ChangedGameFeatureListener.jm_remove(ChangedGameFeatureListener.jm_getInstance(), MainFeatureFactory.jm_getInstance().f_STATIC))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_fireEvent"))
+JR.cast(jlate(JR.cast(GameInitializedEventHandler.jm_getInstance()), JR.cast(this.f_EVENT)))
+})
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BaseChangedGameFeatureListener.jm_remove"))
+JR.cast(jlate(JR.cast(ChangedGameFeatureListener.jm_getInstance()), JR.cast(MainFeatureFactory.jm_getInstance().f_STATIC)))
+})
         }
 }
     
@@ -115,5 +134,6 @@ JR.registerLateBound("GameInitializationUtil.jm_initGame", jm_initGame)
 JR.registerLateBound("GameInitializationUtil.jm_getInstance", jm_getInstance)
 JR.registerLateBound("GameInitializationUtil.f_EVENT", (this: GameInitializationUtil) => this.f_EVENT)
 JR.registerLateBound("GameInitializationUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("GameInitializationUtil.jset_instance", jset_instance)
 
 

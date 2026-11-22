@@ -63,6 +63,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: ZipFileUtil) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("ZipFileUtil"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), }
     this.f_logUtil = JR.cast({
@@ -137,16 +141,16 @@ let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBoun
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast("create()")))
 })
                     {
-                        fileInputStream = {
+                        fileInputStream = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFileInputStream.jm_createFromAbFile"))
 JR.cast(jlate(JR.cast(file)))
-}
-                        ignore(ZipOutputStream.jm_putNextEntry(outputStream, ZipEntry.jnew_1({
+})
+                        ignore(ZipOutputStream.jm_putNextEntry_1(outputStream, ZipEntry.jnew_1({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(file)))
 })))
                         ignore(StreamUtil.jm_get(streamUtil, JR.cast(fileInputStream), JR.cast(outputStream), byteArray))
-                        ignore(ZipOutputStream.jm_closeEntry(outputStream))
+                        ignore(ZipOutputStream.jm_closeEntry_0(outputStream))
                         ignore(StreamUtil.jm_close(streamUtil, JR.cast(fileInputStream)))
                     }
                 }
@@ -161,16 +165,16 @@ and jm_unzip = (this: ZipFileUtil, path: String, zipFile: JObject, fileName: Str
         let mut buffer: Array<Int32> = Array.make(Int32.toNumber(16384l), 0l)
         let mut inputStream: ZipInputStream = JR.nullOf()
         {
-            inputStream = ZipInputStream.jnew_1({
+            inputStream = JR.cast(ZipInputStream.jnew_1({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFileInputStream.jm_createFromAbFile"))
 JR.cast(jlate(JR.cast(zipFile)))
-})
+}))
             let mut zipEntry: ZipEntry = JR.nullOf()
             let mut stringBuffer: StringMaker = StringMaker.jnew_0()
             let mut fileUtil: FileUtil = JR.cast(FileUtil.jm_getInstance())
-            while (!JR.isNull(({ zipEntry = ZipInputStream.jm_getNextEntry(inputStream); zipEntry }))) {
-                let mut entryName: String = ZipEntry.jm_getName(zipEntry)
-                if (ZipEntry.jm_isDirectory(zipEntry)) {
+            while (!JR.isNull(({ zipEntry = JR.cast(ZipInputStream.jm_getNextEntry_0(inputStream)); zipEntry }))) {
+                let mut entryName: String = ZipEntry.jm_getName_0(zipEntry)
+                if (ZipEntry.jm_isDirectory_0(zipEntry)) {
                     void
                 } else {
                     let mut entryFile: JObject = JR.cast({
@@ -206,9 +210,9 @@ let jlate: () => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getI
 JR.cast(jlate())
 }), JR.cast(entryFile)))
 })
-                    ignore(FileUtil.jm_write(fileUtil, JR.cast(inputStream), dataOutputStream, buffer))
+                    ignore(FileUtil.jm_write_3(fileUtil, JR.cast(inputStream), dataOutputStream, buffer))
                 }
-                ignore(ZipInputStream.jm_closeEntry(inputStream))
+                ignore(ZipInputStream.jm_closeEntry_0(inputStream))
             }
         }
         {
@@ -223,5 +227,6 @@ JR.registerLateBound("ZipFileUtil.jm_unzip", jm_unzip)
 JR.registerLateBound("ZipFileUtil.f_logUtil", (this: ZipFileUtil) => this.f_logUtil)
 JR.registerLateBound("ZipFileUtil.f_commonStrings", (this: ZipFileUtil) => this.f_commonStrings)
 JR.registerLateBound("ZipFileUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("ZipFileUtil.jset_instance", jset_instance)
 
 

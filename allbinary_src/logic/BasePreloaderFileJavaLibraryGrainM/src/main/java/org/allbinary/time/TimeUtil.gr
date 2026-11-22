@@ -47,6 +47,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: TimeUtil) => {
+  jcell_instance = Some(value)
+}
+
 and jstatic_calendar = () => match (jcell_calendar) {
   Some(value) => value,
   None => {
@@ -54,6 +58,10 @@ and jstatic_calendar = () => match (jcell_calendar) {
     jcell_calendar = Some(value)
     value
   },
+}
+
+and jset_calendar = (value: Calendar) => {
+  jcell_calendar = Some(value)
 }
 
 and jnew_0 = () => {
@@ -94,9 +102,9 @@ and jm_setExpirationCalendar = (this: TimeUtil, calendar: Calendar, yearsString:
 }
     
 and jm_getTotalTime = (this: TimeUtil, yearString: String, monthString: String, dayString: String, hourString: String, minuteString: String, secondString: String) => {
-        let mut time: Int64 = JR.className(JR.cast(jstatic_calendar()))
+        let mut time: Int64 = Calendar.jm_getTimeInMillis_0(jstatic_calendar())
         ignore(jm_setExpirationCalendar(this, jstatic_calendar(), yearString, monthString, dayString, hourString, minuteString, secondString))
-        let mut timeDelta: Int64 = JR.className(JR.cast(jstatic_calendar()))
+        let mut timeDelta: Int64 = Calendar.jm_getTimeInMillis_0(jstatic_calendar())
         return Int64.(-)(timeDelta, time)
 }
 
@@ -107,6 +115,8 @@ JR.registerLateBound("TimeUtil.jm_setCalendarWithTime", jm_setCalendarWithTime)
 JR.registerLateBound("TimeUtil.jm_setExpirationCalendar", jm_setExpirationCalendar)
 JR.registerLateBound("TimeUtil.jm_getTotalTime", jm_getTotalTime)
 JR.registerLateBound("TimeUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("TimeUtil.jset_instance", jset_instance)
 JR.registerLateBound("TimeUtil.jstatic_calendar", jstatic_calendar)
+JR.registerLateBound("TimeUtil.jset_calendar", jset_calendar)
 
 

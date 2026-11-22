@@ -78,6 +78,10 @@ and jstatic_MAXDB = () => match (jcell_MAXDB) {
   },
 }
 
+and jset_MAXDB = (value: Int32) => {
+  jcell_MAXDB = Some(value)
+}
+
 and jstatic_MAX = () => match (jcell_MAX) {
   Some(value) => value,
   None => {
@@ -85,6 +89,10 @@ and jstatic_MAX = () => match (jcell_MAX) {
     jcell_MAX = Some(value)
     value
   },
+}
+
+and jset_MAX = (value: Int32) => {
+  jcell_MAX = Some(value)
 }
 
 and jstatic_MIN = () => match (jcell_MIN) {
@@ -96,6 +104,10 @@ and jstatic_MIN = () => match (jcell_MIN) {
   },
 }
 
+and jset_MIN = (value: Int32) => {
+  jcell_MIN = Some(value)
+}
+
 and jstatic_MINPASSWORD = () => match (jcell_MINPASSWORD) {
   Some(value) => value,
   None => {
@@ -104,8 +116,12 @@ and jstatic_MINPASSWORD = () => match (jcell_MINPASSWORD) {
     value
   },
 }
+
+and jset_MINPASSWORD = (value: Int32) => {
+  jcell_MINPASSWORD = Some(value)
+}
     
-and jnew_2 = (abeClientInformation: AbeClientInformationInterface, map: Map) => {
+and jnew_2_AbeClientInformationInterface_Map_ = (abeClientInformation: AbeClientInformationInterface, map: Map) => {
     let this = { jobject: JR.newJObject("InitializerDatabase"), f_logUtil: JR.jnull, f_adminDbUserName: "", f_adminDbPassword: "", f_adminJdbcDriver: "", f_adminSchema: "", f_adminServer: "", f_adminPort: "", f_initDb: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
@@ -139,7 +155,7 @@ JR.cast(jlate())
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             let mut key: String = JR.cast(keyArray[Int32.toNumber(index)])
-            let mut values: Array<String> = Map.jm_get(map, key)
+            let mut values: Array<String> = JR.cast(Map.jm_get(map, key))
             ignore(HashMap.jm_put_2(hashMap, key, values[Int32.toNumber(0l)]))
             ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
             ignore(StringMaker.jm_append(stringBuffer, "key: "))
@@ -156,7 +172,7 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuf
     this
 }
     
-and jnew_2 = (abeClientInformation: AbeClientInformationInterface, initHashMap: HashMap) => {
+and jnew_2_AbeClientInformationInterface_HashMap_ = (abeClientInformation: AbeClientInformationInterface, initHashMap: HashMap) => {
     let this = { jobject: JR.newJObject("InitializerDatabase"), f_logUtil: JR.jnull, f_adminDbUserName: "", f_adminDbPassword: "", f_adminJdbcDriver: "", f_adminSchema: "", f_adminServer: "", f_adminPort: "", f_initDb: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
@@ -191,7 +207,7 @@ and jm_getFormData = (this: InitializerDatabase, abeClientInformation: AbeClient
             ignore(DbConnectionInfo.jm_setSchema(dbConnectionInfo, jm_getAdminSchema(this)))
             ignore(DbConnectionInfo.jm_setServer(dbConnectionInfo, jm_getAdminServer(this)))
             ignore(DbConnectionInfo.jm_setPort(dbConnectionInfo, jm_getAdminPort(this)))
-            this.f_initDb = DynamicInitDb.jnew_2(abeClientInformation, JR.cast(dbConnectionInfo))
+            this.f_initDb = JR.cast(DynamicInitDb.jnew_2(abeClientInformation, JR.cast(dbConnectionInfo)))
         }
 }
     
@@ -252,7 +268,10 @@ and jm_getInvalidInfo = (this: InitializerDatabase) => {
     
 and jm_createUsers = (this: InitializerDatabase) => {
         {
-            ignore(DynamicInitDb.jm_addUsers(this.f_initDb))
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("InitDb.jm_addUsers"))
+JR.cast(jlate(JR.cast(this.f_initDb)))
+})
             return true
         }
     return false
@@ -260,7 +279,10 @@ and jm_createUsers = (this: InitializerDatabase) => {
     
 and jm_createDatabases = (this: InitializerDatabase) => {
         {
-            ignore(DynamicInitDb.jm_addDatabases(this.f_initDb))
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("InitDb.jm_addDatabases"))
+JR.cast(jlate(JR.cast(this.f_initDb)))
+})
             return true
         }
     return false
@@ -268,7 +290,10 @@ and jm_createDatabases = (this: InitializerDatabase) => {
     
 and jm_createTables = (this: InitializerDatabase) => {
         {
-            ignore(DynamicInitDb.jm_addTables(this.f_initDb))
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("InitDb.jm_addTables"))
+JR.cast(jlate(JR.cast(this.f_initDb)))
+})
             return true
         }
     return false
@@ -322,8 +347,8 @@ and jm_setAdminPort = (this: InitializerDatabase, adminPort: String) => {
         this.f_adminPort = adminPort
 }
 
-JR.registerLateBound("InitializerDatabase.jnew_2", jnew_2)
-JR.registerLateBound("InitializerDatabase.jnew_2", jnew_2)
+JR.registerLateBound("InitializerDatabase.jnew_2_AbeClientInformationInterface_Map_", jnew_2_AbeClientInformationInterface_Map_)
+JR.registerLateBound("InitializerDatabase.jnew_2_AbeClientInformationInterface_HashMap_", jnew_2_AbeClientInformationInterface_HashMap_)
 JR.registerLateBound("InitializerDatabase.jm_getFormData", jm_getFormData)
 JR.registerLateBound("InitializerDatabase.jm_isJdbcDriverValid", jm_isJdbcDriverValid)
 JR.registerLateBound("InitializerDatabase.jm_isValid", jm_isValid)
@@ -360,8 +385,12 @@ JR.registerLateBound("InitializerDatabase.set_f_adminPort", (this: InitializerDa
 JR.registerLateBound("InitializerDatabase.f_initDb", (this: InitializerDatabase) => this.f_initDb)
 JR.registerLateBound("InitializerDatabase.set_f_initDb", (this: InitializerDatabase, jvalue) => { this.f_initDb = jvalue; jvalue })
 JR.registerLateBound("InitializerDatabase.jstatic_MAXDB", jstatic_MAXDB)
+JR.registerLateBound("InitializerDatabase.jset_MAXDB", jset_MAXDB)
 JR.registerLateBound("InitializerDatabase.jstatic_MAX", jstatic_MAX)
+JR.registerLateBound("InitializerDatabase.jset_MAX", jset_MAX)
 JR.registerLateBound("InitializerDatabase.jstatic_MIN", jstatic_MIN)
+JR.registerLateBound("InitializerDatabase.jset_MIN", jset_MIN)
 JR.registerLateBound("InitializerDatabase.jstatic_MINPASSWORD", jstatic_MINPASSWORD)
+JR.registerLateBound("InitializerDatabase.jset_MINPASSWORD", jset_MINPASSWORD)
 
 

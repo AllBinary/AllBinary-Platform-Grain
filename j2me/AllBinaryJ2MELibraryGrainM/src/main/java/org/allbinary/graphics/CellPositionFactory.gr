@@ -53,6 +53,10 @@ and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
     value
   },
 }
+
+and jset_SINGLETON = (value: CellPositionFactory) => {
+  jcell_SINGLETON = Some(value)
+}
     
 and jm_getInstance = () => {
         return jstatic_SINGLETON()
@@ -121,7 +125,7 @@ and jm_getInstanceColRow = (this: CellPositionFactory, i_column: Int32, i_row: I
 and jm_createInstance = (this: CellPositionFactory, i_column: Int32, i_row: Int32) => {
         let mut cellPositionCanBeNull: CellPosition = JR.cast(this.f_cellPositionArray[Int32.toNumber(i_column)][Int32.toNumber(i_row)])
         if (JR.isNull(cellPositionCanBeNull)) {
-            cellPositionCanBeNull = CellPosition.jnew_4(i_column, i_row, this.f_columns, this.f_rows)
+            cellPositionCanBeNull = JR.cast(CellPosition.jnew_4(i_column, i_row, this.f_columns, this.f_rows))
             this.f_cellPositionArray[Int32.toNumber(i_column)][Int32.toNumber(i_row)] = JR.cast(cellPositionCanBeNull)
         }
         return cellPositionCanBeNull
@@ -151,5 +155,6 @@ JR.registerLateBound("CellPositionFactory.set_f_columns", (this: CellPositionFac
 JR.registerLateBound("CellPositionFactory.f_rows", (this: CellPositionFactory) => this.f_rows)
 JR.registerLateBound("CellPositionFactory.set_f_rows", (this: CellPositionFactory, jvalue) => { this.f_rows = jvalue; jvalue })
 JR.registerLateBound("CellPositionFactory.jstatic_SINGLETON", jstatic_SINGLETON)
+JR.registerLateBound("CellPositionFactory.jset_SINGLETON", jset_SINGLETON)
 
 

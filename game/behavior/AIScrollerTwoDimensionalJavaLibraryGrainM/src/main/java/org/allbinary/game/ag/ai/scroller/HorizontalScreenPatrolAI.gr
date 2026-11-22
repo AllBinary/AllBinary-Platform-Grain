@@ -81,6 +81,10 @@ and jstatic_SOUND = () => match (jcell_SOUND) {
     value
   },
 }
+
+and jset_SOUND = (value: Int32) => {
+  jcell_SOUND = Some(value)
+}
     
 and jnew_3 = (hashtable: JObject, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
     let this = { jobject: JR.newJObject("HorizontalScreenPatrolAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_keyDirection: 0l, f_displayInfoSingleton: JR.nullOf(), f_firingX: 0l, f_firedIndex: 0l, f_MAX_FIRE: 0l, f_timeDelayHelper: JR.nullOf(), f_secondaryPlayerQueue: JR.nullOf(), f_sound: JR.nullOf(), }
@@ -133,7 +137,10 @@ JR.cast(jlate())
 })))
 })
                 let mut gameLayerManager: AllBinaryGameLayerManager = JR.cast(allBinaryLayerManager)
-                let mut l_FIRE: Int32 = Int32.(>>)((Int32.(+)(JR.className(JR.cast(AllBinaryGameLayerManager.jm_getGameInfo(gameLayerManager))), 12l)), 2l)
+                let mut l_FIRE: Int32 = Int32.(>>)((Int32.(+)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInfo.jm_getCurrentLevel"))
+JR.cast(jlate(JR.cast(AllBinaryGameLayerManager.jm_getGameInfo(gameLayerManager))))
+}, 12l)), 2l)
                 if (Int32.(>)(l_FIRE, this.f_MAX_FIRE)) {
                     l_FIRE = this.f_MAX_FIRE
                 }
@@ -165,5 +172,6 @@ JR.registerLateBound("HorizontalScreenPatrolAI.f_timeDelayHelper", (this: Horizo
 JR.registerLateBound("HorizontalScreenPatrolAI.f_secondaryPlayerQueue", (this: HorizontalScreenPatrolAI) => this.f_secondaryPlayerQueue)
 JR.registerLateBound("HorizontalScreenPatrolAI.f_sound", (this: HorizontalScreenPatrolAI) => this.f_sound)
 JR.registerLateBound("HorizontalScreenPatrolAI.jstatic_SOUND", jstatic_SOUND)
+JR.registerLateBound("HorizontalScreenPatrolAI.jset_SOUND", jset_SOUND)
 
 

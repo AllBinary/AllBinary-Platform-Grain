@@ -51,6 +51,10 @@ and jstatic_NONE = () => match (jcell_NONE) {
   },
 }
 
+and jset_NONE = (value: Orientation) => {
+  jcell_NONE = Some(value)
+}
+
 and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
   Some(value) => value,
   None => {
@@ -59,11 +63,24 @@ and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
     value
   },
 }
+
+and jset_SINGLETON = (value: Orientation) => {
+  jcell_SINGLETON = Some(value)
+}
     
 and jm_getInstance = (yaw: Int32, pitch: Int32, roll: Int32) => {
-        ignore(JR.className(JR.cast(jstatic_SINGLETON().f_yaw)))
-        ignore(JR.className(JR.cast(jstatic_SINGLETON().f_pitch)))
-        ignore(JR.className(JR.cast(jstatic_SINGLETON().f_roll)))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_setint"))
+JR.cast(jlate(JR.cast(jstatic_SINGLETON().f_yaw), JR.cast(yaw)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_setint"))
+JR.cast(jlate(JR.cast(jstatic_SINGLETON().f_pitch), JR.cast(pitch)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_setint"))
+JR.cast(jlate(JR.cast(jstatic_SINGLETON().f_roll), JR.cast(roll)))
+})
         return jstatic_SINGLETON()
 }
     
@@ -73,9 +90,9 @@ and jnew_3 = (yaw: Int32, pitch: Int32, roll: Int32) => {
     this.f_yaw = BasicDecimal.jnew_1(0L)
     this.f_pitch = BasicDecimal.jnew_1(0L)
     this.f_roll = BasicDecimal.jnew_1(0L)
-        ignore(INT.jm_setint(this.f_yaw, yaw))
-        ignore(INT.jm_setint(this.f_pitch, pitch))
-        ignore(INT.jm_setint(this.f_roll, roll))
+        ignore(BasicDecimal.jm_setint(this.f_yaw, yaw))
+        ignore(BasicDecimal.jm_setint(this.f_pitch, pitch))
+        ignore(BasicDecimal.jm_setint(this.f_roll, roll))
     this
 }
     
@@ -100,6 +117,8 @@ JR.registerLateBound("Orientation.set_f_pitch", (this: Orientation, jvalue) => {
 JR.registerLateBound("Orientation.f_roll", (this: Orientation) => this.f_roll)
 JR.registerLateBound("Orientation.set_f_roll", (this: Orientation, jvalue) => { this.f_roll = jvalue; jvalue })
 JR.registerLateBound("Orientation.jstatic_NONE", jstatic_NONE)
+JR.registerLateBound("Orientation.jset_NONE", jset_NONE)
 JR.registerLateBound("Orientation.jstatic_SINGLETON", jstatic_SINGLETON)
+JR.registerLateBound("Orientation.jset_SINGLETON", jset_SINGLETON)
 
 

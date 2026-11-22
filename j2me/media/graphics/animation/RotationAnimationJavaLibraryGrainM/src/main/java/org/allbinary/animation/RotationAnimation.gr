@@ -74,8 +74,8 @@ and jnew_3 = (angleInfo: AngleInfo, circularIndexUtil: CircularIndexUtil, animat
     
     
         void
-        this.f_angleInfo = angleInfo
-        this.f_circularIndexUtil = circularIndexUtil
+        this.f_angleInfo = JR.cast(angleInfo)
+        this.f_circularIndexUtil = JR.cast(circularIndexUtil)
     this
 }
     
@@ -123,7 +123,10 @@ and jm_adjustFrameToAngle = (this: RotationAnimation, angle: Angle) => {
 }
     
 and jm_adjustFrame = (this: RotationAnimation, angle: Int32) => {
-        ignore(jm_setFrame(this, FrameUtil.jm_getFrameForAngle(this.f_frameUtil, angle, JR.className(JR.cast(AngleInfo.jm_getAngleIncrementInfo(this.f_angleInfo))))))
+        ignore(jm_setFrame(this, FrameUtil.jm_getFrameForAngle(this.f_frameUtil, angle, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AngleIncrementInfo.jm_getAngleIncrement"))
+JR.cast(jlate(JR.cast(AngleInfo.jm_getAngleIncrementInfo(this.f_angleInfo))))
+})))
 }
     
 and jm_getFrame = (this: RotationAnimation) => {

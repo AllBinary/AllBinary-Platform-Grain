@@ -40,16 +40,20 @@ provide let rec jclassName = () => "AllBinaryEventObject"
 and jstatic_NULL_EVENT = () => match (jcell_NULL_EVENT) {
   Some(value) => value,
   None => {
-    let value: AllBinaryEventObject = jnew_1(NullUtil.jm_getInstance().f_NULL_OBJECT)
+    let value: AllBinaryEventObject = jnew_1(JR.cast(NullUtil.jm_getInstance().f_NULL_OBJECT))
     jcell_NULL_EVENT = Some(value)
     value
   },
+}
+
+and jset_NULL_EVENT = (value: AllBinaryEventObject) => {
+  jcell_NULL_EVENT = Some(value)
 }
     
 and jnew_1 = (anyType: JObject) => {
     let this = { jobject: JR.newJObject("AllBinaryEventObject"), f_source: JR.jnull, }
     
-        this.f_source = anyType
+        this.f_source = JR.cast(anyType)
     this
 }
     
@@ -58,7 +62,7 @@ and jm_getSource = (this: AllBinaryEventObject) => {
 }
     
 and jm_setSource = (this: AllBinaryEventObject, source: JObject) => {
-        this.f_source = source
+        this.f_source = JR.cast(source)
 }
 
 JR.registerLateBound("AllBinaryEventObject.jnew_1", jnew_1)
@@ -67,5 +71,6 @@ JR.registerLateBound("AllBinaryEventObject.jm_setSource", jm_setSource)
 JR.registerLateBound("AllBinaryEventObject.f_source", (this: AllBinaryEventObject) => this.f_source)
 JR.registerLateBound("AllBinaryEventObject.set_f_source", (this: AllBinaryEventObject, jvalue) => { this.f_source = jvalue; jvalue })
 JR.registerLateBound("AllBinaryEventObject.jstatic_NULL_EVENT", jstatic_NULL_EVENT)
+JR.registerLateBound("AllBinaryEventObject.jset_NULL_EVENT", jset_NULL_EVENT)
 
 

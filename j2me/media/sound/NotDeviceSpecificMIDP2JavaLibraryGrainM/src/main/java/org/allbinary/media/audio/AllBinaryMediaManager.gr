@@ -63,6 +63,10 @@ and jstatic_THIS = () => match (jcell_THIS) {
     value
   },
 }
+
+and jset_THIS = (value: String) => {
+  jcell_THIS = Some(value)
+}
     
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("AllBinaryMediaManager"), }
@@ -132,11 +136,15 @@ let jlate: () => JObject = JR.cast(JR.lateBound("ResourceUtil.jm_getInstance"))
 JR.cast(jlate())
 }), JR.cast(resource)))
 })
-                return MIDPUtil.jm_createPlayerFromInputStream(MIDPUtil.jm_getInstance(), inputStream, JR.className(JR.cast(AudioContentTypeDataFactory.jm_getInstance().f_MIME_AUDIO_WAV)))
+                return MIDPUtil.jm_createPlayerFromInputStream(MIDPUtil.jm_getInstance(), inputStream, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AudioContentTypeData.jm_getName"))
+JR.cast(jlate(JR.cast(AudioContentTypeDataFactory.jm_getInstance().f_MIME_AUDIO_WAV)))
+})
             }
         } else {
             return NoPlayer.jstatic_NO_PLAYER()
         }
+    return JR.jnull
 }
     
 and jm_playTone = (frequency: Int32, time: Int32, volume: Int32) => {
@@ -157,5 +165,6 @@ JR.registerLateBound("AllBinaryMediaManager.jm_shutdown", jm_shutdown)
 JR.registerLateBound("AllBinaryMediaManager.jm_createPlayer", jm_createPlayer)
 JR.registerLateBound("AllBinaryMediaManager.jm_playTone", jm_playTone)
 JR.registerLateBound("AllBinaryMediaManager.jstatic_THIS", jstatic_THIS)
+JR.registerLateBound("AllBinaryMediaManager.jset_THIS", jset_THIS)
 
 

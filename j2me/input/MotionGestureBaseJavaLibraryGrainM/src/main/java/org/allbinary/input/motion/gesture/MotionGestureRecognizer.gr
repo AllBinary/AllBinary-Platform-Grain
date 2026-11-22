@@ -83,7 +83,7 @@ JR.cast(jlate())
     
     
     
-        this.f_motionEventCircularPool = MotionEventCircularPool.jm_createPool(id)
+        this.f_motionEventCircularPool = JR.cast(MotionEventCircularPool.jm_createPool(id))
         let mut motionGesturesHandler: JObject = {
 let jlate: () => JObject = JR.cast(JR.lateBound("BasicEventHandler.jnew_0"))
 JR.cast(jlate())
@@ -91,22 +91,22 @@ JR.cast(jlate())
         let mut movedMotionGesturesHandler: JObject = JR.cast(motionGesturesHandler)
         let mut scrolledMotionGesturesHandler: JObject = JR.cast(motionGesturesHandler)
         {
-            motionGesturesHandler = {
+            motionGesturesHandler = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("BasicMotionGesturesHandler.jm_getInstance"))
 JR.cast(jlate())
-}
-            movedMotionGesturesHandler = MovedMotionGesturesHandler.jm_getInstance()
-            scrolledMotionGesturesHandler = ScrolledMotionGesturesHandler.jm_getInstance()
+})
+            movedMotionGesturesHandler = JR.cast(MovedMotionGesturesHandler.jm_getInstance())
+            scrolledMotionGesturesHandler = JR.cast(ScrolledMotionGesturesHandler.jm_getInstance())
         }
         this.f_motionGesturesHandler = JR.cast(motionGesturesHandler)
-        this.f_movedMotionGesturesHandler = movedMotionGesturesHandler
-        this.f_scrolledMotionGesturesHandler = scrolledMotionGesturesHandler
+        this.f_movedMotionGesturesHandler = JR.cast(movedMotionGesturesHandler)
+        this.f_scrolledMotionGesturesHandler = JR.cast(scrolledMotionGesturesHandler)
     this
 }
     
 and jm_processPressedMotionEvent = (this: MotionGestureRecognizer, current: GPoint, deviceId: Int32, button: Int32) => {
-        this.f_intermediate = this.f_origin
-        this.f_previous = this.f_origin
+        this.f_intermediate = JR.cast(this.f_origin)
+        this.f_previous = JR.cast(this.f_origin)
         let mut event: MotionGestureEvent = JR.cast(MotionEventCircularPool.jm_getInstance(this.f_motionEventCircularPool, {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.f_PRESSED"))
 JR.cast(jlate(JR.cast({
@@ -142,19 +142,19 @@ JR.cast(jlate(JR.cast(this.f_motionGesturesHandler), JR.cast(event)))
     
 and jm_processDraggedMotionEvent = (this: MotionGestureRecognizer, current: GPoint, deviceId: Int32, buttonMask: Int32) => {
         if ((JR.isSame(this.f_previous, this.f_origin) || JR.isSame(this.f_intermediate, this.f_origin))) {
-            this.f_previous = current
-            this.f_intermediate = current
+            this.f_previous = JR.cast(current)
+            this.f_intermediate = JR.cast(current)
             return void
         }
         ignore(Line.jm_setP1(this.f_line, this.f_previous))
         ignore(Line.jm_setP2(this.f_line, current))
         let mut minimumMotionGesture: Int32 = MotionGestureConfigurationFactory.jm_getMinimumMotionGesture(MotionGestureConfigurationFactory.jm_getInstance())
-        if ((Float32.(<)(J2SEMath.jm_abs(this.f_j2seMath, Float32.fromNumber(Float64.toNumber(Line.jm_getDeltaX(this.f_line)))), Float32.fromNumber(Int32.toNumber(minimumMotionGesture))) && Float32.(<)(J2SEMath.jm_abs(this.f_j2seMath, Float32.fromNumber(Float64.toNumber(Line.jm_getDeltaY(this.f_line)))), Float32.fromNumber(Int32.toNumber(minimumMotionGesture))))) {
-            this.f_intermediate = current
+        if ((Int32.(<)(J2SEMath.jm_abs(this.f_j2seMath, Float32.fromNumber(Float64.toNumber(Line.jm_getDeltaX(this.f_line)))), minimumMotionGesture) && Int32.(<)(J2SEMath.jm_abs(this.f_j2seMath, Float32.fromNumber(Float64.toNumber(Line.jm_getDeltaY(this.f_line)))), minimumMotionGesture))) {
+            this.f_intermediate = JR.cast(current)
             return void
         }
         let mut gradient: Float64 = Line.jm_getGradient(this.f_line)
-        let mut absGradient: Float64 = Float64.fromNumber(Float32.toNumber(J2SEMath.jm_abs(this.f_j2seMath, Float32.fromNumber(Float64.toNumber(gradient)))))
+        let mut absGradient: Float64 = Float64.fromNumber(Int32.toNumber(J2SEMath.jm_abs(this.f_j2seMath, Float32.fromNumber(Float64.toNumber(gradient)))))
         let mut conf: MotionGestureConfiguration = JR.cast(MotionGestureConfigurationFactory.jm_getInstance())
         let mut touchMotionGestureFactory: JObject = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.jm_getInstance"))
@@ -172,59 +172,59 @@ JR.cast(jlate(JR.cast(touchMotionGestureFactory)))
         }
         if (Float64.(>)(absGradient, Math.jm_tan(Math.jm_toRadians(diagonalToleranceHigher)))) {
             if (Float64.(>)(Line.jm_getDeltaY(this.f_line), 0.0d)) {
-                newMotionGesture = {
+                newMotionGesture = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.f_UP"))
 JR.cast(jlate(JR.cast(touchMotionGestureFactory)))
-}
+})
             } else {
-                newMotionGesture = {
+                newMotionGesture = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.f_DOWN"))
 JR.cast(jlate(JR.cast(touchMotionGestureFactory)))
-}
+})
             }
         } else {
             if (Float64.(<)(absGradient, Math.jm_tan(Math.jm_toRadians(diagonalToleranceLower)))) {
                 if (Float64.(>)(Line.jm_getDeltaX(this.f_line), 0.0d)) {
-                    newMotionGesture = {
+                    newMotionGesture = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.f_LEFT"))
 JR.cast(jlate(JR.cast(touchMotionGestureFactory)))
-}
+})
                 } else {
-                    newMotionGesture = {
+                    newMotionGesture = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.f_RIGHT"))
 JR.cast(jlate(JR.cast(touchMotionGestureFactory)))
-}
+})
                 }
             } else {
                 if (Float64.(>)(gradient, 0.0d)) {
                     if (Float64.(>)(Line.jm_getDeltaX(this.f_line), 0.0d)) {
-                        newMotionGesture = {
+                        newMotionGesture = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.f_DIAGONAL_UP_LEFT"))
 JR.cast(jlate(JR.cast(touchMotionGestureFactory)))
-}
+})
                     } else {
-                        newMotionGesture = {
+                        newMotionGesture = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.f_DIAGONAL_DOWN_RIGHT"))
 JR.cast(jlate(JR.cast(touchMotionGestureFactory)))
-}
+})
                     }
                 } else {
                     if (Float64.(>)(Line.jm_getDeltaX(this.f_line), 0.0d)) {
-                        newMotionGesture = {
+                        newMotionGesture = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.f_DIAGONAL_DOWN_LEFT"))
 JR.cast(jlate(JR.cast(touchMotionGestureFactory)))
-}
+})
                     } else {
-                        newMotionGesture = {
+                        newMotionGesture = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.f_DIAGONAL_UP_RIGHT"))
 JR.cast(jlate(JR.cast(touchMotionGestureFactory)))
-}
+})
                     }
                 }
             }
         }
-        this.f_previous = current
-        this.f_intermediate = current
+        this.f_previous = JR.cast(current)
+        this.f_intermediate = JR.cast(current)
         let mut event: MotionGestureEvent = JR.cast(MotionEventCircularPool.jm_getInstance(this.f_motionEventCircularPool, newMotionGesture))
         ignore(MotionGestureEvent.jm_setPreviousPoint(event, this.f_previous))
         ignore(MotionGestureEvent.jm_setCurrentPoint(event, current))
@@ -262,15 +262,15 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactor
 JR.cast(jlate(JR.cast(touchMotionGestureFactory)))
 })
         if (Int32.(>)(button, 0l)) {
-            newMotionGesture = {
+            newMotionGesture = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.f_SCROLL_UP"))
 JR.cast(jlate(JR.cast(touchMotionGestureFactory)))
-}
+})
         } else if (Int32.(<)(button, 0l)) {
-            newMotionGesture = {
+            newMotionGesture = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.f_SCROLL_DOWN"))
 JR.cast(jlate(JR.cast(touchMotionGestureFactory)))
-}
+})
         }
         let mut event: MotionGestureEvent = JR.cast(MotionEventCircularPool.jm_getInstance(this.f_motionEventCircularPool, newMotionGesture))
         ignore(MotionGestureEvent.jm_setPreviousPoint(event, this.f_previous))

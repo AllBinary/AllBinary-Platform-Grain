@@ -63,6 +63,10 @@ and jstatic_CLOUD = () => match (jcell_CLOUD) {
   },
 }
 
+and jset_CLOUD = (value: String) => {
+  jcell_CLOUD = Some(value)
+}
+
 and jstatic_CLOUD_UPDATE = () => match (jcell_CLOUD_UPDATE) {
   Some(value) => value,
   None => {
@@ -70,6 +74,10 @@ and jstatic_CLOUD_UPDATE = () => match (jcell_CLOUD_UPDATE) {
     jcell_CLOUD_UPDATE = Some(value)
     value
   },
+}
+
+and jset_CLOUD_UPDATE = (value: String) => {
+  jcell_CLOUD_UPDATE = Some(value)
 }
     
 and jnew_0 = () => {
@@ -97,7 +105,7 @@ and jm_initialize = (this: InitializeCloud, cloud: String, overwriteNewer: Bool,
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
 JR.cast(jlate(JR.cast(path)))
 })
-                let mut fileBasicArrayList: BasicArrayList = JR.cast(Directory.jm_search(Directory.jm_getInstance(), JR.cast(file), true))
+                let mut fileBasicArrayList: BasicArrayList = JR.cast(Directory.jm_search_2_AbFile_boolean_(Directory.jm_getInstance(), JR.cast(file), true))
                 let mut size: Int32 = BasicArrayList.jm_size(fileBasicArrayList)
                 ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
                 ignore(StringMaker.jm_append(stringBuffer, "Searched: "))
@@ -135,7 +143,7 @@ JR.cast(jlate(JR.cast(nextFile)))
 }) {
                         void
                     } else {
-                        ignore(FileUtil.jm_copyToCloud(FileUtil.jm_getInstance(), nextFile, path, realPath, cloud, overwriteNewer, overwriteAll))
+                        ignore(FileUtil.jm_copyToCloud_6(FileUtil.jm_getInstance(), nextFile, path, realPath, cloud, overwriteNewer, overwriteAll))
                     }
                     }
                 }
@@ -153,6 +161,8 @@ JR.registerLateBound("InitializeCloud.jnew_0", jnew_0)
 JR.registerLateBound("InitializeCloud.jm_initialize", jm_initialize)
 JR.registerLateBound("InitializeCloud.f_logUtil", (this: InitializeCloud) => this.f_logUtil)
 JR.registerLateBound("InitializeCloud.jstatic_CLOUD", jstatic_CLOUD)
+JR.registerLateBound("InitializeCloud.jset_CLOUD", jset_CLOUD)
 JR.registerLateBound("InitializeCloud.jstatic_CLOUD_UPDATE", jstatic_CLOUD_UPDATE)
+JR.registerLateBound("InitializeCloud.jset_CLOUD_UPDATE", jset_CLOUD_UPDATE)
 
 

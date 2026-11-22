@@ -67,6 +67,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: LayerManagerLogging) => {
+  jcell_instance = Some(value)
+}
+
 and jstatic_removeFailed = () => match (jcell_removeFailed) {
   Some(value) => value,
   None => {
@@ -74,6 +78,10 @@ and jstatic_removeFailed = () => match (jcell_removeFailed) {
     jcell_removeFailed = Some(value)
     value
   },
+}
+
+and jset_removeFailed = (value: Bool) => {
+  jcell_removeFailed = Some(value)
 }
 
 and jnew_0 = () => {
@@ -193,7 +201,7 @@ JR.cast(jlate())
 }), JR.cast(this)))
 }), this.f_DID_NOT_REMOVE), AllBinaryLayer.jm_getName(layerInterface)))), JR.cast(this), JR.cast(this.f_REMOVE)))
 })
-            jstatic_removeFailed() = true
+            jset_removeFailed(true)
         }
 }
     
@@ -201,13 +209,13 @@ and jm_log = (this: LayerManagerLogging, layerManager: LayerManager) => {
         ignore(StringMaker.jm_delete(this.f_stringBuilder, 0l, StringMaker.jm_length(this.f_stringBuilder)))
         let mut size: Int32 = LayerManager.jm_getSize(layerManager)
         let mut commonSeps: CommonSeps = JR.cast(CommonSeps.jm_getInstance())
-        ignore(StringMaker.jm_append(StringMaker.jm_append(this.f_stringBuilder, Integer.jm_toHexString({
+        ignore(StringMaker.jm_append(StringMaker.jm_append(this.f_stringBuilder, JR.cast(Integer.jm_toHexString({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_hashCode"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
 JR.cast(jlate())
 }), JR.cast(layerManager)))
-})), commonSeps.f_COLON_SEP))
+}))), commonSeps.f_COLON_SEP))
         ignore(StringMaker.jm_append(StringMaker.jm_appendint(this.f_stringBuilder, size), commonSeps.f_COLON_SEP))
         let mut allBinaryLayer: AllBinaryLayer = JR.nullOf()
         {
@@ -262,6 +270,8 @@ JR.registerLateBound("LayerManagerLogging.f_REMOVE", (this: LayerManagerLogging)
 JR.registerLateBound("LayerManagerLogging.f_DID_NOT_REMOVE", (this: LayerManagerLogging) => this.f_DID_NOT_REMOVE)
 JR.registerLateBound("LayerManagerLogging.f_CLEAR", (this: LayerManagerLogging) => this.f_CLEAR)
 JR.registerLateBound("LayerManagerLogging.jstatic_instance", jstatic_instance)
+JR.registerLateBound("LayerManagerLogging.jset_instance", jset_instance)
 JR.registerLateBound("LayerManagerLogging.jstatic_removeFailed", jstatic_removeFailed)
+JR.registerLateBound("LayerManagerLogging.jset_removeFailed", jset_removeFailed)
 
 

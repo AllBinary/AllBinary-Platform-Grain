@@ -47,6 +47,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: GravityUtil) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("GravityUtil"), f_GAME_GRAVITY_VELOCITY: 0l, f_MAX_GAME_VELOCITY: 0l, }
     this.f_GAME_GRAVITY_VELOCITY = 1800l
@@ -59,7 +63,10 @@ and jm_getInstance = () => {
 }
     
 and jm_process = (this: GravityUtil, velocityProperties: BasicVelocityProperties, customGravity: Int32) => {
-        ignore(JR.className(JR.cast(BasicVelocityProperties.jm_getVelocityYBasicDecimalP(velocityProperties))))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_addint"))
+JR.cast(jlate(JR.cast(BasicVelocityProperties.jm_getVelocityYBasicDecimalP(velocityProperties)), JR.cast(customGravity)))
+})
 }
 
 JR.registerLateBound("GravityUtil.jnew_0", jnew_0)
@@ -68,5 +75,6 @@ JR.registerLateBound("GravityUtil.jm_process", jm_process)
 JR.registerLateBound("GravityUtil.f_GAME_GRAVITY_VELOCITY", (this: GravityUtil) => this.f_GAME_GRAVITY_VELOCITY)
 JR.registerLateBound("GravityUtil.f_MAX_GAME_VELOCITY", (this: GravityUtil) => this.f_MAX_GAME_VELOCITY)
 JR.registerLateBound("GravityUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("GravityUtil.jset_instance", jset_instance)
 
 

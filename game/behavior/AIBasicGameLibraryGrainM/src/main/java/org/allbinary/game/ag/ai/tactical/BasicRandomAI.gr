@@ -90,13 +90,16 @@ JR.cast(jlate())
 }]
     this.f_myRandomFactory = JR.cast(MyRandomFactory.jm_getInstance())
         void
-        this.f_inputProbability = inputProbability
-        this.f_visitor = visitor
+        this.f_inputProbability = JR.cast(inputProbability)
+        this.f_visitor = JR.cast(visitor)
     this
 }
     
 and jm_processAI = (this: BasicRandomAI, allBinaryLayerManager: AllBinaryLayerManager) => {
-        if (JR.className(JR.cast(InputProbability.jm_getTimeDelayHelper(this.f_inputProbability)))) {
+        if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TimeDelayHelper.jm_isTime"))
+JR.cast(jlate(JR.cast(InputProbability.jm_getTimeDelayHelper(this.f_inputProbability)), JR.cast(GameTickTimeDelayHelperFactory.jm_getInstance().f_startTime)))
+}) {
             this.f_i_random = MyRandomFactory.jm_getAbsoluteNextInt(this.f_myRandomFactory, InputProbability.jm_getMax(this.f_inputProbability))
             let mut repeat: Bool = false
             let mut repeatLikelyhoodIntegerArray: Array<Int32> = InputProbability.jm_getRepeatLikelyhoodIntegerArray(this.f_inputProbability)

@@ -58,7 +58,7 @@ provide let rec jclassName = () => "SimpleTextPaintable"
 and jnew_2 = (text: String, basicColor: BasicColor) => {
     let this = { jobject: JR.newJObject("SimpleTextPaintable"), f_displayInfoSingleton: JR.nullOf(), f_updateMyFontProcessor: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_text: "", f_basicColor: JR.nullOf(), f_topScoresWidth: 0l, f_fontHeight: 0l, f_anchor: 0l, }
     this.f_displayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
-    this.f_updateMyFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(this))
+    this.f_updateMyFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(JR.cast(this)))
     this.f_myFontProcessor = JR.cast(this.f_updateMyFontProcessor)
     
     
@@ -66,7 +66,7 @@ and jnew_2 = (text: String, basicColor: BasicColor) => {
     this.f_fontHeight = 0l
     this.f_anchor = Anchor.jstatic_TOP_LEFT()
         this.f_text = text
-        this.f_basicColor = basicColor
+        this.f_basicColor = JR.cast(basicColor)
     this
 }
     
@@ -83,7 +83,7 @@ JR.cast(jlate(JR.cast(font), JR.cast(this.f_text)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Font.jm_getHeight"))
 JR.cast(jlate(JR.cast(font)))
 }
-        this.f_myFontProcessor = MyFontProcessor.jm_getInstance()
+        this.f_myFontProcessor = JR.cast(MyFontProcessor.jm_getInstance())
 }
     
 and jm_paint = (this: SimpleTextPaintable, graphics: JObject) => {
@@ -100,7 +100,7 @@ JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_text), JR.cast(Int32.(-)((Int32.
 }
     
 and jm_setBasicColorP = (this: SimpleTextPaintable, basicColor: BasicColor) => {
-        this.f_basicColor = basicColor
+        this.f_basicColor = JR.cast(basicColor)
 }
     
 and jm_getBasicColorP = (this: SimpleTextPaintable) => {
@@ -109,7 +109,7 @@ and jm_getBasicColorP = (this: SimpleTextPaintable) => {
     
 and jm_setText = (this: SimpleTextPaintable, text: String) => {
         this.f_text = text
-        this.f_myFontProcessor = this.f_updateMyFontProcessor
+        this.f_myFontProcessor = JR.cast(this.f_updateMyFontProcessor)
 }
     
 and jm_getText = (this: SimpleTextPaintable) => {

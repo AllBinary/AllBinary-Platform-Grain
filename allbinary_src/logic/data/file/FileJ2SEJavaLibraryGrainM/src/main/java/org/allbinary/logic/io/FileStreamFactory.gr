@@ -46,10 +46,14 @@ and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
     value
   },
 }
+
+and jset_SINGLETON = (value: JObject) => {
+  jcell_SINGLETON = Some(value)
+}
     
 and jm_getInstance = () => {
         if (JR.isSame(jstatic_SINGLETON(), NullUtil.jm_getInstance().f_NULL_OBJECT)) {
-            jstatic_SINGLETON() = JR.cast(jnew_0())
+            jset_SINGLETON(JR.cast(jnew_0()))
         }
         return JR.cast(jstatic_SINGLETON())
 }
@@ -115,5 +119,6 @@ JR.registerLateBound("FileStreamFactory.jm_getFileInputStreamInstance", jm_getFi
 JR.registerLateBound("FileStreamFactory.jm_getFileOutputStreamInstance", jm_getFileOutputStreamInstance)
 JR.registerLateBound("FileStreamFactory.jm_delete", jm_delete)
 JR.registerLateBound("FileStreamFactory.jstatic_SINGLETON", jstatic_SINGLETON)
+JR.registerLateBound("FileStreamFactory.jset_SINGLETON", jset_SINGLETON)
 
 

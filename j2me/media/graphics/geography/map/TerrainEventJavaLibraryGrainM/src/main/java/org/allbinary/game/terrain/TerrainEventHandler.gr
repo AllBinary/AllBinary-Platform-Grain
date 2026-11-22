@@ -69,15 +69,19 @@ JR.cast(jlate())
     value
   },
 }
+
+and jset_hashtable = (value: JObject) => {
+  jcell_hashtable = Some(value)
+}
     
 and jm_init = () => {
-        jstatic_hashtable() = {
+        jset_hashtable(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashtable"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
 JR.cast(jlate())
 })))
-}
+}))
 }
     
 and jm_getInstance = (anyType: JObject) => {
@@ -86,7 +90,7 @@ let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_
 JR.cast(jlate(JR.cast(jstatic_hashtable()), JR.cast(anyType)))
 })
         if (JR.isNull(eventHandlerCanBeNull)) {
-            eventHandlerCanBeNull = JR.cast(jnew_0())
+            eventHandlerCanBeNull = JR.cast(JR.cast(jnew_0()))
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
 JR.cast(jlate(JR.cast(jstatic_hashtable()), JR.cast(anyType), JR.cast(eventHandlerCanBeNull)))
@@ -149,5 +153,6 @@ JR.registerLateBound("TerrainEventHandler.jm_fireEvent", jm_fireEvent)
 JR.registerLateBound("TerrainEventHandler.jm_process", jm_process)
 JR.registerLateBound("TerrainEventHandler.f_list", (this: TerrainEventHandler) => this.f_list)
 JR.registerLateBound("TerrainEventHandler.jstatic_hashtable", jstatic_hashtable)
+JR.registerLateBound("TerrainEventHandler.jset_hashtable", jset_hashtable)
 
 

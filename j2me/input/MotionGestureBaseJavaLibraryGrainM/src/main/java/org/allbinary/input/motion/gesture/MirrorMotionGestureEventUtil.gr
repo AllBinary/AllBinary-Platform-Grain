@@ -52,21 +52,37 @@ and jstatic_instance = () => match (jcell_instance) {
     value
   },
 }
+
+and jset_instance = (value: MirrorMotionGestureEventUtil) => {
+  jcell_instance = Some(value)
+}
     
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("MirrorMotionGestureEventUtil"), f_motionEventCircularPool: JR.nullOf(), }
     
-        this.f_motionEventCircularPool = MotionEventCircularPool.jm_createPool(Integer.jstatic_MAX_VALUE())
+        this.f_motionEventCircularPool = JR.cast(MotionEventCircularPool.jm_createPool(Integer.jstatic_MAX_VALUE()))
     this
 }
     
 and jm_mirrorVerticle = (this: MirrorMotionGestureEventUtil, motionGestureEvent: MotionGestureEvent, halfWidth: Int32) => {
-        let mut event: MotionGestureEvent = JR.cast(MotionEventCircularPool.jm_getInstance(this.f_motionEventCircularPool, MotionGestureEvent.jm_getMotionGesture(motionGestureEvent)))
-        let mut previousNewX: Int32 = jm_getNewX(this, JR.className(JR.cast(MotionGestureEvent.jm_getPreviousPoint(motionGestureEvent))), halfWidth)
-        let mut currentNewX: Int32 = jm_getNewX(this, JR.className(JR.cast(MotionGestureEvent.jm_getCurrentPoint(motionGestureEvent))), halfWidth)
+        let mut event: MotionGestureEvent = JR.cast(MotionEventCircularPool.jm_getInstance(this.f_motionEventCircularPool, JR.cast(MotionGestureEvent.jm_getMotionGesture(motionGestureEvent))))
+        let mut previousNewX: Int32 = jm_getNewX(this, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getX"))
+JR.cast(jlate(JR.cast(MotionGestureEvent.jm_getPreviousPoint(motionGestureEvent))))
+}, halfWidth)
+        let mut currentNewX: Int32 = jm_getNewX(this, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getX"))
+JR.cast(jlate(JR.cast(MotionGestureEvent.jm_getCurrentPoint(motionGestureEvent))))
+}, halfWidth)
         let mut pointFactory: PointFactory = JR.cast(PointFactory.jm_getInstance())
-        let mut mirroredPreviousPoint: GPoint = JR.cast(PointFactory.jm_createXY(pointFactory, previousNewX, JR.className(JR.cast(MotionGestureEvent.jm_getPreviousPoint(motionGestureEvent)))))
-        let mut mirroredCurrentPoint: GPoint = JR.cast(PointFactory.jm_createXY(pointFactory, currentNewX, JR.className(JR.cast(MotionGestureEvent.jm_getCurrentPoint(motionGestureEvent)))))
+        let mut mirroredPreviousPoint: GPoint = JR.cast(PointFactory.jm_createXY(pointFactory, previousNewX, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getY"))
+JR.cast(jlate(JR.cast(MotionGestureEvent.jm_getPreviousPoint(motionGestureEvent))))
+}))
+        let mut mirroredCurrentPoint: GPoint = JR.cast(PointFactory.jm_createXY(pointFactory, currentNewX, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getY"))
+JR.cast(jlate(JR.cast(MotionGestureEvent.jm_getCurrentPoint(motionGestureEvent))))
+}))
         ignore(MotionGestureEvent.jm_setPreviousPoint(event, mirroredPreviousPoint))
         ignore(MotionGestureEvent.jm_setCurrentPoint(event, mirroredCurrentPoint))
         return event
@@ -92,5 +108,6 @@ JR.registerLateBound("MirrorMotionGestureEventUtil.jm_getNewX", jm_getNewX)
 JR.registerLateBound("MirrorMotionGestureEventUtil.jm_getInstance", jm_getInstance)
 JR.registerLateBound("MirrorMotionGestureEventUtil.f_motionEventCircularPool", (this: MirrorMotionGestureEventUtil) => this.f_motionEventCircularPool)
 JR.registerLateBound("MirrorMotionGestureEventUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("MirrorMotionGestureEventUtil.jset_instance", jset_instance)
 
 

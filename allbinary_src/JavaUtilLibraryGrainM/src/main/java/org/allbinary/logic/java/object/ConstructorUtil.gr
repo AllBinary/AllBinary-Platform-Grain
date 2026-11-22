@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../../java/lang/reflect/Constructor.gr" include Constructor
+use Constructor.{ type Constructor }
 from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
 use StringMaker.{ type StringMaker }
 from "../../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
@@ -45,10 +47,7 @@ and jnew_0 = () => {
     
 and jm_viewAll = (myClass: String, lineBreak: String) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        let mut constructor: Array<Constructor> = {
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Class.jm_getConstructors"))
-JR.cast(jlate(JR.cast(myClass)))
-}
+        let mut constructor: Array<Constructor> = JR.reflectionUnsupported("getConstructors", myClass)
         ignore(StringMaker.jm_append(stringBuffer, "Constructors: "))
         ignore(StringMaker.jm_append(stringBuffer, lineBreak))
         {
@@ -60,7 +59,7 @@ JR.cast(jlate(JR.cast(myClass)))
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, Int32.fromNumber(Array.length(constructor))))) break
-            ignore(StringMaker.jm_append(stringBuffer, jm_view(constructor[Int32.toNumber(index)], lineBreak)))
+            ignore(StringMaker.jm_append(stringBuffer, JR.cast(jm_view(constructor[Int32.toNumber(index)], lineBreak))))
             }
         }
         return StringMaker.jm_toString(stringBuffer)
@@ -70,8 +69,8 @@ and jm_view = (constructor: Constructor, lineBreak: String) => {
         if (!JR.isNull(constructor)) {
             let mut commonSeps: CommonSeps = JR.cast(CommonSeps.jm_getInstance())
             let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-            ignore(StringMaker.jm_append(stringBuffer, Constructor.jm_getName(constructor)))
-            let mut classes: Array<String> = Constructor.jm_getParameterTypes(constructor)
+            ignore(StringMaker.jm_append(stringBuffer, Constructor.jm_getName_0(constructor)))
+            let mut classes: Array<String> = Constructor.jm_getParameterTypes_0(constructor)
             {
                 let mut index: Int32 = 0l
                 let mut jfirst = true

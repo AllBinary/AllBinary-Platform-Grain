@@ -80,10 +80,14 @@ provide let rec jclassName = () => "GameNotificationHud"
 and jstatic_NULL_GAME_NOTIFICATION = () => match (jcell_NULL_GAME_NOTIFICATION) {
   Some(value) => value,
   None => {
-    let value: GameNotificationHud = jnew_4(BasicHudFactory.jm_getInstance().f_TOPCENTER, BasicHudFactory.jm_getInstance().f_HORIZONTAL, 0l, BasicColorFactory.jm_getInstance().f_RED)
+    let value: GameNotificationHud = jnew_4(BasicHudFactory.jm_getInstance().f_TOPCENTER, BasicHudFactory.jm_getInstance().f_HORIZONTAL, 0l, JR.cast(BasicColorFactory.jm_getInstance().f_RED))
     jcell_NULL_GAME_NOTIFICATION = Some(value)
     value
   },
+}
+
+and jset_NULL_GAME_NOTIFICATION = (value: GameNotificationHud) => {
+  jcell_NULL_GAME_NOTIFICATION = Some(value)
 }
     
 and jnew_4 = (location: Int32, direction: Int32, bufferZone: Int32, basicColor: BasicColor) => {
@@ -100,13 +104,13 @@ and jm_onEvent = (this: GameNotificationHud, eventObject: AllBinaryEventObject) 
     
 and jm_onGameNotificationEvent = (this: GameNotificationHud, gameNotificationEvent: GameNotificationEvent) => {
         if ((!JR.isSame(this.f_lastGameNotificationEvent, gameNotificationEvent))) {
-            this.f_lastGameNotificationEvent = gameNotificationEvent
+            this.f_lastGameNotificationEvent = JR.cast(gameNotificationEvent)
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(GameNotificationEvent.jm_getString(gameNotificationEvent)), JR.cast(this), JR.cast(this.f_METHOD_NAME)))
 })
         }
-        ignore(jm_add(this, GameNotificationEvent.jm_getString(gameNotificationEvent), GameNotificationEvent.jm_getSeconds(gameNotificationEvent), GameNotificationEvent.jm_getBasicColorP(gameNotificationEvent), GameNotificationEvent.jm_getPermanent(gameNotificationEvent)))
+        ignore(jm_add(this, GameNotificationEvent.jm_getString(gameNotificationEvent), JR.cast(GameNotificationEvent.jm_getSeconds(gameNotificationEvent)), JR.cast(GameNotificationEvent.jm_getBasicColorP(gameNotificationEvent)), JR.cast(GameNotificationEvent.jm_getPermanent(gameNotificationEvent))))
 }
     
 and jm_add = (this: GameNotificationHud, string: String, seconds: Int32, basicColor: BasicColor, permanent: Bool) => {
@@ -136,5 +140,6 @@ JR.registerLateBound("GameNotificationHud.f_METHOD_NAME", (this: GameNotificatio
 JR.registerLateBound("GameNotificationHud.f_lastGameNotificationEvent", (this: GameNotificationHud) => this.f_lastGameNotificationEvent)
 JR.registerLateBound("GameNotificationHud.set_f_lastGameNotificationEvent", (this: GameNotificationHud, jvalue) => { this.f_lastGameNotificationEvent = jvalue; jvalue })
 JR.registerLateBound("GameNotificationHud.jstatic_NULL_GAME_NOTIFICATION", jstatic_NULL_GAME_NOTIFICATION)
+JR.registerLateBound("GameNotificationHud.jset_NULL_GAME_NOTIFICATION", jset_NULL_GAME_NOTIFICATION)
 
 

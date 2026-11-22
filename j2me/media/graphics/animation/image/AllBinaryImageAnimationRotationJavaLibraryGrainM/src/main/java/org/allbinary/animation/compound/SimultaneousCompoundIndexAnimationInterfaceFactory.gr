@@ -52,7 +52,7 @@ and jnew_2 = (basicAnimationInterfaceFactoryInterfaceArray: Array<AnimationInter
     
     
         this.f_basicAnimationInterfaceFactoryInterfaceArray = basicAnimationInterfaceFactoryInterfaceArray
-        this.f_animationBehaviorFactory = animationBehaviorFactory
+        this.f_animationBehaviorFactory = JR.cast(animationBehaviorFactory)
     this
 }
     
@@ -68,14 +68,17 @@ and jm_getInstance = (this: SimultaneousCompoundIndexAnimationInterfaceFactory, 
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            animationInterfaceArray[Int32.toNumber(index)] = JR.cast(JR.className(JR.cast(this.f_basicAnimationInterfaceFactoryInterfaceArray[Int32.toNumber(index)])))
+            animationInterfaceArray[Int32.toNumber(index)] = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AnimationInterfaceFactoryInterface.jm_getInstance"))
+JR.cast(jlate(JR.cast(this.f_basicAnimationInterfaceFactoryInterfaceArray[Int32.toNumber(index)]), JR.cast(instanceId)))
+})
             }
         }
         return jm_getOrCreate(this, animationInterfaceArray)
 }
     
 and jm_getOrCreate = (this: SimultaneousCompoundIndexAnimationInterfaceFactory, animationInterfaceArray: Array<IndexedAnimation>) => {
-        return JR.cast(SimultaneousCompoundIndexAnimation.jnew_2(animationInterfaceArray, AnimationBehaviorFactory.jm_getOrCreateInstance(this.f_animationBehaviorFactory)))
+        return JR.cast(SimultaneousCompoundIndexAnimation.jnew_2(animationInterfaceArray, JR.cast(AnimationBehaviorFactory.jm_getOrCreateInstance(this.f_animationBehaviorFactory))))
 }
     
 and jm_getBasicAnimationInterfaceFactoryInterfaceArray = (this: SimultaneousCompoundIndexAnimationInterfaceFactory) => {

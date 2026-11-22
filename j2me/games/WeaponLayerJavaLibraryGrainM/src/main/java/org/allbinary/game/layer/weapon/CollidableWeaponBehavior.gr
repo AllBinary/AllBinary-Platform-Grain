@@ -69,10 +69,14 @@ and jstatic_NULL_COLLIDABLE_WEAPON_BEHAVIOR = () => match (jcell_NULL_COLLIDABLE
     value
   },
 }
+
+and jset_NULL_COLLIDABLE_WEAPON_BEHAVIOR = (value: JObject) => {
+  jcell_NULL_COLLIDABLE_WEAPON_BEHAVIOR = Some(value)
+}
     
 and jm_getNullInstance = () => {
         if (JR.isSame(jstatic_NULL_COLLIDABLE_WEAPON_BEHAVIOR(), NullUtil.jm_getInstance().f_NULL_OBJECT)) {
-            jstatic_NULL_COLLIDABLE_WEAPON_BEHAVIOR() = JR.cast(jnew_1(false))
+            jset_NULL_COLLIDABLE_WEAPON_BEHAVIOR(JR.cast(jnew_1(false)))
         }
         return JR.cast(jstatic_NULL_COLLIDABLE_WEAPON_BEHAVIOR())
 }
@@ -87,7 +91,7 @@ and jnew_1 = (collidable: Bool) => {
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableBaseBehavior.jm_setCollidable"))
 JR.cast(jlate(JR.cast(this), JR.cast(true)))
 })
-        this.f_collisionHelper = CollidableHelperFactory.jm_getInstance()
+        this.f_collisionHelper = JR.cast(CollidableHelperFactory.jm_getInstance())
     this
 }
     
@@ -98,7 +102,13 @@ and jm_init = (this: CollidableWeaponBehavior, sourceLayerInterface: AllBinaryLa
     
 and jm_isCollision = (this: CollidableWeaponBehavior, ownerLayer: CollidableCompositeLayer, collisionLayer: CollidableCompositeLayer) => {
         if (CollisionHelper.jm_isCollidable(this.f_collisionHelper, collisionLayer)) {
-            if ((CollidableCompositeLayer.jm_getGroupInterface(ownerLayer)[Int32.toNumber(0l)] != CollidableCompositeLayer.jm_getGroupInterface(collisionLayer)[Int32.toNumber(0l)])) {
+            if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_getGroupInterface"))
+JR.cast(jlate(JR.cast(ownerLayer)))
+}[Int32.toNumber(0l)] != {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_getGroupInterface"))
+JR.cast(jlate(JR.cast(collisionLayer)))
+}[Int32.toNumber(0l)])) {
                 return jm_isCollision(this, ownerLayer, collisionLayer)
             }
         }
@@ -113,7 +123,10 @@ and jm_collide = (this: CollidableWeaponBehavior, ownerLayer: CollidableComposit
 and jm_isCollisionInterface = (this: CollidableWeaponBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) => {
         if (CollisionHelper.jm_isCollidable(this.f_collisionHelper, JR.cast(collidableInterfaceCompositeInterface))) {
             let mut layerInterface: AllBinaryLayer = JR.cast(collidableInterfaceCompositeInterface)
-            if ((CollidableCompositeLayer.jm_getGroupInterface(ownerLayer)[Int32.toNumber(0l)] != AllBinaryLayer.jm_getGroupInterface(layerInterface)[Int32.toNumber(0l)])) {
+            if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_getGroupInterface"))
+JR.cast(jlate(JR.cast(ownerLayer)))
+}[Int32.toNumber(0l)] != AllBinaryLayer.jm_getGroupInterface(layerInterface)[Int32.toNumber(0l)])) {
                 if ({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LayerCollisionUtil.jm_isCollision"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_layerCollisionUtil)), JR.cast(ownerLayer), JR.cast(layerInterface)))
@@ -162,5 +175,6 @@ JR.registerLateBound("CollidableWeaponBehavior.set_f_collided", (this: Collidabl
 JR.registerLateBound("CollidableWeaponBehavior.f_collisionHelper", (this: CollidableWeaponBehavior) => this.f_collisionHelper)
 JR.registerLateBound("CollidableWeaponBehavior.set_f_collisionHelper", (this: CollidableWeaponBehavior, jvalue) => { this.f_collisionHelper = jvalue; jvalue })
 JR.registerLateBound("CollidableWeaponBehavior.jstatic_NULL_COLLIDABLE_WEAPON_BEHAVIOR", jstatic_NULL_COLLIDABLE_WEAPON_BEHAVIOR)
+JR.registerLateBound("CollidableWeaponBehavior.jset_NULL_COLLIDABLE_WEAPON_BEHAVIOR", jset_NULL_COLLIDABLE_WEAPON_BEHAVIOR)
 
 

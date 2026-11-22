@@ -25,6 +25,10 @@ from "char" include Char
 from "array" include Array
 from "../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../javax/microedition/khronos/opengles/GL.gr" include GL
+use GL.{ type GL }
+from "../../../../javax/microedition/lcdui/NullImage.gr" include NullImage
+use NullImage.{ type NullImage }
 from "../../../../org/allbinary/platform/graphics/PlatformBitmapBaseFactory.gr" include PlatformBitmapBaseFactory
 use PlatformBitmapBaseFactory.{ type PlatformBitmapBaseFactory }
 from "../../../../org/allbinary/platform/opengles/PlatformTextureBaseFactory.gr" include PlatformTextureBaseFactory
@@ -62,10 +66,14 @@ provide let rec jclassName = () => "OpenGLESImage"
 and jstatic_NULL_OPENGL_IMAGE = () => match (jcell_NULL_OPENGL_IMAGE) {
   Some(value) => value,
   None => {
-    let value: OpenGLESImage = jnew_3(NullImage.jstatic_NULL_IMAGE(), PlatformBitmapBaseFactory.jstatic_NULL_PLATFORM_BITMAP_BASE_FACTORY(), PlatformTextureBaseFactory.jstatic_NULL_PLATFORM_TEXTURE_BASE_FACTORY())
+    let value: OpenGLESImage = jnew_3(JR.cast(NullImage.jstatic_NULL_IMAGE()), JR.cast(PlatformBitmapBaseFactory.jstatic_NULL_PLATFORM_BITMAP_BASE_FACTORY()), JR.cast(PlatformTextureBaseFactory.jstatic_NULL_PLATFORM_TEXTURE_BASE_FACTORY()))
     jcell_NULL_OPENGL_IMAGE = Some(value)
     value
   },
+}
+
+and jset_NULL_OPENGL_IMAGE = (value: OpenGLESImage) => {
+  jcell_NULL_OPENGL_IMAGE = Some(value)
 }
 
 and jstatic_texture2dList = () => match (jcell_texture2dList) {
@@ -77,6 +85,10 @@ and jstatic_texture2dList = () => match (jcell_texture2dList) {
   },
 }
 
+and jset_texture2dList = (value: BasicArrayList) => {
+  jcell_texture2dList = Some(value)
+}
+
 and jstatic_TYPE = () => match (jcell_TYPE) {
   Some(value) => value,
   None => {
@@ -84,6 +96,10 @@ and jstatic_TYPE = () => match (jcell_TYPE) {
     jcell_TYPE = Some(value)
     value
   },
+}
+
+and jset_TYPE = (value: Int32) => {
+  jcell_TYPE = Some(value)
 }
     
 and jnew_3 = (image: JObject, bitmapFactory: PlatformBitmapBaseFactory, textureFactory: PlatformTextureBaseFactory) => {
@@ -97,8 +113,8 @@ and jnew_3 = (image: JObject, bitmapFactory: PlatformBitmapBaseFactory, textureF
 let jlate: () => JObject = JR.cast(JR.lateBound("OpenGLESImageTranslate.jm_getInstance"))
 JR.cast(jlate())
 })
-        this.f_openGLBitmap = PlatformBitmapBaseFactory.jm_createBitmap(bitmapFactory, image)
-        this.f_textureFactory = textureFactory
+        this.f_openGLBitmap = JR.cast(PlatformBitmapBaseFactory.jm_createBitmap(bitmapFactory, image))
+        this.f_textureFactory = JR.cast(textureFactory)
     this
 }
     
@@ -137,7 +153,10 @@ JR.registerLateBound("OpenGLESImage.set_f_imageProcessor", (this: OpenGLESImage,
 JR.registerLateBound("OpenGLESImage.f_openGLESImageTranslate", (this: OpenGLESImage) => this.f_openGLESImageTranslate)
 JR.registerLateBound("OpenGLESImage.set_f_openGLESImageTranslate", (this: OpenGLESImage, jvalue) => { this.f_openGLESImageTranslate = jvalue; jvalue })
 JR.registerLateBound("OpenGLESImage.jstatic_NULL_OPENGL_IMAGE", jstatic_NULL_OPENGL_IMAGE)
+JR.registerLateBound("OpenGLESImage.jset_NULL_OPENGL_IMAGE", jset_NULL_OPENGL_IMAGE)
 JR.registerLateBound("OpenGLESImage.jstatic_texture2dList", jstatic_texture2dList)
+JR.registerLateBound("OpenGLESImage.jset_texture2dList", jset_texture2dList)
 JR.registerLateBound("OpenGLESImage.jstatic_TYPE", jstatic_TYPE)
+JR.registerLateBound("OpenGLESImage.jset_TYPE", jset_TYPE)
 
 

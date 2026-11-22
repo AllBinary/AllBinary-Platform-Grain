@@ -25,6 +25,10 @@ from "char" include Char
 from "array" include Array
 from "../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../javax/microedition/lcdui/CommandListener.gr" include CommandListener
+use CommandListener.{ type CommandListener }
+from "../../../../javax/microedition/lcdui/NullCommandListener.gr" include NullCommandListener
+use NullCommandListener.{ type NullCommandListener }
 from "../../../../org/allbinary/graphics/displayable/command/MyCommandInterface.gr" include MyCommandInterface
 use MyCommandInterface.{ type MyCommandInterface }
 from "../../../../org/allbinary/graphics/displayable/command/MyCommandsFactory.gr" include MyCommandsFactory
@@ -87,14 +91,14 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_CONSTRUCTO
 })
         ignore(DisplayInfoSingleton.jm_update(this.f_displayInfo, JR.cast(this), this.f_canvasStrings.f_CONSTRUCTOR))
         this.f_name = name
-        this.f_childNameList = childNameList
-        this.f_commandStack = {
+        this.f_childNameList = JR.cast(childNameList)
+        this.f_commandStack = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createStack"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
 JR.cast(jlate())
 })))
-}
+})
     this
 }
     
@@ -171,7 +175,7 @@ JR.cast(jlate(JR.cast(this.f_commandStack)))
     
 and jm_setCommandListener = (this: MyCanvas, l: CommandListener) => {
         ignore(jm_setCommandListener(this, l))
-        this.f_commandListener = l
+        this.f_commandListener = JR.cast(l)
 }
     
 and jm_getCustomCommandListener = (this: MyCanvas) => {

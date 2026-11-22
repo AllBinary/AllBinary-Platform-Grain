@@ -47,13 +47,17 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: PaintableToImageUtil) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("PaintableToImageUtil"), }
     this
 }
     
 and jm_getImage = (paintableInterface: PaintableInterface, width: Int32, height: Int32) => {
-        let mut image: JObject = JR.cast(GameFeatureImageCacheFactory.jm_get(GameFeatureImageCacheFactory.jm_getInstance(), jstatic_instance().jobject.cls, width, height))
+        let mut image: JObject = JR.cast(GameFeatureImageCacheFactory.jm_get(GameFeatureImageCacheFactory.jm_getInstance(), JR.className(jstatic_instance()), width, height))
         let mut graphics: JObject = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getGraphics"))
 JR.cast(jlate(JR.cast(image)))
@@ -65,5 +69,6 @@ JR.cast(jlate(JR.cast(image)))
 JR.registerLateBound("PaintableToImageUtil.jnew_0", jnew_0)
 JR.registerLateBound("PaintableToImageUtil.jm_getImage", jm_getImage)
 JR.registerLateBound("PaintableToImageUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("PaintableToImageUtil.jset_instance", jset_instance)
 
 

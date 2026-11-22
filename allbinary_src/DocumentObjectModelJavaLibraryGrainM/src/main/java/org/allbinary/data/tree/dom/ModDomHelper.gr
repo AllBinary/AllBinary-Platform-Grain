@@ -31,7 +31,7 @@ from "../../../../../java/util/Set.gr" include Set
 use Set.{ type Set }
 from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
 use BasicArrayList.{ type BasicArrayList }
-from "../../../../../org/allbinary/logic/java/anyType/clazz/ClassUtil.gr" include ClassUtil
+from "../../../../../org/allbinary/logic/java/object/clazz/ClassUtil.gr" include ClassUtil
 use ClassUtil.{ type ClassUtil }
 from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
 use StringUtil.{ type StringUtil }
@@ -77,30 +77,30 @@ and jm_createIndexNode = (document: Document, index: Int32) => {
         return jm_createTextNode(document, DomData.jstatic_INDEX(), Integer.jm_toString(index))
 }
     
-and jm_createNameValueNodes_4 = (document: Document, elementName: String, nameText: String, valueText: String) => {
+and jm_createNameValueNodes_4_Document_String_String_String_ = (document: Document, elementName: String, nameText: String, valueText: String) => {
         let mut newNode: Node = JR.cast(Document.jm_createElement(document, elementName))
         ignore(Node.jm_appendChild(newNode, jm_createNameNode(document, nameText)))
         ignore(Node.jm_appendChild(newNode, jm_createValueNode(document, valueText)))
         return newNode
 }
     
-and jm_createNameValueNodes_3 = (document: Document, elementNameAndNameText: String, valueText: String) => {
-        let mut newNode: Node = JR.cast(jm_createNameValueNodes_4(document, elementNameAndNameText, elementNameAndNameText, valueText))
+and jm_createNameValueNodes_3_Document_String_String_ = (document: Document, elementNameAndNameText: String, valueText: String) => {
+        let mut newNode: Node = JR.cast(jm_createNameValueNodes_4_Document_String_String_String_(document, elementNameAndNameText, elementNameAndNameText, valueText))
         return newNode
 }
     
-and jm_createNameValueIndexNodes_4 = (document: Document, elementNameAndNameText: String, index: Int32, valueText: String) => {
-        let mut newNode: Node = JR.cast(jm_createNameValueNodes_3(document, elementNameAndNameText, valueText))
+and jm_createNameValueIndexNodes_4_Document_String_int_String_ = (document: Document, elementNameAndNameText: String, index: Int32, valueText: String) => {
+        let mut newNode: Node = JR.cast(jm_createNameValueNodes_3_Document_String_String_(document, elementNameAndNameText, valueText))
         ignore(Node.jm_appendChild(newNode, jm_createIndexNode(document, index)))
         return newNode
 }
     
-and jm_createNameValueNodes_3 = (document: Document, rootNode: String, hashMap: HashMap) => {
+and jm_createNameValueNodes_3_Document_String_HashMap_ = (document: Document, rootNode: String, hashMap: HashMap) => {
         let mut node: Node = JR.cast(Document.jm_createElement(document, rootNode))
-        return jm_createNameValueNodes_3(document, JR.cast(node), JR.cast(hashMap))
+        return jm_createNameValueNodes_3_Document_Node_HashMap_(document, JR.cast(node), JR.cast(hashMap))
 }
     
-and jm_createNameValueNodes_3 = (document: Document, node: Node, hashMap: HashMap) => {
+and jm_createNameValueNodes_3_Document_Node_HashMap_ = (document: Document, node: Node, hashMap: HashMap) => {
         let mut stringUtil: StringUtil = JR.cast(StringUtil.jm_getInstance())
         let mut keySet: Set = JR.cast(HashMap.jm_keySet_0(hashMap))
         let mut keyArray: Array<JObject> = Set.jm_toArray_0(keySet)
@@ -119,12 +119,12 @@ and jm_createNameValueNodes_3 = (document: Document, node: Node, hashMap: HashMa
             let mut anyType: JObject = JR.cast(HashMap.jm_get_1(hashMap, objectKey))
             if (JR.isNull(anyType)) {
                 let mut value: String = stringUtil.f_EMPTY_STRING
-                ignore(Node.jm_appendChild(node, jm_createNameValueNodes_3(document, name, value)))
+                ignore(Node.jm_appendChild(node, jm_createNameValueNodes_3_Document_String_String_(document, name, value)))
             } else if ((JR.className(anyType) == "String")) {
                 let mut value: String = StringUtil.jm_getNonNull(stringUtil, JR.cast(anyType))
-                ignore(Node.jm_appendChild(node, jm_createNameValueNodes_3(document, name, value)))
+                ignore(Node.jm_appendChild(node, jm_createNameValueNodes_3_Document_String_String_(document, name, value)))
             } else if ((JR.className(anyType) == "HashMap")) {
-                ignore(Node.jm_appendChild(node, jm_createNameValueNodes_3(document, name, JR.cast(hashMap))))
+                ignore(Node.jm_appendChild(node, jm_createNameValueNodes_3_Document_String_HashMap_(document, name, JR.cast(hashMap))))
             } else {
                 fail JR.toStringOf(JR.newJObject("Exception"))
             }
@@ -133,7 +133,7 @@ and jm_createNameValueNodes_3 = (document: Document, node: Node, hashMap: HashMa
         return node
 }
     
-and jm_createNameValueNodes_4 = (document: Document, rootNodeName: String, duplicateNodeName: String, valueVector: BasicArrayList) => {
+and jm_createNameValueNodes_4_Document_String_String_BasicArrayList_ = (document: Document, rootNodeName: String, duplicateNodeName: String, valueVector: BasicArrayList) => {
         let mut stringUtil: StringUtil = JR.cast(StringUtil.jm_getInstance())
         let mut node: Node = JR.cast(Document.jm_createElement(document, rootNodeName))
         let mut size: Int32 = BasicArrayList.jm_size(valueVector)
@@ -147,13 +147,13 @@ and jm_createNameValueNodes_4 = (document: Document, rootNodeName: String, dupli
                 jfirst = false
                 if (!(Int32.(<)(i, size))) break
             let mut value: String = StringUtil.jm_getNonNull(stringUtil, JR.cast(BasicArrayList.jm_get(valueVector, i)))
-            ignore(Node.jm_appendChild(node, jm_createNameValueNodes_3(document, duplicateNodeName, value)))
+            ignore(Node.jm_appendChild(node, jm_createNameValueNodes_3_Document_String_String_(document, duplicateNodeName, value)))
             }
         }
         return node
 }
     
-and jm_createNameValueIndexNodes_4 = (document: Document, rootNodeName: String, duplicateNodeName: String, valueVector: BasicArrayList) => {
+and jm_createNameValueIndexNodes_4_Document_String_String_BasicArrayList_ = (document: Document, rootNodeName: String, duplicateNodeName: String, valueVector: BasicArrayList) => {
         let mut stringUtil: StringUtil = JR.cast(StringUtil.jm_getInstance())
         let mut node: Node = JR.cast(Document.jm_createElement(document, rootNodeName))
         let mut size: Int32 = BasicArrayList.jm_size(valueVector)
@@ -167,18 +167,18 @@ and jm_createNameValueIndexNodes_4 = (document: Document, rootNodeName: String, 
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             let mut value: String = StringUtil.jm_getNonNull(stringUtil, JR.cast(BasicArrayList.jm_get(valueVector, index)))
-            ignore(Node.jm_appendChild(node, jm_createNameValueIndexNodes_4(document, duplicateNodeName, index, value)))
+            ignore(Node.jm_appendChild(node, jm_createNameValueIndexNodes_4_Document_String_int_String_(document, duplicateNodeName, index, value)))
             }
         }
         return node
 }
     
-and jm_createNodeWithValueNodes_3 = (document: Document, rootNode: String, hashMap: HashMap) => {
+and jm_createNodeWithValueNodes_3_Document_String_HashMap_ = (document: Document, rootNode: String, hashMap: HashMap) => {
         let mut node: Node = JR.cast(Document.jm_createElement(document, rootNode))
-        return jm_createNodeWithValueNodes_3(document, JR.cast(node), hashMap)
+        return jm_createNodeWithValueNodes_3_Document_Node_HashMap_(document, JR.cast(node), hashMap)
 }
     
-and jm_createNodeWithValueNodes_3 = (document: Document, node: Node, hashMap: HashMap) => {
+and jm_createNodeWithValueNodes_3_Document_Node_HashMap_ = (document: Document, node: Node, hashMap: HashMap) => {
         let mut stringUtil: StringUtil = JR.cast(StringUtil.jm_getInstance())
         let mut keySet: Set = JR.cast(HashMap.jm_keySet_0(hashMap))
         let mut keyArray: Array<JObject> = Set.jm_toArray_0(keySet)
@@ -206,14 +206,14 @@ JR.registerLateBound("ModDomHelper.jm_createTextNode", jm_createTextNode)
 JR.registerLateBound("ModDomHelper.jm_createValueNode", jm_createValueNode)
 JR.registerLateBound("ModDomHelper.jm_createNameNode", jm_createNameNode)
 JR.registerLateBound("ModDomHelper.jm_createIndexNode", jm_createIndexNode)
-JR.registerLateBound("ModDomHelper.jm_createNameValueNodes_4", jm_createNameValueNodes_4)
-JR.registerLateBound("ModDomHelper.jm_createNameValueNodes_3", jm_createNameValueNodes_3)
-JR.registerLateBound("ModDomHelper.jm_createNameValueIndexNodes_4", jm_createNameValueIndexNodes_4)
-JR.registerLateBound("ModDomHelper.jm_createNameValueNodes_3", jm_createNameValueNodes_3)
-JR.registerLateBound("ModDomHelper.jm_createNameValueNodes_3", jm_createNameValueNodes_3)
-JR.registerLateBound("ModDomHelper.jm_createNameValueNodes_4", jm_createNameValueNodes_4)
-JR.registerLateBound("ModDomHelper.jm_createNameValueIndexNodes_4", jm_createNameValueIndexNodes_4)
-JR.registerLateBound("ModDomHelper.jm_createNodeWithValueNodes_3", jm_createNodeWithValueNodes_3)
-JR.registerLateBound("ModDomHelper.jm_createNodeWithValueNodes_3", jm_createNodeWithValueNodes_3)
+JR.registerLateBound("ModDomHelper.jm_createNameValueNodes_4_Document_String_String_String_", jm_createNameValueNodes_4_Document_String_String_String_)
+JR.registerLateBound("ModDomHelper.jm_createNameValueNodes_3_Document_String_String_", jm_createNameValueNodes_3_Document_String_String_)
+JR.registerLateBound("ModDomHelper.jm_createNameValueIndexNodes_4_Document_String_int_String_", jm_createNameValueIndexNodes_4_Document_String_int_String_)
+JR.registerLateBound("ModDomHelper.jm_createNameValueNodes_3_Document_String_HashMap_", jm_createNameValueNodes_3_Document_String_HashMap_)
+JR.registerLateBound("ModDomHelper.jm_createNameValueNodes_3_Document_Node_HashMap_", jm_createNameValueNodes_3_Document_Node_HashMap_)
+JR.registerLateBound("ModDomHelper.jm_createNameValueNodes_4_Document_String_String_BasicArrayList_", jm_createNameValueNodes_4_Document_String_String_BasicArrayList_)
+JR.registerLateBound("ModDomHelper.jm_createNameValueIndexNodes_4_Document_String_String_BasicArrayList_", jm_createNameValueIndexNodes_4_Document_String_String_BasicArrayList_)
+JR.registerLateBound("ModDomHelper.jm_createNodeWithValueNodes_3_Document_String_HashMap_", jm_createNodeWithValueNodes_3_Document_String_HashMap_)
+JR.registerLateBound("ModDomHelper.jm_createNodeWithValueNodes_3_Document_Node_HashMap_", jm_createNodeWithValueNodes_3_Document_Node_HashMap_)
 
 

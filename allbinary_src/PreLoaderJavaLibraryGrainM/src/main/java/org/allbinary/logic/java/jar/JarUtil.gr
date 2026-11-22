@@ -49,22 +49,22 @@ provide let rec jclassName = () => "JarUtil"
 and jnew_1 = (jarURL: URL) => {
     let this = { jobject: JR.newJObject("JarUtil"), f_jarURL: JR.nullOf(), }
     
-        this.f_jarURL = jarURL
+        this.f_jarURL = JR.cast(jarURL)
     this
 }
     
 and jm_show = (this: JarUtil) => {
         let mut cache: Array<Int32> = Array.make(Int32.toNumber(1024l), 0l)
         {
-            let mut conn: URLConnection = JR.cast(URL.jm_openConnection(this.f_jarURL))
-            let mut jis: JarInputStream = JarInputStream.jnew_1(URLConnection.jm_getInputStream(conn))
+            let mut conn: URLConnection = JR.cast(URL.jm_openConnection_0(this.f_jarURL))
+            let mut jis: JarInputStream = JarInputStream.jnew_1(URLConnection.jm_getInputStream_0(conn))
             while (true) {
-                let mut entry: JarEntry = JR.cast(JarInputStream.jm_getNextJarEntry(jis))
+                let mut entry: JarEntry = JR.cast(JarInputStream.jm_getNextJarEntry_0(jis))
                 if (!JR.isNull(entry)) {
-                    if (!JarEntry.jm_isDirectory(entry)) {
+                    if (!JarEntry.jm_isDirectory_0(entry)) {
                         let mut offset: Int32 = 0l
                         let mut i: Int32 = 0l
-                        while ((({ i = JarInputStream.jm_read(jis, cache, offset, Int32.(-)(Int32.fromNumber(Array.length(cache)), offset)); i }) != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
+                        while ((({ i = JarInputStream.jm_read_3(jis, cache, offset, Int32.(-)(Int32.fromNumber(Array.length(cache)), offset)); i }) != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
                             offset = Int32.(+)(offset, i)
                             if (Int32.(>=)(offset, Int32.fromNumber(Array.length(cache)))) {
                                 let mut newcache: Array<Int32> = Array.make(Int32.toNumber(Int32.(+)(Int32.fromNumber(Array.length(cache)), 1024l)), 0l)
@@ -74,7 +74,7 @@ and jm_show = (this: JarUtil) => {
                         }
                         let mut tmp: Array<Int32> = Array.make(Int32.toNumber(offset), 0l)
                         ignore(JR.arraycopy(cache, 0l, tmp, 0l, offset))
-                        ignore(print(JarEntry.jm_getName(entry)))
+                        ignore(print(JarEntry.jm_getName_0(entry)))
                     }
                 } else {
                     break
@@ -84,7 +84,7 @@ and jm_show = (this: JarUtil) => {
 }
     
 and jm_main = (args: Array<String>) => {
-        ignore(jm_show(jnew_1(URL.jnew_1("file:///G:/mnt/bc/mydev/working/j2me/MiniSpaceWars/MiniSpaceWars/dist/MiniSpaceWars.jar"))))
+        ignore(jm_show(jnew_1(JR.cast(URL.jnew_1("file:///G:/mnt/bc/mydev/working/j2me/MiniSpaceWars/MiniSpaceWars/dist/MiniSpaceWars.jar")))))
 }
 
 JR.registerLateBound("JarUtil.jnew_1", jnew_1)

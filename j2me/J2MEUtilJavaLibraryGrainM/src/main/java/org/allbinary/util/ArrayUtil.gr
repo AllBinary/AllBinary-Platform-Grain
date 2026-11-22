@@ -39,6 +39,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: ArrayUtil) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("ArrayUtil"), f_mathUtil: JR.nullOf(), }
     this.f_mathUtil = JR.cast(MathUtil.jm_getInstance())
@@ -50,7 +54,7 @@ and jm_getInstance = () => {
 }
     
 and jm_copyOf = (this: ArrayUtil, original: Array<JObject>, newLength: Int32) => {
-        return jm_copyOfType(this, original, newLength, "Array")
+        return jm_copyOfType(this, original, newLength, JR.cast("Array"))
 }
     
 and jm_copyOfType = (this: ArrayUtil, original: Array<JObject>, newLength: Int32, newType: String) => {
@@ -253,5 +257,6 @@ JR.registerLateBound("ArrayUtil.jm_toStringFromObjectArray", jm_toStringFromObje
 JR.registerLateBound("ArrayUtil.jm_toStringFromByteArray", jm_toStringFromByteArray)
 JR.registerLateBound("ArrayUtil.f_mathUtil", (this: ArrayUtil) => this.f_mathUtil)
 JR.registerLateBound("ArrayUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("ArrayUtil.jset_instance", jset_instance)
 
 

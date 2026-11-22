@@ -52,6 +52,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: TrackingEventCircularStaticPool) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("TrackingEventCircularStaticPool"), f_EVENT_POOL: JR.nullOf(), }
     this.f_EVENT_POOL = AllBinaryEventCircularPool.jnew_1(20l)
@@ -67,7 +71,10 @@ and jm_init = (this: TrackingEventCircularStaticPool) => {
 }
     
 and jm_getNextInstance = (this: TrackingEventCircularStaticPool, layerInterface: AllBinaryLayer) => {
-        let mut trackingEvent: TrackingEvent = JR.cast(AllBinaryEventCircularPool.jm_getNextInstance(this.f_EVENT_POOL))
+        let mut trackingEvent: TrackingEvent = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseCircularPool.jm_getNextInstance"))
+JR.cast(jlate(JR.cast(this.f_EVENT_POOL)))
+})
         ignore(TrackingEvent.jm_setLayerInterfaceForCircularStaticPool(trackingEvent, layerInterface))
         return trackingEvent
 }
@@ -79,5 +86,6 @@ JR.registerLateBound("TrackingEventCircularStaticPool.jm_getNextInstance", jm_ge
 JR.registerLateBound("TrackingEventCircularStaticPool.f_EVENT_POOL", (this: TrackingEventCircularStaticPool) => this.f_EVENT_POOL)
 JR.registerLateBound("TrackingEventCircularStaticPool.set_f_EVENT_POOL", (this: TrackingEventCircularStaticPool, jvalue) => { this.f_EVENT_POOL = jvalue; jvalue })
 JR.registerLateBound("TrackingEventCircularStaticPool.jstatic_instance", jstatic_instance)
+JR.registerLateBound("TrackingEventCircularStaticPool.jset_instance", jset_instance)
 
 

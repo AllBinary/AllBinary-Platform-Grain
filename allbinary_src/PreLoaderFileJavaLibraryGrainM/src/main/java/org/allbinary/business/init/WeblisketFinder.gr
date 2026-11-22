@@ -56,6 +56,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: WeblisketFinder) => {
+  jcell_instance = Some(value)
+}
+
 and jstatic_KEY = () => match (jcell_KEY) {
   Some(value) => value,
   None => {
@@ -63,6 +67,10 @@ and jstatic_KEY = () => match (jcell_KEY) {
     jcell_KEY = Some(value)
     value
   },
+}
+
+and jset_KEY = (value: String) => {
+  jcell_KEY = Some(value)
 }
     
 and jm_getInstance = () => {
@@ -87,10 +95,10 @@ and jm_findAll = (this: WeblisketFinder, path: String) => {
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_START), JR.cast(this), JR.cast("findAll")))
 })
-            return SubDirectory.jm_search(this.f_subDirectory, JR.cast(jstatic_KEY()), {
+            return SubDirectory.jm_search_2_String_AbFile_(this.f_subDirectory, JR.cast(jstatic_KEY()), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFile"))
 JR.cast(jlate(JR.cast(path)))
-})
+}))
         }
     return JR.nullOf()
 }
@@ -125,6 +133,8 @@ JR.registerLateBound("WeblisketFinder.f_logUtil", (this: WeblisketFinder) => thi
 JR.registerLateBound("WeblisketFinder.f_commonStrings", (this: WeblisketFinder) => this.f_commonStrings)
 JR.registerLateBound("WeblisketFinder.f_subDirectory", (this: WeblisketFinder) => this.f_subDirectory)
 JR.registerLateBound("WeblisketFinder.jstatic_instance", jstatic_instance)
+JR.registerLateBound("WeblisketFinder.jset_instance", jset_instance)
 JR.registerLateBound("WeblisketFinder.jstatic_KEY", jstatic_KEY)
+JR.registerLateBound("WeblisketFinder.jset_KEY", jset_KEY)
 
 

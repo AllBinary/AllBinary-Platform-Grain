@@ -61,17 +61,26 @@ JR.cast(jlate())
     this.f_gameTickDisplayInfoSingleton = JR.cast(GameTickDisplayInfoSingleton.jm_getInstance())
     
     this.f_gameTickTimeDelayHelper = JR.cast(GameTickTimeDelayHelperFactory.jm_getInstance())
-        this.f_allBinaryGameCanvas = allBinaryGameCanvas
+        this.f_allBinaryGameCanvas = JR.cast(allBinaryGameCanvas)
     this
 }
     
 and jm_run = (this: GameFrameRunnable) => {
         {
             let mut allBinaryGameCanvas: AllBinaryGameCanvas = JR.cast(this.f_allBinaryGameCanvas)
-            ignore(JR.className(JR.cast(AllBinaryGameCanvas.jm_getLoopTimeHelperP(allBinaryGameCanvas))))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TimeDelayHelper.jm_setStartTime"))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RunnableCanvas.jm_getLoopTimeHelperP"))
+JR.cast(jlate(JR.cast(allBinaryGameCanvas)))
+}), JR.cast(GameTickTimeDelayHelper.jm_setStartTime(this.f_gameTickTimeDelayHelper))))
+})
             ignore(GameTickDisplayInfoSingleton.jm_update(this.f_gameTickDisplayInfoSingleton))
             ignore(AllBinaryGameCanvas.jm_processGame(allBinaryGameCanvas))
-            if ((!AllBinaryGameCanvas.jm_isRunning(allBinaryGameCanvas) || AllBinaryGameCanvas.jm_isPaused(allBinaryGameCanvas))) {
+            if ((!{
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RunnableCanvas.jm_isRunning"))
+JR.cast(jlate(JR.cast(allBinaryGameCanvas)))
+} || AllBinaryGameCanvas.jm_isPaused(allBinaryGameCanvas))) {
                 ignore(AllBinaryGameCanvas.jm_notifyDonePainting(allBinaryGameCanvas))
             }
         }

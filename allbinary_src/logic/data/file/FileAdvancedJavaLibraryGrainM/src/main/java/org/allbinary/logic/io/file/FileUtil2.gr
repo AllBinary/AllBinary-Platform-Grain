@@ -53,6 +53,10 @@ and jstatic_instance = () => match (jcell_instance) {
     value
   },
 }
+
+and jset_instance = (value: FileUtil2) => {
+  jcell_instance = Some(value)
+}
     
 and jm_getInstance = () => {
         return jstatic_instance()
@@ -73,10 +77,10 @@ JR.cast(jlate())
 and jm_loadFileAsList = (this: FileUtil2, file: JObject, max: Int32, byteArray1: Array<Int32>) => {
         let mut inputStream: JObject = JR.nullOf()
         {
-            inputStream = {
+            inputStream = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFileInputStream.jm_createFromAbFile"))
 JR.cast(jlate(JR.cast(file)))
-}
+})
         }
         return SimpleFileUtil.jm_loadFileAsList(SimpleFileUtil.jm_getInstance(), JR.cast(inputStream), max, byteArray1)
 }
@@ -88,5 +92,6 @@ JR.registerLateBound("FileUtil2.f_logUtil", (this: FileUtil2) => this.f_logUtil)
 JR.registerLateBound("FileUtil2.f_commonStrings", (this: FileUtil2) => this.f_commonStrings)
 JR.registerLateBound("FileUtil2.f_streamUtil", (this: FileUtil2) => this.f_streamUtil)
 JR.registerLateBound("FileUtil2.jstatic_instance", jstatic_instance)
+JR.registerLateBound("FileUtil2.jset_instance", jset_instance)
 
 

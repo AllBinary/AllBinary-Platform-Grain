@@ -35,6 +35,8 @@ from "../../../../../../../org/allbinary/init/crypt/jcehelper/CryptInterface.gr"
 use CryptInterface.{ type CryptInterface }
 from "../../../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
 use CommonStrings.{ type CommonStrings }
+from "../../../../../../../com/sun/crypto/provider/SunJCE.gr" include SunJCE
+use SunJCE.{ type SunJCE }
 from "./KeySpecFactory.gr" include KeySpecFactory
 use KeySpecFactory.{ type KeySpecFactory }
 
@@ -66,11 +68,11 @@ and jnew_2 = (algorithm: String, key: String) => {
 and jm_init = (this: AbBasicCrypt) => {
         {
             let mut sunJce: Provider = JR.cast(SunJCE.jnew_0())
-            ignore(Security.jm_addProvider(sunJce))
-            let mut keySpec: KeySpec = JR.cast(KeySpecFactory.jm_getInstance(KeySpecFactory.jm_getInstance_0(), this.f_algorithm, this.f_key))
+            ignore(Security.jm_addProvider_1(sunJce))
+            let mut keySpec: KeySpec = JR.cast(KeySpecFactory.jm_getInstance_2(KeySpecFactory.jm_getInstance_0(), this.f_algorithm, this.f_key))
             let mut keyFactory: SecretKeyFactory = JR.cast(SecretKeyFactory.jm_getInstance(this.f_algorithm))
-            this.f_secretKey = SecretKeyFactory.jm_generateSecret(keyFactory, keySpec)
-            this.f_cipher = Cipher.jm_getInstance(this.f_algorithm)
+            this.f_secretKey = JR.cast(SecretKeyFactory.jm_generateSecret(keyFactory, keySpec))
+            this.f_cipher = JR.cast(Cipher.jm_getInstance(this.f_algorithm))
         }
 }
     

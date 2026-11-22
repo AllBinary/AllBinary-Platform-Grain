@@ -43,8 +43,11 @@ and jnew_1 = (scoreVectorGraphic: ScoreHudWidget) => {
     let this = { jobject: JR.newJObject("ScoreableAddOnlyForHud"), f_points: 0l, f_scoreHudWidget: JR.nullOf(), }
     
         void
-        this.f_scoreHudWidget = scoreVectorGraphic
-        ignore(ScoreHudWidget.jm_set(jm_getScoreHudWidget(this), 0l))
+        this.f_scoreHudWidget = JR.cast(scoreVectorGraphic)
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("NumberStringHud.jm_set"))
+JR.cast(jlate(JR.cast(jm_getScoreHudWidget(this)), JR.cast(0l)))
+})
     this
 }
     
@@ -54,7 +57,10 @@ and jm_removePoints = (this: ScoreableAddOnlyForHud, points: Int32) => {
     
 and jm_addPoints = (this: ScoreableAddOnlyForHud, points: Int32) => {
         ignore(jm_addPoints(this, points))
-        ignore(ScoreHudWidget.jm_add(jm_getScoreHudWidget(this), points))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("NumberStringHud.jm_add"))
+JR.cast(jlate(JR.cast(jm_getScoreHudWidget(this)), JR.cast(points)))
+})
 }
     
 and jm_getScoreHudWidget = (this: ScoreableAddOnlyForHud) => {

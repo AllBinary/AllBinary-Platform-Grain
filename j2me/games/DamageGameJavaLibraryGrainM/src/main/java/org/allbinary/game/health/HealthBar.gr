@@ -53,10 +53,10 @@ and jnew_4 = (layerInterface: AllBinaryLayer, healthInterface: Health, animation
     
     
     
-        this.f_allbinaryLayer = layerInterface
-        this.f_animationInterface = animationInterface
-        this.f_healthInterface = healthInterface
-        ignore(Health.jm_addListener(this.f_healthInterface, JR.cast(this)))
+        this.f_allbinaryLayer = JR.cast(layerInterface)
+        this.f_animationInterface = JR.cast(animationInterface)
+        this.f_healthInterface = JR.cast(healthInterface)
+        ignore(HealthInterface.jm_addListener(this.f_healthInterface, JR.cast(this)))
         ignore(jm_onHealthChange(this))
     this
 }
@@ -66,11 +66,17 @@ and jm_onHealthChange = (this: HealthBar) => {
 }
     
 and jm_paint = (this: HealthBar, graphics: JObject) => {
-        ignore(HealthBarAnimation.jm_paintXY(this.f_animationInterface, graphics, 0l, 0l))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Animation.jm_paintXY"))
+JR.cast(jlate(JR.cast(this.f_animationInterface), JR.cast(graphics), JR.cast(0l), JR.cast(0l)))
+})
 }
     
 and jm_paintThreed = (this: HealthBar, graphics: JObject) => {
-        ignore(HealthBarAnimation.jm_paintThreedXYZ(this.f_animationInterface, graphics, 0l, 0l, 0l))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Animation.jm_paintThreedXYZ"))
+JR.cast(jlate(JR.cast(this.f_animationInterface), JR.cast(graphics), JR.cast(0l), JR.cast(0l), JR.cast(0l)))
+})
 }
 
 JR.registerLateBound("HealthBar.jnew_4", jnew_4)

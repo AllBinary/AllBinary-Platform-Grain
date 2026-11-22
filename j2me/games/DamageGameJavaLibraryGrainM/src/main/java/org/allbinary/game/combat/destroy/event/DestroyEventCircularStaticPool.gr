@@ -53,6 +53,10 @@ and jstatic_instance = () => match (jcell_instance) {
     value
   },
 }
+
+and jset_instance = (value: DestroyEventCircularStaticPool) => {
+  jcell_instance = Some(value)
+}
     
 and jm_getInstance = () => {
         return jstatic_instance()
@@ -70,7 +74,10 @@ and jm_init = (this: DestroyEventCircularStaticPool, combatGameCanvas: AllBinary
 }
     
 and jm_getInstanceForLayer = (this: DestroyEventCircularStaticPool, layerInterface: AllBinaryLayer) => {
-        let mut destroyedEvent: DestroyedEvent = JR.cast(AllBinaryEventCircularPool.jm_getNextInstance(this.f_EVENT_POOL))
+        let mut destroyedEvent: DestroyedEvent = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseCircularPool.jm_getNextInstance"))
+JR.cast(jlate(JR.cast(this.f_EVENT_POOL)))
+})
         ignore(DestroyedEvent.jm_setLayerInterfaceForCircularStaticPool(destroyedEvent, layerInterface))
         return destroyedEvent
 }
@@ -82,5 +89,6 @@ JR.registerLateBound("DestroyEventCircularStaticPool.jm_getInstanceForLayer", jm
 JR.registerLateBound("DestroyEventCircularStaticPool.f_EVENT_POOL", (this: DestroyEventCircularStaticPool) => this.f_EVENT_POOL)
 JR.registerLateBound("DestroyEventCircularStaticPool.set_f_EVENT_POOL", (this: DestroyEventCircularStaticPool, jvalue) => { this.f_EVENT_POOL = jvalue; jvalue })
 JR.registerLateBound("DestroyEventCircularStaticPool.jstatic_instance", jstatic_instance)
+JR.registerLateBound("DestroyEventCircularStaticPool.jset_instance", jset_instance)
 
 

@@ -95,8 +95,8 @@ and jnew_4 = (animationInterface: Animation, healthInterface: Health, location: 
     this.f_mediumBeatTimeDelayHelper = TimeDelayHelper.jnew_1(640l)
     this.f_fastBeatTimeDelayHelper = TimeDelayHelper.jnew_1(320l)
         void
-        this.f_animationInterface = animationInterface
-        this.f_healthInterface = healthInterface
+        this.f_animationInterface = JR.cast(animationInterface)
+        this.f_healthInterface = JR.cast(healthInterface)
         ignore(Health.jm_addListener(this.f_healthInterface, JR.cast(this)))
         this.f_healthScale = Int32.(+)((Int32.(/)(Health.jm_getMaxHealth(this.f_healthInterface), 6l)), 1l)
         ignore(jm_onHealthChange(this))
@@ -134,15 +134,15 @@ and jm_setX = (this: HealthHudWidget, x: Int32) => {
     
 and jm_onHealthChange = (this: HealthHudWidget) => {
         this.f_max = (Int32.(/)(Health.jm_getHealth(this.f_healthInterface), this.f_healthScale))
-        this.f_timeDelayHelper = NoTimeDelayHelper.jstatic_SINGLETON()
+        this.f_timeDelayHelper = JR.cast(NoTimeDelayHelper.jstatic_SINGLETON())
         if ((Int32.(<=)(this.f_max, 1l) && Health.jm_isAlive(this.f_healthInterface))) {
             this.f_max = 1l
             if (Int32.(>)(Int32.(-)(this.f_healthScale, Health.jm_getHealth(this.f_healthInterface)), Int32.(/)((Int32.(*)(this.f_healthScale, 2l)), 3l))) {
-                this.f_timeDelayHelper = this.f_slowBeatTimeDelayHelper
+                this.f_timeDelayHelper = JR.cast(this.f_slowBeatTimeDelayHelper)
             } else if (Int32.(>)(Int32.(-)(this.f_healthScale, Health.jm_getHealth(this.f_healthInterface)), Int32.(/)(this.f_healthScale, 3l))) {
-                this.f_timeDelayHelper = this.f_mediumBeatTimeDelayHelper
+                this.f_timeDelayHelper = JR.cast(this.f_mediumBeatTimeDelayHelper)
             } else {
-                this.f_timeDelayHelper = this.f_fastBeatTimeDelayHelper
+                this.f_timeDelayHelper = JR.cast(this.f_fastBeatTimeDelayHelper)
             }
         }
 }

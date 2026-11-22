@@ -63,6 +63,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: MakeCountedPartsSingletonArrayFactory) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("MakeCountedPartsSingletonArrayFactory"), f_logUtil: JR.jnull, f_list: JR.nullOf(), }
     this.f_logUtil = JR.cast({
@@ -78,7 +82,7 @@ and jm_getInstance = () => {
 }
     
 and jm_getUpdated = (this: MakeCountedPartsSingletonArrayFactory, partInterfaceArray: Array<PartInterface>) => {
-        this.f_list = JR.cast(BasicArrayListD.jnew_0())
+        this.f_list = JR.cast(JR.cast(BasicArrayListD.jnew_0()))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -88,7 +92,7 @@ and jm_getUpdated = (this: MakeCountedPartsSingletonArrayFactory, partInterfaceA
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, Int32.fromNumber(Array.length(partInterfaceArray))))) break
-            ignore(BasicArrayList.jm_add(this.f_list, partInterfaceArray[Int32.toNumber(index)]))
+            ignore(BasicArrayList.jm_add(this.f_list, JR.cast(partInterfaceArray[Int32.toNumber(index)])))
             }
         }
         let mut countedBasicArrayList: BasicArrayList = JR.cast(CountedPickedUpLayerInterfaceFactoryPool.jm_getList(CountedPickedUpLayerInterfaceFactoryPool.jm_getInstance()))
@@ -141,5 +145,6 @@ JR.registerLateBound("MakeCountedPartsSingletonArrayFactory.f_logUtil", (this: M
 JR.registerLateBound("MakeCountedPartsSingletonArrayFactory.f_list", (this: MakeCountedPartsSingletonArrayFactory) => this.f_list)
 JR.registerLateBound("MakeCountedPartsSingletonArrayFactory.set_f_list", (this: MakeCountedPartsSingletonArrayFactory, jvalue) => { this.f_list = jvalue; jvalue })
 JR.registerLateBound("MakeCountedPartsSingletonArrayFactory.jstatic_instance", jstatic_instance)
+JR.registerLateBound("MakeCountedPartsSingletonArrayFactory.jset_instance", jset_instance)
 
 

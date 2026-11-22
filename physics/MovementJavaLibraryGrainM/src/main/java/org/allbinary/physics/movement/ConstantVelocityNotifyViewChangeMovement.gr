@@ -55,15 +55,15 @@ and jnew_0 = () => {
     
     
     this.f_axisMathVectorUtil = JR.cast(AxisMathVectorUtil.jm_getInstance())
-        this.f_speedBasicDecimal = BasicDecimal.jstatic_ZERO_BIGDECIMAL()
-        this.f_basicVelocityProperties = BasicVelocityProperties.jnew_0()
+        this.f_speedBasicDecimal = JR.cast(BasicDecimal.jstatic_ZERO_BIGDECIMAL())
+        this.f_basicVelocityProperties = JR.cast(BasicVelocityProperties.jnew_0())
     this
 }
     
 and jm_init = (this: ConstantVelocityNotifyViewChangeMovement, speedBasicDecimal: BasicDecimal, angle: Int32, otherAngle: Int32) => {
-        this.f_speedBasicDecimal = speedBasicDecimal
+        this.f_speedBasicDecimal = JR.cast(speedBasicDecimal)
         let mut angleFactory: AngleFactory = JR.cast(AngleFactory.jm_getInstance())
-        ignore(BasicVelocityProperties.jm_setVelocityWithBigDecimal(this.f_basicVelocityProperties, speedBasicDecimal, AngleFactory.jm_getAt(angleFactory, angle), AngleFactory.jm_getAt(angleFactory, otherAngle)))
+        ignore(BasicVelocityProperties.jm_setVelocityWithBigDecimal(this.f_basicVelocityProperties, speedBasicDecimal, JR.cast(AngleFactory.jm_getAt(angleFactory, angle)), JR.cast(AngleFactory.jm_getAt(angleFactory, otherAngle))))
 }
     
 and jm_moveOutsideRadius = (this: ConstantVelocityNotifyViewChangeMovement, layer: AllBinaryLayer, radius: Int64, angle: Int32, otherAngle: Int32) => {
@@ -75,10 +75,22 @@ and jm_moveOutsideRadius = (this: ConstantVelocityNotifyViewChangeMovement, laye
 }
     
 and jm_process = (this: ConstantVelocityNotifyViewChangeMovement, layer: AllBinaryGameLayer) => {
-        let mut x: Int32 = JR.className(JR.cast(BasicVelocityProperties.jm_getVelocityXBasicDecimalP(this.f_basicVelocityProperties)))
-        let mut y: Int32 = JR.className(JR.cast(BasicVelocityProperties.jm_getVelocityYBasicDecimalP(this.f_basicVelocityProperties)))
-        let mut z: Int32 = JR.className(JR.cast(BasicVelocityProperties.jm_getVelocityZBasicDecimalP(this.f_basicVelocityProperties)))
-        ignore(AllBinaryGameLayer.jm_moveDXYZ(layer, x, y, z))
+        let mut x: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_getScaled"))
+JR.cast(jlate(JR.cast(BasicVelocityProperties.jm_getVelocityXBasicDecimalP(this.f_basicVelocityProperties))))
+}
+        let mut y: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_getScaled"))
+JR.cast(jlate(JR.cast(BasicVelocityProperties.jm_getVelocityYBasicDecimalP(this.f_basicVelocityProperties))))
+}
+        let mut z: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_getScaled"))
+JR.cast(jlate(JR.cast(BasicVelocityProperties.jm_getVelocityZBasicDecimalP(this.f_basicVelocityProperties))))
+}
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_moveDXYZ"))
+JR.cast(jlate(JR.cast(layer), JR.cast(x), JR.cast(y), JR.cast(z)))
+})
         if ((((x != 0l) || (y != 0l)) || (z != 0l))) {
             ignore(AllBinaryGameLayer.jm_onViewPositionChangeEvent(layer))
         }

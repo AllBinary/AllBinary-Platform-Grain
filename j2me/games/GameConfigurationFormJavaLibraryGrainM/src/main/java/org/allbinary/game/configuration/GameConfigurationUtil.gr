@@ -64,6 +64,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: GameConfigurationUtil) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("GameConfigurationUtil"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_GAUGE_UPDATE: "", f_FROM: "", f_TO: "", f_COMPETITION_VALUE: 0l, }
     this.f_logUtil = JR.cast({
@@ -85,13 +89,13 @@ and jm_getInstance = () => {
 and jm_change = (this: GameConfigurationUtil, gameOptionsForm: JObject, gauge: GameConfigurationGauge) => {
         ignore(jm_update(this, gauge))
         let mut gameConfigurationSingleton: GameConfigurationSingleton = JR.cast(GameConfigurationSingleton.jm_getInstance())
-        let mut gameConfiguration: GameConfiguration = JR.cast(GameConfigurationSingleton.jm_getInstanceByName(gameConfigurationSingleton, GameConfigurationGauge.jm_getLabel(gauge)))
+        let mut gameConfiguration: GameConfiguration = JR.cast(GameConfigurationSingleton.jm_getInstanceByName(gameConfigurationSingleton, JR.cast(GameConfigurationGauge.jm_getLabel(gauge))))
         ignore(jm_updateChallange(this, gameOptionsForm, gameConfiguration))
 }
     
 and jm_update = (this: GameConfigurationUtil, gauge: GameConfigurationGauge) => {
         let mut gameConfigurationSingleton: GameConfigurationSingleton = JR.cast(GameConfigurationSingleton.jm_getInstance())
-        let mut gameConfiguration: GameConfiguration = JR.cast(GameConfigurationSingleton.jm_getInstanceByName(gameConfigurationSingleton, GameConfigurationGauge.jm_getLabel(gauge)))
+        let mut gameConfiguration: GameConfiguration = JR.cast(GameConfigurationSingleton.jm_getInstanceByName(gameConfigurationSingleton, JR.cast(GameConfigurationGauge.jm_getLabel(gauge))))
         let mut smallIntegerSingletonFactory: SmallIntegerSingletonFactory = JR.cast(SmallIntegerSingletonFactory.jm_getInstance())
         let mut value: Int32 = SmallIntegerSingletonFactory.jm_getAt(smallIntegerSingletonFactory, Int32.(+)(GameConfigurationGauge.jm_getValue(gauge), JR.className(JR.cast(GameConfiguration.jm_getMinValue(gameConfiguration)))))
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
@@ -110,7 +114,7 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuf
     
 and jm_setDefault = (this: GameConfigurationUtil, gauge: GameConfigurationGauge) => {
         let mut gameConfigurationSingleton: GameConfigurationSingleton = JR.cast(GameConfigurationSingleton.jm_getInstance())
-        let mut gameConfiguration: GameConfiguration = JR.cast(GameConfigurationSingleton.jm_getInstanceByName(gameConfigurationSingleton, GameConfigurationGauge.jm_getLabel(gauge)))
+        let mut gameConfiguration: GameConfiguration = JR.cast(GameConfigurationSingleton.jm_getInstanceByName(gameConfigurationSingleton, JR.cast(GameConfigurationGauge.jm_getLabel(gauge))))
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
         ignore(StringMaker.jm_append(stringBuffer, "Gauge Default: "))
         ignore(StringMaker.jm_append(stringBuffer, GameConfiguration.jm_getName(gameConfiguration)))
@@ -121,7 +125,7 @@ let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBoun
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast("setDefault")))
 })
         ignore(GameConfigurationGauge.jm_setValue(gauge, Int32.(-)(JR.className(JR.cast(GameConfiguration.jm_getDefaultValue(gameConfiguration))), JR.className(JR.cast(GameConfiguration.jm_getMinValue(gameConfiguration))))))
-        ignore(GameConfiguration.jm_setValue(gameConfiguration, GameConfiguration.jm_getDefaultValue(gameConfiguration)))
+        ignore(GameConfiguration.jm_setValue(gameConfiguration, JR.cast(GameConfiguration.jm_getDefaultValue(gameConfiguration))))
 }
     
 and jm_updateChallange = (this: GameConfigurationUtil, gameOptionsForm: JObject, gameConfiguration: GameConfiguration) => {
@@ -241,5 +245,6 @@ JR.registerLateBound("GameConfigurationUtil.f_TO", (this: GameConfigurationUtil)
 JR.registerLateBound("GameConfigurationUtil.f_COMPETITION_VALUE", (this: GameConfigurationUtil) => this.f_COMPETITION_VALUE)
 JR.registerLateBound("GameConfigurationUtil.set_f_COMPETITION_VALUE", (this: GameConfigurationUtil, jvalue) => { this.f_COMPETITION_VALUE = jvalue; jvalue })
 JR.registerLateBound("GameConfigurationUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("GameConfigurationUtil.jset_instance", jset_instance)
 
 

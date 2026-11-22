@@ -55,11 +55,15 @@ and jstatic_NULL_CANVAS_DRAW_LINE_STRING = () => match (jcell_NULL_CANVAS_DRAW_L
     value
   },
 }
+
+and jset_NULL_CANVAS_DRAW_LINE_STRING = (value: CanvasDrawLineString) => {
+  jcell_NULL_CANVAS_DRAW_LINE_STRING = Some(value)
+}
     
 and jnew_2 = (x: Int32, y: Int32) => {
     let this = { jobject: JR.newJObject("CanvasDrawLineString"), f_drawStringUtil: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_x: 0l, f_y: 0l, f_fontHeight: 0l, }
     this.f_drawStringUtil = JR.cast(DrawStringUtil.jm_getInstance())
-    this.f_myFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(this))
+    this.f_myFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(JR.cast(this)))
     
     
     this.f_fontHeight = 0l
@@ -77,7 +81,7 @@ JR.cast(jlate(JR.cast(graphics)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Font.jm_getHeight"))
 JR.cast(jlate(JR.cast(font)))
 }
-        this.f_myFontProcessor = MyFontProcessor.jm_getInstance()
+        this.f_myFontProcessor = JR.cast(MyFontProcessor.jm_getInstance())
 }
     
 and jm_paint = (this: CanvasDrawLineString, graphics: JObject, string: String, line: Int32) => {
@@ -98,5 +102,6 @@ JR.registerLateBound("CanvasDrawLineString.set_f_y", (this: CanvasDrawLineString
 JR.registerLateBound("CanvasDrawLineString.f_fontHeight", (this: CanvasDrawLineString) => this.f_fontHeight)
 JR.registerLateBound("CanvasDrawLineString.set_f_fontHeight", (this: CanvasDrawLineString, jvalue) => { this.f_fontHeight = jvalue; jvalue })
 JR.registerLateBound("CanvasDrawLineString.jstatic_NULL_CANVAS_DRAW_LINE_STRING", jstatic_NULL_CANVAS_DRAW_LINE_STRING)
+JR.registerLateBound("CanvasDrawLineString.jset_NULL_CANVAS_DRAW_LINE_STRING", jset_NULL_CANVAS_DRAW_LINE_STRING)
 
 

@@ -48,6 +48,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: ScreenListenerHandler) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("ScreenListenerHandler"), f_screenListenerInterface: JR.nullOf(), }
     this.f_screenListenerInterface = JR.cast(ScreenEmptyListener.jnew_0())
@@ -59,7 +63,7 @@ and jm_getInstance = () => {
 }
     
 and jm_setListener = (this: ScreenListenerHandler, screenListenerInterface: ScreenListenerInterface) => {
-        this.f_screenListenerInterface = screenListenerInterface
+        this.f_screenListenerInterface = JR.cast(screenListenerInterface)
 }
     
 and jm_fireWithState = (this: ScreenListenerHandler, isFullScreen: Bool) => {
@@ -78,5 +82,6 @@ JR.registerLateBound("ScreenListenerHandler.jm_fire", jm_fire)
 JR.registerLateBound("ScreenListenerHandler.f_screenListenerInterface", (this: ScreenListenerHandler) => this.f_screenListenerInterface)
 JR.registerLateBound("ScreenListenerHandler.set_f_screenListenerInterface", (this: ScreenListenerHandler, jvalue) => { this.f_screenListenerInterface = jvalue; jvalue })
 JR.registerLateBound("ScreenListenerHandler.jstatic_instance", jstatic_instance)
+JR.registerLateBound("ScreenListenerHandler.jset_instance", jset_instance)
 
 

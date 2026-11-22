@@ -53,7 +53,7 @@ provide record Replace {
 
 provide let rec jclassName = () => "Replace"
     
-and jnew_2 = (key: String, value: String) => {
+and jnew_2_String_String_ = (key: String, value: String) => {
     let this = { jobject: JR.newJObject("Replace"), f_logUtil: JR.jnull, f_j2seUtil: JR.nullOf(), f_REPLACERS_: "", f_ALL: "", f_FOUND_KEY: "", f_hashMap: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
@@ -64,18 +64,18 @@ JR.cast(jlate())
     this.f_ALL = "all"
     this.f_FOUND_KEY = "found key total: "
     
-        this.f_hashMap = {
+        this.f_hashMap = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashMap"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
 JR.cast(jlate())
 })))
-}
+})
         ignore(HashMap.jm_put_2(this.f_hashMap, [> key], [> value]))
     this
 }
     
-and jnew_2 = (keys: Array<String>, values: Array<String>) => {
+and jnew_2_StringA_StringA_ = (keys: Array<String>, values: Array<String>) => {
     let this = { jobject: JR.newJObject("Replace"), f_logUtil: JR.jnull, f_j2seUtil: JR.nullOf(), f_REPLACERS_: "", f_ALL: "", f_FOUND_KEY: "", f_hashMap: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
@@ -86,13 +86,13 @@ JR.cast(jlate())
     this.f_ALL = "all"
     this.f_FOUND_KEY = "found key total: "
     
-        this.f_hashMap = {
+        this.f_hashMap = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashMap"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
 JR.cast(jlate())
 })))
-}
+})
         ignore(HashMap.jm_put_2(this.f_hashMap, keys, values))
     this
 }
@@ -108,7 +108,7 @@ JR.cast(jlate())
     this.f_ALL = "all"
     this.f_FOUND_KEY = "found key total: "
     
-        this.f_hashMap = hashMap
+        this.f_hashMap = JR.cast(hashMap)
     this
 }
     
@@ -133,8 +133,8 @@ and jm_upTo = (this: Replace, replace: String, total: Int32) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index2, size))) break
-            keys = keyArray[Int32.toNumber(index2)]
-            values = HashMap.jm_get_1(this.f_hashMap, keys)
+            keys = JR.cast(keyArray[Int32.toNumber(index2)])
+            values = JR.cast(HashMap.jm_get_1(this.f_hashMap, keys))
             let mut foundTotal: Int64 = 0L
             let mut index: Int32 = 0l
             let mut nextKey: String = ""
@@ -142,7 +142,7 @@ and jm_upTo = (this: Replace, replace: String, total: Int32) => {
             let mut nextSecondKey: String = ""
             let mut begin2: Int32 = 0l
             while (Int32.(<)(index, JR.length(replace))) {
-                let mut begin: Int32 = JR.indexOf(replace, keys[Int32.toNumber(0l)], index)
+                let mut begin: Int32 = JR.indexOfFrom(replace, JR.chr(keys[Int32.toNumber(0l)]), index)
                 if ((begin != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
                     foundTotal = Int64.(+)(foundTotal, 1L)
                     if ((Int64.rem(foundTotal, 100L) == 0L)) {
@@ -158,7 +158,7 @@ and jm_upTo = (this: Replace, replace: String, total: Int32) => {
                     replace = StringMaker.jm_toString(newStringBuffer)
                     if (Int32.(>)(Int32.fromNumber(Array.length(keys)), 1l)) {
                         nextSecondKey = keys[Int32.toNumber(1l)]
-                        begin2 = JR.indexOf(replace, nextSecondKey, index)
+                        begin2 = JR.indexOfFrom(replace, nextSecondKey, index)
                         if ((begin2 != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
                             let mut end2: Int32 = Int32.(+)(begin2, JR.length(nextSecondKey))
                             ignore(StringMaker.jm_delete(newStringBuffer, 0l, StringMaker.jm_length(newStringBuffer)))
@@ -185,7 +185,13 @@ let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypes.jstatic_LOGGING"))
 JR.cast(jlate())
-}), JR.cast(JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypeFactory)).f_REPLACE)))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_REPLACE"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
 }) {
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
@@ -218,10 +224,10 @@ and jm_line = (this: Replace, replace: String) => {
             let mut index: Int32 = 0l
             while (Int32.(<)(index, JR.length(replace))) {
                 ignore(StringMaker.jm_delete(newStringBuffer, 0l, StringMaker.jm_length(newStringBuffer)))
-                let mut begin: Int32 = JR.indexOf(replace, key, index)
+                let mut begin: Int32 = JR.indexOfFrom(replace, key, index)
                 if ((begin != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
                     ignore(print(this.f_FOUND_KEY))
-                    let mut end: Int32 = Int32.(+)(JR.indexOf(replace, JR.chr(Int32.fromNumber(Char.code('\n')), Int32.(+)(begin, JR.length(key)))), 1l)
+                    let mut end: Int32 = Int32.(+)(JR.indexOfFrom(replace, JR.chr(Int32.fromNumber(Char.code('\n'))), Int32.(+)(begin, JR.length(key))), 1l)
                     if (Int32.(>=)(end, 0l)) {
                         ignore(StringMaker.jm_append(newStringBuffer, JR.substring(replace, 0l, begin)))
                         index = StringMaker.jm_length(newStringBuffer)
@@ -240,7 +246,13 @@ let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypes.jstatic_LOGGING"))
 JR.cast(jlate())
-}), JR.cast(JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypeFactory)).f_REPLACE)))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_REPLACE"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
 }) {
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
@@ -257,18 +269,18 @@ and jm_main = (args: Array<String>) => {
             ignore(AppUrlGlobals.jm_setWebappPath(appUrlGlobals, "G:/mnt/bc/mydev/work/allbinary_src/ToolsJavaLibrary/tools"))
             ignore(URLGLOBALS.jm_init(JR.cast(appUrlGlobals)))
             let mut testString: String = "\"super gun\" big tank \"goodgunriflegun"
-            let mut replace: Replace = jnew_2("gun", "abcdefghijklmnopqrstuxwxyzabcdefghijklmnopqrstuxwxyz")
+            let mut replace: Replace = jnew_2_String_String_("gun", "abcdefghijklmnopqrstuxwxyzabcdefghijklmnopqrstuxwxyz")
             ignore(print("Old String: " ++ testString))
             testString = jm_all(replace, testString)
             ignore(print("New String: " ++ testString))
-            let mut replaceCat: Replace = jnew_2("abcdefghijklmnopqrstuxwxyzabcdefghijklmnopqrstuxwxyz", stringUtil.f_EMPTY_STRING)
+            let mut replaceCat: Replace = jnew_2_String_String_("abcdefghijklmnopqrstuxwxyzabcdefghijklmnopqrstuxwxyz", stringUtil.f_EMPTY_STRING)
             testString = jm_all(replaceCat, testString)
             ignore(print("New String: " ++ testString))
         }
 }
 
-JR.registerLateBound("Replace.jnew_2", jnew_2)
-JR.registerLateBound("Replace.jnew_2", jnew_2)
+JR.registerLateBound("Replace.jnew_2_String_String_", jnew_2_String_String_)
+JR.registerLateBound("Replace.jnew_2_StringA_StringA_", jnew_2_StringA_StringA_)
 JR.registerLateBound("Replace.jnew_1", jnew_1)
 JR.registerLateBound("Replace.jm_all", jm_all)
 JR.registerLateBound("Replace.jm_upTo", jm_upTo)

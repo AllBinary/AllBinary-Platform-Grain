@@ -56,6 +56,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: DownKeyEventHandler) => {
+  jcell_instance = Some(value)
+}
+
 and jstatic_instanceArray = () => match (jcell_instanceArray) {
   Some(value) => value,
   None => {
@@ -63,6 +67,10 @@ and jstatic_instanceArray = () => match (jcell_instanceArray) {
     jcell_instanceArray = Some(value)
     value
   },
+}
+
+and jset_instanceArray = (value: Array<DownKeyEventHandlerBase>) => {
+  jcell_instanceArray = Some(value)
 }
     
 and jm_getInstance = () => {
@@ -96,7 +104,10 @@ and jm_removeAllListeners = (this: DownKeyEventHandler) => {
                 }
                 jfirst = false
                 if (!(Int32.(>=)(index, 0l))) break
-            ignore(JR.className(JR.cast(jstatic_instanceArray()[Int32.toNumber(index)])))
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DownKeyEventHandlerBase.jm_removeAllListeners"))
+JR.cast(jlate(JR.cast(jstatic_instanceArray()[Int32.toNumber(index)])))
+})
             }
         }
 }
@@ -112,7 +123,10 @@ and jm_removeListenerSingleThreaded = (this: DownKeyEventHandler, eventListenerI
                 }
                 jfirst = false
                 if (!(Int32.(>=)(index, 0l))) break
-            ignore(JR.className(JR.cast(jstatic_instanceArray()[Int32.toNumber(index)])))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DownKeyEventHandlerBase.jm_removeListenerSingleThreaded"))
+JR.cast(jlate(JR.cast(jstatic_instanceArray()[Int32.toNumber(index)]), JR.cast(eventListenerInterface)))
+})
             }
         }
 }
@@ -128,7 +142,10 @@ and jm_removeListener = (this: DownKeyEventHandler, eventListenerInterface: Even
                 }
                 jfirst = false
                 if (!(Int32.(>=)(index, 0l))) break
-            ignore(JR.className(JR.cast(jstatic_instanceArray()[Int32.toNumber(index)])))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DownKeyEventHandlerBase.jm_removeListener"))
+JR.cast(jlate(JR.cast(jstatic_instanceArray()[Int32.toNumber(index)]), JR.cast(eventListenerInterface)))
+})
             }
         }
 }
@@ -142,6 +159,8 @@ JR.registerLateBound("DownKeyEventHandler.jm_removeListenerSingleThreaded", jm_r
 JR.registerLateBound("DownKeyEventHandler.jm_removeListener", jm_removeListener)
 JR.registerLateBound("DownKeyEventHandler.f_playerInputIdFactory", (this: DownKeyEventHandler) => this.f_playerInputIdFactory)
 JR.registerLateBound("DownKeyEventHandler.jstatic_instance", jstatic_instance)
+JR.registerLateBound("DownKeyEventHandler.jset_instance", jset_instance)
 JR.registerLateBound("DownKeyEventHandler.jstatic_instanceArray", jstatic_instanceArray)
+JR.registerLateBound("DownKeyEventHandler.jset_instanceArray", jset_instanceArray)
 
 

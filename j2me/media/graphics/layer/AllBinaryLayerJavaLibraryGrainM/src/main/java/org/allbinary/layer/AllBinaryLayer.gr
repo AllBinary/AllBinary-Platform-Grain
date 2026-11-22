@@ -79,10 +79,14 @@ provide let rec jclassName = () => "AllBinaryLayer"
 and jstatic_NULL_ALLBINARY_LAYER = () => match (jcell_NULL_ALLBINARY_LAYER) {
   Some(value) => value,
   None => {
-    let value: AllBinaryLayer = jnew_3(StringUtil.jm_getInstance().f_EMPTY_STRING, RectangleFactory.jstatic_SINGLETON(), ViewPositionBase.jstatic_NULL_VIEW_POSITION())
+    let value: AllBinaryLayer = jnew_3(StringUtil.jm_getInstance().f_EMPTY_STRING, JR.cast(RectangleFactory.jstatic_SINGLETON()), JR.cast(ViewPositionBase.jstatic_NULL_VIEW_POSITION()))
     jcell_NULL_ALLBINARY_LAYER = Some(value)
     value
   },
+}
+
+and jset_NULL_ALLBINARY_LAYER = (value: AllBinaryLayer) => {
+  jcell_NULL_ALLBINARY_LAYER = Some(value)
 }
 
 and jstatic_TYPE = () => match (jcell_TYPE) {
@@ -93,30 +97,34 @@ and jstatic_TYPE = () => match (jcell_TYPE) {
     value
   },
 }
+
+and jset_TYPE = (value: String) => {
+  jcell_TYPE = Some(value)
+}
     
 and jnew_3 = (name: String, rectangle: Rectangle, viewPosition: ViewPositionBase) => {
     let this = { jobject: JR.newJObject("AllBinaryLayer"), f_logUtil: JR.jnull, f_x: 0l, f_y: 0l, f_z: 0l, f_width: 0l, f_height: 0l, f_visible: false, f_viewPositionEvent: JR.nullOf(), f_halfWidth: 0l, f_halfHeight: 0l, f_name: "", f_viewPosition: JR.nullOf(), }
     this.jobject.toStringFunction = () => jm_toString(this)
-    this.f_viewPositionEvent = ViewPositionEvent.jnew_1(this)
+    this.f_viewPositionEvent = ViewPositionEvent.jnew_1(JR.cast(this))
     
     
     
     this.f_viewPosition = JR.cast(ViewPositionBase.jstatic_NULL_VIEW_POSITION())
         void
         let mut localName: String = ""
-        localName = StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), name), CommonSeps.jm_getInstance().f_COLON), Integer.jm_toHexString({
+        localName = StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), name), CommonSeps.jm_getInstance().f_COLON), JR.cast(Integer.jm_toHexString({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_hashCode"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
 JR.cast(jlate())
 }), JR.cast(this)))
-})))
+}))))
         this.f_name = localName
         let mut point: GPoint = JR.cast(Rectangle.jm_getPoint(rectangle))
         ignore(jm_setPosition(this, GPoint.jm_getX(point), GPoint.jm_getY(point), GPoint.jm_getZ(point)))
         ignore(jm_setHalfWidth(this, (Int32.(>>)(jm_getWidth(this), 1l))))
         ignore(jm_setHalfHeight(this, (Int32.(>>)(jm_getHeight(this), 1l))))
-        this.f_viewPosition = viewPosition
+        this.f_viewPosition = JR.cast(viewPosition)
         ignore(ViewPositionBase.jm_setAllbinaryLayer(this.f_viewPosition, JR.cast(this)))
     this
 }
@@ -178,10 +186,10 @@ and jm_getY2 = (this: AllBinaryLayer) => {
 }
     
 and jm_getZ2 = (this: AllBinaryLayer) => {
-        return (Int32.(+)(jm_getZP(this), {
+        return Int32.fromNumber(Int64.toNumber((Int64.(+)(Int64.fromNumber(Int32.toNumber(jm_getZP(this))), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Layer.jm_getDepth"))
 JR.cast(jlate(JR.cast(this)))
-}))
+}))))
 }
     
 and jm_getName = (this: AllBinaryLayer) => {
@@ -205,10 +213,10 @@ and jm_getHalfHeight = (this: AllBinaryLayer) => {
 }
     
 and jm_getHalfDepth = (this: AllBinaryLayer) => {
-        return Int32.(/)({
+        return Int32.(/)(Int32.fromNumber(Int64.toNumber({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Layer.jm_getDepth"))
 JR.cast(jlate(JR.cast(this)))
-}, 2l)
+})), 2l)
 }
     
 and jm_getViewPosition = (this: AllBinaryLayer) => {
@@ -216,7 +224,7 @@ and jm_getViewPosition = (this: AllBinaryLayer) => {
 }
     
 and jm_setViewPosition = (this: AllBinaryLayer, viewPosition: ViewPositionBase) => {
-        this.f_viewPosition = viewPosition
+        this.f_viewPosition = JR.cast(viewPosition)
 }
     
 and jm_getGroupInterface = (this: AllBinaryLayer) => {
@@ -331,6 +339,8 @@ JR.registerLateBound("AllBinaryLayer.f_name", (this: AllBinaryLayer) => this.f_n
 JR.registerLateBound("AllBinaryLayer.f_viewPosition", (this: AllBinaryLayer) => this.f_viewPosition)
 JR.registerLateBound("AllBinaryLayer.set_f_viewPosition", (this: AllBinaryLayer, jvalue) => { this.f_viewPosition = jvalue; jvalue })
 JR.registerLateBound("AllBinaryLayer.jstatic_NULL_ALLBINARY_LAYER", jstatic_NULL_ALLBINARY_LAYER)
+JR.registerLateBound("AllBinaryLayer.jset_NULL_ALLBINARY_LAYER", jset_NULL_ALLBINARY_LAYER)
 JR.registerLateBound("AllBinaryLayer.jstatic_TYPE", jstatic_TYPE)
+JR.registerLateBound("AllBinaryLayer.jset_TYPE", jset_TYPE)
 
 

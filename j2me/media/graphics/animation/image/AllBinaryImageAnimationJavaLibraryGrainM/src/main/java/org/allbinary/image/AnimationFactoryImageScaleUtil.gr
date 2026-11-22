@@ -48,6 +48,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: AnimationFactoryImageScaleUtil) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("AnimationFactoryImageScaleUtil"), f_imageScaleUtil: JR.jnull, }
     this.f_imageScaleUtil = JR.cast({
@@ -67,17 +71,17 @@ and jm_createImage = (this: AnimationFactoryImageScaleUtil, image: JObject, widt
             let mut scaleX: Float32 = Float32.(/)((Float32.fromNumber(Int32.toNumber(scaleWidth))), (Float32.fromNumber(Int32.toNumber(width))))
             let mut scaleY: Float32 = Float32.(/)((Float32.fromNumber(Int32.toNumber(scaleHeight))), (Float32.fromNumber(Int32.toNumber(height))))
             if (((((scaleX == 1.0f) && (scaleY == 1.0f))) || (((scaleX == 0.0f) || (scaleY == 0.0f))))) {
-                scaledImage = image
+                scaledImage = JR.cast(image)
             } else {
                 let mut scaledWidth: Int32 = JR.d2i(Float32.toNumber((Float32.(*)(scaleX, Float32.fromNumber(Int32.toNumber(width))))))
                 let mut scaledHeight: Int32 = JR.d2i(Float32.toNumber((Float32.(*)(scaleY, Float32.fromNumber(Int32.toNumber(height))))))
-                scaledImage = {
+                scaledImage = JR.cast({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageJ2MEScaleUtil.jm_scale"))
 JR.cast(jlate(JR.cast(this.f_imageScaleUtil), JR.cast(image), JR.cast(scaledWidth), JR.cast(scaledHeight)))
-}
+})
             }
         } else {
-            scaledImage = image
+            scaledImage = JR.cast(image)
         }
         return scaledImage
 }
@@ -111,5 +115,6 @@ JR.registerLateBound("AnimationFactoryImageScaleUtil.jm_createImage", jm_createI
 JR.registerLateBound("AnimationFactoryImageScaleUtil.jm_processAdjust", jm_processAdjust)
 JR.registerLateBound("AnimationFactoryImageScaleUtil.f_imageScaleUtil", (this: AnimationFactoryImageScaleUtil) => this.f_imageScaleUtil)
 JR.registerLateBound("AnimationFactoryImageScaleUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("AnimationFactoryImageScaleUtil.jset_instance", jset_instance)
 
 

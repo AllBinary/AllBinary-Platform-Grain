@@ -40,6 +40,8 @@ use StringMaker.{ type StringMaker }
 from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
 use StringUtil.{ type StringUtil }
 from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/lang/ClassLoader.gr" include ClassLoader
+use ClassLoader.{ type ClassLoader }
 
 //J2SE - PC
 provide record ResourceUtil {
@@ -60,6 +62,10 @@ and jstatic_instance = () => match (jcell_instance) {
     jcell_instance = Some(value)
     value
   },
+}
+
+and jset_instance = (value: ResourceUtil) => {
+  jcell_instance = Some(value)
 }
     
 and jm_getInstance = () => {
@@ -90,7 +96,7 @@ and jm_setClassLoader = (this: ResourceUtil, classLoader: ClassLoader) => {
 and jm_getResourceAsStream = (this: ResourceUtil, resource: String) => {
         let mut inputStream: InputStream = JR.cast(jm_getResourceAsStreamAtStart(this, resource, 2l))
         if (JR.isNull(inputStream)) {
-            inputStream = jm_getResourceAsStreamAtStart(this, resource, 1l)
+            inputStream = JR.cast(jm_getResourceAsStreamAtStart(this, resource, 1l))
             if (JR.isNull(inputStream)) {
                 fail JR.toStringOf(JR.newJObject("Exception"))
             }
@@ -125,5 +131,6 @@ JR.registerLateBound("ResourceUtil.set_f_path", (this: ResourceUtil, jvalue) => 
 JR.registerLateBound("ResourceUtil.f_ext", (this: ResourceUtil) => this.f_ext)
 JR.registerLateBound("ResourceUtil.set_f_ext", (this: ResourceUtil, jvalue) => { this.f_ext = jvalue; jvalue })
 JR.registerLateBound("ResourceUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("ResourceUtil.jset_instance", jset_instance)
 
 

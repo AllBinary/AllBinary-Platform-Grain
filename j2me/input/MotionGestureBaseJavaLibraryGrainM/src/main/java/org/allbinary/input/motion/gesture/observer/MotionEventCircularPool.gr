@@ -51,20 +51,29 @@ and jm_createPool = (id: Int32) => {
     
 and jnew_1 = (id: Int32) => {
     let this = { jobject: JR.newJObject("MotionEventCircularPool"), f_MIN: 0l, f_eventPool: JR.nullOf(), }
-    this.f_MIN = JR.className(JR.cast({
+    this.f_MIN = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Input.jm_getId"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.f_LAST_MOTION"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.jm_getInstance"))
 JR.cast(jlate())
 })))
-}))
+})))
+}
     this.f_eventPool = AllBinaryEventCircularPool.jnew_1(Int32.(-)((Int32.(-)(InputFactory.jm_getInstance().f_MAX, 1l)), this.f_MIN))
         ignore(AllBinaryEventCircularPool.jm_initAllBinaryEventCircularPool(this.f_eventPool, JR.cast(MotionEventFactory.jnew_2(this.f_eventPool, id))))
     this
 }
     
 and jm_getInstance = (this: MotionEventCircularPool, motionGestureInput: MotionGestureInput) => {
-        return JR.cast(AllBinaryEventCircularPool.jm_getInstance(this.f_eventPool, Int32.(-)(MotionGestureInput.jm_getId(motionGestureInput), this.f_MIN)))
+        return JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BaseCircularPool.jm_getInstance"))
+JR.cast(jlate(JR.cast(this.f_eventPool), JR.cast(Int32.(-)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Input.jm_getId"))
+JR.cast(jlate(JR.cast(motionGestureInput)))
+}, this.f_MIN))))
+})
 }
 
 JR.registerLateBound("MotionEventCircularPool.jnew_1", jnew_1)

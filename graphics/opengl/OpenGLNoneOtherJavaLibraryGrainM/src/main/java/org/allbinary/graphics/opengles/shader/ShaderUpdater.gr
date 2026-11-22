@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../../javax/microedition/khronos/egl/EGLConfig.gr" include EGLConfig
+use EGLConfig.{ type EGLConfig }
 from "../../../../../org/allbinary/graphics/opengles/renderer/RendererStrings.gr" include RendererStrings
 use RendererStrings.{ type RendererStrings }
 from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
@@ -49,6 +51,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: ShaderUpdater) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("ShaderUpdater"), f_commonStrings: JR.nullOf(), f_rendererStrings: JR.nullOf(), }
     this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
@@ -70,5 +76,6 @@ JR.registerLateBound("ShaderUpdater.jm_onSurfaceCreated", jm_onSurfaceCreated)
 JR.registerLateBound("ShaderUpdater.f_commonStrings", (this: ShaderUpdater) => this.f_commonStrings)
 JR.registerLateBound("ShaderUpdater.f_rendererStrings", (this: ShaderUpdater) => this.f_rendererStrings)
 JR.registerLateBound("ShaderUpdater.jstatic_instance", jstatic_instance)
+JR.registerLateBound("ShaderUpdater.jset_instance", jset_instance)
 
 

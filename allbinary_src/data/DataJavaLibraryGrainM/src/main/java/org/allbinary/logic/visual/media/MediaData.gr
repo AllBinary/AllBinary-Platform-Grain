@@ -55,6 +55,10 @@ JR.cast(jlate())
     value
   },
 }
+
+and jset_hashMap = (value: HashMap) => {
+  jcell_hashMap = Some(value)
+}
     
 and jnew_1 = (a_Name: String) => {
     let this = { jobject: JR.newJObject("MediaData"), f_name: "", f_type: "", f_extension: "", }
@@ -65,7 +69,7 @@ and jnew_1 = (a_Name: String) => {
         this.f_name = a_Name
         this.f_extension = "." ++ this.f_name
         this.f_type = MediaTypeData.jm_getInstance().f_NOT_RESIZABLE_MEDIA
-        ignore(JR.className(JR.cast(jstatic_hashMap())))
+        ignore(HashMap.jm_put_2(jstatic_hashMap(), a_Name, this))
     this
 }
     
@@ -105,7 +109,7 @@ and jm_toString = (this: MediaData) => {
 }
     
 and jm_get = (a_Name: String) => {
-        let mut mediaData: MediaData = JR.cast(JR.className(JR.cast(jstatic_hashMap())))
+        let mut mediaData: MediaData = JR.cast(HashMap.jm_get_1(jstatic_hashMap(), a_Name))
         if (!JR.isNull(mediaData)) {
             return mediaData
         } else {
@@ -144,5 +148,6 @@ JR.registerLateBound("MediaData.set_f_type", (this: MediaData, jvalue) => { this
 JR.registerLateBound("MediaData.f_extension", (this: MediaData) => this.f_extension)
 JR.registerLateBound("MediaData.set_f_extension", (this: MediaData, jvalue) => { this.f_extension = jvalue; jvalue })
 JR.registerLateBound("MediaData.jstatic_hashMap", jstatic_hashMap)
+JR.registerLateBound("MediaData.jset_hashMap", jset_hashMap)
 
 

@@ -61,22 +61,22 @@ JR.cast(jlate())
         {
             let mut bytes: Array<Int32> = Array.make(Int32.toNumber(100000l), 0l)
             this.f_fileName = fileName
-            this.f_idFile = {
+            this.f_idFile = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFileInputStream.jnew_1"))
 JR.cast(jlate(JR.cast(fileName)))
-}
+})
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbFileInputStream.jm_read"))
 JR.cast(jlate(JR.cast(this.f_idFile), JR.cast(bytes)))
 })
-            this.f_string = bytes
+            this.f_string = JR.fromBytes(bytes)
         }
     this
 }
     
 and jm_hasNext = (this: LineReader) => {
         {
-            let mut nextIndex: Int32 = JR.indexOf(this.f_string, CommonSeps.jm_getInstance().f_NEW_LINE, this.f_index)
+            let mut nextIndex: Int32 = JR.indexOfFrom(this.f_string, CommonSeps.jm_getInstance().f_NEW_LINE, this.f_index)
             if ((nextIndex == Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
                 return false
             }
@@ -87,7 +87,7 @@ and jm_hasNext = (this: LineReader) => {
     
 and jm_next = (this: LineReader) => {
         {
-            let mut nextIndex: Int32 = JR.indexOf(this.f_string, CommonSeps.jm_getInstance().f_NEW_LINE, this.f_index)
+            let mut nextIndex: Int32 = JR.indexOfFrom(this.f_string, CommonSeps.jm_getInstance().f_NEW_LINE, this.f_index)
             if ((nextIndex == Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
                 fail JR.toStringOf(JR.newJObject("Exception"))
             }

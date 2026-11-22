@@ -27,6 +27,8 @@ from "../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
 from "../../../java/io/InputStream.gr" include InputStream
 use InputStream.{ type InputStream }
+from "../../../javax/microedition/lcdui/NullImage.gr" include NullImage
+use NullImage.{ type NullImage }
 from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
 use StringMaker.{ type StringMaker }
 from "../../../org/allbinary/string/CommonLabels.gr" include CommonLabels
@@ -127,8 +129,14 @@ and jm_releaseAll = (this: ImageCacheBase) => {
                 }
                 jfirst = false
                 if (!(Int32.(>=)(index, 0l))) break
-            ignore(JR.className(JR.cast(this.f_availableListOfList[Int32.toNumber(index)])))
-            ignore(JR.className(JR.cast(this.f_availableListOfList[Int32.toNumber(index)])))
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_clear"))
+JR.cast(jlate(JR.cast(this.f_availableListOfList[Int32.toNumber(index)])))
+})
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_addAllList"))
+JR.cast(jlate(JR.cast(this.f_availableListOfList[Int32.toNumber(index)]), JR.cast(this.f_listOfList[Int32.toNumber(index)])))
+})
             }
         }
         ignore({
@@ -160,7 +168,10 @@ and jm_getIndexWH = (this: ImageCacheBase, width: Int32, height: Int32) => {
     
 and jm_getFromAvailable = (this: ImageCacheBase, foundIndex: Int32, width: Int32, height: Int32) => {
         if ((foundIndex != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
-            if (Int32.(>)(JR.className(JR.cast(this.f_availableListOfList[Int32.toNumber(foundIndex)])), 0l)) {
+            if (Int32.(>)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
+JR.cast(jlate(JR.cast(this.f_availableListOfList[Int32.toNumber(foundIndex)])))
+}, 0l)) {
                 let mut list: BasicArrayList = JR.cast(this.f_availableListOfList[Int32.toNumber(foundIndex)])
                 return JR.cast(BasicArrayList.jm_removeAt(list, Int32.(-)(BasicArrayList.jm_size(list), 1l)))
             }
@@ -181,7 +192,7 @@ and jm_createImage = (this: ImageCacheBase, caller: String, width: Int32, height
 }
     
 and jm_createImageFromInputStream = (this: ImageCacheBase, key: JObject, inputStream: InputStream) => {
-        return ImageFactory.jm_createImageFromInputStream(this.f_imageFactory, key, inputStream)
+        return ImageFactory.jm_createImageFromInputStream_2(this.f_imageFactory, key, inputStream)
 }
     
 and jm_toString = (this: ImageCacheBase) => {
@@ -197,8 +208,14 @@ and jm_toString = (this: ImageCacheBase) => {
                 if (!(Int32.(>=)(index, 0l))) break
             let mut width: Int32 = this.f_widths[Int32.toNumber(index)]
             let mut height: Int32 = this.f_heights[Int32.toNumber(index)]
-            let mut total: Int32 = JR.className(JR.cast(this.f_listOfList[Int32.toNumber(index)]))
-            let mut totalAvailable: Int32 = JR.className(JR.cast(this.f_availableListOfList[Int32.toNumber(index)]))
+            let mut total: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
+JR.cast(jlate(JR.cast(this.f_listOfList[Int32.toNumber(index)])))
+}
+            let mut totalAvailable: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
+JR.cast(jlate(JR.cast(this.f_availableListOfList[Int32.toNumber(index)])))
+}
             ignore(StringMaker.jm_append(stringBuffer, " w: "))
             ignore(StringMaker.jm_appendint(stringBuffer, width))
             ignore(StringMaker.jm_append(stringBuffer, " h: "))

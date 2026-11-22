@@ -67,6 +67,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: LicenseInitInfoUtil) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("LicenseInitInfoUtil"), f_logUtil: JR.jnull, f_stringUtil: JR.nullOf(), f_INITFILENAME: "", f_ABOUT: "", f_PRIVACY_POLICY: "", f_filePath: "", }
     this.f_logUtil = JR.cast({
@@ -99,7 +103,7 @@ let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
 JR.cast(jlate())
 })
             let mut dataOutputStream: AbDataOutputStream = JR.cast({
-let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getInstance"))
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getInstance_2"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getInstance"))
 JR.cast(jlate())
@@ -169,8 +173,8 @@ JR.cast(jlate(JR.cast(fileStreamFactory), JR.cast(this.f_filePath), JR.cast(this
 let jlate: () => JObject = JR.cast(JR.lateBound("LicenseInitInfo.jnew_0"))
 JR.cast(jlate())
 }
-                let mut decodedByteArray: Array<Int32> = DatabaseEncoder.jm_decode(AbDataInputStream.jm_readUTF(iData))
-                let mut licenseIdDecoded: String = decodedByteArray
+                let mut decodedByteArray: Array<Int32> = DatabaseEncoder.jm_decode(JR.cast(AbDataInputStream.jm_readUTF(iData)))
+                let mut licenseIdDecoded: String = JR.fromBytes(decodedByteArray)
                 ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("LicenseInitInfo.jm_setLicenseId"))
 JR.cast(jlate(JR.cast(initInfo), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(1l), licenseIdDecoded))))
@@ -187,8 +191,8 @@ JR.cast(jlate(JR.cast(initInfo), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(1
                         }
                         jfirst = false
                         if (!(Int32.(<)(index, numberOfLicenseServers))) break
-                    decodedByteArray = DatabaseEncoder.jm_decode(AbDataInputStream.jm_readUTF(iData))
-                    licenseServerDecoded = decodedByteArray
+                    decodedByteArray = DatabaseEncoder.jm_decode(JR.cast(AbDataInputStream.jm_readUTF(iData)))
+                    licenseServerDecoded = JR.fromBytes(decodedByteArray)
                     ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LicenseInitInfo.jm_setServer"))
 JR.cast(jlate(JR.cast(initInfo), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(3l), licenseServerDecoded)), JR.cast(index)))
@@ -229,5 +233,6 @@ JR.registerLateBound("LicenseInitInfoUtil.f_PRIVACY_POLICY", (this: LicenseInitI
 JR.registerLateBound("LicenseInitInfoUtil.f_filePath", (this: LicenseInitInfoUtil) => this.f_filePath)
 JR.registerLateBound("LicenseInitInfoUtil.set_f_filePath", (this: LicenseInitInfoUtil, jvalue) => { this.f_filePath = jvalue; jvalue })
 JR.registerLateBound("LicenseInitInfoUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("LicenseInitInfoUtil.jset_instance", jset_instance)
 
 

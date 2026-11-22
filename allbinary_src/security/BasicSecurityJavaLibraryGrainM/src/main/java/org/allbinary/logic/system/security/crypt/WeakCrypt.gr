@@ -56,6 +56,10 @@ and jstatic_keys = () => match (jcell_keys) {
   },
 }
 
+and jset_keys = (value: Array<String>) => {
+  jcell_keys = Some(value)
+}
+
 and jstatic_KEYMAX = () => match (jcell_KEYMAX) {
   Some(value) => value,
   None => {
@@ -63,6 +67,10 @@ and jstatic_KEYMAX = () => match (jcell_KEYMAX) {
     jcell_KEYMAX = Some(value)
     value
   },
+}
+
+and jset_KEYMAX = (value: Int32) => {
+  jcell_KEYMAX = Some(value)
 }
     
 and jnew_1 = (key: Int32) => {
@@ -92,7 +100,7 @@ JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(value)))
 and jm_decrypt = (this: WeakCrypt, value: String) => {
         {
             let mut decrypted: Array<Int32> = AbCrypt.jm_decrypt(this.f_abCrypt, DatabaseEncoder.jm_decode(value))
-            return decrypted
+            return JR.fromBytes(decrypted)
         }
     return ""
 }
@@ -104,6 +112,8 @@ JR.registerLateBound("WeakCrypt.f_tsUtil", (this: WeakCrypt) => this.f_tsUtil)
 JR.registerLateBound("WeakCrypt.f_abCrypt", (this: WeakCrypt) => this.f_abCrypt)
 JR.registerLateBound("WeakCrypt.set_f_abCrypt", (this: WeakCrypt, jvalue) => { this.f_abCrypt = jvalue; jvalue })
 JR.registerLateBound("WeakCrypt.jstatic_keys", jstatic_keys)
+JR.registerLateBound("WeakCrypt.jset_keys", jset_keys)
 JR.registerLateBound("WeakCrypt.jstatic_KEYMAX", jstatic_KEYMAX)
+JR.registerLateBound("WeakCrypt.jset_KEYMAX", jset_KEYMAX)
 
 

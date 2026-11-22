@@ -63,7 +63,7 @@ and jnew_1 = (clientInformationFactory: ClientInformationFactory) => {
     let this = { jobject: JR.newJObject("ProgressMidlet"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_SET_DISPLAY: "", f_SETTING_: "", f__DISPLAY_: "", f_SETTING_NO_TITLE: "", f_hashtable: JR.jnull, f_midletDestroyed: false, f_abeClientInformation: JR.nullOf(), }
     
         ignore(jm_preInit(this))
-        this.f_abeClientInformation = ClientInformationFactory.jm_getInstance(clientInformationFactory)
+        this.f_abeClientInformation = JR.cast(ClientInformationFactory.jm_getInstance(clientInformationFactory))
     this
 }
     
@@ -75,7 +75,7 @@ and jm_exitProgress = (this: ProgressMidlet, isProgress: Bool) => {
         let mut processor: Processor = JR.cast(MidletExitProcessorFactory.jm_getExitInstance(MidletExitProcessorFactory.jm_getInstance(), JR.cast(this)))
         {
             let mut primaryThreadPool: JObject = JR.cast(PrimaryThreadPool.jm_getInstance())
-            let mut runnable: Runnable = JR.cast(ExitRunnable.jnew_3(this, processor, isProgress))
+            let mut runnable: Runnable = JR.cast(ExitRunnable.jnew_3(JR.cast(this), processor, isProgress))
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.jm_runTask"))
 JR.cast(jlate(JR.cast(primaryThreadPool), JR.cast(runnable)))

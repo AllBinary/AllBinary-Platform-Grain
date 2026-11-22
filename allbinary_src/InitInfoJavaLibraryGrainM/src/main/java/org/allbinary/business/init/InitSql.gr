@@ -127,7 +127,7 @@ and jm_setTable = (this: InitSql, tableName: String) => {
 }
     
 and jm_setDatabaseConnectionInfoInterface = (this: InitSql, databaseConnectionInfoInterface: DbConnectionInfo) => {
-        this.f_databaseConnectionInfoInterface = databaseConnectionInfoInterface
+        this.f_databaseConnectionInfoInterface = JR.cast(databaseConnectionInfoInterface)
 }
     
 and jm_createTable = (this: InitSql, tableData: String) => {
@@ -185,20 +185,32 @@ and jm_getRow = (this: InitSql, keysAndValues: HashMap) => {
                 }
             }
             let mut sqlStatement: String = StringMaker.jm_toString(stringBuffer)
-            if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+            if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypes.jstatic_LOGGING"))
+JR.cast(jlate())
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_SQLLOGGING"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+}) {
                 ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
 JR.cast(jlate(JR.cast(this.f_sqlStrings.f_SQL_STATEMENT_LABEL ++ sqlStatement), JR.cast(this.f_INIT_SQL), JR.cast(this.f_METHOD_GET_ROW)))
 })
             }
             let mut rset: ResultSet = JR.cast(jm_executeSQLStatement(this, sqlStatement))
-            let mut resultSetMetaData: ResultSetMetaData = JR.cast(ResultSet.jm_getMetaData(rset))
-            while (ResultSet.jm_next(rset)) {
-                result = {
+            let mut resultSetMetaData: ResultSetMetaData = JR.cast(ResultSet.jm_getMetaData_0(rset))
+            while (ResultSet.jm_next_0(rset)) {
+                result = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashMap"))
 JR.cast(jlate(JR.cast(this.f_stdUtil)))
-}
-                let mut columnCount: Int32 = ResultSetMetaData.jm_getColumnCount(resultSetMetaData)
+})
+                let mut columnCount: Int32 = ResultSetMetaData.jm_getColumnCount_0(resultSetMetaData)
                 {
                     let mut index: Int32 = 1l
                     let mut jfirst = true
@@ -208,12 +220,24 @@ JR.cast(jlate(JR.cast(this.f_stdUtil)))
                         }
                         jfirst = false
                         if (!(Int32.(<=)(index, columnCount))) break
-                    let mut columnName: String = ResultSetMetaData.jm_getColumnName(resultSetMetaData, index)
-                    let mut field: String = ResultSet.jm_getString(rset, columnName)
+                    let mut columnName: String = ResultSetMetaData.jm_getColumnName_1(resultSetMetaData, index)
+                    let mut field: String = ResultSet.jm_getString_1(rset, columnName)
                     ignore(HashMap.jm_put_2(result, columnName, field))
                     }
                 }
-                if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypes.jstatic_LOGGING"))
+JR.cast(jlate())
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_SQLLOGGING"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+}) {
                     ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
 JR.cast(jlate(JR.cast(this.f_ROW_VALUE_LABEL ++ HashMap.jm_toString_0(result)), JR.cast(this.f_INIT_SQL), JR.cast(this.f_METHOD_GET_ROW)))
@@ -221,7 +245,19 @@ JR.cast(jlate(JR.cast(this.f_ROW_VALUE_LABEL ++ HashMap.jm_toString_0(result)), 
                 }
                 return result
             }
-            if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+            if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypes.jstatic_LOGGING"))
+JR.cast(jlate())
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_SQLLOGGINGERROR"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+}) {
                 ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
 JR.cast(jlate(JR.cast(this.f_NO_RESULTS_IN_RESULT_SET), JR.cast(this.f_INIT_SQL), JR.cast(this.f_METHOD_GET_ROW)))
@@ -273,7 +309,19 @@ and jm_updateWhere = (this: InitSql, key: String, value: String, updatedKeyValue
             ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_CLOSE_QUOTE))
             let mut sqlStatement: String = StringMaker.jm_toString(stringBuffer)
             ignore(jm_executeSQLStatement(this, sqlStatement))
-            if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+            if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypes.jstatic_LOGGING"))
+JR.cast(jlate())
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_SQLLOGGING"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+}) {
                 ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
 JR.cast(jlate(JR.cast(this.f_SUCCESS_SQL_STATEMENT ++ sqlStatement), JR.cast(this.f_INIT_SQL), JR.cast(this.f_METHOD_UPDATE_WHERE)))
@@ -308,7 +356,19 @@ and jm_insert = (this: InitSql, values: BasicArrayList) => {
             ignore(StringMaker.jm_append(stringBuffer, this.f_INSERT_END))
             let mut sqlStatement: String = StringMaker.jm_toString(stringBuffer)
             ignore(jm_executeSQLStatement(this, sqlStatement))
-            if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+            if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypes.jstatic_LOGGING"))
+JR.cast(jlate())
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_SQLLOGGING"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+}) {
                 ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
 JR.cast(jlate(JR.cast(this.f_SUCCESS_SQL_STATEMENT ++ sqlStatement), JR.cast(this.f_INIT_SQL), JR.cast(this.f_INSERT)))
@@ -334,9 +394,9 @@ and jm_executeSQLStatement = (this: InitSql, statement: String) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Connection.jm_createStatement"))
 JR.cast(jlate(JR.cast(this.f_conn)))
 })
-            ignore(Statement.jm_execute(stmt, statement))
-            let mut rset: ResultSet = JR.cast(Statement.jm_getResultSet(stmt))
-            ignore(Statement.jm_close(stmt))
+            ignore(Statement.jm_execute_1(stmt, statement))
+            let mut rset: ResultSet = JR.cast(Statement.jm_getResultSet_0(stmt))
+            ignore(Statement.jm_close_0(stmt))
             return rset
         }
     return JR.nullOf()
@@ -345,9 +405,9 @@ JR.cast(jlate(JR.cast(this.f_conn)))
 and jm_createConnection = (this: InitSql) => {
         {
             if (JR.isSame(this.f_useridAndPassword, true)) {
-                this.f_conn = DriverManager.jm_getConnection(DbConnectionInfo.jm_getUrl(this.f_databaseConnectionInfoInterface), this.f_userid, this.f_password)
+                this.f_conn = JR.cast(DriverManager.jm_getConnection_3(DbConnectionInfo.jm_getUrl(this.f_databaseConnectionInfoInterface), this.f_userid, this.f_password))
             } else {
-                this.f_conn = DriverManager.jm_getConnection(DbConnectionInfo.jm_getUrl(this.f_databaseConnectionInfoInterface))
+                this.f_conn = JR.cast(DriverManager.jm_getConnection_1(DbConnectionInfo.jm_getUrl(this.f_databaseConnectionInfoInterface)))
             }
         }
 }
@@ -358,7 +418,7 @@ and jm_initialize = (this: InitSql) => {
                 let mut jdbcDriver: String = DbConnectionInfo.jm_getJdbcDriver(this.f_databaseConnectionInfoInterface)
                 ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Loading DbConnnectionInfo: "), this.f_databaseConnectionInfoInterface.jobject.cls), " Driver: "), jdbcDriver))), JR.cast(this.f_INIT_SQL), JR.cast("initialize()")))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Loading DbConnnectionInfo: "), JR.className(this.f_databaseConnectionInfoInterface)), " Driver: "), jdbcDriver))), JR.cast(this.f_INIT_SQL), JR.cast("initialize()")))
 })
                 ignore(JR.className(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Class.jm_forName"))

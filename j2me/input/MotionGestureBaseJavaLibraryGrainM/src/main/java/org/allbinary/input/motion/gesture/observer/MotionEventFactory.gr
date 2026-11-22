@@ -56,20 +56,27 @@ and jstatic_index = () => match (jcell_index) {
     value
   },
 }
+
+and jset_index = (value: Int32) => {
+  jcell_index = Some(value)
+}
     
 and jnew_2 = (source: JObject, id: Int32) => {
     let this = { jobject: JR.newJObject("MotionEventFactory"), f_source: JR.jnull, f_id: 0l, }
     
     
-        this.f_source = source
+        this.f_source = JR.cast(source)
         this.f_id = id
-        jstatic_index() = JR.className(JR.cast({
+        jset_index({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Input.jm_getId"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.f_LAST_MOTION"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.jm_getInstance"))
 JR.cast(jlate())
 })))
-}))
+})))
+})
     this
 }
     
@@ -94,5 +101,6 @@ JR.registerLateBound("MotionEventFactory.jm_getInstance", jm_getInstance)
 JR.registerLateBound("MotionEventFactory.f_source", (this: MotionEventFactory) => this.f_source)
 JR.registerLateBound("MotionEventFactory.f_id", (this: MotionEventFactory) => this.f_id)
 JR.registerLateBound("MotionEventFactory.jstatic_index", jstatic_index)
+JR.registerLateBound("MotionEventFactory.jset_index", jset_index)
 
 

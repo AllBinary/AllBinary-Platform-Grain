@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../javax/microedition/lcdui/CommandListener.gr" include CommandListener
+use CommandListener.{ type CommandListener }
 from "../../../org/allbinary/logic/communication/log/ForcedLogUtil.gr" include ForcedLogUtil
 use ForcedLogUtil.{ type ForcedLogUtil }
 from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
@@ -66,10 +68,14 @@ and jstatic_NULL_ALLBINARY_MIDLET = () => match (jcell_NULL_ALLBINARY_MIDLET) {
     value
   },
 }
+
+and jset_NULL_ALLBINARY_MIDLET = (value: JObject) => {
+  jcell_NULL_ALLBINARY_MIDLET = Some(value)
+}
     
 and jm_getNullInstance = () => {
         if (JR.isSame(jstatic_NULL_ALLBINARY_MIDLET(), NullUtil.jm_getInstance().f_NULL_OBJECT)) {
-            jstatic_NULL_ALLBINARY_MIDLET() = JR.cast(jnew_0())
+            jset_NULL_ALLBINARY_MIDLET(JR.cast(jnew_0()))
         }
         return JR.cast(jstatic_NULL_ALLBINARY_MIDLET())
 }
@@ -176,7 +182,7 @@ and jm_setStartStateHashtable = (this: AllBinaryMidlet, hashtable: JObject) => {
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), CommonLabels.jm_getInstance().f_START_LABEL), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(hashtable))))), JR.cast(this), JR.cast("setStartStateHashtable")))
 })
-        this.f_hashtable = hashtable
+        this.f_hashtable = JR.cast(hashtable)
 }
     
 and jm_getStartStateHashtable = (this: AllBinaryMidlet) => {
@@ -231,5 +237,6 @@ JR.registerLateBound("AllBinaryMidlet.set_f_hashtable", (this: AllBinaryMidlet, 
 JR.registerLateBound("AllBinaryMidlet.f_midletDestroyed", (this: AllBinaryMidlet) => this.f_midletDestroyed)
 JR.registerLateBound("AllBinaryMidlet.set_f_midletDestroyed", (this: AllBinaryMidlet, jvalue) => { this.f_midletDestroyed = jvalue; jvalue })
 JR.registerLateBound("AllBinaryMidlet.jstatic_NULL_ALLBINARY_MIDLET", jstatic_NULL_ALLBINARY_MIDLET)
+JR.registerLateBound("AllBinaryMidlet.jset_NULL_ALLBINARY_MIDLET", jset_NULL_ALLBINARY_MIDLET)
 
 

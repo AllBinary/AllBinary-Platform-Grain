@@ -74,6 +74,10 @@ and jstatic_INITFILENAME = () => match (jcell_INITFILENAME) {
   },
 }
 
+and jset_INITFILENAME = (value: String) => {
+  jcell_INITFILENAME = Some(value)
+}
+
 and jstatic_PACKAGE = () => match (jcell_PACKAGE) {
   Some(value) => value,
   None => {
@@ -81,6 +85,10 @@ and jstatic_PACKAGE = () => match (jcell_PACKAGE) {
     jcell_PACKAGE = Some(value)
     value
   },
+}
+
+and jset_PACKAGE = (value: String) => {
+  jcell_PACKAGE = Some(value)
 }
 
 and jstatic_logConfigInfoList = () => match (jcell_logConfigInfoList) {
@@ -92,6 +100,10 @@ and jstatic_logConfigInfoList = () => match (jcell_logConfigInfoList) {
   },
 }
 
+and jset_logConfigInfoList = (value: BasicArrayList) => {
+  jcell_logConfigInfoList = Some(value)
+}
+
 and jstatic_hasRead = () => match (jcell_hasRead) {
   Some(value) => value,
   None => {
@@ -99,6 +111,10 @@ and jstatic_hasRead = () => match (jcell_hasRead) {
     jcell_hasRead = Some(value)
     value
   },
+}
+
+and jset_hasRead = (value: Bool) => {
+  jcell_hasRead = Some(value)
 }
     
 and jnew_0 = () => {
@@ -115,13 +131,13 @@ and jm_getDoc = () => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
 JR.cast(jlate(JR.cast(l_FILEABPATH)))
 })
-        let mut document: Document = JR.cast(DomDocumentHelper.jm_create_1(JR.cast(AbFileLocalInputStream.jnew_1(file))))
+        let mut document: Document = JR.cast(DomDocumentHelper.jm_create_1_InputStream_(JR.cast(AbFileLocalInputStream.jnew_1(file))))
         return document
 }
     
 and jm_write = () => {
         {
-            jstatic_hasRead() = false
+            jset_hasRead(false)
         }
 }
     
@@ -130,8 +146,8 @@ and jm_read = () => {
             let mut document: Document = JR.cast(jm_getDoc())
             let mut logConfigsNodeList: NodeList = JR.cast(Document.jm_getElementsByTagName(document, LogConfigsData.jm_getInstance().f_NAME))
             let mut logConfigsNode: Node = JR.cast(NodeList.jm_item(logConfigsNodeList, 0l))
-            let mut logConfigNodeVector: BasicArrayList = JR.cast(DomSearchHelper.jm_getAllNodes(LogConfigData.jm_getInstance().f_NAME, Node.jm_getChildNodes(logConfigsNode)))
-            jstatic_logConfigInfoList() = JR.cast(BasicArrayListD.jnew_0())
+            let mut logConfigNodeVector: BasicArrayList = JR.cast(DomSearchHelper.jm_getAllNodes(LogConfigData.jm_getInstance().f_NAME, JR.cast(Node.jm_getChildNodes(logConfigsNode))))
+            jset_logConfigInfoList(JR.cast(BasicArrayListD.jnew_0()))
             let mut size: Int32 = BasicArrayList.jm_size(logConfigNodeVector)
             {
                 let mut i: Int32 = 0l
@@ -147,23 +163,20 @@ and jm_read = () => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfig.jnew_1"))
 JR.cast(jlate(JR.cast(node)))
 }
-                ignore({
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_add"))
-JR.cast(jlate(JR.cast(jstatic_logConfigInfoList()), JR.cast(logConfigInfo)))
-})
+                ignore(BasicArrayList.jm_add(jstatic_logConfigInfoList(), JR.cast(logConfigInfo)))
                 }
             }
         }
 }
     
 and jm_setHasRead = (value: Bool) => {
-        jstatic_hasRead() = value
+        jset_hasRead(value)
 }
     
 and jm_updateIfNeeded = () => {
         if (!jstatic_hasRead()) {
             ignore(jm_read())
-            jstatic_hasRead() = true
+            jset_hasRead(true)
             if (JR.isNull(jstatic_logConfigInfoList())) {
                 fail JR.toStringOf(JR.newJObject("Exception"))
             }
@@ -178,7 +191,7 @@ and jm_isValid = (this: LoggingInitInfo) => {
 }
     
 and jm_set = (logConfigInfoVector: BasicArrayList) => {
-        jstatic_logConfigInfoList() = logConfigInfoVector
+        jset_logConfigInfoList(JR.cast(logConfigInfoVector))
 }
     
 and jm_get = () => {
@@ -189,10 +202,7 @@ and jm_get = () => {
 and jm_getTypeNameList = () => {
         ignore(jm_updateIfNeeded())
         let mut allLogTypeVector: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
-        let mut size: Int32 = {
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
-JR.cast(jlate(JR.cast(jstatic_logConfigInfoList())))
-}
+        let mut size: Int32 = BasicArrayList.jm_size(jstatic_logConfigInfoList())
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -221,10 +231,7 @@ JR.cast(jlate(JR.cast(logConfigInfo)))
 and jm_getTypeList = () => {
         ignore(jm_updateIfNeeded())
         let mut allLogTypeVector: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
-        let mut size: Int32 = {
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
-JR.cast(jlate(JR.cast(jstatic_logConfigInfoList())))
-}
+        let mut size: Int32 = BasicArrayList.jm_size(jstatic_logConfigInfoList())
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -251,10 +258,7 @@ JR.cast(jlate(JR.cast(logConfigInfo)))
 }
     
 and jm_getNumberOfLogConfigs = (this: LoggingInitInfo) => {
-        return {
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
-JR.cast(jlate(JR.cast(jstatic_logConfigInfoList())))
-}
+        return BasicArrayList.jm_size(jstatic_logConfigInfoList())
 }
     
 and jm_toString = (this: LoggingInitInfo) => {
@@ -279,8 +283,12 @@ JR.registerLateBound("LoggingInitInfo.jm_getTypeList", jm_getTypeList)
 JR.registerLateBound("LoggingInitInfo.jm_getNumberOfLogConfigs", jm_getNumberOfLogConfigs)
 JR.registerLateBound("LoggingInitInfo.jm_toString", jm_toString)
 JR.registerLateBound("LoggingInitInfo.jstatic_INITFILENAME", jstatic_INITFILENAME)
+JR.registerLateBound("LoggingInitInfo.jset_INITFILENAME", jset_INITFILENAME)
 JR.registerLateBound("LoggingInitInfo.jstatic_PACKAGE", jstatic_PACKAGE)
+JR.registerLateBound("LoggingInitInfo.jset_PACKAGE", jset_PACKAGE)
 JR.registerLateBound("LoggingInitInfo.jstatic_logConfigInfoList", jstatic_logConfigInfoList)
+JR.registerLateBound("LoggingInitInfo.jset_logConfigInfoList", jset_logConfigInfoList)
 JR.registerLateBound("LoggingInitInfo.jstatic_hasRead", jstatic_hasRead)
+JR.registerLateBound("LoggingInitInfo.jset_hasRead", jset_hasRead)
 
 

@@ -108,6 +108,10 @@ and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
     value
   },
 }
+
+and jset_SINGLETON = (value: DisplayInfoSingleton) => {
+  jcell_SINGLETON = Some(value)
+}
     
 and jm_getInstance = () => {
         return jstatic_SINGLETON()
@@ -148,7 +152,7 @@ JR.cast(jlate())
     this.f_LAST_HEIGHT = " LastHeight: "
     this.f_PORTRAIT = "Portrait"
     this.f_LANDSCAPE = "Landscape"
-    this.f_displayChangeEvent = DisplayChangeEvent.jnew_1(this)
+    this.f_displayChangeEvent = DisplayChangeEvent.jnew_1(JR.cast(this))
     this.f_FIRE_METHOD_NAME = "fire"
     this.f_REASON = "reason: "
     this.f_UPDATE_FROM_ORIENTATION_CHANGE = "Updating from Orientation Change "
@@ -340,8 +344,14 @@ JR.cast(jlate())
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SWTJOGLProcessor.jm_clear"))
 JR.cast(jlate(JR.cast(swtJOGLProcessor)))
 })
-            ignore(DisplayChangeEventHandler.jm_fireEvent(DisplayChangeEventHandler.jm_getInstance(), this.f_displayChangeEvent))
-            ignore(LastDisplayChangeEventHandler.jm_fireEvent(LastDisplayChangeEventHandler.jm_getInstance(), this.f_displayChangeEvent))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_fireEvent"))
+JR.cast(jlate(JR.cast(DisplayChangeEventHandler.jm_getInstance()), JR.cast(this.f_displayChangeEvent)))
+})
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_fireEvent"))
+JR.cast(jlate(JR.cast(LastDisplayChangeEventHandler.jm_getInstance()), JR.cast(this.f_displayChangeEvent)))
+})
             ignore({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SWTJOGLProcessor.jm_onSurfaceChanged"))
 JR.cast(jlate(JR.cast(swtJOGLProcessor)))
@@ -530,7 +540,7 @@ and jm_setCustom = (this: DisplayInfoSingleton, width: Int32, height: Int32) => 
 }
     
 and jm_setScalableListener = (this: DisplayInfoSingleton, scalableListener: BaseScalable) => {
-        this.f_scalableListener = scalableListener
+        this.f_scalableListener = JR.cast(scalableListener)
 }
     
 and jm_getScalableListener = (this: DisplayInfoSingleton) => {
@@ -642,5 +652,6 @@ JR.registerLateBound("DisplayInfoSingleton.f_FULL", (this: DisplayInfoSingleton)
 JR.registerLateBound("DisplayInfoSingleton.f_LAST", (this: DisplayInfoSingleton) => this.f_LAST)
 JR.registerLateBound("DisplayInfoSingleton.f_LAST_HALF", (this: DisplayInfoSingleton) => this.f_LAST_HALF)
 JR.registerLateBound("DisplayInfoSingleton.jstatic_SINGLETON", jstatic_SINGLETON)
+JR.registerLateBound("DisplayInfoSingleton.jset_SINGLETON", jset_SINGLETON)
 
 

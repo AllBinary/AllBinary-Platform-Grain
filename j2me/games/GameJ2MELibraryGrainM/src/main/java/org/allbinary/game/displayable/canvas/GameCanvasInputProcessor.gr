@@ -79,16 +79,19 @@ JR.cast(jlate())
     this.f_upGameKeyEventHandler = JR.cast(UpGameKeyEventHandler.jm_getInstance())
     this.f_downKeyEventHandler = JR.cast(DownKeyEventHandler.jm_getInstance())
     this.f_smallIntegerSingletonFactory = JR.cast(SmallIntegerSingletonFactory.jm_getInstance())
-    this.f_inputToGameKeyMapping = JR.cast(JR.className(JR.cast({
+    this.f_inputToGameKeyMapping = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PersistentInputMapping.jm_getInputMapping"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PlatformInputMappingFactory.jm_getPersistentInputMappingInstance"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("PlatformInputMappingFactory.jm_getInstance"))
 JR.cast(jlate())
 })))
 })))
+})
     this.f_NONE = JR.cast(GameKeyFactory.jm_getInstance().f_NONE)
     this.f_gameKeyEventFactory = JR.cast(GameKeyEventFactory.jm_getInstance())
-        this.f_allBinaryGameCanvas = allBinaryGameCanvas
+        this.f_allBinaryGameCanvas = JR.cast(allBinaryGameCanvas)
         ignore(InputToGameKeyMapping.jm_init(this.f_inputToGameKeyMapping, JR.cast(this.f_allBinaryGameCanvas)))
     this
 }
@@ -98,8 +101,14 @@ and jm_keyPressedByDevice = (this: GameCanvasInputProcessor, keyCode: Int32, dev
             let mut gameKey: GameKey = JR.cast(InputToGameKeyMapping.jm_getInstanceForCanvas(this.f_inputToGameKeyMapping, JR.cast(this.f_allBinaryGameCanvas), keyCode))
             if ((!JR.isSame(gameKey, this.f_NONE))) {
                 let mut gameKeyEvent: GameKeyEvent = JR.cast(GameKeyEventFactory.jm_getInstanceForInput(this.f_gameKeyEventFactory, JR.cast(this.f_allBinaryGameCanvas), JR.cast(gameKey)))
-                ignore(DownGameKeyEventHandler.jm_fireEvent(this.f_downGameKeyEventHandler, gameKeyEvent))
-                ignore(JR.className(JR.cast(DownGameKeyEventHandler.jm_getInstanceForDevice(this.f_downGameKeyEventHandler, deviceId))))
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DownGameKeyEventHandlerBase.jm_fireEvent"))
+JR.cast(jlate(JR.cast(this.f_downGameKeyEventHandler), JR.cast(gameKeyEvent)))
+})
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DownGameKeyEventHandlerBase.jm_fireEvent"))
+JR.cast(jlate(JR.cast(DownGameKeyEventHandler.jm_getInstanceForDevice(this.f_downGameKeyEventHandler, deviceId)), JR.cast(gameKeyEvent)))
+})
             } else {
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
@@ -113,8 +122,14 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_gameInputStrings))))
 })
             }
             let mut keyCodeAsInteger: Int32 = SmallIntegerSingletonFactory.jm_getAtNoThrow(this.f_smallIntegerSingletonFactory, keyCode)
-            ignore(DownKeyEventHandler.jm_fireEventI(this.f_downKeyEventHandler, keyCodeAsInteger))
-            ignore(JR.className(JR.cast(DownKeyEventHandler.jm_getInstanceForDevice(this.f_downKeyEventHandler, deviceId))))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DownKeyEventHandlerBase.jm_fireEventI"))
+JR.cast(jlate(JR.cast(this.f_downKeyEventHandler), JR.cast(keyCodeAsInteger)))
+})
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DownKeyEventHandlerBase.jm_fireEventI"))
+JR.cast(jlate(JR.cast(DownKeyEventHandler.jm_getInstanceForDevice(this.f_downKeyEventHandler, deviceId)), JR.cast(keyCodeAsInteger)))
+})
         }
 }
     
@@ -128,8 +143,14 @@ and jm_removeGameKeyEvent = (this: GameCanvasInputProcessor, canvas: JObject, ke
             if ((!JR.isSame(gameKey, this.f_NONE))) {
                 let mut gameKeyEventSourceInterface: GameKeyEventSourceInterface = JR.cast(canvas)
                 let mut gameKeyEvent: GameKeyEvent = JR.cast(GameKeyEventFactory.jm_getInstanceForInput(this.f_gameKeyEventFactory, gameKeyEventSourceInterface, JR.cast(gameKey)))
-                ignore(UpGameKeyEventHandler.jm_fireEvent(this.f_upGameKeyEventHandler, gameKeyEvent))
-                ignore(JR.className(JR.cast(UpGameKeyEventHandler.jm_getInstanceForDevice(this.f_upGameKeyEventHandler, deviceId))))
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UpGameKeyEventHandlerBase.jm_fireEvent"))
+JR.cast(jlate(JR.cast(this.f_upGameKeyEventHandler), JR.cast(gameKeyEvent)))
+})
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UpGameKeyEventHandlerBase.jm_fireEvent"))
+JR.cast(jlate(JR.cast(UpGameKeyEventHandler.jm_getInstanceForDevice(this.f_upGameKeyEventHandler, deviceId)), JR.cast(gameKeyEvent)))
+})
             } else {
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))

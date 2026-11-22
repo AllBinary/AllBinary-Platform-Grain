@@ -65,6 +65,10 @@ and jstatic_instance = () => match (jcell_instance) {
     value
   },
 }
+
+and jset_instance = (value: VectorRotationGenerator) => {
+  jcell_instance = Some(value)
+}
     
 and jm_getInstance_0 = () => {
         return jstatic_instance()
@@ -103,12 +107,12 @@ and jm_getInstanceFrames = (this: VectorRotationGenerator, width: Int32, height:
                     }
                     jfirst = false
                     if (!(Int32.(<)(index, size))) break
-                ignore(BasicArrayList.jm_add(pointBasicArrayList, PointFactory.jm_createXY(pointFactory, points[Int32.toNumber(index)][Int32.toNumber(0l)], points[Int32.toNumber(index)][Int32.toNumber(1l)])))
+                ignore(BasicArrayList.jm_add(pointBasicArrayList, JR.cast(PointFactory.jm_createXY(pointFactory, points[Int32.toNumber(index)][Int32.toNumber(0l)], points[Int32.toNumber(index)][Int32.toNumber(1l)]))))
                 }
             }
             let mut index: Int32 = 0l
             while (Int32.(<)(index, totalAngle)) {
-                ignore(BasicArrayList.jm_add(pointsBasicArrayList, JR.cast(jm_getListAtAngle(this, width, height, pointBasicArrayList, AngleFactory.jm_getAt(this.f_angleFactory, index)))))
+                ignore(BasicArrayList.jm_add(pointsBasicArrayList, JR.cast(jm_getListAtAngle(this, width, height, pointBasicArrayList, JR.cast(AngleFactory.jm_getAt(this.f_angleFactory, index))))))
                 index = Int32.(+)(index, angleIncrement)
             }
             let mut newPoints: Array<Array<Array<Int32>>> = VectorAnimationUtil.jm_toAnimationArrayFromListOfPointListWithPointsPerFrame(this.f_vectorAnimationUtil, pointsBasicArrayList, BasicArrayList.jm_size(pointBasicArrayList))
@@ -135,5 +139,6 @@ JR.registerLateBound("VectorRotationGenerator.f_logUtil", (this: VectorRotationG
 JR.registerLateBound("VectorRotationGenerator.f_vectorAnimationUtil", (this: VectorRotationGenerator) => this.f_vectorAnimationUtil)
 JR.registerLateBound("VectorRotationGenerator.f_angleFactory", (this: VectorRotationGenerator) => this.f_angleFactory)
 JR.registerLateBound("VectorRotationGenerator.jstatic_instance", jstatic_instance)
+JR.registerLateBound("VectorRotationGenerator.jset_instance", jset_instance)
 
 

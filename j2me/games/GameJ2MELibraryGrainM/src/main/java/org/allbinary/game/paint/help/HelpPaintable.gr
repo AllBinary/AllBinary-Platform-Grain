@@ -64,7 +64,7 @@ provide let rec jclassName = () => "HelpPaintable"
 and jnew_3 = (title: String, backgroundBasicColor: BasicColor, basicColor: BasicColor) => {
     let this = { jobject: JR.newJObject("HelpPaintable"), f_displayInfo: JR.nullOf(), f_updateMyFontProcessor: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_anchor: 0l, f_title: "", f_inputInfo: [> ], f_basicColor: JR.nullOf(), f_titleBeginWidth: 0l, f_beginWidthArray: [> ], f_charHeight: 0l, }
     this.f_displayInfo = JR.cast(DisplayInfoSingleton.jm_getInstance())
-    this.f_updateMyFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(this))
+    this.f_updateMyFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(JR.cast(this)))
     this.f_myFontProcessor = JR.cast(this.f_updateMyFontProcessor)
     this.f_anchor = Anchor.jstatic_TOP_LEFT()
     
@@ -74,7 +74,7 @@ and jnew_3 = (title: String, backgroundBasicColor: BasicColor, basicColor: Basic
     this.f_beginWidthArray = NullUtil.jm_getInstance().f_NULL_INT_ARRAY
     
         this.f_title = title
-        this.f_basicColor = basicColor
+        this.f_basicColor = JR.cast(basicColor)
     this
 }
     
@@ -107,13 +107,13 @@ JR.cast(jlate(JR.cast(font), JR.cast(this.f_inputInfo[Int32.toNumber(index)])))
 }, 1l))
             }
         }
-        this.f_myFontProcessor = MyFontProcessor.jm_getInstance()
+        this.f_myFontProcessor = JR.cast(MyFontProcessor.jm_getInstance())
 }
     
 and jm_setInputInfoP = (this: HelpPaintable, inputInfo: Array<String>) => {
         this.f_inputInfo = inputInfo
         this.f_beginWidthArray = Array.make(Int32.toNumber(Int32.fromNumber(Array.length(this.f_inputInfo))), 0l)
-        this.f_myFontProcessor = this.f_updateMyFontProcessor
+        this.f_myFontProcessor = JR.cast(this.f_updateMyFontProcessor)
 }
     
 and jm_paint = (this: HelpPaintable, graphics: JObject) => {

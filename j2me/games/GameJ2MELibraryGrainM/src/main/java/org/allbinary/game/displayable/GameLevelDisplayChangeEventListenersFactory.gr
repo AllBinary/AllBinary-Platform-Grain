@@ -52,6 +52,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: GameLevelDisplayChangeEventListenersFactory) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("GameLevelDisplayChangeEventListenersFactory"), f_list: JR.nullOf(), }
     this.f_list = JR.cast(BasicArrayListD.jnew_0())
@@ -64,7 +68,10 @@ and jm_getInstance = () => {
     
 and jm_add = (this: GameLevelDisplayChangeEventListenersFactory, displayChangeEventListener: DisplayChangeEventListener) => {
         ignore(BasicArrayList.jm_add(this.f_list, JR.cast(displayChangeEventListener)))
-        ignore(DisplayChangeEventHandler.jm_addListenerInterface(DisplayChangeEventHandler.jm_getInstance(), displayChangeEventListener))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_addListenerInterface"))
+JR.cast(jlate(JR.cast(DisplayChangeEventHandler.jm_getInstance()), JR.cast(displayChangeEventListener)))
+})
 }
     
 and jm_clear = (this: GameLevelDisplayChangeEventListenersFactory) => {
@@ -92,5 +99,6 @@ JR.registerLateBound("GameLevelDisplayChangeEventListenersFactory.jm_add", jm_ad
 JR.registerLateBound("GameLevelDisplayChangeEventListenersFactory.jm_clear", jm_clear)
 JR.registerLateBound("GameLevelDisplayChangeEventListenersFactory.f_list", (this: GameLevelDisplayChangeEventListenersFactory) => this.f_list)
 JR.registerLateBound("GameLevelDisplayChangeEventListenersFactory.jstatic_instance", jstatic_instance)
+JR.registerLateBound("GameLevelDisplayChangeEventListenersFactory.jset_instance", jset_instance)
 
 

@@ -52,6 +52,10 @@ and jstatic_instance = () => match (jcell_instance) {
     value
   },
 }
+
+and jset_instance = (value: SmallBasicColorCacheFactory) => {
+  jcell_instance = Some(value)
+}
     
 and jm_getInstance = () => {
         return jstatic_instance()
@@ -90,7 +94,7 @@ and jm_getAndOrCreate = (this: SmallBasicColorCacheFactory, colorAsInt: Int32) =
             }
         }
         let mut l_ALPHA_MASK: Int32 = 0xFF000000l
-        basicColor = BasicColorFactory.jm_createInstanceAN(BasicColorFactory.jm_getInstance(), Int32.(&)(colorAsInt, l_ALPHA_MASK), Int32.(&)(colorAsInt, 0x00FFFFFFl), StringUtil.jm_getInstance().f_EMPTY_STRING)
+        basicColor = JR.cast(BasicColorFactory.jm_createInstanceAN(BasicColorFactory.jm_getInstance(), Int32.(&)(colorAsInt, l_ALPHA_MASK), Int32.(&)(colorAsInt, 0x00FFFFFFl), StringUtil.jm_getInstance().f_EMPTY_STRING))
         ignore(jm_add(this, basicColor))
         return basicColor
 }
@@ -105,5 +109,6 @@ JR.registerLateBound("SmallBasicColorCacheFactory.f_BASIC_COLOR_ARRAY", (this: S
 JR.registerLateBound("SmallBasicColorCacheFactory.f_colorIndex", (this: SmallBasicColorCacheFactory) => this.f_colorIndex)
 JR.registerLateBound("SmallBasicColorCacheFactory.set_f_colorIndex", (this: SmallBasicColorCacheFactory, jvalue) => { this.f_colorIndex = jvalue; jvalue })
 JR.registerLateBound("SmallBasicColorCacheFactory.jstatic_instance", jstatic_instance)
+JR.registerLateBound("SmallBasicColorCacheFactory.jset_instance", jset_instance)
 
 

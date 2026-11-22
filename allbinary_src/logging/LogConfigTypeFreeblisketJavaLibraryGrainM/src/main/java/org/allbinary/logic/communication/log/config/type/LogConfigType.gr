@@ -49,6 +49,10 @@ and jstatic_availableLogConfigTypes = () => match (jcell_availableLogConfigTypes
     value
   },
 }
+
+and jset_availableLogConfigTypes = (value: BasicArrayList) => {
+  jcell_availableLogConfigTypes = Some(value)
+}
     
 and jnew_2 = (name: String, description: String) => {
     let this = { jobject: JR.newJObject("LogConfigType"), f_logUtil: JR.jnull, f_name: "", f_description: "", }
@@ -60,10 +64,7 @@ JR.cast(jlate())
     
         this.f_name = name
         this.f_description = description
-        ignore({
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_add"))
-JR.cast(jlate(JR.cast(jstatic_availableLogConfigTypes()), JR.cast(this)))
-})
+        ignore(BasicArrayList.jm_add(jstatic_availableLogConfigTypes(), JR.cast(this)))
     this
 }
     
@@ -94,5 +95,6 @@ JR.registerLateBound("LogConfigType.set_f_name", (this: LogConfigType, jvalue) =
 JR.registerLateBound("LogConfigType.f_description", (this: LogConfigType) => this.f_description)
 JR.registerLateBound("LogConfigType.set_f_description", (this: LogConfigType, jvalue) => { this.f_description = jvalue; jvalue })
 JR.registerLateBound("LogConfigType.jstatic_availableLogConfigTypes", jstatic_availableLogConfigTypes)
+JR.registerLateBound("LogConfigType.jset_availableLogConfigTypes", jset_availableLogConfigTypes)
 
 

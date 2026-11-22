@@ -56,6 +56,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: UpGameKeyEventHandler) => {
+  jcell_instance = Some(value)
+}
+
 and jstatic_instanceArray = () => match (jcell_instanceArray) {
   Some(value) => value,
   None => {
@@ -63,6 +67,10 @@ and jstatic_instanceArray = () => match (jcell_instanceArray) {
     jcell_instanceArray = Some(value)
     value
   },
+}
+
+and jset_instanceArray = (value: Array<UpGameKeyEventHandlerBase>) => {
+  jcell_instanceArray = Some(value)
 }
     
 and jm_getInstance = () => {
@@ -96,7 +104,10 @@ and jm_removeAllListeners = (this: UpGameKeyEventHandler) => {
                 }
                 jfirst = false
                 if (!(Int32.(>=)(index, 0l))) break
-            ignore(JR.className(JR.cast(jstatic_instanceArray()[Int32.toNumber(index)])))
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpGameKeyEventHandlerBase.jm_removeAllListeners"))
+JR.cast(jlate(JR.cast(jstatic_instanceArray()[Int32.toNumber(index)])))
+})
             }
         }
 }
@@ -112,7 +123,10 @@ and jm_removeListenerSingleThreaded = (this: UpGameKeyEventHandler, eventListene
                 }
                 jfirst = false
                 if (!(Int32.(>=)(index, 0l))) break
-            ignore(JR.className(JR.cast(jstatic_instanceArray()[Int32.toNumber(index)])))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UpGameKeyEventHandlerBase.jm_removeListenerSingleThreaded"))
+JR.cast(jlate(JR.cast(jstatic_instanceArray()[Int32.toNumber(index)]), JR.cast(eventListenerInterface)))
+})
             }
         }
 }
@@ -128,7 +142,10 @@ and jm_removeListener = (this: UpGameKeyEventHandler, eventListenerInterface: Ev
                 }
                 jfirst = false
                 if (!(Int32.(>=)(index, 0l))) break
-            ignore(JR.className(JR.cast(jstatic_instanceArray()[Int32.toNumber(index)])))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UpGameKeyEventHandlerBase.jm_removeListener"))
+JR.cast(jlate(JR.cast(jstatic_instanceArray()[Int32.toNumber(index)]), JR.cast(eventListenerInterface)))
+})
             }
         }
 }
@@ -142,6 +159,8 @@ JR.registerLateBound("UpGameKeyEventHandler.jm_removeListenerSingleThreaded", jm
 JR.registerLateBound("UpGameKeyEventHandler.jm_removeListener", jm_removeListener)
 JR.registerLateBound("UpGameKeyEventHandler.f_playerInputIdFactory", (this: UpGameKeyEventHandler) => this.f_playerInputIdFactory)
 JR.registerLateBound("UpGameKeyEventHandler.jstatic_instance", jstatic_instance)
+JR.registerLateBound("UpGameKeyEventHandler.jset_instance", jset_instance)
 JR.registerLateBound("UpGameKeyEventHandler.jstatic_instanceArray", jstatic_instanceArray)
+JR.registerLateBound("UpGameKeyEventHandler.jset_instanceArray", jset_instanceArray)
 
 

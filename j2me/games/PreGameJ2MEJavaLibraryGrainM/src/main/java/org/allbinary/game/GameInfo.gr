@@ -69,10 +69,14 @@ provide let rec jclassName = () => "GameInfo"
 and jstatic_NONE = () => match (jcell_NONE) {
   Some(value) => value,
   None => {
-    let value: GameInfo = jnew_5(GameTypeFactory.jm_getInstance().f_NONE, GameMode.jstatic_NONE(), PlayerTypesFactory.jm_getInstance().f_PLAYER_TYPE_ONE, Int32.(-)(1l, Int32.(+)(1l, 1l)), Int32.(-)(1l, Int32.(+)(1l, 1l)))
+    let value: GameInfo = jnew_5(JR.cast(GameTypeFactory.jm_getInstance().f_NONE), JR.cast(GameMode.jstatic_NONE()), JR.cast(PlayerTypesFactory.jm_getInstance().f_PLAYER_TYPE_ONE), Int32.(-)(1l, Int32.(+)(1l, 1l)), Int32.(-)(1l, Int32.(+)(1l, 1l)))
     jcell_NONE = Some(value)
     value
   },
+}
+
+and jset_NONE = (value: GameInfo) => {
+  jcell_NONE = Some(value)
 }
 
 and jstatic_LEVEL_NAME = () => match (jcell_LEVEL_NAME) {
@@ -82,6 +86,10 @@ and jstatic_LEVEL_NAME = () => match (jcell_LEVEL_NAME) {
     jcell_LEVEL_NAME = Some(value)
     value
   },
+}
+
+and jset_LEVEL_NAME = (value: String) => {
+  jcell_LEVEL_NAME = Some(value)
 }
     
 and jnew_5 = (gameType: GameType, gameMode: GameMode, playerType: PlayerType, highestLevel: Int32, currentLevel: Int32) => {
@@ -100,11 +108,11 @@ JR.cast(jlate())
     this.f_NEW_LEVEL = "New Level: "
     this.f_SET_CURRENT_LEVEL = "setCurrentLevel"
     this.f_NEXT_GAME_LEVEL = "nextGameLevel"
-        this.f_gameType = gameType
-        this.f_gameMode = gameMode
+        this.f_gameType = JR.cast(gameType)
+        this.f_gameMode = JR.cast(gameMode)
         ignore(jm_setHighestLevel(this, highestLevel))
         this.f_currentLevel = currentLevel
-        this.f_playerType = playerType
+        this.f_playerType = JR.cast(playerType)
     this
 }
     
@@ -246,6 +254,8 @@ JR.registerLateBound("GameInfo.f_NEW_LEVEL", (this: GameInfo) => this.f_NEW_LEVE
 JR.registerLateBound("GameInfo.f_SET_CURRENT_LEVEL", (this: GameInfo) => this.f_SET_CURRENT_LEVEL)
 JR.registerLateBound("GameInfo.f_NEXT_GAME_LEVEL", (this: GameInfo) => this.f_NEXT_GAME_LEVEL)
 JR.registerLateBound("GameInfo.jstatic_NONE", jstatic_NONE)
+JR.registerLateBound("GameInfo.jset_NONE", jset_NONE)
 JR.registerLateBound("GameInfo.jstatic_LEVEL_NAME", jstatic_LEVEL_NAME)
+JR.registerLateBound("GameInfo.jset_LEVEL_NAME", jset_LEVEL_NAME)
 
 

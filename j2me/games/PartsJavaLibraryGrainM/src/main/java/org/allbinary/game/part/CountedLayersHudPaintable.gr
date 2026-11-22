@@ -68,6 +68,10 @@ and jstatic_XXStringWidth = () => match (jcell_XXStringWidth) {
     value
   },
 }
+
+and jset_XXStringWidth = (value: Int32) => {
+  jcell_XXStringWidth = Some(value)
+}
     
 and jnew_5 = (partInterfaceArray: Array<PartInterface>, dropSize: Int32, startIndex: Int32, countedTotalStringColor: Int32, countedPartsBorder: Int32) => {
     let this = { jobject: JR.newJObject("CountedLayersHudPaintable"), f_displayInfoSingleton: JR.nullOf(), f_partInterfaceArray: [> ], f_countedTotalStringColor: 0l, f_countedPartsBorder: 0l, f_startIndex: 0l, f_dropSize: 0l, f_myFontProcessor: JR.nullOf(), f_height: 0l, }
@@ -77,7 +81,7 @@ and jnew_5 = (partInterfaceArray: Array<PartInterface>, dropSize: Int32, startIn
     
     
     
-    this.f_myFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(this))
+    this.f_myFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(JR.cast(this)))
     
         this.f_partInterfaceArray = partInterfaceArray
         this.f_startIndex = startIndex
@@ -104,12 +108,12 @@ JR.cast(jlate(JR.cast(font)))
         }
         if ((jstatic_XXStringWidth() == 0l)) {
             let mut l_XXString: String = "XX"
-            jstatic_XXStringWidth() = {
+            jset_XXStringWidth({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Font.jm_stringWidth"))
 JR.cast(jlate(JR.cast(font), JR.cast(l_XXString)))
-}
+})
         }
-        this.f_myFontProcessor = MyFontProcessor.jm_getInstance()
+        this.f_myFontProcessor = JR.cast(MyFontProcessor.jm_getInstance())
 }
     
 and jm_paint = (this: CountedLayersHudPaintable, graphics: JObject) => {
@@ -134,8 +138,8 @@ and jm_paint = (this: CountedLayersHudPaintable, graphics: JObject) => {
                 if (!(Int32.(<)(index, size))) break
             countedLayerInterfaceFactory = JR.cast(this.f_partInterfaceArray[Int32.toNumber(index)])
             if (Int32.(>)(CountedLayerInterfaceFactoryPart.jm_getTotal(countedLayerInterfaceFactory), 0l)) {
-                pickedUpLayerInterfaceFactoryInterface = CountedLayerInterfaceFactoryPart.jm_getCountedPickedUpLayerInterfaceFactory(countedLayerInterfaceFactory)
-                layerInterface = PickedUpLayerInterfaceFactoryInterface.jm_getIconLayer(pickedUpLayerInterfaceFactoryInterface)
+                pickedUpLayerInterfaceFactoryInterface = JR.cast(CountedLayerInterfaceFactoryPart.jm_getCountedPickedUpLayerInterfaceFactory(countedLayerInterfaceFactory))
+                layerInterface = JR.cast(PickedUpLayerInterfaceFactoryInterface.jm_getIconLayer(pickedUpLayerInterfaceFactoryInterface))
                 y = Int32.(+)(40l, (Int32.(*)(count, this.f_height)))
                 ignore(AllBinaryLayer.jm_setPosition(layerInterface, widthEdge, y, AllBinaryLayer.jm_getZP(layerInterface)))
                 ignore(AllBinaryLayer.jm_paint(layerInterface, graphics))
@@ -184,5 +188,6 @@ JR.registerLateBound("CountedLayersHudPaintable.set_f_myFontProcessor", (this: C
 JR.registerLateBound("CountedLayersHudPaintable.f_height", (this: CountedLayersHudPaintable) => this.f_height)
 JR.registerLateBound("CountedLayersHudPaintable.set_f_height", (this: CountedLayersHudPaintable, jvalue) => { this.f_height = jvalue; jvalue })
 JR.registerLateBound("CountedLayersHudPaintable.jstatic_XXStringWidth", jstatic_XXStringWidth)
+JR.registerLateBound("CountedLayersHudPaintable.jset_XXStringWidth", jset_XXStringWidth)
 
 

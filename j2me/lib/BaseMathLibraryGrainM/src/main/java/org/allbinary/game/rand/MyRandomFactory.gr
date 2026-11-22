@@ -55,6 +55,10 @@ and jstatic_instance = () => match (jcell_instance) {
     value
   },
 }
+
+and jset_instance = (value: MyRandomFactory) => {
+  jcell_instance = Some(value)
+}
     
 and jm_getInstance = () => {
         return jstatic_instance()
@@ -64,12 +68,12 @@ and jnew_0 = () => {
     let this = { jobject: JR.newJObject("MyRandomFactory"), f_mathUtil: JR.nullOf(), f_rand: JR.nullOf(), }
     this.f_mathUtil = JR.cast(MathUtil.jm_getInstance())
     
-        this.f_rand = Random.jnew_1(JR.currentTimeMillis())
+        this.f_rand = JR.cast(Random.jnew_1(JR.currentTimeMillis()))
     this
 }
     
 and jm_setSeed = (this: MyRandomFactory, seed: Int64) => {
-        this.f_rand = Random.jnew_1(seed)
+        this.f_rand = JR.cast(Random.jnew_1(seed))
 }
     
 and jm_getNextInt = (this: MyRandomFactory, range: Int32) => {
@@ -257,5 +261,6 @@ JR.registerLateBound("MyRandomFactory.f_mathUtil", (this: MyRandomFactory) => th
 JR.registerLateBound("MyRandomFactory.f_rand", (this: MyRandomFactory) => this.f_rand)
 JR.registerLateBound("MyRandomFactory.set_f_rand", (this: MyRandomFactory, jvalue) => { this.f_rand = jvalue; jvalue })
 JR.registerLateBound("MyRandomFactory.jstatic_instance", jstatic_instance)
+JR.registerLateBound("MyRandomFactory.jset_instance", jset_instance)
 
 

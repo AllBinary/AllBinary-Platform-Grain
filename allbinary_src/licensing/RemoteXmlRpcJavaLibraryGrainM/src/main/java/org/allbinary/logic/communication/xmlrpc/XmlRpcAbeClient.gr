@@ -84,6 +84,10 @@ and jstatic_isOnline = () => match (jcell_isOnline) {
     value
   },
 }
+
+and jset_isOnline = (value: Bool) => {
+  jcell_isOnline = Some(value)
+}
     
 and jnew_2 = (clientInfo: AbeClientInformationInterface, remoteMethod: String) => {
     let this = { jobject: JR.newJObject("XmlRpcAbeClient"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_remoteMethod: "", f_clientInfo: JR.nullOf(), f_client: JR.nullOf(), f_server: 0l, f_start: 0l, f_maxServers: 0l, f_isDone: false, f_START_SERVER: "", f_TRYING: "", f_SEP: "", f_CLIENT_INFO: "", f_RESULT: "", f_INVALID: "", f_EXCEPTION_IN_CLIENT: "", f_SERVER_REPORTED_ERROR: "", f_UNKNOWN_ERROR: "", f_TRYING_OTHER_SERVERS: "", f_HOST_NOT_RESOLVED_MSG: "", f_HOST_NOT_RESOLVED: "", f_myRandomFactory: JR.nullOf(), }
@@ -113,7 +117,7 @@ JR.cast(jlate())
     this.f_HOST_NOT_RESOLVED = "Host is unresolved"
     this.f_myRandomFactory = JR.cast(MyRandomFactory.jm_getInstance())
         this.f_remoteMethod = remoteMethod
-        this.f_clientInfo = clientInfo
+        this.f_clientInfo = JR.cast(clientInfo)
         if (Int32.(>)(AbeClientInformationInterface.jm_getNumberOfLicenseServers(clientInfo), 1l)) {
             this.f_maxServers = Int32.(-)(AbeClientInformationInterface.jm_getNumberOfLicenseServers(clientInfo), 2l)
             this.f_start = Int32.(+)(MyRandomFactory.jm_getAbsoluteNextInt(this.f_myRandomFactory, this.f_maxServers), 1l)
@@ -164,7 +168,7 @@ and jm_getClient = (this: XmlRpcAbeClient) => {
 }
     
 and jm_setClient = (this: XmlRpcAbeClient, client: JObject) => {
-        this.f_client = client
+        this.f_client = JR.cast(client)
 }
     
 and jm_getServer = (this: XmlRpcAbeClient) => {
@@ -246,5 +250,6 @@ JR.registerLateBound("XmlRpcAbeClient.f_HOST_NOT_RESOLVED_MSG", (this: XmlRpcAbe
 JR.registerLateBound("XmlRpcAbeClient.f_HOST_NOT_RESOLVED", (this: XmlRpcAbeClient) => this.f_HOST_NOT_RESOLVED)
 JR.registerLateBound("XmlRpcAbeClient.f_myRandomFactory", (this: XmlRpcAbeClient) => this.f_myRandomFactory)
 JR.registerLateBound("XmlRpcAbeClient.jstatic_isOnline", jstatic_isOnline)
+JR.registerLateBound("XmlRpcAbeClient.jset_isOnline", jset_isOnline)
 
 

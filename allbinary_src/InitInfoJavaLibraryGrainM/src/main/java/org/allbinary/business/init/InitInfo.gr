@@ -59,6 +59,10 @@ and jstatic_instance = () => match (jcell_instance) {
     value
   },
 }
+
+and jset_instance = (value: InitInfo) => {
+  jcell_instance = Some(value)
+}
     
 and jm_getInstance = () => {
         return jstatic_instance()
@@ -158,8 +162,8 @@ JR.cast(jlate(JR.cast(initInfoEntity)))
 and jm_set_1 = (this: InitInfo, hashMap: HashMap) => {
         {
             this.f_testing = JR.cast(HashMap.jm_get_1(hashMap, this.f_TESTING))
-            this.f_mainPath = AbPath.jnew_2(JR.cast(HashMap.jm_get_1(hashMap, this.f_MAINPATH)), StringUtil.jm_getInstance().f_EMPTY_STRING)
-            this.f_testHtmlPath = AbPath.jnew_2(JR.cast(HashMap.jm_get_1(hashMap, this.f_TESTHTMLPATH)), StringUtil.jm_getInstance().f_EMPTY_STRING)
+            this.f_mainPath = JR.cast(AbPath.jnew_2(JR.cast(HashMap.jm_get_1(hashMap, this.f_MAINPATH)), StringUtil.jm_getInstance().f_EMPTY_STRING))
+            this.f_testHtmlPath = JR.cast(AbPath.jnew_2(JR.cast(HashMap.jm_get_1(hashMap, this.f_TESTHTMLPATH)), StringUtil.jm_getInstance().f_EMPTY_STRING))
         }
 }
     
@@ -230,11 +234,11 @@ and jm_setTesting = (this: InitInfo, value: String) => {
 }
     
 and jm_setTestHtmlPath = (this: InitInfo, value: AbPath) => {
-        this.f_testHtmlPath = value
+        this.f_testHtmlPath = JR.cast(value)
 }
     
 and jm_setMainPath = (this: InitInfo, value: AbPath) => {
-        this.f_mainPath = value
+        this.f_mainPath = JR.cast(value)
 }
     
 and jm_isMainPathValid = (this: InitInfo, abPath: AbPath) => {
@@ -293,5 +297,6 @@ JR.registerLateBound("InitInfo.set_f_testHtmlPath", (this: InitInfo, jvalue) => 
 JR.registerLateBound("InitInfo.f_hasRead", (this: InitInfo) => this.f_hasRead)
 JR.registerLateBound("InitInfo.set_f_hasRead", (this: InitInfo, jvalue) => { this.f_hasRead = jvalue; jvalue })
 JR.registerLateBound("InitInfo.jstatic_instance", jstatic_instance)
+JR.registerLateBound("InitInfo.jset_instance", jset_instance)
 
 

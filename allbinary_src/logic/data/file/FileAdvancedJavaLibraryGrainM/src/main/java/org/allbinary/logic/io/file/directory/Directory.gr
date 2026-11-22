@@ -50,6 +50,10 @@ and jstatic_instance = () => match (jcell_instance) {
     value
   },
 }
+
+and jset_instance = (value: Directory) => {
+  jcell_instance = Some(value)
+}
     
 and jm_getInstance = () => {
         return jstatic_instance()
@@ -61,18 +65,18 @@ and jnew_0 = () => {
     this
 }
     
-and jm_create_1 = (this: Directory, directoryAbPath: AbPath) => {
-        return jm_create_1(this, JR.cast(AbPath.jm_toFileSystemString(directoryAbPath)))
+and jm_create_1_AbPath_ = (this: Directory, directoryAbPath: AbPath) => {
+        return jm_create_1_String_(this, JR.cast(AbPath.jm_toFileSystemString(directoryAbPath)))
 }
     
-and jm_remove_1 = (this: Directory, existingDirectoryAbPath: AbPath) => {
-        ignore(jm_remove_1(this, JR.cast(AbPath.jm_toFileSystemString(existingDirectoryAbPath))))
+and jm_remove_1_AbPath_ = (this: Directory, existingDirectoryAbPath: AbPath) => {
+        ignore(jm_remove_1_String_(this, JR.cast(AbPath.jm_toFileSystemString(existingDirectoryAbPath))))
 }
     
-and jm_create_1 = (this: Directory, directory: String) => {
+and jm_create_1_String_ = (this: Directory, directory: String) => {
         {
             let mut directoryFile: JObject = JR.cast({
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("FileFactory.jm_getInstance"))
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("FileFactory.jm_getInstance_1"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("FileFactory.jm_getInstance"))
 JR.cast(jlate())
@@ -98,9 +102,9 @@ JR.cast(jlate(JR.cast(directoryFile)))
     return false
 }
     
-and jm_remove_1 = (this: Directory, existingDirectory: String) => {
+and jm_remove_1_String_ = (this: Directory, existingDirectory: String) => {
         let mut existingDirectoryFile: JObject = JR.cast({
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("FileFactory.jm_getInstance"))
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("FileFactory.jm_getInstance_1"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("FileFactory.jm_getInstance"))
 JR.cast(jlate())
@@ -129,11 +133,11 @@ JR.cast(jlate(JR.cast("Successfully Removed: " ++ existingDirectory), JR.cast("D
         }
 }
     
-and jm_search_2 = (this: Directory, fileFilter: FileFilter, file: JObject) => {
-        return jm_search_3(this, fileFilter, file, false)
+and jm_search_2_FileFilter_AbFile_ = (this: Directory, fileFilter: FileFilter, file: JObject) => {
+        return jm_search_3_FileFilter_AbFile_boolean_(this, fileFilter, file, false)
 }
     
-and jm_search_3 = (this: Directory, fileFilter: FileFilter, file: JObject, isRecursiveSearch: Bool) => {
+and jm_search_3_FileFilter_AbFile_boolean_ = (this: Directory, fileFilter: FileFilter, file: JObject, isRecursiveSearch: Bool) => {
         let mut fileList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
         let mut recursiveFileList: BasicArrayList = JR.nullOf()
         if ({
@@ -164,9 +168,9 @@ JR.cast(jlate(JR.cast(fileArray)))
                     }
                     jfirst = false
                     if (!(Int32.(<)(index, size))) break
-                ignore(BasicArrayList.jm_add(fileList, files[Int32.toNumber(index)]))
+                ignore(BasicArrayList.jm_add(fileList, JR.cast(files[Int32.toNumber(index)])))
                 if (isRecursiveSearch) {
-                    recursiveFileList = jm_search_3(this, fileFilter, files[Int32.toNumber(index)], isRecursiveSearch)
+                    recursiveFileList = JR.cast(jm_search_3_FileFilter_AbFile_boolean_(this, fileFilter, files[Int32.toNumber(index)], isRecursiveSearch))
                     ignore(BasicArrayList.jm_addAllList(fileList, recursiveFileList))
                 }
                 }
@@ -176,10 +180,10 @@ JR.cast(jlate(JR.cast(fileArray)))
 }
     
 and jm_search_1 = (this: Directory, file: JObject) => {
-        return jm_search_2(this, JR.cast(file), false)
+        return jm_search_2_AbFile_boolean_(this, JR.cast(file), false)
 }
     
-and jm_search_2 = (this: Directory, file: JObject, isRecursiveSearch: Bool) => {
+and jm_search_2_AbFile_boolean_ = (this: Directory, file: JObject, isRecursiveSearch: Bool) => {
         let mut fileList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
         let mut recursiveFileList: BasicArrayList = JR.nullOf()
         if ({
@@ -209,9 +213,9 @@ JR.cast(jlate(JR.cast(fileArray)))
                     }
                     jfirst = false
                     if (!(Int32.(<)(index, Int32.fromNumber(Array.length(files))))) break
-                ignore(BasicArrayList.jm_add(fileList, files[Int32.toNumber(index)]))
+                ignore(BasicArrayList.jm_add(fileList, JR.cast(files[Int32.toNumber(index)])))
                 if (isRecursiveSearch) {
-                    recursiveFileList = jm_search_2(this, files[Int32.toNumber(index)], JR.cast(isRecursiveSearch))
+                    recursiveFileList = JR.cast(jm_search_2_AbFile_boolean_(this, JR.cast(files[Int32.toNumber(index)]), JR.cast(isRecursiveSearch)))
                     ignore(BasicArrayList.jm_addAllList(fileList, recursiveFileList))
                 }
                 }
@@ -220,11 +224,11 @@ JR.cast(jlate(JR.cast(fileArray)))
         return fileList
 }
     
-and jm_search_2 = (this: Directory, searchValue: String, file: JObject) => {
-        return jm_search_3(this, JR.cast(searchValue), file, false)
+and jm_search_2_String_AbFile_ = (this: Directory, searchValue: String, file: JObject) => {
+        return jm_search_3_String_AbFile_boolean_(this, JR.cast(searchValue), file, false)
 }
     
-and jm_search_3 = (this: Directory, searchValue: String, file: JObject, isRecursiveSearch: Bool) => {
+and jm_search_3_String_AbFile_boolean_ = (this: Directory, searchValue: String, file: JObject, isRecursiveSearch: Bool) => {
         let mut fileList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
         let mut recursiveFileList: BasicArrayList = JR.nullOf()
         if ({
@@ -254,11 +258,14 @@ JR.cast(jlate(JR.cast(fileArray)))
                     }
                     jfirst = false
                     if (!(Int32.(<)(index, Int32.fromNumber(Array.length(files))))) break
-                if (Int32.(>=)(JR.indexOf(JR.className(JR.cast(files[Int32.toNumber(index)])), searchValue), 0l)) {
-                    ignore(BasicArrayList.jm_add(fileList, files[Int32.toNumber(index)]))
+                if (Int32.(>=)(JR.indexOf({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
+JR.cast(jlate(JR.cast(files[Int32.toNumber(index)])))
+}, searchValue), 0l)) {
+                    ignore(BasicArrayList.jm_add(fileList, JR.cast(files[Int32.toNumber(index)])))
                 }
                 if (isRecursiveSearch) {
-                    recursiveFileList = jm_search_3(this, JR.cast(searchValue), files[Int32.toNumber(index)], isRecursiveSearch)
+                    recursiveFileList = JR.cast(jm_search_3_String_AbFile_boolean_(this, JR.cast(searchValue), files[Int32.toNumber(index)], isRecursiveSearch))
                     ignore(BasicArrayList.jm_addAllList(fileList, recursiveFileList))
                 }
                 }
@@ -267,11 +274,11 @@ JR.cast(jlate(JR.cast(fileArray)))
         return fileList
 }
     
-and jm_search_2 = (this: Directory, level: Int32, file: JObject) => {
-        return jm_search_3(this, JR.cast(level), file, false)
+and jm_search_2_int_AbFile_ = (this: Directory, level: Int32, file: JObject) => {
+        return jm_search_3_int_AbFile_boolean_(this, JR.cast(level), file, false)
 }
     
-and jm_search_3 = (this: Directory, level: Int32, file: JObject, isRecursiveSearch: Bool) => {
+and jm_search_3_int_AbFile_boolean_ = (this: Directory, level: Int32, file: JObject, isRecursiveSearch: Bool) => {
         let mut fileList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
         let mut recursiveFileList: BasicArrayList = JR.nullOf()
         if ({
@@ -301,11 +308,11 @@ JR.cast(jlate(JR.cast(fileArray)))
                     }
                     jfirst = false
                     if (!(Int32.(<)(index, Int32.fromNumber(Array.length(files))))) break
-                ignore(BasicArrayList.jm_add(fileList, files[Int32.toNumber(index)]))
+                ignore(BasicArrayList.jm_add(fileList, JR.cast(files[Int32.toNumber(index)])))
                 if (Int32.(<=)(level, 0l)) {
                     return fileList
                 }
-                recursiveFileList = jm_search_3(this, Int32.(-)(level, 1l), files[Int32.toNumber(index)], isRecursiveSearch)
+                recursiveFileList = JR.cast(jm_search_3_int_AbFile_boolean_(this, Int32.(-)(level, 1l), files[Int32.toNumber(index)], isRecursiveSearch))
                 ignore(BasicArrayList.jm_addAllList(fileList, recursiveFileList))
                 }
             }
@@ -315,18 +322,19 @@ JR.cast(jlate(JR.cast(fileArray)))
 
 JR.registerLateBound("Directory.jnew_0", jnew_0)
 JR.registerLateBound("Directory.jm_getInstance", jm_getInstance)
-JR.registerLateBound("Directory.jm_create_1", jm_create_1)
-JR.registerLateBound("Directory.jm_remove_1", jm_remove_1)
-JR.registerLateBound("Directory.jm_create_1", jm_create_1)
-JR.registerLateBound("Directory.jm_remove_1", jm_remove_1)
-JR.registerLateBound("Directory.jm_search_2", jm_search_2)
-JR.registerLateBound("Directory.jm_search_3", jm_search_3)
+JR.registerLateBound("Directory.jm_create_1_AbPath_", jm_create_1_AbPath_)
+JR.registerLateBound("Directory.jm_remove_1_AbPath_", jm_remove_1_AbPath_)
+JR.registerLateBound("Directory.jm_create_1_String_", jm_create_1_String_)
+JR.registerLateBound("Directory.jm_remove_1_String_", jm_remove_1_String_)
+JR.registerLateBound("Directory.jm_search_2_FileFilter_AbFile_", jm_search_2_FileFilter_AbFile_)
+JR.registerLateBound("Directory.jm_search_3_FileFilter_AbFile_boolean_", jm_search_3_FileFilter_AbFile_boolean_)
 JR.registerLateBound("Directory.jm_search_1", jm_search_1)
-JR.registerLateBound("Directory.jm_search_2", jm_search_2)
-JR.registerLateBound("Directory.jm_search_2", jm_search_2)
-JR.registerLateBound("Directory.jm_search_3", jm_search_3)
-JR.registerLateBound("Directory.jm_search_2", jm_search_2)
-JR.registerLateBound("Directory.jm_search_3", jm_search_3)
+JR.registerLateBound("Directory.jm_search_2_AbFile_boolean_", jm_search_2_AbFile_boolean_)
+JR.registerLateBound("Directory.jm_search_2_String_AbFile_", jm_search_2_String_AbFile_)
+JR.registerLateBound("Directory.jm_search_3_String_AbFile_boolean_", jm_search_3_String_AbFile_boolean_)
+JR.registerLateBound("Directory.jm_search_2_int_AbFile_", jm_search_2_int_AbFile_)
+JR.registerLateBound("Directory.jm_search_3_int_AbFile_boolean_", jm_search_3_int_AbFile_boolean_)
 JR.registerLateBound("Directory.jstatic_instance", jstatic_instance)
+JR.registerLateBound("Directory.jset_instance", jset_instance)
 
 

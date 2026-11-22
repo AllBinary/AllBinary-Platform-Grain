@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../javax/microedition/lcdui/CommandListener.gr" include CommandListener
+use CommandListener.{ type CommandListener }
 from "../../../../org/allbinary/MIDPUtil.gr" include MIDPUtil
 use MIDPUtil.{ type MIDPUtil }
 from "../../../../org/allbinary/game/commands/GameCommandsFactory.gr" include GameCommandsFactory
@@ -59,9 +61,13 @@ JR.cast(jlate())
     value
   },
 }
+
+and jset_FORM = (value: JObject) => {
+  jcell_FORM = Some(value)
+}
     
 and jm_createForm = (commandListener: CommandListener, title: String, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
-        jstatic_FORM() = JR.cast(jnew_4(commandListener, title, backgrounBasicColor, foregroundBasicColor))
+        jset_FORM(JR.cast(jnew_4(commandListener, title, backgrounBasicColor, foregroundBasicColor)))
         return jstatic_FORM()
 }
     
@@ -118,5 +124,6 @@ JR.registerLateBound("SaveGameForm.jm_getInstance", jm_getInstance)
 JR.registerLateBound("SaveGameForm.jm_initCommands", jm_initCommands)
 JR.registerLateBound("SaveGameForm.f_meUtil", (this: SaveGameForm) => this.f_meUtil)
 JR.registerLateBound("SaveGameForm.jstatic_FORM", jstatic_FORM)
+JR.registerLateBound("SaveGameForm.jset_FORM", jset_FORM)
 
 

@@ -73,6 +73,10 @@ and jstatic_AI_VISITOR = () => match (jcell_AI_VISITOR) {
   },
 }
 
+and jset_AI_VISITOR = (value: Int32) => {
+  jcell_AI_VISITOR = Some(value)
+}
+
 and jstatic_ID = () => match (jcell_ID) {
   Some(value) => value,
   None => {
@@ -80,6 +84,10 @@ and jstatic_ID = () => match (jcell_ID) {
     jcell_ID = Some(value)
     value
   },
+}
+
+and jset_ID = (value: Int32) => {
+  jcell_ID = Some(value)
 }
     
 and jnew_2 = (ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
@@ -94,8 +102,8 @@ JR.cast(jlate())
     
     
     this.f_lastKey = Int32.(-)(1l, Int32.(+)(1l, 1l))
-        this.f_ownerLayerInterface = ownerLayerInterface
-        this.f_gameInput = gameInput
+        this.f_ownerLayerInterface = JR.cast(ownerLayerInterface)
+        this.f_gameInput = JR.cast(gameInput)
     this
 }
     
@@ -105,7 +113,7 @@ and jm_processAI = (this: BasicAI, allBinaryLayerManager: AllBinaryLayerManager)
     
 and jm_processKeyAI = (this: BasicAI, key: Int32) => {
         if ((key != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
-            ignore(GameInput.jm_add(this.f_gameInput, GameKeyEventFactory.jm_getInstanceForKey(this.f_gameKeyEventFactory, JR.cast(this), key)))
+            ignore(GameInput.jm_add(this.f_gameInput, JR.cast(GameKeyEventFactory.jm_getInstanceForKey(this.f_gameKeyEventFactory, JR.cast(this), key))))
         }
 }
     
@@ -126,7 +134,7 @@ and jm_getGameInput = (this: BasicAI) => {
 }
     
 and jm_getName = (this: BasicAI) => {
-        return this.jobject.cls
+        return JR.className(this)
 }
     
 and jm_toString = (this: BasicAI) => {
@@ -160,6 +168,8 @@ JR.registerLateBound("BasicAI.f_gameInput", (this: BasicAI) => this.f_gameInput)
 JR.registerLateBound("BasicAI.f_lastKey", (this: BasicAI) => this.f_lastKey)
 JR.registerLateBound("BasicAI.set_f_lastKey", (this: BasicAI, jvalue) => { this.f_lastKey = jvalue; jvalue })
 JR.registerLateBound("BasicAI.jstatic_AI_VISITOR", jstatic_AI_VISITOR)
+JR.registerLateBound("BasicAI.jset_AI_VISITOR", jset_AI_VISITOR)
 JR.registerLateBound("BasicAI.jstatic_ID", jstatic_ID)
+JR.registerLateBound("BasicAI.jset_ID", jset_ID)
 
 

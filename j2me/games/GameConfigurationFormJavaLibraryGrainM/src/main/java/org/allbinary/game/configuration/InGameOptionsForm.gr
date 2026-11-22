@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../javax/microedition/lcdui/CommandListener.gr" include CommandListener
+use CommandListener.{ type CommandListener }
 from "../../../../org/allbinary/game/commands/GameCommandsFactory.gr" include GameCommandsFactory
 use GameCommandsFactory.{ type GameCommandsFactory }
 from "../../../../org/allbinary/game/configuration/feature/GameFeatureFormUtil.gr" include GameFeatureFormUtil
@@ -65,6 +67,10 @@ JR.cast(jlate())
   },
 }
 
+and jset_DISPLAY = (value: JObject) => {
+  jcell_DISPLAY = Some(value)
+}
+
 and jstatic_SAVE = () => match (jcell_SAVE) {
   Some(value) => value,
   None => {
@@ -78,6 +84,10 @@ JR.cast(jlate())
     jcell_SAVE = Some(value)
     value
   },
+}
+
+and jset_SAVE = (value: JObject) => {
+  jcell_SAVE = Some(value)
 }
 
 and jstatic_DEFAULT = () => match (jcell_DEFAULT) {
@@ -94,6 +104,10 @@ JR.cast(jlate())
     value
   },
 }
+
+and jset_DEFAULT = (value: JObject) => {
+  jcell_DEFAULT = Some(value)
+}
     
 and jnew_4 = (commandListener: CommandListener, title: String, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
     let this = { jobject: JR.newJObject("InGameOptionsForm"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_repaintProcessor: JR.jnull, f_commandStack: JR.jnull, }
@@ -109,11 +123,17 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 })))
 })
         let mut gameFeatureFormUtil: GameFeatureFormUtil = JR.cast(GameFeatureFormUtil.jm_getInstance())
-        ignore(GameFeatureFormUtil.jm_addChoiceGroup(gameFeatureFormUtil, JR.cast(this), JR.className(JR.cast(InGameFeatureChoiceGroups.jm_getExclusiveInstance())), {
+        ignore(GameFeatureFormUtil.jm_addChoiceGroup(gameFeatureFormUtil, JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("InGameFeatureChoiceGroups.jm_get"))
+JR.cast(jlate(JR.cast(InGameFeatureChoiceGroups.jm_getExclusiveInstance())))
+}), {
 let jlate: () => JObject = JR.cast(JR.lateBound("Choice.jstatic_EXCLUSIVE"))
 JR.cast(jlate())
 }))
-        ignore(GameFeatureFormUtil.jm_addChoiceGroup(gameFeatureFormUtil, JR.cast(this), JR.className(JR.cast(InGameFeatureChoiceGroups.jm_getMultipleInstance())), {
+        ignore(GameFeatureFormUtil.jm_addChoiceGroup(gameFeatureFormUtil, JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("InGameFeatureChoiceGroups.jm_get"))
+JR.cast(jlate(JR.cast(InGameFeatureChoiceGroups.jm_getMultipleInstance())))
+}), {
 let jlate: () => JObject = JR.cast(JR.lateBound("Choice.jstatic_MULTIPLE"))
 JR.cast(jlate())
 }))
@@ -140,7 +160,10 @@ JR.cast(jlate(JR.cast(this), JR.cast(jstatic_DEFAULT())))
 JR.registerLateBound("InGameOptionsForm.jnew_4", jnew_4)
 JR.registerLateBound("InGameOptionsForm.jm_initCommands", jm_initCommands)
 JR.registerLateBound("InGameOptionsForm.jstatic_DISPLAY", jstatic_DISPLAY)
+JR.registerLateBound("InGameOptionsForm.jset_DISPLAY", jset_DISPLAY)
 JR.registerLateBound("InGameOptionsForm.jstatic_SAVE", jstatic_SAVE)
+JR.registerLateBound("InGameOptionsForm.jset_SAVE", jset_SAVE)
 JR.registerLateBound("InGameOptionsForm.jstatic_DEFAULT", jstatic_DEFAULT)
+JR.registerLateBound("InGameOptionsForm.jset_DEFAULT", jset_DEFAULT)
 
 

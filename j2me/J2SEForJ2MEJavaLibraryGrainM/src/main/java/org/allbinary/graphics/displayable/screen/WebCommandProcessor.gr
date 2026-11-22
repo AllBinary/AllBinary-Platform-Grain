@@ -29,6 +29,8 @@ from "../../../../../java/awt/Desktop.gr" include Desktop
 use Desktop.{ type Desktop }
 from "../../../../../java/net/URI.gr" include URI
 use URI.{ type URI }
+from "../../../../../javax/microedition/lcdui/CommandListener.gr" include CommandListener
+use CommandListener.{ type CommandListener }
 from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
 use CommonStrings.{ type CommonStrings }
 from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
@@ -58,6 +60,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: WebCommandProcessor) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("WebCommandProcessor"), f_logUtil: JR.jnull, f_aboutCommandProcessor: JR.nullOf(), f_list: JR.nullOf(), }
     this.f_logUtil = JR.cast({
@@ -75,8 +81,8 @@ and jm_getInstance = () => {
     
 and jm_process = (this: WebCommandProcessor, midletCommandListener: CommandListener, command: JObject, canvas: JObject) => {
         {
-            if ((Desktop.jm_isDesktopSupported() && JR.className(JR.cast(Desktop.jm_getDesktop())))) {
-                ignore(JR.className(JR.cast(Desktop.jm_getDesktop())))
+            if ((Desktop.jm_isDesktopSupported_0() && JR.className(JR.cast(Desktop.jm_getDesktop_0())))) {
+                ignore(JR.className(JR.cast(Desktop.jm_getDesktop_0())))
             }
         }
 }
@@ -88,5 +94,6 @@ JR.registerLateBound("WebCommandProcessor.f_logUtil", (this: WebCommandProcessor
 JR.registerLateBound("WebCommandProcessor.f_aboutCommandProcessor", (this: WebCommandProcessor) => this.f_aboutCommandProcessor)
 JR.registerLateBound("WebCommandProcessor.f_list", (this: WebCommandProcessor) => this.f_list)
 JR.registerLateBound("WebCommandProcessor.jstatic_instance", jstatic_instance)
+JR.registerLateBound("WebCommandProcessor.jset_instance", jset_instance)
 
 

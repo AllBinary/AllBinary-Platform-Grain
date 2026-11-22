@@ -27,6 +27,8 @@ from "../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
 from "../../../java/io/InputStream.gr" include InputStream
 use InputStream.{ type InputStream }
+from "../../../javax/microedition/lcdui/NullImage.gr" include NullImage
+use NullImage.{ type NullImage }
 from "../../../org/allbinary/J2MEUtil.gr" include J2MEUtil
 use J2MEUtil.{ type J2MEUtil }
 from "../../../org/allbinary/game/gd/resource/GDResources.gr" include GDResources
@@ -71,6 +73,10 @@ and jstatic_NULL_IMAGE_CACHE = () => match (jcell_NULL_IMAGE_CACHE) {
     jcell_NULL_IMAGE_CACHE = Some(value)
     value
   },
+}
+
+and jset_NULL_IMAGE_CACHE = (value: ImageCache) => {
+  jcell_NULL_IMAGE_CACHE = Some(value)
 }
     
 and jnew_0 = () => {
@@ -132,10 +138,10 @@ JR.cast(jlate(JR.cast(this.f_tsUtil)))
 })
                 this.f_volume = JR.cast(0l)
             }
-            image = {
+            image = JR.cast({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageCacheBase.jm_createImage"))
 JR.cast(jlate(JR.cast(this), JR.cast(caller), JR.cast(width), JR.cast(height)))
-}
+})
             let mut widths: Array<Int32> = JR.cast(this.f_widths)
             if (Int32.(>)(JR.cast(this.f_nextIndex), Int32.(-)(Int32.fromNumber(Array.length(widths)), 1l))) {
                 if ((foundIndex == Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
@@ -144,7 +150,10 @@ JR.cast(jlate(JR.cast(this), JR.cast(caller), JR.cast(width), JR.cast(height)))
                     JR.cast(this.f_heights)[Int32.toNumber(JR.cast(this.f_nextIndex))] = height
                     this.f_nextIndex = Int32.(+)(this.f_nextIndex, 1l)
                 }
-                ignore(JR.className(JR.cast(JR.cast(this.f_listOfList)[Int32.toNumber(foundIndex)])))
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_add"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_listOfList)[Int32.toNumber(foundIndex)]), JR.cast(image)))
+})
             }
         }
         return image
@@ -168,10 +177,10 @@ JR.cast(jlate(JR.cast(resourceUtil), JR.cast(JR.cast(key))))
                 fail JR.toStringOf(JR.newJObject("RuntimeException"))
             }
             {
-                image = {
+                image = JR.cast({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageCacheBase.jm_createImageFromInputStream"))
 JR.cast(jlate(JR.cast(this), JR.cast(key), JR.cast(resourceInputStream)))
-}
+})
             }
             if (J2MEUtil.jm_isHTML()) {
                 void
@@ -214,5 +223,6 @@ JR.registerLateBound("ImageCache.jm_isLazy", jm_isLazy)
 JR.registerLateBound("ImageCache.f_commonStrings", (this: ImageCache) => this.f_commonStrings)
 JR.registerLateBound("ImageCache.f_tsUtil", (this: ImageCache) => this.f_tsUtil)
 JR.registerLateBound("ImageCache.jstatic_NULL_IMAGE_CACHE", jstatic_NULL_IMAGE_CACHE)
+JR.registerLateBound("ImageCache.jset_NULL_IMAGE_CACHE", jset_NULL_IMAGE_CACHE)
 
 

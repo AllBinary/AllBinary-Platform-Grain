@@ -48,7 +48,13 @@ and jnew_0 = () => {
 and jm_isOnScreen = (layer: AllBinaryLayer) => {
         let mut displayInfo: DisplayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
         let mut viewPosition: ViewPositionBase = JR.cast(AllBinaryLayer.jm_getViewPosition(layer))
-        return jm_isInside(ViewPositionBase.jm_getX(viewPosition), ViewPositionBase.jm_getY(viewPosition), ViewPositionBase.jm_getX2(viewPosition), ViewPositionBase.jm_getY2(viewPosition), 0l, 0l, DisplayInfoSingleton.jm_getLastWidth(displayInfo), DisplayInfoSingleton.jm_getLastHeight(displayInfo))
+        return jm_isInside({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getX"))
+JR.cast(jlate(JR.cast(viewPosition)))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getY"))
+JR.cast(jlate(JR.cast(viewPosition)))
+}, ViewPositionBase.jm_getX2(viewPosition), ViewPositionBase.jm_getY2(viewPosition), 0l, 0l, DisplayInfoSingleton.jm_getLastWidth(displayInfo), DisplayInfoSingleton.jm_getLastHeight(displayInfo))
 }
     
 and jm_isInside = (rectX1: Int32, rectY1: Int32, rectX2: Int32, rectY2: Int32, rect2X1: Int32, rect2Y1: Int32, rect2X2: Int32, rect2Y2: Int32) => {

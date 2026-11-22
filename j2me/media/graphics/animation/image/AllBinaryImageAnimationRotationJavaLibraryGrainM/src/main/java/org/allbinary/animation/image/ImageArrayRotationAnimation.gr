@@ -63,7 +63,7 @@ provide let rec jclassName = () => "ImageArrayRotationAnimation"
     
 and jm_createAnimation = (anyType: JObject, animationBehavior: AnimationBehavior) => {
         let mut imageRotationAnimationInfo: ImageArrayRotationAnimationInfo = JR.cast(anyType)
-        return jnew_4(ImageArrayRotationAnimationInfo.jm_getImageArray(imageRotationAnimationInfo), ImageArrayRotationAnimationInfo.jm_getAngleInfoP(imageRotationAnimationInfo), ImageArrayRotationAnimationInfo.jm_getTotalAngle(imageRotationAnimationInfo), animationBehavior)
+        return jnew_4(ImageArrayRotationAnimationInfo.jm_getImageArray(imageRotationAnimationInfo), JR.cast(ImageArrayRotationAnimationInfo.jm_getAngleInfoP(imageRotationAnimationInfo)), ImageArrayRotationAnimationInfo.jm_getTotalAngle(imageRotationAnimationInfo), animationBehavior)
 }
     
 and jnew_4 = (imageArray: Array<JObject>, angleInfo: AngleInfo, totalAngle: Int32, animationBehavior: AnimationBehavior) => {
@@ -75,7 +75,10 @@ and jnew_4 = (imageArray: Array<JObject>, angleInfo: AngleInfo, totalAngle: Int3
 }
     
 and jm_initImageArray = (this: ImageArrayRotationAnimation, imageArray: Array<JObject>, angleInfo: AngleInfo, totalAngle: Int32) => {
-        this.f_expectedTotalFrames = Int32.(/)(totalAngle, JR.className(JR.cast(AngleInfo.jm_getAngleIncrementInfo(JR.cast(this.f_angleInfo)))))
+        this.f_expectedTotalFrames = Int32.(/)(totalAngle, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AngleIncrementInfo.jm_getAngleIncrement"))
+JR.cast(jlate(JR.cast(AngleInfo.jm_getAngleIncrementInfo(JR.cast(this.f_angleInfo)))))
+})
         ignore(AngleInfo.jm_adjustAngle(JR.cast(this.f_angleInfo), 0l))
         if ((this.f_expectedTotalFrames != {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RotationAnimation.jm_getSize"))

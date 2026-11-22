@@ -81,17 +81,17 @@ and jnew_9 = (animationInterface: Animation, movieIndexedAnimationInterface: Ind
     
     
         void
-        this.f_animationInterface = animationInterface
-        this.f_movieIndexedAnimationInterface = movieIndexedAnimationInterface
+        this.f_animationInterface = JR.cast(animationInterface)
+        this.f_movieIndexedAnimationInterface = JR.cast(movieIndexedAnimationInterface)
         this.f_captionDx = captionDx
         this.f_captionDy = captionDy
         this.f_dx = dx
         this.f_dy = dy
         this.f_time = time
-        this.f_END_EVENT = AllBinaryEventObject.jnew_1(this)
+        this.f_END_EVENT = JR.cast(AllBinaryEventObject.jnew_1(JR.cast(this)))
         let mut timePerFrame: Int32 = Int32.(/)(this.f_time, jm_getSize(this))
-        this.f_timeDelayHelper = TimeDelayHelper.jnew_1(timePerFrame)
-        this.f_player = player
+        this.f_timeDelayHelper = JR.cast(TimeDelayHelper.jnew_1(timePerFrame))
+        this.f_player = JR.cast(player)
         ignore({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Player.jm_start"))
 JR.cast(jlate(JR.cast(this.f_player)))
@@ -101,10 +101,16 @@ JR.cast(jlate(JR.cast(this.f_player)))
     
 and jm_nextFrame = (this: CaptionIndexedAnimation) => {
         if (TimeDelayHelper.jm_isTime(this.f_timeDelayHelper, GameTickTimeDelayHelperFactory.jm_getInstance().f_startTime)) {
-            ignore(IndexedAnimation.jm_nextFrame(this.f_movieIndexedAnimationInterface))
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Animation.jm_nextFrame"))
+JR.cast(jlate(JR.cast(this.f_movieIndexedAnimationInterface)))
+})
         }
         if (jm_isLastFrame(this)) {
-            ignore(AnimationEventHandler.jm_fireEvent(AnimationEventHandler.jm_getInstance(), this.f_END_EVENT))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_fireEvent"))
+JR.cast(jlate(JR.cast(AnimationEventHandler.jm_getInstance()), JR.cast(this.f_END_EVENT)))
+})
         }
 }
     
@@ -142,12 +148,18 @@ and jm_getSequence = (this: CaptionIndexedAnimation) => {
     
 and jm_paintXY = (this: CaptionIndexedAnimation, graphics: JObject, x: Int32, y: Int32) => {
         ignore(Animation.jm_paintXY(this.f_animationInterface, graphics, Int32.(+)(x, this.f_captionDx), Int32.(+)(y, this.f_captionDy)))
-        ignore(IndexedAnimation.jm_paintXY(this.f_movieIndexedAnimationInterface, graphics, Int32.(+)(Int32.(+)(x, this.f_captionDx), this.f_dx), Int32.(+)(Int32.(+)(y, this.f_captionDy), this.f_dy)))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Animation.jm_paintXY"))
+JR.cast(jlate(JR.cast(this.f_movieIndexedAnimationInterface), JR.cast(graphics), JR.cast(Int32.(+)(Int32.(+)(x, this.f_captionDx), this.f_dx)), JR.cast(Int32.(+)(Int32.(+)(y, this.f_captionDy), this.f_dy))))
+})
 }
     
 and jm_paintThreedXYZ = (this: CaptionIndexedAnimation, graphics: JObject, x: Int32, y: Int32, z: Int32) => {
         ignore(Animation.jm_paintThreedXYZ(this.f_animationInterface, graphics, Int32.(+)(x, this.f_captionDx), Int32.(+)(y, this.f_captionDy), z))
-        ignore(IndexedAnimation.jm_paintThreedXYZ(this.f_movieIndexedAnimationInterface, graphics, Int32.(+)(Int32.(+)(x, this.f_captionDx), this.f_dx), Int32.(+)(Int32.(+)(y, this.f_captionDy), this.f_dy), z))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Animation.jm_paintThreedXYZ"))
+JR.cast(jlate(JR.cast(this.f_movieIndexedAnimationInterface), JR.cast(graphics), JR.cast(Int32.(+)(Int32.(+)(x, this.f_captionDx), this.f_dx)), JR.cast(Int32.(+)(Int32.(+)(y, this.f_captionDy), this.f_dy)), JR.cast(z)))
+})
 }
 
 JR.registerLateBound("CaptionIndexedAnimation.jnew_9", jnew_9)

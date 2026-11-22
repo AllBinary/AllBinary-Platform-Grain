@@ -25,6 +25,10 @@ from "char" include Char
 from "array" include Array
 from "../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../javax/microedition/lcdui/CommandListener.gr" include CommandListener
+use CommandListener.{ type CommandListener }
+from "../../../../javax/microedition/lcdui/NullImage.gr" include NullImage
+use NullImage.{ type NullImage }
 from "../../../../org/allbinary/MIDPUtil.gr" include MIDPUtil
 use MIDPUtil.{ type MIDPUtil }
 from "../../../../org/allbinary/game/commands/GameCommandsFactory.gr" include GameCommandsFactory
@@ -96,7 +100,10 @@ JR.cast(jlate(JR.cast(this), JR.cast(gameCommandsFactory.f_CLOSE_AND_SHOW_GAME_C
 }
     
 and jm_update = (this: LoadGameForm) => {
-        let mut list: BasicArrayList = JR.cast(GamePersistanceSingleton.jm_getIds(GamePersistanceSingleton.jm_getInstance()))
+        let mut list: BasicArrayList = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicPersitance.jm_getIds"))
+JR.cast(jlate(JR.cast(GamePersistanceSingleton.jm_getInstance())))
+})
         ignore(jm_deleteAll(this))
         if (Int32.(>)(BasicArrayList.jm_size(list), 0l)) {
             ignore(jm_add(this, list, "Select A Saved Game", {
@@ -174,13 +181,13 @@ JR.cast(jlate(JR.cast(choiceGroup)))
 and jm_getSelectedText = (this: LoadGameForm) => {
         if (this.f_areChoices) {
             let mut choiceGroup: JObject = JR.cast(jm_get(this, 0l))
-            let mut value: Int32 = JR.className(JR.cast(toString({
+            let mut value: Int32 = Integer.jm_intValue(toString({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ChoiceGroup.jm_getString"))
 JR.cast(jlate(JR.cast(choiceGroup), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ChoiceGroup.jm_getSelectedIndex"))
 JR.cast(jlate(JR.cast(choiceGroup)))
 })))
-})))
+}))
             return value
         } else {
             return Int32.(-)(1l, Int32.(+)(1l, 1l))

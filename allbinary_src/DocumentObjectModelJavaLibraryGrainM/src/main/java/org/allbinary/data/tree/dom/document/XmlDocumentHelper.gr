@@ -62,6 +62,10 @@ and jstatic_instance = () => match (jcell_instance) {
     value
   },
 }
+
+and jset_instance = (value: XmlDocumentHelper) => {
+  jcell_instance = Some(value)
+}
     
 and jm_getInstance = () => {
         return jstatic_instance()
@@ -115,7 +119,7 @@ and jm_formatWithTransformer = (this: XmlDocumentHelper, xmlString: String, tran
         let mut document: Document = JR.cast(JR.className(JR.cast(JR.className(JR.cast(DocumentBuilderFactory.jm_newInstance())))))
         let mut out: Writer = JR.cast(StringWriter.jnew_0())
         ignore(Transformer.jm_transform(transformer, DOMSource.jnew_1(document), StreamResult.jnew_1(out)))
-        return JR.toStringOf(out.jobject)
+        return Writer.jm_toString_0(out)
 }
     
 and jm_toString = (document: Document) => {
@@ -146,5 +150,6 @@ JR.registerLateBound("XmlDocumentHelper.set_f_indent", (this: XmlDocumentHelper,
 JR.registerLateBound("XmlDocumentHelper.f_ignoreDeclaration", (this: XmlDocumentHelper) => this.f_ignoreDeclaration)
 JR.registerLateBound("XmlDocumentHelper.set_f_ignoreDeclaration", (this: XmlDocumentHelper, jvalue) => { this.f_ignoreDeclaration = jvalue; jvalue })
 JR.registerLateBound("XmlDocumentHelper.jstatic_instance", jstatic_instance)
+JR.registerLateBound("XmlDocumentHelper.jset_instance", jset_instance)
 
 

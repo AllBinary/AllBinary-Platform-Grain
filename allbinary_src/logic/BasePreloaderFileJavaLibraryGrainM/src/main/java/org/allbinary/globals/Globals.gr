@@ -35,8 +35,12 @@ from "../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
 use CommonSeps.{ type CommonSeps }
 from "../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
 use CommonStrings.{ type CommonStrings }
+from "../../../java/lang/ClassLoader.gr" include ClassLoader
+use ClassLoader.{ type ClassLoader }
 from "./AppUrlGlobals.gr" include AppUrlGlobals
 use AppUrlGlobals.{ type AppUrlGlobals }
+from "./URLGLOBALS.gr" include URLGLOBALS
+use URLGLOBALS.{ type URLGLOBALS }
 
 provide record Globals {
   jobject: JObject,
@@ -54,6 +58,10 @@ and jstatic_instance = () => match (jcell_instance) {
     jcell_instance = Some(value)
     value
   },
+}
+
+and jset_instance = (value: Globals) => {
+  jcell_instance = Some(value)
 }
     
 and jm_getInstance = () => {
@@ -74,13 +82,13 @@ and jm_init = (this: Globals, classLoader: ClassLoader, pathString: String) => {
         let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
         let mut appUrlGlobals: AppUrlGlobals = AppUrlGlobals.jnew_0()
         ignore(AppUrlGlobals.jm_setWebappPath(appUrlGlobals, pathString))
-        ignore(JR.className(JR.cast(.jstatic_URLGLOBALS())))
+        ignore(URLGLOBALS.jm_init(JR.cast(appUrlGlobals)))
         ignore(WebappClassLoaderInfo.jm_setLoader(classLoader))
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
         ignore(StringMaker.jm_append(stringBuffer, "Setting Up AllBinary System Configuration Args: "))
         ignore(StringMaker.jm_append(stringBuffer, pathString))
         ignore(StringMaker.jm_append(stringBuffer, " ClassLoader: "))
-        ignore(StringMaker.jm_append(stringBuffer, classLoader.jobject.cls))
+        ignore(StringMaker.jm_append(stringBuffer, JR.className(classLoader)))
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast(commonStrings.f_INIT)))
@@ -93,7 +101,7 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuf
             ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
             ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_EQUALS))
             ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
-            ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(.jstatic_URLGLOBALS()))))
+            ignore(StringMaker.jm_append(stringBuffer, URLGLOBALS.jm_getWebappPath()))
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast(commonStrings.f_INIT)))
@@ -101,7 +109,7 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuf
         }
         ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
         ignore(StringMaker.jm_append(stringBuffer, "Webapp Path Set To: "))
-        ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(.jstatic_URLGLOBALS()))))
+        ignore(StringMaker.jm_append(stringBuffer, URLGLOBALS.jm_getWebappPath()))
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast(commonStrings.f_INIT)))
@@ -113,5 +121,6 @@ JR.registerLateBound("Globals.jm_getInstance", jm_getInstance)
 JR.registerLateBound("Globals.jm_init", jm_init)
 JR.registerLateBound("Globals.f_logUtil", (this: Globals) => this.f_logUtil)
 JR.registerLateBound("Globals.jstatic_instance", jstatic_instance)
+JR.registerLateBound("Globals.jset_instance", jset_instance)
 
 

@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../../javax/microedition/khronos/egl/EGLConfig.gr" include EGLConfig
+use EGLConfig.{ type EGLConfig }
 from "../../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
 use NullUtil.{ type NullUtil }
 from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
@@ -53,6 +55,10 @@ and jstatic_instanceC = () => match (jcell_instanceC) {
     value
   },
 }
+
+and jset_instanceC = (value: CompositeShaderUpdater) => {
+  jcell_instanceC = Some(value)
+}
     
 and jm_getInstance = () => {
         return jstatic_instanceC()
@@ -79,5 +85,6 @@ JR.registerLateBound("CompositeShaderUpdater.jm_onSurfaceCreated", jm_onSurfaceC
 JR.registerLateBound("CompositeShaderUpdater.jm_onSurfaceDestroyed", jm_onSurfaceDestroyed)
 JR.registerLateBound("CompositeShaderUpdater.f_commonSeps", (this: CompositeShaderUpdater) => this.f_commonSeps)
 JR.registerLateBound("CompositeShaderUpdater.jstatic_instanceC", jstatic_instanceC)
+JR.registerLateBound("CompositeShaderUpdater.jset_instanceC", jset_instanceC)
 
 

@@ -45,7 +45,7 @@ and jnew_1 = (ownerLayer: CollidableCompositeLayer) => {
     let this = { jobject: JR.newJObject("DestroyableSimpleBehavior"), f_ownerLayer: JR.nullOf(), f_destroyed: false, }
     
     this.f_destroyed = false
-        this.f_ownerLayer = ownerLayer
+        this.f_ownerLayer = JR.cast(ownerLayer)
     this
 }
     
@@ -56,7 +56,10 @@ and jm_isDestroyed = (this: DestroyableSimpleBehavior) => {
 and jm_setDestroyed = (this: DestroyableSimpleBehavior, destroyed: Bool) => {
         this.f_destroyed = destroyed
         if (jm_isDestroyed(this)) {
-            ignore(DestroyedLayerProcessor.jm_add(DestroyedLayerProcessor.jm_getInstance(), this.f_ownerLayer))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicLayerProcessor.jm_add"))
+JR.cast(jlate(JR.cast(DestroyedLayerProcessor.jm_getInstance()), JR.cast(this.f_ownerLayer)))
+})
         }
 }
 

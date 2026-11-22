@@ -25,6 +25,10 @@ from "char" include Char
 from "array" include Array
 from "../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../javax/microedition/lcdui/CommandListener.gr" include CommandListener
+use CommandListener.{ type CommandListener }
+from "../../../../javax/microedition/lcdui/NullImage.gr" include NullImage
+use NullImage.{ type NullImage }
 from "../../../../org/allbinary/MIDPUtil.gr" include MIDPUtil
 use MIDPUtil.{ type MIDPUtil }
 from "../../../../org/allbinary/game/commands/GameCommandsFactory.gr" include GameCommandsFactory
@@ -69,7 +73,7 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_CONSTRUC
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 })))
 })
-        this.f_list = list
+        this.f_list = JR.cast(list)
         ignore(jm_update(this))
         ignore(jm_initCommands(this, commandListener))
         let mut gameDifficultyFactory: GameDifficultyFactory = JR.cast(GameDifficultyFactory.jm_getInstance())
@@ -174,13 +178,13 @@ JR.cast(jlate(JR.cast(choiceGroup)))
     
 and jm_getSelectedText = (this: GameDifficultyOptions) => {
         let mut choiceGroup: JObject = JR.cast(jm_get(this, 0l))
-        let mut value: Int32 = JR.className(JR.cast(toString({
+        let mut value: Int32 = Integer.jm_intValue(toString({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ChoiceGroup.jm_getString"))
 JR.cast(jlate(JR.cast(choiceGroup), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ChoiceGroup.jm_getSelectedIndex"))
 JR.cast(jlate(JR.cast(choiceGroup)))
 })))
-})))
+}))
         return value
 }
 

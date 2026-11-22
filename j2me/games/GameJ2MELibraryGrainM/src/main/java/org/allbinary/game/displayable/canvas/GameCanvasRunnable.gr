@@ -59,16 +59,19 @@ JR.cast(jlate())
     this.f_gameTickDisplayInfoSingleton = JR.cast(GameTickDisplayInfoSingleton.jm_getInstance())
     
     this.f_gameTickTimeDelayHelper = JR.cast(GameTickTimeDelayHelperFactory.jm_getInstance())
-        this.f_allBinaryGameCanvas = allBinaryGameCanvas
+        this.f_allBinaryGameCanvas = JR.cast(allBinaryGameCanvas)
     this
 }
     
 and jm_run = (this: GameCanvasRunnable) => {
         {
-            ignore(JR.className(JR.cast({
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TimeDelayHelper.jm_setStartTime"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_getLoopTimeHelperP"))
 JR.cast(jlate(JR.cast(this.f_allBinaryGameCanvas)))
-})))
+}), JR.cast(GameTickTimeDelayHelper.jm_setStartTime(this.f_gameTickTimeDelayHelper))))
+})
             ignore(GameTickDisplayInfoSingleton.jm_update(this.f_gameTickDisplayInfoSingleton))
             ignore({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_processGame"))

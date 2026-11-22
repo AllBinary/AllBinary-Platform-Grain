@@ -72,6 +72,10 @@ and jstatic_MAX_DISTANCE = () => match (jcell_MAX_DISTANCE) {
   },
 }
 
+and jset_MAX_DISTANCE = (value: Int32) => {
+  jcell_MAX_DISTANCE = Some(value)
+}
+
 and jstatic_DIRECTION_ARRAY = () => match (jcell_DIRECTION_ARRAY) {
   Some(value) => value,
   None => {
@@ -79,6 +83,10 @@ and jstatic_DIRECTION_ARRAY = () => match (jcell_DIRECTION_ARRAY) {
     jcell_DIRECTION_ARRAY = Some(value)
     value
   },
+}
+
+and jset_DIRECTION_ARRAY = (value: Int32) => {
+  jcell_DIRECTION_ARRAY = Some(value)
 }
 
 and jstatic_FIRING_DISTANCE = () => match (jcell_FIRING_DISTANCE) {
@@ -90,6 +98,10 @@ and jstatic_FIRING_DISTANCE = () => match (jcell_FIRING_DISTANCE) {
   },
 }
 
+and jset_FIRING_DISTANCE = (value: Int32) => {
+  jcell_FIRING_DISTANCE = Some(value)
+}
+
 and jstatic_SPEED = () => match (jcell_SPEED) {
   Some(value) => value,
   None => {
@@ -97,6 +109,10 @@ and jstatic_SPEED = () => match (jcell_SPEED) {
     jcell_SPEED = Some(value)
     value
   },
+}
+
+and jset_SPEED = (value: Int32) => {
+  jcell_SPEED = Some(value)
 }
     
 and jnew_3 = (hashtable: JObject, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
@@ -132,7 +148,10 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayer
 JR.cast(jlate(JR.cast(this)))
 })
         let mut velocityProperties: BasicVelocityProperties = JR.cast(VelocityInterfaceCompositeInterface.jm_getVelocityProperties(velocityInterfaceCompositeInterface))
-        this.f_xTotalDistance = Int32.(+)(this.f_xTotalDistance, JR.className(JR.cast(BasicVelocityProperties.jm_getVelocityXBasicDecimalP(velocityProperties))))
+        this.f_xTotalDistance = Int32.(+)(this.f_xTotalDistance, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_getScaled"))
+JR.cast(jlate(JR.cast(BasicVelocityProperties.jm_getVelocityXBasicDecimalP(velocityProperties))))
+})
 }
     
 and jm_changeDirectionIfReachedPacingAreaMax = (this: BasePatrolAI) => {
@@ -188,8 +207,12 @@ JR.registerLateBound("BasePatrolAI.set_f_lastKeyDirection", (this: BasePatrolAI,
 JR.registerLateBound("BasePatrolAI.f_keyDirection", (this: BasePatrolAI) => this.f_keyDirection)
 JR.registerLateBound("BasePatrolAI.set_f_keyDirection", (this: BasePatrolAI, jvalue) => { this.f_keyDirection = jvalue; jvalue })
 JR.registerLateBound("BasePatrolAI.jstatic_MAX_DISTANCE", jstatic_MAX_DISTANCE)
+JR.registerLateBound("BasePatrolAI.jset_MAX_DISTANCE", jset_MAX_DISTANCE)
 JR.registerLateBound("BasePatrolAI.jstatic_DIRECTION_ARRAY", jstatic_DIRECTION_ARRAY)
+JR.registerLateBound("BasePatrolAI.jset_DIRECTION_ARRAY", jset_DIRECTION_ARRAY)
 JR.registerLateBound("BasePatrolAI.jstatic_FIRING_DISTANCE", jstatic_FIRING_DISTANCE)
+JR.registerLateBound("BasePatrolAI.jset_FIRING_DISTANCE", jset_FIRING_DISTANCE)
 JR.registerLateBound("BasePatrolAI.jstatic_SPEED", jstatic_SPEED)
+JR.registerLateBound("BasePatrolAI.jset_SPEED", jset_SPEED)
 
 

@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../../../../java/lang/ClassLoader.gr" include ClassLoader
+use ClassLoader.{ type ClassLoader }
 
 provide record ClassLoaderUtil {
   jobject: JObject,
@@ -42,7 +44,7 @@ and jnew_0 = () => {
 and jm_getName = (anyType: JObject) => {
         let mut classLoader: ClassLoader = JR.cast(JR.className(JR.cast(JR.className(anyType))))
         if (!JR.isNull(classLoader)) {
-            return "ClassLoader: " ++ classLoader.jobject.cls
+            return "ClassLoader: " ++ JR.className(classLoader)
         }
         fail JR.toStringOf(JR.newJObject("Exception"))
     return ""

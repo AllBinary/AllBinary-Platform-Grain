@@ -83,6 +83,10 @@ JR.cast(jlate())
     value
   },
 }
+
+and jset_hashTable = (value: JObject) => {
+  jcell_hashTable = Some(value)
+}
     
 and jnew_7 = (abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: String, columnTwoHeading: String, ascending: Bool, preload: Bool) => {
     let this = { jobject: JR.newJObject("RemoteHighScores"), f_orderedHighScoresList: JR.jnull, f_name: "", f_heading: "", f_columnOneHeading: "", f_columnTwoHeading: "", f_logUtil: JR.jnull, f_enumerationUtil: JR.nullOf(), f_abeClientInformation: JR.nullOf(), f_softwareInformation: JR.nullOf(), f_ascending: false, f_ASCENDING: "", }
@@ -96,8 +100,8 @@ JR.cast(jlate())
     
     this.f_ASCENDING = "ASCENDING"
         void
-        this.f_abeClientInformation = abeClientInformation
-        this.f_softwareInformation = softwareInformation
+        this.f_abeClientInformation = JR.cast(abeClientInformation)
+        this.f_softwareInformation = JR.cast(softwareInformation)
         ignore(jm_setAscending(this, ascending))
         if (preload) {
             ignore({
@@ -126,7 +130,7 @@ let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_
 JR.cast(jlate(JR.cast(jstatic_hashTable()), JR.cast(gameInfo)))
 })
             if (JR.isNull(highScores)) {
-                highScores = JR.cast(jnew_7(abeClientInformation, softwareInformation, gameInfo, heading, columnTwoHeading, isAscending, preload))
+                highScores = JR.cast(JR.cast(jnew_7(abeClientInformation, softwareInformation, gameInfo, heading, columnTwoHeading, isAscending, preload)))
                 ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
 JR.cast(jlate(JR.cast(jstatic_hashTable()), JR.cast(gameInfo), JR.cast(highScores)))
@@ -148,10 +152,13 @@ JR.cast(jlate())
 }
     
 and jm_update = (this: RemoteHighScores, hashtable: JObject) => {
-        ignore(JR.className(JR.cast({
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_clear"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getList"))
 JR.cast(jlate(JR.cast(this)))
 })))
+})
         let mut vector: BasicArrayList = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
 JR.cast(jlate(JR.cast(hashtable), JR.cast(JR.cast(RemoteHighScoresData.jm_getInstance().f_HIGH_SCORES))))
@@ -175,10 +182,13 @@ JR.cast(jlate(JR.cast(hashtable), JR.cast(JR.cast(RemoteHighScoresData.jm_getIns
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("HighScore.jnew_4"))
 JR.cast(jlate(JR.cast(Int32.(-)(1l, Int32.(+)(1l, 1l))), JR.cast(displayName), JR.cast(JR.nullOf()), JR.cast(longScore)))
 }
-                ignore(JR.className(JR.cast({
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_add"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getList"))
 JR.cast(jlate(JR.cast(this)))
-})))
+}), JR.cast(highScore)))
+})
                 }
             }
         } else {
@@ -190,7 +200,7 @@ JR.cast(jlate(JR.cast(hashtable)))
 })
             let mut nextElement: JObject = JR.jnull
             while (EnumerationUtil.jm_hasMoreElements(this.f_enumerationUtil, enumeration)) {
-                nextElement = EnumerationUtil.jm_nextElement(this.f_enumerationUtil, enumeration)
+                nextElement = JR.cast(EnumerationUtil.jm_nextElement(this.f_enumerationUtil, enumeration))
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(l_NEXT_ELEMENT ++ toString(nextElement)), JR.cast(this), JR.cast(commonStrings.f_PROCESS)))
@@ -227,5 +237,6 @@ JR.registerLateBound("RemoteHighScores.f_ascending", (this: RemoteHighScores) =>
 JR.registerLateBound("RemoteHighScores.set_f_ascending", (this: RemoteHighScores, jvalue) => { this.f_ascending = jvalue; jvalue })
 JR.registerLateBound("RemoteHighScores.f_ASCENDING", (this: RemoteHighScores) => this.f_ASCENDING)
 JR.registerLateBound("RemoteHighScores.jstatic_hashTable", jstatic_hashTable)
+JR.registerLateBound("RemoteHighScores.jset_hashTable", jset_hashTable)
 
 

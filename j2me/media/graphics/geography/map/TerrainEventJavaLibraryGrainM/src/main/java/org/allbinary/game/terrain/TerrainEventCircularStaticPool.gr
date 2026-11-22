@@ -52,6 +52,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: TerrainEventCircularStaticPool) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("TerrainEventCircularStaticPool"), f_EVENT_POOL: JR.nullOf(), }
     this.f_EVENT_POOL = AllBinaryEventCircularPool.jnew_1(20l)
@@ -67,7 +71,10 @@ and jm_init = (this: TerrainEventCircularStaticPool) => {
 }
     
 and jm_getNext = (this: TerrainEventCircularStaticPool, basicTerrainInfo: BasicTerrainInfo) => {
-        let mut trackingEvent: TerrainEvent = JR.cast(AllBinaryEventCircularPool.jm_getNextInstance(this.f_EVENT_POOL))
+        let mut trackingEvent: TerrainEvent = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseCircularPool.jm_getNextInstance"))
+JR.cast(jlate(JR.cast(this.f_EVENT_POOL)))
+})
         ignore(TerrainEvent.jm_setBasicTerrainInfoForCircularStaticPool(trackingEvent, basicTerrainInfo))
         return trackingEvent
 }
@@ -79,5 +86,6 @@ JR.registerLateBound("TerrainEventCircularStaticPool.jm_getNext", jm_getNext)
 JR.registerLateBound("TerrainEventCircularStaticPool.f_EVENT_POOL", (this: TerrainEventCircularStaticPool) => this.f_EVENT_POOL)
 JR.registerLateBound("TerrainEventCircularStaticPool.set_f_EVENT_POOL", (this: TerrainEventCircularStaticPool, jvalue) => { this.f_EVENT_POOL = jvalue; jvalue })
 JR.registerLateBound("TerrainEventCircularStaticPool.jstatic_instance", jstatic_instance)
+JR.registerLateBound("TerrainEventCircularStaticPool.jset_instance", jset_instance)
 
 

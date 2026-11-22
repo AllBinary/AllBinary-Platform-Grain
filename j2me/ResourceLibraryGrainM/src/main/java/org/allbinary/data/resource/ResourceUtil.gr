@@ -38,6 +38,8 @@ use CommonStrings.{ type CommonStrings }
 from "../../../../java/lang/Integer.gr" include Integer
 from "../../../../java/lang/Thread.gr" include Thread
 use Thread.{ type Thread }
+from "../../../../java/lang/ClassLoader.gr" include ClassLoader
+use ClassLoader.{ type ClassLoader }
 
 //J2SE - J2ME
 provide record ResourceUtil {
@@ -59,6 +61,10 @@ and jstatic_classLoader = () => match (jcell_classLoader) {
   },
 }
 
+and jset_classLoader = (value: JObject) => {
+  jcell_classLoader = Some(value)
+}
+
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
@@ -66,6 +72,10 @@ and jstatic_instance = () => match (jcell_instance) {
     jcell_instance = Some(value)
     value
   },
+}
+
+and jset_instance = (value: ResourceUtil) => {
+  jcell_instance = Some(value)
 }
     
 and jm_getInstance = () => {
@@ -92,15 +102,15 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(CommonStrings.jm_getInstance().f_
 and jm_setClassLoader = (this: ResourceUtil, classLoader: ClassLoader) => {
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Resource Loader: "), classLoader.jobject.cls))), JR.cast(this), JR.cast("setClassLoader")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Resource Loader: "), JR.className(classLoader)))), JR.cast(this), JR.cast("setClassLoader")))
 })
-        jstatic_classLoader() = classLoader
+        jset_classLoader(JR.cast(classLoader))
 }
     
 and jm_getResourceAsStream = (this: ResourceUtil, resource: String) => {
         let mut inputStream: InputStream = JR.cast(jm_getResourceAsStreamAtStart(this, resource, 2l))
         if (JR.isNull(inputStream)) {
-            inputStream = jm_getResourceAsStreamAtStart(this, resource, 1l)
+            inputStream = JR.cast(jm_getResourceAsStreamAtStart(this, resource, 1l))
             if (JR.isNull(inputStream)) {
                 fail JR.toStringOf(JR.newJObject("Exception"))
             }
@@ -112,16 +122,16 @@ and jm_getResourceAsStreamAtStart = (this: ResourceUtil, resource: String, start
         let mut commonSeps: CommonSeps = JR.cast(CommonSeps.jm_getInstance())
         let mut index: Int32 = JR.indexOf(resource, commonSeps.f_COLON)
         let mut resourcePath: String = JR.substringFrom(resource, Int32.(+)(index, startIndex))
-        let mut inputStream: InputStream = JR.cast(JR.className(JR.cast(resource.jobject.cls)))
+        let mut inputStream: InputStream = JR.cast(JR.classResourceAsStream(JR.className(resource), resourcePath))
         if (!JR.isNull(inputStream)) {
             return inputStream
         }
         let mut classLoader: ClassLoader = JR.cast(jstatic_classLoader())
-        inputStream = ClassLoader.jm_getResourceAsStream(classLoader, resourcePath)
+        inputStream = JR.cast(ClassLoader.jm_getResourceAsStream_1(classLoader, resourcePath))
         if (!JR.isNull(inputStream)) {
             return inputStream
         }
-        inputStream = JR.className(JR.cast(JR.className(JR.cast(Thread.jm_currentThread()))))
+        inputStream = JR.cast(JR.className(JR.cast(JR.className(JR.cast(Thread.jm_currentThread())))))
         if (!JR.isNull(inputStream)) {
             return inputStream
         }
@@ -141,6 +151,8 @@ JR.registerLateBound("ResourceUtil.jm_getResourceAsStreamAtStart", jm_getResourc
 JR.registerLateBound("ResourceUtil.jm_addResource", jm_addResource)
 JR.registerLateBound("ResourceUtil.f_logUtil", (this: ResourceUtil) => this.f_logUtil)
 JR.registerLateBound("ResourceUtil.jstatic_classLoader", jstatic_classLoader)
+JR.registerLateBound("ResourceUtil.jset_classLoader", jset_classLoader)
 JR.registerLateBound("ResourceUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("ResourceUtil.jset_instance", jset_instance)
 
 

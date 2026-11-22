@@ -128,10 +128,13 @@ JR.cast(jlate(JR.cast(this)))
     this.f_point = JR.cast(CustomGPoint.jstatic_NULL_CUSTOM_POINT())
     
         void
-        this.f_circularIndexUtil = CircularIndexUtil.jm_createInstance(0l)
+        this.f_circularIndexUtil = JR.cast(CircularIndexUtil.jm_createInstance(0l))
         let mut gameNotificationEventHandler: GameNotificationEventHandler = JR.cast(GameNotificationEventHandler.jm_getInstance())
         ignore(GameNotificationEventHandler.jm_removeAllListeners(gameNotificationEventHandler))
-        ignore(GameNotificationEventHandler.jm_addListenerInterface(gameNotificationEventHandler, this))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_addListenerInterface"))
+JR.cast(jlate(JR.cast(gameNotificationEventHandler), JR.cast(this)))
+})
     this
 }
     
@@ -147,12 +150,12 @@ let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Font.jm_stringW
 JR.cast(jlate(JR.cast(font), JR.cast(this.f_string)))
 }
             ignore(Processor.jm_process(this.f_processor))
-            this.f_processor = Processor.jm_getInstance()
+            this.f_processor = JR.cast(Processor.jm_getInstance())
         }
 }
     
 and jm_getPoint = (this: PlayerGameNotificationHud, x: Int32, y: Int32) => {
-        this.f_point = CustomGPoint.jm_getInstance3(0l, 0l)
+        this.f_point = JR.cast(CustomGPoint.jm_getInstance3(0l, 0l))
         ignore(CustomGPoint.jm_setX(this.f_point, x))
         ignore(CustomGPoint.jm_setY(this.f_point, y))
         return JR.cast(this.f_point)
@@ -202,8 +205,11 @@ JR.cast(jlate(JR.cast(this)))
 }
     
 and jm_setAndRemove = (this: PlayerGameNotificationHud) => {
-        this.f_string = JR.cast(JR.className(JR.cast(this.f_gameNotification.f_stringList)))
-        this.f_processor = this.f_setAndRemoveProcessor
+        this.f_string = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_removeAt"))
+JR.cast(jlate(JR.cast(this.f_gameNotification.f_stringList), JR.cast(0l)))
+})
+        this.f_processor = JR.cast(this.f_setAndRemoveProcessor)
 }
     
 and jm_setAndRemoveProcess = (this: PlayerGameNotificationHud) => {
@@ -219,7 +225,10 @@ JR.cast(jlate(JR.cast(this)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicHud.jm_getY"))
 JR.cast(jlate(JR.cast(this)))
 }))
-        let mut time: Int32 = JR.cast(JR.className(JR.cast(this.f_gameNotification.f_timeList)))
+        let mut time: Int32 = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_removeAt"))
+JR.cast(jlate(JR.cast(this.f_gameNotification.f_timeList), JR.cast(0l)))
+})
         let mut iTime: Int32 = Int32.(*)(Integer.jm_intValue(time), 1000l)
         if ((iTime == 0l)) {
             iTime = 500l
@@ -227,14 +236,17 @@ JR.cast(jlate(JR.cast(this)))
         this.f_timeDelayHelper.f_delay = iTime
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicHud.jm_setBasicColorP"))
-JR.cast(jlate(JR.cast(this), JR.cast(JR.cast(JR.className(JR.cast(this.f_gameNotification.f_colorList))))))
+JR.cast(jlate(JR.cast(this), JR.cast(JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_removeAt"))
+JR.cast(jlate(JR.cast(this.f_gameNotification.f_colorList), JR.cast(0l)))
+}))))
 })
 }
     
 and jm_setNextUnremoveable = (this: PlayerGameNotificationHud) => {
         let mut index: Int32 = CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil)
         this.f_string = JR.cast(this.f_permanentGameNotification.f_stringList.f_objectArray[Int32.toNumber(index)])
-        this.f_processor = this.f_nextUnremoveableProcessor
+        this.f_processor = JR.cast(this.f_nextUnremoveableProcessor)
 }
     
 and jm_setNextUnremoveableProcess = (this: PlayerGameNotificationHud) => {

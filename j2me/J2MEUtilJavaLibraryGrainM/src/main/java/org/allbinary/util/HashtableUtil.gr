@@ -52,6 +52,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: HashtableUtil) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("HashtableUtil"), f_enumerationUtil: JR.nullOf(), }
     this.f_enumerationUtil = JR.cast(EnumerationUtil.jm_getInstance())
@@ -70,11 +74,11 @@ JR.cast(jlate(JR.cast(fromHashtable)))
         let mut keyCanBeNull: JObject = JR.jnull
         let mut valueCanBeNull: JObject = JR.jnull
         while (EnumerationUtil.jm_hasMoreElements(this.f_enumerationUtil, enumeration)) {
-            keyCanBeNull = EnumerationUtil.jm_nextElement(this.f_enumerationUtil, enumeration)
-            valueCanBeNull = {
+            keyCanBeNull = JR.cast(EnumerationUtil.jm_nextElement(this.f_enumerationUtil, enumeration))
+            valueCanBeNull = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
 JR.cast(jlate(JR.cast(hashtable), JR.cast(keyCanBeNull)))
-}
+})
             if (JR.isNull(valueCanBeNull)) {
                 void
             } else {
@@ -112,7 +116,7 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_keys"))
 JR.cast(jlate(JR.cast(hashtable)))
 })
         while (EnumerationUtil.jm_hasMoreElements(this.f_enumerationUtil, enumeration)) {
-            ignore(BasicArrayList.jm_add(list, EnumerationUtil.jm_nextElement(this.f_enumerationUtil, enumeration)))
+            ignore(BasicArrayList.jm_add(list, JR.cast(EnumerationUtil.jm_nextElement(this.f_enumerationUtil, enumeration))))
         }
         return list
 }
@@ -124,5 +128,6 @@ JR.registerLateBound("HashtableUtil.jm_getKeysAsArray", jm_getKeysAsArray)
 JR.registerLateBound("HashtableUtil.jm_getKeysAsList", jm_getKeysAsList)
 JR.registerLateBound("HashtableUtil.f_enumerationUtil", (this: HashtableUtil) => this.f_enumerationUtil)
 JR.registerLateBound("HashtableUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("HashtableUtil.jset_instance", jset_instance)
 
 

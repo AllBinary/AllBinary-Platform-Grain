@@ -82,7 +82,7 @@ JR.cast(jlate())
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_START), JR.cast(this), JR.cast(this.f_commonStrings.f_CONSTRUCTOR)))
 })
-        this.f_signed = signed
+        this.f_signed = JR.cast(signed)
     this
 }
     
@@ -124,13 +124,13 @@ and jm_onDiagonalUpLeftMotionGestureEvent = (this: ReleaseControlledMotionGestur
     
 and jm_onPressedMotionGestureEvent = (this: ReleaseControlledMotionGestureListener, ev: MotionGestureEvent) => {
         this.f_isMouseGestureOccurring = true
-        this.f_currentMotionGesture = {
+        this.f_currentMotionGesture = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.f_NO_MOTION"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.jm_getInstance"))
 JR.cast(jlate())
 })))
-}
+})
         ignore(jm_onMotionGestureEvent(this, ev))
 }
     
@@ -147,6 +147,7 @@ and jm_released = (this: ReleaseControlledMotionGestureListener, ev: MotionGestu
             ignore(CompleteMotionGestureListenerInterface.jm_onMotionGestureCompleted(this.f_signed, this.f_motionGestureCollection))
             ignore(BasicArrayList.jm_clear(this.f_motionGestureCollection))
         }
+    return void
 }
     
 and jm_onMotionGestureEvent = (this: ReleaseControlledMotionGestureListener, ev: MotionGestureEvent) => {
@@ -172,10 +173,11 @@ JR.cast(jlate())
             ignore(jm_released(this, ev))
         } else {
             if ((!JR.isSame(this.f_currentMotionGesture, motionGestureInput))) {
-                this.f_currentMotionGesture = motionGestureInput
-                ignore(BasicArrayList.jm_add(this.f_motionGestureCollection, MotionGestureEvent.jm_getMotionGesture(ev)))
+                this.f_currentMotionGesture = JR.cast(motionGestureInput)
+                ignore(BasicArrayList.jm_add(this.f_motionGestureCollection, JR.cast(MotionGestureEvent.jm_getMotionGesture(ev))))
             }
         }
+    return void
 }
 
 JR.registerLateBound("ReleaseControlledMotionGestureListener.jnew_1", jnew_1)

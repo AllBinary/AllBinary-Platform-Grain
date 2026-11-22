@@ -62,10 +62,16 @@ and jnew_1 = (collidable: Bool) => {
     
 and jm_collide = (this: CollidableCharacterNoDamageBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableCompositeLayer) => {
         let mut collisionTypeFactory: CollisionTypeFactory = JR.cast(CollisionTypeFactory.jm_getInstance())
-        let mut collisionType: CollisionType = JR.cast(JR.className(JR.cast(CollidableCompositeLayer.jm_getCollidableInferface(collidableInterfaceCompositeInterface))))
+        let mut collisionType: CollisionType = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableBaseBehavior.jm_getCollisionTypeWith"))
+JR.cast(jlate(JR.cast(CollidableCompositeLayer.jm_getCollidableInferface(collidableInterfaceCompositeInterface)), JR.cast(ownerLayer)))
+})
         if (JR.isSame(collisionType, collisionTypeFactory.f_PICKUP)) {
             let mut collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer = JR.cast(ownerLayer)
-            ignore(JR.className(JR.cast(CollidableDestroyableDamageableLayer.jm_getPickupBehavior(collidableDestroyableDamageableLayer))))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("PickupBehavior.jm_doPickupLayer"))
+JR.cast(jlate(JR.cast(CollidableDestroyableDamageableLayer.jm_getPickupBehavior(collidableDestroyableDamageableLayer)), JR.cast(JR.cast(collidableInterfaceCompositeInterface))))
+})
         } else {
             void
         }

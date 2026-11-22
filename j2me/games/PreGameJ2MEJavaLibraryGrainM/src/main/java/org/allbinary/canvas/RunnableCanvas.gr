@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../javax/microedition/lcdui/CommandListener.gr" include CommandListener
+use CommandListener.{ type CommandListener }
 from "../../../org/allbinary/game/displayable/canvas/NullWaitGameRunnable.gr" include NullWaitGameRunnable
 use NullWaitGameRunnable.{ type NullWaitGameRunnable }
 from "../../../org/allbinary/graphics/displayable/MyCanvas.gr" include MyCanvas
@@ -134,7 +136,7 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_CONSTRUC
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 })))
 })
-        this.f_runnableCanvasRefreshHelper = JR.cast(RunnableCanvasRefreshHelper.jnew_1(this))
+        this.f_runnableCanvasRefreshHelper = JR.cast(JR.cast(RunnableCanvasRefreshHelper.jnew_1(JR.cast(this))))
         if (!JR.isNull(commandListener)) {
             ignore(jm_initCommands(this, commandListener))
         } else if (hasParam) {
@@ -168,13 +170,13 @@ JR.cast(jlate(JR.cast(this)))
 }
     
 and jm_setThread = (this: RunnableCanvas, thread: Thread) => {
-        this.f_thread = thread
+        this.f_thread = JR.cast(thread)
 }
     
 and jm_setRunning = (this: RunnableCanvas, running: Bool) => {
         this.f_running = running
         if (!this.f_running) {
-            this.f_thread = NullThread.jstatic_NULL_THREAD()
+            this.f_thread = JR.cast(NullThread.jstatic_NULL_THREAD())
             {
                 ignore(ThreadObjectUtil.jm_notifyObject(this.f_threadObjectUtil, JR.cast(this)))
             }
@@ -227,11 +229,11 @@ and jm_getWait = (this: RunnableCanvas) => {
 }
     
 and jm_setCurrentThread = (this: RunnableCanvas) => {
-        this.f_currentThread = Thread.jm_currentThread()
+        this.f_currentThread = JR.cast(Thread.jm_currentThread())
 }
     
 and jm_setCurrentThreadFake = (this: RunnableCanvas) => {
-        this.f_currentThread = this.f_thread
+        this.f_currentThread = JR.cast(this.f_thread)
 }
     
 and jm_showNotify = (this: RunnableCanvas) => {

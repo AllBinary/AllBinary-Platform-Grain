@@ -61,6 +61,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: BasicArrayListUtil) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("BasicArrayListUtil"), f_NULL_ARRAY_OF_ARRAY: [> ], f_myRandomFactory: JR.nullOf(), f_immutableInstance: JR.nullOf(), }
     this.f_NULL_ARRAY_OF_ARRAY = Array.init(Int32.toNumber(0l), jindex1 => Array.make(Int32.toNumber(0l), JR.nullOf()))
@@ -97,8 +101,8 @@ and jm_reverse = (this: BasicArrayListUtil, list: BasicArrayList) => {
                 jfirst = false
                 if (!(Int32.(<=)(index, size))) break
             secondSwapIndex = Int32.(-)(lastMinusOneIndex, index)
-            temp = BasicArrayList.jm_removeAt(list, index)
-            ignore(BasicArrayList.jm_addAt(list, index, BasicArrayList.jm_removeAt(list, secondSwapIndex)))
+            temp = JR.cast(BasicArrayList.jm_removeAt(list, index))
+            ignore(BasicArrayList.jm_addAt(list, index, JR.cast(BasicArrayList.jm_removeAt(list, secondSwapIndex))))
             ignore(BasicArrayList.jm_addAt(list, Int32.(+)(secondSwapIndex, 1l), temp))
             }
         }
@@ -159,5 +163,6 @@ JR.registerLateBound("BasicArrayListUtil.f_NULL_ARRAY_OF_ARRAY", (this: BasicArr
 JR.registerLateBound("BasicArrayListUtil.f_myRandomFactory", (this: BasicArrayListUtil) => this.f_myRandomFactory)
 JR.registerLateBound("BasicArrayListUtil.f_immutableInstance", (this: BasicArrayListUtil) => this.f_immutableInstance)
 JR.registerLateBound("BasicArrayListUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("BasicArrayListUtil.jset_instance", jset_instance)
 
 

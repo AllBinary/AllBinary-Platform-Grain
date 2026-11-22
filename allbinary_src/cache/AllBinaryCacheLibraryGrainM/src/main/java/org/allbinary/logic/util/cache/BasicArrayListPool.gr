@@ -99,7 +99,10 @@ and jm_releaseUsedBackToPool = (this: BasicArrayListPool, usedList: BasicArrayLi
                 jfirst = false
                 if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
             let mut list: BasicArrayListCacheable = JR.cast(usedList.f_objectArray[Int32.toNumber(index)])
-            if ((BasicArrayListCacheable.jm_size(list) == 0l)) {
+            if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
+JR.cast(jlate(JR.cast(list)))
+} == 0l)) {
                 ignore(BasicArrayList.jm_removeAt(usedList, index))
                 ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbstractArrayListPool.jm_add"))

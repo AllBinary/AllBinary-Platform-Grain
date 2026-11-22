@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../javax/microedition/khronos/opengles/GL.gr" include GL
+use GL.{ type GL }
 from "../../../../org/allbinary/graphics/Rectangle.gr" include Rectangle
 use Rectangle.{ type Rectangle }
 from "../../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
@@ -161,8 +163,14 @@ and jm_paintDebug = (this: AllBinaryGameLayer, graphics: JObject) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_getViewPosition"))
 JR.cast(jlate(JR.cast(this)))
 })
-        let mut viewX: Int32 = ViewPositionBase.jm_getX(viewPosition)
-        let mut viewY: Int32 = ViewPositionBase.jm_getY(viewPosition)
+        let mut viewX: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getX"))
+JR.cast(jlate(JR.cast(viewPosition)))
+}
+        let mut viewY: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getY"))
+JR.cast(jlate(JR.cast(viewPosition)))
+}
         ignore(BasicColorSetUtil.jm_setBasicColorP(this.f_basicSetColorUtil, graphics, this.f_RED))
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawRect"))

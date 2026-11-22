@@ -73,11 +73,11 @@ JR.cast(jlate())
     
     
     this.f_scaleProperties = JR.cast(ScaleProperties.jstatic_instance())
-        this.f_animationFactoryInitializationVisitor = AnimationFactoryInitializationVisitor.jnew_0()
-        this.f_image = image
+        this.f_animationFactoryInitializationVisitor = JR.cast(AnimationFactoryInitializationVisitor.jnew_0())
+        this.f_image = JR.cast(image)
         this.f_animationFactoryInitializationVisitor.f_width = width
         this.f_animationFactoryInitializationVisitor.f_height = height
-        this.f_animationBehaviorFactory = animationBehaviorFactory
+        this.f_animationBehaviorFactory = JR.cast(animationBehaviorFactory)
         this.f_sequenceArray = sequenceArray
         this.f_animationFactoryInitializationVisitor.f_dx = dx
         this.f_animationFactoryInitializationVisitor.f_dy = dy
@@ -85,7 +85,10 @@ JR.cast(jlate())
 }
     
 and jm_getInstance = (this: BaseImageAnimationFactory, instanceId: Int32) => {
-        return JR.className(JR.cast(NullAnimationFactory.jm_getFactoryInstance()))
+        return {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("NullAnimationFactory.jm_getInstance"))
+JR.cast(jlate(JR.cast(NullAnimationFactory.jm_getFactoryInstance()), JR.cast(instanceId)))
+}
 }
     
 and jm_getImage = (this: BaseImageAnimationFactory) => {
@@ -97,7 +100,7 @@ and jm_getSequenceArray = (this: BaseImageAnimationFactory) => {
 }
     
 and jm_setInitialScale = (this: BaseImageAnimationFactory, scaleProperties: ScaleProperties) => {
-        this.f_scaleProperties = scaleProperties
+        this.f_scaleProperties = JR.cast(scaleProperties)
         if (this.f_scaleProperties.f_shouldScale) {
             this.f_scaleProperties.f_scaleWidth = JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(this.f_animationFactoryInitializationVisitor.f_width)), this.f_scaleProperties.f_scaleX))))
             this.f_scaleProperties.f_scaleHeight = JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(this.f_animationFactoryInitializationVisitor.f_height)), this.f_scaleProperties.f_scaleY))))

@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../javax/microedition/khronos/opengles/GL.gr" include GL
+use GL.{ type GL }
 from "../../../../org/allbinary/animation/Animation.gr" include Animation
 use Animation.{ type Animation }
 from "../../../../org/allbinary/animation/AnimationBehavior.gr" include AnimationBehavior
@@ -62,7 +64,7 @@ and jnew_2 = (animationInterfaceArray: Array<Animation>, animationBehavior: Anim
     
         void
         this.f_animationInterfaceArray = animationInterfaceArray
-        this.f_circularIndexUtil = CircularIndexUtil.jm_createInstance(Int32.fromNumber(Array.length(this.f_animationInterfaceArray)))
+        this.f_circularIndexUtil = JR.cast(CircularIndexUtil.jm_createInstance(Int32.fromNumber(Array.length(this.f_animationInterfaceArray))))
     this
 }
     
@@ -95,15 +97,24 @@ and jm_getSequence = (this: CompoundIndexedAnimation) => {
 }
     
 and jm_nextFrame = (this: CompoundIndexedAnimation) => {
-        ignore(JR.className(JR.cast(this.f_animationInterfaceArray[Int32.toNumber(CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil))])))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Animation.jm_nextFrame"))
+JR.cast(jlate(JR.cast(this.f_animationInterfaceArray[Int32.toNumber(CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil))])))
+})
 }
     
 and jm_paintXY = (this: CompoundIndexedAnimation, graphics: JObject, x: Int32, y: Int32) => {
-        ignore(JR.className(JR.cast(this.f_animationInterfaceArray[Int32.toNumber(CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil))])))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Animation.jm_paintXY"))
+JR.cast(jlate(JR.cast(this.f_animationInterfaceArray[Int32.toNumber(CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil))]), JR.cast(graphics), JR.cast(x), JR.cast(y)))
+})
 }
     
 and jm_paintThreedXYZ = (this: CompoundIndexedAnimation, graphics: JObject, x: Int32, y: Int32, z: Int32) => {
-        ignore(JR.className(JR.cast(this.f_animationInterfaceArray[Int32.toNumber(CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil))])))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Animation.jm_paintThreedXYZ"))
+JR.cast(jlate(JR.cast(this.f_animationInterfaceArray[Int32.toNumber(CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil))]), JR.cast(graphics), JR.cast(x), JR.cast(y), JR.cast(z)))
+})
 }
     
 and jm_getCurrentAnimation = (this: CompoundIndexedAnimation) => {
@@ -143,7 +154,10 @@ and jm_set = (this: CompoundIndexedAnimation, gl: GL) => {
             while (true) {
                 jfirst = false
                 if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
-            ignore(JR.className(JR.cast(this.f_animationInterfaceArray[Int32.toNumber(index)])))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Animation.jm_set"))
+JR.cast(jlate(JR.cast(this.f_animationInterfaceArray[Int32.toNumber(index)]), JR.cast(gl)))
+})
             }
         }
 }

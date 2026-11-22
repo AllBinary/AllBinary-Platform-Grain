@@ -68,6 +68,10 @@ and jstatic_SEQUENCE_AI = () => match (jcell_SEQUENCE_AI) {
     value
   },
 }
+
+and jset_SEQUENCE_AI = (value: String) => {
+  jcell_SEQUENCE_AI = Some(value)
+}
     
 and jnew_3 = (artificialIntelligenceInterfaceArray: Array<ArtificialIntelligenceInterface>, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
     let this = { jobject: JR.newJObject("SequenceAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_artificialIntelligenceInterfaceArray: [> ], f_index: 0l, }
@@ -78,10 +82,13 @@ and jnew_3 = (artificialIntelligenceInterfaceArray: Array<ArtificialIntelligence
 }
     
 and jm_processAI = (this: SequenceAI, allBinaryLayerManager: AllBinaryLayerManager) => {
-        ignore(JR.className(JR.cast({
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ArtificialIntelligenceInterface.jm_processAI"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ArrayAI.jm_getArtificialIntelligenceInterface"))
 JR.cast(jlate(JR.cast(this)))
-}[Int32.toNumber(this.f_index)])))
+}[Int32.toNumber(this.f_index)]), JR.cast(allBinaryLayerManager)))
+})
 }
     
 and jm_next = (this: SequenceAI) => {
@@ -131,5 +138,6 @@ JR.registerLateBound("SequenceAI.jm_toString", jm_toString)
 JR.registerLateBound("SequenceAI.f_index", (this: SequenceAI) => this.f_index)
 JR.registerLateBound("SequenceAI.set_f_index", (this: SequenceAI, jvalue) => { this.f_index = jvalue; jvalue })
 JR.registerLateBound("SequenceAI.jstatic_SEQUENCE_AI", jstatic_SEQUENCE_AI)
+JR.registerLateBound("SequenceAI.jset_SEQUENCE_AI", jset_SEQUENCE_AI)
 
 

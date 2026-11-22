@@ -64,17 +64,24 @@ provide let rec jclassName = () => "IconLayer"
 and jstatic_NULL_ICON_LAYER = () => match (jcell_NULL_ICON_LAYER) {
   Some(value) => value,
   None => {
-    let value: IconLayer = jnew_3(JR.className(JR.cast(NullAnimationFactory.jm_getFactoryInstance())), 0l, 0l)
+    let value: IconLayer = jnew_3(JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("NullAnimationFactory.jm_getInstance"))
+JR.cast(jlate(JR.cast(NullAnimationFactory.jm_getFactoryInstance()), JR.cast(0l)))
+}), 0l, 0l)
     jcell_NULL_ICON_LAYER = Some(value)
     value
   },
+}
+
+and jset_NULL_ICON_LAYER = (value: IconLayer) => {
+  jcell_NULL_ICON_LAYER = Some(value)
 }
     
 and jnew_3 = (animationInterface: Animation, width: Int32, height: Int32) => {
     let this = { jobject: JR.newJObject("IconLayer"), f_logUtil: JR.jnull, f_x: 0l, f_y: 0l, f_z: 0l, f_width: 0l, f_height: 0l, f_visible: false, f_viewPositionEvent: JR.jnull, f_halfWidth: 0l, f_halfHeight: 0l, f_name: "", f_viewPosition: JR.jnull, f_animationInterface: JR.nullOf(), }
     
         void
-        this.f_animationInterface = animationInterface
+        this.f_animationInterface = JR.cast(animationInterface)
     this
 }
     
@@ -97,5 +104,6 @@ JR.registerLateBound("IconLayer.jm_getAnimationInterface", jm_getAnimationInterf
 JR.registerLateBound("IconLayer.f_animationInterface", (this: IconLayer) => this.f_animationInterface)
 JR.registerLateBound("IconLayer.set_f_animationInterface", (this: IconLayer, jvalue) => { this.f_animationInterface = jvalue; jvalue })
 JR.registerLateBound("IconLayer.jstatic_NULL_ICON_LAYER", jstatic_NULL_ICON_LAYER)
+JR.registerLateBound("IconLayer.jset_NULL_ICON_LAYER", jset_NULL_ICON_LAYER)
 
 

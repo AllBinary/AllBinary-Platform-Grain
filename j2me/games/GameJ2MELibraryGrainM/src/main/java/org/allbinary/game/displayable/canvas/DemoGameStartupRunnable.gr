@@ -49,6 +49,10 @@ and jstatic_TYPE = () => match (jcell_TYPE) {
     value
   },
 }
+
+and jset_TYPE = (value: Int32) => {
+  jcell_TYPE = Some(value)
+}
     
 and jnew_1 = (demoCanvas: JObject) => {
     let this = { jobject: JR.newJObject("DemoGameStartupRunnable"), f_running: false, f_logUtil: JR.jnull, f_demoCanvas: JR.jnull, }
@@ -57,7 +61,7 @@ let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
 })
     
-        this.f_demoCanvas = demoCanvas
+        this.f_demoCanvas = JR.cast(demoCanvas)
     this
 }
     
@@ -96,5 +100,6 @@ JR.registerLateBound("DemoGameStartupRunnable.jm_getType", jm_getType)
 JR.registerLateBound("DemoGameStartupRunnable.f_logUtil", (this: DemoGameStartupRunnable) => this.f_logUtil)
 JR.registerLateBound("DemoGameStartupRunnable.f_demoCanvas", (this: DemoGameStartupRunnable) => this.f_demoCanvas)
 JR.registerLateBound("DemoGameStartupRunnable.jstatic_TYPE", jstatic_TYPE)
+JR.registerLateBound("DemoGameStartupRunnable.jset_TYPE", jset_TYPE)
 
 

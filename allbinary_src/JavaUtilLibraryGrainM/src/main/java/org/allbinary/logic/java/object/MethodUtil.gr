@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../../java/lang/reflect/Method.gr" include Method
+use Method.{ type Method }
 from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
 use StringMaker.{ type StringMaker }
 from "./ParamsUtil.gr" include ParamsUtil
@@ -45,10 +47,7 @@ and jnew_0 = () => {
     
 and jm_viewAll = (myClass: String, lineBreak: String) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        let mut method: Array<Method> = {
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Class.jm_getMethods"))
-JR.cast(jlate(JR.cast(myClass)))
-}
+        let mut method: Array<Method> = JR.reflectionUnsupported("getMethods", myClass)
         ignore(StringMaker.jm_append(stringBuffer, "Methods: "))
         ignore(StringMaker.jm_append(stringBuffer, lineBreak))
         {
@@ -60,11 +59,11 @@ JR.cast(jlate(JR.cast(myClass)))
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, Int32.fromNumber(Array.length(method))))) break
-            ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(JR.className(JR.cast(method[Int32.toNumber(index)]))))))
+            ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(Method.jm_getReturnType_0(JR.cast(method[Int32.toNumber(index)]))))))
             ignore(StringMaker.jm_append(stringBuffer, " "))
-            ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(method[Int32.toNumber(index)]))))
+            ignore(StringMaker.jm_append(stringBuffer, Method.jm_getName_0(JR.cast(method[Int32.toNumber(index)]))))
             ignore(StringMaker.jm_append(stringBuffer, "("))
-            ignore(ParamsUtil.jm_viewParams(JR.className(JR.cast(method[Int32.toNumber(index)]))))
+            ignore(ParamsUtil.jm_viewParams(Method.jm_getParameterTypes_0(JR.cast(method[Int32.toNumber(index)]))))
             ignore(StringMaker.jm_append(stringBuffer, ")"))
             ignore(StringMaker.jm_append(stringBuffer, lineBreak))
             }

@@ -41,6 +41,8 @@ from "../../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArray
 use BasicArrayList.{ type BasicArrayList }
 from "../../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
 use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../../../org/allbinary/globals/URLGLOBALS.gr" include URLGLOBALS
+use URLGLOBALS.{ type URLGLOBALS }
 from "./BasicStoreFrontInterface.gr" include BasicStoreFrontInterface
 use BasicStoreFrontInterface.{ type BasicStoreFrontInterface }
 
@@ -176,12 +178,12 @@ and jnew_1 = (storeHashMap: HashMap) => {
 }
     
 and jm_getTestHtmlPath = (this: BasicStoreFront) => {
-        return Int32.(+)(JR.className(JR.cast(org.jstatic_allbinary().f_globals.f_URLGLOBALS)), jm_getCurrentHostNamePath(this))
+        return Int32.(+)(URLGLOBALS.jm_getTestHtmlPath(), jm_getCurrentHostNamePath(this))
 }
     
 and jm_getCurrentHostName = (this: BasicStoreFront) => {
         let mut location: String = JR.nullOf()
-        if (JR.className(JR.cast(org.jstatic_allbinary().f_globals.f_URLGLOBALS))) {
+        if (URLGLOBALS.jm_isTestingMode()) {
             location = jm_getTestHostName(this)
         } else {
             location = jm_getHostName(this)
@@ -191,7 +193,7 @@ and jm_getCurrentHostName = (this: BasicStoreFront) => {
     
 and jm_getCurrentHostNamePath = (this: BasicStoreFront) => {
         let mut location: String = JR.nullOf()
-        if (JR.className(JR.cast(org.jstatic_allbinary().f_globals.f_URLGLOBALS))) {
+        if (URLGLOBALS.jm_isTestingMode()) {
             location = jm_getTestHostNamePath(this)
         } else {
             location = jm_getHostNamePath(this)
@@ -201,7 +203,7 @@ and jm_getCurrentHostNamePath = (this: BasicStoreFront) => {
     
 and jm_getCurrentHomeHostName = (this: BasicStoreFront) => {
         let mut location: String = JR.nullOf()
-        if (JR.className(JR.cast(org.jstatic_allbinary().f_globals.f_URLGLOBALS))) {
+        if (URLGLOBALS.jm_isTestingMode()) {
             location = jm_getTestHomeHostName(this)
         } else {
             location = jm_getHomeHostName(this)
@@ -211,7 +213,7 @@ and jm_getCurrentHomeHostName = (this: BasicStoreFront) => {
     
 and jm_getCurrentHomeHostNamePath = (this: BasicStoreFront) => {
         let mut location: String = JR.nullOf()
-        if (JR.className(JR.cast(org.jstatic_allbinary().f_globals.f_URLGLOBALS))) {
+        if (URLGLOBALS.jm_isTestingMode()) {
             location = jm_getTestHomeHostNamePath(this)
         } else {
             location = jm_getHomeHostNamePath(this)

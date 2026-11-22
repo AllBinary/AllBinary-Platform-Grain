@@ -67,6 +67,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: InstallerInfo) => {
+  jcell_instance = Some(value)
+}
+
 and jstatic_INITFILENAME = () => match (jcell_INITFILENAME) {
   Some(value) => value,
   None => {
@@ -74,6 +78,10 @@ and jstatic_INITFILENAME = () => match (jcell_INITFILENAME) {
     jcell_INITFILENAME = Some(value)
     value
   },
+}
+
+and jset_INITFILENAME = (value: String) => {
+  jcell_INITFILENAME = Some(value)
 }
 
 and jstatic_PACKAGE = () => match (jcell_PACKAGE) {
@@ -85,6 +93,10 @@ and jstatic_PACKAGE = () => match (jcell_PACKAGE) {
   },
 }
 
+and jset_PACKAGE = (value: String) => {
+  jcell_PACKAGE = Some(value)
+}
+
 and jstatic_userName = () => match (jcell_userName) {
   Some(value) => value,
   None => {
@@ -92,6 +104,10 @@ and jstatic_userName = () => match (jcell_userName) {
     jcell_userName = Some(value)
     value
   },
+}
+
+and jset_userName = (value: String) => {
+  jcell_userName = Some(value)
 }
 
 and jstatic_password = () => match (jcell_password) {
@@ -103,6 +119,10 @@ and jstatic_password = () => match (jcell_password) {
   },
 }
 
+and jset_password = (value: String) => {
+  jcell_password = Some(value)
+}
+
 and jstatic_hasRead = () => match (jcell_hasRead) {
   Some(value) => value,
   None => {
@@ -110,6 +130,10 @@ and jstatic_hasRead = () => match (jcell_hasRead) {
     jcell_hasRead = Some(value)
     value
   },
+}
+
+and jset_hasRead = (value: Bool) => {
+  jcell_hasRead = Some(value)
 }
     
 and jnew_0 = () => {
@@ -144,7 +168,7 @@ JR.cast(jlate())
             let mut cryptedPassword: Array<Int32> = JR.className(JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(2l), jm_getPassword(this))))
             ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(cryptedUserName)))
             ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(cryptedPassword)))
-            jstatic_hasRead() = false
+            jset_hasRead(false)
         }
 }
     
@@ -161,12 +185,24 @@ JR.cast(jlate(JR.cast(file)))
 }) {
                 let mut iFile: AbFileLocalInputStream = AbFileLocalInputStream.jnew_1(file)
                 let mut iData: AbDataInputStream = AbDataInputStream.jnew_1(iFile)
-                let mut decryptedUserName: String = DatabaseEncoder.jm_decode(AbDataInputStream.jm_readUTF(iData))
-                let mut decryptedPassword: String = DatabaseEncoder.jm_decode(AbDataInputStream.jm_readUTF(iData))
-                ignore(jm_setUserName(this, WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(1l), decryptedUserName)))
-                ignore(jm_setPassword(this, WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(2l), decryptedPassword)))
+                let mut decryptedUserName: String = DatabaseEncoder.jm_decode(JR.cast(AbDataInputStream.jm_readUTF(iData)))
+                let mut decryptedPassword: String = DatabaseEncoder.jm_decode(JR.cast(AbDataInputStream.jm_readUTF(iData)))
+                ignore(jm_setUserName(this, JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(1l), decryptedUserName))))
+                ignore(jm_setPassword(this, JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(2l), decryptedPassword))))
             } else {
-                if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypes.jstatic_LOGGING"))
+JR.cast(jlate())
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_PRELOADER"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+}) {
                     ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Not a File - Failed Loading: " ++ AbPath.jm_toString(l_FILEABPATH)), JR.cast(this), JR.cast("read")))
@@ -177,23 +213,35 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Not a File - Failed Loading: " +
 }
     
 and jm_setHasRead = (value: Bool) => {
-        jstatic_hasRead() = value
+        jset_hasRead(value)
 }
     
 and jm_setUserName = (this: InstallerInfo, userName: String) => {
-        jstatic_userName() = userName
+        jset_userName(userName)
 }
     
 and jm_setPassword = (this: InstallerInfo, password: String) => {
-        jstatic_password() = password
+        jset_password(password)
 }
     
 and jm_updateIfNeeded = (this: InstallerInfo) => {
         if (!jstatic_hasRead()) {
-            jstatic_hasRead() = true
+            jset_hasRead(true)
             ignore(jm_read(this))
             if ((false || false)) {
-                if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypes.jstatic_LOGGING"))
+JR.cast(jlate())
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_PRELOADER"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+}) {
                     ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Failed"), JR.cast(this), JR.cast("updateIfNeeded")))
@@ -233,10 +281,16 @@ JR.registerLateBound("InstallerInfo.jm_getPassword", jm_getPassword)
 JR.registerLateBound("InstallerInfo.jm_isValid", jm_isValid)
 JR.registerLateBound("InstallerInfo.f_logUtil", (this: InstallerInfo) => this.f_logUtil)
 JR.registerLateBound("InstallerInfo.jstatic_instance", jstatic_instance)
+JR.registerLateBound("InstallerInfo.jset_instance", jset_instance)
 JR.registerLateBound("InstallerInfo.jstatic_INITFILENAME", jstatic_INITFILENAME)
+JR.registerLateBound("InstallerInfo.jset_INITFILENAME", jset_INITFILENAME)
 JR.registerLateBound("InstallerInfo.jstatic_PACKAGE", jstatic_PACKAGE)
+JR.registerLateBound("InstallerInfo.jset_PACKAGE", jset_PACKAGE)
 JR.registerLateBound("InstallerInfo.jstatic_userName", jstatic_userName)
+JR.registerLateBound("InstallerInfo.jset_userName", jset_userName)
 JR.registerLateBound("InstallerInfo.jstatic_password", jstatic_password)
+JR.registerLateBound("InstallerInfo.jset_password", jset_password)
 JR.registerLateBound("InstallerInfo.jstatic_hasRead", jstatic_hasRead)
+JR.registerLateBound("InstallerInfo.jset_hasRead", jset_hasRead)
 
 

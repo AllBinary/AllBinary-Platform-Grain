@@ -86,6 +86,10 @@ and jstatic_NAME = () => match (jcell_NAME) {
     value
   },
 }
+
+and jset_NAME = (value: String) => {
+  jcell_NAME = Some(value)
+}
     
 and jnew_3 = (rectangle: Rectangle, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
     let this = { jobject: JR.newJObject("BasicPopupMenuPaintable"), f_basicSetColorUtil: JR.nullOf(), f_drawStringUtil: JR.nullOf(), f_label: "", f_foregroundBasicColor: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_rectangle: JR.nullOf(), f_BORDER: 0l, f_heightOffset: 0l, f_offset: 0l, f_animationInterface: JR.nullOf(), }
@@ -93,19 +97,22 @@ and jnew_3 = (rectangle: Rectangle, backgroundBasicColor: BasicColor, foreground
     this.f_drawStringUtil = JR.cast(DrawVerticalStringUtil.jm_getInstance())
     
     
-    this.f_myFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(this))
+    this.f_myFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(JR.cast(this)))
     
     
     
     
     
-        this.f_foregroundBasicColor = foregroundBasicColor
+        this.f_foregroundBasicColor = JR.cast(foregroundBasicColor)
         this.f_label = jstatic_NAME()
-        this.f_rectangle = rectangle
+        this.f_rectangle = JR.cast(rectangle)
         if ((J2MEUtil.jm_isJ2ME() || J2MEUtil.jm_isHTML())) {
-            this.f_animationInterface = JR.className(JR.cast(NullAnimationFactory.jm_getFactoryInstance()))
+            this.f_animationInterface = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("NullAnimationFactory.jm_getInstance"))
+JR.cast(jlate(JR.cast(NullAnimationFactory.jm_getFactoryInstance()), JR.cast(0l)))
+})
         } else {
-            this.f_animationInterface = JR.cast(RectangleFilledAnimation.jnew_3(Rectangle.jm_getWidth(this.f_rectangle), Rectangle.jm_getHeight(this.f_rectangle), BasicColorFactory.jm_getInstance().f_TRANSPARENT_GREY))
+            this.f_animationInterface = JR.cast(JR.cast(RectangleFilledAnimation.jnew_3(Rectangle.jm_getWidth(this.f_rectangle), Rectangle.jm_getHeight(this.f_rectangle), JR.cast(BasicColorFactory.jm_getInstance().f_TRANSPARENT_GREY))))
         }
         ignore(jm_init(this, rectangle))
     this
@@ -134,7 +141,10 @@ JR.cast(jlate())
         this.f_heightOffset = Int32.(-)(Rectangle.jm_getHeight(this.f_rectangle), (Int32.(*)({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Font.jm_getHeight"))
 JR.cast(jlate(JR.cast(font)))
-}, JR.className(JR.cast(jstatic_NAME())))))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("String.jm_length"))
+JR.cast(jlate(JR.cast(jstatic_NAME())))
+})))
         if ({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("OpenGLFeatureUtil.jm_isAnyThreed"))
 JR.cast(jlate(JR.cast({
@@ -168,11 +178,11 @@ let jlate: () => JObject = JR.cast(JR.lateBound("SWTJOGLProcessor.jm_getInstance
 JR.cast(jlate())
 })))
 }) 4l else 0l)))
-        this.f_myFontProcessor = MyFontProcessor.jm_getInstance()
+        this.f_myFontProcessor = JR.cast(MyFontProcessor.jm_getInstance())
 }
     
 and jm_init = (this: BasicPopupMenuPaintable, rectangle: Rectangle) => {
-        this.f_rectangle = rectangle
+        this.f_rectangle = JR.cast(rectangle)
         let mut width: Int32 = Rectangle.jm_getWidth(this.f_rectangle)
         let mut height: Int32 = Rectangle.jm_getHeight(this.f_rectangle)
         if ((J2MEUtil.jm_isJ2ME() || J2MEUtil.jm_isHTML())) {
@@ -221,5 +231,6 @@ JR.registerLateBound("BasicPopupMenuPaintable.set_f_offset", (this: BasicPopupMe
 JR.registerLateBound("BasicPopupMenuPaintable.f_animationInterface", (this: BasicPopupMenuPaintable) => this.f_animationInterface)
 JR.registerLateBound("BasicPopupMenuPaintable.set_f_animationInterface", (this: BasicPopupMenuPaintable, jvalue) => { this.f_animationInterface = jvalue; jvalue })
 JR.registerLateBound("BasicPopupMenuPaintable.jstatic_NAME", jstatic_NAME)
+JR.registerLateBound("BasicPopupMenuPaintable.jset_NAME", jset_NAME)
 
 

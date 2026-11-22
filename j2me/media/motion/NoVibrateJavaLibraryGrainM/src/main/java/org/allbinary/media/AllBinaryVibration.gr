@@ -48,6 +48,10 @@ and jstatic_VIBRATION = () => match (jcell_VIBRATION) {
     value
   },
 }
+
+and jset_VIBRATION = (value: AllBinaryVibrationME) => {
+  jcell_VIBRATION = Some(value)
+}
     
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("AllBinaryVibration"), }
@@ -60,10 +64,13 @@ and jm_getInstance = () => {
 }
     
 and jm_init = () => {
-        if ((JR.className(JR.cast(JR.className(JR.cast(GameConfigurationCentral.jm_getInstance().f_VIBRATION)))) == 0l)) {
-            jstatic_VIBRATION() = AllBinaryNoVibration.jstatic_NO_VIBRATION()
+        if ((JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getValue"))
+JR.cast(jlate(JR.cast(GameConfigurationCentral.jm_getInstance().f_VIBRATION)))
+})) == 0l)) {
+            jset_VIBRATION(JR.cast(AllBinaryNoVibration.jstatic_NO_VIBRATION()))
         } else {
-            jstatic_VIBRATION() = JR.cast(jnew_0())
+            jset_VIBRATION(JR.cast(jnew_0()))
         }
 }
     
@@ -76,5 +83,6 @@ JR.registerLateBound("AllBinaryVibration.jm_getInstance", jm_getInstance)
 JR.registerLateBound("AllBinaryVibration.jm_init", jm_init)
 JR.registerLateBound("AllBinaryVibration.jm_vibrate", jm_vibrate)
 JR.registerLateBound("AllBinaryVibration.jstatic_VIBRATION", jstatic_VIBRATION)
+JR.registerLateBound("AllBinaryVibration.jset_VIBRATION", jset_VIBRATION)
 
 

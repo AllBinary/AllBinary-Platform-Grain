@@ -54,6 +54,10 @@ and jstatic_instance = () => match (jcell_instance) {
     value
   },
 }
+
+and jset_instance = (value: SmallIntegerSingletonFactory) => {
+  jcell_instance = Some(value)
+}
     
 and jm_getInstance = () => {
         return jstatic_instance()
@@ -115,6 +119,7 @@ JR.cast(jlate())
                 return 23l
             }
         }
+    return 0l
 }
     
 and jm_initWithRange = (this: SmallIntegerSingletonFactory, value: Int32, negativeValue: Int32) => {
@@ -218,7 +223,7 @@ and jm_createInstance = (this: SmallIntegerSingletonFactory, index: Int32) => {
 and jm_getString = (this: SmallIntegerSingletonFactory, index: Int32) => {
         let mut i: Int32 = Int32.(+)(index, this.f_NEGATIVE_MAX)
         if (JR.isNull(this.f_STRING_ARRAY[Int32.toNumber(i)])) {
-            this.f_STRING_ARRAY[Int32.toNumber(i)] = JR.cast(toString(this.f_INTEGER_ARRAY[Int32.toNumber(i)]))
+            this.f_STRING_ARRAY[Int32.toNumber(i)] = JR.cast(JR.toStringOf(JR.cast(this.f_INTEGER_ARRAY[Int32.toNumber(i)])))
         }
         return this.f_STRING_ARRAY[Int32.toNumber(i)]
 }
@@ -244,5 +249,6 @@ JR.registerLateBound("SmallIntegerSingletonFactory.set_f_lastMin", (this: SmallI
 JR.registerLateBound("SmallIntegerSingletonFactory.f_lastNegativeMin", (this: SmallIntegerSingletonFactory) => this.f_lastNegativeMin)
 JR.registerLateBound("SmallIntegerSingletonFactory.set_f_lastNegativeMin", (this: SmallIntegerSingletonFactory, jvalue) => { this.f_lastNegativeMin = jvalue; jvalue })
 JR.registerLateBound("SmallIntegerSingletonFactory.jstatic_instance", jstatic_instance)
+JR.registerLateBound("SmallIntegerSingletonFactory.jset_instance", jset_instance)
 
 

@@ -48,6 +48,10 @@ and jstatic_logConfigInfoList = () => match (jcell_logConfigInfoList) {
   },
 }
 
+and jset_logConfigInfoList = (value: BasicArrayList) => {
+  jcell_logConfigInfoList = Some(value)
+}
+
 and jstatic_hasRead = () => match (jcell_hasRead) {
   Some(value) => value,
   None => {
@@ -55,6 +59,10 @@ and jstatic_hasRead = () => match (jcell_hasRead) {
     jcell_hasRead = Some(value)
     value
   },
+}
+
+and jset_hasRead = (value: Bool) => {
+  jcell_hasRead = Some(value)
 }
     
 and jnew_0 = () => {
@@ -66,7 +74,7 @@ and jnew_0 = () => {
     
 and jm_write = () => {
         {
-            jstatic_hasRead() = false
+            jset_hasRead(false)
         }
 }
     
@@ -77,13 +85,13 @@ and jm_read = () => {
 }
     
 and jm_setHasRead = (value: Bool) => {
-        jstatic_hasRead() = value
+        jset_hasRead(value)
 }
     
 and jm_updateIfNeeded = () => {
         if (!jstatic_hasRead()) {
             ignore(jm_read())
-            jstatic_hasRead() = true
+            jset_hasRead(true)
             if (JR.isNull(jstatic_logConfigInfoList())) {
                 fail JR.toStringOf(JR.newJObject("Exception"))
             }
@@ -98,7 +106,7 @@ and jm_isValid = (this: LoggingInitInfo) => {
 }
     
 and jm_set = (logConfigInfoList: BasicArrayList) => {
-        jstatic_logConfigInfoList() = logConfigInfoList
+        jset_logConfigInfoList(JR.cast(logConfigInfoList))
 }
     
 and jm_get = () => {
@@ -109,10 +117,7 @@ and jm_get = () => {
 and jm_getTypeList = () => {
         ignore(jm_updateIfNeeded())
         let mut allLogTypeVector: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
-        let mut size: Int32 = {
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
-JR.cast(jlate(JR.cast(jstatic_logConfigInfoList())))
-}
+        let mut size: Int32 = BasicArrayList.jm_size(jstatic_logConfigInfoList())
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -139,10 +144,7 @@ JR.cast(jlate(JR.cast(logConfigInfo)))
 }
     
 and jm_getNumberOfLogConfigs = (this: LoggingInitInfo) => {
-        return {
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
-JR.cast(jlate(JR.cast(jstatic_logConfigInfoList())))
-}
+        return BasicArrayList.jm_size(jstatic_logConfigInfoList())
 }
     
 and jm_toString = (this: LoggingInitInfo) => {
@@ -164,6 +166,8 @@ JR.registerLateBound("LoggingInitInfo.jm_getTypeList", jm_getTypeList)
 JR.registerLateBound("LoggingInitInfo.jm_getNumberOfLogConfigs", jm_getNumberOfLogConfigs)
 JR.registerLateBound("LoggingInitInfo.jm_toString", jm_toString)
 JR.registerLateBound("LoggingInitInfo.jstatic_logConfigInfoList", jstatic_logConfigInfoList)
+JR.registerLateBound("LoggingInitInfo.jset_logConfigInfoList", jset_logConfigInfoList)
 JR.registerLateBound("LoggingInitInfo.jstatic_hasRead", jstatic_hasRead)
+JR.registerLateBound("LoggingInitInfo.jset_hasRead", jset_hasRead)
 
 

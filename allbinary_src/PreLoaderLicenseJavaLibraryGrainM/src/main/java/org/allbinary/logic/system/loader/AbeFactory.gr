@@ -25,7 +25,9 @@ from "char" include Char
 from "array" include Array
 from "../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
-from "../../../../../org/allbinary/logic/java/anyType/ConstructorUtil.gr" include ConstructorUtil
+from "../../../../../java/lang/reflect/Constructor.gr" include Constructor
+use Constructor.{ type Constructor }
+from "../../../../../org/allbinary/logic/java/object/ConstructorUtil.gr" include ConstructorUtil
 use ConstructorUtil.{ type ConstructorUtil }
 from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
 use StringMaker.{ type StringMaker }
@@ -37,6 +39,8 @@ from "../../../../../org/allbinary/logic/system/security/licensing/LicensingExce
 use LicensingException.{ type LicensingException }
 from "../../../../../org/allbinary/string/CommonSeps.gr" include CommonSeps
 use CommonSeps.{ type CommonSeps }
+from "../../../../../java/lang/ClassLoader.gr" include ClassLoader
+use ClassLoader.{ type ClassLoader }
 from "./WebappClassLoaderInfo.gr" include WebappClassLoaderInfo
 use WebappClassLoaderInfo.{ type WebappClassLoaderInfo }
 from "./AbeClassLoader.gr" include AbeClassLoader
@@ -59,6 +63,10 @@ and jstatic_instance = () => match (jcell_instance) {
     jcell_instance = Some(value)
     value
   },
+}
+
+and jset_instance = (value: AbeFactory) => {
+  jcell_instance = Some(value)
 }
     
 and jm_getInstance_0 = () => {
@@ -92,19 +100,13 @@ and jm_getInstance_4 = (this: AbeFactory, abeClientInformation: AbeClientInforma
             let mut parent: ClassLoader = JR.cast(WebappClassLoaderInfo.jm_getLoader())
             if (this.f_useCustomLoader) {
                 let mut loader: ClassLoader = JR.cast(AbeClassLoader.jnew_2(parent, AbKeys.jm_getKey(AbKeys.jm_getInstance(), abeClientInformation, className)))
-                let mut myClass: String = ClassLoader.jm_loadClass(loader, className)
-                constructor = {
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Class.jm_getConstructor"))
-JR.cast(jlate(JR.cast(myClass), JR.cast(classes)))
-}
-                return Constructor.jm_newInstance(constructor, params)
+                let mut myClass: String = ClassLoader.jm_loadClass_1(loader, className)
+                constructor = JR.cast(JR.reflectionUnsupported("getConstructor", myClass))
+                return Constructor.jm_newInstance_1(constructor, params)
             } else {
-                let mut myClass: String = ClassLoader.jm_loadClass(parent, className)
-                constructor = {
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Class.jm_getConstructor"))
-JR.cast(jlate(JR.cast(myClass), JR.cast(classes)))
-}
-                return Constructor.jm_newInstance(constructor, params)
+                let mut myClass: String = ClassLoader.jm_loadClass_1(parent, className)
+                constructor = JR.cast(JR.reflectionUnsupported("getConstructor", myClass))
+                return Constructor.jm_newInstance_1(constructor, params)
             }
         }
     return JR.jnull
@@ -115,10 +117,10 @@ and jm_getClass = (this: AbeFactory, abeClientInformation: AbeClientInformationI
             let mut parent: ClassLoader = JR.cast(WebappClassLoaderInfo.jm_getLoader())
             if (this.f_useCustomLoader) {
                 let mut loader: ClassLoader = JR.cast(AbeClassLoader.jnew_2(parent, AbKeys.jm_getKey(AbKeys.jm_getInstance(), abeClientInformation, className)))
-                let mut c: String = ClassLoader.jm_loadClass(loader, className)
+                let mut c: String = ClassLoader.jm_loadClass_1(loader, className)
                 return c
             } else {
-                let mut c: String = ClassLoader.jm_loadClass(parent, className)
+                let mut c: String = ClassLoader.jm_loadClass_1(parent, className)
                 return c
             }
         }
@@ -134,5 +136,6 @@ JR.registerLateBound("AbeFactory.f_logUtil", (this: AbeFactory) => this.f_logUti
 JR.registerLateBound("AbeFactory.f_useCustomLoader", (this: AbeFactory) => this.f_useCustomLoader)
 JR.registerLateBound("AbeFactory.set_f_useCustomLoader", (this: AbeFactory, jvalue) => { this.f_useCustomLoader = jvalue; jvalue })
 JR.registerLateBound("AbeFactory.jstatic_instance", jstatic_instance)
+JR.registerLateBound("AbeFactory.jset_instance", jset_instance)
 
 

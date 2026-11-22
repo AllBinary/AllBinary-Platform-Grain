@@ -64,10 +64,14 @@ and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
     value
   },
 }
+
+and jset_SINGLETON = (value: JObject) => {
+  jcell_SINGLETON = Some(value)
+}
     
 and jm_getInstance = () => {
         if (JR.isSame(jstatic_SINGLETON(), NullUtil.jm_getInstance().f_NULL_OBJECT)) {
-            jstatic_SINGLETON() = JR.cast(jnew_0())
+            jset_SINGLETON(JR.cast(jnew_0()))
         }
         return JR.cast(jstatic_SINGLETON())
 }
@@ -81,8 +85,8 @@ JR.cast(jlate())
     this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
     
     
-        this.f_list = JR.cast(BasicArrayListD.jnew_0())
-        this.f_defaultList = JR.cast(BasicArrayListD.jnew_0())
+        this.f_list = JR.cast(JR.cast(BasicArrayListD.jnew_0()))
+        this.f_defaultList = JR.cast(JR.cast(BasicArrayListD.jnew_0()))
         ignore(jm_init(this))
     this
 }
@@ -104,10 +108,13 @@ JR.cast(jlate(JR.cast(gameFeature)))
 }))), JR.cast(this), JR.cast(this.f_commonStrings.f_ADD)))
 })
             ignore(BasicArrayList.jm_add(this.f_list, JR.cast(gameFeature)))
-            ignore(GameFeatureEventHandler.jm_fireEvent(GameFeatureEventHandler.jm_getInstance(), GameFeatureEvent.jnew_2(gameFeature, {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_fireEvent"))
+JR.cast(jlate(JR.cast(GameFeatureEventHandler.jm_getInstance()), JR.cast(GameFeatureEvent.jnew_2(gameFeature, {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Feature.jm_toString"))
 JR.cast(jlate(JR.cast(gameFeature)))
-})))
+}))))
+})
         }
 }
     
@@ -130,10 +137,13 @@ let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBoun
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_START), JR.cast(this), JR.cast(this.f_commonStrings.f_REMOVE)))
 })
             ignore(BasicArrayList.jm_remove(this.f_list, JR.cast(gameFeature)))
-            ignore(GameFeatureEventHandler.jm_fireEvent(GameFeatureEventHandler.jm_getInstance(), GameFeatureEvent.jnew_2(gameFeature, {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_fireEvent"))
+JR.cast(jlate(JR.cast(GameFeatureEventHandler.jm_getInstance()), JR.cast(GameFeatureEvent.jnew_2(gameFeature, {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Feature.jm_toString"))
 JR.cast(jlate(JR.cast(gameFeature)))
-})))
+}))))
+})
         }
 }
     
@@ -265,5 +275,6 @@ JR.registerLateBound("Features.f_commonStrings", (this: Features) => this.f_comm
 JR.registerLateBound("Features.f_list", (this: Features) => this.f_list)
 JR.registerLateBound("Features.f_defaultList", (this: Features) => this.f_defaultList)
 JR.registerLateBound("Features.jstatic_SINGLETON", jstatic_SINGLETON)
+JR.registerLateBound("Features.jset_SINGLETON", jset_SINGLETON)
 
 

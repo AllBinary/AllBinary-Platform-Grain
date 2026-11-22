@@ -53,6 +53,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: ResourceLoadingLevelFactory) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("ResourceLoadingLevelFactory"), f_LOAD_EARLY: JR.nullOf(), f_LOAD_TOUCH: JR.nullOf(), f_LOAD_GAME: JR.nullOf(), f_LEVEL: JR.nullOf(), f_MAX_LEVEL: JR.nullOf(), f_LOAD_ALL: JR.nullOf(), f_RESOURCE_LOADING_LEVEL_ARRAY: [> ], }
     this.f_LOAD_EARLY = ResourceLoadingLevel.jnew_2("Load Early", Integer.jstatic_MAX_VALUE())
@@ -79,8 +83,14 @@ and jm_getLevelString = (this: ResourceLoadingLevelFactory, level: Int32) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, Int32.fromNumber(Array.length(this.f_RESOURCE_LOADING_LEVEL_ARRAY))))) break
-            if ((level == JR.className(JR.cast(this.f_RESOURCE_LOADING_LEVEL_ARRAY[Int32.toNumber(index)])))) {
-                return JR.className(JR.cast(this.f_RESOURCE_LOADING_LEVEL_ARRAY[Int32.toNumber(index)]))
+            if ((level == {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ResourceLoadingLevel.jm_getLevel"))
+JR.cast(jlate(JR.cast(this.f_RESOURCE_LOADING_LEVEL_ARRAY[Int32.toNumber(index)])))
+})) {
+                return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ResourceLoadingLevel.jm_getName"))
+JR.cast(jlate(JR.cast(this.f_RESOURCE_LOADING_LEVEL_ARRAY[Int32.toNumber(index)])))
+}
             }
             }
         }
@@ -98,5 +108,6 @@ JR.registerLateBound("ResourceLoadingLevelFactory.f_MAX_LEVEL", (this: ResourceL
 JR.registerLateBound("ResourceLoadingLevelFactory.f_LOAD_ALL", (this: ResourceLoadingLevelFactory) => this.f_LOAD_ALL)
 JR.registerLateBound("ResourceLoadingLevelFactory.f_RESOURCE_LOADING_LEVEL_ARRAY", (this: ResourceLoadingLevelFactory) => this.f_RESOURCE_LOADING_LEVEL_ARRAY)
 JR.registerLateBound("ResourceLoadingLevelFactory.jstatic_instance", jstatic_instance)
+JR.registerLateBound("ResourceLoadingLevelFactory.jset_instance", jset_instance)
 
 

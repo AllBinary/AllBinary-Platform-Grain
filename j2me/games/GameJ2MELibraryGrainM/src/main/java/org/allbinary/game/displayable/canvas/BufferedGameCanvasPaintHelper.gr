@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../../javax/microedition/lcdui/NullImage.gr" include NullImage
+use NullImage.{ type NullImage }
 from "../../../../../org/allbinary/graphics/Anchor.gr" include Anchor
 use Anchor.{ type Anchor }
 from "../../../../../org/allbinary/graphics/displayable/MyCanvas.gr" include MyCanvas
@@ -58,6 +60,10 @@ and jstatic_MAX_IMAGES = () => match (jcell_MAX_IMAGES) {
     value
   },
 }
+
+and jset_MAX_IMAGES = (value: Int32) => {
+  jcell_MAX_IMAGES = Some(value)
+}
     
 and jnew_1 = (gameCanvas: AllBinaryGameCanvas) => {
     let this = { jobject: JR.newJObject("BufferedGameCanvasPaintHelper"), f_gameCanvas: JR.jnull, f_offScreenImage: [> ], f_previousImage: JR.jnull, f_circularIndexUtil: JR.nullOf(), f_drawCircularIndexUtil: JR.nullOf(), f_anchor: 0l, }
@@ -76,7 +82,7 @@ JR.cast(jlate())
     
 and jm_process = (this: BufferedGameCanvasPaintHelper) => {
         let mut myCanvas: MyCanvas = (JR.cast(this.f_gameCanvas))
-        ignore(MyCanvas.jm_draw(myCanvas, JR.className(JR.cast(this.f_offScreenImage[Int32.toNumber(CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil))]))))
+        ignore(MyCanvas.jm_draw(myCanvas, JR.cast(JR.className(JR.cast(this.f_offScreenImage[Int32.toNumber(CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil))])))))
         ignore(CircularIndexUtil.jm_next(this.f_circularIndexUtil))
         ignore(CircularIndexUtil.jm_next(this.f_drawCircularIndexUtil))
 }
@@ -102,5 +108,6 @@ JR.registerLateBound("BufferedGameCanvasPaintHelper.f_drawCircularIndexUtil", (t
 JR.registerLateBound("BufferedGameCanvasPaintHelper.f_anchor", (this: BufferedGameCanvasPaintHelper) => this.f_anchor)
 JR.registerLateBound("BufferedGameCanvasPaintHelper.set_f_anchor", (this: BufferedGameCanvasPaintHelper, jvalue) => { this.f_anchor = jvalue; jvalue })
 JR.registerLateBound("BufferedGameCanvasPaintHelper.jstatic_MAX_IMAGES", jstatic_MAX_IMAGES)
+JR.registerLateBound("BufferedGameCanvasPaintHelper.jset_MAX_IMAGES", jset_MAX_IMAGES)
 
 

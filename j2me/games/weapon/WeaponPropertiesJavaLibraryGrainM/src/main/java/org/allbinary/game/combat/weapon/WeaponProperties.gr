@@ -65,6 +65,10 @@ and jstatic_NULL_WEAPON_PROPERTIES = () => match (jcell_NULL_WEAPON_PROPERTIES) 
   },
 }
 
+and jset_NULL_WEAPON_PROPERTIES = (value: WeaponProperties) => {
+  jcell_NULL_WEAPON_PROPERTIES = Some(value)
+}
+
 and jstatic_messageSent = () => match (jcell_messageSent) {
   Some(value) => value,
   None => {
@@ -72,6 +76,10 @@ and jstatic_messageSent = () => match (jcell_messageSent) {
     jcell_messageSent = Some(value)
     value
   },
+}
+
+and jset_messageSent = (value: Bool) => {
+  jcell_messageSent = Some(value)
 }
 
 and jstatic_DAMAGE = () => match (jcell_DAMAGE) {
@@ -83,6 +91,10 @@ and jstatic_DAMAGE = () => match (jcell_DAMAGE) {
   },
 }
 
+and jset_DAMAGE = (value: String) => {
+  jcell_DAMAGE = Some(value)
+}
+
 and jstatic_RANGE = () => match (jcell_RANGE) {
   Some(value) => value,
   None => {
@@ -92,6 +104,10 @@ and jstatic_RANGE = () => match (jcell_RANGE) {
   },
 }
 
+and jset_RANGE = (value: String) => {
+  jcell_RANGE = Some(value)
+}
+
 and jstatic_RELOAD = () => match (jcell_RELOAD) {
   Some(value) => value,
   None => {
@@ -99,6 +115,10 @@ and jstatic_RELOAD = () => match (jcell_RELOAD) {
     jcell_RELOAD = Some(value)
     value
   },
+}
+
+and jset_RELOAD = (value: String) => {
+  jcell_RELOAD = Some(value)
 }
     
 and jnew_5 = (reloadTime: Int64, targetingTime: Int64, speed: Int64, damage: Int32, dissipation: Int32) => {
@@ -116,7 +136,7 @@ and jnew_5 = (reloadTime: Int64, targetingTime: Int64, speed: Int64, damage: Int
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
 JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_appendlong(StringMaker.jm_append(StringMaker.jnew_0(), l_MESSAGE), speed))), JR.cast(this), JR.cast(commonStrings.f_CONSTRUCTOR)))
 })
-            jstatic_messageSent() = true
+            jset_messageSent(true)
         }
         ignore(jm_setReloadTime(this, reloadTime))
         ignore(jm_setTargetingTime(this, targetingTime))
@@ -130,8 +150,8 @@ JR.cast(jlate(JR.cast(this), JR.cast(dissipation)))
 })
         ignore(jm_setSpeed(this, BasicDecimal.jnew_1(speed)))
         if ((dissipation != this.f_ZERO)) {
-            let mut unscaledDamage: Int64 = Int64.(*)(LONG.jm_getUnscaled(this.f_speed), Int64.fromNumber(Int32.toNumber(damage)))
-            let mut scaledDissipation: Int32 = Int32.(*)(dissipation, LONG.jm_getScaledFactorValue(this.f_speed))
+            let mut unscaledDamage: Int64 = Int64.(*)(BasicDecimal.jm_getUnscaled(this.f_speed), Int64.fromNumber(Int32.toNumber(damage)))
+            let mut scaledDissipation: Int32 = Int32.(*)(dissipation, BasicDecimal.jm_getScaledFactorValue(this.f_speed))
             let mut value: Int64 = (Int64.(/)(unscaledDamage, Int64.fromNumber(Int32.toNumber(scaledDissipation))))
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("SimpleWeaponProperties.jm_setRange"))
@@ -162,7 +182,7 @@ and jm_getSpeed = (this: WeaponProperties) => {
 }
     
 and jm_setSpeed = (this: WeaponProperties, speed: BasicDecimal) => {
-        this.f_speed = speed
+        this.f_speed = JR.cast(speed)
 }
     
 and jm_getDamageI = (this: WeaponProperties, range: Int32) => {
@@ -228,9 +248,14 @@ JR.registerLateBound("WeaponProperties.set_f_speed", (this: WeaponProperties, jv
 JR.registerLateBound("WeaponProperties.f_MAX", (this: WeaponProperties) => this.f_MAX)
 JR.registerLateBound("WeaponProperties.f_ZERO", (this: WeaponProperties) => this.f_ZERO)
 JR.registerLateBound("WeaponProperties.jstatic_NULL_WEAPON_PROPERTIES", jstatic_NULL_WEAPON_PROPERTIES)
+JR.registerLateBound("WeaponProperties.jset_NULL_WEAPON_PROPERTIES", jset_NULL_WEAPON_PROPERTIES)
 JR.registerLateBound("WeaponProperties.jstatic_messageSent", jstatic_messageSent)
+JR.registerLateBound("WeaponProperties.jset_messageSent", jset_messageSent)
 JR.registerLateBound("WeaponProperties.jstatic_DAMAGE", jstatic_DAMAGE)
+JR.registerLateBound("WeaponProperties.jset_DAMAGE", jset_DAMAGE)
 JR.registerLateBound("WeaponProperties.jstatic_RANGE", jstatic_RANGE)
+JR.registerLateBound("WeaponProperties.jset_RANGE", jset_RANGE)
 JR.registerLateBound("WeaponProperties.jstatic_RELOAD", jstatic_RELOAD)
+JR.registerLateBound("WeaponProperties.jset_RELOAD", jset_RELOAD)
 
 

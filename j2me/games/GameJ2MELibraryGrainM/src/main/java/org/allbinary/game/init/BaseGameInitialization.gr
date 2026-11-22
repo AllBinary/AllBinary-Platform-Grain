@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../javax/microedition/lcdui/CommandListener.gr" include CommandListener
+use CommandListener.{ type CommandListener }
 from "../../../../org/allbinary/animation/FeaturedAnimationInterfaceFactoryInterfaceFactory.gr" include FeaturedAnimationInterfaceFactoryInterfaceFactory
 use FeaturedAnimationInterfaceFactoryInterfaceFactory.{ type FeaturedAnimationInterfaceFactoryInterfaceFactory }
 from "../../../../org/allbinary/game/configuration/GameConfigurationCentral.gr" include GameConfigurationCentral
@@ -81,6 +83,10 @@ and jstatic_NULL_BASE_GAME_INITIALIZATION = () => match (jcell_NULL_BASE_GAME_IN
     value
   },
 }
+
+and jset_NULL_BASE_GAME_INITIALIZATION = (value: BaseGameInitialization) => {
+  jcell_NULL_BASE_GAME_INITIALIZATION = Some(value)
+}
     
 and jnew_2 = (resourceInitializationArray: Array<ResourceInitialization>, portion: Int32) => {
     let this = { jobject: JR.newJObject("BaseGameInitialization"), f_resourceInitializationArray: [> ], f_portion: 0l, f_initialized: false, f_EARLY_RESOURCES: 0l, f_GAME_RESOURCES: 0l, f_EARLY_CHANGABLE_RESOURCES: 0l, f_GAME_CHANGABLE_RESOURCES: 0l, f_gameInitialized: false, f_allLoaded: false, }
@@ -103,23 +109,32 @@ and jm_initKey = (this: BaseGameInitialization, portion: Int32) => {
 }
     
 and jm_initKeyMapping = (this: BaseGameInitialization, abeClientInformation: AbeClientInformationInterface, portion: Int32) => {
-        if (ChangedGameFeatureListener.jm_isChangedFeature(ChangedGameFeatureListener.jm_getInstance(), InputFeatureFactory.jm_getInstance().f_INPUT_MAPPING)) {
-            ignore(JR.className(JR.cast({
+        if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BaseChangedGameFeatureListener.jm_isChangedFeature"))
+JR.cast(jlate(JR.cast(ChangedGameFeatureListener.jm_getInstance()), JR.cast(InputFeatureFactory.jm_getInstance().f_INPUT_MAPPING)))
+}) {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("PersistentInputMapping.jm_init"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PlatformInputMappingFactory.jm_getPersistentInputMappingInstance"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("PlatformInputMappingFactory.jm_getInstance"))
 JR.cast(jlate())
 })))
-})))
+}), JR.cast(abeClientInformation)))
+})
             ignore(ProgressCanvasFactory.jm_addNormalPortion(ProgressCanvasFactory.jm_getInstance(), 50l, "Game Keys"))
-            ignore(ChangedGameFeatureListener.jm_remove(ChangedGameFeatureListener.jm_getInstance(), InputFeatureFactory.jm_getInstance().f_INPUT_MAPPING))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BaseChangedGameFeatureListener.jm_remove"))
+JR.cast(jlate(JR.cast(ChangedGameFeatureListener.jm_getInstance()), JR.cast(InputFeatureFactory.jm_getInstance().f_INPUT_MAPPING)))
+})
         }
 }
     
 and jm_init = (this: BaseGameInitialization, abeClientInformation: AbeClientInformationInterface, commandListener: CommandListener, level: Int32) => {
         let mut resourceLoadingLevelFactory: ResourceLoadingLevelFactory = JR.cast(ResourceLoadingLevelFactory.jm_getInstance())
         if ((!jm_isInitialized(this) && (((level == {
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Feature.jm_getLevel"))
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ResourceLoadingLevel.jm_getLevel"))
 JR.cast(jlate(JR.cast(resourceLoadingLevelFactory.f_LOAD_ALL)))
 }) || (level == {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ResourceLoadingLevel.jm_getLevel"))
@@ -143,13 +158,16 @@ let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicTouchInput
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("BasicTouchInputFactory.jm_getInstance"))
 JR.cast(jlate())
-}), JR.cast(JR.className(JR.cast({
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PersistentInputMapping.jm_getInputMapping"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PlatformInputMappingFactory.jm_getPersistentInputMappingInstance"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("PlatformInputMappingFactory.jm_getInstance"))
 JR.cast(jlate())
 })))
-})))))
+})))
+})))
 })
             ignore(CancelTouchButtonInputFactory.jm_getInstance())
             ignore(ProgressCanvas.jm_addNormalPortion(progressCanvas, localPortion, "Touch Input"))
@@ -163,7 +181,10 @@ JR.cast(jlate())
             ignore(ProgressCanvas.jm_addNormalPortion(progressCanvas, localPortion, "Motion Input"))
             ignore(GameFeatureImageCacheFactory.jm_init())
             ignore(ProgressCanvas.jm_addNormalPortion(progressCanvas, localPortion, "Image Cache"))
-            ignore(JR.className(JR.cast(this.f_resourceInitializationArray[Int32.toNumber(this.f_EARLY_RESOURCES)])))
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Init.jm_init"))
+JR.cast(jlate(JR.cast(this.f_resourceInitializationArray[Int32.toNumber(this.f_EARLY_RESOURCES)])))
+})
         }
 }
     
@@ -174,19 +195,34 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ResourceLoadingLevel.jm_
 JR.cast(jlate(JR.cast(resourceLoadingLevelFactory.f_LOAD_EARLY)))
 }))) {
             ignore(jm_clearResources(this))
-            ignore(JR.className(JR.cast(this.f_resourceInitializationArray[Int32.toNumber(this.f_EARLY_CHANGABLE_RESOURCES)])))
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Init.jm_init"))
+JR.cast(jlate(JR.cast(this.f_resourceInitializationArray[Int32.toNumber(this.f_EARLY_CHANGABLE_RESOURCES)])))
+})
         }
         if ((jm_resourceAnimationChange(this) && (level == {
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Feature.jm_getLevel"))
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ResourceLoadingLevel.jm_getLevel"))
 JR.cast(jlate(JR.cast(resourceLoadingLevelFactory.f_LOAD_ALL)))
 }))) {
             if (this.f_allLoaded) {
                 ignore(jm_clearResources(this))
             }
-            if ((JR.className(JR.cast(FeaturedAnimationInterfaceFactoryInterfaceFactory.jm_getList(FeaturedAnimationInterfaceFactoryInterfaceFactory.jm_getInstance()))) == 0l)) {
-                ignore(JR.className(JR.cast(this.f_resourceInitializationArray[Int32.toNumber(this.f_EARLY_CHANGABLE_RESOURCES)])))
+            if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FeaturedResourceFactory.jm_getList"))
+JR.cast(jlate(JR.cast(FeaturedAnimationInterfaceFactoryInterfaceFactory.jm_getInstance())))
+})))
+} == 0l)) {
+                ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Init.jm_init"))
+JR.cast(jlate(JR.cast(this.f_resourceInitializationArray[Int32.toNumber(this.f_EARLY_CHANGABLE_RESOURCES)])))
+})
             }
-            ignore(JR.className(JR.cast(this.f_resourceInitializationArray[Int32.toNumber(this.f_GAME_CHANGABLE_RESOURCES)])))
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Init.jm_init"))
+JR.cast(jlate(JR.cast(this.f_resourceInitializationArray[Int32.toNumber(this.f_GAME_CHANGABLE_RESOURCES)])))
+})
             this.f_allLoaded = true
         }
 }
@@ -197,7 +233,10 @@ and jm_resourceAnimationChange = (this: BaseGameInitialization) => {
         if (ChangedGameFeatureListener.jm_isChangedGameConfiguration(changedGameFeatureListener, gameConfigurationCentral.f_SCALE)) {
             return true
         }
-        if (ChangedGameFeatureListener.jm_isChangedFeature(ChangedGameFeatureListener.jm_getInstance(), MainFeatureFactory.jm_getInstance().f_STATIC)) {
+        if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BaseChangedGameFeatureListener.jm_isChangedFeature"))
+JR.cast(jlate(JR.cast(ChangedGameFeatureListener.jm_getInstance()), JR.cast(MainFeatureFactory.jm_getInstance().f_STATIC)))
+}) {
             return true
         }
         return false
@@ -207,8 +246,14 @@ and jm_clearResources = (this: BaseGameInitialization) => {
         this.f_allLoaded = false
         ignore(GameFeatureImageCacheFactory.jm_releaseAll())
         let mut featuredAnimationInterfaceFactoryInterfaceFactory: FeaturedAnimationInterfaceFactoryInterfaceFactory = JR.cast(FeaturedAnimationInterfaceFactoryInterfaceFactory.jm_getInstance())
-        ignore(FeaturedAnimationInterfaceFactoryInterfaceFactory.jm_clear(featuredAnimationInterfaceFactoryInterfaceFactory))
-        ignore(FeaturedResourceRelativeRelationshipFactory.jm_clear(FeaturedResourceRelativeRelationshipFactory.jm_getInstance()))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FeaturedResourceFactory.jm_clear"))
+JR.cast(jlate(JR.cast(featuredAnimationInterfaceFactoryInterfaceFactory)))
+})
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FeaturedResourceFactory.jm_clear"))
+JR.cast(jlate(JR.cast(FeaturedResourceRelativeRelationshipFactory.jm_getInstance())))
+})
 }
     
 and jm_setGameInitialized = (this: BaseGameInitialization, gameInitialized: Bool) => {
@@ -256,5 +301,6 @@ JR.registerLateBound("BaseGameInitialization.set_f_gameInitialized", (this: Base
 JR.registerLateBound("BaseGameInitialization.f_allLoaded", (this: BaseGameInitialization) => this.f_allLoaded)
 JR.registerLateBound("BaseGameInitialization.set_f_allLoaded", (this: BaseGameInitialization, jvalue) => { this.f_allLoaded = jvalue; jvalue })
 JR.registerLateBound("BaseGameInitialization.jstatic_NULL_BASE_GAME_INITIALIZATION", jstatic_NULL_BASE_GAME_INITIALIZATION)
+JR.registerLateBound("BaseGameInitialization.jset_NULL_BASE_GAME_INITIALIZATION", jset_NULL_BASE_GAME_INITIALIZATION)
 
 

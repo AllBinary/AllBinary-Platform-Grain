@@ -27,6 +27,8 @@ from "../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
 from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
 use StringMaker.{ type StringMaker }
+from "./PATH_GLOBALS.gr" include PATH_GLOBALS
+use PATH_GLOBALS.{ type PATH_GLOBALS }
 
 provide record FREEBLISKET_PATH_GLOBALS {
   jobject: JObject,
@@ -55,6 +57,10 @@ and jstatic_instance = () => match (jcell_instance) {
     jcell_instance = Some(value)
     value
   },
+}
+
+and jset_instance = (value: FREEBLISKET_PATH_GLOBALS) => {
+  jcell_instance = Some(value)
 }
     
 and jm_getInstance = () => {
@@ -86,14 +92,14 @@ let jlate: () => JObject = JR.cast(JR.lateBound("AbPathData.jm_getInstance"))
 JR.cast(jlate())
 })))
 }
-    this.f_DBINITPATH = JR.className(JR.cast(.jstatic_PATH_GLOBALS())).f_INIT_PATH ++ "db" ++ {
+    this.f_DBINITPATH = PATH_GLOBALS.jm_getInstance().f_INIT_PATH ++ "db" ++ {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATOR"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("AbPathData.jm_getInstance"))
 JR.cast(jlate())
 })))
 }
-    this.f_LINEDATAPATH = JR.className(JR.cast(.jstatic_PATH_GLOBALS())).f_INIT_PATH ++ "lineData" ++ {
+    this.f_LINEDATAPATH = PATH_GLOBALS.jm_getInstance().f_INIT_PATH ++ "lineData" ++ {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATOR"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("AbPathData.jm_getInstance"))
@@ -116,7 +122,7 @@ JR.cast(jlate())
 }))
         this.f_INSTALLPATH = StringMaker.jm_toString(stringBuffer)
         ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
-        ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(.jstatic_PATH_GLOBALS())).f_INIT_PATH))
+        ignore(StringMaker.jm_append(stringBuffer, PATH_GLOBALS.jm_getInstance().f_INIT_PATH))
         ignore(StringMaker.jm_append(stringBuffer, "views"))
         ignore(StringMaker.jm_append(stringBuffer, {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATOR"))
@@ -178,5 +184,6 @@ JR.registerLateBound("FREEBLISKET_PATH_GLOBALS.f_CONTEXTCONFIGURATIONPATH", (thi
 JR.registerLateBound("FREEBLISKET_PATH_GLOBALS.f_LICENSEERRORPAGE", (this: FREEBLISKET_PATH_GLOBALS) => this.f_LICENSEERRORPAGE)
 JR.registerLateBound("FREEBLISKET_PATH_GLOBALS.f_ERRORPAGE", (this: FREEBLISKET_PATH_GLOBALS) => this.f_ERRORPAGE)
 JR.registerLateBound("FREEBLISKET_PATH_GLOBALS.jstatic_instance", jstatic_instance)
+JR.registerLateBound("FREEBLISKET_PATH_GLOBALS.jset_instance", jset_instance)
 
 

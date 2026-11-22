@@ -57,8 +57,8 @@ provide let rec jclassName = () => "AllBinaryLayerManager"
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("AllBinaryLayerManager"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_systemWrapper: JR.jnull, f_tsUtil: JR.jnull, f_layerManagerLogging: JR.jnull, f_list: JR.jnull, f_object: JR.jnull, f_layerManagerEventHandler: JR.nullOf(), f_createLayerManagerEvent: JR.nullOf(), f_deleteLayerManagerEvent: JR.nullOf(), f_basicLayerProcessorArray: [> ], }
     this.f_layerManagerEventHandler = JR.cast(LayerManagerEventHandler.jm_getInstance())
-    this.f_createLayerManagerEvent = LayerManagerEvent.jnew_2(this, this.f_layerManagerEventHandler.f_CREATE)
-    this.f_deleteLayerManagerEvent = LayerManagerEvent.jnew_2(this, this.f_layerManagerEventHandler.f_DELETE)
+    this.f_createLayerManagerEvent = LayerManagerEvent.jnew_2(JR.cast(this), this.f_layerManagerEventHandler.f_CREATE)
+    this.f_deleteLayerManagerEvent = LayerManagerEvent.jnew_2(JR.cast(this), this.f_layerManagerEventHandler.f_DELETE)
     this.f_basicLayerProcessorArray = Array.make(Int32.toNumber(0l), JR.jnull)
         void
     this
@@ -123,10 +123,13 @@ and jm_appendProcessors = (this: AllBinaryLayerManager, layerInterface: AllBinar
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("LayerProcessor.jm_isProcessorLayer"))
 JR.cast(jlate(JR.cast(layerProcessorInterface), JR.cast(layerInterface)))
 }) {
-                ignore(JR.className(JR.cast({
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("LayerManager.jm_append"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LayerProcessor.jm_getLayerManager"))
 JR.cast(jlate(JR.cast(layerProcessorInterface)))
-})))
+}), JR.cast(layerInterface)))
+})
             }
             }
         }
@@ -143,10 +146,13 @@ and jm_remove = (this: AllBinaryLayerManager, layerInterface: AllBinaryLayer) =>
                 jfirst = false
                 if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
             layerProcessorInterface = this.f_basicLayerProcessorArray[Int32.toNumber(index)]
-            ignore(JR.className(JR.cast({
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("LayerManager.jm_remove"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LayerProcessor.jm_getLayerManager"))
 JR.cast(jlate(JR.cast(layerProcessorInterface)))
-})))
+}), JR.cast(layerInterface)))
+})
             }
         }
         ignore(jm_remove(this, layerInterface))
@@ -186,10 +192,13 @@ and jm_cleanup = (this: AllBinaryLayerManager) => {
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             layerProcessorInterface = this.f_basicLayerProcessorArray[Int32.toNumber(index)]
-            ignore(JR.className(JR.cast({
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LayerManager.jm_cleanup"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LayerProcessor.jm_getLayerManager"))
 JR.cast(jlate(JR.cast(layerProcessorInterface)))
 })))
+})
             }
         }
         ignore(jm_cleanup(this))

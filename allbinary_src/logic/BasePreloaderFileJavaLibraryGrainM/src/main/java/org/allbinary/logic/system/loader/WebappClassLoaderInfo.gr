@@ -27,6 +27,8 @@ from "../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
 from "../../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
 use NullUtil.{ type NullUtil }
+from "../../../../../java/lang/ClassLoader.gr" include ClassLoader
+use ClassLoader.{ type ClassLoader }
 
 provide record WebappClassLoaderInfo {
   jobject: JObject,
@@ -44,6 +46,10 @@ and jstatic_classLoader = () => match (jcell_classLoader) {
     value
   },
 }
+
+and jset_classLoader = (value: JObject) => {
+  jcell_classLoader = Some(value)
+}
     
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("WebappClassLoaderInfo"), }
@@ -52,7 +58,7 @@ and jnew_0 = () => {
 }
     
 and jm_setLoader = (classLoader: ClassLoader) => {
-        jstatic_classLoader() = classLoader
+        jset_classLoader(JR.cast(classLoader))
 }
     
 and jm_getLoader = () => {
@@ -63,5 +69,6 @@ JR.registerLateBound("WebappClassLoaderInfo.jnew_0", jnew_0)
 JR.registerLateBound("WebappClassLoaderInfo.jm_setLoader", jm_setLoader)
 JR.registerLateBound("WebappClassLoaderInfo.jm_getLoader", jm_getLoader)
 JR.registerLateBound("WebappClassLoaderInfo.jstatic_classLoader", jstatic_classLoader)
+JR.registerLateBound("WebappClassLoaderInfo.jset_classLoader", jset_classLoader)
 
 

@@ -51,7 +51,7 @@ and jnew_1 = (gameCanvas: JObject) => {
     this.f_gameStateFactory = JR.cast(GameStateFactory.jm_getInstance())
     
     this.f_WAIT = 5000L
-        this.f_gameCanvas = gameCanvas
+        this.f_gameCanvas = JR.cast(gameCanvas)
     this
 }
     
@@ -60,10 +60,13 @@ and jm_process = (this: EndGameProcessor) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_isHighScoreSubmitted"))
 JR.cast(jlate(JR.cast(this.f_gameCanvas)))
 }) {
-            if (JR.className(JR.cast({
+            if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TimeDelayHelper.jm_isElapsedTNT"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_getGameStateTimeHelper"))
 JR.cast(jlate(JR.cast(this.f_gameCanvas)))
-}))) {
+}), JR.cast(this.f_WAIT)))
+}) {
                 if (({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_getGameState"))
 JR.cast(jlate(JR.cast(this.f_gameCanvas)))
@@ -75,10 +78,13 @@ JR.cast(jlate(JR.cast(this.f_gameCanvas)))
                     let mut highScores: JObject = JR.cast(HighScoresHelperBase.jm_getSelectedHighScores(highScoresBase))
                     if ((!JR.isSame(highScores, NullHighScoresSingletonFactory.jm_getInstance()))) {
                         ignore(HighScoresHelperBase.jm_selectHighScores(highScoresBase))
-                        ignore(JR.className(JR.cast({
+                        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("HighScoresPaintable.jm_setHighScores"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_getRealHighScoresPaintable"))
 JR.cast(jlate(JR.cast(this.f_gameCanvas)))
-})))
+}), JR.cast(highScores)))
+})
                         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_setGameState"))
 JR.cast(jlate(JR.cast(this.f_gameCanvas), JR.cast(this.f_gameStateFactory.f_SHOW_HIGH_SCORE_GAME_STATE)))

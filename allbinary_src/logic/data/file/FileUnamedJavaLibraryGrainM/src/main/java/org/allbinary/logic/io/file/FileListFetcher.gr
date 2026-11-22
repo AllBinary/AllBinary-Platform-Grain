@@ -60,6 +60,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: FileListFetcher) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("FileListFetcher"), f_subDirectory: JR.nullOf(), }
     this.f_subDirectory = JR.cast(SubDirectory.jm_getInstance())
@@ -72,16 +76,16 @@ and jm_getInstance = () => {
     
 and jm_getFiles_1 = (this: FileListFetcher, path: String) => {
         {
-            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search(this.f_subDirectory, {
+            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search_1(this.f_subDirectory, JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFile"))
 JR.cast(jlate(JR.cast(path)))
-}))
+})))
             return files
         }
         return JR.nullOf()
 }
     
-and jm_getFiles_2 = (this: FileListFetcher, path: String, includeExtensions: Array<String>) => {
+and jm_getFiles_2_String_StringA_ = (this: FileListFetcher, path: String, includeExtensions: Array<String>) => {
         {
             let mut includeExtensionBasicArrayList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
             let mut size: Int32 = Int32.fromNumber(Array.length(includeExtensions))
@@ -94,28 +98,28 @@ and jm_getFiles_2 = (this: FileListFetcher, path: String, includeExtensions: Arr
                     }
                     jfirst = false
                     if (!(Int32.(<)(index, size))) break
-                ignore(BasicArrayList.jm_add(includeExtensionBasicArrayList, includeExtensions[Int32.toNumber(index)]))
+                ignore(BasicArrayList.jm_add(includeExtensionBasicArrayList, JR.cast(includeExtensions[Int32.toNumber(index)])))
                 }
             }
-            let mut visitorFileFilter: VisitorFileFilter = VisitorFileFilter.jnew_1(DirectoryOrIncludeFileExtensionBooleanFileVisitor.jnew_1(includeExtensionBasicArrayList))
-            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search(this.f_subDirectory, JR.cast(visitorFileFilter), {
+            let mut visitorFileFilter: VisitorFileFilter = VisitorFileFilter.jnew_1(JR.cast(DirectoryOrIncludeFileExtensionBooleanFileVisitor.jnew_1(includeExtensionBasicArrayList)))
+            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search_2_FileFilter_AbFile_(this.f_subDirectory, JR.cast(visitorFileFilter), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFile"))
 JR.cast(jlate(JR.cast(path)))
-}))
+})))
             return files
         }
         return JR.nullOf()
 }
     
-and jm_getFiles_2 = (this: FileListFetcher, path: String, includeExtension: String) => {
+and jm_getFiles_2_String_String_ = (this: FileListFetcher, path: String, includeExtension: String) => {
         {
             let mut includeExtensionBasicArrayList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
             ignore(BasicArrayList.jm_add(includeExtensionBasicArrayList, JR.cast(includeExtension)))
-            let mut visitorFileFilter: VisitorFileFilter = VisitorFileFilter.jnew_1(DirectoryOrIncludeFileExtensionBooleanFileVisitor.jnew_1(includeExtensionBasicArrayList))
-            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search(this.f_subDirectory, JR.cast(visitorFileFilter), {
+            let mut visitorFileFilter: VisitorFileFilter = VisitorFileFilter.jnew_1(JR.cast(DirectoryOrIncludeFileExtensionBooleanFileVisitor.jnew_1(includeExtensionBasicArrayList)))
+            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search_2_FileFilter_AbFile_(this.f_subDirectory, JR.cast(visitorFileFilter), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFile"))
 JR.cast(jlate(JR.cast(path)))
-}))
+})))
             return files
         }
         return JR.nullOf()
@@ -125,17 +129,17 @@ and jm_getFiles_3 = (this: FileListFetcher, path: String, pathIncludes: String, 
         {
             let mut includeExtensionBasicArrayList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
             ignore(BasicArrayList.jm_add(includeExtensionBasicArrayList, JR.cast(includeExtension)))
-            let mut visitorFileFilter: VisitorFileFilter = VisitorFileFilter.jnew_1(DirectoryOrIncludeFileExtensionBooleanFileVisitor.jnew_2(includeExtensionBasicArrayList, pathIncludes))
-            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search(this.f_subDirectory, JR.cast(visitorFileFilter), {
+            let mut visitorFileFilter: VisitorFileFilter = VisitorFileFilter.jnew_1(JR.cast(DirectoryOrIncludeFileExtensionBooleanFileVisitor.jnew_2(includeExtensionBasicArrayList, pathIncludes)))
+            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search_2_FileFilter_AbFile_(this.f_subDirectory, JR.cast(visitorFileFilter), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFile"))
 JR.cast(jlate(JR.cast(path)))
-}))
+})))
             return files
         }
         return JR.nullOf()
 }
     
-and jm_getTrackedFiles_2 = (this: FileListFetcher, path: String, includeExtensions: Array<String>) => {
+and jm_getTrackedFiles_2_String_StringA_ = (this: FileListFetcher, path: String, includeExtensions: Array<String>) => {
         {
             let mut includeExtensionBasicArrayList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
             let mut size: Int32 = Int32.fromNumber(Array.length(includeExtensions))
@@ -148,28 +152,28 @@ and jm_getTrackedFiles_2 = (this: FileListFetcher, path: String, includeExtensio
                     }
                     jfirst = false
                     if (!(Int32.(<)(index, size))) break
-                ignore(BasicArrayList.jm_add(includeExtensionBasicArrayList, includeExtensions[Int32.toNumber(index)]))
+                ignore(BasicArrayList.jm_add(includeExtensionBasicArrayList, JR.cast(includeExtensions[Int32.toNumber(index)])))
                 }
             }
-            let mut visitorFileFilter: VisitorFileFilter = VisitorFileFilter.jnew_1(DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor.jnew_1(includeExtensionBasicArrayList))
-            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search(this.f_subDirectory, JR.cast(visitorFileFilter), {
+            let mut visitorFileFilter: VisitorFileFilter = VisitorFileFilter.jnew_1(JR.cast(DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor.jnew_1(includeExtensionBasicArrayList)))
+            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search_2_FileFilter_AbFile_(this.f_subDirectory, JR.cast(visitorFileFilter), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFile"))
 JR.cast(jlate(JR.cast(path)))
-}))
+})))
             return files
         }
         return JR.nullOf()
 }
     
-and jm_getTrackedFiles_2 = (this: FileListFetcher, path: String, includeExtension: String) => {
+and jm_getTrackedFiles_2_String_String_ = (this: FileListFetcher, path: String, includeExtension: String) => {
         {
             let mut includeExtensionBasicArrayList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
             ignore(BasicArrayList.jm_add(includeExtensionBasicArrayList, JR.cast(includeExtension)))
-            let mut visitorFileFilter: VisitorFileFilter = VisitorFileFilter.jnew_1(DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor.jnew_1(includeExtensionBasicArrayList))
-            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search(this.f_subDirectory, JR.cast(visitorFileFilter), {
+            let mut visitorFileFilter: VisitorFileFilter = VisitorFileFilter.jnew_1(JR.cast(DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor.jnew_1(includeExtensionBasicArrayList)))
+            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search_2_FileFilter_AbFile_(this.f_subDirectory, JR.cast(visitorFileFilter), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFile"))
 JR.cast(jlate(JR.cast(path)))
-}))
+})))
             return files
         }
         return JR.nullOf()
@@ -177,11 +181,11 @@ JR.cast(jlate(JR.cast(path)))
     
 and jm_getDirectories = (this: FileListFetcher, path: String) => {
         {
-            let mut visitorFileFilter: VisitorFileFilter = VisitorFileFilter.jnew_1(DirectoryBooleanFileVisitor.jnew_0())
-            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search(this.f_subDirectory, JR.cast(visitorFileFilter), {
+            let mut visitorFileFilter: VisitorFileFilter = VisitorFileFilter.jnew_1(JR.cast(DirectoryBooleanFileVisitor.jnew_0()))
+            let mut files: BasicArrayList = JR.cast(SubDirectory.jm_search_2_FileFilter_AbFile_(this.f_subDirectory, JR.cast(visitorFileFilter), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFile"))
 JR.cast(jlate(JR.cast(path)))
-}))
+})))
             return files
         }
         return JR.nullOf()
@@ -190,13 +194,14 @@ JR.cast(jlate(JR.cast(path)))
 JR.registerLateBound("FileListFetcher.jnew_0", jnew_0)
 JR.registerLateBound("FileListFetcher.jm_getInstance", jm_getInstance)
 JR.registerLateBound("FileListFetcher.jm_getFiles_1", jm_getFiles_1)
-JR.registerLateBound("FileListFetcher.jm_getFiles_2", jm_getFiles_2)
-JR.registerLateBound("FileListFetcher.jm_getFiles_2", jm_getFiles_2)
+JR.registerLateBound("FileListFetcher.jm_getFiles_2_String_StringA_", jm_getFiles_2_String_StringA_)
+JR.registerLateBound("FileListFetcher.jm_getFiles_2_String_String_", jm_getFiles_2_String_String_)
 JR.registerLateBound("FileListFetcher.jm_getFiles_3", jm_getFiles_3)
-JR.registerLateBound("FileListFetcher.jm_getTrackedFiles_2", jm_getTrackedFiles_2)
-JR.registerLateBound("FileListFetcher.jm_getTrackedFiles_2", jm_getTrackedFiles_2)
+JR.registerLateBound("FileListFetcher.jm_getTrackedFiles_2_String_StringA_", jm_getTrackedFiles_2_String_StringA_)
+JR.registerLateBound("FileListFetcher.jm_getTrackedFiles_2_String_String_", jm_getTrackedFiles_2_String_String_)
 JR.registerLateBound("FileListFetcher.jm_getDirectories", jm_getDirectories)
 JR.registerLateBound("FileListFetcher.f_subDirectory", (this: FileListFetcher) => this.f_subDirectory)
 JR.registerLateBound("FileListFetcher.jstatic_instance", jstatic_instance)
+JR.registerLateBound("FileListFetcher.jset_instance", jset_instance)
 
 

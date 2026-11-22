@@ -56,6 +56,10 @@ and jstatic_JSP_ERROR_NO_FUNCTION = () => match (jcell_JSP_ERROR_NO_FUNCTION) {
   },
 }
 
+and jset_JSP_ERROR_NO_FUNCTION = (value: String) => {
+  jcell_JSP_ERROR_NO_FUNCTION = Some(value)
+}
+
 and jstatic_LOGGING = () => match (jcell_LOGGING) {
   Some(value) => value,
   None => {
@@ -63,6 +67,10 @@ and jstatic_LOGGING = () => match (jcell_LOGGING) {
     jcell_LOGGING = Some(value)
     value
   },
+}
+
+and jset_LOGGING = (value: BasicArrayList) => {
+  jcell_LOGGING = Some(value)
 }
     
 and jinitializer = () => {
@@ -105,27 +113,21 @@ JR.cast(jlate(JR.cast(loggingInitInfo)))
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
 JR.cast(jlate(JR.cast("Number Of Log Config Type Names: " ++ toString(BasicArrayList.jm_size(logConfigTypeVector))), JR.cast("LogConfigTypes"), JR.cast("init()")))
 })
-            ignore({
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_addAllList"))
-JR.cast(jlate(JR.cast(jstatic_LOGGING()), JR.cast(logConfigTypeVector)))
-})
-            ignore({
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_add"))
-JR.cast(jlate(JR.cast(jstatic_LOGGING()), JR.cast({
+            ignore(BasicArrayList.jm_addAllList(jstatic_LOGGING(), logConfigTypeVector))
+            ignore(BasicArrayList.jm_add(jstatic_LOGGING(), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_NETBEANS_MODULE"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
 JR.cast(jlate())
 })))
 })))
-})
         }
 }
     
 and jm_getInstance = (node: Node) => {
-        let mut nameValueNode: Node = JR.cast(DomSearchHelper.jm_getNode(LogConfigTypeData.jm_getInstance().f_NAME, Node.jm_getChildNodes(node)))
+        let mut nameValueNode: Node = JR.cast(DomSearchHelper.jm_getNode(LogConfigTypeData.jm_getInstance().f_NAME, JR.cast(Node.jm_getChildNodes(node))))
         let mut name: String = DomNodeHelper.jm_getTextNodeValue_1(nameValueNode)
-        let mut descriptionValueNode: Node = JR.cast(DomSearchHelper.jm_getNodeNoThrow(LogConfigTypeData.jm_getInstance().f_DESCRIPTION, Node.jm_getChildNodes(node)))
+        let mut descriptionValueNode: Node = JR.cast(DomSearchHelper.jm_getNodeNoThrow(LogConfigTypeData.jm_getInstance().f_DESCRIPTION, JR.cast(Node.jm_getChildNodes(node))))
         if (!JR.isNull(descriptionValueNode)) {
             let mut description: String = DomNodeHelper.jm_getTextNodeValue_1(descriptionValueNode)
         }
@@ -161,6 +163,8 @@ JR.registerLateBound("LogConfigTypes.jnew_0", jnew_0)
 JR.registerLateBound("LogConfigTypes.jm_init", jm_init)
 JR.registerLateBound("LogConfigTypes.jm_getInstance", jm_getInstance)
 JR.registerLateBound("LogConfigTypes.jstatic_JSP_ERROR_NO_FUNCTION", jstatic_JSP_ERROR_NO_FUNCTION)
+JR.registerLateBound("LogConfigTypes.jset_JSP_ERROR_NO_FUNCTION", jset_JSP_ERROR_NO_FUNCTION)
 JR.registerLateBound("LogConfigTypes.jstatic_LOGGING", jstatic_LOGGING)
+JR.registerLateBound("LogConfigTypes.jset_LOGGING", jset_LOGGING)
 
 

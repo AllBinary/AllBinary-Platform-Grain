@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../../javax/microedition/lcdui/ItemStateListener.gr" include ItemStateListener
+use ItemStateListener.{ type ItemStateListener }
 from "../../../../../org/allbinary/game/configuration/GameConfigurationGauge.gr" include GameConfigurationGauge
 use GameConfigurationGauge.{ type GameConfigurationGauge }
 from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
@@ -62,6 +64,10 @@ and jstatic_toggleList = () => match (jcell_toggleList) {
     value
   },
 }
+
+and jset_toggleList = (value: BasicArrayList) => {
+  jcell_toggleList = Some(value)
+}
     
 and jnew_1 = (gameOptionsForm: JObject) => {
     let this = { jobject: JR.newJObject("GameFeatureItemStateListener"), f_logUtil: JR.jnull, f_gameOptionsForm: JR.jnull, }
@@ -70,7 +76,7 @@ let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
 })
     
-        this.f_gameOptionsForm = gameOptionsForm
+        this.f_gameOptionsForm = JR.cast(gameOptionsForm)
         let mut gameFeatureFactory: GameFeatureFactory = JR.cast(GameFeatureFactory.jm_getInstance())
         ignore(jm_add(gameFeatureFactory.f_ARTIFICIAL_INTELLEGENCE_PROCESSOR))
         ignore(jm_add(gameFeatureFactory.f_COLLIDABLE_INTERFACE_LAYER_PROCESSOR))
@@ -84,14 +90,8 @@ JR.cast(jlate())
 }
     
 and jm_add = (gameFeature: GameFeature) => {
-        if (!{
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
-JR.cast(jlate(JR.cast(jstatic_toggleList()), JR.cast(gameFeature)))
-}) {
-            ignore({
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_add"))
-JR.cast(jlate(JR.cast(jstatic_toggleList()), JR.cast(gameFeature)))
-})
+        if (!BasicArrayList.jm_contains(jstatic_toggleList(), JR.cast(gameFeature))) {
+            ignore(BasicArrayList.jm_add(jstatic_toggleList(), JR.cast(gameFeature)))
         }
 }
     
@@ -131,5 +131,6 @@ JR.registerLateBound("GameFeatureItemStateListener.f_logUtil", (this: GameFeatur
 JR.registerLateBound("GameFeatureItemStateListener.f_gameOptionsForm", (this: GameFeatureItemStateListener) => this.f_gameOptionsForm)
 JR.registerLateBound("GameFeatureItemStateListener.set_f_gameOptionsForm", (this: GameFeatureItemStateListener, jvalue) => { this.f_gameOptionsForm = jvalue; jvalue })
 JR.registerLateBound("GameFeatureItemStateListener.jstatic_toggleList", jstatic_toggleList)
+JR.registerLateBound("GameFeatureItemStateListener.jset_toggleList", jset_toggleList)
 
 

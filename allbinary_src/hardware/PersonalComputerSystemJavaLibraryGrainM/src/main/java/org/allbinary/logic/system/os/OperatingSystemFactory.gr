@@ -67,6 +67,10 @@ and jstatic_instance = () => match (jcell_instance) {
     value
   },
 }
+
+and jset_instance = (value: OperatingSystemFactory) => {
+  jcell_instance = Some(value)
+}
     
 and jm_getInstance = () => {
         return jstatic_instance()
@@ -129,7 +133,7 @@ let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBoun
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Found a Linux OS"), JR.cast(this), JR.cast(this.f_commonStrings.f_GET_INSTANCE)))
 })
                     }
-                    this.f_genericOperatingSystem = LinuxOperatingSystemFactory.jm_getOperatingSystemInstance(LinuxOperatingSystemFactory.jm_getInstance())
+                    this.f_genericOperatingSystem = JR.cast(LinuxOperatingSystemFactory.jm_getOperatingSystemInstance(LinuxOperatingSystemFactory.jm_getInstance()))
                 } else if (Int32.(>=)(JR.indexOf(osName, operatingSystems.f_WINDOWS), 0l)) {
                     if ({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
@@ -149,7 +153,7 @@ let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBoun
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Found a Windows OS"), JR.cast(this), JR.cast(this.f_commonStrings.f_GET_INSTANCE)))
 })
                     }
-                    this.f_genericOperatingSystem = WindowsOperatingSystemFactory.jm_getOperatingSystemInstance(WindowsOperatingSystemFactory.jm_getInstance())
+                    this.f_genericOperatingSystem = JR.cast(WindowsOperatingSystemFactory.jm_getOperatingSystemInstance(WindowsOperatingSystemFactory.jm_getInstance()))
                 } else if (Int32.(>=)(JR.indexOf(osName, operatingSystems.f_SOLARIS), 0l)) {
                     if ({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
@@ -169,7 +173,7 @@ let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBoun
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Found a Solaris OS"), JR.cast(this), JR.cast(this.f_commonStrings.f_GET_INSTANCE)))
 })
                     }
-                    this.f_genericOperatingSystem = SolarisOperatingSystemFactory.jm_getOperatingSystemInstance(SolarisOperatingSystemFactory.jm_getInstance())
+                    this.f_genericOperatingSystem = JR.cast(SolarisOperatingSystemFactory.jm_getOperatingSystemInstance(SolarisOperatingSystemFactory.jm_getInstance()))
                 } else {
                     fail JR.toStringOf(JR.newJObject("Exception"))
                 }
@@ -198,5 +202,6 @@ JR.registerLateBound("OperatingSystemFactory.set_f_genericOperatingSystem", (thi
 JR.registerLateBound("OperatingSystemFactory.f_hasDetected", (this: OperatingSystemFactory) => this.f_hasDetected)
 JR.registerLateBound("OperatingSystemFactory.set_f_hasDetected", (this: OperatingSystemFactory, jvalue) => { this.f_hasDetected = jvalue; jvalue })
 JR.registerLateBound("OperatingSystemFactory.jstatic_instance", jstatic_instance)
+JR.registerLateBound("OperatingSystemFactory.jset_instance", jset_instance)
 
 

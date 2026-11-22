@@ -58,7 +58,13 @@ and jnew_1 = (collidable: Bool) => {
 }
     
 and jm_isCollision = (this: CollidableDestroyableDamageableBehavior, ownerLayer: CollidableCompositeLayer, collisionLayer: CollidableCompositeLayer) => {
-        if ((CollidableCompositeLayer.jm_getGroupInterface(ownerLayer)[Int32.toNumber(0l)] != CollidableCompositeLayer.jm_getGroupInterface(collisionLayer)[Int32.toNumber(0l)])) {
+        if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_getGroupInterface"))
+JR.cast(jlate(JR.cast(ownerLayer)))
+}[Int32.toNumber(0l)] != {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_getGroupInterface"))
+JR.cast(jlate(JR.cast(collisionLayer)))
+}[Int32.toNumber(0l)])) {
             return jm_isCollision(this, ownerLayer, collisionLayer)
         }
         return false

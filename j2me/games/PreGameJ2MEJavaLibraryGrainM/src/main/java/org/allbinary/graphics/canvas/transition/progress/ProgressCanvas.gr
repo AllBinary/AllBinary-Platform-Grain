@@ -25,6 +25,10 @@ from "char" include Char
 from "array" include Array
 from "../../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../../../javax/microedition/lcdui/CommandListener.gr" include CommandListener
+use CommandListener.{ type CommandListener }
+from "../../../../../../javax/microedition/lcdui/NullCommandListener.gr" include NullCommandListener
+use NullCommandListener.{ type NullCommandListener }
 from "../../../../../../org/allbinary/canvas/Processor.gr" include Processor
 use Processor.{ type Processor }
 from "../../../../../../org/allbinary/canvas/RunnableCanvas.gr" include RunnableCanvas
@@ -134,7 +138,7 @@ JR.cast(jlate(JR.cast(this)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_LOADING"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 }
-    this.f_updateMyFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(this))
+    this.f_updateMyFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(JR.cast(this)))
     this.f_myFontProcessor = JR.cast(this.f_updateMyFontProcessor)
     this.f_allbinaryMidlet = JR.cast(AllBinaryMidlet.jm_getNullInstance())
     
@@ -150,11 +154,11 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
     this.f_ADD_PORTION = "addPortion"
     this.f_ADD_EARLY_PORTION = "addEarlyPortion"
         void
-        this.f_backgroundBasicColor = backgroundBasicColor
-        this.f_gauge = {
+        this.f_backgroundBasicColor = JR.cast(backgroundBasicColor)
+        this.f_gauge = JR.cast({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABCustomGaugeItem.jnew_5"))
 JR.cast(jlate(JR.cast(StringUtil.jm_getInstance().f_EMPTY_STRING), JR.cast(JR.d2i(Float32.toNumber(this.f_maxValue))), JR.cast(0l), JR.cast(backgroundBasicColor), JR.cast(foregroundBasicColor)))
-}
+})
     this
 }
     
@@ -170,11 +174,11 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Font.jm_getHeight"))
 JR.cast(jlate(JR.cast(font)))
 }, 2l))))
 })
-        this.f_myFontProcessor = MyFontProcessor.jm_getInstance()
+        this.f_myFontProcessor = JR.cast(MyFontProcessor.jm_getInstance())
 }
     
 and jm_init = (this: ProgressCanvas, gameMidlet: AllBinaryMidlet) => {
-        this.f_allbinaryMidlet = gameMidlet
+        this.f_allbinaryMidlet = JR.cast(gameMidlet)
 }
     
 and jm_update = (this: ProgressCanvas, graphics: JObject) => {
@@ -214,8 +218,8 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 })
         ignore(jm_setText(this, this.f_TEXT))
         ignore(jm_setValue(this, 0l))
-        this.f_inGameProcessor = Processor.jm_getInstance()
-        this.f_paintable = this.f_GAUGE_PAINTABLE
+        this.f_inGameProcessor = JR.cast(Processor.jm_getInstance())
+        this.f_paintable = JR.cast(this.f_GAUGE_PAINTABLE)
         this.f_inProgress = true
 }
     
@@ -228,15 +232,15 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 }), JR.cast(this), JR.cast(this.f_START_BACKGROUND)))
 })
         ignore(jm_setBackground(this, background))
-        this.f_myFontProcessor = this.f_updateMyFontProcessor
+        this.f_myFontProcessor = JR.cast(this.f_updateMyFontProcessor)
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABCustomGaugeItem.jm_setLabel"))
 JR.cast(jlate(JR.cast(this.f_gauge), JR.cast(this.f_backgroundLabel)))
 })
         ignore(jm_setText(this, this.f_TEXT))
         ignore(jm_setValue(this, 0l))
-        this.f_inGameProcessor = Processor.jm_getInstance()
-        this.f_paintable = this.f_GAUGE_PAINTABLE
+        this.f_inGameProcessor = JR.cast(Processor.jm_getInstance())
+        this.f_paintable = JR.cast(this.f_GAUGE_PAINTABLE)
 }
     
 and jm_endActual = (this: ProgressCanvas) => {
@@ -250,7 +254,7 @@ JR.cast(jlate())
     
 and jm_inGame = (this: ProgressCanvas) => {
         ignore(ProgressEndListener.jm_onEndEvent(this.f_progressEndListener))
-        this.f_inGameProcessor = this.f_IN_GAME_PROCESSOR
+        this.f_inGameProcessor = JR.cast(this.f_IN_GAME_PROCESSOR)
 }
     
 and jm_end = (this: ProgressCanvas) => {
@@ -269,7 +273,7 @@ let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABCustomGaugeIt
 JR.cast(jlate(JR.cast(this.f_gauge), JR.cast(jm_getMaxValue(this))))
 })
         ignore(jm_endActual(this))
-        this.f_paintable = NullPaintable.jm_getInstance()
+        this.f_paintable = JR.cast(NullPaintable.jm_getInstance())
 }
     
 and jm_endFromInitialLazyLoadingComplete = (this: ProgressCanvas) => {
@@ -278,7 +282,7 @@ and jm_endFromInitialLazyLoadingComplete = (this: ProgressCanvas) => {
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABCustomGaugeItem.jm_setValue"))
 JR.cast(jlate(JR.cast(this.f_gauge), JR.cast(jm_getMaxValue(this))))
 })
-        this.f_inGameProcessor = this.f_IN_GAME_PROCESSOR
+        this.f_inGameProcessor = JR.cast(this.f_IN_GAME_PROCESSOR)
 }
     
 and jm_isInGame = (this: ProgressCanvas) => {

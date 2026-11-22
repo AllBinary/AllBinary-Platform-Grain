@@ -66,10 +66,13 @@ provide let rec jclassName = () => "CaptionAnimationHelper"
 and jnew_5 = (captionAnimation: Animation, captionDx: Int32, captionDy: Int32, dx: Int32, dy: Int32) => {
     let this = { jobject: JR.newJObject("CaptionAnimationHelper"), f_basicSetColorUtil: JR.jnull, f_basicColor: JR.jnull, f_colorP: 0l, f_changeBasicColorP: JR.jnull, f_changeColorP: 0l, f_alphaP: 0l, f_timeHelper: JR.nullOf(), f_textAnimation: JR.nullOf(), f_captionAnimation: JR.nullOf(), f_animation: JR.nullOf(), }
     this.f_timeHelper = TimeDelayHelper.jnew_1(620l)
-    this.f_textAnimation = TextAnimation.jnew_2(StringUtil.jm_getInstance().f_EMPTY_STRING, AnimationBehavior.jm_getInstance())
+    this.f_textAnimation = TextAnimation.jnew_2(StringUtil.jm_getInstance().f_EMPTY_STRING, JR.cast(AnimationBehavior.jm_getInstance()))
     
-    this.f_animation = JR.cast(JR.className(JR.cast(NullAnimationFactory.jm_getFactoryInstance())))
-        this.f_captionAnimation = JR.cast(CaptionAnimation.jnew_6(captionAnimation, this.f_textAnimation, captionDx, captionDy, dx, dy))
+    this.f_animation = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("NullAnimationFactory.jm_getInstance"))
+JR.cast(jlate(JR.cast(NullAnimationFactory.jm_getFactoryInstance()), JR.cast(0l)))
+})
+        this.f_captionAnimation = JR.cast(JR.cast(CaptionAnimation.jnew_6(captionAnimation, this.f_textAnimation, captionDx, captionDy, dx, dy)))
     this
 }
     
@@ -83,14 +86,20 @@ and jm_isShowing = (this: CaptionAnimationHelper) => {
     
 and jm_tick = (this: CaptionAnimationHelper) => {
         if (TimeDelayHelper.jm_isTime(this.f_timeHelper, GameTickTimeDelayHelperFactory.jm_getInstance().f_startTime)) {
-            this.f_animation = JR.className(JR.cast(NullAnimationFactory.jm_getFactoryInstance()))
+            this.f_animation = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("NullAnimationFactory.jm_getInstance"))
+JR.cast(jlate(JR.cast(NullAnimationFactory.jm_getFactoryInstance()), JR.cast(0l)))
+})
         }
 }
     
 and jm_update = (this: CaptionAnimationHelper, message: String, basicColor: BasicColor) => {
-        ignore(TextAnimation.jm_setBasicColorP(this.f_textAnimation, basicColor))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Animation.jm_setBasicColorP"))
+JR.cast(jlate(JR.cast(this.f_textAnimation), JR.cast(basicColor)))
+})
         ignore(TextAnimation.jm_setText(this.f_textAnimation, message))
-        this.f_animation = this.f_captionAnimation
+        this.f_animation = JR.cast(this.f_captionAnimation)
         ignore(TimeDelayHelper.jm_setStartTimeTNT(this.f_timeHelper))
 }
     

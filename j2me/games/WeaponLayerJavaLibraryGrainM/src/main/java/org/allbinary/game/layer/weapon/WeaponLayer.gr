@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../../javax/microedition/khronos/opengles/GL.gr" include GL
+use GL.{ type GL }
 from "../../../../../org/allbinary/animation/Animation.gr" include Animation
 use Animation.{ type Animation }
 from "../../../../../org/allbinary/animation/IndexedAnimation.gr" include IndexedAnimation
@@ -112,7 +114,10 @@ provide let rec jclassName = () => "WeaponLayer"
     
 and jnew_8 = (name: String, remoteInfo: JObject, multiPlayerType: Int32, movement: Movement, animationInterface: Animation, destroyedAnimationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase) => {
     let this = { jobject: JR.newJObject("WeaponLayer"), f_logUtil: JR.jnull, f_x: 0l, f_y: 0l, f_z: 0l, f_width: 0l, f_height: 0l, f_visible: false, f_viewPositionEvent: JR.jnull, f_halfWidth: 0l, f_halfHeight: 0l, f_name: "", f_viewPosition: JR.jnull, f_commonStrings: JR.jnull, f_basicSetColorUtil: JR.jnull, f_RED: JR.jnull, f_paintable: JR.jnull, f_gameKeyEventList: JR.jnull, f_collidableInferface: JR.jnull, f_groupInterface: [> ], f_readyForExplosion: false, f_initWidth: 0l, f_initHeight: 0l, f_initX: 0l, f_initY: 0l, f_initZ: 0l, f_partInterfaceArrayP: [> ], f_pickupBehavior: JR.jnull, f_allBinaryGameLayerManagerP: JR.jnull, f_isDraggable: false, f_isDragged: false, f_isDropped: false, f_animationInterface: JR.nullOf(), f_initAnimationInterface: JR.nullOf(), f_destroyedAnimationInterface: JR.nullOf(), f_sourceLayerInterface: JR.nullOf(), f_totalDamage: 0l, f_initDamage: 0l, f_destroyed: false, f_scoreableInterface: JR.nullOf(), f_movement: JR.nullOf(), f_weaponProperties: JR.nullOf(), f_multiPlayerType: 0l, f_collidableWeaponBehavior: JR.nullOf(), }
-    this.f_animationInterface = JR.cast(JR.className(JR.cast(NullAnimationFactory.jm_getFactoryInstance())))
+    this.f_animationInterface = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("NullAnimationFactory.jm_getInstance"))
+JR.cast(jlate(JR.cast(NullAnimationFactory.jm_getFactoryInstance()), JR.cast(0l)))
+})
     
     
     this.f_sourceLayerInterface = JR.cast(AllBinaryLayer.jstatic_NULL_ALLBINARY_LAYER())
@@ -125,10 +130,10 @@ and jnew_8 = (name: String, remoteInfo: JObject, multiPlayerType: Int32, movemen
     
     this.f_collidableWeaponBehavior = JR.cast(CollidableWeaponBehavior.jm_getNullInstance())
         void
-        this.f_initAnimationInterface = animationInterface
+        this.f_initAnimationInterface = JR.cast(animationInterface)
         ignore(jm_setAnimationInterface(this, animationInterface))
-        this.f_destroyedAnimationInterface = destroyedAnimationInterface
-        this.f_movement = movement
+        this.f_destroyedAnimationInterface = JR.cast(destroyedAnimationInterface)
+        this.f_movement = JR.cast(movement)
         this.f_multiPlayerType = multiPlayerType
     this
 }
@@ -158,12 +163,15 @@ JR.cast(jlate(JR.cast(this), JR.cast(false)))
         ignore(CollidableWeaponBehavior.jm_init(this.f_collidableWeaponBehavior, sourceLayerInterface))
         ignore(jm_setGroupInterfaces(this))
         if (!JR.isNull(scoreable)) {
-            this.f_scoreableInterface = scoreable
+            this.f_scoreableInterface = JR.cast(scoreable)
         }
         this.f_totalDamage = 0l
-        this.f_initDamage = WeaponProperties.jm_getDamage(weaponProperties)
+        this.f_initDamage = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SimpleWeaponProperties.jm_getDamage"))
+JR.cast(jlate(JR.cast(weaponProperties)))
+}
         ignore(jm_setDestroyed(this, false))
-        ignore(Movement.jm_init(this.f_movement, WeaponProperties.jm_getSpeed(weaponProperties), angle, otherAngle))
+        ignore(Movement.jm_init(this.f_movement, JR.cast(WeaponProperties.jm_getSpeed(weaponProperties)), angle, otherAngle))
 }
     
 and jm_setGroupInterfaces = (this: WeaponLayer) => {
@@ -190,7 +198,10 @@ JR.cast(jlate(JR.cast(this)))
                 let mut indexedAnimationInterface: IndexedAnimation = JR.cast(jm_getAnimationInterface(this))
                 let mut currentFrame: Int32 = IndexedAnimation.jm_getFrame(indexedAnimationInterface)
                 if (Int32.(<)(currentFrame, Int32.(-)(IndexedAnimation.jm_getAnimationSize(indexedAnimationInterface), 1l))) {
-                    ignore(IndexedAnimation.jm_nextFrame(indexedAnimationInterface))
+                    ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Animation.jm_nextFrame"))
+JR.cast(jlate(JR.cast(indexedAnimationInterface)))
+})
                 } else {
                     ignore(jm_setDestroyed(this, true))
                 }
@@ -212,7 +223,10 @@ JR.cast(jlate(JR.cast(this), JR.cast(true)))
             }
         }
         ignore(Movement.jm_process(this.f_movement, JR.cast(this)))
-        this.f_totalDamage = Int32.(+)(this.f_totalDamage, WeaponProperties.jm_getDissipation(this.f_weaponProperties))
+        this.f_totalDamage = Int32.(+)(this.f_totalDamage, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SimpleWeaponProperties.jm_getDissipation"))
+JR.cast(jlate(JR.cast(this.f_weaponProperties)))
+})
 }
     
 and jm_isDestroyed = (this: WeaponLayer) => {
@@ -247,8 +261,11 @@ and jm_getDamage = (this: WeaponLayer, damageType: Int32) => {
 and jm_setDestroyed = (this: WeaponLayer, destroyed: Bool) => {
         this.f_destroyed = destroyed
         if (jm_isDestroyed(this)) {
-            this.f_scoreableInterface = NoScoreable.jm_getInstance()
-            ignore(DestroyedLayerProcessor.jm_add(DestroyedLayerProcessor.jm_getInstance(), this))
+            this.f_scoreableInterface = JR.cast(NoScoreable.jm_getInstance())
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicLayerProcessor.jm_add"))
+JR.cast(jlate(JR.cast(DestroyedLayerProcessor.jm_getInstance()), JR.cast(this)))
+})
         }
 }
     
@@ -257,7 +274,7 @@ and jm_getInitDamage = (this: WeaponLayer) => {
 }
     
 and jm_setAnimationInterface = (this: WeaponLayer, animationInterface: Animation) => {
-        this.f_animationInterface = animationInterface
+        this.f_animationInterface = JR.cast(animationInterface)
 }
     
 and jm_getAnimationInterface = (this: WeaponLayer) => {
@@ -269,7 +286,7 @@ and jm_getInitAnimationInterfaceP = (this: WeaponLayer) => {
 }
     
 and jm_setInitAnimationInterfaceP = (this: WeaponLayer, initAnimationInterface: Animation) => {
-        this.f_initAnimationInterface = initAnimationInterface
+        this.f_initAnimationInterface = JR.cast(initAnimationInterface)
 }
     
 and jm_getDestroyedAnimationInterface = (this: WeaponLayer) => {
@@ -281,17 +298,32 @@ and jm_getOwnerLayerInterface = (this: WeaponLayer) => {
 }
     
 and jm_setOwnerLayerInterface = (this: WeaponLayer, sourceLayerInterface: AllBinaryLayer) => {
-        this.f_sourceLayerInterface = sourceLayerInterface
+        this.f_sourceLayerInterface = JR.cast(sourceLayerInterface)
 }
     
 and jm_paint = (this: WeaponLayer, graphics: JObject) => {
         let mut viewPosition: ViewPositionBase = JR.cast(jm_getViewPosition(this))
-        ignore(Animation.jm_paintXY(this.f_animationInterface, graphics, Int32.(-)(ViewPositionBase.jm_getX(viewPosition), jm_getHalfWidth(this)), Int32.(-)(ViewPositionBase.jm_getY(viewPosition), jm_getHalfHeight(this))))
+        ignore(Animation.jm_paintXY(this.f_animationInterface, graphics, Int32.(-)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getX"))
+JR.cast(jlate(JR.cast(viewPosition)))
+}, jm_getHalfWidth(this)), Int32.(-)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getY"))
+JR.cast(jlate(JR.cast(viewPosition)))
+}, jm_getHalfHeight(this))))
 }
     
 and jm_paintThreed = (this: WeaponLayer, graphics: JObject) => {
         let mut viewPosition: ViewPositionBase = JR.cast(jm_getViewPosition(this))
-        ignore(Animation.jm_paintThreedXYZ(this.f_animationInterface, graphics, Int32.(-)(ViewPositionBase.jm_getX(viewPosition), jm_getHalfWidth(this)), Int32.(-)(ViewPositionBase.jm_getY(viewPosition), jm_getHalfHeight(this)), Int32.(-)(ViewPositionBase.jm_getZ(viewPosition), jm_getHalfDepth(this))))
+        ignore(Animation.jm_paintThreedXYZ(this.f_animationInterface, graphics, Int32.(-)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getX"))
+JR.cast(jlate(JR.cast(viewPosition)))
+}, jm_getHalfWidth(this)), Int32.(-)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getY"))
+JR.cast(jlate(JR.cast(viewPosition)))
+}, jm_getHalfHeight(this)), Int32.(-)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getZ"))
+JR.cast(jlate(JR.cast(viewPosition)))
+}, jm_getHalfDepth(this))))
 }
     
 and jm_getMovement = (this: WeaponLayer) => {
@@ -299,7 +331,7 @@ and jm_getMovement = (this: WeaponLayer) => {
 }
     
 and jm_setMovement = (this: WeaponLayer, movement: Movement) => {
-        this.f_movement = movement
+        this.f_movement = JR.cast(movement)
 }
     
 and jm_getType = (this: WeaponLayer) => {
@@ -315,7 +347,7 @@ and jm_getMultiPlayerType = (this: WeaponLayer) => {
 }
     
 and jm_setWeaponPropertiesP = (this: WeaponLayer, weaponProperties: WeaponProperties) => {
-        this.f_weaponProperties = weaponProperties
+        this.f_weaponProperties = JR.cast(weaponProperties)
 }
     
 and jm_getWeaponPropertiesP = (this: WeaponLayer) => {

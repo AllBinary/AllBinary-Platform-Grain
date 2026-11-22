@@ -53,6 +53,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: RandomRotationFactory) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("RandomRotationFactory"), f_myRandomFactory: JR.nullOf(), f_angleFactory: JR.nullOf(), }
     this.f_myRandomFactory = JR.cast(MyRandomFactory.jm_getInstance())
@@ -67,7 +71,7 @@ and jm_getInstance = () => {
 and jm_getInstanceList = (this: RandomRotationFactory, vector: BasicArrayList, howMuch: Int32) => {
         let mut graphicsPipe: BasicGraphicsPipeline = BasicGraphicsPipeline.jnew_1(vector)
         ignore(BasicGraphicsPipeline.jm_createMatrix(graphicsPipe))
-        ignore(BasicGraphicsPipeline.jm_rotateToAngle(graphicsPipe, AngleFactory.jm_getAt(this.f_angleFactory, jm_getNextRandomAngle(this, howMuch))))
+        ignore(BasicGraphicsPipeline.jm_rotateToAngle(graphicsPipe, JR.cast(AngleFactory.jm_getAt(this.f_angleFactory, jm_getNextRandomAngle(this, howMuch)))))
         return BasicGraphicsPipeline.jm_getMatrix(graphicsPipe)
 }
     
@@ -82,5 +86,6 @@ JR.registerLateBound("RandomRotationFactory.jm_getNextRandomAngle", jm_getNextRa
 JR.registerLateBound("RandomRotationFactory.f_myRandomFactory", (this: RandomRotationFactory) => this.f_myRandomFactory)
 JR.registerLateBound("RandomRotationFactory.f_angleFactory", (this: RandomRotationFactory) => this.f_angleFactory)
 JR.registerLateBound("RandomRotationFactory.jstatic_instance", jstatic_instance)
+JR.registerLateBound("RandomRotationFactory.jset_instance", jset_instance)
 
 

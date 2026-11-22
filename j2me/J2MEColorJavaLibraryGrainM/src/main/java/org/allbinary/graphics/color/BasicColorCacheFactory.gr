@@ -48,6 +48,10 @@ and jstatic_instance = () => match (jcell_instance) {
     value
   },
 }
+
+and jset_instance = (value: BasicColorCacheFactory) => {
+  jcell_instance = Some(value)
+}
     
 and jm_getInstance = () => {
         return jstatic_instance()
@@ -79,7 +83,7 @@ let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_
 JR.cast(jlate(JR.cast(this.f_hashtable), JR.cast(integer)))
 })
         if (JR.isNull(basicColor)) {
-            basicColor = BasicColorFactory.jm_createInstance(BasicColorFactory.jm_getInstance(), Integer.jm_intValue(integer))
+            basicColor = JR.cast(BasicColorFactory.jm_createInstance(BasicColorFactory.jm_getInstance(), Integer.jm_intValue(integer)))
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
 JR.cast(jlate(JR.cast(this.f_hashtable), JR.cast(integer), JR.cast(basicColor)))
@@ -94,5 +98,6 @@ JR.registerLateBound("BasicColorCacheFactory.jm_add", jm_add)
 JR.registerLateBound("BasicColorCacheFactory.jm_getAndOrCreate", jm_getAndOrCreate)
 JR.registerLateBound("BasicColorCacheFactory.f_hashtable", (this: BasicColorCacheFactory) => this.f_hashtable)
 JR.registerLateBound("BasicColorCacheFactory.jstatic_instance", jstatic_instance)
+JR.registerLateBound("BasicColorCacheFactory.jset_instance", jset_instance)
 
 

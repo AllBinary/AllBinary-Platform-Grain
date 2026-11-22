@@ -31,6 +31,8 @@ from "../../../../java/io/ByteArrayInputStream.gr" include ByteArrayInputStream
 use ByteArrayInputStream.{ type ByteArrayInputStream }
 from "../../../../java/io/InputStream.gr" include InputStream
 use InputStream.{ type InputStream }
+from "../../../../javax/microedition/media/Control.gr" include Control
+use Control.{ type Control }
 from "../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
 use NullUtil.{ type NullUtil }
 from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
@@ -70,8 +72,8 @@ JR.cast(jlate())
         let mut audioInputStream: AudioInputStream = AudioInputStream.jnew_3(ByteArrayInputStream.jnew_1(NullUtil.jm_getInstance().f_NULL_BYTE_ARRAY), NullAudioFormat.jstatic_NULL_AUDIO_FORMAT(), 0l)
         let mut clip: Clip = JR.cast(NullClip.jnew_0())
         {
-            audioInputStream = AudioSystem.jm_getAudioInputStream(inputStream)
-            clip = jm_create(this, audioInputStream)
+            audioInputStream = JR.cast(AudioSystem.jm_getAudioInputStream(inputStream))
+            clip = JR.cast(jm_create(this, audioInputStream))
             if (JR.isNull(clip)) {
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_put"))
@@ -83,8 +85,8 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
                 fail JR.toStringOf(JR.newJObject("RuntimeException"))
             }
         }
-        this.f_audioInputStream = audioInputStream
-        this.f_clip = clip
+        this.f_audioInputStream = JR.cast(audioInputStream)
+        this.f_clip = JR.cast(clip)
     this
 }
     

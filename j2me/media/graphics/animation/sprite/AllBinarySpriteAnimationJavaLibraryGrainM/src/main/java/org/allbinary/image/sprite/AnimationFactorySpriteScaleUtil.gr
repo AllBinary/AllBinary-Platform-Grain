@@ -54,6 +54,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: AnimationFactorySpriteScaleUtil) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("AnimationFactorySpriteScaleUtil"), f_imageCache: JR.jnull, f_imageScaleUtil: JR.jnull, f_openGLUtil: JR.jnull, f_j2seMath: JR.nullOf(), f_openGLESImageExclusionUtil: JR.jnull, }
     this.f_imageCache = JR.cast(ImageCacheFactory.jm_getInstance())
@@ -85,11 +89,11 @@ and jm_createImage = (this: AnimationFactorySpriteScaleUtil, image: JObject, wid
             let mut scaleX: Float32 = Float32.(/)((Float32.fromNumber(Int32.toNumber(scaleWidth))), (Float32.fromNumber(Int32.toNumber(width))))
             let mut scaleY: Float32 = Float32.(/)((Float32.fromNumber(Int32.toNumber(scaleHeight))), (Float32.fromNumber(Int32.toNumber(height))))
             if (((((scaleX == 1.0f) && (scaleY == 1.0f))) || (((scaleX == 0.0f) || (scaleY == 0.0f))))) {
-                scaledImage = {
+                scaledImage = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("OpenGLUtil.jm_addImage"))
 JR.cast(jlate(JR.cast(this.f_openGLUtil), JR.cast(image)))
-}
-                sprite = SpriteFactory.jm_createSprite(spriteFactory, scaledImage, width, height)
+})
+                sprite = JR.cast(SpriteFactory.jm_createSprite(spriteFactory, scaledImage, width, height))
             } else {
                 if ({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("OpenGLESImageExclusionUtil.jm_isCustomScaling"))
@@ -110,18 +114,18 @@ JR.cast(jlate(JR.cast(this.f_openGLESImageExclusionUtil), JR.cast(image)))
                         scaleY = Float32.(*)(scaleY, 2.35f)
                     }
                 }
-                scaledImage = {
+                scaledImage = JR.cast({
 let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageScaleUtil.jm_createImage2"))
 JR.cast(jlate(JR.cast(this.f_imageScaleUtil), JR.cast(this.f_imageCache), JR.cast(image), JR.cast(scaleX), JR.cast(1.0f), JR.cast(scaleY), JR.cast(1.0f), JR.cast(true)))
-}
-                sprite = SpriteFactory.jm_createSprite(spriteFactory, scaledImage, JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(width)), scaleX)))), JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(height)), scaleY)))))
+})
+                sprite = JR.cast(SpriteFactory.jm_createSprite(spriteFactory, scaledImage, JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(width)), scaleX)))), JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(height)), scaleY))))))
             }
         } else {
-            scaledImage = {
+            scaledImage = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("OpenGLUtil.jm_addImage"))
 JR.cast(jlate(JR.cast(this.f_openGLUtil), JR.cast(image)))
-}
-            sprite = SpriteFactory.jm_createSprite(spriteFactory, scaledImage, width, height)
+})
+            sprite = JR.cast(SpriteFactory.jm_createSprite(spriteFactory, scaledImage, width, height))
         }
         return sprite
 }
@@ -135,5 +139,6 @@ JR.registerLateBound("AnimationFactorySpriteScaleUtil.f_openGLUtil", (this: Anim
 JR.registerLateBound("AnimationFactorySpriteScaleUtil.f_j2seMath", (this: AnimationFactorySpriteScaleUtil) => this.f_j2seMath)
 JR.registerLateBound("AnimationFactorySpriteScaleUtil.f_openGLESImageExclusionUtil", (this: AnimationFactorySpriteScaleUtil) => this.f_openGLESImageExclusionUtil)
 JR.registerLateBound("AnimationFactorySpriteScaleUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("AnimationFactorySpriteScaleUtil.jset_instance", jset_instance)
 
 

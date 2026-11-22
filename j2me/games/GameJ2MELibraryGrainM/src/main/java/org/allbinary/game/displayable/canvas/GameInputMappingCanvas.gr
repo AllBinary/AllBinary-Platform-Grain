@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../../javax/microedition/lcdui/CommandListener.gr" include CommandListener
+use CommandListener.{ type CommandListener }
 from "../../../../../org/allbinary/game/commands/GameCommandsFactory.gr" include GameCommandsFactory
 use GameCommandsFactory.{ type GameCommandsFactory }
 from "../../../../../org/allbinary/game/input/GameKey.gr" include GameKey
@@ -121,6 +123,10 @@ and jstatic_NAME = () => match (jcell_NAME) {
   },
 }
 
+and jset_NAME = (value: String) => {
+  jcell_NAME = Some(value)
+}
+
 and jstatic_DISPLAY = () => match (jcell_DISPLAY) {
   Some(value) => value,
   None => {
@@ -136,6 +142,10 @@ JR.cast(jlate())
   },
 }
 
+and jset_DISPLAY = (value: JObject) => {
+  jcell_DISPLAY = Some(value)
+}
+
 and jstatic_DEFAULT = () => match (jcell_DEFAULT) {
   Some(value) => value,
   None => {
@@ -149,6 +159,10 @@ JR.cast(jlate())
     jcell_DEFAULT = Some(value)
     value
   },
+}
+
+and jset_DEFAULT = (value: JObject) => {
+  jcell_DEFAULT = Some(value)
 }
     
 and jnew_4 = (abeClientInformation: AbeClientInformationInterface, commandListener: CommandListener, allBinaryGameLayerManager: AllBinaryGameLayerManager, helpPaintable: HelpPaintable) => {
@@ -176,31 +190,31 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
         if (JR.isNull(helpPaintable)) {
             fail JR.toStringOf(JR.newJObject("Exception"))
         }
-        this.f_abeClientInformation = abeClientInformation
+        this.f_abeClientInformation = JR.cast(abeClientInformation)
         this.f_helpPaintable = JR.cast(helpPaintable)
-        this.f_inputMapping = {
+        this.f_inputMapping = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PlatformInputMappingFactory.jm_getPersistentInputMappingInstance"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("PlatformInputMappingFactory.jm_getInstance"))
 JR.cast(jlate())
 })))
-}
-        this.f_paintable = ProcessPaintable.jnew_0()
-        this.f_colorFillPaintable = {
-let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ColorFillPaintableFactory.jm_getInstance"))
+})
+        this.f_paintable = JR.cast(ProcessPaintable.jnew_0())
+        this.f_colorFillPaintable = JR.cast({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ColorFillPaintableFactory.jm_getInstance_2"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("ColorFillPaintableFactory.jm_getInstance"))
 JR.cast(jlate())
 }), JR.cast(AllBinaryGameLayerManager.jm_getBackgroundBasicColor(allBinaryGameLayerManager)), JR.cast(false)))
-}
+})
     this
 }
     
 and jm_close = (this: GameInputMappingCanvas) => {
         ignore(jm_close(this))
         ignore(ProcessPaintable.jm_process(this.f_paintable))
-        this.f_selectedGameKey = this.f_NONE
-        this.f_selectedInput = this.f_NONE
+        this.f_selectedGameKey = JR.cast(this.f_NONE)
+        this.f_selectedInput = JR.cast(this.f_NONE)
         ignore(jm_update(this))
 }
     
@@ -254,7 +268,7 @@ and jm_addGameKey = (this: GameInputMappingCanvas, keyCode: Int32, repeated: Boo
         {
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Raw Device Key Code: "), Integer.jm_toHexString(keyCode)))), JR.cast(this), JR.cast({
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Raw Device Key Code: "), JR.cast(Integer.jm_toHexString(keyCode))))), JR.cast(this), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInputStrings.f_ADD_KEY_EVENT"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_gameInputStrings))))
 })))
@@ -293,8 +307,8 @@ and jm_setSelectedAction = (this: GameInputMappingCanvas, gameKey: GameKey) => {
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Selected GameKey: "), JR.toStringOf(JR.cast(JR.cast(this.f_stringUtil)))))), JR.cast(this), JR.cast("setSelectedAction")))
 })
-        this.f_selectedGameKey = gameKey
-        this.f_selectedInput = this.f_NONE
+        this.f_selectedGameKey = JR.cast(gameKey)
+        this.f_selectedInput = JR.cast(this.f_NONE)
         ignore(InputMappingHelpPaintable.jm_update(this.f_helpPaintable, this.f_selectedGameKey, this.f_selectedInput))
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RepaintBehavior.jm_onChangeRepaint"))
@@ -320,7 +334,7 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Already Mapped Input: "), JR.toStringOf(JR.cast(JR.cast(this.f_stringUtil)))))), JR.cast(this), JR.cast("gameActionCrud")))
 })
-                this.f_selectedInput = input
+                this.f_selectedInput = JR.cast(input)
                 ignore(InputMappingHelpPaintable.jm_update(this.f_helpPaintable, this.f_selectedGameKey, this.f_selectedInput))
                 ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RepaintBehavior.jm_onChangeRepaint"))
@@ -356,8 +370,11 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast(l_METHOD_NAME)))
 })
-            ignore(JR.className(JR.cast(PersistentInputMapping.jm_getInputMapping(this.f_inputMapping))))
-            this.f_selectedInput = input
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("InputToGameKeyMapping.jm_add"))
+JR.cast(jlate(JR.cast(PersistentInputMapping.jm_getInputMapping(this.f_inputMapping)), JR.cast(this.f_selectedGameKey), JR.cast(input)))
+})
+            this.f_selectedInput = JR.cast(input)
             ignore(jm_update(this))
         } else {
             ignore({
@@ -382,8 +399,11 @@ and jm_deleteCurrentMapping = (this: GameInputMappingCanvas) => {
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast(l_METHOD_NAME)))
 })
-            ignore(JR.className(JR.cast(PersistentInputMapping.jm_getInputMapping(this.f_inputMapping))))
-            this.f_selectedInput = this.f_NONE
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("InputToGameKeyMapping.jm_remove"))
+JR.cast(jlate(JR.cast(PersistentInputMapping.jm_getInputMapping(this.f_inputMapping)), JR.cast(this.f_selectedGameKey), JR.cast(this.f_selectedInput)))
+})
+            this.f_selectedInput = JR.cast(this.f_NONE)
             ignore(jm_update(this))
         } else {
             ignore({
@@ -414,7 +434,10 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_repaintBehavior)), JR.cast(this)))
 and jm_paint = (this: GameInputMappingCanvas, graphics: JObject) => {
         ignore(ColorFillBasePaintable.jm_paint(this.f_colorFillPaintable, graphics))
         ignore(InputMappingHelpPaintable.jm_paint(this.f_helpPaintable, graphics))
-        ignore(ProcessPaintable.jm_paint(this.f_paintable, graphics))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Paintable.jm_paint"))
+JR.cast(jlate(JR.cast(this.f_paintable), JR.cast(graphics)))
+})
         ignore(jm_paint(this, graphics))
 }
 
@@ -446,7 +469,10 @@ JR.registerLateBound("GameInputMappingCanvas.f_selectedInput", (this: GameInputM
 JR.registerLateBound("GameInputMappingCanvas.set_f_selectedInput", (this: GameInputMappingCanvas, jvalue) => { this.f_selectedInput = jvalue; jvalue })
 JR.registerLateBound("GameInputMappingCanvas.f_inputFactory", (this: GameInputMappingCanvas) => this.f_inputFactory)
 JR.registerLateBound("GameInputMappingCanvas.jstatic_NAME", jstatic_NAME)
+JR.registerLateBound("GameInputMappingCanvas.jset_NAME", jset_NAME)
 JR.registerLateBound("GameInputMappingCanvas.jstatic_DISPLAY", jstatic_DISPLAY)
+JR.registerLateBound("GameInputMappingCanvas.jset_DISPLAY", jset_DISPLAY)
 JR.registerLateBound("GameInputMappingCanvas.jstatic_DEFAULT", jstatic_DEFAULT)
+JR.registerLateBound("GameInputMappingCanvas.jset_DEFAULT", jset_DEFAULT)
 
 

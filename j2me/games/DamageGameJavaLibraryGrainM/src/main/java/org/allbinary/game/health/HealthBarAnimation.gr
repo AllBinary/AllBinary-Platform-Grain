@@ -59,7 +59,7 @@ and jnew_2 = (layerInterface: AllBinaryLayer, location: Int32) => {
     
     
     
-        this.f_allbinaryLayer = layerInterface
+        this.f_allbinaryLayer = JR.cast(layerInterface)
         this.f_location = location
         let mut basicHudFactory: BasicHudFactory = JR.cast(BasicHudFactory.jm_getInstance())
         if (((this.f_location != basicHudFactory.f_TOPLEFT) && (this.f_location != basicHudFactory.f_BOTTOMLEFT))) {
@@ -110,7 +110,10 @@ and jm_getY = (this: HealthBarAnimation) => {
         if ((this.f_location == basicHudFactory.f_TOPLEFT)) {
             return Int32.(-)(JR.className(JR.cast(AllBinaryLayer.jm_getViewPosition(this.f_allbinaryLayer))), 4l)
         } else if ((this.f_location == basicHudFactory.f_BOTTOMLEFT)) {
-            return Int32.(+)(JR.className(JR.cast(AllBinaryLayer.jm_getViewPosition(this.f_allbinaryLayer))), 4l)
+            return Int32.(+)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ViewPositionBase.jm_getY2"))
+JR.cast(jlate(JR.cast(AllBinaryLayer.jm_getViewPosition(this.f_allbinaryLayer))))
+}, 4l)
         }
         return Int32.(-)(1l, Int32.(+)(1l, 1l))
 }

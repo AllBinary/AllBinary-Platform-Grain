@@ -68,6 +68,10 @@ and jstatic_NORMAL_PRIORITY = () => match (jcell_NORMAL_PRIORITY) {
     value
   },
 }
+
+and jset_NORMAL_PRIORITY = (value: Int32) => {
+  jcell_NORMAL_PRIORITY = Some(value)
+}
     
 and jnew_3 = (poolName: String, numThreads: Int32, priority: Int32) => {
     let this = { jobject: JR.newJObject("ThreadPool"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_NULL_RUNNABLE: JR.nullOf(), f_threadPoolStrings: JR.nullOf(), f_threadObjectUtil: JR.nullOf(), f_isAlive: false, f_taskQueue: JR.nullOf(), f_numThreads: 0l, f_runningTask: false, f_currentPriorityRunnable: JR.nullOf(), }
@@ -115,7 +119,7 @@ and jm_runATask = (this: ThreadPool) => {
 and jm_init = (this: ThreadPool) => {
         if (!this.f_isAlive) {
             this.f_isAlive = true
-            this.f_taskQueue = JR.cast(BasicArrayListD.jnew_0())
+            this.f_taskQueue = JR.cast(JR.cast(BasicArrayListD.jnew_0()))
         }
 }
     
@@ -138,7 +142,7 @@ and jm_runTaskWithPriority = (this: ThreadPool, task: PriorityRunnable) => {
                     if (!(Int32.(<)(index, size))) break
                 runnable = JR.cast(BasicArrayList.jm_get(this.f_taskQueue, index))
                 if (Int32.(>)(PriorityRunnable.jm_getPriority(runnable), PriorityRunnable.jm_getPriority(task))) {
-                    lowerPriorityRunnable = runnable
+                    lowerPriorityRunnable = JR.cast(runnable)
                     break
                 }
                 }
@@ -176,14 +180,14 @@ and jm_close = (this: ThreadPool) => {
         if (this.f_isAlive) {
             this.f_isAlive = false
             ignore(BasicArrayList.jm_clear(this.f_taskQueue))
-            this.f_currentPriorityRunnable = this.f_threadObjectUtil.f_NULL_PRIORITY_RUNNABLE
+            this.f_currentPriorityRunnable = JR.cast(this.f_threadObjectUtil.f_NULL_PRIORITY_RUNNABLE)
         }
 }
     
 and jm_join = (this: ThreadPool) => {
         this.f_isAlive = false
         ignore(BasicArrayList.jm_clear(this.f_taskQueue))
-        this.f_currentPriorityRunnable = this.f_threadObjectUtil.f_NULL_PRIORITY_RUNNABLE
+        this.f_currentPriorityRunnable = JR.cast(this.f_threadObjectUtil.f_NULL_PRIORITY_RUNNABLE)
 }
     
 and jm_isBusy = (this: ThreadPool) => {
@@ -207,7 +211,7 @@ and jm_threadStopped = (this: ThreadPool) => {
         if ((this.f_numThreads == 1l)) {
             this.f_isAlive = false
             ignore(BasicArrayList.jm_clear(this.f_taskQueue))
-            this.f_currentPriorityRunnable = this.f_threadObjectUtil.f_NULL_PRIORITY_RUNNABLE
+            this.f_currentPriorityRunnable = JR.cast(this.f_threadObjectUtil.f_NULL_PRIORITY_RUNNABLE)
         }
 }
     
@@ -250,5 +254,6 @@ JR.registerLateBound("ThreadPool.set_f_runningTask", (this: ThreadPool, jvalue) 
 JR.registerLateBound("ThreadPool.f_currentPriorityRunnable", (this: ThreadPool) => this.f_currentPriorityRunnable)
 JR.registerLateBound("ThreadPool.set_f_currentPriorityRunnable", (this: ThreadPool, jvalue) => { this.f_currentPriorityRunnable = jvalue; jvalue })
 JR.registerLateBound("ThreadPool.jstatic_NORMAL_PRIORITY", jstatic_NORMAL_PRIORITY)
+JR.registerLateBound("ThreadPool.jset_NORMAL_PRIORITY", jset_NORMAL_PRIORITY)
 
 

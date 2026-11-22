@@ -60,6 +60,10 @@ and jstatic_DESTROYED_LAYER_PROCESSOR = () => match (jcell_DESTROYED_LAYER_PROCE
     value
   },
 }
+
+and jset_DESTROYED_LAYER_PROCESSOR = (value: BasicLayerProcessor) => {
+  jcell_DESTROYED_LAYER_PROCESSOR = Some(value)
+}
     
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("DestroyedLayerProcessor"), f_logUtil: JR.jnull, f_list: JR.jnull, }
@@ -68,7 +72,7 @@ and jnew_0 = () => {
 }
     
 and jm_init = () => {
-        jstatic_DESTROYED_LAYER_PROCESSOR() = JR.cast(jnew_0())
+        jset_DESTROYED_LAYER_PROCESSOR(JR.cast(jnew_0()))
 }
     
 and jm_getInstance = () => {
@@ -98,7 +102,7 @@ JR.cast(jlate(JR.cast(this)))
             if (!JR.isNull(layerInterfaceCanBeNull)) {
                 layerInterface = JR.cast(layerInterfaceCanBeNull)
                 ignore(AllBinaryLayerManager.jm_remove(allBinaryLayerManager, layerInterface))
-                destroyedEvent = DestroyEventCircularStaticPool.jm_getInstanceForLayer(destroyEventCircularStaticPool, layerInterface)
+                destroyedEvent = JR.cast(DestroyEventCircularStaticPool.jm_getInstanceForLayer(destroyEventCircularStaticPool, layerInterface))
                 ignore(DestroyedEventHandler.jm_fireEvent(destroyedEventHandler, JR.cast(destroyedEvent)))
             } else {
                 let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
@@ -113,5 +117,6 @@ JR.registerLateBound("DestroyedLayerProcessor.jm_init", jm_init)
 JR.registerLateBound("DestroyedLayerProcessor.jm_getInstance", jm_getInstance)
 JR.registerLateBound("DestroyedLayerProcessor.jm_process", jm_process)
 JR.registerLateBound("DestroyedLayerProcessor.jstatic_DESTROYED_LAYER_PROCESSOR", jstatic_DESTROYED_LAYER_PROCESSOR)
+JR.registerLateBound("DestroyedLayerProcessor.jset_DESTROYED_LAYER_PROCESSOR", jset_DESTROYED_LAYER_PROCESSOR)
 
 

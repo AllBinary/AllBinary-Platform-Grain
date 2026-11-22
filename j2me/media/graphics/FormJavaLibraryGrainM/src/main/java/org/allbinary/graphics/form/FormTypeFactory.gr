@@ -54,6 +54,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: FormTypeFactory) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("FormTypeFactory"), f_UNK: "", f_NULL_FORM_TYPE: JR.nullOf(), f_TEMP_HORIZONTAL_FORM: JR.nullOf(), f_HORIZONTAL_FORM: JR.nullOf(), f_VERTICAL_CENTER_FORM: JR.nullOf(), }
     this.f_UNK = "Unknown FormType"
@@ -72,9 +76,9 @@ and jm_getFormType = (this: FormTypeFactory) => {
         let mut displayInfo: DisplayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
         let mut formType: FormType = JR.nullOf()
         if (DisplayInfoSingleton.jm_isPortrait(displayInfo)) {
-            formType = this.f_VERTICAL_CENTER_FORM
+            formType = JR.cast(this.f_VERTICAL_CENTER_FORM)
         } else {
-            formType = this.f_HORIZONTAL_FORM
+            formType = JR.cast(this.f_HORIZONTAL_FORM)
         }
         return formType
 }
@@ -88,5 +92,6 @@ JR.registerLateBound("FormTypeFactory.f_TEMP_HORIZONTAL_FORM", (this: FormTypeFa
 JR.registerLateBound("FormTypeFactory.f_HORIZONTAL_FORM", (this: FormTypeFactory) => this.f_HORIZONTAL_FORM)
 JR.registerLateBound("FormTypeFactory.f_VERTICAL_CENTER_FORM", (this: FormTypeFactory) => this.f_VERTICAL_CENTER_FORM)
 JR.registerLateBound("FormTypeFactory.jstatic_instance", jstatic_instance)
+JR.registerLateBound("FormTypeFactory.jset_instance", jset_instance)
 
 

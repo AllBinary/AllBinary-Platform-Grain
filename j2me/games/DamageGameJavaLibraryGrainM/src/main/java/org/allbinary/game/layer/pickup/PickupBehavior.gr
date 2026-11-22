@@ -73,10 +73,14 @@ and jstatic_NULL_PICKUP_BEHAVIOR = () => match (jcell_NULL_PICKUP_BEHAVIOR) {
     value
   },
 }
+
+and jset_NULL_PICKUP_BEHAVIOR = (value: JObject) => {
+  jcell_NULL_PICKUP_BEHAVIOR = Some(value)
+}
     
 and jm_getNullInstance = () => {
         if (JR.isSame(jstatic_NULL_PICKUP_BEHAVIOR(), NullUtil.jm_getInstance().f_NULL_OBJECT)) {
-            jstatic_NULL_PICKUP_BEHAVIOR() = JR.cast(jnew_2(CollidableCompositeLayer.jm_getNullInstance(), 0l))
+            jset_NULL_PICKUP_BEHAVIOR(JR.cast(jnew_2(JR.cast(CollidableCompositeLayer.jm_getNullInstance()), 0l)))
         }
         return JR.cast(jstatic_NULL_PICKUP_BEHAVIOR())
 }
@@ -89,7 +93,7 @@ JR.cast(jlate())
 })
     
     
-        this.f_ownerLayerInterface = ownerLayerInterface
+        this.f_ownerLayerInterface = JR.cast(ownerLayerInterface)
         this.f_countedIndex = countedIndex
     this
 }
@@ -97,7 +101,10 @@ JR.cast(jlate())
 and jm_doPickup = (this: PickupBehavior, pickupProcessorInterface: PickupProcessorInterface) => {
         {
             let mut healthInterfaceCompositeInterface: HealthInterfaceCompositeInterface = JR.cast(this.f_ownerLayerInterface)
-            if (JR.className(JR.cast(HealthInterfaceCompositeInterface.jm_getHealthInterface(healthInterfaceCompositeInterface)))) {
+            if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Health.jm_isAlive"))
+JR.cast(jlate(JR.cast(HealthInterfaceCompositeInterface.jm_getHealthInterface(healthInterfaceCompositeInterface))))
+}) {
                 ignore(PickupProcessorInterface.jm_process(pickupProcessorInterface, JR.cast(this.f_ownerLayerInterface)))
             }
         }
@@ -162,14 +169,17 @@ JR.cast(jlate(JR.cast(collidableDestroyableDamageableLayer)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CollidableDestroyableDamageableLayer.jm_getPartInterfaceArray"))
 JR.cast(jlate(JR.cast(collidableDestroyableDamageableLayer)))
 }[Int32.toNumber(index)])
-            countedPickedUpLayerInterfaceFactory = CountedLayerInterfaceFactoryPart.jm_getCountedPickedUpLayerInterfaceFactory(nextCountedLayerInterfaceFactory)
+            countedPickedUpLayerInterfaceFactory = JR.cast(CountedLayerInterfaceFactoryPart.jm_getCountedPickedUpLayerInterfaceFactory(nextCountedLayerInterfaceFactory))
             {
                 let mut index2: Int32 = Int32.fromNumber(Array.length(pickedUpLayerTypeArray))
                 let mut jfirst = true
                 while (true) {
                     jfirst = false
                     if (!(Int32.(>=)({ index2 = Int32.(-)(index2, 1l); index2 }, 0l))) break
-                if (JR.isSame(CountedPickedUpLayerInterfaceFactory.jm_getPickedUpLayerType(countedPickedUpLayerInterfaceFactory), pickedUpLayerTypeArray[Int32.toNumber(index2)])) {
+                if (JR.isSame({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PickedUpLayerInterfaceFactory.jm_getPickedUpLayerType"))
+JR.cast(jlate(JR.cast(countedPickedUpLayerInterfaceFactory)))
+}, pickedUpLayerTypeArray[Int32.toNumber(index2)])) {
                     if (Int32.(>)(CountedLayerInterfaceFactoryPart.jm_getTotal(nextCountedLayerInterfaceFactory), 0l)) {
                         return nextCountedLayerInterfaceFactory
                     }
@@ -232,5 +242,6 @@ JR.registerLateBound("PickupBehavior.f_logUtil", (this: PickupBehavior) => this.
 JR.registerLateBound("PickupBehavior.f_countedIndex", (this: PickupBehavior) => this.f_countedIndex)
 JR.registerLateBound("PickupBehavior.f_ownerLayerInterface", (this: PickupBehavior) => this.f_ownerLayerInterface)
 JR.registerLateBound("PickupBehavior.jstatic_NULL_PICKUP_BEHAVIOR", jstatic_NULL_PICKUP_BEHAVIOR)
+JR.registerLateBound("PickupBehavior.jset_NULL_PICKUP_BEHAVIOR", jset_NULL_PICKUP_BEHAVIOR)
 
 

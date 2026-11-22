@@ -41,6 +41,10 @@ and jstatic_SIZE = () => match (jcell_SIZE) {
     value
   },
 }
+
+and jset_SIZE = (value: String) => {
+  jcell_SIZE = Some(value)
+}
     
 and jnew_1 = (objectArray: Array<JObject>) => {
     let this = { jobject: JR.newJObject("BasicArrayList"), f_arrayUtil: JR.nullOf(), f_objectArray: [> ], f_currentIndex: 0l, }
@@ -337,7 +341,7 @@ and jm_toArray = (this: BasicArrayList) => {
     
 and jm_toArrayType = (this: BasicArrayList, objectArray: Array<JObject>) => {
         if (Int32.(<)(Int32.fromNumber(Array.length(objectArray)), this.f_currentIndex)) {
-            return ArrayUtil.jm_copyOfType(this.f_arrayUtil, this.f_objectArray, this.f_currentIndex, "Array")
+            return ArrayUtil.jm_copyOfType(this.f_arrayUtil, this.f_objectArray, this.f_currentIndex, JR.cast("Array"))
         }
         ignore(JR.arraycopy(this.f_objectArray, 0l, objectArray, 0l, this.f_currentIndex))
         if (Int32.(>)(Int32.fromNumber(Array.length(objectArray)), this.f_currentIndex)) {
@@ -417,5 +421,6 @@ JR.registerLateBound("BasicArrayList.set_f_objectArray", (this: BasicArrayList, 
 JR.registerLateBound("BasicArrayList.f_currentIndex", (this: BasicArrayList) => this.f_currentIndex)
 JR.registerLateBound("BasicArrayList.set_f_currentIndex", (this: BasicArrayList, jvalue) => { this.f_currentIndex = jvalue; jvalue })
 JR.registerLateBound("BasicArrayList.jstatic_SIZE", jstatic_SIZE)
+JR.registerLateBound("BasicArrayList.jset_SIZE", jset_SIZE)
 
 

@@ -33,6 +33,8 @@ from "../../../../../java/io/DataInputStream.gr" include DataInputStream
 use DataInputStream.{ type DataInputStream }
 from "../../../../../java/io/DataOutputStream.gr" include DataOutputStream
 use DataOutputStream.{ type DataOutputStream }
+from "../../../../../javax/microedition/rms/RecordEnumeration.gr" include RecordEnumeration
+use RecordEnumeration.{ type RecordEnumeration }
 from "../../../../../org/allbinary/logic/math/SmallIntegerSingletonFactory.gr" include SmallIntegerSingletonFactory
 use SmallIntegerSingletonFactory.{ type SmallIntegerSingletonFactory }
 from "../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
@@ -84,13 +86,13 @@ and jm_loadAll = (this: KeyValuePersistance, abeClientInformation: AbeClientInfo
 and jm_loadAllSize = (this: KeyValuePersistance, abeClientInformation: AbeClientInformationInterface, size: Int32) => {
         let mut recordStore: JObject = JR.cast(NullRecordStore.jstatic_NULL_RECORD_STORE())
         {
-            recordStore = {
+            recordStore = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_openRecordStore"))
 JR.cast(jlate(JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicPersitance.jm_getRecordId"))
 JR.cast(jlate(JR.cast(this), JR.cast(abeClientInformation)))
 }), JR.cast(true)))
-}
+})
             let mut recordEnum: RecordEnumeration = JR.cast({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_enumerateRecords"))
 JR.cast(jlate(JR.cast(recordStore), JR.cast(NullRecordFilter.jstatic_NULL_RECORD_FILTER()), JR.cast(NullRecordComparator.jstatic_NULL_RECORD_COMPARATOR()), JR.cast(true)))
@@ -121,12 +123,12 @@ let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil
 JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(recordStore), JR.cast(id)))
 }
                 if (!JR.isNull(recordAsBytes)) {
-                    byteArrayInputStream = ByteArrayInputStream.jnew_1(recordAsBytes)
-                    inputStream = DataInputStream.jnew_1(byteArrayInputStream)
-                    hashtable = {
+                    byteArrayInputStream = JR.cast(ByteArrayInputStream.jnew_1(recordAsBytes))
+                    inputStream = JR.cast(DataInputStream.jnew_1(byteArrayInputStream))
+                    hashtable = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("ABHashtable.jnew_0"))
 JR.cast(jlate())
-}
+})
                     {
                         let mut index: Int32 = 0l
                         let mut jfirst = true
@@ -189,13 +191,13 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_SAVE"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 })))
 })
-            recordStore = {
+            recordStore = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_openRecordStore"))
 JR.cast(jlate(JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicPersitance.jm_getRecordId"))
 JR.cast(jlate(JR.cast(this), JR.cast(abeClientInformation)))
 }), JR.cast(true)))
-}
+})
             let mut byteArrayOutputStream: ByteArrayOutputStream = ByteArrayOutputStream.jnew_0()
             let mut outputStream: DataOutputStream = DataOutputStream.jnew_1(byteArrayOutputStream)
             let mut value: String = ""

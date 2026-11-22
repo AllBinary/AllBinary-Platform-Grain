@@ -88,7 +88,7 @@ JR.cast(jlate())
     
     
     
-    this.f_updateMyFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(this))
+    this.f_updateMyFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(JR.cast(this)))
     this.f_myFontProcessor = JR.cast(this.f_updateMyFontProcessor)
     this.f_basicColor = JR.cast(BasicColorFactory.jm_getInstance().f_BLACK)
     
@@ -98,7 +98,7 @@ JR.cast(jlate())
     
     this.f_BEGIN_LEVEL = "Begin Level "
     this.f_EMPTY_STRING = StringUtil.jm_getInstance().f_EMPTY_STRING
-        this.f_gameCanvas = gameCanvas
+        this.f_gameCanvas = JR.cast(gameCanvas)
         this.f_stringArray = stringArray
         this.f_lastWidth = Array.make(Int32.toNumber(Int32.fromNumber(Array.length(this.f_stringArray))), 0l)
         ignore(jm_setBasicColorP(this, basicColor))
@@ -107,7 +107,7 @@ JR.cast(jlate())
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Font.jm_getSize"))
 JR.cast(jlate(JR.cast(font)))
 }
-        this.f_font = font
+        this.f_font = JR.cast(font)
     this
 }
     
@@ -120,7 +120,7 @@ JR.cast(jlate(JR.cast(graphics)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Font.jm_getHeight"))
 JR.cast(jlate(JR.cast(font)))
 }
-        this.f_myFontProcessor = MyFontProcessor.jm_getInstance()
+        this.f_myFontProcessor = JR.cast(MyFontProcessor.jm_getInstance())
 }
     
 and jm_paint = (this: StartIntermissionPaintable, graphics: JObject) => {
@@ -166,7 +166,13 @@ JR.cast(jlate(JR.cast(this.f_fontDebugFactory), JR.cast(existingFont), JR.cast(g
 }
     
 and jm_update = (this: StartIntermissionPaintable) => {
-        let mut level: Int32 = JR.className(JR.cast(JR.className(JR.cast(AllBinaryGameCanvas.jm_getLayerManager(this.f_gameCanvas)))))
+        let mut level: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInfo.jm_getCurrentLevel"))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameLayerManager.jm_getGameInfo"))
+JR.cast(jlate(JR.cast(AllBinaryGameCanvas.jm_getLayerManager(this.f_gameCanvas))))
+})))
+}
         this.f_stringArray[Int32.toNumber(0l)] = JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), this.f_BEGIN_LEVEL), level)))
         {
             let mut index: Int32 = Int32.(-)(Int32.fromNumber(Array.length(this.f_stringArray)), 1l)
@@ -183,7 +189,7 @@ and jm_update = (this: StartIntermissionPaintable) => {
 }
     
 and jm_setBasicColorP = (this: StartIntermissionPaintable, basicColor: BasicColor) => {
-        this.f_basicColor = basicColor
+        this.f_basicColor = JR.cast(basicColor)
 }
     
 and jm_getBasicColorP = (this: StartIntermissionPaintable) => {

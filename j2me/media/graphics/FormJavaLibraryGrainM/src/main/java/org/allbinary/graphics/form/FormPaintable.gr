@@ -41,12 +41,15 @@ provide let rec jclassName = () => "FormPaintable"
 and jnew_1 = (form: PaintableForm) => {
     let this = { jobject: JR.newJObject("FormPaintable"), f_form: JR.nullOf(), }
     
-        this.f_form = form
+        this.f_form = JR.cast(form)
     this
 }
     
 and jm_paint = (this: FormPaintable, graphics: JObject) => {
-        ignore(PaintableForm.jm_paint(this.f_form, graphics))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABCustomForm.jm_paint"))
+JR.cast(jlate(JR.cast(this.f_form), JR.cast(graphics)))
+})
 }
     
 and jm_getForm = (this: FormPaintable) => {

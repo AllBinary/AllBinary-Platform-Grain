@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../javax/microedition/lcdui/CommandListener.gr" include CommandListener
+use CommandListener.{ type CommandListener }
 from "../../../../org/allbinary/MIDPUtil.gr" include MIDPUtil
 use MIDPUtil.{ type MIDPUtil }
 from "../../../../org/allbinary/game/commands/GameCommandsFactory.gr" include GameCommandsFactory
@@ -94,14 +96,20 @@ JR.cast(jlate())
 })
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("GameFeatureFormUtil.jm_addChoiceGroup"))
-JR.cast(jlate(JR.cast(gameFeatureFormUtil), JR.cast(this), JR.cast(JR.className(JR.cast(GameFeatureChoiceGroups.jm_getExclusiveInstance()))), JR.cast({
+JR.cast(jlate(JR.cast(gameFeatureFormUtil), JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameFeatureChoiceGroups.jm_get"))
+JR.cast(jlate(JR.cast(GameFeatureChoiceGroups.jm_getExclusiveInstance())))
+}), JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("Choice.jstatic_EXCLUSIVE"))
 JR.cast(jlate())
 })))
 })
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("GameFeatureFormUtil.jm_addChoiceGroup"))
-JR.cast(jlate(JR.cast(gameFeatureFormUtil), JR.cast(this), JR.cast(JR.className(JR.cast(GameFeatureChoiceGroups.jm_getMultipleInstance()))), JR.cast({
+JR.cast(jlate(JR.cast(gameFeatureFormUtil), JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameFeatureChoiceGroups.jm_get"))
+JR.cast(jlate(JR.cast(GameFeatureChoiceGroups.jm_getMultipleInstance())))
+}), JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("Choice.jstatic_MULTIPLE"))
 JR.cast(jlate())
 })))
@@ -125,7 +133,10 @@ JR.cast(jlate(JR.cast(this)))
     
 and jm_addTextFieldsIfSimulated = (this: GameOptionsForm) => {
         let mut key: String = OrientationData.jm_getInstance().f_ORIENTATION_SENSOR_INPUT
-        let mut hashtable: JObject = JR.cast(JR.className(JR.cast(GameFeatureChoiceGroups.jm_getExclusiveInstance())))
+        let mut hashtable: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameFeatureChoiceGroups.jm_get"))
+JR.cast(jlate(JR.cast(GameFeatureChoiceGroups.jm_getExclusiveInstance())))
+})
         if (!JR.isNull(hashtable)) {
             let mut listCanBeNull: JObject = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
@@ -162,13 +173,13 @@ JR.cast(jlate(JR.cast(hashtable)))
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
 JR.cast(jlate(JR.cast(hashtable), JR.cast(JR.cast(objectArray[Int32.toNumber(index)]))))
 })
-            textField = {
+            textField = JR.cast({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TextField.jnew_4"))
 JR.cast(jlate(JR.cast(GameConfigurationTextInput.jm_getLabel(gameConfigurationTextInput)), JR.cast(GameConfigurationTextInput.jm_getText(gameConfigurationTextInput)), JR.cast(30l), JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("TextField.jstatic_ANY"))
 JR.cast(jlate())
 })))
-}
+})
             ignore(MIDPUtil.jm_appendItem(this.f_meUtil, JR.cast(this), JR.cast(textField)))
             }
         }
@@ -198,7 +209,7 @@ and jm_addConfiguration = (this: GameOptionsForm) => {
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(stringMaker, l_NAME), GameConfiguration.jm_toString(gameConfiguration)))), JR.cast(this), JR.cast(l_METHOD_NAME)))
 })
-            gauge = GameConfigurationGauge.jnew_1(gameConfiguration)
+            gauge = JR.cast(GameConfigurationGauge.jnew_1(gameConfiguration))
             ignore(GameConfigurationGauge.jm_setDefaultCommand(gauge, l_GAUGE_CHANGE))
             ignore(GameConfigurationGauge.jm_setItemCommandListener(gauge, {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameFeatureItemCommandListener.jnew_1"))
@@ -238,7 +249,7 @@ and jm_save = (this: GameOptionsForm, abeClientInformation: AbeClientInformation
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            item = jm_get(this, index)
+            item = JR.cast(jm_get(this, index))
             if ((JR.className(item) == "GameConfigurationGauge")) {
                 ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationUtil.jm_update"))

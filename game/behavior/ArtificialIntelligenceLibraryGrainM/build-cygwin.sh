@@ -33,6 +33,9 @@ if [ -d "$dependency_dir/src" ]; then
     cp -R "$dependency_dir/src/." "$tree/"
 fi
 cp -R "$source_dir/." "$tree/"
+# Compiled objects (.gro, .wasm) copied with the runtime or sources are older builds that grain uses in place of the
+# newer .gr (an allbinary_java.gro without ushr32), so only the .gr sources are compiled
+find "$tree" -type f \( -name '*.gro' -o -name '*.wasm' \) -delete
 
 # A Windows program can not open a path over 260 characters, which a deep project folder plus a deep package reaches,
 # so the check runs in a short temporary copy of the tree
@@ -76,7 +79,9 @@ for pass in 1 2 3 4 5; do
     [ "$found" = "0" ] && break
 done
 
-check="jcheck_$artifact.gr"
+# One fixed check file name: grain 0.7.2 (binaryen getRecGroup assertion) crashed linking TimeJavaLibraryGrain when
+# the file was jcheck_TimeJavaLibraryGrain.gr but not when it was jcheck.gr, with the same contents
+check="jcheck.gr"
 echo "module JCheck" > "$check"
 count=0
 while IFS= read -r file; do

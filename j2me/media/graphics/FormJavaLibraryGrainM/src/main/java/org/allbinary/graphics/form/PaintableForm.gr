@@ -55,10 +55,14 @@ and jstatic_NULL_PAINTABLE_FORM = () => match (jcell_NULL_PAINTABLE_FORM) {
     value
   },
 }
+
+and jset_NULL_PAINTABLE_FORM = (value: JObject) => {
+  jcell_NULL_PAINTABLE_FORM = Some(value)
+}
     
 and jm_getNullPaintableForm = () => {
         if (JR.isSame(jstatic_NULL_PAINTABLE_FORM(), NullUtil.jm_getInstance().f_NULL_OBJECT)) {
-            jstatic_NULL_PAINTABLE_FORM() = JR.cast(jnew_4(StringUtil.jm_getInstance().f_EMPTY_STRING, Array.make(Int32.toNumber(0l), JR.jnull), BasicColorFactory.jm_getInstance().f_BLACK, BasicColorFactory.jm_getInstance().f_WHITE))
+            jset_NULL_PAINTABLE_FORM(JR.cast(jnew_4(StringUtil.jm_getInstance().f_EMPTY_STRING, Array.make(Int32.toNumber(0l), JR.jnull), JR.cast(BasicColorFactory.jm_getInstance().f_BLACK), JR.cast(BasicColorFactory.jm_getInstance().f_WHITE))))
         }
         return JR.cast(jstatic_NULL_PAINTABLE_FORM())
 }
@@ -79,11 +83,11 @@ JR.cast(jlate(JR.cast(this), JR.cast(0l)))
 }
     
 and jm_init = (this: PaintableForm, rectangle: Rectangle, formType: FormType) => {
-        this.f_rectangle = rectangle
+        this.f_rectangle = JR.cast(rectangle)
         let mut point: GPoint = JR.cast(Rectangle.jm_getPoint(this.f_rectangle))
         this.f_x = GPoint.jm_getX(point)
         this.f_y = GPoint.jm_getY(point)
-        this.f_formType = formType
+        this.f_formType = JR.cast(formType)
 }
     
 and jm_getWidth = (this: PaintableForm) => {
@@ -104,5 +108,6 @@ JR.registerLateBound("PaintableForm.set_f_y", (this: PaintableForm, jvalue) => {
 JR.registerLateBound("PaintableForm.f_formType", (this: PaintableForm) => this.f_formType)
 JR.registerLateBound("PaintableForm.set_f_formType", (this: PaintableForm, jvalue) => { this.f_formType = jvalue; jvalue })
 JR.registerLateBound("PaintableForm.jstatic_NULL_PAINTABLE_FORM", jstatic_NULL_PAINTABLE_FORM)
+JR.registerLateBound("PaintableForm.jset_NULL_PAINTABLE_FORM", jset_NULL_PAINTABLE_FORM)
 
 

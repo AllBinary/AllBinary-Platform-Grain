@@ -49,6 +49,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: FormUtil) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("FormUtil"), }
     this
@@ -61,7 +65,7 @@ and jm_getInstance = () => {
 and jm_createFormRectangle = (this: FormUtil) => {
         let mut displayInfo: DisplayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
         let mut pointFactory: PointFactory = JR.cast(PointFactory.jm_getInstance())
-        let mut rectangle: Rectangle = Rectangle.jnew_3(PointFactory.jm_createXY(pointFactory, 30l, 10l), Int32.(-)(DisplayInfoSingleton.jm_getLastWidth(displayInfo), 30l), Int32.(-)(DisplayInfoSingleton.jm_getLastHeight(displayInfo), 35l))
+        let mut rectangle: Rectangle = Rectangle.jnew_3(JR.cast(PointFactory.jm_createXY(pointFactory, 30l, 10l)), Int32.(-)(DisplayInfoSingleton.jm_getLastWidth(displayInfo), 30l), Int32.(-)(DisplayInfoSingleton.jm_getLastHeight(displayInfo), 35l))
         return rectangle
 }
 
@@ -69,5 +73,6 @@ JR.registerLateBound("FormUtil.jnew_0", jnew_0)
 JR.registerLateBound("FormUtil.jm_getInstance", jm_getInstance)
 JR.registerLateBound("FormUtil.jm_createFormRectangle", jm_createFormRectangle)
 JR.registerLateBound("FormUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("FormUtil.jset_instance", jset_instance)
 
 

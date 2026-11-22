@@ -92,7 +92,10 @@ and jnew_6 = (name: String, movement: Movement, animationInterface: Animation, r
     
 and jm_processTick = (this: TempExplosionWeaponLayer, allBinaryLayerManager: AllBinaryLayerManager) => {
         if (TimeDelayHelper.jm_isTime(this.f_timeDelayHelper, GameTickTimeDelayHelperFactory.jm_getInstance().f_startTime)) {
-            ignore(JR.className(JR.cast(jm_getCollidableInferface(this))))
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableBaseBehavior.jm_collide"))
+JR.cast(jlate(JR.cast(jm_getCollidableInferface(this)), JR.cast(this), JR.cast(this)))
+})
             this.f_totalDamage = JR.cast(Int32.(+)({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("WeaponLayer.jm_getInitDamage"))
 JR.cast(jlate(JR.cast(this)))

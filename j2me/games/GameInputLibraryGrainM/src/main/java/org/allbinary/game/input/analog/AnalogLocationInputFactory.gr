@@ -35,6 +35,10 @@ and jstatic_instance = () => match (jcell_instance) {
     value
   },
 }
+
+and jset_instance = (value: AnalogLocationInputFactory) => {
+  jcell_instance = Some(value)
+}
     
 and jm_getInstance = () => {
         return jstatic_instance()
@@ -53,7 +57,7 @@ and jm_addPlayer = (this: AnalogLocationInputFactory, playerInputId: Int32) => {
             analogLocationInput = JR.cast(BasicArrayList.jm_get(this.f_list, playerInputId))
         }
         if (JR.isSame(analogLocationInput, AnalogLocationInput.jstatic_NULL_ANALOG_LOCATION_INPUT())) {
-            analogLocationInput = AnalogLocationInput.jnew_1(playerInputId)
+            analogLocationInput = JR.cast(AnalogLocationInput.jnew_1(playerInputId))
             ignore(BasicArrayList.jm_add(this.f_list, JR.cast(analogLocationInput)))
         }
 }
@@ -73,5 +77,6 @@ JR.registerLateBound("AnalogLocationInputFactory.jm_getInstanceForPlayer", jm_ge
 JR.registerLateBound("AnalogLocationInputFactory.jm_getList", jm_getList)
 JR.registerLateBound("AnalogLocationInputFactory.f_list", (this: AnalogLocationInputFactory) => this.f_list)
 JR.registerLateBound("AnalogLocationInputFactory.jstatic_instance", jstatic_instance)
+JR.registerLateBound("AnalogLocationInputFactory.jset_instance", jset_instance)
 
 

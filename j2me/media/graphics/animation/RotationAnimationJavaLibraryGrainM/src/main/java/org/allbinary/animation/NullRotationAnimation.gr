@@ -43,11 +43,14 @@ provide record NullRotationAnimation {
 provide let rec jclassName = () => "NullRotationAnimation"
     
 and jm_createTotalAngle = (angleInfo: AngleInfo, totalAngle: Int32, animationBehavior: AnimationBehavior) => {
-        return jnew_3(angleInfo, CircularIndexUtil.jm_createInstance(Int32.(/)(totalAngle, JR.className(JR.cast(AngleInfo.jm_getAngleIncrementInfo(angleInfo))))), animationBehavior)
+        return jnew_3(angleInfo, JR.cast(CircularIndexUtil.jm_createInstance(Int32.(/)(totalAngle, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AngleIncrementInfo.jm_getAngleIncrement"))
+JR.cast(jlate(JR.cast(AngleInfo.jm_getAngleIncrementInfo(angleInfo))))
+}))), animationBehavior)
 }
     
 and jm_createQuarter = (animationBehavior: AnimationBehavior) => {
-        return jnew_3(AngleInfo.jm_getInstance(AngleFactory.jm_getInstance().f_QUARTER_TOTAL_ANGLE), CircularIndexUtil.jm_createInstance(4l), animationBehavior)
+        return jnew_3(JR.cast(AngleInfo.jm_getInstance(AngleFactory.jm_getInstance().f_QUARTER_TOTAL_ANGLE)), JR.cast(CircularIndexUtil.jm_createInstance(4l)), animationBehavior)
 }
     
 and jnew_3 = (angleInfo: AngleInfo, circularIndexUtil: CircularIndexUtil, animationBehavior: AnimationBehavior) => {

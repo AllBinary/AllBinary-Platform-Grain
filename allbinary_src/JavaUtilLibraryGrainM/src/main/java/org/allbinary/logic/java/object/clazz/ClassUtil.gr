@@ -25,11 +25,11 @@ from "char" include Char
 from "array" include Array
 from "../../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
-from "../../../../../../org/allbinary/logic/java/anyType/ConstructorUtil.gr" include ConstructorUtil
+from "../../../../../../org/allbinary/logic/java/object/ConstructorUtil.gr" include ConstructorUtil
 use ConstructorUtil.{ type ConstructorUtil }
-from "../../../../../../org/allbinary/logic/java/anyType/InterfaceUtil.gr" include InterfaceUtil
+from "../../../../../../org/allbinary/logic/java/object/InterfaceUtil.gr" include InterfaceUtil
 use InterfaceUtil.{ type InterfaceUtil }
-from "../../../../../../org/allbinary/logic/java/anyType/MethodUtil.gr" include MethodUtil
+from "../../../../../../org/allbinary/logic/java/object/MethodUtil.gr" include MethodUtil
 use MethodUtil.{ type MethodUtil }
 from "../../../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
 use StringMaker.{ type StringMaker }
@@ -47,15 +47,15 @@ and jnew_0 = () => {
     this
 }
     
-and jm_viewAll_2 = (anyType: JObject, lineBreak: String) => {
+and jm_viewAll_2_Any_String_ = (anyType: JObject, lineBreak: String) => {
         if (!JR.isNull(anyType)) {
-            return jm_viewAll_2(JR.className(anyType), lineBreak)
+            return jm_viewAll_2_Any_String_(JR.cast(JR.className(anyType)), lineBreak)
         } else {
             return "Object Null"
         }
 }
     
-and jm_viewAll_2 = (myClass: String, lineBreak: String) => {
+and jm_viewAll_2_Class_String_ = (myClass: String, lineBreak: String) => {
         if (!JR.isNull(myClass)) {
             let mut stringBuffer: StringMaker = StringMaker.jnew_0()
             let mut classes: Array<String> = {
@@ -86,11 +86,11 @@ JR.cast(jlate(JR.cast(myClass)))
                 ignore(StringMaker.jm_append(stringBuffer, lineBreak))
                 }
             }
-            ignore(StringMaker.jm_append(stringBuffer, InterfaceUtil.jm_viewAll(myClass, lineBreak)))
+            ignore(StringMaker.jm_append(stringBuffer, JR.cast(InterfaceUtil.jm_viewAll(myClass, lineBreak))))
             ignore(StringMaker.jm_append(stringBuffer, lineBreak))
-            ignore(StringMaker.jm_append(stringBuffer, ConstructorUtil.jm_viewAll(myClass, lineBreak)))
+            ignore(StringMaker.jm_append(stringBuffer, JR.cast(ConstructorUtil.jm_viewAll(myClass, lineBreak))))
             ignore(StringMaker.jm_append(stringBuffer, lineBreak))
-            ignore(StringMaker.jm_append(stringBuffer, MethodUtil.jm_viewAll(myClass, lineBreak)))
+            ignore(StringMaker.jm_append(stringBuffer, JR.cast(MethodUtil.jm_viewAll(myClass, lineBreak))))
             return StringMaker.jm_toString(stringBuffer)
         } else {
             return "Class Null"
@@ -98,7 +98,7 @@ JR.cast(jlate(JR.cast(myClass)))
 }
 
 JR.registerLateBound("ClassUtil.jnew_0", jnew_0)
-JR.registerLateBound("ClassUtil.jm_viewAll_2", jm_viewAll_2)
-JR.registerLateBound("ClassUtil.jm_viewAll_2", jm_viewAll_2)
+JR.registerLateBound("ClassUtil.jm_viewAll_2_Any_String_", jm_viewAll_2_Any_String_)
+JR.registerLateBound("ClassUtil.jm_viewAll_2_Class_String_", jm_viewAll_2_Class_String_)
 
 

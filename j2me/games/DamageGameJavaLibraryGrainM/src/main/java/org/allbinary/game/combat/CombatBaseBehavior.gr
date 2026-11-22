@@ -44,10 +44,14 @@ provide let rec jclassName = () => "CombatBaseBehavior"
 and jstatic_NULL_COMBAT_BEHAVIOR = () => match (jcell_NULL_COMBAT_BEHAVIOR) {
   Some(value) => value,
   None => {
-    let value: CombatBaseBehavior = jnew_2(DamageableBaseBehavior.jm_getInstance(), DestroyableBaseBehavior.jm_getInstance())
+    let value: CombatBaseBehavior = jnew_2(JR.cast(DamageableBaseBehavior.jm_getInstance()), JR.cast(DestroyableBaseBehavior.jm_getInstance()))
     jcell_NULL_COMBAT_BEHAVIOR = Some(value)
     value
   },
+}
+
+and jset_NULL_COMBAT_BEHAVIOR = (value: CombatBaseBehavior) => {
+  jcell_NULL_COMBAT_BEHAVIOR = Some(value)
 }
     
 and jnew_2 = (damageableBaseBehavior: DamageableBaseBehavior, destroyableBaseBehavior: DestroyableBaseBehavior) => {
@@ -55,8 +59,8 @@ and jnew_2 = (damageableBaseBehavior: DamageableBaseBehavior, destroyableBaseBeh
     
     
     
-        this.f_damageableBaseBehavior = damageableBaseBehavior
-        this.f_destroyableBaseBehavior = destroyableBaseBehavior
+        this.f_damageableBaseBehavior = JR.cast(damageableBaseBehavior)
+        this.f_destroyableBaseBehavior = JR.cast(destroyableBaseBehavior)
     this
 }
     
@@ -86,5 +90,6 @@ JR.registerLateBound("CombatBaseBehavior.f_destroyableBaseBehavior", (this: Comb
 JR.registerLateBound("CombatBaseBehavior.f_readyForExplosion", (this: CombatBaseBehavior) => this.f_readyForExplosion)
 JR.registerLateBound("CombatBaseBehavior.set_f_readyForExplosion", (this: CombatBaseBehavior, jvalue) => { this.f_readyForExplosion = jvalue; jvalue })
 JR.registerLateBound("CombatBaseBehavior.jstatic_NULL_COMBAT_BEHAVIOR", jstatic_NULL_COMBAT_BEHAVIOR)
+JR.registerLateBound("CombatBaseBehavior.jset_NULL_COMBAT_BEHAVIOR", jset_NULL_COMBAT_BEHAVIOR)
 
 

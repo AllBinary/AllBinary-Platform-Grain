@@ -42,10 +42,14 @@ provide let rec jclassName = () => "RectangleFactory"
 and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
   Some(value) => value,
   None => {
-    let value: Rectangle = Rectangle.jnew_3(PointFactory.jm_getInstance().f_ZERO_ZERO, 0l, 0l)
+    let value: Rectangle = Rectangle.jnew_3(JR.cast(PointFactory.jm_getInstance().f_ZERO_ZERO), 0l, 0l)
     jcell_SINGLETON = Some(value)
     value
   },
+}
+
+and jset_SINGLETON = (value: Rectangle) => {
+  jcell_SINGLETON = Some(value)
 }
 
 and jstatic_ARRAY_OF_ARRAYS = () => match (jcell_ARRAY_OF_ARRAYS) {
@@ -57,6 +61,10 @@ and jstatic_ARRAY_OF_ARRAYS = () => match (jcell_ARRAY_OF_ARRAYS) {
   },
 }
 
+and jset_ARRAY_OF_ARRAYS = (value: Array<Array<Rectangle>>) => {
+  jcell_ARRAY_OF_ARRAYS = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("RectangleFactory"), }
     this
@@ -64,6 +72,8 @@ and jnew_0 = () => {
 
 JR.registerLateBound("RectangleFactory.jnew_0", jnew_0)
 JR.registerLateBound("RectangleFactory.jstatic_SINGLETON", jstatic_SINGLETON)
+JR.registerLateBound("RectangleFactory.jset_SINGLETON", jset_SINGLETON)
 JR.registerLateBound("RectangleFactory.jstatic_ARRAY_OF_ARRAYS", jstatic_ARRAY_OF_ARRAYS)
+JR.registerLateBound("RectangleFactory.jset_ARRAY_OF_ARRAYS", jset_ARRAY_OF_ARRAYS)
 
 

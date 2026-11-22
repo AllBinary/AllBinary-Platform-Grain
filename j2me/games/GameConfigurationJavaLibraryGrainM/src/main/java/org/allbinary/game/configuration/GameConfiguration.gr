@@ -62,6 +62,10 @@ and jstatic_MIN_VALUE = () => match (jcell_MIN_VALUE) {
     value
   },
 }
+
+and jset_MIN_VALUE = (value: Int32) => {
+  jcell_MIN_VALUE = Some(value)
+}
     
 and jnew_4 = (name: String, defaultValue: Int32, minValue: Int32, maxValue: Int32) => {
     let this = { jobject: JR.newJObject("GameConfiguration"), f_name: "", f_defaultValue: 0l, f_value: 0l, f_minValue: 0l, f_maxValue: 0l, f_modifiable: false, }
@@ -91,7 +95,10 @@ and jm_setValue = (this: GameConfiguration, value: Int32) => {
         if ((!JR.isSame(this.f_value, value))) {
             let mut oldValue: Int32 = this.f_value
             this.f_value = value
-            ignore(GameFeatureEventHandler.jm_fireEvent(GameFeatureEventHandler.jm_getInstance(), GameFeatureEvent.jnew_2(this, StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), this.f_name), " value: from: "), Integer.jm_intValue(oldValue)), " to "), Integer.jm_intValue(this.f_value))))))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_fireEvent"))
+JR.cast(jlate(JR.cast(GameFeatureEventHandler.jm_getInstance()), JR.cast(GameFeatureEvent.jnew_2(JR.cast(this), StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), this.f_name), " value: from: "), Integer.jm_intValue(oldValue)), " to "), Integer.jm_intValue(this.f_value)))))))
+})
         }
 }
     
@@ -188,5 +195,6 @@ JR.registerLateBound("GameConfiguration.set_f_maxValue", (this: GameConfiguratio
 JR.registerLateBound("GameConfiguration.f_modifiable", (this: GameConfiguration) => this.f_modifiable)
 JR.registerLateBound("GameConfiguration.set_f_modifiable", (this: GameConfiguration, jvalue) => { this.f_modifiable = jvalue; jvalue })
 JR.registerLateBound("GameConfiguration.jstatic_MIN_VALUE", jstatic_MIN_VALUE)
+JR.registerLateBound("GameConfiguration.jset_MIN_VALUE", jset_MIN_VALUE)
 
 

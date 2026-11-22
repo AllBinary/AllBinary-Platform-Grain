@@ -100,7 +100,7 @@ JR.cast(jlate())
     this.f_canvasStrings = JR.cast(CanvasStrings.jm_getInstance())
     this.f_basicSetColorUtil = JR.cast(BasicColorSetUtil.jm_getInstance())
     this.f_displayInfo = JR.cast(DisplayInfoSingleton.jm_getInstance())
-    this.f_updateMyFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(this))
+    this.f_updateMyFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(JR.cast(this)))
     this.f_myFontProcessor = JR.cast(this.f_updateMyFontProcessor)
     
     
@@ -125,11 +125,17 @@ JR.cast(jlate())
     
 and jm_updateMeasurement = (this: BasicHud, graphics: JObject) => {
         {
-            this.f_hudGraphicsPosition = jm_getHudGraphicsPositionWH(this, DisplayInfoSingleton.jm_getLastWidth(this.f_displayInfo), DisplayInfoSingleton.jm_getLastHeight(this.f_displayInfo), this.f_updateMaxWidth, this.f_updateMaxHeight)
-            this.f_x = JR.className(JR.cast(HudGraphicsPosition.jm_getPoint(this.f_hudGraphicsPosition)))
-            ignore(jm_setY(this, JR.className(JR.cast(HudGraphicsPosition.jm_getPoint(this.f_hudGraphicsPosition)))))
+            this.f_hudGraphicsPosition = JR.cast(jm_getHudGraphicsPositionWH(this, DisplayInfoSingleton.jm_getLastWidth(this.f_displayInfo), DisplayInfoSingleton.jm_getLastHeight(this.f_displayInfo), this.f_updateMaxWidth, this.f_updateMaxHeight))
+            this.f_x = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getX"))
+JR.cast(jlate(JR.cast(HudGraphicsPosition.jm_getPoint(this.f_hudGraphicsPosition))))
+}
+            ignore(jm_setY(this, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getY"))
+JR.cast(jlate(JR.cast(HudGraphicsPosition.jm_getPoint(this.f_hudGraphicsPosition))))
+}))
         }
-        this.f_myFontProcessor = MyFontProcessor.jm_getInstance()
+        this.f_myFontProcessor = JR.cast(MyFontProcessor.jm_getInstance())
 }
     
 and jm_getLocation = (this: BasicHud) => {
@@ -212,7 +218,7 @@ and jm_onEvent = (this: BasicHud, eventObject: AllBinaryEventObject) => {
 }
     
 and jm_onDisplayChangeEvent = (this: BasicHud, displayChangeEvent: DisplayChangeEvent) => {
-        this.f_myFontProcessor = this.f_updateMyFontProcessor
+        this.f_myFontProcessor = JR.cast(this.f_updateMyFontProcessor)
 }
     
 and jm_getPoint = (this: BasicHud, x: Int32, y: Int32) => {
@@ -257,7 +263,7 @@ and jm_setX = (this: BasicHud, x: Int32) => {
 }
     
 and jm_setBasicColorP = (this: BasicHud, basicColor: BasicColor) => {
-        this.f_basicColor = basicColor
+        this.f_basicColor = JR.cast(basicColor)
 }
     
 and jm_getBasicColorP = (this: BasicHud) => {

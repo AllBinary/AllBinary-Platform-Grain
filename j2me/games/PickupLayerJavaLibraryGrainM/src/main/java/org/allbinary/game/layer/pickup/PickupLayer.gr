@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../../javax/microedition/khronos/opengles/GL.gr" include GL
+use GL.{ type GL }
 from "../../../../../org/allbinary/animation/Animation.gr" include Animation
 use Animation.{ type Animation }
 from "../../../../../org/allbinary/animation/NullAnimationFactory.gr" include NullAnimationFactory
@@ -95,7 +97,10 @@ and jnew_7 = (name: String, remoteInfo: JObject, total: Int32, pickedUpLayerInte
     let this = { jobject: JR.newJObject("PickupLayer"), f_logUtil: JR.jnull, f_x: 0l, f_y: 0l, f_z: 0l, f_width: 0l, f_height: 0l, f_visible: false, f_viewPositionEvent: JR.jnull, f_halfWidth: 0l, f_halfHeight: 0l, f_name: "", f_viewPosition: JR.jnull, f_commonStrings: JR.jnull, f_basicSetColorUtil: JR.jnull, f_RED: JR.jnull, f_paintable: JR.jnull, f_gameKeyEventList: JR.jnull, f_collidableInferface: JR.jnull, f_groupInterface: [> ], f_readyForExplosion: false, f_initWidth: 0l, f_initHeight: 0l, f_initX: 0l, f_initY: 0l, f_initZ: 0l, f_partInterfaceArrayP: [> ], f_pickupBehavior: JR.jnull, f_allBinaryGameLayerManagerP: JR.jnull, f_isDraggable: false, f_isDragged: false, f_isDropped: false, f_pickedUpLayerInterfaceFactoryInterface: JR.nullOf(), f_destroyed: false, f_animationInterface: JR.nullOf(), }
     this.f_pickedUpLayerInterfaceFactoryInterface = JR.cast(CountedPickedUpLayerInterfaceFactory.jstatic_NULL_COUNTED_PICKUP_LAYER_FACTORY())
     
-    this.f_animationInterface = JR.cast(JR.className(JR.cast(NullAnimationFactory.jm_getFactoryInstance())))
+    this.f_animationInterface = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("NullAnimationFactory.jm_getInstance"))
+JR.cast(jlate(JR.cast(NullAnimationFactory.jm_getFactoryInstance()), JR.cast(0l)))
+})
         void
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableCompositeLayer.jm_setCollidableInferface"))
@@ -108,8 +113,8 @@ JR.cast(jlate(JR.cast(this), JR.cast(CollidableAlwaysPickupNeverCollideBehaviorF
 }
     
 and jm_init = (this: PickupLayer, pickedUpLayerInterfaceFactoryInterface: PickedUpLayerInterfaceFactoryInterface, animationInterface: Animation) => {
-        this.f_pickedUpLayerInterfaceFactoryInterface = pickedUpLayerInterfaceFactoryInterface
-        this.f_animationInterface = animationInterface
+        this.f_pickedUpLayerInterfaceFactoryInterface = JR.cast(pickedUpLayerInterfaceFactoryInterface)
+        this.f_animationInterface = JR.cast(animationInterface)
         ignore(jm_setDestroyed(this, false))
 }
     
@@ -119,15 +124,27 @@ and jm_initXYZ = (this: PickupLayer, x: Int32, y: Int32, z: Int32) => {
     
 and jm_paint = (this: PickupLayer, graphics: JObject) => {
         let mut viewPosition: ViewPositionBase = JR.cast(jm_getViewPosition(this))
-        let mut viewX: Int32 = ViewPositionBase.jm_getX(viewPosition)
-        let mut viewY: Int32 = ViewPositionBase.jm_getY(viewPosition)
+        let mut viewX: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getX"))
+JR.cast(jlate(JR.cast(viewPosition)))
+}
+        let mut viewY: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getY"))
+JR.cast(jlate(JR.cast(viewPosition)))
+}
         ignore(Animation.jm_paintXY(this.f_animationInterface, graphics, viewX, viewY))
 }
     
 and jm_paintThreed = (this: PickupLayer, graphics: JObject) => {
         let mut viewPosition: ViewPositionBase = JR.cast(jm_getViewPosition(this))
-        let mut viewX: Int32 = ViewPositionBase.jm_getX(viewPosition)
-        let mut viewY: Int32 = ViewPositionBase.jm_getY(viewPosition)
+        let mut viewX: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getX"))
+JR.cast(jlate(JR.cast(viewPosition)))
+}
+        let mut viewY: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getY"))
+JR.cast(jlate(JR.cast(viewPosition)))
+}
         ignore(Animation.jm_paintThreedXYZ(this.f_animationInterface, graphics, viewX, viewY, 3l))
 }
     
@@ -146,7 +163,10 @@ and jm_isDestroyed = (this: PickupLayer) => {
 and jm_setDestroyed = (this: PickupLayer, destroyed: Bool) => {
         this.f_destroyed = destroyed
         if (jm_isDestroyed(this)) {
-            ignore(DestroyedLayerProcessor.jm_add(DestroyedLayerProcessor.jm_getInstance(), this))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicLayerProcessor.jm_add"))
+JR.cast(jlate(JR.cast(DestroyedLayerProcessor.jm_getInstance()), JR.cast(this)))
+})
         }
 }
     

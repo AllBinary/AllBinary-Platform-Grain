@@ -51,7 +51,10 @@ provide let rec jclassName = () => "GameAdState"
 and jnew_1 = (adConfiguration: AdConfiguration) => {
     let this = { jobject: JR.newJObject("GameAdState"), f_adConfigurationP: JR.jnull, f_advertisementsP: JR.jnull, f_okayToShowAdsP: false, }
         void
-        ignore(VirtualKeyboardEventHandler.jm_addListenerInterface(VirtualKeyboardEventHandler.jm_getInstance(), this))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_addListenerInterface"))
+JR.cast(jlate(JR.cast(VirtualKeyboardEventHandler.jm_getInstance()), JR.cast(this)))
+})
     this
 }
     

@@ -33,6 +33,8 @@ from "../../../../java/io/DataInputStream.gr" include DataInputStream
 use DataInputStream.{ type DataInputStream }
 from "../../../../java/io/DataOutputStream.gr" include DataOutputStream
 use DataOutputStream.{ type DataOutputStream }
+from "../../../../javax/microedition/rms/RecordEnumeration.gr" include RecordEnumeration
+use RecordEnumeration.{ type RecordEnumeration }
 from "../../../../org/allbinary/game/GameInfo.gr" include GameInfo
 use GameInfo.{ type GameInfo }
 from "../../../../org/allbinary/game/configuration/persistance/NullRecordComparator.gr" include NullRecordComparator
@@ -82,6 +84,10 @@ and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
     jcell_SINGLETON = Some(value)
     value
   },
+}
+
+and jset_SINGLETON = (value: HighScoreNamePersistanceSingleton) => {
+  jcell_SINGLETON = Some(value)
 }
 
 and jnew_0 = () => {
@@ -139,10 +145,10 @@ and jm_delete = (this: HighScoreNamePersistanceSingleton, abeClientInformation: 
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), "Deleting: "), deleteId))), JR.cast(this), JR.cast(this.f_commonStrings.f_delete)))
 })
-            recordStore = {
+            recordStore = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_openRecordStore"))
 JR.cast(jlate(JR.cast(jm_getRecordId(this, abeClientInformation)), JR.cast(true)))
-}
+})
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_deleteRecord"))
 JR.cast(jlate(JR.cast(recordStore), JR.cast(deleteId)))
@@ -171,10 +177,10 @@ and jm_load = (this: HighScoreNamePersistanceSingleton, abeClientInformation: Ab
         {
             if ((this.f_name == StringUtil.jm_getInstance().f_EMPTY_STRING)) {
                 let mut l_LOADING_ID: String = "Loading id: "
-                recordStore = {
+                recordStore = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_openRecordStore"))
 JR.cast(jlate(JR.cast(jm_getRecordId(this, abeClientInformation)), JR.cast(true)))
-}
+})
                 let mut recordEnum: RecordEnumeration = JR.cast({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_enumerateRecords"))
 JR.cast(jlate(JR.cast(recordStore), JR.cast(NullRecordFilter.jstatic_NULL_RECORD_FILTER()), JR.cast(NullRecordComparator.jstatic_NULL_RECORD_COMPARATOR()), JR.cast(true)))
@@ -193,12 +199,12 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMak
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_getRecord"))
 JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(recordStore), JR.cast(id)))
 }
-                    byteArrayInputStream = ByteArrayInputStream.jnew_1(recordAsBytes)
-                    inputStream = DataInputStream.jnew_1(byteArrayInputStream)
+                    byteArrayInputStream = JR.cast(ByteArrayInputStream.jnew_1(recordAsBytes))
+                    inputStream = JR.cast(DataInputStream.jnew_1(byteArrayInputStream))
                     while (Int32.(>)(DataInputStream.jm_available_0(inputStream), 0l)) {
                         this.f_name = DataInputStream.jm_readUTF_0(inputStream)
                     }
-                    ignore(BasicArrayList.jm_add(this.f_nameBasicArrayList, SmallIntegerSingletonFactory.jm_getAt(smallIntegerSingletonFactory, id)))
+                    ignore(BasicArrayList.jm_add(this.f_nameBasicArrayList, JR.cast(SmallIntegerSingletonFactory.jm_getAt(smallIntegerSingletonFactory, id))))
                 }
             }
         }
@@ -226,10 +232,10 @@ and jm_save = (this: HighScoreNamePersistanceSingleton, abeClientInformation: Ab
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Saving: "), name))), JR.cast(this), JR.cast(this.f_commonStrings.f_SAVE)))
 })
-            recordStore = {
+            recordStore = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_openRecordStore"))
 JR.cast(jlate(JR.cast(jm_getRecordId(this, abeClientInformation)), JR.cast(true)))
-}
+})
             let mut byteArrayOutputStream: ByteArrayOutputStream = ByteArrayOutputStream.jnew_0()
             let mut outputStream: DataOutputStream = DataOutputStream.jnew_1(byteArrayOutputStream)
             ignore(DataOutputStream.jm_writeUTF_1(outputStream, name))
@@ -275,5 +281,6 @@ JR.registerLateBound("HighScoreNamePersistanceSingleton.set_f_name", (this: High
 JR.registerLateBound("HighScoreNamePersistanceSingleton.f_nameBasicArrayList", (this: HighScoreNamePersistanceSingleton) => this.f_nameBasicArrayList)
 JR.registerLateBound("HighScoreNamePersistanceSingleton.set_f_nameBasicArrayList", (this: HighScoreNamePersistanceSingleton, jvalue) => { this.f_nameBasicArrayList = jvalue; jvalue })
 JR.registerLateBound("HighScoreNamePersistanceSingleton.jstatic_SINGLETON", jstatic_SINGLETON)
+JR.registerLateBound("HighScoreNamePersistanceSingleton.jset_SINGLETON", jset_SINGLETON)
 
 

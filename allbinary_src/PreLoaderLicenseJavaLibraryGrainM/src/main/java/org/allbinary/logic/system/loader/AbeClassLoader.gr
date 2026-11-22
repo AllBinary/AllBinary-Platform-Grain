@@ -39,6 +39,10 @@ from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUti
 use StringUtil.{ type StringUtil }
 from "../../../../../org/allbinary/logic/system/security/AbCryptUtil.gr" include AbCryptUtil
 use AbCryptUtil.{ type AbCryptUtil }
+from "../../../../../org/allbinary/globals/URLGLOBALS.gr" include URLGLOBALS
+use URLGLOBALS.{ type URLGLOBALS }
+from "../../../../../java/lang/ClassLoader.gr" include ClassLoader
+use ClassLoader.{ type ClassLoader }
 from "./NoClassDefFoundError.gr" include NoClassDefFoundError
 use NoClassDefFoundError.{ type NoClassDefFoundError }
 
@@ -71,6 +75,10 @@ JR.cast(jlate())
   },
 }
 
+and jset_classes = (value: Map) => {
+  jcell_classes = Some(value)
+}
+
 and jstatic_PATH = () => match (jcell_PATH) {
   Some(value) => value,
   None => {
@@ -78,6 +86,10 @@ and jstatic_PATH = () => match (jcell_PATH) {
     jcell_PATH = Some(value)
     value
   },
+}
+
+and jset_PATH = (value: String) => {
+  jcell_PATH = Some(value)
 }
     
 and jnew_2 = (parent: ClassLoader, key: String) => {
@@ -98,12 +110,12 @@ JR.cast(jlate())
     
         void
         this.f_key = key
-        jstatic_PATH() = JR.className(JR.cast(org.jstatic_allbinary().f_globals.f_URLGLOBALS)) ++ "WEB-INF/classes/"
+        jset_PATH(URLGLOBALS.jm_getWebappPath() ++ "WEB-INF/classes/")
     this
 }
     
 and jm_findLoadedClass1 = (this: AbeClassLoader, name: String) => {
-        return JR.cast(JR.className(JR.cast(jstatic_classes())))
+        return JR.cast(Map.jm_get(jstatic_classes(), name))
 }
     
 and jm_loadClass_1 = (this: AbeClassLoader, name: String) => {
@@ -127,16 +139,16 @@ and jm_loadClass_2 = (this: AbeClassLoader, name: String, resolve: Bool) => {
                 if (JR.isNull(classBytes)) {
                     fail JR.toStringOf(JR.newJObject("ClassNotFoundException"))
                 }
-                myClass = jm_defineClass(this, name, classBytes, 0l, Int32.fromNumber(Array.length(classBytes)))
+                myClass = JR.cast(jm_defineClass(this, name, classBytes, 0l, Int32.fromNumber(Array.length(classBytes))))
                 if (JR.isNull(myClass)) {
                     fail JR.toStringOf(JR.newJObject("ClassNotFoundException"))
                 }
-                ignore(JR.className(JR.cast(jstatic_classes())))
+                ignore(Map.jm_put(jstatic_classes(), name, myClass))
             } else {
-                ignore(LogBuffer.jm_add(logBuffer, {
+                ignore(LogBuffer.jm_add(logBuffer, JR.cast({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogFactory.jm_getInstanceF"))
 JR.cast(jlate(JR.cast("Already Loaded: " ++ name ++ "\nwith: " ++ loadedWith), JR.cast(this), JR.cast(this.f_LOAD_CLASS)))
-}))
+})))
             }
             ignore(jm_resolveClass(this, myClass))
             return myClass
@@ -155,7 +167,7 @@ let jlate: () => JObject = JR.cast(JR.lateBound("AbPathData.jm_getInstance"))
 JR.cast(jlate())
 })))
 }) ++ this.f_ENCRYPTED_EXTENSION
-            in = FileInputStream.jnew_1(cname)
+            in = JR.cast(FileInputStream.jnew_1(cname))
             let mut decrypted: Array<Int32> = AbCryptUtil.jm_decrypt(this.f_abCryptUtil, JR.cast(in), this.f_key)
             return decrypted
         }
@@ -179,13 +191,25 @@ and jm_oldLoadClass = (this: AbeClassLoader, name: String, resolve: Bool) => {
                 if (JR.isNull(classBytes)) {
                     fail JR.toStringOf(JR.newJObject("ClassNotFoundException"))
                 }
-                myClass = jm_defineClass(this, name, classBytes, 0l, Int32.fromNumber(Array.length(classBytes)))
+                myClass = JR.cast(jm_defineClass(this, name, classBytes, 0l, Int32.fromNumber(Array.length(classBytes))))
                 if (JR.isNull(myClass)) {
                     fail JR.toStringOf(JR.newJObject("ClassNotFoundException"))
                 }
-                ignore(JR.className(JR.cast(jstatic_classes())))
+                ignore(Map.jm_put(jstatic_classes(), name, myClass))
             } else {
-                if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+                if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypes.jstatic_LOGGING"))
+JR.cast(jlate())
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_LOADER"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+}) {
                     ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Already Loaded: " ++ name ++ " with: " ++ loadedWith), JR.cast(this), JR.cast(this.f_LOAD_CLASS)))
@@ -211,6 +235,8 @@ JR.registerLateBound("AbeClassLoader.f_ENCRYPTED_EXTENSION", (this: AbeClassLoad
 JR.registerLateBound("AbeClassLoader.f_key", (this: AbeClassLoader) => this.f_key)
 JR.registerLateBound("AbeClassLoader.set_f_key", (this: AbeClassLoader, jvalue) => { this.f_key = jvalue; jvalue })
 JR.registerLateBound("AbeClassLoader.jstatic_classes", jstatic_classes)
+JR.registerLateBound("AbeClassLoader.jset_classes", jset_classes)
 JR.registerLateBound("AbeClassLoader.jstatic_PATH", jstatic_PATH)
+JR.registerLateBound("AbeClassLoader.jset_PATH", jset_PATH)
 
 

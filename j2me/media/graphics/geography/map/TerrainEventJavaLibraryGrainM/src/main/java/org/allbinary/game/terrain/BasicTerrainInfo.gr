@@ -42,16 +42,20 @@ provide let rec jclassName = () => "BasicTerrainInfo"
 and jstatic_NULL_BASIC_TERRAIN_INFO = () => match (jcell_NULL_BASIC_TERRAIN_INFO) {
   Some(value) => value,
   None => {
-    let value: BasicTerrainInfo = jnew_1(AngleFactory.jm_getInstance().f_NOT_ANGLE)
+    let value: BasicTerrainInfo = jnew_1(JR.cast(AngleFactory.jm_getInstance().f_NOT_ANGLE))
     jcell_NULL_BASIC_TERRAIN_INFO = Some(value)
     value
   },
+}
+
+and jset_NULL_BASIC_TERRAIN_INFO = (value: BasicTerrainInfo) => {
+  jcell_NULL_BASIC_TERRAIN_INFO = Some(value)
 }
     
 and jnew_1 = (angle: Angle) => {
     let this = { jobject: JR.newJObject("BasicTerrainInfo"), f_angle: JR.nullOf(), }
     
-        this.f_angle = angle
+        this.f_angle = JR.cast(angle)
     this
 }
     
@@ -60,7 +64,7 @@ and jm_getAngle = (this: BasicTerrainInfo) => {
 }
     
 and jm_setAngle = (this: BasicTerrainInfo, angle: Angle) => {
-        this.f_angle = angle
+        this.f_angle = JR.cast(angle)
 }
 
 JR.registerLateBound("BasicTerrainInfo.jnew_1", jnew_1)
@@ -69,5 +73,6 @@ JR.registerLateBound("BasicTerrainInfo.jm_setAngle", jm_setAngle)
 JR.registerLateBound("BasicTerrainInfo.f_angle", (this: BasicTerrainInfo) => this.f_angle)
 JR.registerLateBound("BasicTerrainInfo.set_f_angle", (this: BasicTerrainInfo, jvalue) => { this.f_angle = jvalue; jvalue })
 JR.registerLateBound("BasicTerrainInfo.jstatic_NULL_BASIC_TERRAIN_INFO", jstatic_NULL_BASIC_TERRAIN_INFO)
+JR.registerLateBound("BasicTerrainInfo.jset_NULL_BASIC_TERRAIN_INFO", jset_NULL_BASIC_TERRAIN_INFO)
 
 

@@ -25,6 +25,10 @@ from "char" include Char
 from "array" include Array
 from "../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../../javax/microedition/lcdui/CommandListener.gr" include CommandListener
+use CommandListener.{ type CommandListener }
+from "../../../../../javax/microedition/lcdui/NullCommandListener.gr" include NullCommandListener
+use NullCommandListener.{ type NullCommandListener }
 from "../../../../../org/allbinary/canvas/Processor.gr" include Processor
 use Processor.{ type Processor }
 from "../../../../../org/allbinary/game/displayable/canvas/MenuListener.gr" include MenuListener
@@ -64,10 +68,14 @@ and jstatic_NULL_COMMAND_FORM = () => match (jcell_NULL_COMMAND_FORM) {
     value
   },
 }
+
+and jset_NULL_COMMAND_FORM = (value: JObject) => {
+  jcell_NULL_COMMAND_FORM = Some(value)
+}
     
 and jm_getNullCommandForm = () => {
         if (JR.isSame(jstatic_NULL_COMMAND_FORM(), NullUtil.jm_getInstance().f_NULL_OBJECT)) {
-            jstatic_NULL_COMMAND_FORM() = JR.cast(jnew_4(NullCommandListener.jstatic_NULL_COMMAND_LISTENER(), StringUtil.jm_getInstance().f_EMPTY_STRING, BasicColorFactory.jm_getInstance().f_BLACK, BasicColorFactory.jm_getInstance().f_WHITE))
+            jset_NULL_COMMAND_FORM(JR.cast(jnew_4(JR.cast(NullCommandListener.jstatic_NULL_COMMAND_LISTENER()), StringUtil.jm_getInstance().f_EMPTY_STRING, JR.cast(BasicColorFactory.jm_getInstance().f_BLACK), JR.cast(BasicColorFactory.jm_getInstance().f_WHITE))))
         }
         return JR.cast(jstatic_NULL_COMMAND_FORM())
 }
@@ -82,13 +90,13 @@ JR.cast(jlate())
     this.f_repaintProcessor = JR.cast(ScreenRepaintProcessorFactory.jm_create(ScreenRepaintProcessorFactory.jm_getInstance(), JR.cast(this)))
     
         void
-        this.f_commandStack = {
+        this.f_commandStack = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createStack"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
 JR.cast(jlate())
 })))
-}
+})
         {
             ignore(Processor.jm_process(this.f_repaintProcessor))
         }
@@ -166,5 +174,6 @@ JR.registerLateBound("CommandForm.f_repaintProcessor", (this: CommandForm) => th
 JR.registerLateBound("CommandForm.f_commandStack", (this: CommandForm) => this.f_commandStack)
 JR.registerLateBound("CommandForm.set_f_commandStack", (this: CommandForm, jvalue) => { this.f_commandStack = jvalue; jvalue })
 JR.registerLateBound("CommandForm.jstatic_NULL_COMMAND_FORM", jstatic_NULL_COMMAND_FORM)
+JR.registerLateBound("CommandForm.jset_NULL_COMMAND_FORM", jset_NULL_COMMAND_FORM)
 
 

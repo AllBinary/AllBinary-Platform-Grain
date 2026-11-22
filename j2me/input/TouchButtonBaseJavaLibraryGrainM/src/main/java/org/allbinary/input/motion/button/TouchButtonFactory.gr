@@ -50,6 +50,10 @@ and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
     value
   },
 }
+
+and jset_SINGLETON = (value: TouchButtonFactory) => {
+  jcell_SINGLETON = Some(value)
+}
     
 and jm_getInstance = () => {
         return jstatic_SINGLETON()
@@ -66,27 +70,27 @@ and jnew_0 = () => {
 }
     
 and jm_defaultList = (this: TouchButtonFactory) => {
-        this.f_list = this.f_LIST
+        this.f_list = JR.cast(this.f_LIST)
         ignore(jm_toggle(this, false, this.f_LIST))
 }
     
 and jm_toggle = (this: TouchButtonFactory, save: Bool, list: BasicArrayList) => {
         if ((!JR.isSame(list, BasicArrayListUtil.jm_getImmutableInstance(BasicArrayListUtil.jm_getInstance())))) {
-            this.f_savedList = list
+            this.f_savedList = JR.cast(list)
             if (!this.f_saved) {
-                this.f_list = this.f_savedList
+                this.f_list = JR.cast(this.f_savedList)
             }
         } else {
             if (save) {
                 if (!this.f_saved) {
                     this.f_saved = true
-                    this.f_savedList = this.f_list
-                    this.f_list = this.f_LIST
+                    this.f_savedList = JR.cast(this.f_list)
+                    this.f_list = JR.cast(this.f_LIST)
                 } else {
                     void
                 }
             } else {
-                this.f_list = this.f_savedList
+                this.f_list = JR.cast(this.f_savedList)
                 this.f_saved = false
             }
         }
@@ -96,7 +100,7 @@ and jm_setList = (this: TouchButtonFactory, list: BasicArrayList) => {
         if (JR.isNull(list)) {
             fail JR.toStringOf(JR.newJObject("Exception"))
         }
-        this.f_list = list
+        this.f_list = JR.cast(list)
 }
     
 and jm_getList = (this: TouchButtonFactory) => {
@@ -118,5 +122,6 @@ JR.registerLateBound("TouchButtonFactory.set_f_savedList", (this: TouchButtonFac
 JR.registerLateBound("TouchButtonFactory.f_saved", (this: TouchButtonFactory) => this.f_saved)
 JR.registerLateBound("TouchButtonFactory.set_f_saved", (this: TouchButtonFactory, jvalue) => { this.f_saved = jvalue; jvalue })
 JR.registerLateBound("TouchButtonFactory.jstatic_SINGLETON", jstatic_SINGLETON)
+JR.registerLateBound("TouchButtonFactory.jset_SINGLETON", jset_SINGLETON)
 
 

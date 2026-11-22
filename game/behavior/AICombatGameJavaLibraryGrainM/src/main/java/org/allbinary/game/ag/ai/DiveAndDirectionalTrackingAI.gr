@@ -147,19 +147,22 @@ JR.cast(jlate())
     
     this.f_lastDirection = JR.cast(DirectionFactory.jm_getInstance().f_NO_DIRECTION)
         void
-        this.f_aiVistor = visitor
-        this.f_artificialIntelligenceInterface = artificialIntelligenceInterface
+        this.f_aiVistor = JR.cast(visitor)
+        this.f_artificialIntelligenceInterface = JR.cast(artificialIntelligenceInterface)
         let mut directionalCompositeInterface: DirectionalCompositeInterface = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
 JR.cast(jlate(JR.cast(this)))
 })
-        this.f_directionalInterface = DirectionalCompositeInterface.jm_getDirectionalInterface(directionalCompositeInterface)
+        this.f_directionalInterface = JR.cast(DirectionalCompositeInterface.jm_getDirectionalInterface(directionalCompositeInterface))
         let mut velocityInterfaceCompositeInterface: VelocityInterfaceCompositeInterface = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
 JR.cast(jlate(JR.cast(this)))
 })
-        this.f_velocityInterface = VelocityInterfaceCompositeInterface.jm_getVelocityProperties(velocityInterfaceCompositeInterface)
-        ignore(DestroyedEventHandler.jm_addListenerInterface(DestroyedEventHandler.jm_getInstance(), this))
+        this.f_velocityInterface = JR.cast(VelocityInterfaceCompositeInterface.jm_getVelocityProperties(velocityInterfaceCompositeInterface))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_addListenerInterface"))
+JR.cast(jlate(JR.cast(DestroyedEventHandler.jm_getInstance()), JR.cast(this)))
+})
         ignore(jm_init(this))
     this
 }
@@ -180,8 +183,11 @@ and jm_processAI = (this: DiveAndDirectionalTrackingAI, allBinaryLayerManager: A
     
 and jm_init = (this: DiveAndDirectionalTrackingAI) => {
         this.f_diveP = false
-        this.f_directionOfTarget = DirectionFactory.jm_getInstance().f_NOT_BORDERED_WITH
-        ignore(TrackingEventHandler.jm_addListenerInterface(TrackingEventHandler.jm_getInstance(), this))
+        this.f_directionOfTarget = JR.cast(DirectionFactory.jm_getInstance().f_NOT_BORDERED_WITH)
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_addListenerInterface"))
+JR.cast(jlate(JR.cast(TrackingEventHandler.jm_getInstance()), JR.cast(this)))
+})
 }
     
 and jm_target = (this: DiveAndDirectionalTrackingAI, allBinaryLayerManager: AllBinaryLayerManager) => {
@@ -189,7 +195,7 @@ and jm_target = (this: DiveAndDirectionalTrackingAI, allBinaryLayerManager: AllB
             return void
         }
         let mut lastTrackingEvent: TrackingEvent = JR.cast(BasicArrayList.jm_removeAt(this.f_list, 0l))
-        this.f_lastTrackingLayerInterface = TrackingEvent.jm_getLayerInterface(lastTrackingEvent)
+        this.f_lastTrackingLayerInterface = JR.cast(TrackingEvent.jm_getLayerInterface(lastTrackingEvent))
         let mut layerInterface: AllBinaryLayer = JR.cast(this.f_lastTrackingLayerInterface)
         let mut ownerLayerInterface: AllBinaryLayer = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
@@ -207,15 +213,15 @@ JR.cast(jlate(JR.cast(this)))
         let mut directionFactory: DirectionFactory = JR.cast(DirectionFactory.jm_getInstance())
         if (Int32.(>)(MathUtil.jm_abs(this.f_mathUtil, yDistance), MathUtil.jm_abs(this.f_mathUtil, xDistance))) {
             if (Int32.(>)(yDistance, this.f_MIN_DISTANCE)) {
-                this.f_directionOfTarget = directionFactory.f_UP
+                this.f_directionOfTarget = JR.cast(directionFactory.f_UP)
             } else if (Int32.(<)(yDistance, Int32.(-)(1l, Int32.(+)(this.f_MIN_DISTANCE, 1l)))) {
-                this.f_directionOfTarget = directionFactory.f_DOWN
+                this.f_directionOfTarget = JR.cast(directionFactory.f_DOWN)
             }
         } else {
             if (Int32.(>)(xDistance, this.f_MIN_DISTANCE)) {
-                this.f_directionOfTarget = directionFactory.f_LEFT
+                this.f_directionOfTarget = JR.cast(directionFactory.f_LEFT)
             } else if (Int32.(<)(xDistance, Int32.(-)(1l, Int32.(+)(this.f_MIN_DISTANCE, 1l)))) {
-                this.f_directionOfTarget = directionFactory.f_RIGHT
+                this.f_directionOfTarget = JR.cast(directionFactory.f_RIGHT)
             }
         }
         if ((!this.f_initialDropped && (!JR.isSame(this.f_directionOfTarget, directionFactory.f_NOT_BORDERED_WITH)))) {
@@ -268,7 +274,10 @@ JR.cast(jlate(JR.cast(this)))
 and jm_setDive = (this: DiveAndDirectionalTrackingAI) => {
         this.f_diveP = true
         ignore(BasicVelocityProperties.jm_zero(this.f_velocityInterface))
-        ignore(TrackingEventHandler.jm_removeListener(TrackingEventHandler.jm_getInstance(), this))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_removeListener"))
+JR.cast(jlate(JR.cast(TrackingEventHandler.jm_getInstance()), JR.cast(this)))
+})
 }
     
 and jm_moveRight = (this: DiveAndDirectionalTrackingAI) => {
@@ -319,37 +328,49 @@ and jm_drop = (this: DiveAndDirectionalTrackingAI) => {
     
 and jm_isBeyondTarget = (this: DiveAndDirectionalTrackingAI) => {
         if (JR.isSame(this.f_directionOfTarget, this.f_directionFactory.f_DOWN)) {
-            if (Int32.(>)(JR.className(JR.cast({
+            if (Int32.(>)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_getYP"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
 JR.cast(jlate(JR.cast(this)))
-})), Int32.(+)(AllBinaryLayer.jm_getYP(this.f_lastTrackingLayerInterface), this.f_MIN_DISTANCE))) {
+})))
+}, Int32.(+)(AllBinaryLayer.jm_getYP(this.f_lastTrackingLayerInterface), this.f_MIN_DISTANCE))) {
                 return true
             } else {
                 return false
             }
         } else if (JR.isSame(this.f_directionOfTarget, this.f_directionFactory.f_UP)) {
-            if (Int32.(<)(JR.className(JR.cast({
+            if (Int32.(<)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_getYP"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
 JR.cast(jlate(JR.cast(this)))
-})), Int32.(+)(AllBinaryLayer.jm_getYP(this.f_lastTrackingLayerInterface), this.f_MIN_DISTANCE))) {
+})))
+}, Int32.(+)(AllBinaryLayer.jm_getYP(this.f_lastTrackingLayerInterface), this.f_MIN_DISTANCE))) {
                 return true
             } else {
                 return false
             }
         } else if (JR.isSame(this.f_directionOfTarget, this.f_directionFactory.f_RIGHT)) {
-            if (Int32.(>)(JR.className(JR.cast({
+            if (Int32.(>)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_getXP"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
 JR.cast(jlate(JR.cast(this)))
-})), Int32.(+)(AllBinaryLayer.jm_getXP(this.f_lastTrackingLayerInterface), this.f_MIN_DISTANCE))) {
+})))
+}, Int32.(+)(AllBinaryLayer.jm_getXP(this.f_lastTrackingLayerInterface), this.f_MIN_DISTANCE))) {
                 return true
             } else {
                 return false
             }
         } else if (JR.isSame(this.f_directionOfTarget, this.f_directionFactory.f_LEFT)) {
-            if (Int32.(<)(JR.className(JR.cast({
+            if (Int32.(<)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_getXP"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
 JR.cast(jlate(JR.cast(this)))
-})), Int32.(+)(AllBinaryLayer.jm_getXP(this.f_lastTrackingLayerInterface), this.f_MIN_DISTANCE))) {
+})))
+}, Int32.(+)(AllBinaryLayer.jm_getXP(this.f_lastTrackingLayerInterface), this.f_MIN_DISTANCE))) {
                 return true
             } else {
                 return false
@@ -357,6 +378,7 @@ JR.cast(jlate(JR.cast(this)))
         } else {
             return false
         }
+    return false
 }
     
 and jm_onEvent = (this: DiveAndDirectionalTrackingAI, eventObject: AllBinaryEventObject) => {
@@ -372,13 +394,16 @@ and jm_onDestroyed = (this: DiveAndDirectionalTrackingAI, destroyedEvent: Destro
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
 JR.cast(jlate(JR.cast(this)))
 } == DestroyedEvent.jm_getLayerInterface(destroyedEvent))) {
-            ignore(TrackingEventHandler.jm_removeListener(TrackingEventHandler.jm_getInstance(), this))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_removeListener"))
+JR.cast(jlate(JR.cast(TrackingEventHandler.jm_getInstance()), JR.cast(this)))
+})
             ignore(DestroyedEventHandler.jm_removeListener(DestroyedEventHandler.jm_getInstance(), JR.cast(this)))
         }
 }
     
 and jm_setLastDirection = (this: DiveAndDirectionalTrackingAI, lastDirection: Direction) => {
-        this.f_lastDirection = lastDirection
+        this.f_lastDirection = JR.cast(lastDirection)
         let mut value: Int32 = Direction.jm_getValue(jm_getLastDirection(this))
         if (Int32.(<)(value, 4l)) {
             ignore(jm_setLastKey(this, this.f_directionToKeyMap[Int32.toNumber(value)]))
@@ -394,7 +419,7 @@ JR.cast(jlate(JR.cast(this)))
 let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_LEFT"))
 JR.cast(jlate())
 })) {
-            this.f_lastDirection = DirectionFactory.jm_getInstance().f_LEFT
+            this.f_lastDirection = JR.cast(DirectionFactory.jm_getInstance().f_LEFT)
         } else if (({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getLastKey"))
 JR.cast(jlate(JR.cast(this)))
@@ -402,7 +427,7 @@ JR.cast(jlate(JR.cast(this)))
 let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_DOWN"))
 JR.cast(jlate())
 })) {
-            this.f_lastDirection = DirectionFactory.jm_getInstance().f_DOWN
+            this.f_lastDirection = JR.cast(DirectionFactory.jm_getInstance().f_DOWN)
         } else if (({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getLastKey"))
 JR.cast(jlate(JR.cast(this)))
@@ -410,7 +435,7 @@ JR.cast(jlate(JR.cast(this)))
 let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_UP"))
 JR.cast(jlate())
 })) {
-            this.f_lastDirection = DirectionFactory.jm_getInstance().f_UP
+            this.f_lastDirection = JR.cast(DirectionFactory.jm_getInstance().f_UP)
         } else if (({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getLastKey"))
 JR.cast(jlate(JR.cast(this)))
@@ -418,7 +443,7 @@ JR.cast(jlate(JR.cast(this)))
 let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_RIGHT"))
 JR.cast(jlate())
 })) {
-            this.f_lastDirection = DirectionFactory.jm_getInstance().f_RIGHT
+            this.f_lastDirection = JR.cast(DirectionFactory.jm_getInstance().f_RIGHT)
         }
 }
     

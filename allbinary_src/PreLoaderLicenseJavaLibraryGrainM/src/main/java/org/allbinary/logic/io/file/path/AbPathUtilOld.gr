@@ -58,6 +58,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: AbPathUtilOld) => {
+  jcell_instance = Some(value)
+}
+
 and jstatic_MIN = () => match (jcell_MIN) {
   Some(value) => value,
   None => {
@@ -65,6 +69,10 @@ and jstatic_MIN = () => match (jcell_MIN) {
     jcell_MIN = Some(value)
     value
   },
+}
+
+and jset_MIN = (value: Int32) => {
+  jcell_MIN = Some(value)
 }
     
 and jm_getInstance = () => {
@@ -86,21 +94,33 @@ JR.cast(jlate())
     this
 }
     
-and jm_getExtension_1 = (this: AbPathUtilOld, abFilePath: AbFilePath) => {
-        return jm_getExtension_1(this, JR.cast(JR.toStringOf(abFilePath.jobject)))
+and jm_getExtension_1_AbFilePath_ = (this: AbPathUtilOld, abFilePath: AbFilePath) => {
+        return jm_getExtension_1_String_(this, JR.cast(JR.toStringOf(abFilePath.jobject)))
 }
     
-and jm_getExtension_1 = (this: AbPathUtilOld, abPath: AbPath) => {
-        return jm_getExtension_1(this, JR.cast(AbPath.jm_toString(abPath)))
+and jm_getExtension_1_AbPath_ = (this: AbPathUtilOld, abPath: AbPath) => {
+        return jm_getExtension_1_String_(this, JR.cast(AbPath.jm_toString(abPath)))
 }
     
-and jm_getExtension_1 = (this: AbPathUtilOld, filePath: String) => {
+and jm_getExtension_1_String_ = (this: AbPathUtilOld, filePath: String) => {
         if (Int32.(<)(JR.length(filePath), jstatic_MIN())) {
             fail JR.toStringOf(JR.newJObject("Exception"))
         }
         let mut beginIndex: Int32 = Int32.(-)(JR.length(filePath), jstatic_MIN())
         let mut extension: String = JR.substringFrom(filePath, Int32.(+)(beginIndex, 1l))
-        if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+        if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypes.jstatic_LOGGING"))
+JR.cast(jlate())
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_VIEW"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+}) {
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("FileExtension: " ++ extension), JR.cast(this), JR.cast("getExtension()")))
@@ -109,21 +129,33 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("FileExtension: " ++ extension), 
         return extension
 }
     
-and jm_getWithoutExtension_1 = (this: AbPathUtilOld, abFilePath: AbFilePath) => {
-        return jm_getWithoutExtension_1(this, JR.cast(JR.toStringOf(abFilePath.jobject)))
+and jm_getWithoutExtension_1_AbFilePath_ = (this: AbPathUtilOld, abFilePath: AbFilePath) => {
+        return jm_getWithoutExtension_1_String_(this, JR.cast(JR.toStringOf(abFilePath.jobject)))
 }
     
-and jm_getWithoutExtension_1 = (this: AbPathUtilOld, abPath: AbPath) => {
-        return jm_getWithoutExtension_1(this, JR.cast(AbPath.jm_toString(abPath)))
+and jm_getWithoutExtension_1_AbPath_ = (this: AbPathUtilOld, abPath: AbPath) => {
+        return jm_getWithoutExtension_1_String_(this, JR.cast(AbPath.jm_toString(abPath)))
 }
     
-and jm_getWithoutExtension_1 = (this: AbPathUtilOld, filePath: String) => {
+and jm_getWithoutExtension_1_String_ = (this: AbPathUtilOld, filePath: String) => {
         if (Int32.(<)(JR.length(filePath), jstatic_MIN())) {
             fail JR.toStringOf(JR.newJObject("Exception"))
         }
         let mut endIndex: Int32 = Int32.(-)(JR.length(filePath), jstatic_MIN())
         let mut pathWithoutExtension: String = JR.substring(filePath, 0l, endIndex)
-        if (JR.className(JR.cast(org.jstatic_allbinary().f_logic.f_communication.f_log.f_config.f_type.f_LogConfigTypes.f_LOGGING))) {
+        if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypes.jstatic_LOGGING"))
+JR.cast(jlate())
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_VIEW"))
+JR.cast(jlate(JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.jm_getInstance"))
+JR.cast(jlate())
+})))
+})))
+}) {
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("FileWithoutExtension: " ++ pathWithoutExtension), JR.cast(this), JR.cast("getWithoutExtension()")))
@@ -246,12 +278,12 @@ JR.cast(jlate(JR.cast(this.f_abPathData)))
 
 JR.registerLateBound("AbPathUtilOld.jnew_0", jnew_0)
 JR.registerLateBound("AbPathUtilOld.jm_getInstance", jm_getInstance)
-JR.registerLateBound("AbPathUtilOld.jm_getExtension_1", jm_getExtension_1)
-JR.registerLateBound("AbPathUtilOld.jm_getExtension_1", jm_getExtension_1)
-JR.registerLateBound("AbPathUtilOld.jm_getExtension_1", jm_getExtension_1)
-JR.registerLateBound("AbPathUtilOld.jm_getWithoutExtension_1", jm_getWithoutExtension_1)
-JR.registerLateBound("AbPathUtilOld.jm_getWithoutExtension_1", jm_getWithoutExtension_1)
-JR.registerLateBound("AbPathUtilOld.jm_getWithoutExtension_1", jm_getWithoutExtension_1)
+JR.registerLateBound("AbPathUtilOld.jm_getExtension_1_AbFilePath_", jm_getExtension_1_AbFilePath_)
+JR.registerLateBound("AbPathUtilOld.jm_getExtension_1_AbPath_", jm_getExtension_1_AbPath_)
+JR.registerLateBound("AbPathUtilOld.jm_getExtension_1_String_", jm_getExtension_1_String_)
+JR.registerLateBound("AbPathUtilOld.jm_getWithoutExtension_1_AbFilePath_", jm_getWithoutExtension_1_AbFilePath_)
+JR.registerLateBound("AbPathUtilOld.jm_getWithoutExtension_1_AbPath_", jm_getWithoutExtension_1_AbPath_)
+JR.registerLateBound("AbPathUtilOld.jm_getWithoutExtension_1_String_", jm_getWithoutExtension_1_String_)
 JR.registerLateBound("AbPathUtilOld.jm_isValid", jm_isValid)
 JR.registerLateBound("AbPathUtilOld.jm_isValidStart", jm_isValidStart)
 JR.registerLateBound("AbPathUtilOld.jm_isValidEnd", jm_isValidEnd)
@@ -264,6 +296,8 @@ JR.registerLateBound("AbPathUtilOld.f_logUtil", (this: AbPathUtilOld) => this.f_
 JR.registerLateBound("AbPathUtilOld.f_abPathData", (this: AbPathUtilOld) => this.f_abPathData)
 JR.registerLateBound("AbPathUtilOld.f_filePathData", (this: AbPathUtilOld) => this.f_filePathData)
 JR.registerLateBound("AbPathUtilOld.jstatic_instance", jstatic_instance)
+JR.registerLateBound("AbPathUtilOld.jset_instance", jset_instance)
 JR.registerLateBound("AbPathUtilOld.jstatic_MIN", jstatic_MIN)
+JR.registerLateBound("AbPathUtilOld.jset_MIN", jset_MIN)
 
 

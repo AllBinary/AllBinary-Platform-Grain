@@ -59,7 +59,10 @@ and jnew_4 = (mainDemoStatePaintable: Paintable, ownershipPaintable: Paintable, 
     let this = { jobject: JR.newJObject("GameScrollMenuPaintable"), f_mainDemoStatePaintable: JR.jnull, f_ownershipPaintable: JR.jnull, f_helpPaintableInterface: JR.jnull, f_currentStatePaintable: JR.jnull, }
         void
         ignore(jm_setColor(this, basicColor))
-        ignore(ColorChangeEventHandler.jm_addListenerInterface(ColorChangeEventHandler.jm_getInstance(), this))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_addListenerInterface"))
+JR.cast(jlate(JR.cast(ColorChangeEventHandler.jm_getInstance()), JR.cast(this)))
+})
     this
 }
     
@@ -84,12 +87,18 @@ JR.cast(jlate(JR.cast(this)))
 })
         let mut formPaintable: FormPaintable = JR.cast(MainGameDemoStatePaintable.jm_getMenuPaintableInterface(mainGameDemoStatePaintable))
         let mut scrollSelectionForm: ScrollSelectionForm = JR.cast(FormPaintable.jm_getForm(formPaintable))
-        ignore(JR.className(JR.cast(MainGameDemoStatePaintable.jm_getOwnershipPaintableInterface(mainGameDemoStatePaintable))))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Paintable.jm_setBasicColorP"))
+JR.cast(jlate(JR.cast(MainGameDemoStatePaintable.jm_getOwnershipPaintableInterface(mainGameDemoStatePaintable)), JR.cast(basicColor)))
+})
         ignore(ScrollSelectionForm.jm_setButtonBasicColor(scrollSelectionForm, basicColor))
         let mut item: JObject = JR.jnull
         let mut stringComponent: JObject = JR.jnull
         {
-            let mut index: Int32 = Int32.(-)(ScrollSelectionForm.jm_size(scrollSelectionForm), 1l)
+            let mut index: Int32 = Int32.(-)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABCustomForm.jm_size"))
+JR.cast(jlate(JR.cast(scrollSelectionForm)))
+}, 1l)
             let mut jfirst = true
             while (true) {
                 if (!jfirst) {
@@ -97,11 +106,14 @@ JR.cast(jlate(JR.cast(this)))
                 }
                 jfirst = false
                 if (!(Int32.(>=)(index, 0l))) break
-            item = JR.cast(ScrollSelectionForm.jm_get(scrollSelectionForm, index))
-            stringComponent = {
+            item = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABCustomForm.jm_get"))
+JR.cast(jlate(JR.cast(scrollSelectionForm), JR.cast(index)))
+})
+            stringComponent = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABTextItem.jm_getLabelStringComponent"))
 JR.cast(jlate(JR.cast(item)))
-}
+})
             if (!JR.isNull(stringComponent)) {
                 ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABStringComponent.jm_setForegroundBasicColor"))

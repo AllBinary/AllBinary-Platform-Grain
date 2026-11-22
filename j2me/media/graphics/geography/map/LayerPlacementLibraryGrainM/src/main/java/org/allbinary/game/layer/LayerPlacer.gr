@@ -63,8 +63,8 @@ and jnew_2 = (layerInterfaceVisitor: LayerInterfaceVisitor, dimension: GPoint) =
     this.f_enumerationUtil = JR.cast(EnumerationUtil.jm_getInstance())
     
     
-        this.f_layerInterfaceVisitor = layerInterfaceVisitor
-        this.f_dimension = dimension
+        this.f_layerInterfaceVisitor = JR.cast(layerInterfaceVisitor)
+        this.f_dimension = JR.cast(dimension)
     this
 }
     
@@ -109,7 +109,7 @@ JR.cast(jlate(JR.cast(hashtable), JR.cast(point)))
             x = Int32.(+)(GPoint.jm_getX(point), GPoint.jm_getX(relativePoint))
             y = Int32.(+)(GPoint.jm_getY(point), GPoint.jm_getY(relativePoint))
             z = Int32.(+)(GPoint.jm_getZ(point), GPoint.jm_getZ(relativePoint))
-            layerInterface = LayerInterfaceFactory.jm_getNexInstance(layerInterfaceFactory, layerHashtable, x, y, z)
+            layerInterface = JR.cast(LayerInterfaceFactory.jm_getNexInstance(layerInterfaceFactory, layerHashtable, x, y, z))
             ignore(LayerInterfaceVisitor.jm_visit(this.f_layerInterfaceVisitor, layerInterface))
         }
 }
@@ -132,6 +132,7 @@ and jm_getPoint = (this: LayerPlacer, layerPlacementInterface: LayerPlacementInt
         } else {
             fail JR.toStringOf(JR.newJObject("Exception"))
         }
+    return JR.nullOf()
 }
 
 JR.registerLateBound("LayerPlacer.jnew_2", jnew_2)

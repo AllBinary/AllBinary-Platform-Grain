@@ -48,6 +48,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: AngleIncrementInfoFactory) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("AngleIncrementInfoFactory"), f_angleIncrementInfo: [> ], }
     this.f_angleIncrementInfo = Array.make(Int32.toNumber(AngleFactory.jm_getInstance().f_TOTAL_ANGLE), JR.nullOf())
@@ -63,11 +67,11 @@ and jm_getAt = (this: AngleIncrementInfoFactory, angleIncrement: Int32) => {
         let mut angleIncrementInfo: AngleIncrementInfo = JR.nullOf()
         let mut angleIncrementInfoCanBeNull: AngleIncrementInfo = JR.cast(this.f_angleIncrementInfo[Int32.toNumber(halfAngleIncrement)])
         if (JR.isNull(angleIncrementInfoCanBeNull)) {
-            angleIncrementInfo = AngleIncrementInfo.jnew_1(angleIncrement)
+            angleIncrementInfo = JR.cast(AngleIncrementInfo.jnew_1(angleIncrement))
             this.f_angleIncrementInfo[Int32.toNumber(halfAngleIncrement)] = JR.cast(angleIncrementInfo)
             return angleIncrementInfo
         } else {
-            angleIncrementInfo = angleIncrementInfoCanBeNull
+            angleIncrementInfo = JR.cast(angleIncrementInfoCanBeNull)
         }
         return angleIncrementInfo
 }
@@ -77,5 +81,6 @@ JR.registerLateBound("AngleIncrementInfoFactory.jm_getInstance", jm_getInstance)
 JR.registerLateBound("AngleIncrementInfoFactory.jm_getAt", jm_getAt)
 JR.registerLateBound("AngleIncrementInfoFactory.f_angleIncrementInfo", (this: AngleIncrementInfoFactory) => this.f_angleIncrementInfo)
 JR.registerLateBound("AngleIncrementInfoFactory.jstatic_instance", jstatic_instance)
+JR.registerLateBound("AngleIncrementInfoFactory.jset_instance", jset_instance)
 
 

@@ -55,6 +55,10 @@ and jstatic_stringBuffer = () => match (jcell_stringBuffer) {
     value
   },
 }
+
+and jset_stringBuffer = (value: StringMaker) => {
+  jcell_stringBuffer = Some(value)
+}
     
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("BasicGameResources"), f_logUtil: JR.jnull, f_RESOURCE: "", f_RESOURCE_DESTROY: "", }
@@ -70,7 +74,10 @@ JR.cast(jlate())
     
 and jm_init = (this: BasicGameResources, l_ROOT: String, l_SIZE: Array<String>) => {
         {
-            let mut scale: Int32 = JR.className(JR.cast(JR.className(JR.cast(GameConfigurationCentral.jm_getInstance().f_SCALE))))
+            let mut scale: Int32 = JR.className(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getValue"))
+JR.cast(jlate(JR.cast(GameConfigurationCentral.jm_getInstance().f_SCALE)))
+}))
             if ((Int32.(>)(scale, 1l) && Int32.(<)(Int32.(-)(scale, 1l), Int32.fromNumber(Array.length(l_SIZE))))) {
                 ignore(jm_append(this, l_ROOT, l_SIZE[Int32.toNumber(Int32.(-)(scale, 1l))]))
             } else {
@@ -82,50 +89,17 @@ and jm_init = (this: BasicGameResources, l_ROOT: String, l_SIZE: Array<String>) 
 and jm_append = (this: BasicGameResources, l_ROOT: String, sizeString: String) => {
         let mut l_DESTROY: String = "_destroy"
         let mut string: String = jm_getString(this)
-        ignore({
-let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_delete"))
-JR.cast(jlate(JR.cast(jstatic_stringBuffer()), JR.cast(0l), JR.cast({
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_length"))
-JR.cast(jlate(JR.cast(jstatic_stringBuffer())))
-})))
-})
-        ignore({
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_append"))
-JR.cast(jlate(JR.cast(jstatic_stringBuffer()), JR.cast(l_ROOT)))
-})
-        ignore({
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_append"))
-JR.cast(jlate(JR.cast(jstatic_stringBuffer()), JR.cast(string)))
-})
-        ignore({
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_append"))
-JR.cast(jlate(JR.cast(jstatic_stringBuffer()), JR.cast(sizeString)))
-})
-        this.f_RESOURCE = JR.toStringOf(JR.cast(jstatic_stringBuffer()))
-        ignore({
-let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_delete"))
-JR.cast(jlate(JR.cast(jstatic_stringBuffer()), JR.cast(0l), JR.cast({
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_length"))
-JR.cast(jlate(JR.cast(jstatic_stringBuffer())))
-})))
-})
-        ignore({
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_append"))
-JR.cast(jlate(JR.cast(jstatic_stringBuffer()), JR.cast(l_ROOT)))
-})
-        ignore({
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_append"))
-JR.cast(jlate(JR.cast(jstatic_stringBuffer()), JR.cast(l_DESTROY)))
-})
-        ignore({
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_append"))
-JR.cast(jlate(JR.cast(jstatic_stringBuffer()), JR.cast(string)))
-})
-        ignore({
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("StringMaker.jm_append"))
-JR.cast(jlate(JR.cast(jstatic_stringBuffer()), JR.cast(sizeString)))
-})
-        this.f_RESOURCE_DESTROY = JR.toStringOf(JR.cast(jstatic_stringBuffer()))
+        ignore(StringMaker.jm_delete(jstatic_stringBuffer(), 0l, StringMaker.jm_length(jstatic_stringBuffer())))
+        ignore(StringMaker.jm_append(jstatic_stringBuffer(), l_ROOT))
+        ignore(StringMaker.jm_append(jstatic_stringBuffer(), string))
+        ignore(StringMaker.jm_append(jstatic_stringBuffer(), sizeString))
+        this.f_RESOURCE = StringMaker.jm_toString(jstatic_stringBuffer())
+        ignore(StringMaker.jm_delete(jstatic_stringBuffer(), 0l, StringMaker.jm_length(jstatic_stringBuffer())))
+        ignore(StringMaker.jm_append(jstatic_stringBuffer(), l_ROOT))
+        ignore(StringMaker.jm_append(jstatic_stringBuffer(), l_DESTROY))
+        ignore(StringMaker.jm_append(jstatic_stringBuffer(), string))
+        ignore(StringMaker.jm_append(jstatic_stringBuffer(), sizeString))
+        this.f_RESOURCE_DESTROY = StringMaker.jm_toString(jstatic_stringBuffer())
 }
     
 and jm_getString = (this: BasicGameResources) => {
@@ -142,5 +116,6 @@ JR.registerLateBound("BasicGameResources.set_f_RESOURCE", (this: BasicGameResour
 JR.registerLateBound("BasicGameResources.f_RESOURCE_DESTROY", (this: BasicGameResources) => this.f_RESOURCE_DESTROY)
 JR.registerLateBound("BasicGameResources.set_f_RESOURCE_DESTROY", (this: BasicGameResources, jvalue) => { this.f_RESOURCE_DESTROY = jvalue; jvalue })
 JR.registerLateBound("BasicGameResources.jstatic_stringBuffer", jstatic_stringBuffer)
+JR.registerLateBound("BasicGameResources.jset_stringBuffer", jset_stringBuffer)
 
 

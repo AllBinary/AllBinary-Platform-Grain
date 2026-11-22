@@ -26,7 +26,6 @@ from "array" include Array
 from "../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
 from "../../../../../java/util/Arrays.gr" include Arrays
-use Arrays.{ type Arrays }
 from "../../../../../org/allbinary/logic/util/visitor/Visitor.gr" include Visitor
 use Visitor.{ type Visitor }
 from "../../../../../java/lang/System.gr" include System
@@ -52,6 +51,10 @@ and jstatic_instance = () => match (jcell_instance) {
     jcell_instance = Some(value)
     value
   },
+}
+
+and jset_instance = (value: OrderedObjectArrayPermutationUtil) => {
+  jcell_instance = Some(value)
 }
     
 and jm_getInstance = () => {
@@ -166,7 +169,7 @@ and jm_main = (args: Array<String>) => {
         let mut permutationVisitor: ObjectPermutationVisitor = ObjectPermutationVisitor.jnew_1(data)
         let mut l_ORIGINAL_DATA_LABEL: String = "Original Data: "
         ignore(print(l_ORIGINAL_DATA_LABEL))
-        ignore(ObjectPermutationVisitor.jm_visit(permutationVisitor, data))
+        ignore(ObjectPermutationVisitor.jm_visit(permutationVisitor, JR.cast(data)))
         ignore(jm_generate(jm_getInstance(), data, JR.cast(permutationVisitor)))
 }
 
@@ -180,5 +183,6 @@ JR.registerLateBound("OrderedObjectArrayPermutationUtil.jm_main", jm_main)
 JR.registerLateBound("OrderedObjectArrayPermutationUtil.f_TOTAL_ITERATIONS_TABLE", (this: OrderedObjectArrayPermutationUtil) => this.f_TOTAL_ITERATIONS_TABLE)
 JR.registerLateBound("OrderedObjectArrayPermutationUtil.f_FINISHED", (this: OrderedObjectArrayPermutationUtil) => this.f_FINISHED)
 JR.registerLateBound("OrderedObjectArrayPermutationUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("OrderedObjectArrayPermutationUtil.jset_instance", jset_instance)
 
 

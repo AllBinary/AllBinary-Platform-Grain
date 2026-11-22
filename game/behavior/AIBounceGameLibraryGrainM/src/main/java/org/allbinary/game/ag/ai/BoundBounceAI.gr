@@ -62,8 +62,8 @@ and jnew_4 = (ownerLayerInterface: AllBinaryLayer, gameInput: GameInput, layerBo
     
     
         void
-        this.f_layerBounds = layerBounds
-        this.f_boundsVisitorInterface = boundsVisitorInterface
+        this.f_layerBounds = JR.cast(layerBounds)
+        this.f_boundsVisitorInterface = JR.cast(boundsVisitorInterface)
     this
 }
     
@@ -71,7 +71,13 @@ and jm_paint = (this: BoundBounceAI, graphics: JObject) => {
         let mut rectange: Rectangle = JR.cast(LayerBounds.jm_getRectangleP(this.f_layerBounds))
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawRect"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(JR.className(JR.cast(Rectangle.jm_getPoint(rectange)))), JR.cast(JR.className(JR.cast(Rectangle.jm_getPoint(rectange)))), JR.cast(Rectangle.jm_getWidth(rectange)), JR.cast(Rectangle.jm_getHeight(rectange))))
+JR.cast(jlate(JR.cast(graphics), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getX"))
+JR.cast(jlate(JR.cast(Rectangle.jm_getPoint(rectange))))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getY"))
+JR.cast(jlate(JR.cast(Rectangle.jm_getPoint(rectange))))
+}), JR.cast(Rectangle.jm_getWidth(rectange)), JR.cast(Rectangle.jm_getHeight(rectange))))
 })
 }
     

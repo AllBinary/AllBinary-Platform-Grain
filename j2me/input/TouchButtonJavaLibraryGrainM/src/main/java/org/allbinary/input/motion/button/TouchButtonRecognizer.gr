@@ -85,15 +85,15 @@ let jlate: () => JObject = JR.cast(JR.lateBound("TouchScreenFactory.jm_getInstan
 JR.cast(jlate())
 })))
 }) {
-            this.f_releaseHelper = {
+            this.f_releaseHelper = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MultitouchReleaseHelper.jnew_1"))
 JR.cast(jlate(JR.cast(this)))
-}
+})
         } else {
-            this.f_releaseHelper = {
+            this.f_releaseHelper = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ReleaseHelper.jnew_1"))
 JR.cast(jlate(JR.cast(this)))
-}
+})
         }
     this
 }
@@ -104,21 +104,27 @@ let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Releas
 JR.cast(jlate(JR.cast(this.f_releaseHelper), JR.cast(touchButtonInput), JR.cast(deviceId)))
 })
         let mut gameKeyEvent: GameKeyEvent = JR.cast(TouchButtonInput.jm_getGameKeyEvent(touchButtonInput))
-        ignore(UpGameKeyEventHandler.jm_fireEvent(this.f_upGameKeyEventHandler, gameKeyEvent))
-        ignore(JR.className(JR.cast(UpGameKeyEventHandler.jm_getInstanceForDevice(this.f_upGameKeyEventHandler, deviceId))))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UpGameKeyEventHandlerBase.jm_fireEvent"))
+JR.cast(jlate(JR.cast(this.f_upGameKeyEventHandler), JR.cast(gameKeyEvent)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UpGameKeyEventHandlerBase.jm_fireEvent"))
+JR.cast(jlate(JR.cast(UpGameKeyEventHandler.jm_getInstanceForDevice(this.f_upGameKeyEventHandler, deviceId)), JR.cast(gameKeyEvent)))
+})
         ignore(CurrentlyPressedTouchButtonSingleton.jm_remove(this.f_currentlyPressedTouchButtonSingleton, touchButtonInput))
 }
     
 and jm_releaseTouchButtonInput = (this: TouchButtonRecognizer, x: Int32, y: Int32, deviceId: Int32) => {
         let mut touchButtonInput: TouchButtonInput = JR.cast(this.f_lastPressedTouchButtonInput)
         if (CurrentlyPressedTouchButtonSingleton.jm_contains(this.f_currentlyPressedTouchButtonSingleton, touchButtonInput)) {
-            this.f_lastPressedTouchButtonInput = {
+            this.f_lastPressedTouchButtonInput = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicTouchInputFactory.f_NONE"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("BasicTouchInputFactory.jm_getInstance"))
 JR.cast(jlate())
 })))
-}
+})
             ignore(jm_processRelease(this, touchButtonInput, deviceId))
             return true
         } else {
@@ -136,16 +142,16 @@ JR.cast(jlate())
                     jfirst = false
                     if (!(Int32.(>=)(index, 0l))) break
                 touchButton = JR.cast(list.f_objectArray[Int32.toNumber(index)])
-                rectangle = {
+                rectangle = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchButton.jm_getRectangle"))
 JR.cast(jlate(JR.cast(touchButton)))
-}
-                point = Rectangle.jm_getPoint(rectangle)
+})
+                point = JR.cast(Rectangle.jm_getPoint(rectangle))
                 if (RectangleCollisionUtil.jm_isInside(this.f_rectangleCollisionUtil, GPoint.jm_getX(point), GPoint.jm_getY(point), Rectangle.jm_getMaxX(rectangle), Rectangle.jm_getMaxY(rectangle), x, y)) {
-                    touchButtonInput = {
+                    touchButtonInput = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchButton.jm_getTouchButtonInput"))
 JR.cast(jlate(JR.cast(touchButton)))
-}
+})
                     ignore(jm_processRelease(this, touchButtonInput, deviceId))
                     return true
                 }
@@ -172,26 +178,32 @@ and jm_pressTouchButtonInput = (this: TouchButtonRecognizer, x: Int32, y: Int32,
                 jfirst = false
                 if (!(Int32.(>=)(index, 0l))) break
             touchButton = JR.cast(list.f_objectArray[Int32.toNumber(index)])
-            rectangle = {
+            rectangle = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchButton.jm_getRectangle"))
 JR.cast(jlate(JR.cast(touchButton)))
-}
-            point = Rectangle.jm_getPoint(rectangle)
+})
+            point = JR.cast(Rectangle.jm_getPoint(rectangle))
             if (RectangleCollisionUtil.jm_isInside(this.f_rectangleCollisionUtil, GPoint.jm_getX(point), GPoint.jm_getY(point), Rectangle.jm_getMaxX(rectangle), Rectangle.jm_getMaxY(rectangle), x, y)) {
-                touchButtonInput = {
+                touchButtonInput = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchButton.jm_getTouchButtonInput"))
 JR.cast(jlate(JR.cast(touchButton)))
-}
+})
                 if (!CurrentlyPressedTouchButtonSingleton.jm_contains(this.f_currentlyPressedTouchButtonSingleton, touchButtonInput)) {
                     ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ReleaseHelper.jm_release"))
 JR.cast(jlate(JR.cast(this.f_releaseHelper), JR.cast(touchButtonInput), JR.cast(deviceId)))
 })
-                    this.f_lastPressedTouchButtonInput = touchButtonInput
+                    this.f_lastPressedTouchButtonInput = JR.cast(touchButtonInput)
                     ignore(CurrentlyPressedTouchButtonSingleton.jm_add(this.f_currentlyPressedTouchButtonSingleton, touchButtonInput))
-                    gameKeyEvent = TouchButtonInput.jm_getGameKeyEvent(touchButtonInput)
-                    ignore(DownGameKeyEventHandler.jm_fireEvent(this.f_downGameKeyEventHandler, gameKeyEvent))
-                    ignore(JR.className(JR.cast(DownGameKeyEventHandler.jm_getInstanceForDevice(this.f_downGameKeyEventHandler, deviceId))))
+                    gameKeyEvent = JR.cast(TouchButtonInput.jm_getGameKeyEvent(touchButtonInput))
+                    ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DownGameKeyEventHandlerBase.jm_fireEvent"))
+JR.cast(jlate(JR.cast(this.f_downGameKeyEventHandler), JR.cast(gameKeyEvent)))
+})
+                    ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DownGameKeyEventHandlerBase.jm_fireEvent"))
+JR.cast(jlate(JR.cast(DownGameKeyEventHandler.jm_getInstanceForDevice(this.f_downGameKeyEventHandler, deviceId)), JR.cast(gameKeyEvent)))
+})
                 }
                 return true
             }

@@ -68,7 +68,7 @@ and jnew_1 = (collidable: Bool) => {
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableBaseBehavior.jm_setCollidable"))
 JR.cast(jlate(JR.cast(this), JR.cast(true)))
 })
-        this.f_collisionHelper = CollidableHelperFactory.jm_getInstance()
+        this.f_collisionHelper = JR.cast(CollidableHelperFactory.jm_getInstance())
     this
 }
     
@@ -79,7 +79,13 @@ and jm_init = (this: CollidableDamageWeaponBehavior, sourceLayerInterface: AllBi
     
 and jm_isCollision = (this: CollidableDamageWeaponBehavior, ownerLayer: CollidableCompositeLayer, collisionLayer: CollidableCompositeLayer) => {
         if (CollisionHelper.jm_isCollidable(this.f_collisionHelper, collisionLayer)) {
-            if ((CollidableCompositeLayer.jm_getGroupInterface(ownerLayer)[Int32.toNumber(0l)] != CollidableCompositeLayer.jm_getGroupInterface(collisionLayer)[Int32.toNumber(0l)])) {
+            if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_getGroupInterface"))
+JR.cast(jlate(JR.cast(ownerLayer)))
+}[Int32.toNumber(0l)] != {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_getGroupInterface"))
+JR.cast(jlate(JR.cast(collisionLayer)))
+}[Int32.toNumber(0l)])) {
                 return jm_isCollision(this, ownerLayer, collisionLayer)
             }
         }
@@ -94,7 +100,10 @@ and jm_collide = (this: CollidableDamageWeaponBehavior, ownerLayer: CollidableCo
 and jm_isCollisionInterface = (this: CollidableDamageWeaponBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) => {
         if (CollisionHelper.jm_isCollidable(this.f_collisionHelper, JR.cast(collidableInterfaceCompositeInterface))) {
             let mut layerInterface: AllBinaryLayer = JR.cast(collidableInterfaceCompositeInterface)
-            if ((CollidableCompositeLayer.jm_getGroupInterface(ownerLayer)[Int32.toNumber(0l)] != AllBinaryLayer.jm_getGroupInterface(layerInterface)[Int32.toNumber(0l)])) {
+            if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_getGroupInterface"))
+JR.cast(jlate(JR.cast(ownerLayer)))
+}[Int32.toNumber(0l)] != AllBinaryLayer.jm_getGroupInterface(layerInterface)[Int32.toNumber(0l)])) {
                 if ({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LayerCollisionUtil.jm_isCollision"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_layerCollisionUtil)), JR.cast(ownerLayer), JR.cast(layerInterface)))

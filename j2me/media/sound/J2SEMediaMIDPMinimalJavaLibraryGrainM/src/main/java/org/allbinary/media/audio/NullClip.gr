@@ -43,10 +43,14 @@ provide let rec jclassName = () => "NullClip"
 and jstatic_NULL_CONTROL = () => match (jcell_NULL_CONTROL) {
   Some(value) => value,
   None => {
-    let value: NullJ2SEControl = NullJ2SEControl.jnew_1(BooleanControl.jstatic_Type().f_MUTE)
+    let value: NullJ2SEControl = NullJ2SEControl.jnew_1(JR.cast(BooleanControl.jstatic_Type().f_MUTE))
     jcell_NULL_CONTROL = Some(value)
     value
   },
+}
+
+and jset_NULL_CONTROL = (value: NullJ2SEControl) => {
+  jcell_NULL_CONTROL = Some(value)
 }
 
 and jnew_0 = () => {
@@ -139,7 +143,7 @@ and jm_getLevel = (this: NullClip) => {
 }
     
 and jm_getLineInfo = (this: NullClip) => {
-        return Info.jnew_2(this.jobject.cls, NullAudioFormat.jstatic_NULL_AUDIO_FORMAT())
+        return Info.jnew_2(JR.className(this), NullAudioFormat.jstatic_NULL_AUDIO_FORMAT())
 }
     
 and jm_open_0 = (this: NullClip) => {
@@ -206,5 +210,6 @@ JR.registerLateBound("NullClip.jm_getControl", jm_getControl)
 JR.registerLateBound("NullClip.jm_addLineListener", jm_addLineListener)
 JR.registerLateBound("NullClip.jm_removeLineListener", jm_removeLineListener)
 JR.registerLateBound("NullClip.jstatic_NULL_CONTROL", jstatic_NULL_CONTROL)
+JR.registerLateBound("NullClip.jset_NULL_CONTROL", jset_NULL_CONTROL)
 
 

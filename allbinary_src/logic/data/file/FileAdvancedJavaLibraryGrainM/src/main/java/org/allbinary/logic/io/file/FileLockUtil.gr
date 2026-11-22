@@ -53,6 +53,10 @@ and jstatic_instance = () => match (jcell_instance) {
     value
   },
 }
+
+and jset_instance = (value: FileLockUtil) => {
+  jcell_instance = Some(value)
+}
     
 and jm_getInstance = () => {
         return jstatic_instance()
@@ -81,7 +85,7 @@ and jm_getAll = (this: FileLockUtil, vector: BasicArrayList, isReturnOnFailure: 
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             let mut file: JObject = JR.cast(BasicArrayList.jm_get(vector, index))
-            let mut fileLock: FileLock = JR.cast(jm_getLock_1(this, file))
+            let mut fileLock: FileLock = JR.cast(jm_getLock_1_AbFile_(this, file))
             if (!JR.isNull(fileLock)) {
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
@@ -120,12 +124,12 @@ and jm_getAllOrNone = (this: FileLockUtil, vector: BasicArrayList) => {
         }
 }
     
-and jm_getLock_1 = (this: FileLockUtil, file: JObject) => {
+and jm_getLock_1_AbFile_ = (this: FileLockUtil, file: JObject) => {
         {
-            return jm_getLock_1(this, {
+            return jm_getLock_1_AbFile_(this, JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbFileOutputStream.jm_createFromAbFileAppend"))
 JR.cast(jlate(JR.cast(file), JR.cast(true)))
-})
+}))
         }
         {
             void
@@ -133,12 +137,12 @@ JR.cast(jlate(JR.cast(file), JR.cast(true)))
     return JR.nullOf()
 }
     
-and jm_getLock_1 = (this: FileLockUtil, fileOutputStream: JObject) => {
+and jm_getLock_1_AbFileOutputStream_ = (this: FileLockUtil, fileOutputStream: JObject) => {
         {
-            let mut fileLock: FileLock = JR.cast(jm_getLock_1(this, {
+            let mut fileLock: FileLock = JR.cast(jm_getLock_1_AbFile_(this, JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFileOutputStream.jm_getChannel"))
 JR.cast(jlate(JR.cast(fileOutputStream)))
-}))
+})))
             return fileLock
         }
         {
@@ -151,9 +155,9 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Finally - Closing FileOutputStre
     return JR.nullOf()
 }
     
-and jm_getLock_1 = (this: FileLockUtil, fileChannel: FileChannel) => {
+and jm_getLock_1_FileChannel_ = (this: FileLockUtil, fileChannel: FileChannel) => {
         {
-            let mut fileLock: FileLock = JR.cast(FileChannel.jm_tryLock(fileChannel))
+            let mut fileLock: FileLock = JR.cast(FileChannel.jm_tryLock_0(fileChannel))
             return fileLock
         }
         {
@@ -161,7 +165,7 @@ and jm_getLock_1 = (this: FileLockUtil, fileChannel: FileChannel) => {
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Finally - Closing FileChannel"), JR.cast(this), JR.cast("getLock")))
 })
-            ignore(FileChannel.jm_close(fileChannel))
+            ignore(FileChannel.jm_close_0(fileChannel))
         }
     return JR.nullOf()
 }
@@ -171,10 +175,11 @@ JR.registerLateBound("FileLockUtil.jm_getInstance", jm_getInstance)
 JR.registerLateBound("FileLockUtil.jm_getAll", jm_getAll)
 JR.registerLateBound("FileLockUtil.jm_getAllPossible", jm_getAllPossible)
 JR.registerLateBound("FileLockUtil.jm_getAllOrNone", jm_getAllOrNone)
-JR.registerLateBound("FileLockUtil.jm_getLock_1", jm_getLock_1)
-JR.registerLateBound("FileLockUtil.jm_getLock_1", jm_getLock_1)
-JR.registerLateBound("FileLockUtil.jm_getLock_1", jm_getLock_1)
+JR.registerLateBound("FileLockUtil.jm_getLock_1_AbFile_", jm_getLock_1_AbFile_)
+JR.registerLateBound("FileLockUtil.jm_getLock_1_AbFileOutputStream_", jm_getLock_1_AbFileOutputStream_)
+JR.registerLateBound("FileLockUtil.jm_getLock_1_FileChannel_", jm_getLock_1_FileChannel_)
 JR.registerLateBound("FileLockUtil.f_logUtil", (this: FileLockUtil) => this.f_logUtil)
 JR.registerLateBound("FileLockUtil.jstatic_instance", jstatic_instance)
+JR.registerLateBound("FileLockUtil.jset_instance", jset_instance)
 
 

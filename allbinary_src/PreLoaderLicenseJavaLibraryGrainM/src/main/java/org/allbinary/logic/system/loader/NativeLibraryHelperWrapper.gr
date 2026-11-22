@@ -25,9 +25,15 @@ from "char" include Char
 from "array" include Array
 from "../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../../java/lang/reflect/Constructor.gr" include Constructor
+use Constructor.{ type Constructor }
+from "../../../../../java/lang/reflect/Method.gr" include Method
+use Method.{ type Method }
 from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
 use CommonStrings.{ type CommonStrings }
 from "../../../../../java/lang/System.gr" include System
+from "../../../../../java/lang/ClassLoader.gr" include ClassLoader
+use ClassLoader.{ type ClassLoader }
 from "./NativeLibraryClassLoader.gr" include NativeLibraryClassLoader
 use NativeLibraryClassLoader.{ type NativeLibraryClassLoader }
 
@@ -55,17 +61,14 @@ and jm_load = (this: NativeLibraryHelperWrapper) => {
         let mut params: Array<JObject> = Array.make(Int32.toNumber(1l), JR.jnull)
         params[Int32.toNumber(0l)] = JR.cast(jm_getLibraryName(this))
         let mut classes: Array<String> = Array.make(Int32.toNumber(1l), "")
-        classes[Int32.toNumber(0l)] = JR.cast(jm_getLibraryName(this).jobject.cls)
-        this.f_loader = JR.cast(NativeLibraryClassLoader.jnew_1(JR.className(JR.cast(this.jobject.cls))))
-        let mut myClass: String = ClassLoader.jm_loadClass(this.f_loader, "dynamic.NativeLibraryHelper")
-        let mut constructor: Constructor = JR.cast({
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Class.jm_getConstructor"))
-JR.cast(jlate(JR.cast(myClass), JR.cast(classes)))
-})
-        this.f_anyType = Constructor.jm_newInstance(constructor, params)
+        classes[Int32.toNumber(0l)] = JR.cast(JR.className(jm_getLibraryName(this)))
+        this.f_loader = JR.cast(JR.cast(NativeLibraryClassLoader.jnew_1(JR.cast(JR.className(JR.cast(JR.className(this)))))))
+        let mut myClass: String = ClassLoader.jm_loadClass_1(this.f_loader, "dynamic.NativeLibraryHelper")
+        let mut constructor: Constructor = JR.cast(JR.reflectionUnsupported("getConstructor", myClass))
+        this.f_anyType = JR.cast(Constructor.jm_newInstance_1(constructor, params))
         let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
-        let mut method: Method = JR.cast(JR.className(JR.cast(JR.className(this.f_anyType))))
-        ignore(Method.jm_invoke(method, this.f_anyType, JR.nullOf()))
+        let mut method: Method = JR.cast(JR.reflectionUnsupported("getMethod", JR.className(this.f_anyType)))
+        ignore(Method.jm_invoke_2(method, this.f_anyType, JR.nullOf()))
 }
     
 and jm_unload = (this: NativeLibraryHelperWrapper) => {

@@ -58,6 +58,10 @@ and jstatic_instance = () => match (jcell_instance) {
   },
 }
 
+and jset_instance = (value: AbFileSystem) => {
+  jcell_instance = Some(value)
+}
+
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("AbFileSystem"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), }
     this.f_logUtil = JR.cast({
@@ -99,7 +103,7 @@ and jm_readAsString_2 = (this: AbFileSystem, fileName: String, bytes: Array<Int3
         let mut closeable: JObject = JR.cast(NullUtil.jm_getInstance().f_NULL_OBJECT)
         {
             let mut idFile: InputStream = JR.cast(FileInputStream.jnew_1(fileName))
-            closeable = idFile
+            closeable = JR.cast(idFile)
             let mut size: Int32 = InputStream.jm_read_1(idFile, bytes)
             if (Int32.(>)(size, 0l)) {
                 return JR.fromChars(bytes, 0l, size)
@@ -133,5 +137,6 @@ JR.registerLateBound("AbFileSystem.jm_close", jm_close)
 JR.registerLateBound("AbFileSystem.f_logUtil", (this: AbFileSystem) => this.f_logUtil)
 JR.registerLateBound("AbFileSystem.f_commonStrings", (this: AbFileSystem) => this.f_commonStrings)
 JR.registerLateBound("AbFileSystem.jstatic_instance", jstatic_instance)
+JR.registerLateBound("AbFileSystem.jset_instance", jset_instance)
 
 

@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../../javax/microedition/lcdui/CommandListener.gr" include CommandListener
+use CommandListener.{ type CommandListener }
 from "../../../../../org/allbinary/game/GameInfo.gr" include GameInfo
 use GameInfo.{ type GameInfo }
 from "../../../../../org/allbinary/game/score/HighScoresHelperBaseInterface.gr" include HighScoresHelperBaseInterface
@@ -103,11 +105,11 @@ and jnew_9 = (highScoresFactoryInterface: HighScoresFactoryInterface, highScores
     this.f_pleaseWait = JR.cast(SimpleTextPaintable.jnew_2({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_PLEASE_WAIT"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
-}, BasicColorFactory.jm_getInstance().f_WHITE))
+}, JR.cast(BasicColorFactory.jm_getInstance().f_WHITE)))
     this.f_paintable = JR.cast(NullPaintable.jm_getInstance())
     this.f_submitted = false
         void
-        this.f_highScoreUtil = HighScoreUtil.jnew_7(highScoresFactoryInterface, highScoresHelper, abeClientInformation, gameInfo, cmdListener, name, highScore)
+        this.f_highScoreUtil = JR.cast(HighScoreUtil.jnew_7(highScoresFactoryInterface, highScoresHelper, abeClientInformation, gameInfo, cmdListener, name, highScore))
         let mut operatingSystemInterface: GenericOperatingSystem = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("OperatingSystemFactory.jm_getOperatingSystemInstance"))
 JR.cast(jlate(JR.cast({
@@ -123,10 +125,13 @@ let jlate: () => JObject = JR.cast(JR.lateBound("InApplicationPurchaseFactory.jm
 JR.cast(jlate())
 })))
 }
-            ignore(JR.className(JR.cast({
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABTextFieldItem.jm_setString"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CustomTextBox.jm_getTextFieldItem"))
 JR.cast(jlate(JR.cast(this)))
-})))
+}), JR.cast(username)))
+})
         }
     this
 }
@@ -137,7 +142,7 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MyCanvas.jm_removeAllCom
 JR.cast(jlate(JR.cast(this)))
 })
         ignore({
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("PostGameCommandFactory.jm_addCommands"))
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("PostGameCommandFactory.jm_addCommands_1_MyCanvas_"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("PostGameCommandFactory.jm_getInstance"))
 JR.cast(jlate())
@@ -155,13 +160,13 @@ JR.cast(jlate(JR.cast(this), JR.cast(cmdListener)))
     
 and jm_open = (this: HighScoreTextBox) => {
         ignore(VirtualKeyboardEventHandler.jm_open(this.f_virtualKeyboardEventHandler))
-        this.f_paintable = NullPaintable.jm_getInstance()
+        this.f_paintable = JR.cast(NullPaintable.jm_getInstance())
         ignore(jm_open(this))
 }
     
 and jm_close = (this: HighScoreTextBox) => {
         ignore(VirtualKeyboardEventHandler.jm_close(this.f_virtualKeyboardEventHandler))
-        this.f_paintable = this.f_pleaseWait
+        this.f_paintable = JR.cast(this.f_pleaseWait)
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RepaintBehavior.jm_onChangeRepaint"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_repaintBehavior)), JR.cast(this)))
@@ -177,7 +182,7 @@ JR.cast(jlate(JR.cast(this), JR.cast(HighScoreUtil.jstatic_SUBMIT_TEXTBOX_COMMAN
         } else {
             void
         }
-        this.f_paintable = NullPaintable.jm_getInstance()
+        this.f_paintable = JR.cast(NullPaintable.jm_getInstance())
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RepaintBehavior.jm_onChangeRepaint"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_repaintBehavior)), JR.cast(this)))
@@ -185,10 +190,13 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_repaintBehavior)), JR.cast(this)))
 }
     
 and jm_update = (this: HighScoreTextBox) => {
-        let mut name: String = JR.className(JR.cast({
+        let mut name: String = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABTextFieldItem.jm_getString"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CustomTextBox.jm_getTextFieldItem"))
 JR.cast(jlate(JR.cast(this)))
-}))
+})))
+}
         ignore(HighScoreUtil.jm_update(this.f_highScoreUtil, name))
         ignore(jm_update(this))
 }
