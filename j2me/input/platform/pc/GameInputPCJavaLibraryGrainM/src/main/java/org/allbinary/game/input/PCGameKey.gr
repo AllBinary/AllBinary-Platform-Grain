@@ -50,7 +50,10 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Input.jm_getId"))
 JR.cast(jlate(JR.cast(this)))
 }
         if (Int32.(>=)(id, 0l)) {
-            ignore(InputFactory.jm_add(InputFactory.jm_getInstance(), id, JR.cast(this)))
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("InputFactory.jm_add"))
+JR.cast(jlate(JR.cast(InputFactory.jm_getInstance()), JR.cast(id), JR.cast(this)))
+})
         }
     this
 }
@@ -60,14 +63,21 @@ and jm_toString = (this: PCGameKey) => {
 }
     
 and jm_getString = (keyCode: Int32) => {
-        let mut input: Input = JR.cast(InputFactory.jm_getInstanceById(InputFactory.jm_getInstance(), keyCode))
+        let mut input: Input = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("InputFactory.jm_getInstanceById"))
+JR.cast(jlate(JR.cast(InputFactory.jm_getInstance()), JR.cast(keyCode)))
+})
         if (!JR.isNull(input)) {
-            return Input.jm_getName(input)
+            return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Input.jm_getName"))
+JR.cast(jlate(JR.cast(input)))
+}
         } else {
             return StringUtil.jm_getInstance().f_EMPTY_STRING
         }
 }
 
+JR.registerSuper("PCGameKey", "Input")
 JR.registerLateBound("PCGameKey.jnew_2", jnew_2)
 JR.registerLateBound("PCGameKey.jm_toString", jm_toString)
 JR.registerLateBound("PCGameKey.jm_getString", jm_getString)

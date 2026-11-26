@@ -51,7 +51,7 @@ provide let rec jclassName = () => "CamelCaseUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: CamelCaseUtil = jnew_0()
+    let value: CamelCaseUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -73,11 +73,11 @@ and jm_getInstance = () => {
     
 and jm_getAsCamelCase = (this: CamelCaseUtil, string: String, stringBuilder: StringMaker) => {
         let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
-        ignore(StringMaker.jm_delete(stringBuilder, 0l, StringMaker.jm_length(stringBuilder)))
+        ignore(StringMaker.jm_delete(JR.cast(stringBuilder), 0l, StringMaker.jm_length(JR.cast(stringBuilder))))
         let mut list: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
         let mut tokenizer: Tokenizer = Tokenizer.jnew_1(this.f_commonSeps.f_UNDERSCORE)
-        ignore(Tokenizer.jm_getTokensFromString(tokenizer, string, list))
-        let mut size: Int32 = BasicArrayList.jm_size(list)
+        ignore(Tokenizer.jm_getTokensFromString(JR.cast(tokenizer), JR.cast(string), JR.cast(list)))
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
         let mut word: String = ""
         {
             let mut i: Int32 = 0l
@@ -88,12 +88,12 @@ and jm_getAsCamelCase = (this: CamelCaseUtil, string: String, stringBuilder: Str
                 }
                 jfirst = false
                 if (!(Int32.(<)(i, size))) break
-            word = JR.cast(BasicArrayList.jm_get(list, i))
-            word = (if (StringValidationUtil.jm_isEmpty(stringValidationUtil, word)) word else StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_appendchar(StringMaker.jnew_0(), Character.jm_toUpperCase(JR.charAt(word, 0l))), JR.toLowerCase(JR.substringFrom(word, 1l)))))
-            ignore(StringMaker.jm_append(stringBuilder, word))
+            word = JR.cast(BasicArrayList.jm_get(JR.cast(list), i))
+            word = (if (StringValidationUtil.jm_isEmpty(JR.cast(stringValidationUtil), JR.cast(word))) word else StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_appendchar(JR.cast(StringMaker.jnew_0()), Character.jm_toUpperCase(JR.charAt(word, 0l)))), JR.cast(JR.toLowerCase(JR.substringFrom(word, 1l)))))))
+            ignore(StringMaker.jm_append(JR.cast(stringBuilder), JR.cast(word)))
             }
         }
-        return StringMaker.jm_toString(stringBuilder)
+        return StringMaker.jm_toString(JR.cast(stringBuilder))
 }
 
 JR.registerLateBound("CamelCaseUtil.jnew_0", jnew_0)

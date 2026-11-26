@@ -45,7 +45,7 @@ provide let rec jclassName = () => "LogUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: LogUtil = jnew_0()
+    let value: LogUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -60,7 +60,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("LogUtil"), f_logFormatUtil: JR.jnull, f_LOG_SUCCESS: "", }
+    let this = { jobject: JR.newJObject("LogUtil"), f_logFormatUtil: JR.nullOf(), f_LOG_SUCCESS: "", }
     this.f_logFormatUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogFormatUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -77,14 +77,26 @@ JR.cast(jlate())
 })) {
             return void
         }
-        let mut exception_: JObject = JR.cast(Log.jm_getThrowable(log))
+        let mut exception_: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Log.jm_getThrowable"))
+JR.cast(jlate(JR.cast(log)))
+})
         if (JR.isNull(exception_)) {
             return void
         }
-        let mut specialMessage: String = Log.jm_getSpecialMessage(log)
-        let mut anyType: JObject = JR.cast(Log.jm_getObject(log))
-        let mut functionName: String = Log.jm_getFunctionName(log)
-        ignore(jm_put(this, specialMessage, anyType, functionName, exception_))
+        let mut specialMessage: String = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Log.jm_getSpecialMessage"))
+JR.cast(jlate(JR.cast(log)))
+}
+        let mut anyType: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Log.jm_getObject"))
+JR.cast(jlate(JR.cast(log)))
+})
+        let mut functionName: String = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Log.jm_getFunctionName"))
+JR.cast(jlate(JR.cast(log)))
+}
+        ignore(jm_put(this, JR.cast(specialMessage), JR.cast(anyType), JR.cast(functionName), JR.cast(exception_)))
     return void
 }
     

@@ -44,6 +44,9 @@ use CommonStrings.{ type CommonStrings }
 from "../../../../../org/allbinary/util/HashtableUtil.gr" include HashtableUtil
 use HashtableUtil.{ type HashtableUtil }
 from "../../../../../java/lang/Long.gr" include Long
+from "../../../../../java/lang/Boolean.gr" include Boolean
+from "../../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 from "./RemoteHighScoresSubmissionProcessorInterface.gr" include RemoteHighScoresSubmissionProcessorInterface
 use RemoteHighScoresSubmissionProcessorInterface.{ type RemoteHighScoresSubmissionProcessorInterface }
 from "./RemoteHighScoresData.gr" include RemoteHighScoresData
@@ -62,7 +65,7 @@ provide record RemoteHighScoresSubmissionProcessor {
 provide let rec jclassName = () => "RemoteHighScoresSubmissionProcessor"
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("RemoteHighScoresSubmissionProcessor"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_noCrypt: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("RemoteHighScoresSubmissionProcessor"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_noCrypt: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -80,21 +83,27 @@ let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBoun
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Begin Remote HighScores Submission"), JR.cast(this), JR.cast(this.f_commonStrings.f_PROCESS)))
 })
             let mut gameInfoData: GameInfoData = JR.cast(GameInfoData.jm_getInstance())
-            let mut hashtable: JObject = JR.cast(AbeClientInformationInterface.jm_toHashtable(abeClientInformation))
-            ignore(HashtableUtil.jm_putAll(HashtableUtil.jm_getInstance(), JR.cast({
+            let mut hashtable: JObject = JR.cast(AbeClientInformationInterface.jm_toHashtable(JR.cast(abeClientInformation)))
+            ignore(HashtableUtil.jm_putAll(JR.cast(HashtableUtil.jm_getInstance()), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInfo.jm_toHashtable"))
 JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_getGameInfo"))
 JR.cast(jlate(JR.cast(highScore)))
 })))
-}), hashtable))
+}), JR.cast(hashtable)))
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(hashtable), JR.cast(RemoteHighScoresData.jm_getInstance().f_CUSTOMER_USER_NAME), JR.cast("None")))
+JR.cast(jlate(JR.cast(hashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RemoteHighScoresData.f_CUSTOMER_USER_NAME"))
+JR.cast(jlate(JR.cast(RemoteHighScoresData.jm_getInstance())))
+}), JR.cast("None")))
 })
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(hashtable), JR.cast(RemoteHighScoresData.jm_getInstance().f_DISPLAY_NAME), JR.cast({
+JR.cast(jlate(JR.cast(hashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RemoteHighScoresData.f_DISPLAY_NAME"))
+JR.cast(jlate(JR.cast(RemoteHighScoresData.jm_getInstance())))
+}), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_getName"))
 JR.cast(jlate(JR.cast(highScore)))
 })))
@@ -114,7 +123,7 @@ let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHash
 JR.cast(jlate(JR.cast(hashtable), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RemoteHighScores.f_ASCENDING"))
 JR.cast(jlate(JR.cast(remoteHighScores)))
-}), JR.cast(JR.toStringOf(JR.cast({
+}), JR.cast(Boolean.jm_toString(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RemoteHighScores.jm_getAscending"))
 JR.cast(jlate(JR.cast(remoteHighScores)))
 })))))
@@ -122,21 +131,30 @@ JR.cast(jlate(JR.cast(remoteHighScores)))
             let mut displayInfoSingleton: DisplayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(hashtable), JR.cast(displayInfoSingleton.f_ORIENTATION), JR.cast(BooleanFactory.jm_toStringb(BooleanFactory.jm_getInstance(), DisplayInfoSingleton.jm_isPortrait(displayInfoSingleton)))))
+JR.cast(jlate(JR.cast(hashtable), JR.cast(displayInfoSingleton.f_ORIENTATION), JR.cast(BooleanFactory.jm_toStringb(JR.cast(BooleanFactory.jm_getInstance()), DisplayInfoSingleton.jm_isPortrait(JR.cast(displayInfoSingleton))))))
 })
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(hashtable), JR.cast(RemoteHighScoresData.jm_getInstance().f_GAME_CONFIGURATION), JR.cast(GameConfigurationCentral.jm_toString(GameConfigurationCentral.jm_getInstance()))))
+JR.cast(jlate(JR.cast(hashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RemoteHighScoresData.f_GAME_CONFIGURATION"))
+JR.cast(jlate(JR.cast(RemoteHighScoresData.jm_getInstance())))
+}), JR.cast(GameConfigurationCentral.jm_toString(JR.cast(GameConfigurationCentral.jm_getInstance())))))
 })
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(hashtable), JR.cast(RemoteHighScoresData.jm_getInstance().f_SCORE), JR.cast(toString({
+JR.cast(jlate(JR.cast(hashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RemoteHighScoresData.f_SCORE"))
+JR.cast(jlate(JR.cast(RemoteHighScoresData.jm_getInstance())))
+}), JR.cast(toString({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_getScore"))
 JR.cast(jlate(JR.cast(highScore)))
 }))))
 })
             if (XmlRpcAbeClient.jstatic_isOnline()) {
-                let mut resultHashtable: JObject = JR.cast(XmlRpcRemoteHighScoresClient.jm_get(XmlRpcRemoteHighScoresClient.jnew_3(abeClientInformation, "highscoresubmissionservicessl.php", "HighScoreSubmissionService.process"), JR.cast(hashtable), JR.cast(this.f_noCrypt)))
+                let mut resultHashtable: JObject = JR.cast({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("XmlRpcRemoteHighScoresClient.jm_get"))
+JR.cast(jlate(JR.cast(XmlRpcRemoteHighScoresClient.jnew_3(JR.cast(abeClientInformation), "highscoresubmissionservicessl.php", "HighScoreSubmissionService.process")), JR.cast(hashtable), JR.cast(this.f_noCrypt)))
+})
                 ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RemoteHighScores.jm_update"))
 JR.cast(jlate(JR.cast(remoteHighScores), JR.cast(resultHashtable)))

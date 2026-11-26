@@ -53,7 +53,7 @@ provide record DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor {
 provide let rec jclassName = () => "DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor"
     
 and jnew_1 = (filterStringBasicArrayList: BasicArrayList) => {
-    let this = { jobject: JR.newJObject("DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor"), f_commonStrings: JR.jnull, f_filterStringBasicArrayList: JR.jnull, f_trackedStrings: JR.nullOf(), f_gitProcessHelper: JR.nullOf(), f_includesString: "", }
+    let this = { jobject: JR.newJObject("DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor"), f_commonStrings: JR.nullOf(), f_filterStringBasicArrayList: JR.nullOf(), f_trackedStrings: JR.nullOf(), f_gitProcessHelper: JR.nullOf(), f_includesString: "", }
     this.f_trackedStrings = JR.cast(TrackedStrings.jm_getInstance())
     this.f_gitProcessHelper = JR.cast(GitProcessHelper.jm_getInstance())
     
@@ -63,7 +63,7 @@ and jnew_1 = (filterStringBasicArrayList: BasicArrayList) => {
 }
     
 and jnew_2 = (filterStringBasicArrayList: BasicArrayList, includesString: String) => {
-    let this = { jobject: JR.newJObject("DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor"), f_commonStrings: JR.jnull, f_filterStringBasicArrayList: JR.jnull, f_trackedStrings: JR.nullOf(), f_gitProcessHelper: JR.nullOf(), f_includesString: "", }
+    let this = { jobject: JR.newJObject("DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor"), f_commonStrings: JR.nullOf(), f_filterStringBasicArrayList: JR.nullOf(), f_trackedStrings: JR.nullOf(), f_gitProcessHelper: JR.nullOf(), f_includesString: "", }
     this.f_trackedStrings = JR.cast(TrackedStrings.jm_getInstance())
     this.f_gitProcessHelper = JR.cast(GitProcessHelper.jm_getInstance())
     
@@ -95,9 +95,24 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(file)))
 }
         if (jm_visit_2(this, file, fileNameString)) {
-            if (!(((JR.contains(filePath, this.f_trackedStrings.f_APPLICATION) || JR.contains(filePath, this.f_trackedStrings.f_APP)) || JR.contains(filePath, this.f_trackedStrings.f_HTML_TEMP)))) {
-                if (!((JR.contains(filePath, this.f_trackedStrings.f_TARGET_PATH_WINDOWS) || JR.contains(filePath, this.f_trackedStrings.f_TARGET_PATH_UNIX)))) {
-                    if (GitProcessHelper.jm_isTracked(this.f_gitProcessHelper, file)) {
+            if (!(((JR.contains(filePath, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TrackedStrings.f_APPLICATION"))
+JR.cast(jlate(JR.cast(this.f_trackedStrings)))
+}) || JR.contains(filePath, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TrackedStrings.f_APP"))
+JR.cast(jlate(JR.cast(this.f_trackedStrings)))
+})) || JR.contains(filePath, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TrackedStrings.f_HTML_TEMP"))
+JR.cast(jlate(JR.cast(this.f_trackedStrings)))
+})))) {
+                if (!((JR.contains(filePath, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TrackedStrings.f_TARGET_PATH_WINDOWS"))
+JR.cast(jlate(JR.cast(this.f_trackedStrings)))
+}) || JR.contains(filePath, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TrackedStrings.f_TARGET_PATH_UNIX"))
+JR.cast(jlate(JR.cast(this.f_trackedStrings)))
+})))) {
+                    if (GitProcessHelper.jm_isTracked(JR.cast(this.f_gitProcessHelper), JR.cast(file))) {
                         return true
                     } else {
                         void
@@ -115,15 +130,16 @@ JR.cast(jlate(JR.cast(file)))
 and jm_main = (args: Array<String>) => {
         let mut commonFileStrings: CommonDataFileStrings = JR.cast(CommonDataFileStrings.jm_getInstance())
         let mut list: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
-        ignore(BasicArrayList.jm_add(list, JR.cast(commonFileStrings.f_JAVA)))
+        ignore(BasicArrayList.jm_add(JR.cast(list), JR.cast(commonFileStrings.f_JAVA)))
         let mut filePath: String = "G:\\mnt\\bc\\mydev\\games\\ZeptoRacer\\platform\\j2se\\ZeptoRacerStaticPathsJ2SEM\\target\\dependency\\org\\allbinary\\logic\\system\\security\\licensing\\ZeptoRacerPCClientInformation.java"
-        let mut result: Bool = jm_visit_1(jnew_1(list), JR.cast({
+        let mut result: Bool = jm_visit_1(jnew_1(JR.cast(list)), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromRawPath"))
 JR.cast(jlate(JR.cast(filePath)))
 }))
         ignore(print(filePath ++ " is Tracked: " ++ toString(result)))
 }
 
+JR.registerSuper("DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor", "IncludeFileExtensionsBooleanFileVisitor")
 JR.registerLateBound("DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor.jnew_1", jnew_1)
 JR.registerLateBound("DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor.jnew_2", jnew_2)
 JR.registerLateBound("DirectoryOrIncludeFileExtensionAndTrackedBooleanFileVisitor.jm_visit_1", jm_visit_1)

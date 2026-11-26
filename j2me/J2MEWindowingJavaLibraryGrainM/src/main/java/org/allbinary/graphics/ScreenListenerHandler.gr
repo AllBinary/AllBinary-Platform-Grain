@@ -42,7 +42,7 @@ provide let rec jclassName = () => "ScreenListenerHandler"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: ScreenListenerHandler = jnew_0()
+    let value: ScreenListenerHandler = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -67,11 +67,17 @@ and jm_setListener = (this: ScreenListenerHandler, screenListenerInterface: Scre
 }
     
 and jm_fireWithState = (this: ScreenListenerHandler, isFullScreen: Bool) => {
-        ignore(ScreenListenerInterface.jm_onFullScreen(this.f_screenListenerInterface, isFullScreen))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ScreenListenerInterface.jm_onFullScreen"))
+JR.cast(jlate(JR.cast(this.f_screenListenerInterface), JR.cast(isFullScreen)))
+})
 }
     
 and jm_fire = (this: ScreenListenerHandler) => {
-        ignore(ScreenListenerInterface.jm_onFullScreenDisplay(this.f_screenListenerInterface))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ScreenListenerInterface.jm_onFullScreenDisplay"))
+JR.cast(jlate(JR.cast(this.f_screenListenerInterface)))
+})
 }
 
 JR.registerLateBound("ScreenListenerHandler.jnew_0", jnew_0)

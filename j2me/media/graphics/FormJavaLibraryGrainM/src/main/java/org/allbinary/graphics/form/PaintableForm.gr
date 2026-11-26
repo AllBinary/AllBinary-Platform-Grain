@@ -50,7 +50,7 @@ provide let rec jclassName = () => "PaintableForm"
 and jstatic_NULL_PAINTABLE_FORM = () => match (jcell_NULL_PAINTABLE_FORM) {
   Some(value) => value,
   None => {
-    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    let value: JObject = JR.cast(NullUtil.jm_getInstance().f_NULL_OBJECT)
     jcell_NULL_PAINTABLE_FORM = Some(value)
     value
   },
@@ -62,18 +62,21 @@ and jset_NULL_PAINTABLE_FORM = (value: JObject) => {
     
 and jm_getNullPaintableForm = () => {
         if (JR.isSame(jstatic_NULL_PAINTABLE_FORM(), NullUtil.jm_getInstance().f_NULL_OBJECT)) {
-            jset_NULL_PAINTABLE_FORM(JR.cast(jnew_4(StringUtil.jm_getInstance().f_EMPTY_STRING, Array.make(Int32.toNumber(0l), JR.jnull), JR.cast(BasicColorFactory.jm_getInstance().f_BLACK), JR.cast(BasicColorFactory.jm_getInstance().f_WHITE))))
+            jset_NULL_PAINTABLE_FORM(JR.cast(jnew_4(StringUtil.jm_getInstance().f_EMPTY_STRING, Array.make(Int32.toNumber(0l), JR.nullOf()), JR.cast(BasicColorFactory.jm_getInstance().f_BLACK), JR.cast(BasicColorFactory.jm_getInstance().f_WHITE))))
         }
         return JR.cast(jstatic_NULL_PAINTABLE_FORM())
 }
     
 and jnew_4 = (title: String, items: Array<JObject>, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
-    let this = { jobject: JR.newJObject("PaintableForm"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_canvasStrings: JR.nullOf(), f_rectangle: JR.nullOf(), f_x: 0l, f_y: 0l, f_formType: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("PaintableForm"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_canvasStrings: JR.nullOf(), f_rectangle: JR.nullOf(), f_x: 0l, f_y: 0l, f_formType: JR.nullOf(), }
     this.f_canvasStrings = JR.cast(CanvasStrings.jm_getInstance())
     this.f_rectangle = JR.cast(RectangleFactory.jstatic_SINGLETON())
     
     
-    this.f_formType = JR.cast(FormTypeFactory.jm_getInstance().f_NULL_FORM_TYPE)
+    this.f_formType = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FormTypeFactory.f_NULL_FORM_TYPE"))
+JR.cast(jlate(JR.cast(FormTypeFactory.jm_getInstance())))
+})
         void
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABCustomForm.jm_setSelectedIndex"))
@@ -84,16 +87,17 @@ JR.cast(jlate(JR.cast(this), JR.cast(0l)))
     
 and jm_init = (this: PaintableForm, rectangle: Rectangle, formType: FormType) => {
         this.f_rectangle = JR.cast(rectangle)
-        let mut point: GPoint = JR.cast(Rectangle.jm_getPoint(this.f_rectangle))
-        this.f_x = GPoint.jm_getX(point)
-        this.f_y = GPoint.jm_getY(point)
+        let mut point: GPoint = JR.cast(Rectangle.jm_getPoint(JR.cast(this.f_rectangle)))
+        this.f_x = GPoint.jm_getX(JR.cast(point))
+        this.f_y = GPoint.jm_getY(JR.cast(point))
         this.f_formType = JR.cast(formType)
 }
     
 and jm_getWidth = (this: PaintableForm) => {
-        return Rectangle.jm_getWidth(this.f_rectangle)
+        return Rectangle.jm_getWidth(JR.cast(this.f_rectangle))
 }
 
+JR.registerSuper("PaintableForm", "ABCustomForm")
 JR.registerLateBound("PaintableForm.jnew_4", jnew_4)
 JR.registerLateBound("PaintableForm.jm_getNullPaintableForm", jm_getNullPaintableForm)
 JR.registerLateBound("PaintableForm.jm_init", jm_init)

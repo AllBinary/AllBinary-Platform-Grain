@@ -40,6 +40,8 @@ use BasicArrayList.{ type BasicArrayList }
 from "../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
 use BasicArrayListD.{ type BasicArrayListD }
 from "../../../../../java/lang/Integer.gr" include Integer
+from "../../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 from "./NumberInSameGroupSequence.gr" include NumberInSameGroupSequence
 use NumberInSameGroupSequence.{ type NumberInSameGroupSequence }
 from "./NumberOnOwnGroupSequenceAI.gr" include NumberOnOwnGroupSequenceAI
@@ -54,16 +56,19 @@ provide record NumberOnOwnGroupSequenceAIFactory {
 provide let rec jclassName = () => "NumberOnOwnGroupSequenceAIFactory"
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("NumberOnOwnGroupSequenceAIFactory"), f_logUtil: JR.jnull, }
+    let this = { jobject: JR.newJObject("NumberOnOwnGroupSequenceAIFactory"), f_logUtil: JR.nullOf(), }
     this.f_logUtil = JR.cast({
-let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance_0"))
 JR.cast(jlate())
 })
     this
 }
     
 and jm_getInstance = (this: NumberOnOwnGroupSequenceAIFactory, hashtable: JObject, artificialIntelligenceInterface: Array<ArtificialIntelligenceInterface>, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
-        let mut integerArray: Array<Int32> = NumberInSameGroupSequence.jm_getInstance().f_NUMBER_ON_SAME_TEAM_SEQUENCE
+        let mut integerArray: Array<Int32> = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("NumberInSameGroupSequence.f_NUMBER_ON_SAME_TEAM_SEQUENCE"))
+JR.cast(jlate(JR.cast(NumberInSameGroupSequence.jm_getInstance())))
+}
         let mut list: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
         {
             let mut index: Int32 = 0l
@@ -81,27 +86,27 @@ JR.cast(jlate(JR.cast(hashtable), JR.cast(JR.cast(integerArray[Int32.toNumber(in
             if (JR.isNull(integerCanBeNull)) {
                 break
             }
-            ignore(BasicArrayList.jm_add(list, integerCanBeNull))
+            ignore(BasicArrayList.jm_add(JR.cast(list), JR.cast(integerCanBeNull)))
             }
         }
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, "Total AI Properties: "))
-        ignore(StringMaker.jm_appendint(stringBuffer, BasicArrayList.jm_size(list)))
-        ignore(StringMaker.jm_append(stringBuffer, " == Total AI: "))
-        ignore(StringMaker.jm_appendint(stringBuffer, Int32.fromNumber(Array.length(artificialIntelligenceInterface))))
-        ignore(StringMaker.jm_append(stringBuffer, " + 1"))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Total AI Properties: ")))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), BasicArrayList.jm_size(JR.cast(list))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" == Total AI: ")))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), Int32.fromNumber(Array.length(artificialIntelligenceInterface))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" + 1")))
         let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast(commonStrings.f_GET_INSTANCE)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(this), JR.cast(commonStrings.f_GET_INSTANCE)))
 })
-        if (Int32.(>)(Int32.(-)(Int32.fromNumber(Array.length(artificialIntelligenceInterface)), 1l), BasicArrayList.jm_size(list))) {
+        if (Int32.(>)(Int32.(-)(Int32.fromNumber(Array.length(artificialIntelligenceInterface)), 1l), BasicArrayList.jm_size(JR.cast(list)))) {
             fail JR.toStringOf(JR.newJObject("Exception"))
         }
-        if (Int32.(<)(Int32.(-)(Int32.fromNumber(Array.length(artificialIntelligenceInterface)), 1l), BasicArrayList.jm_size(list))) {
+        if (Int32.(<)(Int32.(-)(Int32.fromNumber(Array.length(artificialIntelligenceInterface)), 1l), BasicArrayList.jm_size(JR.cast(list)))) {
             fail JR.toStringOf(JR.newJObject("Exception"))
         }
-        let mut numberOnSameTeam: Array<Int32> = Array.make(Int32.toNumber(BasicArrayList.jm_size(list)), 0l)
+        let mut numberOnSameTeam: Array<Int32> = Array.make(Int32.toNumber(BasicArrayList.jm_size(JR.cast(list))), 0l)
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -114,7 +119,7 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuf
             numberOnSameTeam[Int32.toNumber(index)] = JR.cast(list.f_objectArray[Int32.toNumber(index)])
             }
         }
-        return JR.cast(NumberOnOwnGroupSequenceAI.jnew_4(numberOnSameTeam, artificialIntelligenceInterface, ownerLayerInterface, gameInput))
+        return JR.cast(NumberOnOwnGroupSequenceAI.jnew_4(JR.cast(numberOnSameTeam), JR.cast(artificialIntelligenceInterface), JR.cast(ownerLayerInterface), JR.cast(gameInput)))
 }
 
 JR.registerLateBound("NumberOnOwnGroupSequenceAIFactory.jnew_0", jnew_0)

@@ -45,7 +45,7 @@ provide let rec jclassName = () => "BottomLimiter"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: BottomLimiter = jnew_0()
+    let value: BottomLimiter = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -76,7 +76,10 @@ and jm_init = (this: BottomLimiter, lower: Int32, higher: Int32) => {
     
 and jm_update = (this: BottomLimiter) => {
         let mut displayInfo: DisplayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
-        let mut gameAdState: JObject = JR.cast(GameAdStateFactory.jm_getCurrentInstance(GameAdStateFactory.jm_getInstance()))
+        let mut gameAdState: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameAdStateFactory.jm_getCurrentInstance"))
+JR.cast(jlate(JR.cast(GameAdStateFactory.jm_getInstance())))
+})
         if ({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameAdState.jm_isShowingAt"))
 JR.cast(jlate(JR.cast(gameAdState)))
@@ -85,7 +88,7 @@ JR.cast(jlate(JR.cast(gameAdState)))
         } else {
             this.f_deltaY = this.f_lower
         }
-        this.f_bottom = Int32.(-)(DisplayInfoSingleton.jm_getLastHeight(displayInfo), this.f_deltaY)
+        this.f_bottom = Int32.(-)(DisplayInfoSingleton.jm_getLastHeight(JR.cast(displayInfo)), this.f_deltaY)
 }
     
 and jm_getDeltaY = (this: BottomLimiter) => {

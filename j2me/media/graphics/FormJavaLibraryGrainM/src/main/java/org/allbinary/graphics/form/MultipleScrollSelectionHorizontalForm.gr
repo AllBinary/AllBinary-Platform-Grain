@@ -31,6 +31,14 @@ from "../../../../org/allbinary/graphics/paint/Paintable.gr" include Paintable
 use Paintable.{ type Paintable }
 from "../../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
 use StringMaker.{ type StringMaker }
+from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/lang/Long.gr" include Long
+from "../../../../java/lang/Short.gr" include Short
+from "../../../../java/lang/Byte.gr" include Byte
+from "../../../../java/lang/Character.gr" include Character
+from "../../../../java/lang/Float.gr" include Float
+from "../../../../java/lang/Double.gr" include Double
+from "../../../../java/lang/Boolean.gr" include Boolean
 from "./ScrollSelectionForm.gr" include ScrollSelectionForm
 use ScrollSelectionForm.{ type ScrollSelectionForm }
 from "./ItemPaintableFactory.gr" include ItemPaintableFactory
@@ -71,13 +79,16 @@ provide record MultipleScrollSelectionHorizontalForm {
 provide let rec jclassName = () => "MultipleScrollSelectionHorizontalForm"
     
 and jm_createForm = (title: String, items: Array<JObject>, rectangle: Rectangle, formType: FormType, border: Int32, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
-        let mut scrollSelectionForm: ScrollSelectionForm = JR.cast(jnew_6(title, items, JR.cast(ItemPaintableFactory.jm_getInstance()), border, backgroundBasicColor, foregroundBasicColor))
-        ignore(ScrollSelectionForm.jm_init(scrollSelectionForm, rectangle, formType))
+        let mut scrollSelectionForm: ScrollSelectionForm = JR.cast(jnew_6(title, items, JR.cast(ItemPaintableFactory.jm_getInstance()), border, JR.cast(backgroundBasicColor), JR.cast(foregroundBasicColor)))
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ScrollSelectionForm.jm_init"))
+JR.cast(jlate(JR.cast(scrollSelectionForm), JR.cast(rectangle), JR.cast(formType)))
+})
         return scrollSelectionForm
 }
     
 and jnew_6 = (title: String, items: Array<JObject>, formPaintableFactory: ItemPaintableFactory, border: Int32, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
-    let this = { jobject: JR.newJObject("MultipleScrollSelectionHorizontalForm"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_canvasStrings: JR.jnull, f_rectangle: JR.jnull, f_x: 0l, f_y: 0l, f_formType: JR.jnull, f_rectangleCollisionUtil: JR.jnull, f_border: 0l, f_halfBorder: 0l, f_buttonBasicColor: JR.jnull, f_scrollSelectionFormFormTypeItemIndexPaintable: JR.jnull, f_formTypeItemIndexDx: JR.jnull, f_paintable: JR.jnull, f_adjustedExtraBorder: 0l, f_rectPaintable: JR.nullOf(), f_multipleScrollSelectionHorizontalFormTypeItemIndexPaintable: JR.nullOf(), f_backgroundColor: 0l, f_myFontProcessor: JR.nullOf(), f_logged: false, f_fontHeight: 0l, }
+    let this = { jobject: JR.newJObject("MultipleScrollSelectionHorizontalForm"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_canvasStrings: JR.nullOf(), f_rectangle: JR.nullOf(), f_x: 0l, f_y: 0l, f_formType: JR.nullOf(), f_rectangleCollisionUtil: JR.nullOf(), f_border: 0l, f_halfBorder: 0l, f_buttonBasicColor: JR.nullOf(), f_scrollSelectionFormFormTypeItemIndexPaintable: JR.nullOf(), f_formTypeItemIndexDx: JR.nullOf(), f_paintable: JR.nullOf(), f_adjustedExtraBorder: 0l, f_rectPaintable: JR.nullOf(), f_multipleScrollSelectionHorizontalFormTypeItemIndexPaintable: JR.nullOf(), f_backgroundColor: 0l, f_myFontProcessor: JR.nullOf(), f_logged: false, f_fontHeight: 0l, }
     this.f_rectPaintable = JR.cast(NullPaintable.jm_getInstance())
     this.f_multipleScrollSelectionHorizontalFormTypeItemIndexPaintable = JR.cast(ItemIndexPaintable.jm_getInstance())
     this.f_backgroundColor = {
@@ -106,24 +117,39 @@ JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_backgroundColor)))
 })
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_fillRect"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(JR.cast(this.f_x)), JR.cast(JR.cast(this.f_y)), JR.cast(Rectangle.jm_getWidth(JR.cast(this.f_rectangle))), JR.cast(Rectangle.jm_getHeight(JR.cast(this.f_rectangle)))))
+JR.cast(jlate(JR.cast(graphics), JR.cast(JR.cast(this.f_x)), JR.cast(JR.cast(this.f_y)), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Rectangle.jm_getWidth"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_rectangle))))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Rectangle.jm_getHeight"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_rectangle))))
+})))
 })
 }
     
 and jm_init = (this: MultipleScrollSelectionHorizontalForm, rectangle: Rectangle, formType: FormType) => {
         ignore(jm_init(this, rectangle, formType))
         let mut formTypeFactory: FormTypeFactory = JR.cast(FormTypeFactory.jm_getInstance())
-        if (JR.isSame(formType, formTypeFactory.f_HORIZONTAL_FORM)) {
+        if (JR.isSame(formType, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FormTypeFactory.f_HORIZONTAL_FORM"))
+JR.cast(jlate(JR.cast(formTypeFactory)))
+})) {
             this.f_multipleScrollSelectionHorizontalFormTypeItemIndexPaintable = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MultipleScrollSelectionFormHorizontalPaintable.jnew_1"))
 JR.cast(jlate(JR.cast(this)))
 })
-        } else if (JR.isSame(formType, formTypeFactory.f_VERTICAL_CENTER_FORM)) {
+        } else if (JR.isSame(formType, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FormTypeFactory.f_VERTICAL_CENTER_FORM"))
+JR.cast(jlate(JR.cast(formTypeFactory)))
+})) {
             this.f_multipleScrollSelectionHorizontalFormTypeItemIndexPaintable = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MultipleScrollSelectionFormVerticalPaintable.jnew_1"))
 JR.cast(jlate(JR.cast(this)))
 })
-        } else if (JR.isSame(formType, formTypeFactory.f_NULL_FORM_TYPE)) {
+        } else if (JR.isSame(formType, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FormTypeFactory.f_NULL_FORM_TYPE"))
+JR.cast(jlate(JR.cast(formTypeFactory)))
+})) {
             void
         } else {
             fail JR.toStringOf(JR.newJObject("Exception"))
@@ -177,7 +203,7 @@ JR.cast(jlate(JR.cast(this)))
     
 and jm_paint = (this: MultipleScrollSelectionHorizontalForm, graphics: JObject) => {
         {
-            ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
+            ignore(MyFontProcessor.jm_process(JR.cast(this.f_myFontProcessor), JR.cast(graphics)))
             let mut start: Int32 = jm_getStartIndex(this)
             let mut size: Int32 = {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABCustomForm.jm_size"))
@@ -185,7 +211,7 @@ JR.cast(jlate(JR.cast(this)))
 }
             let mut dx: Int32 = JR.cast(this.f_x)
             let mut dy: Int32 = JR.cast(this.f_y)
-            ignore(Paintable.jm_paint(this.f_rectPaintable, graphics))
+            ignore(Paintable.jm_paint(JR.cast(this.f_rectPaintable), JR.cast(graphics)))
             ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
 JR.cast(jlate(JR.cast(graphics), JR.cast({
@@ -193,7 +219,7 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABCustomForm.jm_getTitle
 JR.cast(jlate(JR.cast(this)))
 }), JR.cast(JR.cast(this.f_x)), JR.cast(Int32.(-)(JR.cast(this.f_y), this.f_fontHeight)), JR.cast(0l)))
 })
-            let mut item: JObject = JR.jnull
+            let mut item: JObject = JR.nullOf()
             {
                 let mut index: Int32 = start
                 let mut jfirst = true
@@ -207,26 +233,36 @@ JR.cast(jlate(JR.cast(this)))
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABCustomForm.jm_get"))
 JR.cast(jlate(JR.cast(this), JR.cast(index)))
 })
-                if (Int32.(>=)(dx, Rectangle.jm_getMaxX(JR.cast(this.f_rectangle)))) {
+                if (Int32.(>=)(dx, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Rectangle.jm_getMaxX"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_rectangle))))
+})) {
                     if (this.f_logged) {
                         void
                     } else {
                         this.f_logged = true
                         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), "painting beyond maxx: "), Rectangle.jm_getMaxX(JR.cast(this.f_rectangle))))), JR.cast(this), JR.cast({
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("painting beyond maxx: "))), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Rectangle.jm_getMaxX"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_rectangle))))
+})))), JR.cast(this), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CanvasStrings.f_PAINT"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_canvasStrings))))
 })))
 })
                     }
                 }
-                dx = ItemIndexPaintable.jm_paint(this.f_multipleScrollSelectionHorizontalFormTypeItemIndexPaintable, graphics, index, item, dx, dy)
+                dx = {
+let jlate: (JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ItemIndexPaintable.jm_paint"))
+JR.cast(jlate(JR.cast(this.f_multipleScrollSelectionHorizontalFormTypeItemIndexPaintable), JR.cast(graphics), JR.cast(index), JR.cast(item), JR.cast(dx), JR.cast(dy)))
+}
                 }
             }
         }
 }
 
+JR.registerSuper("MultipleScrollSelectionHorizontalForm", "ScrollSelectionForm")
 JR.registerLateBound("MultipleScrollSelectionHorizontalForm.jnew_6", jnew_6)
 JR.registerLateBound("MultipleScrollSelectionHorizontalForm.jm_createForm", jm_createForm)
 JR.registerLateBound("MultipleScrollSelectionHorizontalForm.jm_fillRect", jm_fillRect)

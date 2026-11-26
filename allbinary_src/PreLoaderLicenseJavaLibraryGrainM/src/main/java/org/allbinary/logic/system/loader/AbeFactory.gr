@@ -59,7 +59,7 @@ provide let rec jclassName = () => "AbeFactory"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: AbeFactory = jnew_0()
+    let value: AbeFactory = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -74,7 +74,7 @@ and jm_getInstance_0 = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("AbeFactory"), f_logUtil: JR.jnull, f_useCustomLoader: false, }
+    let this = { jobject: JR.newJObject("AbeFactory"), f_logUtil: JR.nullOf(), f_useCustomLoader: false, }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance_0"))
 JR.cast(jlate())
@@ -88,10 +88,10 @@ and jm_getInstance_2 = (this: AbeFactory, abeClientInformation: AbeClientInforma
         {
             return {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Class.jm_newInstance"))
-JR.cast(jlate(JR.cast(jm_getClass(this, abeClientInformation, className))))
+JR.cast(jlate(JR.cast(jm_getClass(this, JR.cast(abeClientInformation), JR.cast(className)))))
 }
         }
-    return JR.jnull
+    return JR.nullOf()
 }
     
 and jm_getInstance_4 = (this: AbeFactory, abeClientInformation: AbeClientInformationInterface, className: String, classes: Array<String>, params: Array<JObject>) => {
@@ -99,24 +99,24 @@ and jm_getInstance_4 = (this: AbeFactory, abeClientInformation: AbeClientInforma
         {
             let mut parent: ClassLoader = JR.cast(WebappClassLoaderInfo.jm_getLoader())
             if (this.f_useCustomLoader) {
-                let mut loader: ClassLoader = JR.cast(AbeClassLoader.jnew_2(parent, AbKeys.jm_getKey(AbKeys.jm_getInstance(), abeClientInformation, className)))
+                let mut loader: ClassLoader = JR.cast(AbeClassLoader.jnew_2(JR.cast(parent), AbKeys.jm_getKey(JR.cast(AbKeys.jm_getInstance()), JR.cast(abeClientInformation), JR.cast(className))))
                 let mut myClass: String = ClassLoader.jm_loadClass_1(loader, className)
                 constructor = JR.cast(JR.reflectionUnsupported("getConstructor", myClass))
-                return Constructor.jm_newInstance_1(constructor, params)
+                return Constructor.jm_newInstance_1(constructor, JR.cast(params))
             } else {
                 let mut myClass: String = ClassLoader.jm_loadClass_1(parent, className)
                 constructor = JR.cast(JR.reflectionUnsupported("getConstructor", myClass))
-                return Constructor.jm_newInstance_1(constructor, params)
+                return Constructor.jm_newInstance_1(constructor, JR.cast(params))
             }
         }
-    return JR.jnull
+    return JR.nullOf()
 }
     
 and jm_getClass = (this: AbeFactory, abeClientInformation: AbeClientInformationInterface, className: String) => {
         {
             let mut parent: ClassLoader = JR.cast(WebappClassLoaderInfo.jm_getLoader())
             if (this.f_useCustomLoader) {
-                let mut loader: ClassLoader = JR.cast(AbeClassLoader.jnew_2(parent, AbKeys.jm_getKey(AbKeys.jm_getInstance(), abeClientInformation, className)))
+                let mut loader: ClassLoader = JR.cast(AbeClassLoader.jnew_2(JR.cast(parent), AbKeys.jm_getKey(JR.cast(AbKeys.jm_getInstance()), JR.cast(abeClientInformation), JR.cast(className))))
                 let mut c: String = ClassLoader.jm_loadClass_1(loader, className)
                 return c
             } else {

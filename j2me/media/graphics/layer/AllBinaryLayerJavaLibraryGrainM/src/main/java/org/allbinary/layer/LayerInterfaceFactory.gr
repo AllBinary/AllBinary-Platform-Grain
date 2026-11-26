@@ -38,6 +38,15 @@ use BasicArrayListD.{ type BasicArrayListD }
 from "../../../org/allbinary/util/BasicArrayListUtil.gr" include BasicArrayListUtil
 use BasicArrayListUtil.{ type BasicArrayListUtil }
 from "../../../java/lang/Integer.gr" include Integer
+from "../../../java/lang/Long.gr" include Long
+from "../../../java/lang/Short.gr" include Short
+from "../../../java/lang/Byte.gr" include Byte
+from "../../../java/lang/Character.gr" include Character
+from "../../../java/lang/Float.gr" include Float
+from "../../../java/lang/Double.gr" include Double
+from "../../../java/lang/Boolean.gr" include Boolean
+from "../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 from "./Layer.gr" include Layer
 use Layer.{ type Layer }
 from "./LayerInterfaceFactoryInterface.gr" include LayerInterfaceFactoryInterface
@@ -59,7 +68,7 @@ provide let rec jclassName = () => "LayerInterfaceFactory"
 and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
   Some(value) => value,
   None => {
-    let value: LayerInterfaceFactory = jnew_0()
+    let value: LayerInterfaceFactory = JR.cast(jnew_0())
     jcell_SINGLETON = Some(value)
     value
   },
@@ -70,12 +79,12 @@ and jset_SINGLETON = (value: LayerInterfaceFactory) => {
 }
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("LayerInterfaceFactory"), f_logUtil: JR.jnull, f_list: JR.nullOf(), f_HASHTABLE_LABEL: "", }
+    let this = { jobject: JR.newJObject("LayerInterfaceFactory"), f_logUtil: JR.nullOf(), f_list: JR.nullOf(), f_HASHTABLE_LABEL: "", }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
 })
-    this.f_list = JR.cast(BasicArrayListUtil.jm_getImmutableInstance(BasicArrayListUtil.jm_getInstance()))
+    this.f_list = JR.cast(BasicArrayListUtil.jm_getImmutableInstance(JR.cast(BasicArrayListUtil.jm_getInstance())))
     this.f_HASHTABLE_LABEL = "Hashtable: "
     this
 }
@@ -92,18 +101,21 @@ and jm_getNexInstance = (this: LayerInterfaceFactory, hashtable: JObject, x: Int
         let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), this.f_HASHTABLE_LABEL), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(hashtable))))), JR.cast(this), JR.cast(commonStrings.f_GET_INSTANCE)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(this.f_HASHTABLE_LABEL))), JR.cast(StringUtil.jm_toString(JR.cast(StringUtil.jm_getInstance()), JR.cast(hashtable))))))), JR.cast(this), JR.cast(commonStrings.f_GET_INSTANCE)))
 })
         let mut typeInteger: Int32 = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
 JR.cast(jlate(JR.cast(hashtable), JR.cast(JR.cast(Layer.jstatic_ID()))))
 })
-        let mut layerInterfaceFactoryInterface: LayerInterfaceFactoryInterface = JR.cast(this.f_list.f_objectArray[Int32.toNumber(Int32.(-)(Integer.jm_intValue(typeInteger), 1l))])
-        return LayerInterfaceFactoryInterface.jm_getNextInstance(layerInterfaceFactoryInterface, hashtable, x, y, z)
+        let mut layerInterfaceFactoryInterface: LayerInterfaceFactoryInterface = JR.cast(this.f_list.f_objectArray[Int32.toNumber(Int32.(-)(Integer.jm_intValue(JR.cast(typeInteger)), 1l))])
+        return {
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LayerInterfaceFactoryInterface.jm_getNextInstance"))
+JR.cast(jlate(JR.cast(layerInterfaceFactoryInterface), JR.cast(hashtable), JR.cast(x), JR.cast(y), JR.cast(z)))
+}
 }
     
 and jm_add = (this: LayerInterfaceFactory, layerInterfaceFactoryInterface: LayerInterfaceFactoryInterface) => {
-        ignore(BasicArrayList.jm_add(this.f_list, JR.cast(layerInterfaceFactoryInterface)))
+        ignore(BasicArrayList.jm_add(JR.cast(this.f_list), JR.cast(layerInterfaceFactoryInterface)))
 }
 
 JR.registerLateBound("LayerInterfaceFactory.jnew_0", jnew_0)

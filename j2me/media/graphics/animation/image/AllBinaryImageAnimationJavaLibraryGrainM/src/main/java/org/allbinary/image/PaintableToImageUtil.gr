@@ -41,7 +41,7 @@ provide let rec jclassName = () => "PaintableToImageUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: PaintableToImageUtil = jnew_0()
+    let value: PaintableToImageUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -57,12 +57,15 @@ and jnew_0 = () => {
 }
     
 and jm_getImage = (paintableInterface: PaintableInterface, width: Int32, height: Int32) => {
-        let mut image: JObject = JR.cast(GameFeatureImageCacheFactory.jm_get(GameFeatureImageCacheFactory.jm_getInstance(), JR.className(jstatic_instance()), width, height))
+        let mut image: JObject = JR.cast({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageCache.jm_get"))
+JR.cast(jlate(JR.cast(GameFeatureImageCacheFactory.jm_getInstance()), JR.cast(JR.className(jstatic_instance())), JR.cast(width), JR.cast(height)))
+})
         let mut graphics: JObject = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getGraphics"))
 JR.cast(jlate(JR.cast(image)))
 })
-        ignore(PaintableInterface.jm_paint(paintableInterface, graphics))
+        ignore(PaintableInterface.jm_paint(JR.cast(paintableInterface), JR.cast(graphics)))
         return image
 }
 

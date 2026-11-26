@@ -50,10 +50,10 @@ provide record CompoundRotationAnimationInterfaceFactory {
 provide let rec jclassName = () => "CompoundRotationAnimationInterfaceFactory"
     
 and jnew_2 = (basicAnimationInterfaceFactoryInterfaceArray: Array<AnimationInterfaceFactoryInterface>, animationBehaviorFactory: AnimationBehaviorFactory) => {
-    let this = { jobject: JR.newJObject("CompoundRotationAnimationInterfaceFactory"), f_basicAnimationInterfaceFactoryInterfaceArrayP: [> ], f_animationBehaviorFactory: JR.jnull, }
+    let this = { jobject: JR.newJObject("CompoundRotationAnimationInterfaceFactory"), f_basicAnimationInterfaceFactoryInterfaceArrayP: [> ], f_animationBehaviorFactory: JR.nullOf(), }
         void
         if (JR.isSame(animationBehaviorFactory, AnimationBehaviorFactory.jm_getInstance())) {
-            ignore(ForcedLogUtil.jm_log("Using default AnimationBehaviorFactory with IndexedAnimationFactory", JR.cast(this)))
+            ignore(ForcedLogUtil.jm_log(JR.cast("Using default AnimationBehaviorFactory with IndexedAnimationFactory"), JR.cast(this)))
         }
     this
 }
@@ -63,9 +63,13 @@ and jm_createArray = (this: CompoundRotationAnimationInterfaceFactory, size: Int
 }
     
 and jm_createAnimation = (this: CompoundRotationAnimationInterfaceFactory, animationInterfaceArray: Array<Animation>) => {
-        return JR.cast(CompoundRotationAnimation.jnew_2(JR.cast(animationInterfaceArray), JR.cast(AnimationBehaviorFactory.jm_getOrCreateInstance(JR.cast(this.f_animationBehaviorFactory)))))
+        return JR.cast(CompoundRotationAnimation.jnew_2(JR.cast(JR.cast(animationInterfaceArray)), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationBehaviorFactory.jm_getOrCreateInstance"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationBehaviorFactory))))
+})))
 }
 
+JR.registerSuper("CompoundRotationAnimationInterfaceFactory", "CompoundAnimationInterfaceFactory")
 JR.registerLateBound("CompoundRotationAnimationInterfaceFactory.jnew_2", jnew_2)
 JR.registerLateBound("CompoundRotationAnimationInterfaceFactory.jm_createArray", jm_createArray)
 JR.registerLateBound("CompoundRotationAnimationInterfaceFactory.jm_createAnimation", jm_createAnimation)

@@ -39,6 +39,10 @@ from "../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
 use StringUtil.{ type StringUtil }
 from "../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
 use CommonStrings.{ type CommonStrings }
+from "../../../java/io/DataInputStream.gr" include DataInputStream
+use DataInputStream.{ type DataInputStream }
+from "../../../java/io/DataOutputStream.gr" include DataOutputStream
+use DataOutputStream.{ type DataOutputStream }
 
 provide record ApplicationConfiguration {
   jobject: JObject,
@@ -56,7 +60,7 @@ provide let rec jclassName = () => "ApplicationConfiguration"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    let value: JObject = JR.cast(NullUtil.jm_getInstance().f_NULL_OBJECT)
     jcell_instance = Some(value)
     value
   },
@@ -74,7 +78,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("ApplicationConfiguration"), f_logUtil: JR.jnull, f_fullscreen: false, f_showTitleBar: false, f_progressBarView: false, f_FILE: "", }
+    let this = { jobject: JR.newJObject("ApplicationConfiguration"), f_logUtil: JR.nullOf(), f_fullscreen: false, f_showTitleBar: false, f_progressBarView: false, f_FILE: "", }
     this.jobject.toStringFunction = () => jm_toString(this)
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
@@ -109,8 +113,8 @@ JR.cast(jlate())
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("FileStreamFactory.jm_getFileInputStreamInstance"))
 JR.cast(jlate(JR.cast(fileInputStreamFactory), JR.cast(StringUtil.jm_getInstance().f_EMPTY_STRING), JR.cast(this.f_FILE)))
 })
-        let mut dataInputStream: AbDataInputStream = AbDataInputStream.jnew_1(fileInputStream)
-        let mut fullScreen: Int32 = AbDataInputStream.jm_readInt(dataInputStream)
+        let mut dataInputStream: AbDataInputStream = AbDataInputStream.jnew_1(JR.cast(fileInputStream))
+        let mut fullScreen: Int32 = DataInputStream.jm_readInt_0(JR.cast(dataInputStream))
         if ((fullScreen == 0l)) {
             ignore(jm_setFullscreen(this, false))
         } else if ((fullScreen == 1l)) {
@@ -118,7 +122,7 @@ JR.cast(jlate(JR.cast(fileInputStreamFactory), JR.cast(StringUtil.jm_getInstance
         } else {
             fail JR.toStringOf(JR.newJObject("Exception"))
         }
-        let mut progressBarView: Int32 = AbDataInputStream.jm_readInt(dataInputStream)
+        let mut progressBarView: Int32 = DataInputStream.jm_readInt_0(JR.cast(dataInputStream))
         if ((progressBarView == 0l)) {
             ignore(jm_setProgressBarView(this, false))
         } else if ((progressBarView == 1l)) {
@@ -126,7 +130,7 @@ JR.cast(jlate(JR.cast(fileInputStreamFactory), JR.cast(StringUtil.jm_getInstance
         } else {
             fail JR.toStringOf(JR.newJObject("Exception"))
         }
-        let mut showTitleBar: Int32 = AbDataInputStream.jm_readInt(dataInputStream)
+        let mut showTitleBar: Int32 = DataInputStream.jm_readInt_0(JR.cast(dataInputStream))
         if ((showTitleBar == 0l)) {
             ignore(jm_setShowTitleBar(this, false))
         } else if ((showTitleBar == 1l)) {
@@ -155,34 +159,34 @@ JR.cast(jlate())
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("FileStreamFactory.jm_getFileOutputStreamInstance"))
 JR.cast(jlate(JR.cast(fileInputStreamFactory), JR.cast(StringUtil.jm_getInstance().f_EMPTY_STRING), JR.cast(this.f_FILE)))
 })
-            let mut dataOutputStream: AbDataOutputStream = AbDataOutputStream.jnew_1(fileOutputStream)
+            let mut dataOutputStream: AbDataOutputStream = AbDataOutputStream.jnew_1(JR.cast(fileOutputStream))
             closeable = JR.cast(dataOutputStream)
             if (jm_isFullscreen(this)) {
-                ignore(AbDataOutputStream.jm_writeInt(dataOutputStream, 1l))
+                ignore(DataOutputStream.jm_writeInt_1(JR.cast(dataOutputStream), 1l))
             } else {
-                ignore(AbDataOutputStream.jm_writeInt(dataOutputStream, 0l))
+                ignore(DataOutputStream.jm_writeInt_1(JR.cast(dataOutputStream), 0l))
             }
             if (jm_isProgressBarView(this)) {
-                ignore(AbDataOutputStream.jm_writeInt(dataOutputStream, 1l))
+                ignore(DataOutputStream.jm_writeInt_1(JR.cast(dataOutputStream), 1l))
             } else {
-                ignore(AbDataOutputStream.jm_writeInt(dataOutputStream, 0l))
+                ignore(DataOutputStream.jm_writeInt_1(JR.cast(dataOutputStream), 0l))
             }
             if (jm_isShowTitleBar(this)) {
-                ignore(AbDataOutputStream.jm_writeInt(dataOutputStream, 1l))
+                ignore(DataOutputStream.jm_writeInt_1(JR.cast(dataOutputStream), 1l))
             } else {
-                ignore(AbDataOutputStream.jm_writeInt(dataOutputStream, 0l))
+                ignore(DataOutputStream.jm_writeInt_1(JR.cast(dataOutputStream), 0l))
             }
-            ignore(AbDataOutputStream.jm_flush(dataOutputStream))
+            ignore(DataOutputStream.jm_flush_0(JR.cast(dataOutputStream)))
         }
         {
-            ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), closeable))
+            ignore(StreamUtil.jm_close(JR.cast(StreamUtil.jm_getInstance()), JR.cast(closeable)))
         }
 }
     
 and jm_update = (this: ApplicationConfiguration, gameFeature: Feature) => {
         if (JR.isSame(gameFeature, MainFeatureFactory.jm_getInstance().f_FULL_SCREEN)) {
             let mut features: Features = JR.cast(Features.jm_getInstance())
-            if (Features.jm_isFeature(features, gameFeature)) {
+            if (Features.jm_isFeature(JR.cast(features), JR.cast(gameFeature))) {
                 if (!jm_isFullscreen(this)) {
                     ignore(jm_setFullscreen(this, true))
                     ignore(jm_write(this))
@@ -222,13 +226,13 @@ and jm_isProgressBarView = (this: ApplicationConfiguration) => {
     
 and jm_toString = (this: ApplicationConfiguration) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, "isFullscreen: "))
-        ignore(StringMaker.jm_appendboolean(stringBuffer, jm_isFullscreen(this)))
-        ignore(StringMaker.jm_append(stringBuffer, " isProgressBarView: "))
-        ignore(StringMaker.jm_appendboolean(stringBuffer, jm_isProgressBarView(this)))
-        ignore(StringMaker.jm_append(stringBuffer, " isShowTitleBar: "))
-        ignore(StringMaker.jm_appendboolean(stringBuffer, jm_isShowTitleBar(this)))
-        return StringMaker.jm_toString(stringBuffer)
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("isFullscreen: ")))
+        ignore(StringMaker.jm_appendboolean(JR.cast(stringBuffer), jm_isFullscreen(this)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" isProgressBarView: ")))
+        ignore(StringMaker.jm_appendboolean(JR.cast(stringBuffer), jm_isProgressBarView(this)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" isShowTitleBar: ")))
+        ignore(StringMaker.jm_appendboolean(JR.cast(stringBuffer), jm_isShowTitleBar(this)))
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
 JR.registerLateBound("ApplicationConfiguration.jnew_0", jnew_0)

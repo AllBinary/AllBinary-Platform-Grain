@@ -69,7 +69,7 @@ provide record PopupMenuInputProcessor {
 provide let rec jclassName = () => "PopupMenuInputProcessor"
     
 and jnew_4 = (gameKeyEventList: BasicArrayList, playerInputId: Int32, gameCanvas: MyCanvas, rectangle: Rectangle) => {
-    let this = { jobject: JR.newJObject("PopupMenuInputProcessor"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventList: JR.jnull, f_removalGameKeyEventList: JR.jnull, f_isRemoveDuplicateKeyPresses: false, f_gameInputStrings: JR.jnull, f_playerInputId: 0l, f_motionGestureEventList: JR.jnull, f_canvas: JR.jnull, f_rectangleCollisionUtil: JR.nullOf(), f_CLICK_DELAY: 0l, f_clickTimeHelper: JR.nullOf(), f_rectangle: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("PopupMenuInputProcessor"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_gameKeyEventList: JR.nullOf(), f_removalGameKeyEventList: JR.nullOf(), f_isRemoveDuplicateKeyPresses: false, f_gameInputStrings: JR.nullOf(), f_playerInputId: 0l, f_motionGestureEventList: JR.nullOf(), f_canvas: JR.nullOf(), f_rectangleCollisionUtil: JR.nullOf(), f_CLICK_DELAY: 0l, f_clickTimeHelper: JR.nullOf(), f_rectangle: JR.nullOf(), }
     this.f_rectangleCollisionUtil = JR.cast(RectangleCollisionUtil.jm_getInstance())
     this.f_CLICK_DELAY = 120l
     this.f_clickTimeHelper = TimeDelayHelper.jnew_1(this.f_CLICK_DELAY)
@@ -108,7 +108,7 @@ and jm_processInputList = (this: PopupMenuInputProcessor) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInput.jm_getGameKeyEventList"))
 JR.cast(jlate(JR.cast(this)))
 })
-            let mut size: Int32 = BasicArrayList.jm_size(list)
+            let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
             let mut key: Int32 = 0l
             let mut gameKeyEvent: GameKeyEvent = JR.nullOf()
             {
@@ -122,7 +122,7 @@ JR.cast(jlate(JR.cast(this)))
                     if (!(Int32.(<)(index, size))) break
                 gameKeyEvent = JR.cast(list.f_objectArray[Int32.toNumber(index)])
                 if (!JR.isNull(gameKeyEvent)) {
-                    key = GameKeyEvent.jm_getKey(gameKeyEvent)
+                    key = GameKeyEvent.jm_getKey(JR.cast(gameKeyEvent))
                     if ((jm_processInput(this, key) == 1l)) {
                         break
                     }
@@ -152,7 +152,7 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_motionGestureEventList))))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.f_objectArray"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_motionGestureEventList))))
 }[Int32.toNumber(lastIndex)])
-            ignore(jm_processMotionInput(this, motionGestureEvent))
+            ignore(jm_processMotionInput(this, JR.cast(motionGestureEvent)))
         }
         ignore({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_clear"))
@@ -176,15 +176,15 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_gameInputStrings))))
 let jlate: () => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.jm_getInstance"))
 JR.cast(jlate())
 })
-        let mut motionGestureInput: MotionGestureInput = JR.cast(MotionGestureEvent.jm_getMotionGesture(motionGestureEvent))
+        let mut motionGestureInput: MotionGestureInput = JR.cast(MotionGestureEvent.jm_getMotionGesture(JR.cast(motionGestureEvent)))
         if (JR.isSame(motionGestureInput, {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.f_RELEASED"))
 JR.cast(jlate(JR.cast(touchMotionGestureFactory)))
 })) {
-            let mut point: GPoint = JR.cast(MotionGestureEvent.jm_getCurrentPoint(motionGestureEvent))
-            let mut rectPoint: GPoint = JR.cast(Rectangle.jm_getPoint(this.f_rectangle))
-            if (RectangleCollisionUtil.jm_isInside(this.f_rectangleCollisionUtil, GPoint.jm_getX(rectPoint), GPoint.jm_getY(rectPoint), Int32.(+)(Rectangle.jm_getMaxX(this.f_rectangle), 20l), Rectangle.jm_getMaxY(this.f_rectangle), GPoint.jm_getX(point), GPoint.jm_getY(point))) {
-                if (TimeDelayHelper.jm_isTimeTNT(this.f_clickTimeHelper)) {
+            let mut point: GPoint = JR.cast(MotionGestureEvent.jm_getCurrentPoint(JR.cast(motionGestureEvent)))
+            let mut rectPoint: GPoint = JR.cast(Rectangle.jm_getPoint(JR.cast(this.f_rectangle)))
+            if (RectangleCollisionUtil.jm_isInside(JR.cast(this.f_rectangleCollisionUtil), GPoint.jm_getX(JR.cast(rectPoint)), GPoint.jm_getY(JR.cast(rectPoint)), Int32.(+)(Rectangle.jm_getMaxX(JR.cast(this.f_rectangle)), 20l), Rectangle.jm_getMaxY(JR.cast(this.f_rectangle)), GPoint.jm_getX(JR.cast(point)), GPoint.jm_getY(JR.cast(point)))) {
+                if (TimeDelayHelper.jm_isTimeTNT(JR.cast(this.f_clickTimeHelper))) {
                     let mut gameCanvas: JObject = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicMenuInputProcessor.jm_getCanvas"))
 JR.cast(jlate(JR.cast(this)))
@@ -199,6 +199,7 @@ JR.cast(jlate(JR.cast(gameCanvas)))
     return void
 }
 
+JR.registerSuper("PopupMenuInputProcessor", "BasicMenuInputProcessor")
 JR.registerLateBound("PopupMenuInputProcessor.jnew_4", jnew_4)
 JR.registerLateBound("PopupMenuInputProcessor.jm_init", jm_init)
 JR.registerLateBound("PopupMenuInputProcessor.jm_processInput", jm_processInput)

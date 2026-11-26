@@ -64,9 +64,12 @@ and jm_getTimeDelayHelper = (this: Intermission) => {
 and jm_setEnabled = (this: Intermission, enabled: Bool) => {
         this.f_enabled = enabled
         if (jm_isEnabled(this)) {
-            ignore(TimeDelayHelper.jm_setStartTimeTNT(jm_getTimeDelayHelper(this)))
+            ignore(TimeDelayHelper.jm_setStartTimeTNT(JR.cast(jm_getTimeDelayHelper(this))))
         }
-        ignore(IntermissionEnableListenerInterface.jm_notifyIntermission(this.f_intermissionEnableListener, enabled))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("IntermissionEnableListenerInterface.jm_notifyIntermission"))
+JR.cast(jlate(JR.cast(this.f_intermissionEnableListener), JR.cast(enabled)))
+})
 }
     
 and jm_isEnabled = (this: Intermission) => {

@@ -81,7 +81,7 @@ and jset_CLOUD_UPDATE = (value: String) => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("InitializeCloud"), f_logUtil: JR.jnull, }
+    let this = { jobject: JR.newJObject("InitializeCloud"), f_logUtil: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -92,41 +92,41 @@ JR.cast(jlate())
     
 and jm_initialize = (this: InitializeCloud, cloud: String, overwriteNewer: Bool, overwriteAll: Bool, current: Int32, total: Int32) => {
         {
-            if (AbIOSystem.jm_isType(AbIOSystem.jm_getInstance(), "com.vobject.appengine.java.io")) {
+            if (AbIOSystem.jm_isType(JR.cast(AbIOSystem.jm_getInstance()), JR.cast("com.vobject.appengine.java.io"))) {
                 let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-                ignore(StringMaker.jm_append(stringBuffer, URLGLOBALS.jm_getWebappPath()))
-                ignore(StringMaker.jm_append(stringBuffer, cloud))
-                ignore(StringMaker.jm_append(stringBuffer, PATH_GLOBALS.jm_getInstance().f_DATA_PATH))
-                let mut path: AbPath = AbPath.jnew_2(StringMaker.jm_toString(stringBuffer), StringUtil.jm_getInstance().f_EMPTY_STRING)
-                ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
-                ignore(StringMaker.jm_append(stringBuffer, URLGLOBALS.jm_getWebappPath()))
-                let mut realPath: AbPath = AbPath.jnew_2(StringMaker.jm_toString(stringBuffer), StringUtil.jm_getInstance().f_EMPTY_STRING)
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(URLGLOBALS.jm_getWebappPath())))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(cloud)))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(PATH_GLOBALS.jm_getInstance().f_DATA_PATH)))
+                let mut path: AbPath = AbPath.jnew_2(StringMaker.jm_toString(JR.cast(stringBuffer)), StringUtil.jm_getInstance().f_EMPTY_STRING)
+                ignore(StringMaker.jm_delete(JR.cast(stringBuffer), 0l, StringMaker.jm_length(JR.cast(stringBuffer))))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(URLGLOBALS.jm_getWebappPath())))
+                let mut realPath: AbPath = AbPath.jnew_2(StringMaker.jm_toString(JR.cast(stringBuffer)), StringUtil.jm_getInstance().f_EMPTY_STRING)
                 let mut file: JObject = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
 JR.cast(jlate(JR.cast(path)))
 })
-                let mut fileBasicArrayList: BasicArrayList = JR.cast(Directory.jm_search_2_AbFile_boolean_(Directory.jm_getInstance(), JR.cast(file), true))
-                let mut size: Int32 = BasicArrayList.jm_size(fileBasicArrayList)
-                ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
-                ignore(StringMaker.jm_append(stringBuffer, "Searched: "))
-                ignore(StringMaker.jm_append(stringBuffer, AbPath.jm_toFileSystemString(path)))
-                ignore(StringMaker.jm_append(stringBuffer, " BasicArrayList: "))
-                ignore(StringMaker.jm_appendint(stringBuffer, size))
+                let mut fileBasicArrayList: BasicArrayList = JR.cast(Directory.jm_search_2_AbFile_boolean_(JR.cast(Directory.jm_getInstance()), JR.cast(file), true))
+                let mut size: Int32 = BasicArrayList.jm_size(JR.cast(fileBasicArrayList))
+                ignore(StringMaker.jm_delete(JR.cast(stringBuffer), 0l, StringMaker.jm_length(JR.cast(stringBuffer))))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Searched: ")))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(AbPath.jm_toFileSystemString(JR.cast(path)))))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" BasicArrayList: ")))
+                ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), size))
                 let mut portion: Int32 = Int32.(+)(Int32.(/)(size, total), 1l)
                 let mut start: Int32 = Int32.(*)(portion, current)
                 let mut end: Int32 = Int32.(+)(start, portion)
                 if (Int32.(>)(end, size)) {
                     end = size
                 }
-                ignore(StringMaker.jm_append(stringBuffer, " Section: "))
-                ignore(StringMaker.jm_appendint(stringBuffer, start))
-                ignore(StringMaker.jm_append(stringBuffer, " - "))
-                ignore(StringMaker.jm_appendint(stringBuffer, end))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" Section: ")))
+                ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), start))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" - ")))
+                ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), end))
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast("initialize()")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(this), JR.cast("initialize()")))
 })
-                let mut nextFile: JObject = JR.jnull
+                let mut nextFile: JObject = JR.nullOf()
                 {
                     let mut index: Int32 = start
                     let mut jfirst = true
@@ -136,14 +136,14 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuf
                         }
                         jfirst = false
                         if (!(Int32.(<)(index, end))) break
-                    nextFile = JR.cast(BasicArrayList.jm_get(fileBasicArrayList, index))
+                    nextFile = JR.cast(BasicArrayList.jm_get(JR.cast(fileBasicArrayList), index))
                     if ({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
 JR.cast(jlate(JR.cast(nextFile)))
 }) {
                         void
                     } else {
-                        ignore(FileUtil.jm_copyToCloud_6(FileUtil.jm_getInstance(), nextFile, path, realPath, cloud, overwriteNewer, overwriteAll))
+                        ignore(FileUtil.jm_copyToCloud_6(JR.cast(FileUtil.jm_getInstance()), JR.cast(nextFile), JR.cast(path), JR.cast(realPath), JR.cast(cloud), overwriteNewer, overwriteAll))
                     }
                     }
                 }

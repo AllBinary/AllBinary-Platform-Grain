@@ -60,7 +60,7 @@ and jset_LAYER_PROCESSOR = (value: BasicLayerProcessor) => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("DropLayerProcessor"), f_logUtil: JR.jnull, f_list: JR.jnull, }
+    let this = { jobject: JR.newJObject("DropLayerProcessor"), f_logUtil: JR.nullOf(), f_list: JR.nullOf(), }
         void
     this
 }
@@ -74,7 +74,7 @@ and jm_process = (this: DropLayerProcessor, allBinaryLayerManager: AllBinaryLaye
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicLayerProcessor.jm_getList"))
 JR.cast(jlate(JR.cast(this)))
 })
-        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
         let mut layerInterface: AllBinaryLayer = JR.nullOf()
         let mut dropLayerInterface: DropLayerInterface = JR.nullOf()
         {
@@ -88,13 +88,17 @@ JR.cast(jlate(JR.cast(this)))
                 if (!(Int32.(<)(index, size))) break
             layerInterface = JR.cast(list.f_objectArray[Int32.toNumber(index)])
             dropLayerInterface = JR.cast(layerInterface)
-            layerInterface = JR.cast(DropLayerInterface.jm_getDroppedLayer(dropLayerInterface))
-            ignore(AllBinaryLayerManager.jm_append(allBinaryLayerManager, layerInterface))
+            layerInterface = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DropLayerInterface.jm_getDroppedLayer"))
+JR.cast(jlate(JR.cast(dropLayerInterface)))
+})
+            ignore(AllBinaryLayerManager.jm_append(JR.cast(allBinaryLayerManager), JR.cast(layerInterface)))
             }
         }
-        ignore(BasicArrayList.jm_clear(list))
+        ignore(BasicArrayList.jm_clear(JR.cast(list)))
 }
 
+JR.registerSuper("DropLayerProcessor", "BasicLayerProcessor")
 JR.registerLateBound("DropLayerProcessor.jnew_0", jnew_0)
 JR.registerLateBound("DropLayerProcessor.jm_getInstance", jm_getInstance)
 JR.registerLateBound("DropLayerProcessor.jm_process", jm_process)

@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../java/io/FileOutputStream.gr" include FileOutputStream
+use FileOutputStream.{ type FileOutputStream }
 from "./AbDataOutputStream.gr" include AbDataOutputStream
 use AbDataOutputStream.{ type AbDataOutputStream }
 
@@ -39,7 +41,7 @@ provide let rec jclassName = () => "DataOutputStreamFactory"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: DataOutputStreamFactory = jnew_0()
+    let value: DataOutputStreamFactory = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -63,7 +65,7 @@ and jm_getInstanceForAbFile = (this: DataOutputStreamFactory, file: JObject) => 
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFileOutputStream.jm_createFromAbFile"))
 JR.cast(jlate(JR.cast(file)))
 })
-        let mut idOutData: AbDataOutputStream = AbDataOutputStream.jnew_1(idFileOutputStream)
+        let mut idOutData: AbDataOutputStream = AbDataOutputStream.jnew_1(JR.cast(idFileOutputStream))
         return idOutData
 }
     
@@ -76,7 +78,7 @@ JR.cast(jlate())
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("FileStreamFactory.jm_getFileOutputStreamInstance"))
 JR.cast(jlate(JR.cast(fileStreamFactory), JR.cast(filePath), JR.cast(fileName)))
 })
-        let mut idOutData: AbDataOutputStream = AbDataOutputStream.jnew_1(fileOutputStream)
+        let mut idOutData: AbDataOutputStream = AbDataOutputStream.jnew_1(JR.cast(fileOutputStream))
         return idOutData
 }
 

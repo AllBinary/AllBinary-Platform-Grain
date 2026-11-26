@@ -33,6 +33,14 @@ from "../../../../org/allbinary/graphics/color/BasicColorFactory.gr" include Bas
 use BasicColorFactory.{ type BasicColorFactory }
 from "../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLayer
 use AllBinaryLayer.{ type AllBinaryLayer }
+from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/lang/Long.gr" include Long
+from "../../../../java/lang/Short.gr" include Short
+from "../../../../java/lang/Byte.gr" include Byte
+from "../../../../java/lang/Character.gr" include Character
+from "../../../../java/lang/Float.gr" include Float
+from "../../../../java/lang/Double.gr" include Double
+from "../../../../java/lang/Boolean.gr" include Boolean
 
 provide record HealthBarAnimation {
   jobject: JObject,
@@ -53,7 +61,7 @@ provide record HealthBarAnimation {
 provide let rec jclassName = () => "HealthBarAnimation"
     
 and jnew_2 = (layerInterface: AllBinaryLayer, location: Int32) => {
-    let this = { jobject: JR.newJObject("HealthBarAnimation"), f_basicSetColorUtil: JR.jnull, f_basicColor: JR.jnull, f_colorP: 0l, f_changeBasicColorP: JR.jnull, f_changeColorP: 0l, f_alphaP: 0l, f_basicColorFactory: JR.nullOf(), f_x2: 0l, f_thickness: 0l, f_location: 0l, f_allbinaryLayer: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("HealthBarAnimation"), f_basicSetColorUtil: JR.nullOf(), f_basicColor: JR.nullOf(), f_colorP: 0l, f_changeBasicColorP: JR.nullOf(), f_changeColorP: 0l, f_alphaP: 0l, f_basicColorFactory: JR.nullOf(), f_x2: 0l, f_thickness: 0l, f_location: 0l, f_allbinaryLayer: JR.nullOf(), }
     this.f_basicColorFactory = JR.cast(BasicColorFactory.jm_getInstance())
     
     
@@ -65,9 +73,9 @@ and jnew_2 = (layerInterface: AllBinaryLayer, location: Int32) => {
         if (((this.f_location != basicHudFactory.f_TOPLEFT) && (this.f_location != basicHudFactory.f_BOTTOMLEFT))) {
             fail JR.toStringOf(JR.newJObject("Exception"))
         }
-        if (Int32.(>)(AllBinaryLayer.jm_getWidth(layerInterface), 40l)) {
+        if (Int32.(>)(AllBinaryLayer.jm_getWidth(JR.cast(layerInterface)), 40l)) {
             this.f_thickness = 3l
-        } else if (Int32.(>)(AllBinaryLayer.jm_getWidth(layerInterface), 20l)) {
+        } else if (Int32.(>)(AllBinaryLayer.jm_getWidth(JR.cast(layerInterface)), 20l)) {
             this.f_thickness = 2l
         } else {
             this.f_thickness = 1l
@@ -77,7 +85,7 @@ and jnew_2 = (layerInterface: AllBinaryLayer, location: Int32) => {
     
 and jm_onHealthChange = (this: HealthBarAnimation, newX2: Int32) => {
         this.f_x2 = newX2
-        let mut quarter: Int32 = (Int32.(>>)(AllBinaryLayer.jm_getWidth(this.f_allbinaryLayer), 2l))
+        let mut quarter: Int32 = (Int32.(>>)(AllBinaryLayer.jm_getWidth(JR.cast(this.f_allbinaryLayer)), 2l))
         if (Int32.(>)(this.f_x2, Int32.(*)(quarter, 3l))) {
             this.f_basicColor = JR.cast(this.f_basicColorFactory.f_GREEN)
             this.f_colorP = JR.cast({
@@ -108,16 +116,20 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_basicColor))))
 and jm_getY = (this: HealthBarAnimation) => {
         let mut basicHudFactory: BasicHudFactory = JR.cast(BasicHudFactory.jm_getInstance())
         if ((this.f_location == basicHudFactory.f_TOPLEFT)) {
-            return Int32.(-)(JR.className(JR.cast(AllBinaryLayer.jm_getViewPosition(this.f_allbinaryLayer))), 4l)
+            return Int32.(-)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getY"))
+JR.cast(jlate(JR.cast(AllBinaryLayer.jm_getViewPosition(JR.cast(this.f_allbinaryLayer)))))
+}, 4l)
         } else if ((this.f_location == basicHudFactory.f_BOTTOMLEFT)) {
             return Int32.(+)({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ViewPositionBase.jm_getY2"))
-JR.cast(jlate(JR.cast(AllBinaryLayer.jm_getViewPosition(this.f_allbinaryLayer))))
+JR.cast(jlate(JR.cast(AllBinaryLayer.jm_getViewPosition(JR.cast(this.f_allbinaryLayer)))))
 }, 4l)
         }
         return Int32.(-)(1l, Int32.(+)(1l, 1l))
 }
 
+JR.registerSuper("HealthBarAnimation", "Animation")
 JR.registerLateBound("HealthBarAnimation.jnew_2", jnew_2)
 JR.registerLateBound("HealthBarAnimation.jm_onHealthChange", jm_onHealthChange)
 JR.registerLateBound("HealthBarAnimation.jm_getY", jm_getY)

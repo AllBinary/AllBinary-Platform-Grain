@@ -52,10 +52,14 @@ and jnew_1 = (playerInputId: Int32) => {
 }
     
 and jm_process = (this: SingleAnalogControllerVisitor, allbinaryLayerManager: AllBinaryLayerManager, analogLocationInputProcessor: AnalogLocationInputProcessor) => {
-        let mut analogLocationInput: AnalogLocationInput = JR.cast(AnalogLocationInputFactory.jm_getInstanceForPlayer(AnalogLocationInputFactory.jm_getInstance(), this.f_playerInputId))
-        ignore(AnalogLocationInputProcessor.jm_process(analogLocationInputProcessor, allbinaryLayerManager, analogLocationInput))
+        let mut analogLocationInput: AnalogLocationInput = JR.cast(AnalogLocationInputFactory.jm_getInstanceForPlayer(JR.cast(AnalogLocationInputFactory.jm_getInstance()), this.f_playerInputId))
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("AnalogLocationInputProcessor.jm_process"))
+JR.cast(jlate(JR.cast(analogLocationInputProcessor), JR.cast(allbinaryLayerManager), JR.cast(analogLocationInput)))
+})
 }
 
+JR.registerSuper("SingleAnalogControllerVisitor", "AnalogControllerVisitor")
 JR.registerLateBound("SingleAnalogControllerVisitor.jnew_1", jnew_1)
 JR.registerLateBound("SingleAnalogControllerVisitor.jm_process", jm_process)
 JR.registerLateBound("SingleAnalogControllerVisitor.f_playerInputId", (this: SingleAnalogControllerVisitor) => this.f_playerInputId)

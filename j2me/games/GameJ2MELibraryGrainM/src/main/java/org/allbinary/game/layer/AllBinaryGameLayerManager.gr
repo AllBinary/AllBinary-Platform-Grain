@@ -48,6 +48,13 @@ use SmallIntegerSingletonFactory.{ type SmallIntegerSingletonFactory }
 from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
 use BasicArrayList.{ type BasicArrayList }
 from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/lang/Long.gr" include Long
+from "../../../../java/lang/Short.gr" include Short
+from "../../../../java/lang/Byte.gr" include Byte
+from "../../../../java/lang/Character.gr" include Character
+from "../../../../java/lang/Float.gr" include Float
+from "../../../../java/lang/Double.gr" include Double
+from "../../../../java/lang/Boolean.gr" include Boolean
 
 provide record AllBinaryGameLayerManager {
   jobject: JObject,
@@ -58,6 +65,11 @@ provide record AllBinaryGameLayerManager {
   mut f_layerManagerLogging: JObject,
   mut f_list: JObject,
   mut f_object: JObject,
+  mut f_layers: JObject,
+  mut f_viewX: Int32,
+  mut f_viewY: Int32,
+  mut f_viewW: Int32,
+  mut f_viewH: Int32,
   mut f_layerManagerEventHandler: JObject,
   mut f_createLayerManagerEvent: JObject,
   mut f_deleteLayerManagerEvent: JObject,
@@ -76,7 +88,7 @@ provide let rec jclassName = () => "AllBinaryGameLayerManager"
 and jstatic_NULL_ALLBINARY_LAYER_MANAGER = () => match (jcell_NULL_ALLBINARY_LAYER_MANAGER) {
   Some(value) => value,
   None => {
-    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    let value: JObject = JR.cast(NullUtil.jm_getInstance().f_NULL_OBJECT)
     jcell_NULL_ALLBINARY_LAYER_MANAGER = Some(value)
     value
   },
@@ -89,7 +101,7 @@ and jset_NULL_ALLBINARY_LAYER_MANAGER = (value: JObject) => {
 and jstatic_ID = () => match (jcell_ID) {
   Some(value) => value,
   None => {
-    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 22l)
+    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(JR.cast(SmallIntegerSingletonFactory.jm_getInstance()), 22l)
     jcell_ID = Some(value)
     value
   },
@@ -107,7 +119,7 @@ and jm_getNullInstance = () => {
 }
     
 and jnew_3 = (backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor, gameInfo: GameInfo) => {
-    let this = { jobject: JR.newJObject("AllBinaryGameLayerManager"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_systemWrapper: JR.jnull, f_tsUtil: JR.jnull, f_layerManagerLogging: JR.jnull, f_list: JR.jnull, f_object: JR.jnull, f_layerManagerEventHandler: JR.jnull, f_createLayerManagerEvent: JR.jnull, f_deleteLayerManagerEvent: JR.jnull, f_basicLayerProcessorArray: [> ], f_backgroundBasicColor: JR.nullOf(), f_foregroundBasicColor: JR.nullOf(), f_gameInfo: JR.nullOf(), f_playerGameInputCompositeInterface: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("AllBinaryGameLayerManager"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_systemWrapper: JR.nullOf(), f_tsUtil: JR.nullOf(), f_layerManagerLogging: JR.nullOf(), f_list: JR.nullOf(), f_object: JR.nullOf(), f_layers: JR.nullOf(), f_viewX: 0l, f_viewY: 0l, f_viewW: 0l, f_viewH: 0l, f_layerManagerEventHandler: JR.nullOf(), f_createLayerManagerEvent: JR.nullOf(), f_deleteLayerManagerEvent: JR.nullOf(), f_basicLayerProcessorArray: [> ], f_backgroundBasicColor: JR.nullOf(), f_foregroundBasicColor: JR.nullOf(), f_gameInfo: JR.nullOf(), f_playerGameInputCompositeInterface: JR.nullOf(), }
     
     
     
@@ -115,8 +127,8 @@ and jnew_3 = (backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor
         this.f_backgroundBasicColor = JR.cast(backgroundBasicColor)
         this.f_foregroundBasicColor = JR.cast(foregroundBasicColor)
         let mut itemColorFactory: ItemColorFactory = JR.cast(ItemColorFactory.jm_getInstance())
-        itemColorFactory.f_INVERT_PAINT = BasicColor.jm_intValue(this.f_backgroundBasicColor)
-        itemColorFactory.f_PAINT = BasicColor.jm_intValue(this.f_foregroundBasicColor)
+        itemColorFactory.f_INVERT_PAINT = BasicColor.jm_intValue(JR.cast(this.f_backgroundBasicColor))
+        itemColorFactory.f_PAINT = BasicColor.jm_intValue(JR.cast(this.f_foregroundBasicColor))
         this.f_gameInfo = JR.cast(gameInfo)
     this
 }
@@ -135,7 +147,7 @@ and jm_getBackgroundBasicColor = (this: AllBinaryGameLayerManager) => {
     
 and jm_setBackgroundBasicColor = (this: AllBinaryGameLayerManager, backgroundBasicColor: BasicColor) => {
         this.f_backgroundBasicColor = JR.cast(backgroundBasicColor)
-        ItemColorFactory.jm_getInstance().f_INVERT_PAINT = BasicColor.jm_intValue(this.f_backgroundBasicColor)
+        ItemColorFactory.jm_getInstance().f_INVERT_PAINT = BasicColor.jm_intValue(JR.cast(this.f_backgroundBasicColor))
 }
     
 and jm_getForegroundBasicColor = (this: AllBinaryGameLayerManager) => {
@@ -144,7 +156,7 @@ and jm_getForegroundBasicColor = (this: AllBinaryGameLayerManager) => {
     
 and jm_setForegroundBasicColor = (this: AllBinaryGameLayerManager, foregroundBasicColor: BasicColor) => {
         this.f_foregroundBasicColor = JR.cast(foregroundBasicColor)
-        ItemColorFactory.jm_getInstance().f_PAINT = BasicColor.jm_intValue(this.f_foregroundBasicColor)
+        ItemColorFactory.jm_getInstance().f_PAINT = BasicColor.jm_intValue(JR.cast(this.f_foregroundBasicColor))
 }
     
 and jm_getGameInfo = (this: AllBinaryGameLayerManager) => {
@@ -156,7 +168,7 @@ and jm_setGameInfo = (this: AllBinaryGameLayerManager, gameInfo: GameInfo) => {
 }
     
 and jm_setLayerProcessorList = (this: AllBinaryGameLayerManager, list: BasicArrayList) => {
-        let mut layerProcessorInterfaceArray: Array<LayerProcessor> = Array.make(Int32.toNumber(BasicArrayList.jm_size(list)), JR.nullOf())
+        let mut layerProcessorInterfaceArray: Array<LayerProcessor> = Array.make(Int32.toNumber(BasicArrayList.jm_size(JR.cast(list))), JR.nullOf())
         let mut size: Int32 = Int32.fromNumber(Array.length(layerProcessorInterfaceArray))
         {
             let mut index: Int32 = 0l
@@ -184,6 +196,7 @@ and jm_getPlayerGameInputCompositeInterface = (this: AllBinaryGameLayerManager) 
         return this.f_playerGameInputCompositeInterface
 }
 
+JR.registerSuper("AllBinaryGameLayerManager", "AllBinaryLayerManager")
 JR.registerLateBound("AllBinaryGameLayerManager.jnew_3", jnew_3)
 JR.registerLateBound("AllBinaryGameLayerManager.jm_getNullInstance", jm_getNullInstance)
 JR.registerLateBound("AllBinaryGameLayerManager.jm_getLayerManager", jm_getLayerManager)

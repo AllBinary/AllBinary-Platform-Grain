@@ -15,6 +15,17 @@ use JR.{ type JObject }
 //Temp should not be in any build
 provide record NullDisplayable {
   jobject: JObject,
+  mut f_device: JObject,
+  mut f_currentDisplay: JObject,
+  mut f_width: Int32,
+  mut f_height: Int32,
+  mut f_fullScreenMode: Bool,
+  mut f_ticker: JObject,
+  mut f_viewPortY: Int32,
+  mut f_viewPortHeight: Int32,
+  mut f_ui: JObject,
+  mut f_title: String,
+  mut f_listener: JObject,
 }
 
 let mut jcell_SINGLETON: Option<NullDisplayable> = None
@@ -24,7 +35,7 @@ provide let rec jclassName = () => "NullDisplayable"
 and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
   Some(value) => value,
   None => {
-    let value: NullDisplayable = jnew_0()
+    let value: NullDisplayable = JR.cast(jnew_0())
     jcell_SINGLETON = Some(value)
     value
   },
@@ -39,7 +50,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("NullDisplayable"), }
+    let this = { jobject: JR.newJObject("NullDisplayable"), f_device: JR.nullOf(), f_currentDisplay: JR.nullOf(), f_width: 0l, f_height: 0l, f_fullScreenMode: false, f_ticker: JR.nullOf(), f_viewPortY: 0l, f_viewPortHeight: 0l, f_ui: JR.nullOf(), f_title: "", f_listener: JR.nullOf(), }
         void
     this
 }
@@ -48,6 +59,7 @@ and jm_paint = (this: NullDisplayable, graphics: JObject) => {
     void
 }
 
+JR.registerSuper("NullDisplayable", "Canvas")
 JR.registerLateBound("NullDisplayable.jnew_0", jnew_0)
 JR.registerLateBound("NullDisplayable.jm_getInstance", jm_getInstance)
 JR.registerLateBound("NullDisplayable.jm_paint", jm_paint)

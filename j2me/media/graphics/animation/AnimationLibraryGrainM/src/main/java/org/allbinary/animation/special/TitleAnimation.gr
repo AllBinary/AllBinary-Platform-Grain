@@ -80,7 +80,7 @@ and jm_createAnimation = (animationInterfaceArray: Array<IndexedAnimation>, basi
 }
     
 and jnew_7 = (animationInterfaceArray: Array<IndexedAnimation>, basicColorArray: Array<BasicColor>, dxArray: Array<Int32>, dyArray: Array<Int32>, y: Int32, width: Int32, animationBehavior: AnimationBehavior) => {
-    let this = { jobject: JR.newJObject("TitleAnimation"), f_basicSetColorUtil: JR.jnull, f_basicColor: JR.jnull, f_colorP: 0l, f_changeBasicColorP: JR.jnull, f_changeColorP: 0l, f_alphaP: 0l, f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_animationBehaviorP: JR.jnull, f_systemWrapper: JR.nullOf(), f_deltaX: 0.0f, f_deltaY: 0.0f, f_deltaZ: 0.0f, f_basicColorArray: [> ], f_dxArray: [> ], f_dyArray: [> ], f_widthP: 0l, f_animationInterfaceArray: [> ], f_sizeP: 0l, f_y: 0l, f_lastFrameStartTime: 0L, f_displayInfoSingleton: JR.nullOf(), f_CLEAR_COLOR: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("TitleAnimation"), f_basicSetColorUtil: JR.nullOf(), f_basicColor: JR.nullOf(), f_colorP: 0l, f_changeBasicColorP: JR.nullOf(), f_changeColorP: 0l, f_alphaP: 0l, f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_animationBehaviorP: JR.nullOf(), f_systemWrapper: JR.nullOf(), f_deltaX: 0.0f, f_deltaY: 0.0f, f_deltaZ: 0.0f, f_basicColorArray: [> ], f_dxArray: [> ], f_dyArray: [> ], f_widthP: 0l, f_animationInterfaceArray: [> ], f_sizeP: 0l, f_y: 0l, f_lastFrameStartTime: 0L, f_displayInfoSingleton: JR.nullOf(), f_CLEAR_COLOR: JR.nullOf(), }
     this.f_systemWrapper = JR.cast(ABSystemWrapper.jm_getInstance())
     
     
@@ -96,7 +96,7 @@ and jnew_7 = (animationInterfaceArray: Array<IndexedAnimation>, basicColorArray:
     this.f_displayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
     this.f_CLEAR_COLOR = JR.cast(BasicColorFactory.jm_getInstance().f_CLEAR_COLOR)
         void
-        this.f_lastFrameStartTime = ABSystemWrapper.jm_currentTimeMillis(this.f_systemWrapper)
+        this.f_lastFrameStartTime = ABSystemWrapper.jm_currentTimeMillis(JR.cast(this.f_systemWrapper))
         this.f_animationInterfaceArray = animationInterfaceArray
         this.f_sizeP = Int32.fromNumber(Array.length(this.f_animationInterfaceArray))
         this.f_basicColorArray = basicColorArray
@@ -109,7 +109,7 @@ and jnew_7 = (animationInterfaceArray: Array<IndexedAnimation>, basicColorArray:
 }
     
 and jm_nextFrame = (this: TitleAnimation) => {
-        let mut currentTime: Int64 = ABSystemWrapper.jm_currentTimeMillis(this.f_systemWrapper)
+        let mut currentTime: Int64 = ABSystemWrapper.jm_currentTimeMillis(JR.cast(this.f_systemWrapper))
         let mut totalTimeElapsed: Int64 = Int64.(-)(currentTime, this.f_lastFrameStartTime)
         let mut indexedAnimationBehavior: IndexedAnimationBehavior = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("IndexedAnimation.jm_getAnimationBehavior"))
@@ -189,7 +189,7 @@ and jm_reset = (this: TitleAnimation) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("IndexedAnimation.jm_getAnimationBehavior"))
 JR.cast(jlate(JR.cast(this)))
 }))
-        ignore(IndexedAnimationBehavior.jm_reset(indexedAnimationBehavior))
+        ignore(IndexedAnimationBehavior.jm_reset(JR.cast(indexedAnimationBehavior)))
 }
     
 and jm_previousFrame = (this: TitleAnimation) => {
@@ -212,13 +212,13 @@ JR.cast(jlate(JR.cast(this.f_animationInterfaceArray[Int32.toNumber(index)])))
     
 and jm_paintFrameXY = (this: TitleAnimation, graphics: JObject, frame: Int32, x: Int32, y: Int32) => {
         ignore(jm_setFrame(this, frame))
-        ignore(jm_paintXY(this, graphics, x, y))
+        ignore(jm_paintXY(this, JR.cast(graphics), x, y))
 }
     
 and jm_paintXY = (this: TitleAnimation, graphics: JObject, ax: Int32, ay: Int32) => {
         let mut x: Int32 = 0l
         if ((this.f_widthP != Integer.jstatic_MIN_VALUE())) {
-            x = (Int32.(/)((Int32.(-)(DisplayInfoSingleton.jm_getLastWidth(this.f_displayInfoSingleton), this.f_widthP)), 2l))
+            x = (Int32.(/)((Int32.(-)(DisplayInfoSingleton.jm_getLastWidth(JR.cast(this.f_displayInfoSingleton)), this.f_widthP)), 2l))
         }
         let mut deltaX: Int32 = 0l
         let mut deltaY: Int32 = 0l
@@ -247,6 +247,7 @@ JR.cast(jlate(JR.cast(this.f_animationInterfaceArray[Int32.toNumber(index)]), JR
         }
 }
 
+JR.registerSuper("TitleAnimation", "SpecialAnimation")
 JR.registerLateBound("TitleAnimation.jnew_7", jnew_7)
 JR.registerLateBound("TitleAnimation.jm_createAnimation", jm_createAnimation)
 JR.registerLateBound("TitleAnimation.jm_nextFrame", jm_nextFrame)

@@ -72,8 +72,8 @@ provide record VectorToImageArrayRotationAnimationFactory {
 provide let rec jclassName = () => "VectorToImageArrayRotationAnimationFactory"
     
 and jnew_3 = (vectorInfo: VectorInfo, basicColor: BasicColor, animationBehaviorFactory: AnimationBehaviorFactory) => {
-    let this = { jobject: JR.newJObject("VectorToImageArrayRotationAnimationFactory"), f_animationFactoryImageScaleUtil: JR.jnull, f_image: JR.jnull, f_animationBehaviorFactory: JR.jnull, f_sequenceArray: [> ], f_animationFactoryInitializationVisitor: JR.jnull, f_scaleProperties: JR.jnull, f_imageArray: [> ], f_angleIncrement: 0l, }
-    this.f_imageArray = NullImage.jstatic_NULL_IMAGE_ARRAY()
+    let this = { jobject: JR.newJObject("VectorToImageArrayRotationAnimationFactory"), f_animationFactoryImageScaleUtil: JR.nullOf(), f_image: JR.nullOf(), f_animationBehaviorFactory: JR.nullOf(), f_sequenceArray: [> ], f_animationFactoryInitializationVisitor: JR.nullOf(), f_scaleProperties: JR.nullOf(), f_imageArray: [> ], f_angleIncrement: 0l, }
+    this.f_imageArray = JR.cast(NullImage.jstatic_NULL_IMAGE_ARRAY())
     
         void
         ignore(jm_init(this))
@@ -82,11 +82,11 @@ and jnew_3 = (vectorInfo: VectorInfo, basicColor: BasicColor, animationBehaviorF
     
 and jm_init = (this: VectorToImageArrayRotationAnimationFactory) => {
         let mut angleFactory: AngleFactory = JR.cast(AngleFactory.jm_getInstance())
-        this.f_angleIncrement = Int32.(/)(angleFactory.f_TOTAL_ANGLE, GameConfigurationCentral.jm_getGameControlFidelity(GameConfigurationCentral.jm_getInstance()))
-        this.f_imageArray = ImageToRotationImageArrayUtil.jm_generate(ImageToRotationImageArrayUtil.jm_getInstance(), {
+        this.f_angleIncrement = Int32.(/)(angleFactory.f_TOTAL_ANGLE, GameConfigurationCentral.jm_getGameControlFidelity(JR.cast(GameConfigurationCentral.jm_getInstance())))
+        this.f_imageArray = JR.cast(ImageToRotationImageArrayUtil.jm_generate(JR.cast(ImageToRotationImageArrayUtil.jm_getInstance()), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseImageAnimationFactory.jm_getImage"))
 JR.cast(jlate(JR.cast(this)))
-}, jm_getAngleIncrement(this), angleFactory.f_TOTAL_ANGLE)
+}, jm_getAngleIncrement(this), angleFactory.f_TOTAL_ANGLE))
 }
     
 and jm_getInstance = (this: VectorToImageArrayRotationAnimationFactory, instanceId: Int32) => {
@@ -97,15 +97,21 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_dy"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
 } != 0l))) {
-            return JR.cast(AdjustedImageArrayRotationAnimation.jnew_6(this.f_imageArray, JR.cast(AngleInfo.jm_getInstance(JR.i16(jm_getAngleIncrement(this)))), AngleFactory.jm_getInstance().f_TOTAL_ANGLE, {
+            return JR.cast(AdjustedImageArrayRotationAnimation.jnew_6(JR.cast(this.f_imageArray), JR.cast(AngleInfo.jm_getInstance(JR.i16(jm_getAngleIncrement(this)))), AngleFactory.jm_getInstance().f_TOTAL_ANGLE, {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_dx"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
 }, {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_dy"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
-}, JR.cast(AnimationBehaviorFactory.jm_getOrCreateInstance(JR.cast(this.f_animationBehaviorFactory)))))
+}, JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationBehaviorFactory.jm_getOrCreateInstance"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationBehaviorFactory))))
+})))
         } else {
-            return AdjustedImageArrayRotationAnimation.jm_createAnimation(this.f_imageArray, JR.cast(AngleInfo.jm_getInstance(JR.i16(this.f_angleIncrement))), AngleFactory.jm_getInstance().f_TOTAL_ANGLE, JR.cast(AnimationBehaviorFactory.jm_getOrCreateInstance(JR.cast(this.f_animationBehaviorFactory))))
+            return AdjustedImageArrayRotationAnimation.jm_createAnimation(JR.cast(this.f_imageArray), JR.cast(AngleInfo.jm_getInstance(JR.i16(this.f_angleIncrement))), AngleFactory.jm_getInstance().f_TOTAL_ANGLE, JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationBehaviorFactory.jm_getOrCreateInstance"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationBehaviorFactory))))
+}))
         }
 }
     
@@ -117,6 +123,7 @@ and jm_setInitialScale = (this: VectorToImageArrayRotationAnimationFactory, scal
     void
 }
 
+JR.registerSuper("VectorToImageArrayRotationAnimationFactory", "BaseImageAnimationFactory")
 JR.registerLateBound("VectorToImageArrayRotationAnimationFactory.jnew_3", jnew_3)
 JR.registerLateBound("VectorToImageArrayRotationAnimationFactory.jm_init", jm_init)
 JR.registerLateBound("VectorToImageArrayRotationAnimationFactory.jm_getInstance", jm_getInstance)

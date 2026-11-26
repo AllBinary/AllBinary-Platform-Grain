@@ -49,7 +49,10 @@ and jm_init = () => {
 }
     
 and jm_releaseAll = () => {
-        ignore(ImageCacheFactory.jm_releaseAll(ImageCacheFactory.jm_getInstance()))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ImageCache.jm_releaseAll"))
+JR.cast(jlate(JR.cast(ImageCacheFactory.jm_getInstance())))
+})
 }
 
 JR.registerLateBound("GameFeatureImageCacheFactory.jnew_0", jnew_0)

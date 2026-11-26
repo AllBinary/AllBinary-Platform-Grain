@@ -57,7 +57,7 @@ provide let rec jclassName = () => "GameStatisticsFactory"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: GameStatisticsFactory = jnew_0()
+    let value: GameStatisticsFactory = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -68,7 +68,7 @@ and jset_instance = (value: GameStatisticsFactory) => {
 }
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("GameStatisticsFactory"), f_timeDelayHelper: JR.jnull, f_updateDelayHelper: JR.jnull, f_totalRefreshes: 0L, f_totalFrames: 0L, f_gameTickTimeDelayHelper: JR.jnull, f_DEFAULT_SCALE_FACTOR: 0l, f_NOT: "", f_EMPTY_STRING: "", f_STRING_ARRAY: [> ], f_SPACE_CHAR: 0l, f_PLUS_CHAR: 0l, f_X_CHAR: 0l, f_CHAR_ARRAY: [> ], f_primitiveLongSingleton: JR.jnull, f_stringBuffer: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("GameStatisticsFactory"), f_timeDelayHelper: JR.nullOf(), f_updateDelayHelper: JR.nullOf(), f_totalRefreshes: 0L, f_totalFrames: 0L, f_gameTickTimeDelayHelper: JR.nullOf(), f_DEFAULT_SCALE_FACTOR: 0l, f_NOT: "", f_EMPTY_STRING: "", f_STRING_ARRAY: [> ], f_SPACE_CHAR: 0l, f_PLUS_CHAR: 0l, f_X_CHAR: 0l, f_CHAR_ARRAY: [> ], f_primitiveLongSingleton: JR.nullOf(), f_stringBuffer: JR.nullOf(), }
     this.jobject.toStringFunction = () => jm_toString(this)
     this.f_stringBuffer = StringMaker.jnew_0()
     this
@@ -79,17 +79,18 @@ and jm_getInstance = () => {
 }
     
 and jm_add = (this: GameStatisticsFactory, string: String) => {
-        if (Int32.(>)(StringMaker.jm_length(this.f_stringBuffer), 12000l)) {
-            ignore(StringMaker.jm_delete(this.f_stringBuffer, 0l, StringMaker.jm_length(this.f_stringBuffer)))
-            ignore(StringMaker.jm_append(this.f_stringBuffer, "Old Stats Cleared"))
+        if (Int32.(>)(StringMaker.jm_length(JR.cast(this.f_stringBuffer)), 12000l)) {
+            ignore(StringMaker.jm_delete(JR.cast(this.f_stringBuffer), 0l, StringMaker.jm_length(JR.cast(this.f_stringBuffer))))
+            ignore(StringMaker.jm_append(JR.cast(this.f_stringBuffer), JR.cast("Old Stats Cleared")))
         }
-        ignore(StringMaker.jm_append(this.f_stringBuffer, string))
+        ignore(StringMaker.jm_append(JR.cast(this.f_stringBuffer), JR.cast(string)))
 }
     
 and jm_toString = (this: GameStatisticsFactory) => {
-        return StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), jm_toString(this)), StringMaker.jm_toString(this.f_stringBuffer)))
+        return StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(jm_toString(this)))), JR.cast(StringMaker.jm_toString(JR.cast(this.f_stringBuffer))))))
 }
 
+JR.registerSuper("GameStatisticsFactory", "BaseGameStatistics")
 JR.registerLateBound("GameStatisticsFactory.jnew_0", jnew_0)
 JR.registerLateBound("GameStatisticsFactory.jm_getInstance", jm_getInstance)
 JR.registerLateBound("GameStatisticsFactory.jm_add", jm_add)

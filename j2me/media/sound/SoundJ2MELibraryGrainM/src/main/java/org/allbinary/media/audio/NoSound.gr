@@ -45,7 +45,7 @@ provide let rec jclassName = () => "NoSound"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: NoSound = jnew_0()
+    let value: NoSound = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -60,7 +60,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("NoSound"), f_resource: "", f_player: JR.jnull, }
+    let this = { jobject: JR.newJObject("NoSound"), f_resource: "", f_player: JR.nullOf(), }
         void
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Sound.jm_setPlayerP"))
@@ -69,6 +69,7 @@ JR.cast(jlate(JR.cast(this), JR.cast(NoPlayer.jstatic_NO_PLAYER())))
     this
 }
 
+JR.registerSuper("NoSound", "Sound")
 JR.registerLateBound("NoSound.jnew_0", jnew_0)
 JR.registerLateBound("NoSound.jm_getInstance", jm_getInstance)
 JR.registerLateBound("NoSound.jstatic_instance", jstatic_instance)

@@ -46,7 +46,7 @@ provide let rec jclassName = () => "TrackingEventCircularStaticPool"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: TrackingEventCircularStaticPool = jnew_0()
+    let value: TrackingEventCircularStaticPool = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -67,7 +67,7 @@ and jm_getInstance = () => {
 }
     
 and jm_init = (this: TrackingEventCircularStaticPool) => {
-        ignore(AllBinaryEventCircularPool.jm_initAllBinaryEventCircularPool(this.f_EVENT_POOL, JR.cast(TrackingEventFactory.jnew_0())))
+        ignore(AllBinaryEventCircularPool.jm_initAllBinaryEventCircularPool(JR.cast(this.f_EVENT_POOL), JR.cast(TrackingEventFactory.jnew_0())))
 }
     
 and jm_getNextInstance = (this: TrackingEventCircularStaticPool, layerInterface: AllBinaryLayer) => {
@@ -75,7 +75,10 @@ and jm_getNextInstance = (this: TrackingEventCircularStaticPool, layerInterface:
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseCircularPool.jm_getNextInstance"))
 JR.cast(jlate(JR.cast(this.f_EVENT_POOL)))
 })
-        ignore(TrackingEvent.jm_setLayerInterfaceForCircularStaticPool(trackingEvent, layerInterface))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TrackingEvent.jm_setLayerInterfaceForCircularStaticPool"))
+JR.cast(jlate(JR.cast(trackingEvent), JR.cast(layerInterface)))
+})
         return trackingEvent
 }
 

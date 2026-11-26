@@ -68,23 +68,23 @@ provide record LivesHudWidget {
 provide let rec jclassName = () => "LivesHudWidget"
     
 and jnew_4 = (animationInterface: Animation, lifeInterface: Life, location: Int32, direction: Int32) => {
-    let this = { jobject: JR.newJObject("LivesHudWidget"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_canvasStrings: JR.jnull, f_basicSetColorUtil: JR.jnull, f_displayInfo: JR.jnull, f_updateMyFontProcessor: JR.jnull, f_myFontProcessor: JR.jnull, f_location: 0l, f_direction: 0l, f_bufferZone: 0l, f_bufferZoneY: 0l, f_hudGraphicsPosition: JR.jnull, f_x: 0l, f_y: 0l, f_basicColor: JR.jnull, f_color: 0l, f_updateMaxWidth: 0l, f_updateMaxHeight: 0l, f_offsetY: 0l, f_lifeInterface: JR.nullOf(), f_xArray: [> ], f_animationInterface: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("LivesHudWidget"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_canvasStrings: JR.nullOf(), f_basicSetColorUtil: JR.nullOf(), f_displayInfo: JR.nullOf(), f_updateMyFontProcessor: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_location: 0l, f_direction: 0l, f_bufferZone: 0l, f_bufferZoneY: 0l, f_hudGraphicsPosition: JR.nullOf(), f_x: 0l, f_y: 0l, f_basicColor: JR.nullOf(), f_color: 0l, f_updateMaxWidth: 0l, f_updateMaxHeight: 0l, f_offsetY: 0l, f_lifeInterface: JR.nullOf(), f_xArray: [> ], f_animationInterface: JR.nullOf(), }
     
     
     
         void
         this.f_lifeInterface = JR.cast(lifeInterface)
-        let mut size: Int32 = Life.jm_getMaxlives(jm_getLifeInterface(this))
+        let mut size: Int32 = Life.jm_getMaxlives(JR.cast(jm_getLifeInterface(this)))
         this.f_xArray = Array.make(Int32.toNumber(size), 0l)
         this.f_animationInterface = JR.cast(animationInterface)
-        this.f_updateMaxWidth = JR.cast(Int32.(*)(Life.jm_getMaxlives(this.f_lifeInterface), 16l))
+        this.f_updateMaxWidth = JR.cast(Int32.(*)(Life.jm_getMaxlives(JR.cast(this.f_lifeInterface)), 16l))
         this.f_updateMaxHeight = JR.cast(16l)
     this
 }
     
 and jm_updateMeasurement = (this: LivesHudWidget, graphics: JObject) => {
         ignore(jm_updateMeasurement(this, graphics))
-        let mut maxLives: Int32 = Life.jm_getMaxlives(jm_getLifeInterface(this))
+        let mut maxLives: Int32 = Life.jm_getMaxlives(JR.cast(jm_getLifeInterface(this)))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -118,12 +118,12 @@ let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("MyFontProcessor
 JR.cast(jlate(JR.cast(JR.cast(this.f_myFontProcessor)), JR.cast(graphics)))
 })
         {
-            let mut index: Int32 = Life.jm_get(jm_getLifeInterface(this))
+            let mut index: Int32 = Life.jm_get(JR.cast(jm_getLifeInterface(this)))
             let mut jfirst = true
             while (true) {
                 jfirst = false
                 if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
-            ignore(Animation.jm_paintXY(this.f_animationInterface, graphics, this.f_xArray[Int32.toNumber(index)], {
+            ignore(Animation.jm_paintXY(JR.cast(this.f_animationInterface), JR.cast(graphics), this.f_xArray[Int32.toNumber(index)], {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicHud.jm_getY"))
 JR.cast(jlate(JR.cast(this)))
 }))
@@ -139,6 +139,7 @@ and jm_getLifeInterface = (this: LivesHudWidget) => {
         return this.f_lifeInterface
 }
 
+JR.registerSuper("LivesHudWidget", "BasicHud")
 JR.registerLateBound("LivesHudWidget.jnew_4", jnew_4)
 JR.registerLateBound("LivesHudWidget.jm_updateMeasurement", jm_updateMeasurement)
 JR.registerLateBound("LivesHudWidget.jm_onDisplayChangeEvent", jm_onDisplayChangeEvent)

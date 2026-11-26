@@ -49,7 +49,7 @@ provide record GameInput {
 provide let rec jclassName = () => "GameInput"
     
 and jnew_2 = (gameKeyEventList: BasicArrayList, removalGameKeyEventList: BasicArrayList) => {
-    let this = { jobject: JR.newJObject("GameInput"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_gameKeyEventList: JR.nullOf(), f_removalGameKeyEventList: JR.nullOf(), f_isRemoveDuplicateKeyPresses: false, }
+    let this = { jobject: JR.newJObject("GameInput"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_gameKeyEventList: JR.nullOf(), f_removalGameKeyEventList: JR.nullOf(), f_isRemoveDuplicateKeyPresses: false, }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -60,16 +60,16 @@ JR.cast(jlate())
     
         this.f_gameKeyEventList = JR.cast(gameKeyEventList)
         this.f_removalGameKeyEventList = JR.cast(removalGameKeyEventList)
-        this.f_isRemoveDuplicateKeyPresses = Features.jm_isFeature(Features.jm_getInstance(), JR.cast(InputFeatureFactory.jm_getInstance().f_REMOVE_DUPLICATE_KEY_PRESSES))
+        this.f_isRemoveDuplicateKeyPresses = Features.jm_isFeature(JR.cast(Features.jm_getInstance()), JR.cast(InputFeatureFactory.jm_getInstance().f_REMOVE_DUPLICATE_KEY_PRESSES))
     this
 }
     
 and jm_add = (this: GameInput, gameKeyEvent: GameKeyEvent) => {
-        if ((this.f_isRemoveDuplicateKeyPresses && BasicArrayList.jm_contains(this.f_gameKeyEventList, JR.cast(gameKeyEvent)))) {
+        if ((this.f_isRemoveDuplicateKeyPresses && BasicArrayList.jm_contains(JR.cast(this.f_gameKeyEventList), JR.cast(gameKeyEvent)))) {
             return void
         }
         if (!JR.isNull(gameKeyEvent)) {
-            ignore(BasicArrayList.jm_add(this.f_gameKeyEventList, JR.cast(gameKeyEvent)))
+            ignore(BasicArrayList.jm_add(JR.cast(this.f_gameKeyEventList), JR.cast(gameKeyEvent)))
         } else {
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
@@ -80,29 +80,29 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Danger Passed Null GameKeyEvent"
 }
     
 and jm_addForRemoval = (this: GameInput, gameKeyEvent: GameKeyEvent) => {
-        ignore(BasicArrayList.jm_add(this.f_removalGameKeyEventList, JR.cast(gameKeyEvent)))
+        ignore(BasicArrayList.jm_add(JR.cast(this.f_removalGameKeyEventList), JR.cast(gameKeyEvent)))
 }
     
 and jm_isForRemoval = (this: GameInput, gameKeyEvent: GameKeyEvent) => {
-        return BasicArrayList.jm_contains(this.f_removalGameKeyEventList, JR.cast(gameKeyEvent))
+        return BasicArrayList.jm_contains(JR.cast(this.f_removalGameKeyEventList), JR.cast(gameKeyEvent))
 }
     
 and jm_clear = (this: GameInput) => {
-        ignore(BasicArrayList.jm_clear(this.f_gameKeyEventList))
+        ignore(BasicArrayList.jm_clear(JR.cast(this.f_gameKeyEventList)))
 }
     
 and jm_removeNonAIInputGameKeyEvents = (this: GameInput) => {
         let mut list: BasicArrayList = JR.cast(this.f_gameKeyEventList)
         let mut gameKeyEvent: GameKeyEvent = JR.nullOf()
         {
-            let mut index: Int32 = BasicArrayList.jm_size(list)
+            let mut index: Int32 = BasicArrayList.jm_size(JR.cast(list))
             let mut jfirst = true
             while (true) {
                 jfirst = false
                 if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
             gameKeyEvent = JR.cast(list.f_objectArray[Int32.toNumber(index)])
-            if ((GameKeyEvent.jm_getSourceId(gameKeyEvent) != 1l)) {
-                ignore(BasicArrayList.jm_removeAt(list, index))
+            if ((GameKeyEvent.jm_getSourceId(JR.cast(gameKeyEvent)) != 1l)) {
+                ignore(BasicArrayList.jm_removeAt(JR.cast(list), index))
             }
             }
         }
@@ -111,7 +111,7 @@ and jm_removeNonAIInputGameKeyEvents = (this: GameInput) => {
 and jm_update = (this: GameInput) => {
         let mut removeList: BasicArrayList = JR.cast(this.f_removalGameKeyEventList)
         let mut list: BasicArrayList = JR.cast(this.f_gameKeyEventList)
-        let mut size: Int32 = BasicArrayList.jm_size(removeList)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(removeList))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -123,19 +123,19 @@ and jm_update = (this: GameInput) => {
                 if (!(Int32.(<)(index, size))) break
             let mut anyType: JObject = JR.cast(removeList.f_objectArray[Int32.toNumber(index)])
             {
-                let mut index2: Int32 = BasicArrayList.jm_size(list)
+                let mut index2: Int32 = BasicArrayList.jm_size(JR.cast(list))
                 let mut jfirst = true
                 while (true) {
                     jfirst = false
                     if (!(Int32.(>=)({ index2 = Int32.(-)(index2, 1l); index2 }, 0l))) break
                 if (JR.isSame(list.f_objectArray[Int32.toNumber(index2)], anyType)) {
-                    ignore(BasicArrayList.jm_removeAt(list, index2))
+                    ignore(BasicArrayList.jm_removeAt(JR.cast(list), index2))
                 }
                 }
             }
             }
         }
-        ignore(BasicArrayList.jm_clear(removeList))
+        ignore(BasicArrayList.jm_clear(JR.cast(removeList)))
 }
     
 and jm_getRemovalGameKeyEventList = (this: GameInput) => {

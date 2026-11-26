@@ -41,7 +41,7 @@ provide let rec jclassName = () => "ThreadUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: ThreadUtil = jnew_0()
+    let value: ThreadUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -52,7 +52,7 @@ and jset_instance = (value: ThreadUtil) => {
 }
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("ThreadUtil"), f_logUtil: JR.jnull, f_JOIN: "", }
+    let this = { jobject: JR.newJObject("ThreadUtil"), f_logUtil: JR.nullOf(), f_JOIN: "", }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -74,7 +74,7 @@ and jm_isRunning = (this: ThreadUtil, thread: Thread) => {
 }
     
 and jm_join = (this: ThreadUtil, thread: Thread) => {
-        if (jm_isRunning(jm_getInstance(), thread)) {
+        if (jm_isRunning(jm_getInstance(), JR.cast(thread))) {
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Waiting for Thread To Join/End"), JR.cast(this), JR.cast(this.f_JOIN)))

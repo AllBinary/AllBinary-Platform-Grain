@@ -56,6 +56,8 @@ use BasicArrayList.{ type BasicArrayList }
 from "../../../../org/allbinary/util/HashtableUtil.gr" include HashtableUtil
 use HashtableUtil.{ type HashtableUtil }
 from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 from "./Input.gr" include Input
 use Input.{ type Input }
 from "./GameKeyMappingFactory.gr" include GameKeyMappingFactory
@@ -81,7 +83,7 @@ provide record InputPersistance {
 provide let rec jclassName = () => "InputPersistance"
     
 and jnew_1 = (name: String) => {
-    let this = { jobject: JR.newJObject("InputPersistance"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_persistanceStrings: JR.jnull, f_platformRecordIdUtil: JR.jnull, f_recordId: "", f_valueList: JR.jnull, f_idList: JR.jnull, f_tsUtil: JR.jnull, f_hashtableUtil: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("InputPersistance"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_persistanceStrings: JR.nullOf(), f_platformRecordIdUtil: JR.nullOf(), f_recordId: "", f_valueList: JR.nullOf(), f_idList: JR.nullOf(), f_tsUtil: JR.nullOf(), f_hashtableUtil: JR.nullOf(), }
     this.f_tsUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -109,7 +111,7 @@ JR.cast(jlate(JR.cast(recordStore), JR.cast(NullRecordFilter.jstatic_NULL_RECORD
             let mut inputId: Int64 = 0L
             let mut gameActionInput: Input = JR.nullOf()
             let mut input: Input = JR.nullOf()
-            let mut hashtable: JObject = JR.jnull
+            let mut hashtable: JObject = JR.nullOf()
             let mut gameKeyFactory: GameKeyMappingFactory = JR.cast(GameKeyMappingFactory.jm_getInstance())
             let mut stringBuffer: StringMaker = StringMaker.jnew_0()
             let mut inputFactory: InputFactory = JR.cast(InputFactory.jm_getInstance())
@@ -121,15 +123,15 @@ JR.cast(jlate())
             let mut recordAsBytes: Array<Int32> = [> ]
             let mut byteArrayInputStream: ByteArrayInputStream = JR.nullOf()
             let mut inputStream: DataInputStream = JR.nullOf()
-            while (RecordEnumeration.jm_hasNextElement(recordEnum)) {
-                let mut id: Int32 = RecordEnumeration.jm_nextRecordId(recordEnum)
-                ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
+            while (RecordEnumeration.jm_hasNextElement(JR.cast(recordEnum))) {
+                let mut id: Int32 = RecordEnumeration.jm_nextRecordId(JR.cast(recordEnum))
+                ignore(StringMaker.jm_delete(JR.cast(stringBuffer), 0l, StringMaker.jm_length(JR.cast(stringBuffer))))
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(stringBuffer, {
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PersistanceStrings.f_LOADING_ID"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_persistanceStrings))))
-}), id))), JR.cast(this), JR.cast({
+}))), id)))), JR.cast(this), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PersistanceStrings.f_LOAD_ALL"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_persistanceStrings))))
 })))
@@ -153,44 +155,56 @@ JR.cast(jlate(JR.cast(stdUtil)))
                         ignore(DataInputStream.jm_readUTF_0(inputStream))
                         value = Integer.jm_parseInt(DataInputStream.jm_readUTF_0(inputStream))
                         inputId = Int64.fromNumber(Int32.toNumber(value))
-                        gameActionInput = JR.cast(GameKeyMappingFactory.jm_getGameKey(gameKeyFactory, Int32.fromNumber(Int64.toNumber(gameActionInputId))))
-                        input = JR.cast(InputFactory.jm_getInstanceById(inputFactory, Int32.fromNumber(Int64.toNumber(inputId))))
-                        if ((JR.isSame(input, inputFactory.f_NO_INPUT) || JR.isNull(gameActionInput))) {
-                            ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
-                            if (JR.isSame(input, inputFactory.f_NO_INPUT)) {
-                                ignore(StringMaker.jm_append(stringBuffer, {
+                        gameActionInput = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("GameKeyMappingFactory.jm_getGameKey"))
+JR.cast(jlate(JR.cast(gameKeyFactory), JR.cast(Int32.fromNumber(Int64.toNumber(gameActionInputId)))))
+})
+                        input = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("InputFactory.jm_getInstanceById"))
+JR.cast(jlate(JR.cast(inputFactory), JR.cast(Int32.fromNumber(Int64.toNumber(inputId)))))
+})
+                        if ((JR.isSame(input, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("InputFactory.f_NO_INPUT"))
+JR.cast(jlate(JR.cast(inputFactory)))
+}) || JR.isNull(gameActionInput))) {
+                            ignore(StringMaker.jm_delete(JR.cast(stringBuffer), 0l, StringMaker.jm_length(JR.cast(stringBuffer))))
+                            if (JR.isSame(input, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("InputFactory.f_NO_INPUT"))
+JR.cast(jlate(JR.cast(inputFactory)))
+})) {
+                                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PersistanceStrings.f_ERROR_LOADING_ID"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_persistanceStrings))))
-}))
-                                ignore(StringMaker.jm_appendlong(stringBuffer, inputId))
-                                ignore(StringMaker.jm_append(stringBuffer, {
+})))
+                                ignore(StringMaker.jm_appendlong(JR.cast(stringBuffer), inputId))
+                                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PersistanceStrings.f_GAME_ACTION_INPUT"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_persistanceStrings))))
-}))
-                                ignore(StringMaker.jm_appendlong(stringBuffer, gameActionInputId))
+})))
+                                ignore(StringMaker.jm_appendlong(JR.cast(stringBuffer), gameActionInputId))
                                 ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast({
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(this), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PersistanceStrings.f_LOAD_ALL"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_persistanceStrings))))
 })))
 })
                             }
                             if (JR.isNull(gameActionInput)) {
-                                ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
-                                ignore(StringMaker.jm_append(stringBuffer, {
+                                ignore(StringMaker.jm_delete(JR.cast(stringBuffer), 0l, StringMaker.jm_length(JR.cast(stringBuffer))))
+                                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PersistanceStrings.f_ERROR_LOADING"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_persistanceStrings))))
-}))
-                                ignore(StringMaker.jm_appendlong(stringBuffer, gameActionInputId))
-                                ignore(StringMaker.jm_append(stringBuffer, {
+})))
+                                ignore(StringMaker.jm_appendlong(JR.cast(stringBuffer), gameActionInputId))
+                                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PersistanceStrings.f_ID"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_persistanceStrings))))
-}))
-                                ignore(StringMaker.jm_appendlong(stringBuffer, inputId))
+})))
+                                ignore(StringMaker.jm_appendlong(JR.cast(stringBuffer), inputId))
                                 ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast({
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(this), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PersistanceStrings.f_LOAD_ALL"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_persistanceStrings))))
 })))
@@ -210,7 +224,7 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_valueList)), JR.cast(hashtable)))
 })
                     ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_add"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_idList)), JR.cast(SmallIntegerSingletonFactory.jm_getAt(smallIntegerSingletonFactory, id))))
+JR.cast(jlate(JR.cast(JR.cast(this.f_idList)), JR.cast(SmallIntegerSingletonFactory.jm_getAt(JR.cast(smallIntegerSingletonFactory), id))))
 })
                 } else {
                     void
@@ -243,10 +257,10 @@ and jm_save = (this: InputPersistance, abeClientInformation: AbeClientInformatio
             let mut stringBuffer: StringMaker = StringMaker.jnew_0()
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(stringBuffer, {
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PersistanceStrings.f_SAVING"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_persistanceStrings))))
-}), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(hashtable))))), JR.cast(this), JR.cast({
+}))), JR.cast(StringUtil.jm_toString(JR.cast(StringUtil.jm_getInstance()), JR.cast(hashtable))))))), JR.cast(this), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_SAVE"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 })))
@@ -266,7 +280,7 @@ JR.cast(jlate(JR.cast(this), JR.cast(abeClientInformation)))
             let mut savedGameBytes: Array<Int32> = [> ]
             let mut commonSeps: CommonSeps = JR.cast(CommonSeps.jm_getInstance())
             let mut smallIntegerSingletonFactory: SmallIntegerSingletonFactory = JR.cast(SmallIntegerSingletonFactory.jm_getInstance())
-            let mut inputObjectArray: Array<JObject> = HashtableUtil.jm_getKeysAsArray(this.f_hashtableUtil, hashtable)
+            let mut inputObjectArray: Array<JObject> = JR.cast(HashtableUtil.jm_getKeysAsArray(JR.cast(this.f_hashtableUtil), JR.cast(hashtable)))
             let mut size: Int32 = Int32.fromNumber(Array.length(inputObjectArray))
             {
                 let mut index: Int32 = 0l
@@ -290,12 +304,18 @@ JR.cast(jlate(JR.cast(hashtable), JR.cast(JR.cast(inputObjectArray[Int32.toNumbe
                             index2 = Int32.(+)(index2, 1l)
                         }
                         jfirst = false
-                        if (!(Int32.(<)(index2, BasicArrayList.jm_size(list)))) break
-                    let mut gameActionInputIdAsString: String = JR.toStringOf(JR.cast(SmallIntegerSingletonFactory.jm_getAt(smallIntegerSingletonFactory, Input.jm_getId(gameActionInput))))
+                        if (!(Int32.(<)(index2, BasicArrayList.jm_size(JR.cast(list))))) break
+                    let mut gameActionInputIdAsString: String = Integer.jm_toString(JR.cast(SmallIntegerSingletonFactory.jm_getAt(JR.cast(smallIntegerSingletonFactory), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Input.jm_getId"))
+JR.cast(jlate(JR.cast(gameActionInput)))
+})))
                     ignore(DataOutputStream.jm_writeUTF_1(outputStream, gameActionInputIdAsString))
                     ignore(DataOutputStream.jm_writeUTF_1(outputStream, commonSeps.f_EQUALS))
                     input = JR.cast(list.f_objectArray[Int32.toNumber(index2)])
-                    let mut inputIdAsString: String = JR.toStringOf(JR.cast(SmallIntegerSingletonFactory.jm_getAt(smallIntegerSingletonFactory, Input.jm_getId(input))))
+                    let mut inputIdAsString: String = Integer.jm_toString(JR.cast(SmallIntegerSingletonFactory.jm_getAt(JR.cast(smallIntegerSingletonFactory), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Input.jm_getId"))
+JR.cast(jlate(JR.cast(input)))
+})))
                     ignore(DataOutputStream.jm_writeUTF_1(outputStream, inputIdAsString))
                     }
                 }
@@ -327,6 +347,7 @@ JR.cast(jlate(JR.cast(recordStore)))
         }
 }
 
+JR.registerSuper("InputPersistance", "BasicPersitance")
 JR.registerLateBound("InputPersistance.jnew_1", jnew_1)
 JR.registerLateBound("InputPersistance.jm_loadAll", jm_loadAll)
 JR.registerLateBound("InputPersistance.jm_save", jm_save)

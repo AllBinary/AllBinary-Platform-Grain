@@ -49,7 +49,7 @@ provide let rec jclassName = () => "GameKeyEvent"
 and jstatic_NONE = () => match (jcell_NONE) {
   Some(value) => value,
   None => {
-    let value: GameKeyEvent = jnew_6(JR.cast(NullUtil.jm_getInstance().f_NULL_OBJECT), Int32.(-)(1l, Int32.(+)(1l, 1l)), Int32.(-)(1l, Int32.(+)(1l, 1l)), Int32.(-)(1l, Int32.(+)(1l, 1l)), Int32.(-)(1l, Int32.(+)(1l, 1l)), false)
+    let value: GameKeyEvent = JR.cast(jnew_6(JR.cast(NullUtil.jm_getInstance().f_NULL_OBJECT), Int32.(-)(1l, Int32.(+)(1l, 1l)), Int32.(-)(1l, Int32.(+)(1l, 1l)), Int32.(-)(1l, Int32.(+)(1l, 1l)), Int32.(-)(1l, Int32.(+)(1l, 1l)), false))
     jcell_NONE = Some(value)
     value
   },
@@ -60,11 +60,11 @@ and jset_NONE = (value: GameKeyEvent) => {
 }
     
 and jm_createEvent = (anyType: JObject, sourceId: Int32, key: Int32) => {
-        return jnew_6(anyType, sourceId, 0l, 0l, key, false)
+        return jnew_6(JR.cast(anyType), sourceId, 0l, 0l, key, false)
 }
     
 and jnew_6 = (anyType: JObject, sourceId: Int32, originalKey: Int32, gameActionKey: Int32, key: Int32, repeated: Bool) => {
-    let this = { jobject: JR.newJObject("GameKeyEvent"), f_source: JR.jnull, f_sourceId: 0l, f_repeated: false, f_key: 0l, f_gameActionKey: 0l, f_originalKey: 0l, }
+    let this = { jobject: JR.newJObject("GameKeyEvent"), f_source: JR.nullOf(), f_sourceId: 0l, f_repeated: false, f_key: 0l, f_gameActionKey: 0l, f_originalKey: 0l, }
     this.jobject.toStringFunction = () => jm_toString(this)
     
     
@@ -101,9 +101,9 @@ and jm_getKey = (this: GameKeyEvent) => {
     
 and jm_toString = (this: GameKeyEvent) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, "\nKey: "))
-        ignore(StringMaker.jm_appendint(stringBuffer, jm_getKey(this)))
-        return StringMaker.jm_toString(stringBuffer)
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("\nKey: ")))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), jm_getKey(this)))
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
     
 and jm_getOriginalKey = (this: GameKeyEvent) => {
@@ -126,6 +126,7 @@ and jm_getSourceId = (this: GameKeyEvent) => {
         return this.f_sourceId
 }
 
+JR.registerSuper("GameKeyEvent", "AllBinaryEventObject")
 JR.registerLateBound("GameKeyEvent.jnew_6", jnew_6)
 JR.registerLateBound("GameKeyEvent.jm_createEvent", jm_createEvent)
 JR.registerLateBound("GameKeyEvent.jm_init", jm_init)

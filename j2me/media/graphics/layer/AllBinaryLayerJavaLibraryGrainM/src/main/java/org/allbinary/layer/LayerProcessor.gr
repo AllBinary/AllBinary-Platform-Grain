@@ -65,7 +65,10 @@ and jm_getLayerManager = (this: LayerProcessor) => {
     
 and jm_process = (this: LayerProcessor, allBinaryLayerManager: JObject) => {
         let mut layerManager: LayerManager = JR.cast(jm_getLayerManager(this))
-        let mut size: Int32 = LayerManager.jm_getSize(layerManager)
+        let mut size: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LayerManager.jm_getSize"))
+JR.cast(jlate(JR.cast(layerManager)))
+}
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -75,7 +78,10 @@ and jm_process = (this: LayerProcessor, allBinaryLayerManager: JObject) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            ignore(jm_processAt(this, allBinaryLayerManager, JR.cast(LayerManager.jm_getLayerAt(layerManager, index)), index))
+            ignore(jm_processAt(this, JR.cast(allBinaryLayerManager), JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("LayerManager.jm_getLayerAt"))
+JR.cast(jlate(JR.cast(layerManager), JR.cast(index)))
+}), index))
             }
         }
 }

@@ -44,7 +44,7 @@ provide let rec jclassName = () => "TouchScreenFactory"
 and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
   Some(value) => value,
   None => {
-    let value: TouchScreenFactory = jnew_0()
+    let value: TouchScreenFactory = JR.cast(jnew_0())
     jcell_SINGLETON = Some(value)
     value
   },
@@ -58,7 +58,10 @@ and jnew_0 = () => {
     let this = { jobject: JR.newJObject("TouchScreenFactory"), f_multiTouch: false, f_touch: false, f_touchScreenType: JR.nullOf(), }
     
     
-    this.f_touchScreenType = JR.cast(TouchScreenTypesFactory.jm_getInstance().f_NOTOUCH)
+    this.f_touchScreenType = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchScreenTypesFactory.f_NOTOUCH"))
+JR.cast(jlate(JR.cast(TouchScreenTypesFactory.jm_getInstance())))
+})
         void
     this
 }

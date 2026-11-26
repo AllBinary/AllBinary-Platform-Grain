@@ -46,7 +46,7 @@ provide record LastKeyAIVisitor {
 provide let rec jclassName = () => "LastKeyAIVisitor"
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("LastKeyAIVisitor"), f_nullUtil: JR.jnull, f_logUtil: JR.jnull, f_TRUE: false, }
+    let this = { jobject: JR.newJObject("LastKeyAIVisitor"), f_nullUtil: JR.nullOf(), f_logUtil: JR.nullOf(), f_TRUE: false, }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -59,14 +59,15 @@ JR.cast(jlate())
 and jm_visit = (this: LastKeyAIVisitor, anyType: JObject) => {
         {
             let mut basicAI: BasicAI = JR.cast(anyType)
-            let mut key: Int32 = BasicAI.jm_getLastKey(basicAI)
+            let mut key: Int32 = BasicAI.jm_getLastKey(JR.cast(basicAI))
             if ((key != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
-                ignore(BasicAI.jm_processKeyAI(basicAI, key))
+                ignore(BasicAI.jm_processKeyAI(JR.cast(basicAI), key))
             }
         }
-        return JR.cast(this.f_TRUE)
+        return this.f_TRUE
 }
 
+JR.registerSuper("LastKeyAIVisitor", "Visitor")
 JR.registerLateBound("LastKeyAIVisitor.jnew_0", jnew_0)
 JR.registerLateBound("LastKeyAIVisitor.jm_visit", jm_visit)
 JR.registerLateBound("LastKeyAIVisitor.f_logUtil", (this: LastKeyAIVisitor) => this.f_logUtil)

@@ -83,7 +83,7 @@ provide record HealthHudWidget {
 provide let rec jclassName = () => "HealthHudWidget"
     
 and jnew_4 = (animationInterface: Animation, healthInterface: Health, location: Int32, direction: Int32) => {
-    let this = { jobject: JR.newJObject("HealthHudWidget"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_canvasStrings: JR.jnull, f_basicSetColorUtil: JR.jnull, f_displayInfo: JR.jnull, f_updateMyFontProcessor: JR.jnull, f_myFontProcessor: JR.jnull, f_location: 0l, f_direction: 0l, f_bufferZone: 0l, f_bufferZoneY: 0l, f_hudGraphicsPosition: JR.jnull, f_x: 0l, f_y: 0l, f_basicColor: JR.jnull, f_color: 0l, f_updateMaxWidth: 0l, f_updateMaxHeight: 0l, f_offsetY: 0l, f_healthScale: 0l, f_animationInterface: JR.nullOf(), f_healthInterface: JR.nullOf(), f_max: 0l, f_xArray: [> ], f_gameTickTimeDelayHelper: JR.nullOf(), f_timeDelayHelper: JR.nullOf(), f_slowBeatTimeDelayHelper: JR.nullOf(), f_mediumBeatTimeDelayHelper: JR.nullOf(), f_fastBeatTimeDelayHelper: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("HealthHudWidget"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_canvasStrings: JR.nullOf(), f_basicSetColorUtil: JR.nullOf(), f_displayInfo: JR.nullOf(), f_updateMyFontProcessor: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_location: 0l, f_direction: 0l, f_bufferZone: 0l, f_bufferZoneY: 0l, f_hudGraphicsPosition: JR.nullOf(), f_x: 0l, f_y: 0l, f_basicColor: JR.nullOf(), f_color: 0l, f_updateMaxWidth: 0l, f_updateMaxHeight: 0l, f_offsetY: 0l, f_healthScale: 0l, f_animationInterface: JR.nullOf(), f_healthInterface: JR.nullOf(), f_max: 0l, f_xArray: [> ], f_gameTickTimeDelayHelper: JR.nullOf(), f_timeDelayHelper: JR.nullOf(), f_slowBeatTimeDelayHelper: JR.nullOf(), f_mediumBeatTimeDelayHelper: JR.nullOf(), f_fastBeatTimeDelayHelper: JR.nullOf(), }
     
     
     
@@ -97,10 +97,10 @@ and jnew_4 = (animationInterface: Animation, healthInterface: Health, location: 
         void
         this.f_animationInterface = JR.cast(animationInterface)
         this.f_healthInterface = JR.cast(healthInterface)
-        ignore(Health.jm_addListener(this.f_healthInterface, JR.cast(this)))
-        this.f_healthScale = Int32.(+)((Int32.(/)(Health.jm_getMaxHealth(this.f_healthInterface), 6l)), 1l)
+        ignore(Health.jm_addListener(JR.cast(this.f_healthInterface), JR.cast(this)))
+        this.f_healthScale = Int32.(+)((Int32.(/)(Health.jm_getMaxHealth(JR.cast(this.f_healthInterface)), 6l)), 1l)
         ignore(jm_onHealthChange(this))
-        this.f_updateMaxWidth = JR.cast(Int32.(*)(Health.jm_getMaxHealth(healthInterface), 16l))
+        this.f_updateMaxWidth = JR.cast(Int32.(*)(Health.jm_getMaxHealth(JR.cast(healthInterface)), 16l))
         this.f_updateMaxHeight = JR.cast(16l)
         this.f_xArray = Array.make(Int32.toNumber(30l), 0l)
         ignore(jm_update(this))
@@ -133,13 +133,13 @@ and jm_setX = (this: HealthHudWidget, x: Int32) => {
 }
     
 and jm_onHealthChange = (this: HealthHudWidget) => {
-        this.f_max = (Int32.(/)(Health.jm_getHealth(this.f_healthInterface), this.f_healthScale))
+        this.f_max = (Int32.(/)(Health.jm_getHealth(JR.cast(this.f_healthInterface)), this.f_healthScale))
         this.f_timeDelayHelper = JR.cast(NoTimeDelayHelper.jstatic_SINGLETON())
-        if ((Int32.(<=)(this.f_max, 1l) && Health.jm_isAlive(this.f_healthInterface))) {
+        if ((Int32.(<=)(this.f_max, 1l) && Health.jm_isAlive(JR.cast(this.f_healthInterface)))) {
             this.f_max = 1l
-            if (Int32.(>)(Int32.(-)(this.f_healthScale, Health.jm_getHealth(this.f_healthInterface)), Int32.(/)((Int32.(*)(this.f_healthScale, 2l)), 3l))) {
+            if (Int32.(>)(Int32.(-)(this.f_healthScale, Health.jm_getHealth(JR.cast(this.f_healthInterface))), Int32.(/)((Int32.(*)(this.f_healthScale, 2l)), 3l))) {
                 this.f_timeDelayHelper = JR.cast(this.f_slowBeatTimeDelayHelper)
-            } else if (Int32.(>)(Int32.(-)(this.f_healthScale, Health.jm_getHealth(this.f_healthInterface)), Int32.(/)(this.f_healthScale, 3l))) {
+            } else if (Int32.(>)(Int32.(-)(this.f_healthScale, Health.jm_getHealth(JR.cast(this.f_healthInterface))), Int32.(/)(this.f_healthScale, 3l))) {
                 this.f_timeDelayHelper = JR.cast(this.f_mediumBeatTimeDelayHelper)
             } else {
                 this.f_timeDelayHelper = JR.cast(this.f_fastBeatTimeDelayHelper)
@@ -161,8 +161,8 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_myFontProcessor)), JR.cast(graphics)))
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, this.f_max))) break
-            if (TimeDelayHelper.jm_isTime(this.f_timeDelayHelper, this.f_gameTickTimeDelayHelper.f_startTime)) {
-                ignore(Animation.jm_paintXY(this.f_animationInterface, graphics, this.f_xArray[Int32.toNumber(index)], {
+            if (TimeDelayHelper.jm_isTime(JR.cast(this.f_timeDelayHelper), this.f_gameTickTimeDelayHelper.f_startTime)) {
+                ignore(Animation.jm_paintXY(JR.cast(this.f_animationInterface), JR.cast(graphics), this.f_xArray[Int32.toNumber(index)], {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicHud.jm_getY"))
 JR.cast(jlate(JR.cast(this)))
 }))
@@ -175,6 +175,7 @@ and jm_paintThreed = (this: HealthHudWidget, graphics: JObject) => {
     void
 }
 
+JR.registerSuper("HealthHudWidget", "BasicHud")
 JR.registerLateBound("HealthHudWidget.jnew_4", jnew_4)
 JR.registerLateBound("HealthHudWidget.jm_update", jm_update)
 JR.registerLateBound("HealthHudWidget.jm_setX", jm_setX)

@@ -42,6 +42,17 @@ use GameCommandCanvas.{ type GameCommandCanvas }
 
 provide record GameInputMappingInstructionsCanvas {
   jobject: JObject,
+  mut f_device: JObject,
+  mut f_currentDisplay: JObject,
+  mut f_width: Int32,
+  mut f_height: Int32,
+  mut f_fullScreenMode: Bool,
+  mut f_ticker: JObject,
+  mut f_viewPortY: Int32,
+  mut f_viewPortHeight: Int32,
+  mut f_ui: JObject,
+  mut f_title: String,
+  mut f_listener: JObject,
   mut f_logUtil: JObject,
   mut f_commonStrings: JObject,
   mut f_canvasStrings: JObject,
@@ -88,13 +99,13 @@ provide let rec jclassName = () => "GameInputMappingInstructionsCanvas"
 and jstatic_DISPLAY = () => match (jcell_DISPLAY) {
   Some(value) => value,
   None => {
-    let value: JObject = {
+    let value: JObject = JR.cast({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Command.jnew_4"))
 JR.cast(jlate(JR.cast("Help"), JR.cast(StringUtil.jm_getInstance().f_EMPTY_STRING), JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("Command.jstatic_SCREEN"))
 JR.cast(jlate())
 }), JR.cast(1l)))
-}
+})
     jcell_DISPLAY = Some(value)
     value
   },
@@ -107,13 +118,13 @@ and jset_DISPLAY = (value: JObject) => {
 and jstatic_CLOSE = () => match (jcell_CLOSE) {
   Some(value) => value,
   None => {
-    let value: JObject = {
+    let value: JObject = JR.cast({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Command.jnew_4"))
 JR.cast(jlate(JR.cast("Close"), JR.cast(StringUtil.jm_getInstance().f_EMPTY_STRING), JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("Command.jstatic_SCREEN"))
 JR.cast(jlate())
 }), JR.cast(1l)))
-}
+})
     jcell_CLOSE = Some(value)
     value
   },
@@ -137,7 +148,7 @@ and jset_NAME = (value: String) => {
 }
     
 and jnew_2 = (commandListener: CommandListener, allBinaryGameLayerManager: AllBinaryGameLayerManager) => {
-    let this = { jobject: JR.newJObject("GameInputMappingInstructionsCanvas"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_canvasStrings: JR.jnull, f_stringUtil: JR.jnull, f_displayInfo: JR.jnull, f_name: "", f_childNameList: JR.jnull, f_commandStack: JR.jnull, f_commandListener: JR.jnull, f_paused: false, f_touchME: JR.jnull, f_repaintProcessor: JR.jnull, f_gameInputStrings: JR.jnull, f_foregroundBasicColor: JR.jnull, f_backgroundBasicColor: JR.jnull, f_inputToGameKeyMapping: JR.jnull, f_gameKeyFactory: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_downGameKeyEventHandler: JR.jnull, f_upGameKeyEventHandler: JR.jnull, f_repaintBehavior: JR.jnull, f_updateMyFontProcessor: JR.jnull, f_myFontProcessor: JR.jnull, f_foregroundColor: 0l, f_backgroundColor: 0l, f_menuInputProcessor: JR.jnull, f_menuPaintable: JR.jnull, f_menuForm: JR.jnull, f_isSingleKeyRepeatableProcessing: false, f_fontHeight: 0l, f_drawStringUtil: JR.nullOf(), f_TITLE: "", f_instructions: [> ], f_colorFillPaintable: JR.nullOf(), f_anchor: 0l, }
+    let this = { jobject: JR.newJObject("GameInputMappingInstructionsCanvas"), f_device: JR.nullOf(), f_currentDisplay: JR.nullOf(), f_width: 0l, f_height: 0l, f_fullScreenMode: false, f_ticker: JR.nullOf(), f_viewPortY: 0l, f_viewPortHeight: 0l, f_ui: JR.nullOf(), f_title: "", f_listener: JR.nullOf(), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_canvasStrings: JR.nullOf(), f_stringUtil: JR.nullOf(), f_displayInfo: JR.nullOf(), f_name: "", f_childNameList: JR.nullOf(), f_commandStack: JR.nullOf(), f_commandListener: JR.nullOf(), f_paused: false, f_touchME: JR.nullOf(), f_repaintProcessor: JR.nullOf(), f_gameInputStrings: JR.nullOf(), f_foregroundBasicColor: JR.nullOf(), f_backgroundBasicColor: JR.nullOf(), f_inputToGameKeyMapping: JR.nullOf(), f_gameKeyFactory: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_downGameKeyEventHandler: JR.nullOf(), f_upGameKeyEventHandler: JR.nullOf(), f_repaintBehavior: JR.nullOf(), f_updateMyFontProcessor: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_foregroundColor: 0l, f_backgroundColor: 0l, f_menuInputProcessor: JR.nullOf(), f_menuPaintable: JR.nullOf(), f_menuForm: JR.nullOf(), f_isSingleKeyRepeatableProcessing: false, f_fontHeight: 0l, f_drawStringUtil: JR.nullOf(), f_TITLE: "", f_instructions: [> ], f_colorFillPaintable: JR.nullOf(), f_anchor: 0l, }
     this.f_drawStringUtil = JR.cast(DrawStringUtil.jm_getInstance())
     this.f_TITLE = "Input Instructions"
     this.f_instructions = [> "Add Input Mapping:", "1. Select the desired action by generating a currently defined input for a given action.", "(Example: Press the '1' key to select the Fire action)", "2. Make the newly desired input for the selected action.", "(Example: Press 'f' to add it to the selected action)", "Note: If the input is already mapped to another action then it will not be added. You", "will need to deleted from the other action before adding it to another.", "Warning: Not all keys map for a given platform and show as Unknown.", StringUtil.jm_getInstance().f_EMPTY_STRING, "Remove Input Mapping:", "1. Select the desired action by generating a currently defined input for a given action.", "(Example: Press the key '1' to select the Fire action)", "2. Select a mapped input for the selected action.", "(Example: Press the key '1' to select the '1' key input for the selected Fire action)", "3. Press the Delete Key."]
@@ -159,7 +170,7 @@ let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ColorF
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("ColorFillPaintableFactory.jm_getInstance"))
 JR.cast(jlate())
-}), JR.cast(AllBinaryGameLayerManager.jm_getBackgroundBasicColor(allBinaryGameLayerManager)), JR.cast(false)))
+}), JR.cast(AllBinaryGameLayerManager.jm_getBackgroundBasicColor(JR.cast(allBinaryGameLayerManager))), JR.cast(false)))
 })
     this
 }
@@ -184,15 +195,18 @@ and jm_paint = (this: GameInputMappingInstructionsCanvas, graphics: JObject) => 
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("MyFontProcessor.jm_process"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_myFontProcessor)), JR.cast(graphics)))
 })
-        ignore(ColorFillBasePaintable.jm_paint(this.f_colorFillPaintable, graphics))
+        ignore(ColorFillBasePaintable.jm_paint(JR.cast(this.f_colorFillPaintable), JR.cast(graphics)))
         let mut halfWidth: Int32 = {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DisplayInfoSingleton.jm_getLastHalfWidth"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_displayInfo))))
 }
-        let mut beginWidth: Int32 = (Int32.(>>)(JR.className(JR.cast({
+        let mut beginWidth: Int32 = (Int32.(>>)({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Font.jm_stringWidth"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_getFont"))
 JR.cast(jlate(JR.cast(graphics)))
-})), 1l))
+}), JR.cast(this.f_TITLE)))
+}, 1l))
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_setColor"))
 JR.cast(jlate(JR.cast(graphics), JR.cast(JR.cast(this.f_foregroundColor))))
@@ -201,13 +215,14 @@ JR.cast(jlate(JR.cast(graphics), JR.cast(JR.cast(this.f_foregroundColor))))
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
 JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_TITLE), JR.cast(Int32.(-)(halfWidth, beginWidth)), JR.cast(JR.cast(this.f_fontHeight)), JR.cast(this.f_anchor)))
 })
-        ignore(DrawStringUtil.jm_drawCenterStrings(this.f_drawStringUtil, graphics, this.f_instructions, {
+        ignore(DrawStringUtil.jm_drawCenterStrings(JR.cast(this.f_drawStringUtil), JR.cast(graphics), JR.cast(this.f_instructions), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DisplayInfoSingleton.jm_getLastWidth"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_displayInfo))))
 }, JR.cast(this.f_fontHeight), halfWidth, Int32.(*)(3l, JR.cast(this.f_fontHeight))))
         ignore(jm_paint(this, graphics))
 }
 
+JR.registerSuper("GameInputMappingInstructionsCanvas", "GameCommandCanvas")
 JR.registerLateBound("GameInputMappingInstructionsCanvas.jnew_2", jnew_2)
 JR.registerLateBound("GameInputMappingInstructionsCanvas.jm_initCommands", jm_initCommands)
 JR.registerLateBound("GameInputMappingInstructionsCanvas.jm_paint", jm_paint)

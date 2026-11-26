@@ -60,6 +60,13 @@ use BasicArrayList.{ type BasicArrayList }
 from "../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
 use BasicArrayListD.{ type BasicArrayListD }
 from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/lang/Long.gr" include Long
+from "../../../../java/lang/Short.gr" include Short
+from "../../../../java/lang/Byte.gr" include Byte
+from "../../../../java/lang/Character.gr" include Character
+from "../../../../java/lang/Float.gr" include Float
+from "../../../../java/lang/Double.gr" include Double
+from "../../../../java/lang/Boolean.gr" include Boolean
 from "../../../../java/lang/Throwable.gr" include Throwable
 
 provide record HighScoreNamePersistanceSingleton {
@@ -80,7 +87,7 @@ provide let rec jclassName = () => "HighScoreNamePersistanceSingleton"
 and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
   Some(value) => value,
   None => {
-    let value: HighScoreNamePersistanceSingleton = jnew_0()
+    let value: HighScoreNamePersistanceSingleton = JR.cast(jnew_0())
     jcell_SINGLETON = Some(value)
     value
   },
@@ -91,7 +98,7 @@ and jset_SINGLETON = (value: HighScoreNamePersistanceSingleton) => {
 }
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("HighScoreNamePersistanceSingleton"), f_logUtil: JR.jnull, f_tsUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_platformRecordIdUtil: JR.nullOf(), f_RECORD_ID: "", f_name: "", f_nameBasicArrayList: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("HighScoreNamePersistanceSingleton"), f_logUtil: JR.nullOf(), f_tsUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_platformRecordIdUtil: JR.nullOf(), f_RECORD_ID: "", f_name: "", f_nameBasicArrayList: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -117,7 +124,7 @@ and jm_clear = (this: HighScoreNamePersistanceSingleton) => {
 }
     
 and jm_deleteAll = (this: HighScoreNamePersistanceSingleton, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo) => {
-        let mut size: Int32 = BasicArrayList.jm_size(this.f_nameBasicArrayList)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(this.f_nameBasicArrayList))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -128,14 +135,14 @@ and jm_deleteAll = (this: HighScoreNamePersistanceSingleton, abeClientInformatio
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             let mut integer: Int32 = JR.cast(this.f_nameBasicArrayList.f_objectArray[Int32.toNumber(index)])
-            ignore(jm_delete(this, abeClientInformation, gameInfo, Integer.jm_intValue(integer)))
+            ignore(jm_delete(this, JR.cast(abeClientInformation), JR.cast(gameInfo), Integer.jm_intValue(JR.cast(integer))))
             }
         }
         ignore(jm_clear(this))
 }
     
 and jm_getRecordId = (this: HighScoreNamePersistanceSingleton, abeClientInformation: AbeClientInformationInterface) => {
-        return PlatformRecordIdUtil.jm_getRecordId(this.f_platformRecordIdUtil, abeClientInformation, this.f_RECORD_ID)
+        return PlatformRecordIdUtil.jm_getRecordId(JR.cast(this.f_platformRecordIdUtil), JR.cast(abeClientInformation), JR.cast(this.f_RECORD_ID))
 }
     
 and jm_delete = (this: HighScoreNamePersistanceSingleton, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, deleteId: Int32) => {
@@ -143,11 +150,11 @@ and jm_delete = (this: HighScoreNamePersistanceSingleton, abeClientInformation: 
         {
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), "Deleting: "), deleteId))), JR.cast(this), JR.cast(this.f_commonStrings.f_delete)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("Deleting: "))), deleteId)))), JR.cast(this), JR.cast(this.f_commonStrings.f_delete)))
 })
             recordStore = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_openRecordStore"))
-JR.cast(jlate(JR.cast(jm_getRecordId(this, abeClientInformation)), JR.cast(true)))
+JR.cast(jlate(JR.cast(jm_getRecordId(this, JR.cast(abeClientInformation))), JR.cast(true)))
 })
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_deleteRecord"))
@@ -179,7 +186,7 @@ and jm_load = (this: HighScoreNamePersistanceSingleton, abeClientInformation: Ab
                 let mut l_LOADING_ID: String = "Loading id: "
                 recordStore = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_openRecordStore"))
-JR.cast(jlate(JR.cast(jm_getRecordId(this, abeClientInformation)), JR.cast(true)))
+JR.cast(jlate(JR.cast(jm_getRecordId(this, JR.cast(abeClientInformation))), JR.cast(true)))
 })
                 let mut recordEnum: RecordEnumeration = JR.cast({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_enumerateRecords"))
@@ -189,11 +196,11 @@ JR.cast(jlate(JR.cast(recordStore), JR.cast(NullRecordFilter.jstatic_NULL_RECORD
                 let mut recordAsBytes: Array<Int32> = [> ]
                 let mut byteArrayInputStream: ByteArrayInputStream = JR.nullOf()
                 let mut inputStream: DataInputStream = JR.nullOf()
-                while (RecordEnumeration.jm_hasNextElement(recordEnum)) {
-                    let mut id: Int32 = RecordEnumeration.jm_nextRecordId(recordEnum)
+                while (RecordEnumeration.jm_hasNextElement(JR.cast(recordEnum))) {
+                    let mut id: Int32 = RecordEnumeration.jm_nextRecordId(JR.cast(recordEnum))
                     ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), l_LOADING_ID), id))), JR.cast(this), JR.cast(this.f_commonStrings.f_LOAD)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(l_LOADING_ID))), id)))), JR.cast(this), JR.cast(this.f_commonStrings.f_LOAD)))
 })
                     recordAsBytes = {
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_getRecord"))
@@ -204,7 +211,7 @@ JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(recordStore), JR.cast(id)))
                     while (Int32.(>)(DataInputStream.jm_available_0(inputStream), 0l)) {
                         this.f_name = DataInputStream.jm_readUTF_0(inputStream)
                     }
-                    ignore(BasicArrayList.jm_add(this.f_nameBasicArrayList, JR.cast(SmallIntegerSingletonFactory.jm_getAt(smallIntegerSingletonFactory, id))))
+                    ignore(BasicArrayList.jm_add(JR.cast(this.f_nameBasicArrayList), JR.cast(SmallIntegerSingletonFactory.jm_getAt(JR.cast(smallIntegerSingletonFactory), id))))
                 }
             }
         }
@@ -230,11 +237,11 @@ and jm_save = (this: HighScoreNamePersistanceSingleton, abeClientInformation: Ab
         {
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Saving: "), name))), JR.cast(this), JR.cast(this.f_commonStrings.f_SAVE)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("Saving: "))), JR.cast(name))))), JR.cast(this), JR.cast(this.f_commonStrings.f_SAVE)))
 })
             recordStore = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_openRecordStore"))
-JR.cast(jlate(JR.cast(jm_getRecordId(this, abeClientInformation)), JR.cast(true)))
+JR.cast(jlate(JR.cast(jm_getRecordId(this, JR.cast(abeClientInformation))), JR.cast(true)))
 })
             let mut byteArrayOutputStream: ByteArrayOutputStream = ByteArrayOutputStream.jnew_0()
             let mut outputStream: DataOutputStream = DataOutputStream.jnew_1(byteArrayOutputStream)

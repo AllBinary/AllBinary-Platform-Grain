@@ -46,7 +46,7 @@ provide let rec jclassName = () => "TerrainEventCircularStaticPool"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: TerrainEventCircularStaticPool = jnew_0()
+    let value: TerrainEventCircularStaticPool = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -67,7 +67,7 @@ and jm_getInstance = () => {
 }
     
 and jm_init = (this: TerrainEventCircularStaticPool) => {
-        ignore(AllBinaryEventCircularPool.jm_initAllBinaryEventCircularPool(this.f_EVENT_POOL, JR.cast(TerrainEventFactory.jnew_0())))
+        ignore(AllBinaryEventCircularPool.jm_initAllBinaryEventCircularPool(JR.cast(this.f_EVENT_POOL), JR.cast(TerrainEventFactory.jnew_0())))
 }
     
 and jm_getNext = (this: TerrainEventCircularStaticPool, basicTerrainInfo: BasicTerrainInfo) => {
@@ -75,7 +75,10 @@ and jm_getNext = (this: TerrainEventCircularStaticPool, basicTerrainInfo: BasicT
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseCircularPool.jm_getNextInstance"))
 JR.cast(jlate(JR.cast(this.f_EVENT_POOL)))
 })
-        ignore(TerrainEvent.jm_setBasicTerrainInfoForCircularStaticPool(trackingEvent, basicTerrainInfo))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TerrainEvent.jm_setBasicTerrainInfoForCircularStaticPool"))
+JR.cast(jlate(JR.cast(trackingEvent), JR.cast(basicTerrainInfo)))
+})
         return trackingEvent
 }
 

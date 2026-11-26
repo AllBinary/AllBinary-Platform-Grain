@@ -55,9 +55,12 @@ and jnew_0 = () => {
 }
     
 and jm_getInstance = (title: String, items: Array<JObject>, rectangle: Rectangle, formType: FormType, border: Int32, moveForSmallScreen: Bool, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
-        if (Features.jm_isFeature(Features.jm_getInstance(), JR.cast(TouchFeatureFactory.jm_getInstance().f_TOUCH_ENABLED))) {
-            let mut scrollSelectionForm: ScrollSelectionForm = JR.cast(CommandCurrentSelectionForm.jnew_6(title, items, border, moveForSmallScreen, backgroundBasicColor, foregroundBasicColor))
-            ignore(ScrollSelectionForm.jm_init(scrollSelectionForm, rectangle, formType))
+        if (Features.jm_isFeature(JR.cast(Features.jm_getInstance()), JR.cast(TouchFeatureFactory.jm_getInstance().f_TOUCH_ENABLED))) {
+            let mut scrollSelectionForm: ScrollSelectionForm = JR.cast(CommandCurrentSelectionForm.jnew_6(title, JR.cast(items), border, moveForSmallScreen, JR.cast(backgroundBasicColor), JR.cast(foregroundBasicColor)))
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ScrollSelectionForm.jm_init"))
+JR.cast(jlate(JR.cast(scrollSelectionForm), JR.cast(rectangle), JR.cast(formType)))
+})
             return scrollSelectionForm
         } else {
             return ScrollSelectionFormNoneFactory.jm_getInstance()

@@ -46,7 +46,7 @@ provide record WeaponLayerCircularPool {
 provide let rec jclassName = () => "WeaponLayerCircularPool"
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("WeaponLayerCircularPool"), f_circularIndexUtil: JR.jnull, f_OBJECT_ARRAY: [> ], }
+    let this = { jobject: JR.newJObject("WeaponLayerCircularPool"), f_circularIndexUtil: JR.nullOf(), f_OBJECT_ARRAY: [> ], }
         void
     this
 }
@@ -56,11 +56,18 @@ and jm_getInstanceWeaponLayer = (this: WeaponLayerCircularPool, sourceLayerInter
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseCircularPool.jm_getNextInstance"))
 JR.cast(jlate(JR.cast(this)))
 })
-        ignore(WeaponLayer.jm_initXYZ(weaponLayer, x, y, z))
-        ignore(WeaponLayer.jm_init(weaponLayer, sourceLayerInterface, angle, otherAngle, weaponProperties, scoreable))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("WeaponLayer.jm_initXYZ"))
+JR.cast(jlate(JR.cast(weaponLayer), JR.cast(x), JR.cast(y), JR.cast(z)))
+})
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("WeaponLayer.jm_init"))
+JR.cast(jlate(JR.cast(weaponLayer), JR.cast(sourceLayerInterface), JR.cast(angle), JR.cast(otherAngle), JR.cast(weaponProperties), JR.cast(scoreable)))
+})
         return weaponLayer
 }
 
+JR.registerSuper("WeaponLayerCircularPool", "AllBinaryLayerCircularPool")
 JR.registerLateBound("WeaponLayerCircularPool.jnew_0", jnew_0)
 JR.registerLateBound("WeaponLayerCircularPool.jm_getInstanceWeaponLayer", jm_getInstanceWeaponLayer)
 

@@ -61,11 +61,30 @@ from "../../../../../../org/allbinary/midlet/AllBinaryMidlet.gr" include AllBina
 use AllBinaryMidlet.{ type AllBinaryMidlet }
 from "../../../../../../org/allbinary/thread/PathFindingThreadPool.gr" include PathFindingThreadPool
 use PathFindingThreadPool.{ type PathFindingThreadPool }
+from "../../../../../../java/lang/Integer.gr" include Integer
+from "../../../../../../java/lang/Long.gr" include Long
+from "../../../../../../java/lang/Short.gr" include Short
+from "../../../../../../java/lang/Byte.gr" include Byte
+from "../../../../../../java/lang/Character.gr" include Character
+from "../../../../../../java/lang/Float.gr" include Float
+from "../../../../../../java/lang/Double.gr" include Double
+from "../../../../../../java/lang/Boolean.gr" include Boolean
 from "./ProgressEndListener.gr" include ProgressEndListener
 use ProgressEndListener.{ type ProgressEndListener }
 
 provide record ProgressCanvas {
   jobject: JObject,
+  mut f_device: JObject,
+  mut f_currentDisplay: JObject,
+  mut f_width: Int32,
+  mut f_height: Int32,
+  mut f_fullScreenMode: Bool,
+  mut f_ticker: JObject,
+  mut f_viewPortY: Int32,
+  mut f_viewPortHeight: Int32,
+  mut f_ui: JObject,
+  mut f_title: String,
+  mut f_listener: JObject,
   mut f_logUtil: JObject,
   mut f_commonStrings: JObject,
   mut f_canvasStrings: JObject,
@@ -125,7 +144,7 @@ provide record ProgressCanvas {
 provide let rec jclassName = () => "ProgressCanvas"
     
 and jnew_3 = (title: String, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
-    let this = { jobject: JR.newJObject("ProgressCanvas"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_canvasStrings: JR.jnull, f_stringUtil: JR.jnull, f_displayInfo: JR.jnull, f_name: "", f_childNameList: JR.jnull, f_commandStack: JR.jnull, f_commandListener: JR.jnull, f_paused: false, f_touchME: JR.jnull, f_nullUtil: JR.jnull, f_stdUtil: JR.jnull, f_systemWrapper: JR.jnull, f_tsUtil: JR.jnull, f_thread: JR.jnull, f_currentThread: JR.jnull, f_running: false, f_loopTimeHelper: JR.jnull, f_runnableCanvasRefreshHelper: JR.jnull, f_commonLabels: JR.jnull, f_threadObjectUtil: JR.jnull, f_SET_RUNNING: "", f_IS_RUNNING: "", f_THREAD: "", f_NOT_EQUAL: "", f_PAUSE_SLEEP: "", f_START_PAUSE: "", f_END_PAUSE: "", f_PROCESS_LOOP_SLEEP: "", f_pauseWait: 0L, f_notified: false, f_hasPainted: false, f_backgroundBasicColor: JR.nullOf(), f_GAUGE_PAINTABLE: JR.nullOf(), f_maxValue: 0.0f, f_gauge: JR.jnull, f_TEXT: "", f_updateMyFontProcessor: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_allbinaryMidlet: JR.nullOf(), f_value: 0.0f, f_text: "", f_background: false, f_paintable: JR.nullOf(), f_inProgress: false, f_IN_GAME_PROCESSOR: JR.nullOf(), f_inGameProcessor: JR.nullOf(), f_progressEndListener: JR.nullOf(), f_backgroundLabel: "", f_START_BACKGROUND: "", f_ADD_PORTION: "", f_ADD_EARLY_PORTION: "", }
+    let this = { jobject: JR.newJObject("ProgressCanvas"), f_device: JR.nullOf(), f_currentDisplay: JR.nullOf(), f_width: 0l, f_height: 0l, f_fullScreenMode: false, f_ticker: JR.nullOf(), f_viewPortY: 0l, f_viewPortHeight: 0l, f_ui: JR.nullOf(), f_title: "", f_listener: JR.nullOf(), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_canvasStrings: JR.nullOf(), f_stringUtil: JR.nullOf(), f_displayInfo: JR.nullOf(), f_name: "", f_childNameList: JR.nullOf(), f_commandStack: JR.nullOf(), f_commandListener: JR.nullOf(), f_paused: false, f_touchME: JR.nullOf(), f_nullUtil: JR.nullOf(), f_stdUtil: JR.nullOf(), f_systemWrapper: JR.nullOf(), f_tsUtil: JR.nullOf(), f_thread: JR.nullOf(), f_currentThread: JR.nullOf(), f_running: false, f_loopTimeHelper: JR.nullOf(), f_runnableCanvasRefreshHelper: JR.nullOf(), f_commonLabels: JR.nullOf(), f_threadObjectUtil: JR.nullOf(), f_SET_RUNNING: "", f_IS_RUNNING: "", f_THREAD: "", f_NOT_EQUAL: "", f_PAUSE_SLEEP: "", f_START_PAUSE: "", f_END_PAUSE: "", f_PROCESS_LOOP_SLEEP: "", f_pauseWait: 0L, f_notified: false, f_hasPainted: false, f_backgroundBasicColor: JR.nullOf(), f_GAUGE_PAINTABLE: JR.nullOf(), f_maxValue: 0.0f, f_gauge: JR.nullOf(), f_TEXT: "", f_updateMyFontProcessor: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_allbinaryMidlet: JR.nullOf(), f_value: 0.0f, f_text: "", f_background: false, f_paintable: JR.nullOf(), f_inProgress: false, f_IN_GAME_PROCESSOR: JR.nullOf(), f_inGameProcessor: JR.nullOf(), f_progressEndListener: JR.nullOf(), f_backgroundLabel: "", f_START_BACKGROUND: "", f_ADD_PORTION: "", f_ADD_EARLY_PORTION: "", }
     
     
     this.f_GAUGE_PAINTABLE = {
@@ -216,7 +235,7 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_PLEASE_W
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 })))
 })
-        ignore(jm_setText(this, this.f_TEXT))
+        ignore(jm_setText(this, JR.cast(this.f_TEXT)))
         ignore(jm_setValue(this, 0l))
         this.f_inGameProcessor = JR.cast(Processor.jm_getInstance())
         this.f_paintable = JR.cast(this.f_GAUGE_PAINTABLE)
@@ -237,14 +256,14 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABCustomGaugeItem.jm_setLabel"))
 JR.cast(jlate(JR.cast(this.f_gauge), JR.cast(this.f_backgroundLabel)))
 })
-        ignore(jm_setText(this, this.f_TEXT))
+        ignore(jm_setText(this, JR.cast(this.f_TEXT)))
         ignore(jm_setValue(this, 0l))
         this.f_inGameProcessor = JR.cast(Processor.jm_getInstance())
         this.f_paintable = JR.cast(this.f_GAUGE_PAINTABLE)
 }
     
 and jm_endActual = (this: ProgressCanvas) => {
-        ignore(AllBinaryMidlet.jm_commandAction(this.f_allbinaryMidlet, GameCommandsFactory.jm_getInstance().f_SHOW_GAME_CANVAS, JR.cast({
+        ignore(AllBinaryMidlet.jm_commandAction(JR.cast(this.f_allbinaryMidlet), JR.cast(GameCommandsFactory.jm_getInstance().f_SHOW_GAME_CANVAS), JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("NullCanvas.jstatic_NULL_CANVAS"))
 JR.cast(jlate())
 })))
@@ -253,7 +272,10 @@ JR.cast(jlate())
 }
     
 and jm_inGame = (this: ProgressCanvas) => {
-        ignore(ProgressEndListener.jm_onEndEvent(this.f_progressEndListener))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ProgressEndListener.jm_onEndEvent"))
+JR.cast(jlate(JR.cast(this.f_progressEndListener)))
+})
         this.f_inGameProcessor = JR.cast(this.f_IN_GAME_PROCESSOR)
 }
     
@@ -277,7 +299,10 @@ JR.cast(jlate(JR.cast(this.f_gauge), JR.cast(jm_getMaxValue(this))))
 }
     
 and jm_endFromInitialLazyLoadingComplete = (this: ProgressCanvas) => {
-        ignore(ProgressEndListener.jm_onEndEvent(this.f_progressEndListener))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ProgressEndListener.jm_onEndEvent"))
+JR.cast(jlate(JR.cast(this.f_progressEndListener)))
+})
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABCustomGaugeItem.jm_setValue"))
 JR.cast(jlate(JR.cast(this.f_gauge), JR.cast(jm_getMaxValue(this))))
@@ -297,7 +322,7 @@ and jm_endIfPaintedSinceStart = (this: ProgressCanvas) => {
 }
     
 and jm_addEarlyPortion = (this: ProgressCanvas, value: Int32, text: String, index: Int32) => {
-        ignore(jm_setText(this, StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), text), JR.toStringOf(JR.cast(SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), index)))))))
+        ignore(jm_setText(this, JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(text))), JR.cast(JR.toStringOf(JR.cast(SmallIntegerSingletonFactory.jm_getAt(JR.cast(SmallIntegerSingletonFactory.jm_getInstance()), index))))))))))
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABCustomGaugeItem.jm_setValue"))
 JR.cast(jlate(JR.cast(this.f_gauge), JR.cast(Float32.(+)({
@@ -308,7 +333,7 @@ JR.cast(jlate(JR.cast(this.f_gauge)))
 }
     
 and jm_addPortion = (this: ProgressCanvas, value: Int32, text: String, index: Int32) => {
-        ignore(jm_setText(this, StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), text), JR.toStringOf(JR.cast(SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), index)))))))
+        ignore(jm_setText(this, JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(text))), JR.cast(JR.toStringOf(JR.cast(SmallIntegerSingletonFactory.jm_getAt(JR.cast(SmallIntegerSingletonFactory.jm_getInstance()), index))))))))))
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
 JR.cast(jlate(JR.cast(this.f_text), JR.cast(this), JR.cast(this.f_ADD_PORTION)))
@@ -329,7 +354,7 @@ let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLog
 JR.cast(jlate(JR.cast(text), JR.cast(this), JR.cast(this.f_ADD_PORTION)))
 })
         }
-        ignore(jm_setText(this, text))
+        ignore(jm_setText(this, JR.cast(text)))
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABCustomGaugeItem.jm_setValue"))
 JR.cast(jlate(JR.cast(this.f_gauge), JR.cast(Float32.(+)({
@@ -348,14 +373,14 @@ JR.cast(jlate(JR.cast(this.f_gauge), JR.cast(Float32.fromNumber(Int32.toNumber(v
 }
     
 and jm_paint = (this: ProgressCanvas, graphics: JObject) => {
-        ignore(PaintableInterface.jm_paint(this.f_paintable, graphics))
+        ignore(PaintableInterface.jm_paint(JR.cast(this.f_paintable), JR.cast(graphics)))
 }
     
 and jm_paint2 = (this: ProgressCanvas, graphics: JObject) => {
-        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
+        ignore(MyFontProcessor.jm_process(JR.cast(this.f_myFontProcessor), JR.cast(graphics)))
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_setColor"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(BasicColor.jm_intValue(this.f_backgroundBasicColor))))
+JR.cast(jlate(JR.cast(graphics), JR.cast(BasicColor.jm_intValue(JR.cast(this.f_backgroundBasicColor)))))
 })
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_fillRect"))
@@ -398,6 +423,7 @@ and jm_isBackground = (this: ProgressCanvas) => {
         return this.f_background
 }
 
+JR.registerSuper("ProgressCanvas", "RunnableCanvas")
 JR.registerLateBound("ProgressCanvas.jnew_3", jnew_3)
 JR.registerLateBound("ProgressCanvas.jm_updateMeasurement", jm_updateMeasurement)
 JR.registerLateBound("ProgressCanvas.jm_init", jm_init)

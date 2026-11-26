@@ -47,7 +47,7 @@ provide record BasicArrayListPool {
 provide let rec jclassName = () => "BasicArrayListPool"
     
 and jnew_1 = (cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface) => {
-    let this = { jobject: JR.newJObject("BasicArrayListPool"), f_commonStrings: JR.jnull, f_buffers: JR.jnull, f_cacheableInterfaceFactoryInterface: JR.jnull, }
+    let this = { jobject: JR.newJObject("BasicArrayListPool"), f_commonStrings: JR.nullOf(), f_buffers: JR.nullOf(), f_cacheableInterfaceFactoryInterface: JR.nullOf(), }
         void
     this
 }
@@ -70,13 +70,16 @@ let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.
 JR.cast(jlate(JR.cast(JR.cast(this.f_buffers)), JR.cast(Int32.(-)(size, 1l))))
 })
         } else {
-            return CacheableInterfaceFactoryInterface.jm_getInstance(JR.cast(this.f_cacheableInterfaceFactoryInterface), key)
+            return {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CacheableInterfaceFactoryInterface.jm_getInstance"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_cacheableInterfaceFactoryInterface)), JR.cast(key)))
+}
         }
 }
     
 and jm_addAll = (this: BasicArrayListPool, usedList: BasicArrayList) => {
         {
-            let mut index: Int32 = BasicArrayList.jm_size(usedList)
+            let mut index: Int32 = BasicArrayList.jm_size(JR.cast(usedList))
             let mut jfirst = true
             while (true) {
                 jfirst = false
@@ -88,12 +91,12 @@ JR.cast(jlate(JR.cast(this), JR.cast(anyType)))
 })
             }
         }
-        ignore(BasicArrayList.jm_clear(usedList))
+        ignore(BasicArrayList.jm_clear(JR.cast(usedList)))
 }
     
 and jm_releaseUsedBackToPool = (this: BasicArrayListPool, usedList: BasicArrayList) => {
         {
-            let mut index: Int32 = BasicArrayList.jm_size(usedList)
+            let mut index: Int32 = BasicArrayList.jm_size(JR.cast(usedList))
             let mut jfirst = true
             while (true) {
                 jfirst = false
@@ -103,7 +106,7 @@ and jm_releaseUsedBackToPool = (this: BasicArrayListPool, usedList: BasicArrayLi
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
 JR.cast(jlate(JR.cast(list)))
 } == 0l)) {
-                ignore(BasicArrayList.jm_removeAt(usedList, index))
+                ignore(BasicArrayList.jm_removeAt(JR.cast(usedList), index))
                 ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbstractArrayListPool.jm_add"))
 JR.cast(jlate(JR.cast(this), JR.cast(list)))
@@ -113,6 +116,7 @@ JR.cast(jlate(JR.cast(this), JR.cast(list)))
         }
 }
 
+JR.registerSuper("BasicArrayListPool", "AbstractArrayListPool")
 JR.registerLateBound("BasicArrayListPool.jnew_1", jnew_1)
 JR.registerLateBound("BasicArrayListPool.jm_clear", jm_clear)
 JR.registerLateBound("BasicArrayListPool.jm_remove", jm_remove)

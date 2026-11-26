@@ -58,7 +58,7 @@ provide let rec jclassName = () => "PressGameKeyEventHandler"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: PressGameKeyEventHandler = jnew_0()
+    let value: PressGameKeyEventHandler = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -73,38 +73,38 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("PressGameKeyEventHandler"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_eventStrings: JR.jnull, f_eventListenerInterfaceList: JR.jnull, f_list: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("PressGameKeyEventHandler"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_eventStrings: JR.nullOf(), f_eventListenerInterfaceList: JR.nullOf(), f_list: JR.nullOf(), }
     this.f_list = JR.cast(BasicArrayListD.jnew_0())
         void
     this
 }
     
 and jm_addListener = (this: PressGameKeyEventHandler, playerGameInput: PlayerGameInput) => {
-        if (!BasicArrayList.jm_contains(this.f_list, JR.cast(playerGameInput))) {
-            ignore(BasicArrayList.jm_add(this.f_list, JR.cast(playerGameInput)))
+        if (!BasicArrayList.jm_contains(JR.cast(this.f_list), JR.cast(playerGameInput))) {
+            ignore(BasicArrayList.jm_add(JR.cast(this.f_list), JR.cast(playerGameInput)))
         }
 }
     
 and jm_removeAllListeners = (this: PressGameKeyEventHandler) => {
-        ignore(BasicArrayList.jm_clear(this.f_list))
+        ignore(BasicArrayList.jm_clear(JR.cast(this.f_list)))
         ignore(jm_removeAllListeners(this))
 }
     
 and jm_removeListener = (this: PressGameKeyEventHandler, eventListenerInterface: EventListenerInterface) => {
-        ignore(BasicArrayList.jm_remove(this.f_list, JR.cast(eventListenerInterface)))
+        ignore(BasicArrayList.jm_remove(JR.cast(this.f_list), JR.cast(eventListenerInterface)))
         ignore(jm_removeListener(this, eventListenerInterface))
 }
     
 and jm_fireEvent = (this: PressGameKeyEventHandler, eventObject: AllBinaryEventObject) => {
         {
-            let mut index: Int32 = BasicArrayList.jm_size(this.f_list)
+            let mut index: Int32 = BasicArrayList.jm_size(JR.cast(this.f_list))
             let mut jfirst = true
             while (true) {
                 jfirst = false
                 if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
             {
                 let mut playerGameInput: PlayerGameInput = JR.cast(this.f_list.f_objectArray[Int32.toNumber(index)])
-                ignore(PlayerGameInput.jm_onPressGameKeyEvent(playerGameInput, JR.cast(eventObject)))
+                ignore(PlayerGameInput.jm_onPressGameKeyEvent(JR.cast(playerGameInput), JR.cast(eventObject)))
             }
             }
         }
@@ -113,9 +113,13 @@ and jm_fireEvent = (this: PressGameKeyEventHandler, eventObject: AllBinaryEventO
     
 and jm_process = (this: PressGameKeyEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) => {
         let mut pressGameKeyEventListenerInterface: PressGameKeyEventListenerInterface = (JR.cast(eventListenerInterface))
-        ignore(PressGameKeyEventListenerInterface.jm_onPressGameKeyEvent(pressGameKeyEventListenerInterface, JR.cast(eventObject)))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("PressGameKeyEventListenerInterface.jm_onPressGameKeyEvent"))
+JR.cast(jlate(JR.cast(pressGameKeyEventListenerInterface), JR.cast(JR.cast(eventObject))))
+})
 }
 
+JR.registerSuper("PressGameKeyEventHandler", "BasicEventHandler")
 JR.registerLateBound("PressGameKeyEventHandler.jnew_0", jnew_0)
 JR.registerLateBound("PressGameKeyEventHandler.jm_getInstance", jm_getInstance)
 JR.registerLateBound("PressGameKeyEventHandler.jm_addListener", jm_addListener)

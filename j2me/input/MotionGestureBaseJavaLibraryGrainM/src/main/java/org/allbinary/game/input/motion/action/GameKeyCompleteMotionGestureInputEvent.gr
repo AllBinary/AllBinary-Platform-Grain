@@ -59,7 +59,7 @@ provide record GameKeyCompleteMotionGestureInputEvent {
 provide let rec jclassName = () => "GameKeyCompleteMotionGestureInputEvent"
     
 and jnew_3 = (name: String, motionGestureInput: MotionGestureInput, inputToGameKeyMapping: InputToGameKeyMapping) => {
-    let this = { jobject: JR.newJObject("GameKeyCompleteMotionGestureInputEvent"), f_source: JR.jnull, f_logUtil: JR.jnull, f_name: "", f_motionGestureInput: JR.jnull, f_gameKeyEventFactory: JR.nullOf(), f_SOURCE_ID: 0l, f_gameKey: JR.nullOf(), f_gameKeyEvent: JR.nullOf(), f_inputToGameKeyMapping: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("GameKeyCompleteMotionGestureInputEvent"), f_source: JR.nullOf(), f_logUtil: JR.nullOf(), f_name: "", f_motionGestureInput: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_SOURCE_ID: 0l, f_gameKey: JR.nullOf(), f_gameKeyEvent: JR.nullOf(), f_inputToGameKeyMapping: JR.nullOf(), }
     this.f_gameKeyEventFactory = JR.cast(GameKeyEventFactory.jm_getInstance())
     this.f_SOURCE_ID = this.f_gameKeyEventFactory.f_MOTION_GESTURE_SOURCE_ID
     this.f_gameKey = JR.cast(GameKey.jstatic_NULL_GAME_KEY())
@@ -84,11 +84,14 @@ and jm_getSourceId = (this: GameKeyCompleteMotionGestureInputEvent) => {
     
 and jm_update = (this: GameKeyCompleteMotionGestureInputEvent) => {
         {
-            ignore(jm_setGameKey(this, JR.cast(InputToGameKeyMapping.jm_getInstance(this.f_inputToGameKeyMapping, JR.className(JR.cast({
+            ignore(jm_setGameKey(this, JR.cast(InputToGameKeyMapping.jm_getInstance(JR.cast(this.f_inputToGameKeyMapping), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Input.jm_getId"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CompleteMotionGestureInputEvent.jm_getMotionGestureInput"))
 JR.cast(jlate(JR.cast(this)))
-}))))))
-            ignore(jm_setGameKeyEvent(this, JR.cast(GameKeyEventFactory.jm_getInstanceForInput(this.f_gameKeyEventFactory, JR.cast(this), JR.cast(jm_getGameKey(this))))))
+})))
+}))))
+            ignore(jm_setGameKeyEvent(this, JR.cast(GameKeyEventFactory.jm_getInstanceForInput(JR.cast(this.f_gameKeyEventFactory), JR.cast(this), JR.cast(jm_getGameKey(this))))))
         }
 }
     
@@ -108,6 +111,7 @@ and jm_getGameKey = (this: GameKeyCompleteMotionGestureInputEvent) => {
         return this.f_gameKey
 }
 
+JR.registerSuper("GameKeyCompleteMotionGestureInputEvent", "CompleteMotionGestureInputEvent")
 JR.registerLateBound("GameKeyCompleteMotionGestureInputEvent.jnew_3", jnew_3)
 JR.registerLateBound("GameKeyCompleteMotionGestureInputEvent.jm_getSourceId", jm_getSourceId)
 JR.registerLateBound("GameKeyCompleteMotionGestureInputEvent.jm_update", jm_update)

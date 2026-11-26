@@ -51,7 +51,7 @@ provide let rec jclassName = () => "GroupFactory"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: GroupFactory = jnew_0()
+    let value: GroupFactory = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -62,7 +62,7 @@ and jset_instance = (value: GroupFactory) => {
 }
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("GroupFactory"), f_logUtil: JR.jnull, f_NULL_GROUP_ARRAY: [> ], f_list: JR.nullOf(), f_index: 0l, }
+    let this = { jobject: JR.newJObject("GroupFactory"), f_logUtil: JR.nullOf(), f_NULL_GROUP_ARRAY: [> ], f_list: JR.nullOf(), f_index: 0l, }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -85,7 +85,10 @@ and jm_getNextGroup = (this: GroupFactory) => {
     
 and jm_getNextGroupByName = (this: GroupFactory, name: String) => {
         let mut group: Group = JR.cast(jm_getNextGroup(this))
-        ignore(Group.jm_setName(group, name))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Group.jm_setName"))
+JR.cast(jlate(JR.cast(group), JR.cast(name)))
+})
         return group
 }
     
@@ -93,19 +96,19 @@ and jm_init = (this: GroupFactory, groups: Int32, nameArray: Array<String>) => {
         let mut stringMaker: StringMaker = StringMaker.jnew_0()
         let mut stringUtil: StringUtil = JR.cast(StringUtil.jm_getInstance())
         let mut l_TEAM: String = "Team "
-        ignore(BasicArrayList.jm_clear(this.f_list))
+        ignore(BasicArrayList.jm_clear(JR.cast(this.f_list)))
         this.f_index = 0l
-        let mut size: Int32 = BasicArrayList.jm_size(this.f_list)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(this.f_list))
         let mut name: String = ""
         while (Int32.(<)(size, groups)) {
             name = stringUtil.f_EMPTY_STRING
             if (Int32.(<)(size, Int32.fromNumber(Array.length(nameArray)))) {
                 name = nameArray[Int32.toNumber(size)]
             } else {
-                ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
-                name = StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(stringMaker, l_TEAM), size))
+                ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
+                name = StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast(l_TEAM))), size)))
             }
-            ignore(BasicArrayList.jm_add(this.f_list, JR.cast(Group.jnew_2(name, JR.i16((Int32.(+)(size, 3l)))))))
+            ignore(BasicArrayList.jm_add(JR.cast(this.f_list), JR.cast(Group.jnew_2(name, JR.i16((Int32.(+)(size, 3l)))))))
             size = Int32.(+)(size, 1l)
         }
 }

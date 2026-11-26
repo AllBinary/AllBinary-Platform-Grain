@@ -48,11 +48,18 @@ and jnew_1 = (gameCanvas: AllBinaryGameCanvas) => {
 }
     
 and jm_process = (this: InitGameProcessor) => {
-        if (ProgressCanvasFactory.jm_isInGame(ProgressCanvasFactory.jm_getInstance())) {
-            ignore(AllBinaryGameCanvas.jm_setProcessGameProcessorInit(this.f_gameCanvas))
+        if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ProgressCanvas.jm_isInGame"))
+JR.cast(jlate(JR.cast(ProgressCanvasFactory.jm_getInstance())))
+}) {
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_setProcessGameProcessorInit"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+})
         }
 }
 
+JR.registerSuper("InitGameProcessor", "Processor")
 JR.registerLateBound("InitGameProcessor.jnew_1", jnew_1)
 JR.registerLateBound("InitGameProcessor.jm_process", jm_process)
 JR.registerLateBound("InitGameProcessor.f_gameCanvas", (this: InitGameProcessor) => this.f_gameCanvas)

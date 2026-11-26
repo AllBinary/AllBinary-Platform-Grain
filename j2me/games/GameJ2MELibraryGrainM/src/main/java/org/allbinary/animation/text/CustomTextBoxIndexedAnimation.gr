@@ -65,7 +65,7 @@ provide record CustomTextBoxIndexedAnimation {
 provide let rec jclassName = () => "CustomTextBoxIndexedAnimation"
     
 and jnew_1 = (customTextBox: CustomTextBox) => {
-    let this = { jobject: JR.newJObject("CustomTextBoxIndexedAnimation"), f_basicSetColorUtil: JR.jnull, f_basicColor: JR.jnull, f_colorP: 0l, f_changeBasicColorP: JR.jnull, f_changeColorP: 0l, f_alphaP: 0l, f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_animationBehaviorP: JR.jnull, f_customTextBox: JR.nullOf(), f_lastText: "", f_hasChanged: false, f_textChangeListener: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("CustomTextBoxIndexedAnimation"), f_basicSetColorUtil: JR.nullOf(), f_basicColor: JR.nullOf(), f_colorP: 0l, f_changeBasicColorP: JR.nullOf(), f_changeColorP: 0l, f_alphaP: 0l, f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_animationBehaviorP: JR.nullOf(), f_customTextBox: JR.nullOf(), f_lastText: "", f_hasChanged: false, f_textChangeListener: JR.nullOf(), }
     
     this.f_lastText = StringUtil.jm_getInstance().f_INIT_STRING
     this.f_hasChanged = true
@@ -78,19 +78,19 @@ and jnew_1 = (customTextBox: CustomTextBox) => {
 and jm_setBasicColorP = (this: CustomTextBoxIndexedAnimation, basicColor: BasicColor) => {
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABTextFieldItem.jm_setForegroundBasicColorP"))
-JR.cast(jlate(JR.cast(CustomTextBox.jm_getTextFieldItem(this.f_customTextBox)), JR.cast(basicColor)))
+JR.cast(jlate(JR.cast(CustomTextBox.jm_getTextFieldItem(JR.cast(this.f_customTextBox))), JR.cast(basicColor)))
 })
 }
     
 and jm_setBackgroundBasicColorP = (this: CustomTextBoxIndexedAnimation, basicColor: BasicColor) => {
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABTextFieldItem.jm_setBackgroundBasicColorP"))
-JR.cast(jlate(JR.cast(CustomTextBox.jm_getTextFieldItem(this.f_customTextBox)), JR.cast(basicColor)))
+JR.cast(jlate(JR.cast(CustomTextBox.jm_getTextFieldItem(JR.cast(this.f_customTextBox))), JR.cast(basicColor)))
 })
 }
     
 and jm_setTextWithOnMeasure = (this: CustomTextBoxIndexedAnimation, text: String, textChangeListener: TextChangeListener) => {
-        ignore(jm_setText(this, text))
+        ignore(jm_setText(this, JR.cast(text)))
         this.f_textChangeListener = JR.cast(textChangeListener)
 }
     
@@ -99,7 +99,10 @@ and jm_updateMeasurement = (this: CustomTextBoxIndexedAnimation, graphics: JObje
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_getFont"))
 JR.cast(jlate(JR.cast(graphics)))
 })
-        ignore(TextChangeListener.jm_onMeasure(this.f_textChangeListener))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TextChangeListener.jm_onMeasure"))
+JR.cast(jlate(JR.cast(this.f_textChangeListener)))
+})
         this.f_textChangeListener = JR.cast(TextChangeListener.jm_getInstance())
 }
     
@@ -109,7 +112,7 @@ and jm_setText = (this: CustomTextBoxIndexedAnimation, text: String) => {
             this.f_lastText = text
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABTextFieldItem.jm_setString"))
-JR.cast(jlate(JR.cast(CustomTextBox.jm_getTextFieldItem(this.f_customTextBox)), JR.cast(text)))
+JR.cast(jlate(JR.cast(CustomTextBox.jm_getTextFieldItem(JR.cast(this.f_customTextBox))), JR.cast(text)))
 })
         }
 }
@@ -117,23 +120,23 @@ JR.cast(jlate(JR.cast(CustomTextBox.jm_getTextFieldItem(this.f_customTextBox)), 
 and jm_getText = (this: CustomTextBoxIndexedAnimation) => {
         return {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABTextFieldItem.jm_getString"))
-JR.cast(jlate(JR.cast(CustomTextBox.jm_getTextFieldItem(this.f_customTextBox))))
+JR.cast(jlate(JR.cast(CustomTextBox.jm_getTextFieldItem(JR.cast(this.f_customTextBox)))))
 }
 }
     
 and jm_onEventRaw = (this: CustomTextBoxIndexedAnimation, keyCode: Int32, deviceId: Int32, repeated: Bool) => {
-        ignore(CustomTextBox.jm_onEventRaw(this.f_customTextBox, keyCode, deviceId, repeated))
+        ignore(CustomTextBox.jm_onEventRaw(JR.cast(this.f_customTextBox), keyCode, deviceId, repeated))
 }
     
 and jm_getFontHeight = (this: CustomTextBoxIndexedAnimation) => {
         return {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABTextFieldItem.jm_getFontHeight"))
-JR.cast(jlate(JR.cast(CustomTextBox.jm_getTextFieldItem(this.f_customTextBox))))
+JR.cast(jlate(JR.cast(CustomTextBox.jm_getTextFieldItem(JR.cast(this.f_customTextBox)))))
 }
 }
     
 and jm_paintXY = (this: CustomTextBoxIndexedAnimation, graphics: JObject, x: Int32, y: Int32) => {
-        ignore(CustomTextBox.jm_paintXY(this.f_customTextBox, graphics, x, y))
+        ignore(CustomTextBox.jm_paintXY(JR.cast(this.f_customTextBox), JR.cast(graphics), x, y))
 }
     
 and jm_paintThreedXYZ = (this: CustomTextBoxIndexedAnimation, graphics: JObject, x: Int32, y: Int32, z: Int32) => {
@@ -144,6 +147,7 @@ and jm_getWidth = (this: CustomTextBoxIndexedAnimation) => {
         return jm_getWidth(this)
 }
 
+JR.registerSuper("CustomTextBoxIndexedAnimation", "IndexedAnimation")
 JR.registerLateBound("CustomTextBoxIndexedAnimation.jnew_1", jnew_1)
 JR.registerLateBound("CustomTextBoxIndexedAnimation.jm_setBasicColorP", jm_setBasicColorP)
 JR.registerLateBound("CustomTextBoxIndexedAnimation.jm_setBackgroundBasicColorP", jm_setBackgroundBasicColorP)

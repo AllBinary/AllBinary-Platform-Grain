@@ -87,7 +87,7 @@ and jnew_0 = () => {
 }
     
 and jm_init = (this: BaseGameStatistics) => {
-        ignore(TimeDelayHelper.jm_setStartTimeTNT(this.f_timeDelayHelper))
+        ignore(TimeDelayHelper.jm_setStartTimeTNT(JR.cast(this.f_timeDelayHelper)))
         this.f_totalRefreshes = 0L
         this.f_totalFrames = 0L
 }
@@ -109,7 +109,7 @@ and jm_nextRefresh = (this: BaseGameStatistics) => {
 }
     
 and jm_getRefreshRate = (this: BaseGameStatistics) => {
-        let mut elapsed: Int64 = TimeDelayHelper.jm_getElapsed(this.f_timeDelayHelper, this.f_gameTickTimeDelayHelper.f_startTime)
+        let mut elapsed: Int64 = TimeDelayHelper.jm_getElapsed(JR.cast(this.f_timeDelayHelper), this.f_gameTickTimeDelayHelper.f_startTime)
         if (Int64.(>)(elapsed, 1L)) {
             let mut time: Int32 = JR.i16(Int32.fromNumber(Int64.toNumber((Int64.(/)(this.f_totalRefreshes, (Int64.(>>)(elapsed, Int64.fromNumber(Int32.toNumber(this.f_DEFAULT_SCALE_FACTOR)))))))))
             return time
@@ -123,9 +123,9 @@ and jm_getTimeDelayHelper = (this: BaseGameStatistics) => {
 }
     
 and jm_to2DCharArray = (this: BaseGameStatistics) => {
-        let mut totalTime: Int64 = TimeDelayHelper.jm_getElapsed(this.f_timeDelayHelper, this.f_gameTickTimeDelayHelper.f_startTime)
+        let mut totalTime: Int64 = TimeDelayHelper.jm_getElapsed(JR.cast(this.f_timeDelayHelper), this.f_gameTickTimeDelayHelper.f_startTime)
         totalTime = (Int64.(>>)(totalTime, Int64.fromNumber(Int32.toNumber(this.f_DEFAULT_SCALE_FACTOR))))
-        if ((Int64.(>)(totalTime, 0L) && TimeDelayHelper.jm_isTime(this.f_updateDelayHelper, this.f_gameTickTimeDelayHelper.f_startTime))) {
+        if ((Int64.(>)(totalTime, 0L) && TimeDelayHelper.jm_isTime(JR.cast(this.f_updateDelayHelper), this.f_gameTickTimeDelayHelper.f_startTime))) {
             let mut framesPerSec: Int32 = Int32.fromNumber(Int64.toNumber((Int64.(/)(this.f_totalFrames, totalTime))))
             if (Int32.(<)(framesPerSec, 10l)) {
                 this.f_CHAR_ARRAY[Int32.toNumber(1l)][Int32.toNumber(0l)] = this.f_SPACE_CHAR
@@ -157,7 +157,7 @@ and jm_to2DCharArray = (this: BaseGameStatistics) => {
 }
     
 and jm_toStringArray = (this: BaseGameStatistics) => {
-        let mut totalTime: Int64 = TimeDelayHelper.jm_getElapsed(this.f_timeDelayHelper, this.f_gameTickTimeDelayHelper.f_startTime)
+        let mut totalTime: Int64 = TimeDelayHelper.jm_getElapsed(JR.cast(this.f_timeDelayHelper), this.f_gameTickTimeDelayHelper.f_startTime)
         totalTime = (Int64.(/)(totalTime, 10000L))
         if (Int64.(>)(totalTime, 0L)) {
             this.f_STRING_ARRAY[Int32.toNumber(1l)] = JR.cast(toString(totalTime))
@@ -178,24 +178,24 @@ and jm_toStringArray = (this: BaseGameStatistics) => {
     
 and jm_toStringAt = (this: BaseGameStatistics, totalTime: Int64) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, this.f_STRING_ARRAY[Int32.toNumber(0l)]))
-        ignore(StringMaker.jm_appendlong(stringBuffer, totalTime))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_STRING_ARRAY[Int32.toNumber(2l)]))
-        ignore(StringMaker.jm_appendlong(stringBuffer, this.f_totalFrames))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_STRING_ARRAY[Int32.toNumber(4l)]))
-        ignore(StringMaker.jm_appendlong(stringBuffer, Int64.(/)(this.f_totalFrames, totalTime)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_STRING_ARRAY[Int32.toNumber(0l)])))
+        ignore(StringMaker.jm_appendlong(JR.cast(stringBuffer), totalTime))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_STRING_ARRAY[Int32.toNumber(2l)])))
+        ignore(StringMaker.jm_appendlong(JR.cast(stringBuffer), this.f_totalFrames))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_STRING_ARRAY[Int32.toNumber(4l)])))
+        ignore(StringMaker.jm_appendlong(JR.cast(stringBuffer), Int64.(/)(this.f_totalFrames, totalTime)))
         if (Int64.(>)(this.f_totalRefreshes, 0L)) {
-            ignore(StringMaker.jm_append(stringBuffer, this.f_STRING_ARRAY[Int32.toNumber(6l)]))
-            ignore(StringMaker.jm_appendlong(stringBuffer, this.f_totalRefreshes))
-            ignore(StringMaker.jm_append(stringBuffer, this.f_STRING_ARRAY[Int32.toNumber(8l)]))
-            ignore(StringMaker.jm_appendlong(stringBuffer, Int64.(/)(this.f_totalRefreshes, totalTime)))
-            ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_NEW_LINE))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_STRING_ARRAY[Int32.toNumber(6l)])))
+            ignore(StringMaker.jm_appendlong(JR.cast(stringBuffer), this.f_totalRefreshes))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_STRING_ARRAY[Int32.toNumber(8l)])))
+            ignore(StringMaker.jm_appendlong(JR.cast(stringBuffer), Int64.(/)(this.f_totalRefreshes, totalTime)))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonSeps.jm_getInstance().f_NEW_LINE)))
         }
-        return StringMaker.jm_toString(stringBuffer)
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
     
 and jm_toString = (this: BaseGameStatistics) => {
-        let mut totalTime: Int64 = TimeDelayHelper.jm_getElapsed(this.f_timeDelayHelper, this.f_gameTickTimeDelayHelper.f_startTime)
+        let mut totalTime: Int64 = TimeDelayHelper.jm_getElapsed(JR.cast(this.f_timeDelayHelper), this.f_gameTickTimeDelayHelper.f_startTime)
         totalTime = (Int64.(/)(totalTime, 1000L))
         if (Int64.(>)(totalTime, 0L)) {
             return jm_toStringAt(this, totalTime)

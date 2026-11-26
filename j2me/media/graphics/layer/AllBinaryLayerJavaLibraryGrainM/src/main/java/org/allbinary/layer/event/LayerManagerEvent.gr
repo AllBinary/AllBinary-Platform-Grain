@@ -45,7 +45,7 @@ provide record LayerManagerEvent {
 provide let rec jclassName = () => "LayerManagerEvent"
     
 and jnew_2 = (layerManager: LayerManager, crud: String) => {
-    let this = { jobject: JR.newJObject("LayerManagerEvent"), f_source: JR.jnull, f_layerInterface: JR.nullOf(), f_crud: "", }
+    let this = { jobject: JR.newJObject("LayerManagerEvent"), f_source: JR.nullOf(), f_layerInterface: JR.nullOf(), f_crud: "", }
     this.jobject.toStringFunction = () => jm_toString(this)
     this.f_layerInterface = JR.cast(AllBinaryLayer.jstatic_NULL_ALLBINARY_LAYER())
     
@@ -64,14 +64,15 @@ and jm_setLayerInterface = (this: LayerManagerEvent, layerInterface: AllBinaryLa
     
 and jm_toString = (this: LayerManagerEvent) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, "LayerManagerEvent: \n"))
-        ignore(StringMaker.jm_append(stringBuffer, "LayerInterface: "))
-        ignore(StringMaker.jm_append(stringBuffer, AllBinaryLayer.jm_toString(jm_getLayerInterface(this))))
-        ignore(StringMaker.jm_append(stringBuffer, "\nCRUD: "))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_crud))
-        return StringMaker.jm_toString(stringBuffer)
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("LayerManagerEvent: \n")))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("LayerInterface: ")))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(AllBinaryLayer.jm_toString(JR.cast(jm_getLayerInterface(this))))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("\nCRUD: ")))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_crud)))
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
+JR.registerSuper("LayerManagerEvent", "AllBinaryEventObject")
 JR.registerLateBound("LayerManagerEvent.jnew_2", jnew_2)
 JR.registerLateBound("LayerManagerEvent.jm_getLayerInterface", jm_getLayerInterface)
 JR.registerLateBound("LayerManagerEvent.jm_setLayerInterface", jm_setLayerInterface)

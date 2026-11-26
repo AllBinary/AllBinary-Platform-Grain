@@ -41,7 +41,7 @@ provide let rec jclassName = () => "VectorAnimationUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: VectorAnimationUtil = jnew_0()
+    let value: VectorAnimationUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -62,7 +62,7 @@ and jnew_0 = () => {
 }
     
 and jm_toAnimationArrayFromListOfPointListWithPointsPerFrame = (this: VectorAnimationUtil, vector: BasicArrayList, pointsPerFrame: Int32) => {
-        let mut size: Int32 = BasicArrayList.jm_size(vector)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(vector))
         let mut points: Array<Array<Array<Int32>>> = Array.init(Int32.toNumber(size), jindex1 => Array.init(Int32.toNumber(pointsPerFrame), jindex2 => Array.make(Int32.toNumber(2l), 0l)))
         let mut nextBasicArrayList: BasicArrayList = JR.nullOf()
         let mut framePoints: Array<Array<Int32>> = [> ]
@@ -76,7 +76,7 @@ and jm_toAnimationArrayFromListOfPointListWithPointsPerFrame = (this: VectorAnim
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             nextBasicArrayList = JR.cast(vector.f_objectArray[Int32.toNumber(index)])
-            framePoints = jm_toFrameArrayFromPointBasicArrayList(this, nextBasicArrayList)
+            framePoints = jm_toFrameArrayFromPointBasicArrayList(this, JR.cast(nextBasicArrayList))
             {
                 let mut pointIndex: Int32 = 0l
                 let mut jfirst = true
@@ -96,7 +96,7 @@ and jm_toAnimationArrayFromListOfPointListWithPointsPerFrame = (this: VectorAnim
 }
     
 and jm_toAnimationArrayFromListOfPointList = (this: VectorAnimationUtil, vector: BasicArrayList) => {
-        let mut size: Int32 = BasicArrayList.jm_size(vector)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(vector))
         let mut points: Array<Array<Array<Int32>>> = Array.init(Int32.toNumber(size), jindex1 => Array.init(Int32.toNumber(0l), jindex2 => Array.make(Int32.toNumber(0l), 0l)))
         let mut nextBasicArrayList: BasicArrayList = JR.nullOf()
         let mut framePoints: Array<Array<Int32>> = [> ]
@@ -110,7 +110,7 @@ and jm_toAnimationArrayFromListOfPointList = (this: VectorAnimationUtil, vector:
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             nextBasicArrayList = JR.cast(vector.f_objectArray[Int32.toNumber(index)])
-            framePoints = jm_toFrameArrayFromPointBasicArrayList(this, nextBasicArrayList)
+            framePoints = jm_toFrameArrayFromPointBasicArrayList(this, JR.cast(nextBasicArrayList))
             points[Int32.toNumber(index)] = Array.init(Int32.toNumber(Int32.fromNumber(Array.length(framePoints))), jindex1 => Array.make(Int32.toNumber(2l), 0l))
             {
                 let mut pointIndex: Int32 = 0l
@@ -131,8 +131,8 @@ and jm_toAnimationArrayFromListOfPointList = (this: VectorAnimationUtil, vector:
 }
     
 and jm_toFrameArrayFromPointBasicArrayList = (this: VectorAnimationUtil, list: BasicArrayList) => {
-        let mut points: Array<Array<Int32>> = Array.init(Int32.toNumber(BasicArrayList.jm_size(list)), jindex1 => Array.make(Int32.toNumber(2l), 0l))
-        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut points: Array<Array<Int32>> = Array.init(Int32.toNumber(BasicArrayList.jm_size(JR.cast(list))), jindex1 => Array.make(Int32.toNumber(2l), 0l))
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -143,8 +143,8 @@ and jm_toFrameArrayFromPointBasicArrayList = (this: VectorAnimationUtil, list: B
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             let mut nextPoint: GPoint = JR.cast(list.f_objectArray[Int32.toNumber(index)])
-            points[Int32.toNumber(index)][Int32.toNumber(0l)] = GPoint.jm_getX(nextPoint)
-            points[Int32.toNumber(index)][Int32.toNumber(1l)] = GPoint.jm_getY(nextPoint)
+            points[Int32.toNumber(index)][Int32.toNumber(0l)] = GPoint.jm_getX(JR.cast(nextPoint))
+            points[Int32.toNumber(index)][Int32.toNumber(1l)] = GPoint.jm_getY(JR.cast(nextPoint))
             }
         }
         return points

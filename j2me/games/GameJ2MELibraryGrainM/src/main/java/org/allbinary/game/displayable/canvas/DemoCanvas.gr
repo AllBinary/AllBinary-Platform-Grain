@@ -183,6 +183,7 @@ from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayLis
 use BasicArrayList.{ type BasicArrayList }
 from "../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
 use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../../java/lang/Integer.gr" include Integer
 from "../../../../../java/lang/Thread.gr" include Thread
 use Thread.{ type Thread }
 from "./GameCanvasRunnableInterface.gr" include GameCanvasRunnableInterface
@@ -210,6 +211,17 @@ use CommandFormInputProcessor.{ type CommandFormInputProcessor }
 
 provide record DemoCanvas {
   jobject: JObject,
+  mut f_device: JObject,
+  mut f_currentDisplay: JObject,
+  mut f_width: Int32,
+  mut f_height: Int32,
+  mut f_fullScreenMode: Bool,
+  mut f_ticker: JObject,
+  mut f_viewPortY: Int32,
+  mut f_viewPortHeight: Int32,
+  mut f_ui: JObject,
+  mut f_title: String,
+  mut f_listener: JObject,
   mut f_logUtil: JObject,
   mut f_commonStrings: JObject,
   mut f_canvasStrings: JObject,
@@ -330,7 +342,7 @@ and jset_TYPE = (value: Int32) => {
 }
     
 and jnew_7 = (abeClientInformation: AbeClientInformationInterface, commandListener: CommandListener, highScoresFactoryInterface: HighScoresFactoryInterface, paintable: Paintable, overlayPaintable: InitUpdatePaintable, gameInitializationInterfaceFactoryInterface: BasicBuildGameInitializerFactory, isContinue: Bool) => {
-    let this = { jobject: JR.newJObject("DemoCanvas"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_canvasStrings: JR.jnull, f_stringUtil: JR.jnull, f_displayInfo: JR.jnull, f_name: "", f_childNameList: JR.jnull, f_commandStack: JR.jnull, f_commandListener: JR.jnull, f_paused: false, f_touchME: JR.jnull, f_nullUtil: JR.jnull, f_stdUtil: JR.jnull, f_systemWrapper: JR.jnull, f_tsUtil: JR.jnull, f_thread: JR.jnull, f_currentThread: JR.jnull, f_running: false, f_loopTimeHelper: JR.jnull, f_runnableCanvasRefreshHelper: JR.jnull, f_commonLabels: JR.jnull, f_threadObjectUtil: JR.jnull, f_SET_RUNNING: "", f_IS_RUNNING: "", f_THREAD: "", f_NOT_EQUAL: "", f_PAUSE_SLEEP: "", f_START_PAUSE: "", f_END_PAUSE: "", f_PROCESS_LOOP_SLEEP: "", f_pauseWait: 0L, f_notified: false, f_basicColorFactory: JR.nullOf(), f_myCommandsFactory: JR.nullOf(), f_gameAdStateFactory: JR.nullOf(), f_gameInputStrings: JR.nullOf(), f_gameStateFactory: JR.nullOf(), f_threadFactoryUtil: JR.jnull, f_formUtil: JR.nullOf(), f_fullscreenPaintable: JR.nullOf(), f_basicGameDemoPaintable: JR.nullOf(), f_specialAnimationInterface: JR.nullOf(), f_paintedSpecialAnimationInterface: JR.nullOf(), f_fullScreenUtil: JR.jnull, f_gameCanvas: JR.jnull, f_highScoresHelper: JR.nullOf(), f_realHighScoresPaintable: JR.nullOf(), f_highScoresPaintable: JR.nullOf(), f_state: 0l, f_canvasThread: JR.nullOf(), f_timeDelayHelper: JR.nullOf(), f_basicColor: JR.nullOf(), f_abeClientInformation: JR.nullOf(), f_highScoresFactoryInterface: JR.nullOf(), f_menuInputProcessor: JR.nullOf(), f_menuForm: JR.nullOf(), f_gameInitializationInterfaceFactoryInterface: JR.nullOf(), f_initialized: false, f_demoGameRunnable: JR.jnull, f_defaultPaintableInterface: JR.nullOf(), f_paintableInterface: JR.nullOf(), f_overlayPaintable: JR.nullOf(), f_progressPaintable: JR.nullOf(), f_tempWait: 0l, f_inputToGameKeyMapping: JR.nullOf(), f_gameRunnable: JR.nullOf(), f_isSingleKeyRepeatableProcessing: false, f_NONE: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_lastKeyNotMapped: 0l, f_SET_STATE: "", f_baseGameStatistics: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("DemoCanvas"), f_device: JR.nullOf(), f_currentDisplay: JR.nullOf(), f_width: 0l, f_height: 0l, f_fullScreenMode: false, f_ticker: JR.nullOf(), f_viewPortY: 0l, f_viewPortHeight: 0l, f_ui: JR.nullOf(), f_title: "", f_listener: JR.nullOf(), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_canvasStrings: JR.nullOf(), f_stringUtil: JR.nullOf(), f_displayInfo: JR.nullOf(), f_name: "", f_childNameList: JR.nullOf(), f_commandStack: JR.nullOf(), f_commandListener: JR.nullOf(), f_paused: false, f_touchME: JR.nullOf(), f_nullUtil: JR.nullOf(), f_stdUtil: JR.nullOf(), f_systemWrapper: JR.nullOf(), f_tsUtil: JR.nullOf(), f_thread: JR.nullOf(), f_currentThread: JR.nullOf(), f_running: false, f_loopTimeHelper: JR.nullOf(), f_runnableCanvasRefreshHelper: JR.nullOf(), f_commonLabels: JR.nullOf(), f_threadObjectUtil: JR.nullOf(), f_SET_RUNNING: "", f_IS_RUNNING: "", f_THREAD: "", f_NOT_EQUAL: "", f_PAUSE_SLEEP: "", f_START_PAUSE: "", f_END_PAUSE: "", f_PROCESS_LOOP_SLEEP: "", f_pauseWait: 0L, f_notified: false, f_basicColorFactory: JR.nullOf(), f_myCommandsFactory: JR.nullOf(), f_gameAdStateFactory: JR.nullOf(), f_gameInputStrings: JR.nullOf(), f_gameStateFactory: JR.nullOf(), f_threadFactoryUtil: JR.nullOf(), f_formUtil: JR.nullOf(), f_fullscreenPaintable: JR.nullOf(), f_basicGameDemoPaintable: JR.nullOf(), f_specialAnimationInterface: JR.nullOf(), f_paintedSpecialAnimationInterface: JR.nullOf(), f_fullScreenUtil: JR.nullOf(), f_gameCanvas: JR.nullOf(), f_highScoresHelper: JR.nullOf(), f_realHighScoresPaintable: JR.nullOf(), f_highScoresPaintable: JR.nullOf(), f_state: 0l, f_canvasThread: JR.nullOf(), f_timeDelayHelper: JR.nullOf(), f_basicColor: JR.nullOf(), f_abeClientInformation: JR.nullOf(), f_highScoresFactoryInterface: JR.nullOf(), f_menuInputProcessor: JR.nullOf(), f_menuForm: JR.nullOf(), f_gameInitializationInterfaceFactoryInterface: JR.nullOf(), f_initialized: false, f_demoGameRunnable: JR.nullOf(), f_defaultPaintableInterface: JR.nullOf(), f_paintableInterface: JR.nullOf(), f_overlayPaintable: JR.nullOf(), f_progressPaintable: JR.nullOf(), f_tempWait: 0l, f_inputToGameKeyMapping: JR.nullOf(), f_gameRunnable: JR.nullOf(), f_isSingleKeyRepeatableProcessing: false, f_NONE: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_lastKeyNotMapped: 0l, f_SET_STATE: "", f_baseGameStatistics: JR.nullOf(), }
     this.f_basicColorFactory = JR.cast(BasicColorFactory.jm_getInstance())
     this.f_myCommandsFactory = JR.cast(MyCommandsFactory.jm_getInstance())
     this.f_gameAdStateFactory = JR.cast(GameAdStateFactory.jm_getInstance())
@@ -371,7 +383,10 @@ JR.cast(jlate())
     this.f_paintableInterface = JR.cast(NullPaintable.jm_getInstance())
     
     this.f_progressPaintable = JR.cast(ProgressCanvasFactory.jm_getLazyInstance())
-    this.f_tempWait = NullWaitGameRunnable.jm_getInstance().f_WAIT
+    this.f_tempWait = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("NullWaitGameRunnable.f_WAIT"))
+JR.cast(jlate(JR.cast(NullWaitGameRunnable.jm_getInstance())))
+}
     this.f_inputToGameKeyMapping = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PersistentInputMapping.jm_getInputMapping"))
 JR.cast(jlate(JR.cast({
@@ -383,7 +398,7 @@ JR.cast(jlate())
 })))
 })
     this.f_gameRunnable = JR.cast(NullWaitGameRunnable.jm_getInstance())
-    this.f_isSingleKeyRepeatableProcessing = Features.jm_isFeature(Features.jm_getInstance(), JR.cast(InputFeatureFactory.jm_getInstance().f_SINGLE_KEY_REPEAT_PRESS))
+    this.f_isSingleKeyRepeatableProcessing = Features.jm_isFeature(JR.cast(Features.jm_getInstance()), JR.cast(InputFeatureFactory.jm_getInstance().f_SINGLE_KEY_REPEAT_PRESS))
     this.f_NONE = JR.cast(GameKeyFactory.jm_getInstance().f_NONE)
     this.f_gameKeyEventFactory = JR.cast(GameKeyEventFactory.jm_getInstance())
     this.f_lastKeyNotMapped = Int32.(-)(1l, Int32.(+)(1l, 1l))
@@ -396,14 +411,17 @@ JR.cast(jlate())
         this.f_abeClientInformation = JR.cast(abeClientInformation)
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RunnableCanvas.jm_setWait"))
-JR.cast(jlate(JR.cast(this), JR.cast(NullWaitGameRunnable.jm_getInstance().f_WAIT)))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("NullWaitGameRunnable.f_WAIT"))
+JR.cast(jlate(JR.cast(NullWaitGameRunnable.jm_getInstance())))
+})))
 })
         this.f_gameInitializationInterfaceFactoryInterface = JR.cast(gameInitializationInterfaceFactoryInterface)
-        ignore(GameInitializationUtil.jm_initDemo(GameInitializationUtil.jm_getInstance(), abeClientInformation, JR.cast(this), gameInitializationInterfaceFactoryInterface))
-        ignore(ResizableListenerHandler.jm_fireEvent(ResizableListenerHandler.jm_getInstance(), false))
+        ignore(GameInitializationUtil.jm_initDemo(JR.cast(GameInitializationUtil.jm_getInstance()), JR.cast(abeClientInformation), JR.cast(this), JR.cast(gameInitializationInterfaceFactoryInterface)))
+        ignore(ResizableListenerHandler.jm_fireEvent(JR.cast(ResizableListenerHandler.jm_getInstance()), false))
         this.f_overlayPaintable = JR.cast(overlayPaintable)
         this.f_highScoresFactoryInterface = JR.cast(highScoresFactoryInterface)
-        ignore(jm_setDefaultPaintableInterface(this, paintable))
+        ignore(jm_setDefaultPaintableInterface(this, JR.cast(paintable)))
         ignore(jm_setPaintableInterface(this, JR.cast(jm_getDefaultPaintableInterface(this))))
         if (isContinue) {
             ignore({
@@ -429,39 +447,42 @@ JR.cast(jlate(JR.cast(DisplayChangeEventHandler.jm_getInstance()), JR.cast(this)
 }
     
 and jm_onEvent = (this: DemoCanvas, eventObject: AllBinaryEventObject) => {
-        ignore(ForcedLogUtil.jm_log(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE, JR.cast(this)))
+        ignore(ForcedLogUtil.jm_log(JR.cast(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE), JR.cast(this)))
 }
     
 and jm_onDisplayChangeEvent = (this: DemoCanvas, displayChangeEvent: DisplayChangeEvent) => {
         {
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), {
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonLabels.f_START_LABEL"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonLabels))))
-}), JR.toStringOf(JR.cast(JR.cast(this.f_displayInfo)))))), JR.cast(this), JR.cast({
+}))), JR.cast(JR.toStringOf(JR.cast(JR.cast(this.f_displayInfo)))))))), JR.cast(this), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CanvasStrings.f_ON_DISPLAY_CHANGE_EVENT"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_canvasStrings))))
 })))
 })
             let mut scrollSelectionForm: ScrollSelectionForm = JR.cast(jm_getMenuForm(this))
             if (!JR.isNull(scrollSelectionForm)) {
-                let mut formType: FormType = JR.cast(FormTypeFactory.jm_getFormType(FormTypeFactory.jm_getInstance()))
-                let mut rectangle: Rectangle = JR.cast(FormUtil.jm_createFormRectangle(this.f_formUtil))
-                ignore(ScrollSelectionForm.jm_init(scrollSelectionForm, rectangle, formType))
+                let mut formType: FormType = JR.cast(FormTypeFactory.jm_getFormType(JR.cast(FormTypeFactory.jm_getInstance())))
+                let mut rectangle: Rectangle = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FormUtil.jm_createFormRectangle"))
+JR.cast(jlate(JR.cast(this.f_formUtil)))
+})
+                ignore(ScrollSelectionForm.jm_init(JR.cast(scrollSelectionForm), JR.cast(rectangle), JR.cast(formType)))
             }
-            ignore(InitUpdatePaintable.jm_init(this.f_overlayPaintable))
+            ignore(InitUpdatePaintable.jm_init(JR.cast(this.f_overlayPaintable)))
         }
 }
     
 and jm_getCustomCommands = (this: DemoCanvas) => {
         let mut gameCommandsFactory: GameCommandsFactory = JR.cast(GameCommandsFactory.jm_getInstance())
         if (J2MEUtil.jm_isHTML()) {
-            let mut commandArray: Array<JObject> = [> gameCommandsFactory.f_START_COMMAND, HighScoreCommands.jm_getInstance().f_DISPLAY, GameInputMappingCanvas.jstatic_DISPLAY(), gameCommandsFactory.f_DISPLAY_ABOUT]
+            let mut commandArray: Array<JObject> = [> JR.cast(gameCommandsFactory.f_START_COMMAND), JR.cast(HighScoreCommands.jm_getInstance().f_DISPLAY), JR.cast(GameInputMappingCanvas.jstatic_DISPLAY()), JR.cast(gameCommandsFactory.f_DISPLAY_ABOUT)]
             return commandArray
         } else {
             let mut commandList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
-            ignore(BasicArrayList.jm_add(commandList, JR.cast(gameCommandsFactory.f_START_COMMAND)))
+            ignore(BasicArrayList.jm_add(JR.cast(commandList), JR.cast(gameCommandsFactory.f_START_COMMAND)))
             let mut inApplicationPurchaseFactory: JObject = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("InApplicationPurchaseFactory.jm_getInstance"))
 JR.cast(jlate())
@@ -470,15 +491,15 @@ JR.cast(jlate())
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("InApplicationPurchaseFactory.jm_isEnabled"))
 JR.cast(jlate(JR.cast(inApplicationPurchaseFactory)))
 }) {
-                let mut list: BasicArrayList = JR.cast(LockableFeatureFactory.jm_getList(LockableFeatureFactory.jm_getInstance()))
-                if ((Int32.(>)(BasicArrayList.jm_size(list), 0l) && !{
+                let mut list: BasicArrayList = JR.cast(LockableFeatureFactory.jm_getList(JR.cast(LockableFeatureFactory.jm_getInstance())))
+                if ((Int32.(>)(BasicArrayList.jm_size(JR.cast(list)), 0l) && !{
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("InApplicationPurchaseFactory.jm_isPurchased"))
-JR.cast(jlate(JR.cast(inApplicationPurchaseFactory), JR.cast(JR.cast(BasicArrayList.jm_get(list, 0l)))))
+JR.cast(jlate(JR.cast(inApplicationPurchaseFactory), JR.cast(JR.cast(BasicArrayList.jm_get(JR.cast(list), 0l)))))
 })) {
-                    ignore(BasicArrayList.jm_add(commandList, JR.cast(gameCommandsFactory.f_BUY_COMMAND)))
+                    ignore(BasicArrayList.jm_add(JR.cast(commandList), JR.cast(gameCommandsFactory.f_BUY_COMMAND)))
                 }
             }
-            ignore(BasicArrayList.jm_add(commandList, JR.cast(HighScoreCommands.jm_getInstance().f_DISPLAY)))
+            ignore(BasicArrayList.jm_add(JR.cast(commandList), JR.cast(HighScoreCommands.jm_getInstance().f_DISPLAY)))
             {
                 let mut isOverScan: Bool = {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GenericOperatingSystem.jm_isOverScan"))
@@ -491,15 +512,15 @@ JR.cast(jlate())
 })))
 }
                 if (SWTUtil.jstatic_isSWT()) {
-                    ignore(BasicArrayList.jm_add(commandList, JR.cast(GameInputMappingCanvas.jstatic_DISPLAY())))
+                    ignore(BasicArrayList.jm_add(JR.cast(commandList), JR.cast(GameInputMappingCanvas.jstatic_DISPLAY())))
                 } else if (!isOverScan) {
-                    ignore(BasicArrayList.jm_add(commandList, JR.cast(gameCommandsFactory.f_DISPLAY_OPTIONS)))
-                    ignore(BasicArrayList.jm_add(commandList, JR.cast(gameCommandsFactory.f_DISPLAY_LOAD_FORM)))
-                    ignore(BasicArrayList.jm_add(commandList, JR.cast(GameInputMappingCanvas.jstatic_DISPLAY())))
+                    ignore(BasicArrayList.jm_add(JR.cast(commandList), JR.cast(gameCommandsFactory.f_DISPLAY_OPTIONS)))
+                    ignore(BasicArrayList.jm_add(JR.cast(commandList), JR.cast(gameCommandsFactory.f_DISPLAY_LOAD_FORM)))
+                    ignore(BasicArrayList.jm_add(JR.cast(commandList), JR.cast(GameInputMappingCanvas.jstatic_DISPLAY())))
                 }
             }
-            ignore(BasicArrayList.jm_add(commandList, JR.cast(gameCommandsFactory.f_DISPLAY_ABOUT)))
-            let mut commandArray: Array<JObject> = BasicArrayList.jm_toArray(commandList)
+            ignore(BasicArrayList.jm_add(JR.cast(commandList), JR.cast(gameCommandsFactory.f_DISPLAY_ABOUT)))
+            let mut commandArray: Array<JObject> = JR.cast(BasicArrayList.jm_toArray(JR.cast(commandList)))
             return commandArray
         }
 }
@@ -509,7 +530,7 @@ and jm_initCommands = (this: DemoCanvas, cmdListener: CommandListener) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MyCanvas.jm_removeAllCommands"))
 JR.cast(jlate(JR.cast(this)))
 })
-        let mut commandArray: Array<JObject> = jm_getCustomCommands(this)
+        let mut commandArray: Array<JObject> = JR.cast(jm_getCustomCommands(this))
         let mut size: Int32 = Int32.fromNumber(Array.length(commandArray))
         {
             let mut index: Int32 = 0l
@@ -545,35 +566,44 @@ JR.cast(jlate(JR.cast(EarlySoundsFactory.jm_getInstance())))
 }
     
 and jm_itemStateChanged = (this: DemoCanvas, item: JObject) => {
-        ignore(ForcedLogUtil.jm_log({
+        ignore(ForcedLogUtil.jm_log(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_NOT_IMPLEMENTED"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
-}, JR.cast(this)))
+}), JR.cast(this)))
 }
     
 and jm_initMenu = (this: DemoCanvas) => {
         ignore(jm_close(this))
-        let mut commandTextItemArrayFactory: CommandTextItemArrayFactory = JR.cast(DemoLimitedCommandTextItemArrayFactory.jm_getCommandTextItemArrayFactory(DemoLimitedCommandTextItemArrayFactory.jm_getInstance()))
-        let mut items: Array<JObject> = CommandTextItemArrayFactory.jm_getInstance(commandTextItemArrayFactory, {
+        let mut commandTextItemArrayFactory: CommandTextItemArrayFactory = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DemoLimitedCommandTextItemArrayFactory.jm_getCommandTextItemArrayFactory"))
+JR.cast(jlate(JR.cast(DemoLimitedCommandTextItemArrayFactory.jm_getInstance())))
+})
+        let mut items: Array<JObject> = JR.cast(CommandTextItemArrayFactory.jm_getInstance(JR.cast(commandTextItemArrayFactory), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MyCanvas.jm_getCommandStack"))
 JR.cast(jlate(JR.cast(this)))
-}, this.f_basicColorFactory.f_BLACK, this.f_basicColorFactory.f_WHITE)
-        let mut formType: FormType = JR.cast(FormTypeFactory.jm_getFormType(FormTypeFactory.jm_getInstance()))
-        let mut rectangle: Rectangle = JR.cast(FormUtil.jm_createFormRectangle(this.f_formUtil))
+}, JR.cast(this.f_basicColorFactory.f_BLACK), JR.cast(this.f_basicColorFactory.f_WHITE)))
+        let mut formType: FormType = JR.cast(FormTypeFactory.jm_getFormType(JR.cast(FormTypeFactory.jm_getInstance())))
+        let mut rectangle: Rectangle = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FormUtil.jm_createFormRectangle"))
+JR.cast(jlate(JR.cast(this.f_formUtil)))
+})
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), {
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonLabels.f_START_LABEL"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonLabels))))
-}), JR.toStringOf(JR.cast(JR.cast(this.f_displayInfo)))))), JR.cast(this), JR.cast("initMenu")))
+}))), JR.cast(JR.toStringOf(JR.cast(JR.cast(this.f_displayInfo)))))))), JR.cast(this), JR.cast("initMenu")))
 })
-        let mut scrollSelectionForm: ScrollSelectionForm = JR.cast(CommandCurrentSelectionFormFactory.jm_getInstance(StringUtil.jm_getInstance().f_EMPTY_STRING, items, rectangle, formType, 15l, true, this.f_basicColorFactory.f_BLACK, this.f_basicColorFactory.f_WHITE))
-        ignore(jm_setMenuForm(this, scrollSelectionForm))
-        let mut formType2: FormType = JR.cast(FormTypeFactory.jm_getFormType(FormTypeFactory.jm_getInstance()))
-        let mut rectangle2: Rectangle = JR.cast(FormUtil.jm_createFormRectangle(this.f_formUtil))
-        ignore(ScrollSelectionForm.jm_init(scrollSelectionForm, rectangle2, formType2))
+        let mut scrollSelectionForm: ScrollSelectionForm = JR.cast(CommandCurrentSelectionFormFactory.jm_getInstance(JR.cast(StringUtil.jm_getInstance().f_EMPTY_STRING), JR.cast(items), JR.cast(rectangle), JR.cast(formType), 15l, true, JR.cast(this.f_basicColorFactory.f_BLACK), JR.cast(this.f_basicColorFactory.f_WHITE)))
+        ignore(jm_setMenuForm(this, JR.cast(scrollSelectionForm)))
+        let mut formType2: FormType = JR.cast(FormTypeFactory.jm_getFormType(JR.cast(FormTypeFactory.jm_getInstance())))
+        let mut rectangle2: Rectangle = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FormUtil.jm_createFormRectangle"))
+JR.cast(jlate(JR.cast(this.f_formUtil)))
+})
+        ignore(ScrollSelectionForm.jm_init(JR.cast(scrollSelectionForm), JR.cast(rectangle2), JR.cast(formType2)))
         if ((!JR.isSame(jm_getMenuForm(this), ScrollSelectionFormNoneFactory.jm_getInstance()))) {
-            ignore(jm_setMenuInputProcessor(this, JR.cast(CommandFormInputProcessor.jnew_4(JR.cast(BasicArrayListD.jnew_0()), Int32.(-)(1l, Int32.(+)(1l, 1l)), JR.cast(this), jm_getMenuForm(this)))))
+            ignore(jm_setMenuInputProcessor(this, JR.cast(CommandFormInputProcessor.jnew_4(JR.cast(BasicArrayListD.jnew_0()), Int32.(-)(1l, Int32.(+)(1l, 1l)), JR.cast(this), JR.cast(jm_getMenuForm(this))))))
         }
         ignore(jm_open(this))
 }
@@ -586,7 +616,7 @@ let jlate: () => JObject = JR.cast(JR.lateBound("BasicMotionGesturesHandler.jm_g
 JR.cast(jlate())
 }), JR.cast(jm_getMenuInputProcessor(this))))
 })
-        ignore(GameKeyEventHandler.jm_addListener(GameKeyEventHandler.jm_getInstance(), JR.cast(jm_getMenuInputProcessor(this))))
+        ignore(GameKeyEventHandler.jm_addListener(JR.cast(GameKeyEventHandler.jm_getInstance()), JR.cast(jm_getMenuInputProcessor(this))))
 }
     
 and jm_close = (this: DemoCanvas) => {
@@ -597,7 +627,7 @@ let jlate: () => JObject = JR.cast(JR.lateBound("BasicMotionGesturesHandler.jm_g
 JR.cast(jlate())
 }), JR.cast(jm_getMenuInputProcessor(this))))
 })
-        ignore(GameKeyEventHandler.jm_removeListener(GameKeyEventHandler.jm_getInstance(), JR.cast(jm_getMenuInputProcessor(this))))
+        ignore(GameKeyEventHandler.jm_removeListener(JR.cast(GameKeyEventHandler.jm_getInstance()), JR.cast(jm_getMenuInputProcessor(this))))
 }
     
 and jm_getSourceId = (this: DemoCanvas) => {
@@ -632,9 +662,9 @@ and jm_keyRepeatedByDevice = (this: DemoCanvas, keyCode: Int32, deviceId: Int32)
     
 and jm_addGameKeyEvent = (this: DemoCanvas, keyCode: Int32, repeated: Bool) => {
         {
-            let mut gameKey: GameKey = JR.cast(InputToGameKeyMapping.jm_getInstanceForCanvas(this.f_inputToGameKeyMapping, JR.cast(this), keyCode))
+            let mut gameKey: GameKey = JR.cast(InputToGameKeyMapping.jm_getInstanceForCanvas(JR.cast(this.f_inputToGameKeyMapping), JR.cast(this), keyCode))
             if ((!JR.isSame(gameKey, this.f_NONE))) {
-                let mut gameKeyEvent: GameKeyEvent = JR.cast(GameKeyEventFactory.jm_getInstanceForInput(this.f_gameKeyEventFactory, JR.cast(this), JR.cast(gameKey)))
+                let mut gameKeyEvent: GameKeyEvent = JR.cast(GameKeyEventFactory.jm_getInstanceForInput(JR.cast(this.f_gameKeyEventFactory), JR.cast(this), JR.cast(gameKey)))
                 ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DownGameKeyEventHandlerBase.jm_fireEvent"))
 JR.cast(jlate(JR.cast(DownGameKeyEventHandler.jm_getInstance()), JR.cast(gameKeyEvent)))
@@ -644,7 +674,7 @@ JR.cast(jlate(JR.cast(DownGameKeyEventHandler.jm_getInstance()), JR.cast(gameKey
                     this.f_lastKeyNotMapped = keyCode
                     ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), this.f_gameInputStrings.f_NO_KEY), keyCode))), JR.cast(this), JR.cast(this.f_gameInputStrings.f_ADD_KEY_EVENT)))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(this.f_gameInputStrings.f_NO_KEY))), keyCode)))), JR.cast(this), JR.cast(this.f_gameInputStrings.f_ADD_KEY_EVENT)))
 })
                 }
             }
@@ -653,9 +683,9 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(
     
 and jm_removeGameKeyEvent = (this: DemoCanvas, keyCode: Int32, repeated: Bool) => {
         {
-            let mut gameKey: GameKey = JR.cast(InputToGameKeyMapping.jm_getInstanceForCanvas(this.f_inputToGameKeyMapping, JR.cast(this), keyCode))
+            let mut gameKey: GameKey = JR.cast(InputToGameKeyMapping.jm_getInstanceForCanvas(JR.cast(this.f_inputToGameKeyMapping), JR.cast(this), keyCode))
             if ((!JR.isSame(gameKey, this.f_NONE))) {
-                let mut gameKeyEvent: GameKeyEvent = JR.cast(GameKeyEventFactory.jm_getInstanceForInput(this.f_gameKeyEventFactory, JR.cast(this), JR.cast(gameKey)))
+                let mut gameKeyEvent: GameKeyEvent = JR.cast(GameKeyEventFactory.jm_getInstanceForInput(JR.cast(this.f_gameKeyEventFactory), JR.cast(this), JR.cast(gameKey)))
                 ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UpGameKeyEventHandlerBase.jm_fireEvent"))
 JR.cast(jlate(JR.cast(UpGameKeyEventHandler.jm_getInstance()), JR.cast(gameKeyEvent)))
@@ -663,7 +693,7 @@ JR.cast(jlate(JR.cast(UpGameKeyEventHandler.jm_getInstance()), JR.cast(gameKeyEv
             } else {
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), this.f_gameInputStrings.f_NO_KEY), keyCode))), JR.cast(this), JR.cast(this.f_gameInputStrings.f_REMOVE_KEY_EVENT)))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(this.f_gameInputStrings.f_NO_KEY))), keyCode)))), JR.cast(this), JR.cast(this.f_gameInputStrings.f_REMOVE_KEY_EVENT)))
 })
             }
         }
@@ -715,10 +745,10 @@ JR.cast(jlate())
 and jm_isGameOver = (this: DemoCanvas) => {
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), {
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_NOT_IMPLEMENTED"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
-}), " since not a game"))), JR.cast(this), JR.cast("isGameOver")))
+}))), JR.cast(" since not a game"))))), JR.cast(this), JR.cast("isGameOver")))
 })
         return false
 }
@@ -757,9 +787,9 @@ and jm_setHighScoreSubmitted = (this: DemoCanvas, isNotUsed: Bool) => {
 }
     
 and jm_paint = (this: DemoCanvas, graphics: JObject) => {
-        ignore(PaintableInterface.jm_paint(this.f_paintableInterface, graphics))
-        ignore(Animation.jm_paintXY(this.f_paintedSpecialAnimationInterface, graphics, 0l, 0l))
-        ignore(Paintable.jm_paint(this.f_highScoresPaintable, graphics))
+        ignore(PaintableInterface.jm_paint(JR.cast(this.f_paintableInterface), JR.cast(graphics)))
+        ignore(Animation.jm_paintXY(JR.cast(this.f_paintedSpecialAnimationInterface), JR.cast(graphics), 0l, 0l))
+        ignore(Paintable.jm_paint(JR.cast(this.f_highScoresPaintable), JR.cast(graphics)))
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Paintable.jm_paint"))
 JR.cast(jlate(JR.cast(jm_getBasicGameDemoPaintable(this)), JR.cast(graphics)))
@@ -768,13 +798,13 @@ JR.cast(jlate(JR.cast(jm_getBasicGameDemoPaintable(this)), JR.cast(graphics)))
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Paintable.jm_paint"))
 JR.cast(jlate(JR.cast(this.f_overlayPaintable), JR.cast(graphics)))
 })
-        ignore(Paintable.jm_paint(this.f_fullscreenPaintable, graphics))
-        ignore(PaintableInterface.jm_paint(this.f_progressPaintable, graphics))
+        ignore(Paintable.jm_paint(JR.cast(this.f_fullscreenPaintable), JR.cast(graphics)))
+        ignore(PaintableInterface.jm_paint(JR.cast(this.f_progressPaintable), JR.cast(graphics)))
 }
     
 and jm_paintThreed = (this: DemoCanvas, graphics: JObject) => {
-        ignore(PaintableInterface.jm_paintThreed(this.f_paintableInterface, graphics))
-        ignore(Animation.jm_paintThreedXYZ(this.f_paintedSpecialAnimationInterface, graphics, 0l, 0l, 0l))
+        ignore(PaintableInterface.jm_paintThreed(JR.cast(this.f_paintableInterface), JR.cast(graphics)))
+        ignore(Animation.jm_paintThreedXYZ(JR.cast(this.f_paintedSpecialAnimationInterface), JR.cast(graphics), 0l, 0l, 0l))
 }
     
 and jm_processGameOver = (this: DemoCanvas) => {
@@ -789,14 +819,14 @@ and jm_demoStateChange = (this: DemoCanvas) => {
         if (Int32.(>)(newState, 2l)) {
             newState = 0l
         } else if ((newState == 2l)) {
-            if (!HighScoresHelperBase.jm_isAnyHighScores(this.f_highScoresHelper)) {
+            if (!HighScoresHelperBase.jm_isAnyHighScores(JR.cast(this.f_highScoresHelper))) {
                 newState = 0l
             } else {
-                let mut highScores: JObject = JR.cast(HighScoresHelperBase.jm_getNextHighScores(this.f_highScoresHelper))
+                let mut highScores: JObject = JR.cast(HighScoresHelperBase.jm_getNextHighScores(JR.cast(this.f_highScoresHelper)))
                 if (JR.isSame(highScores, NullHighScoresSingletonFactory.jm_getInstance())) {
                     newState = 0l
                 } else {
-                    ignore(HighScoresPaintable.jm_setHighScores(jm_getRealHighScoresPaintable(this), highScores))
+                    ignore(HighScoresPaintable.jm_setHighScores(JR.cast(jm_getRealHighScoresPaintable(this)), JR.cast(highScores)))
                 }
             }
         }
@@ -807,9 +837,9 @@ and jm_demoStateChange = (this: DemoCanvas) => {
 and jm_updateDemoState = (this: DemoCanvas) => {
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(JR.toStringOf(JR.cast(SmallIntegerSingletonFactory.jm_createInstance(SmallIntegerSingletonFactory.jm_getInstance(), this.f_state)))), JR.cast(this), JR.cast(this.f_SET_STATE)))
+JR.cast(jlate(JR.cast(JR.toStringOf(JR.cast(SmallIntegerSingletonFactory.jm_createInstance(JR.cast(SmallIntegerSingletonFactory.jm_getInstance()), this.f_state)))), JR.cast(this), JR.cast(this.f_SET_STATE)))
 })
-        ignore(StatePaintable.jm_setState(jm_getBasicGameDemoPaintable(this), this.f_state))
+        ignore(StatePaintable.jm_setState(JR.cast(jm_getBasicGameDemoPaintable(this)), this.f_state))
         if ((this.f_state == 0l)) {
             this.f_highScoresPaintable = JR.cast(NullPaintable.jm_getInstance())
             this.f_paintedSpecialAnimationInterface = JR.cast(jm_getSpecialAnimationInterface(this))
@@ -830,7 +860,7 @@ JR.cast(jlate(JR.cast(jm_getSpecialAnimationInterface(this))))
         } else if ((this.f_state == 2l)) {
             this.f_highScoresPaintable = JR.cast(jm_getRealHighScoresPaintable(this))
         }
-        let mut gameAdState: JObject = JR.cast(GameAdStateFactory.jm_getCurrentInstance(this.f_gameAdStateFactory))
+        let mut gameAdState: JObject = JR.cast(GameAdStateFactory.jm_getCurrentInstance(JR.cast(this.f_gameAdStateFactory)))
         ignore({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameAdState.jm_processPageAdState"))
 JR.cast(jlate(JR.cast(gameAdState)))
@@ -867,7 +897,7 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_g
 JR.cast(jlate(JR.cast(this.f_gameCanvas)))
 })))
 })
-        ignore(HighScoresPaintable.jm_setBasicColorP(jm_getRealHighScoresPaintable(this), this.f_basicColor))
+        ignore(HighScoresPaintable.jm_setBasicColorP(JR.cast(jm_getRealHighScoresPaintable(this)), JR.cast(this.f_basicColor)))
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_setGameCanvasStartListener"))
 JR.cast(jlate(JR.cast(this.f_gameCanvas), JR.cast(this)))
@@ -879,14 +909,14 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_g
 JR.cast(jlate(JR.cast(this.f_gameCanvas)))
 })))
 })
-        ignore(HighScoresFactoryInterface.jm_fetchHighScores(jm_getHighScoresFactoryInterface(this), gameInfo, JR.cast(this.f_highScoresHelper)))
+        ignore(HighScoresFactoryInterface.jm_fetchHighScores(JR.cast(jm_getHighScoresFactoryInterface(this)), JR.cast(gameInfo), JR.cast(this.f_highScoresHelper)))
 }
     
 and jm_start = (this: DemoCanvas) => {
         let mut gameCanvas: JObject = JR.cast(this.f_gameCanvas)
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Game Thread in DemoCanvas: "), JR.toStringOf(JR.cast(JR.cast(this.f_stringUtil)))))), JR.cast(this), JR.cast({
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("Game Thread in DemoCanvas: "))), JR.cast(JR.toStringOf(JR.cast(JR.cast(this.f_stringUtil)))))))), JR.cast(this), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_START"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 })))
@@ -906,7 +936,10 @@ JR.cast(jlate(JR.cast(this.f_threadFactoryUtil), JR.cast(this.f_canvasThread)))
         if (({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RunnableCanvas.jm_getWait"))
 JR.cast(jlate(JR.cast(this)))
-} == NullWaitGameRunnable.jm_getInstance().f_WAIT)) {
+} == {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("NullWaitGameRunnable.f_WAIT"))
+JR.cast(jlate(JR.cast(NullWaitGameRunnable.jm_getInstance())))
+})) {
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RunnableCanvas.jm_setWait"))
 JR.cast(jlate(JR.cast(this), JR.cast(jm_getTempWait(this))))
@@ -929,17 +962,26 @@ JR.cast(jlate())
 let jlate: () => JObject = JR.cast(JR.lateBound("AllBinaryMediaManager.jm_update"))
 JR.cast(jlate())
 }) {
-                if (!PrimaryPlayerQueueFactory.jm_process(PrimaryPlayerQueueFactory.jm_getInstance())) {
-                    ignore(SecondaryPlayerQueueFactory.jm_process(SecondaryPlayerQueueFactory.jm_getInstance()))
+                if (!{
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PlayerQueue.jm_process"))
+JR.cast(jlate(JR.cast(PrimaryPlayerQueueFactory.jm_getInstance())))
+}) {
+                    ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PlayerQueue.jm_process"))
+JR.cast(jlate(JR.cast(SecondaryPlayerQueueFactory.jm_getInstance())))
+})
                 }
             }
         }
-        ignore(InitUpdatePaintable.jm_update(this.f_overlayPaintable))
+        ignore(InitUpdatePaintable.jm_update(JR.cast(this.f_overlayPaintable)))
 }
     
 and jm_process = (this: DemoCanvas) => {
         ignore(jm_process(this))
-        ignore(BasicMenuInputProcessor.jm_processInputList(jm_getMenuInputProcessor(this)))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicMenuInputProcessor.jm_processInputList"))
+JR.cast(jlate(JR.cast(jm_getMenuInputProcessor(this))))
+})
         ignore(jm_preDemoProcess(this))
         if ((this.f_state == 0l)) {
             let mut indexedAnimationBehavior: IndexedAnimationBehavior = (JR.cast({
@@ -947,7 +989,7 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("IndexedAnimation.jm_getA
 JR.cast(jlate(JR.cast(jm_getSpecialAnimationInterface(this))))
 }))
             if (Int32.(<)(indexedAnimationBehavior.f_loopIndex, 1l)) {
-                ignore(TimeDelayHelper.jm_setStartTimeTNT(this.f_timeDelayHelper))
+                ignore(TimeDelayHelper.jm_setStartTimeTNT(JR.cast(this.f_timeDelayHelper)))
             }
             let mut demoGameMidlet: JObject = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MyCanvas.jm_getCustomCommandListener"))
@@ -969,7 +1011,7 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_g
 JR.cast(jlate(JR.cast(this.f_gameCanvas)))
 })))
 })
-                ignore(GameInfo.jm_setCurrentLevel(gameInfo, randomLevel))
+                ignore(GameInfo.jm_setCurrentLevel(JR.cast(gameInfo), randomLevel))
                 ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_setGameOver"))
 JR.cast(jlate(JR.cast(this.f_gameCanvas), JR.cast(false)))
@@ -1029,7 +1071,7 @@ let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCa
 JR.cast(jlate(JR.cast(this.f_gameCanvas), JR.cast(false)))
 })
         }
-        ignore(ThreadUtil.jm_join(ThreadUtil.jm_getInstance(), this.f_canvasThread))
+        ignore(ThreadUtil.jm_join(JR.cast(ThreadUtil.jm_getInstance()), JR.cast(this.f_canvasThread)))
 }
     
 and jm_showGamePaintable = (this: DemoCanvas) => {
@@ -1085,11 +1127,14 @@ JR.cast(jlate(JR.cast(this.f_gameCanvas)))
 }
     
 and jm_processGame = (this: DemoCanvas) => {
-        ignore(GameRunnable.jm_run(this.f_gameRunnable))
-        if ((!SpecialAnimation.jm_isComplete(this.f_specialAnimationInterface) && jm_isReadyForStateChange(this))) {
-            ignore(SpecialAnimation.jm_nextFrame(this.f_specialAnimationInterface))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameRunnable.jm_run"))
+JR.cast(jlate(JR.cast(this.f_gameRunnable)))
+})
+        if ((!SpecialAnimation.jm_isComplete(JR.cast(this.f_specialAnimationInterface)) && jm_isReadyForStateChange(this))) {
+            ignore(SpecialAnimation.jm_nextFrame(JR.cast(this.f_specialAnimationInterface)))
         }
-        if ((TimeDelayHelper.jm_isTimeTNT(this.f_timeDelayHelper) && jm_isReadyForStateChange(this))) {
+        if ((TimeDelayHelper.jm_isTimeTNT(JR.cast(this.f_timeDelayHelper)) && jm_isReadyForStateChange(this))) {
             ignore(jm_demoStateChange(this))
         } else {
             ignore(jm_process(this))
@@ -1111,16 +1156,16 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
             let mut progressCanvas: ProgressCanvas = JR.cast(ProgressCanvasFactory.jm_getInstance())
             let mut features: Features = JR.cast(Features.jm_getInstance())
             let mut openGLFeatureFactory: OpenGLFeatureFactory = JR.cast(OpenGLFeatureFactory.jm_getInstance())
-            ignore(ProgressCanvas.jm_addNormalPortion(progressCanvas, 50l, "Demo Thread"))
+            ignore(ProgressCanvas.jm_addNormalPortion(JR.cast(progressCanvas), 50l, JR.cast("Demo Thread")))
             ignore({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RunnableCanvas.jm_setCurrentThread"))
 JR.cast(jlate(JR.cast(this)))
 })
             ignore(jm_setRunning(this, true))
-            if (Features.jm_isFeature(features, MainFeatureFactory.jm_getInstance().f_LOAD_ONDEMAND)) {
-                ignore(ProgressCanvas.jm_end(progressCanvas))
+            if (Features.jm_isFeature(JR.cast(features), JR.cast(MainFeatureFactory.jm_getInstance().f_LOAD_ONDEMAND))) {
+                ignore(ProgressCanvas.jm_end(JR.cast(progressCanvas)))
             } else {
-                ignore(ProgressCanvas.jm_addNormalPortion(progressCanvas, 50l, "Demo Thread Running"))
+                ignore(ProgressCanvas.jm_addNormalPortion(JR.cast(progressCanvas), 50l, JR.cast("Demo Thread Running")))
             }
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("FullScreenUtil.jm_initOnRun"))
@@ -1132,7 +1177,7 @@ JR.cast(jlate(JR.cast(this)))
             ignore(jm_initMenu(this))
             ignore(jm_initPostPaint(this))
             ignore(jm_updateDemoState(this))
-            if (Features.jm_isDefault(features, JR.cast(openGLFeatureFactory.f_OPENGL_AS_GAME_THREAD))) {
+            if (Features.jm_isDefault(JR.cast(features), JR.cast(openGLFeatureFactory.f_OPENGL_AS_GAME_THREAD))) {
                 while ((JR.isSame(this.f_gameCanvas, {
 let jlate: () => JObject = JR.cast(JR.lateBound("NullGameCanvas.jm_getInstance"))
 JR.cast(jlate())
@@ -1174,7 +1219,7 @@ JR.cast(jlate())
 })))
 })
             }
-            if ((Features.jm_isDefault(features, JR.cast(openGLFeatureFactory.f_OPENGL_AS_GAME_THREAD)) || J2MEUtil.jm_isHTML())) {
+            if ((Features.jm_isDefault(JR.cast(features), JR.cast(openGLFeatureFactory.f_OPENGL_AS_GAME_THREAD)) || J2MEUtil.jm_isHTML())) {
                 let mut demoGameRunnable: JObject = {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DemoGameRunnable.jnew_1"))
 JR.cast(jlate(JR.cast(this)))
@@ -1233,7 +1278,7 @@ and jm_setRunning = (this: DemoCanvas, running: Bool) => {
             if (running) {
                 void
             } else {
-                if ((((Features.jm_isDefault(features, JR.cast(openGLFeatureFactory.f_OPENGL)) || J2MEUtil.jm_isHTML())) || SWTUtil.jstatic_isSWT())) {
+                if ((((Features.jm_isDefault(JR.cast(features), JR.cast(openGLFeatureFactory.f_OPENGL)) || J2MEUtil.jm_isHTML())) || SWTUtil.jstatic_isSWT())) {
                     let mut currentDisplayableFactory: JObject = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("CurrentDisplayableFactory.jm_getInstance"))
 JR.cast(jlate())
@@ -1251,10 +1296,10 @@ JR.cast(jlate(JR.cast(currentDisplayableFactory)))
 and jm_end = (this: DemoCanvas) => {
         let mut progressCanvas: ProgressCanvas = JR.cast(ProgressCanvasFactory.jm_getInstance())
         let mut features: Features = JR.cast(Features.jm_getInstance())
-        ignore(BaseGameStatistics.jm_add(this.f_baseGameStatistics, StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), jstatic_BOT_GAME_STATS()), BaseGameStatistics.jm_toString(this.f_baseGameStatistics)), CommonSeps.jm_getInstance().f_NEW_LINE))))
-        ignore(BaseGameStatistics.jm_init(this.f_baseGameStatistics))
-        if (Features.jm_isFeature(features, MainFeatureFactory.jm_getInstance().f_LOAD_ONDEMAND)) {
-            ignore(ProgressCanvas.jm_start(progressCanvas))
+        ignore(BaseGameStatistics.jm_add(JR.cast(this.f_baseGameStatistics), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(jstatic_BOT_GAME_STATS()))), JR.cast(BaseGameStatistics.jm_toString(JR.cast(this.f_baseGameStatistics))))), JR.cast(CommonSeps.jm_getInstance().f_NEW_LINE)))))))
+        ignore(BaseGameStatistics.jm_init(JR.cast(this.f_baseGameStatistics)))
+        if (Features.jm_isFeature(JR.cast(features), JR.cast(MainFeatureFactory.jm_getInstance().f_LOAD_ONDEMAND))) {
+            ignore(ProgressCanvas.jm_start(JR.cast(progressCanvas)))
         }
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
@@ -1404,7 +1449,7 @@ JR.cast(jlate())
 and jm_isRunningInAnotherThread = (this: DemoCanvas) => {
         let mut features: Features = JR.cast(Features.jm_getInstance())
         let mut openGLFeatureFactory: OpenGLFeatureFactory = JR.cast(OpenGLFeatureFactory.jm_getInstance())
-        if (Features.jm_isDefault(features, JR.cast(openGLFeatureFactory.f_OPENGL_AS_GAME_THREAD))) {
+        if (Features.jm_isDefault(JR.cast(features), JR.cast(openGLFeatureFactory.f_OPENGL_AS_GAME_THREAD))) {
             return true
         } else {
             return {
@@ -1430,6 +1475,7 @@ and jm_isPaused = (this: DemoCanvas) => {
         return jm_isPaused(this)
 }
 
+JR.registerSuper("DemoCanvas", "RunnableCanvas")
 JR.registerLateBound("DemoCanvas.jnew_7", jnew_7)
 JR.registerLateBound("DemoCanvas.jm_onEvent", jm_onEvent)
 JR.registerLateBound("DemoCanvas.jm_onDisplayChangeEvent", jm_onDisplayChangeEvent)

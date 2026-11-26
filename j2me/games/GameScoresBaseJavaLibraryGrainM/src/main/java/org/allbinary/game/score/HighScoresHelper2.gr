@@ -44,7 +44,7 @@ provide record HighScoresHelper2 {
 provide let rec jclassName = () => "HighScoresHelper2"
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("HighScoresHelper2"), f_logUtil: JR.jnull, f_highScoresArrayP: [> ], f_circularIndexUtil: JR.nullOf(), f_selectedHighScores: JR.jnull, }
+    let this = { jobject: JR.newJObject("HighScoresHelper2"), f_logUtil: JR.nullOf(), f_highScoresArrayP: [> ], f_circularIndexUtil: JR.nullOf(), f_selectedHighScores: JR.nullOf(), }
     this.f_circularIndexUtil = JR.cast(CircularIndexUtil.jm_createInstanceAt(0l, 0l))
     this.f_selectedHighScores = JR.cast(NullHighScoresSingletonFactory.jm_getInstance())
     this
@@ -59,8 +59,8 @@ and jm_getSelectedHighScores = (this: HighScoresHelper2) => {
 }
     
 and jm_setHighScoresArray = (this: HighScoresHelper2, highScoresArrayP: Array<JObject>) => {
-        ignore(jm_setHighScoresArray(this, highScoresArrayP))
-        ignore(CircularIndexUtil.jm_setSize(this.f_circularIndexUtil, Int32.fromNumber(Array.length(JR.cast(this.f_highScoresArrayP)))))
+        ignore(jm_setHighScoresArray(this, JR.cast(highScoresArrayP)))
+        ignore(CircularIndexUtil.jm_setSize(JR.cast(this.f_circularIndexUtil), Int32.fromNumber(Array.length(JR.cast(this.f_highScoresArrayP)))))
         ignore(jm_selectHighScores(this))
 }
     
@@ -69,20 +69,21 @@ and jm_selectHighScores = (this: HighScoresHelper2) => {
             ignore(jm_setSelectedHighScores(this, JR.cast(NullHighScoresSingletonFactory.jm_getInstance())))
             return void
         }
-        ignore(CircularIndexUtil.jm_next(this.f_circularIndexUtil))
-        let mut highScores: JObject = JR.cast(this.f_highScoresArrayP)[Int32.toNumber(CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil))]
+        ignore(CircularIndexUtil.jm_next(JR.cast(this.f_circularIndexUtil)))
+        let mut highScores: JObject = JR.cast(this.f_highScoresArrayP)[Int32.toNumber(CircularIndexUtil.jm_getIndex(JR.cast(this.f_circularIndexUtil)))]
         let mut index: Int32 = 0l
         while ((Int32.(<)({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getTotal"))
 JR.cast(jlate(JR.cast(highScores)))
 }, 1l) && Int32.(<)(index, Int32.fromNumber(Array.length(JR.cast(this.f_highScoresArrayP)))))) {
-            highScores = JR.cast(this.f_highScoresArrayP)[Int32.toNumber(CircularIndexUtil.jm_next(this.f_circularIndexUtil))]
+            highScores = JR.cast(this.f_highScoresArrayP)[Int32.toNumber(CircularIndexUtil.jm_next(JR.cast(this.f_circularIndexUtil)))]
             index = Int32.(+)(index, 1l)
         }
-        ignore(jm_setSelectedHighScores(this, highScores))
+        ignore(jm_setSelectedHighScores(this, JR.cast(highScores)))
     return void
 }
 
+JR.registerSuper("HighScoresHelper2", "HighScoresHelperBase")
 JR.registerLateBound("HighScoresHelper2.jnew_0", jnew_0)
 JR.registerLateBound("HighScoresHelper2.jm_setSelectedHighScores", jm_setSelectedHighScores)
 JR.registerLateBound("HighScoresHelper2.jm_getSelectedHighScores", jm_getSelectedHighScores)

@@ -43,15 +43,16 @@ provide record BasicArrayListS {
 provide let rec jclassName = () => "BasicArrayListS"
     
 and jnew_1 = (size: Int32) => {
-    let this = { jobject: JR.newJObject("BasicArrayListS"), f_arrayUtil: JR.jnull, f_objectArray: [> ], f_currentIndex: 0l, }
+    let this = { jobject: JR.newJObject("BasicArrayListS"), f_arrayUtil: JR.nullOf(), f_objectArray: [> ], f_currentIndex: 0l, }
         void
         if (Int32.(<)(size, 0l)) {
             fail JR.toStringOf(JR.newJObject("IllegalArgumentException"))
         }
-        this.f_objectArray = JR.cast(Array.make(Int32.toNumber(size), JR.jnull))
+        this.f_objectArray = JR.cast(Array.make(Int32.toNumber(size), JR.nullOf()))
     this
 }
 
+JR.registerSuper("BasicArrayListS", "BasicArrayList")
 JR.registerLateBound("BasicArrayListS.jnew_1", jnew_1)
 
 

@@ -46,7 +46,7 @@ provide let rec jclassName = () => "NullLayer"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: NullLayer = jnew_0()
+    let value: NullLayer = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -61,7 +61,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("NullLayer"), f_logUtil: JR.jnull, f_x: 0l, f_y: 0l, f_z: 0l, f_width: 0l, f_height: 0l, f_visible: false, }
+    let this = { jobject: JR.newJObject("NullLayer"), f_logUtil: JR.nullOf(), f_x: 0l, f_y: 0l, f_z: 0l, f_width: 0l, f_height: 0l, f_visible: false, }
         void
     this
 }
@@ -70,6 +70,7 @@ and jm_paint = (this: NullLayer, graphics: JObject) => {
     void
 }
 
+JR.registerSuper("NullLayer", "Layer")
 JR.registerLateBound("NullLayer.jnew_0", jnew_0)
 JR.registerLateBound("NullLayer.jm_getInstance", jm_getInstance)
 JR.registerLateBound("NullLayer.jm_paint", jm_paint)

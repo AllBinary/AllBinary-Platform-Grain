@@ -94,16 +94,25 @@ and jnew_1 = (node: Node) => {
     
     
     
-        let mut enabledValueNode: Node = JR.cast(DomSearchHelper.jm_getNode(EntryData.jm_getInstance().f_ENABLE, JR.cast(Node.jm_getChildNodes(node))))
-        let mut isEnabledString: String = DomNodeHelper.jm_getTextNodeValue_1(enabledValueNode)
-        this.f_isEnabled = BooleanUtil.jm_getFromString(BooleanUtil.jm_getInstance(), isEnabledString)
+        let mut enabledValueNode: Node = JR.cast(DomSearchHelper.jm_getNode(JR.cast(EntryData.jm_getInstance().f_ENABLE), JR.cast(Node.jm_getChildNodes_0(node))))
+        let mut isEnabledString: String = DomNodeHelper.jm_getTextNodeValue_1(JR.cast(enabledValueNode))
+        this.f_isEnabled = BooleanUtil.jm_getFromString(JR.cast(BooleanUtil.jm_getInstance()), JR.cast(isEnabledString))
         let mut logConfigData: LogConfigData = JR.cast(LogConfigData.jm_getInstance())
-        let mut nameValueNode: Node = JR.cast(DomSearchHelper.jm_getNode(logConfigData.f_NAME, JR.cast(Node.jm_getChildNodes(node))))
-        this.f_name = DomNodeHelper.jm_getTextNodeValue_1(nameValueNode)
-        let mut descriptionValueNode: Node = JR.cast(DomSearchHelper.jm_getNode(logConfigData.f_DESCRIPTION, JR.cast(Node.jm_getChildNodes(node))))
-        this.f_description = DomNodeHelper.jm_getTextNodeValue_1(descriptionValueNode)
-        let mut fileValueNode: Node = JR.cast(DomSearchHelper.jm_getNode(logConfigData.f_FILE, JR.cast(Node.jm_getChildNodes(node))))
-        this.f_fileName = DomNodeHelper.jm_getTextNodeValue_1(fileValueNode)
+        let mut nameValueNode: Node = JR.cast(DomSearchHelper.jm_getNode(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigData.f_NAME"))
+JR.cast(jlate(JR.cast(logConfigData)))
+}), JR.cast(Node.jm_getChildNodes_0(node))))
+        this.f_name = DomNodeHelper.jm_getTextNodeValue_1(JR.cast(nameValueNode))
+        let mut descriptionValueNode: Node = JR.cast(DomSearchHelper.jm_getNode(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigData.f_DESCRIPTION"))
+JR.cast(jlate(JR.cast(logConfigData)))
+}), JR.cast(Node.jm_getChildNodes_0(node))))
+        this.f_description = DomNodeHelper.jm_getTextNodeValue_1(JR.cast(descriptionValueNode))
+        let mut fileValueNode: Node = JR.cast(DomSearchHelper.jm_getNode(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigData.f_FILE"))
+JR.cast(jlate(JR.cast(logConfigData)))
+}), JR.cast(Node.jm_getChildNodes_0(node))))
+        this.f_fileName = DomNodeHelper.jm_getTextNodeValue_1(JR.cast(fileValueNode))
     this
 }
     
@@ -149,24 +158,24 @@ and jm_setFileName = (this: LogConfig, value: String) => {
     
 and jm_getDoc = (this: LogConfig) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, URLGLOBALS.jm_getWebappPath()))
-        ignore(StringMaker.jm_append(stringBuffer, PATH_GLOBALS.jm_getInstance().f_INIT_PATH))
-        ignore(StringMaker.jm_append(stringBuffer, jm_getFileName(this)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(URLGLOBALS.jm_getWebappPath())))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(PATH_GLOBALS.jm_getInstance().f_INIT_PATH)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jm_getFileName(this))))
         let mut file: JObject = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFile"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(stringBuffer))))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer)))))
 })
-        let mut document: Document = JR.cast(DomDocumentHelper.jm_create_1_InputStream_(JR.cast(AbFileLocalInputStream.jnew_1(file))))
+        let mut document: Document = JR.cast(DomDocumentHelper.jm_create_1_InputStream_(JR.cast(AbFileLocalInputStream.jnew_1(JR.cast(file)))))
         return document
 }
     
 and jm_getTypeVector = (this: LogConfig) => {
         let mut logKeyVector: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
         let mut document: Document = JR.cast(jm_getDoc(this))
-        let mut logConfigTypesNodeList: NodeList = JR.cast(Document.jm_getElementsByTagName(document, LogConfigTypesData.jm_getInstance().f_NAME))
-        let mut logConfigTypesNode: Node = JR.cast(NodeList.jm_item(logConfigTypesNodeList, 0l))
-        let mut logConfigTypeNodeVector: BasicArrayList = JR.cast(DomSearchHelper.jm_getAllNodes(LogConfigTypeData.jm_getInstance().f_NAME, JR.cast(Node.jm_getChildNodes(logConfigTypesNode))))
-        let mut size: Int32 = BasicArrayList.jm_size(logConfigTypeNodeVector)
+        let mut logConfigTypesNodeList: NodeList = JR.cast(Document.jm_getElementsByTagName_1(document, LogConfigTypesData.jm_getInstance().f_NAME))
+        let mut logConfigTypesNode: Node = JR.cast(NodeList.jm_item_1(logConfigTypesNodeList, 0l))
+        let mut logConfigTypeNodeVector: BasicArrayList = JR.cast(DomSearchHelper.jm_getAllNodes(JR.cast(LogConfigTypeData.jm_getInstance().f_NAME), JR.cast(Node.jm_getChildNodes_0(logConfigTypesNode))))
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(logConfigTypeNodeVector))
         {
             let mut i: Int32 = 0l
             let mut jfirst = true
@@ -176,12 +185,12 @@ and jm_getTypeVector = (this: LogConfig) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(i, size))) break
-            let mut node: Node = JR.cast(BasicArrayList.jm_get(logConfigTypeNodeVector, i))
+            let mut node: Node = JR.cast(BasicArrayList.jm_get(JR.cast(logConfigTypeNodeVector), i))
             let mut logType: JObject = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypes.jm_getInstance"))
 JR.cast(jlate(JR.cast(node)))
 })
-            ignore(BasicArrayList.jm_add(logKeyVector, JR.cast(logType)))
+            ignore(BasicArrayList.jm_add(JR.cast(logKeyVector), JR.cast(logType)))
             }
         }
         return logKeyVector

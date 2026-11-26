@@ -47,9 +47,9 @@ and jnew_0 = () => {
     
 and jm_viewAll = (myClass: String, lineBreak: String) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        let mut constructor: Array<Constructor> = JR.reflectionUnsupported("getConstructors", myClass)
-        ignore(StringMaker.jm_append(stringBuffer, "Constructors: "))
-        ignore(StringMaker.jm_append(stringBuffer, lineBreak))
+        let mut constructor: Array<Constructor> = JR.cast(JR.reflectionUnsupported("getConstructors", myClass))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Constructors: ")))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(lineBreak)))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -59,18 +59,18 @@ and jm_viewAll = (myClass: String, lineBreak: String) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, Int32.fromNumber(Array.length(constructor))))) break
-            ignore(StringMaker.jm_append(stringBuffer, JR.cast(jm_view(constructor[Int32.toNumber(index)], lineBreak))))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jm_view(JR.cast(constructor[Int32.toNumber(index)]), JR.cast(lineBreak)))))
             }
         }
-        return StringMaker.jm_toString(stringBuffer)
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
     
 and jm_view = (constructor: Constructor, lineBreak: String) => {
         if (!JR.isNull(constructor)) {
             let mut commonSeps: CommonSeps = JR.cast(CommonSeps.jm_getInstance())
             let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-            ignore(StringMaker.jm_append(stringBuffer, Constructor.jm_getName_0(constructor)))
-            let mut classes: Array<String> = Constructor.jm_getParameterTypes_0(constructor)
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(Constructor.jm_getName_0(constructor))))
+            let mut classes: Array<String> = JR.cast(Constructor.jm_getParameterTypes_0(constructor))
             {
                 let mut index: Int32 = 0l
                 let mut jfirst = true
@@ -80,14 +80,14 @@ and jm_view = (constructor: Constructor, lineBreak: String) => {
                     }
                     jfirst = false
                     if (!(Int32.(<)(index, Int32.fromNumber(Array.length(classes))))) break
-                ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_SPACE))
-                ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(classes[Int32.toNumber(index)]))))
-                ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_COLON))
-                ignore(StringMaker.jm_appendint(stringBuffer, index))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(commonSeps.f_SPACE)))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(JR.invoke0(classes[Int32.toNumber(index)], "jm_getName"))))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(commonSeps.f_COLON)))
+                ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), index))
                 }
             }
-            ignore(StringMaker.jm_append(stringBuffer, lineBreak))
-            return StringMaker.jm_toString(stringBuffer)
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(lineBreak)))
+            return StringMaker.jm_toString(JR.cast(stringBuffer))
         } else {
             return "Constructor Null"
         }

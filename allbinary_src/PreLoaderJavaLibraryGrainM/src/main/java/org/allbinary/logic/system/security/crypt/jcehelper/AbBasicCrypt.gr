@@ -31,6 +31,12 @@ from "../../../../../../../java/security/Security.gr" include Security
 use Security.{ type Security }
 from "../../../../../../../java/security/spec/KeySpec.gr" include KeySpec
 use KeySpec.{ type KeySpec }
+from "../../../../../../../javax/crypto/Cipher.gr" include Cipher
+use Cipher.{ type Cipher }
+from "../../../../../../../javax/crypto/SecretKey.gr" include SecretKey
+use SecretKey.{ type SecretKey }
+from "../../../../../../../javax/crypto/SecretKeyFactory.gr" include SecretKeyFactory
+use SecretKeyFactory.{ type SecretKeyFactory }
 from "../../../../../../../org/allbinary/init/crypt/jcehelper/CryptInterface.gr" include CryptInterface
 use CryptInterface.{ type CryptInterface }
 from "../../../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
@@ -68,19 +74,22 @@ and jnew_2 = (algorithm: String, key: String) => {
 and jm_init = (this: AbBasicCrypt) => {
         {
             let mut sunJce: Provider = JR.cast(SunJCE.jnew_0())
-            ignore(Security.jm_addProvider_1(sunJce))
-            let mut keySpec: KeySpec = JR.cast(KeySpecFactory.jm_getInstance_2(KeySpecFactory.jm_getInstance_0(), this.f_algorithm, this.f_key))
-            let mut keyFactory: SecretKeyFactory = JR.cast(SecretKeyFactory.jm_getInstance(this.f_algorithm))
-            this.f_secretKey = JR.cast(SecretKeyFactory.jm_generateSecret(keyFactory, keySpec))
-            this.f_cipher = JR.cast(Cipher.jm_getInstance(this.f_algorithm))
+            ignore(Security.jm_addProvider_1(JR.cast(sunJce)))
+            let mut keySpec: KeySpec = JR.cast({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("KeySpecFactory.jm_getInstance_2"))
+JR.cast(jlate(JR.cast(KeySpecFactory.jm_getInstance_0()), JR.cast(this.f_algorithm), JR.cast(this.f_key)))
+})
+            let mut keyFactory: SecretKeyFactory = JR.cast(SecretKeyFactory.jm_getInstance_1(this.f_algorithm))
+            this.f_secretKey = JR.cast(SecretKeyFactory.jm_generateSecret_1(keyFactory, keySpec))
+            this.f_cipher = JR.cast(Cipher.jm_getInstance_1(this.f_algorithm))
         }
 }
     
 and jm_encrypt = (this: AbBasicCrypt, array: Array<Int32>) => {
         {
-            ignore(Cipher.jm_init(this.f_cipher, Cipher.jstatic_ENCRYPT_MODE(), this.f_secretKey))
-            let mut ivArray: Array<Int32> = SecretKey.jm_getEncoded(this.f_secretKey)
-            let mut encrypted: Array<Int32> = Cipher.jm_doFinal(this.f_cipher, array)
+            ignore(Cipher.jm_init_2(this.f_cipher, Cipher.jstatic_ENCRYPT_MODE(), this.f_secretKey))
+            let mut ivArray: Array<Int32> = SecretKey.jm_getEncoded_0(this.f_secretKey)
+            let mut encrypted: Array<Int32> = Cipher.jm_doFinal_1(this.f_cipher, array)
             let mut result: Array<Int32> = Array.make(Int32.toNumber(Int32.(+)(Int32.fromNumber(Array.length(ivArray)), Int32.fromNumber(Array.length(encrypted)))), 0l)
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
@@ -117,7 +126,7 @@ JR.cast(jlate(JR.cast("ivArray Length: " ++ toString(Int32.fromNumber(Array.leng
     
 and jm_decrypt = (this: AbBasicCrypt, array: Array<Int32>) => {
         {
-            ignore(Cipher.jm_init(this.f_cipher, Cipher.jstatic_DECRYPT_MODE(), this.f_secretKey))
+            ignore(Cipher.jm_init_2(this.f_cipher, Cipher.jstatic_DECRYPT_MODE(), this.f_secretKey))
             let mut ivArray: Array<Int32> = Array.make(Int32.toNumber(8l), 0l)
             {
                 let mut index: Int32 = 0l
@@ -148,7 +157,7 @@ JR.cast(jlate(JR.cast("ivArray Length: " ++ toString(Int32.fromNumber(Array.leng
                 result[Int32.toNumber(Int32.(-)(index, Int32.fromNumber(Array.length(ivArray))))] = array[Int32.toNumber(index)]
                 }
             }
-            let mut decrypted: Array<Int32> = Cipher.jm_doFinal(this.f_cipher, result)
+            let mut decrypted: Array<Int32> = Cipher.jm_doFinal_1(this.f_cipher, result)
             return result
         }
     return [> ]

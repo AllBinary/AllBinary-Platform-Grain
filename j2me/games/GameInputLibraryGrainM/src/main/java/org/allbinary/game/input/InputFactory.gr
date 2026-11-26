@@ -54,7 +54,7 @@ provide let rec jclassName = () => "InputFactory"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    let value: JObject = JR.cast(NullUtil.jm_getInstance().f_NULL_OBJECT)
     jcell_instance = Some(value)
     value
   },
@@ -72,7 +72,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("InputFactory"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_KEY_CODE_LABEL: "", f_DEVICE_ID_LABEL: "", f_MAX: 0l, f_inputIntegerArray: [> ], f_NO_INPUT: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("InputFactory"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_KEY_CODE_LABEL: "", f_DEVICE_ID_LABEL: "", f_MAX: 0l, f_inputIntegerArray: [> ], f_NO_INPUT: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -80,7 +80,7 @@ JR.cast(jlate())
     this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
     this.f_KEY_CODE_LABEL = "KeyCode: "
     this.f_DEVICE_ID_LABEL = "DeviceId: "
-    this.f_MAX = SmallIntegerSingletonFactory.jm_getMin(SmallIntegerSingletonFactory.jm_getInstance())
+    this.f_MAX = SmallIntegerSingletonFactory.jm_getMin(JR.cast(SmallIntegerSingletonFactory.jm_getInstance()))
     this.f_inputIntegerArray = Array.make(Int32.toNumber(this.f_MAX), JR.nullOf())
     this.f_NO_INPUT = Input.jnew_2(0l, this.f_commonStrings.f_UNKNOWN)
         let mut size: Int32 = Int32.fromNumber(Array.length(this.f_inputIntegerArray))
@@ -111,7 +111,7 @@ and jm_getInstanceById = (this: InputFactory, id: Int32) => {
         if (Int32.(>)(id, Int32.fromNumber(Array.length(this.f_inputIntegerArray)))) {
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), "Warning id: "), id))), JR.cast(this), JR.cast(this.f_commonStrings.f_GET_INSTANCE)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("Warning id: "))), id)))), JR.cast(this), JR.cast(this.f_commonStrings.f_GET_INSTANCE)))
 })
             return this.f_NO_INPUT
         }

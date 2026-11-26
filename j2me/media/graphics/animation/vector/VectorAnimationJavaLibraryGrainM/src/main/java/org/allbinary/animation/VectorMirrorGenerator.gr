@@ -53,7 +53,7 @@ provide let rec jclassName = () => "VectorMirrorGenerator"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: VectorMirrorGenerator = jnew_0()
+    let value: VectorMirrorGenerator = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -68,7 +68,7 @@ and jm_getInstance_0 = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("VectorMirrorGenerator"), f_logUtil: JR.jnull, f_vectorAnimationUtil: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("VectorMirrorGenerator"), f_logUtil: JR.nullOf(), f_vectorAnimationUtil: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance_0"))
 JR.cast(jlate())
@@ -107,10 +107,10 @@ and jm_getInstance_2_intAAA_int_ = (this: VectorMirrorGenerator, points: Array<A
                         }
                         jfirst = false
                         if (!(Int32.(<)(index, size2))) break
-                    ignore(BasicArrayList.jm_add(pointBasicArrayList, JR.cast(PointFactory.jm_createXY(pointFactory, nextPoints[Int32.toNumber(index)][Int32.toNumber(0l)], nextPoints[Int32.toNumber(index)][Int32.toNumber(1l)]))))
+                    ignore(BasicArrayList.jm_add(JR.cast(pointBasicArrayList), JR.cast(PointFactory.jm_createXY(JR.cast(pointFactory), nextPoints[Int32.toNumber(index)][Int32.toNumber(0l)], nextPoints[Int32.toNumber(index)][Int32.toNumber(1l)]))))
                     }
                 }
-                ignore(BasicArrayList.jm_add(pointsBasicArrayList, JR.cast(pointBasicArrayList)))
+                ignore(BasicArrayList.jm_add(JR.cast(pointsBasicArrayList), JR.cast(pointBasicArrayList)))
                 }
             }
             {
@@ -122,20 +122,23 @@ and jm_getInstance_2_intAAA_int_ = (this: VectorMirrorGenerator, points: Array<A
                     }
                     jfirst = false
                     if (!(Int32.(<)(index, Int32.fromNumber(Array.length(points))))) break
-                ignore(BasicArrayList.jm_add(pointsBasicArrayList, JR.cast(jm_getInstance_2_BasicArrayList_int_(this, JR.cast(pointsBasicArrayList.f_objectArray[Int32.toNumber(index)]), width))))
+                ignore(BasicArrayList.jm_add(JR.cast(pointsBasicArrayList), JR.cast(jm_getInstance_2_BasicArrayList_int_(this, JR.cast(pointsBasicArrayList.f_objectArray[Int32.toNumber(index)]), width))))
                 }
             }
-            let mut newPoints: Array<Array<Array<Int32>>> = VectorAnimationUtil.jm_toAnimationArrayFromListOfPointList(this.f_vectorAnimationUtil, pointsBasicArrayList)
+            let mut newPoints: Array<Array<Array<Int32>>> = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("VectorAnimationUtil.jm_toAnimationArrayFromListOfPointList"))
+JR.cast(jlate(JR.cast(this.f_vectorAnimationUtil), JR.cast(pointsBasicArrayList)))
+}
             return newPoints
         }
     return [> ]
 }
     
 and jm_getInstance_2_BasicArrayList_int_ = (this: VectorMirrorGenerator, pointBasicArrayList: BasicArrayList, width: Int32) => {
-        let mut graphicsPipe: BasicGraphicsPipeline = BasicGraphicsPipeline.jnew_1(pointBasicArrayList)
-        ignore(BasicGraphicsPipeline.jm_createMatrix(graphicsPipe))
-        ignore(BasicGraphicsPipeline.jm_mirror(graphicsPipe, width))
-        return BasicGraphicsPipeline.jm_getMatrix(graphicsPipe)
+        let mut graphicsPipe: BasicGraphicsPipeline = BasicGraphicsPipeline.jnew_1(JR.cast(pointBasicArrayList))
+        ignore(BasicGraphicsPipeline.jm_createMatrix(JR.cast(graphicsPipe)))
+        ignore(BasicGraphicsPipeline.jm_mirror(JR.cast(graphicsPipe), width))
+        return BasicGraphicsPipeline.jm_getMatrix(JR.cast(graphicsPipe))
 }
 
 JR.registerLateBound("VectorMirrorGenerator.jnew_0", jnew_0)

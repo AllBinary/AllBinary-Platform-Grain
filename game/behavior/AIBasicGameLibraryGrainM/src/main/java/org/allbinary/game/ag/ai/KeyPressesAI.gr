@@ -36,6 +36,15 @@ use HashtableUtil.{ type HashtableUtil }
 from "../../../../../org/allbinary/game/ai/BasicAI.gr" include BasicAI
 use BasicAI.{ type BasicAI }
 from "../../../../../java/lang/Integer.gr" include Integer
+from "../../../../../java/lang/Long.gr" include Long
+from "../../../../../java/lang/Short.gr" include Short
+from "../../../../../java/lang/Byte.gr" include Byte
+from "../../../../../java/lang/Character.gr" include Character
+from "../../../../../java/lang/Float.gr" include Float
+from "../../../../../java/lang/Double.gr" include Double
+from "../../../../../java/lang/Boolean.gr" include Boolean
+from "../../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 
 provide record KeyPressesAI {
   jobject: JObject,
@@ -53,7 +62,7 @@ provide record KeyPressesAI {
 provide let rec jclassName = () => "KeyPressesAI"
     
 and jnew_3 = (hashtable: JObject, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
-    let this = { jobject: JR.newJObject("KeyPressesAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_on: false, f_keys: [> ], }
+    let this = { jobject: JR.newJObject("KeyPressesAI"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_ownerLayerInterface: JR.nullOf(), f_gameInput: JR.nullOf(), f_lastKey: 0l, f_on: false, f_keys: [> ], }
     this.f_on = true
     
         void
@@ -61,7 +70,7 @@ and jnew_3 = (hashtable: JObject, ownerLayerInterface: AllBinaryLayer, gameInput
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_size"))
 JR.cast(jlate(JR.cast(hashtable)))
 }), 0l)
-        let mut objectArray: Array<JObject> = HashtableUtil.jm_getKeysAsArray(HashtableUtil.jm_getInstance(), hashtable)
+        let mut objectArray: Array<JObject> = JR.cast(HashtableUtil.jm_getKeysAsArray(JR.cast(HashtableUtil.jm_getInstance()), JR.cast(hashtable)))
         let mut size: Int32 = Int32.fromNumber(Array.length(objectArray))
         {
             let mut index: Int32 = 0l
@@ -94,7 +103,7 @@ and jm_processAI = (this: KeyPressesAI, allBinaryLayerManager: AllBinaryLayerMan
                     if (!(Int32.(<)(index, Int32.fromNumber(Array.length(this.f_keys))))) break
                 ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
-JR.cast(jlate(JR.cast(this), JR.cast(JR.className(JR.cast(this.f_keys[Int32.toNumber(index)])))))
+JR.cast(jlate(JR.cast(this), JR.cast(Integer.jm_intValue(JR.cast(this.f_keys[Int32.toNumber(index)])))))
 })
                 }
             }
@@ -125,6 +134,7 @@ and jm_isOn = (this: KeyPressesAI) => {
         return this.f_on
 }
 
+JR.registerSuper("KeyPressesAI", "BasicAI")
 JR.registerLateBound("KeyPressesAI.jnew_3", jnew_3)
 JR.registerLateBound("KeyPressesAI.jm_processAI", jm_processAI)
 JR.registerLateBound("KeyPressesAI.jm_toggle", jm_toggle)

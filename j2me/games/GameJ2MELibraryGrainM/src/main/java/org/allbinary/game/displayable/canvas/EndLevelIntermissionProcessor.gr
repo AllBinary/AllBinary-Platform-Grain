@@ -46,9 +46,13 @@ and jnew_1 = (gameCanvas: AllBinaryGameCanvas) => {
 }
     
 and jm_process = (this: EndLevelIntermissionProcessor) => {
-        ignore(AllBinaryGameCanvas.jm_processEndLevelIntermissionGameState(this.f_gameCanvas))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_processEndLevelIntermissionGameState"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas)))
+})
 }
 
+JR.registerSuper("EndLevelIntermissionProcessor", "Processor")
 JR.registerLateBound("EndLevelIntermissionProcessor.jnew_1", jnew_1)
 JR.registerLateBound("EndLevelIntermissionProcessor.jm_process", jm_process)
 JR.registerLateBound("EndLevelIntermissionProcessor.f_gameCanvas", (this: EndLevelIntermissionProcessor) => this.f_gameCanvas)

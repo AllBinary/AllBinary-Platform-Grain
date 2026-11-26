@@ -42,8 +42,11 @@ provide record ColorChangeEvent {
 provide let rec jclassName = () => "ColorChangeEvent"
     
 and jnew_1 = (anyType: JObject) => {
-    let this = { jobject: JR.newJObject("ColorChangeEvent"), f_source: JR.jnull, f_basicColor: JR.nullOf(), }
-    this.f_basicColor = JR.cast(BasicColorFactory.jm_getInstance().f_WHITE)
+    let this = { jobject: JR.newJObject("ColorChangeEvent"), f_source: JR.nullOf(), f_basicColor: JR.nullOf(), }
+    this.f_basicColor = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicColorFactory.f_WHITE"))
+JR.cast(jlate(JR.cast(BasicColorFactory.jm_getInstance())))
+})
         void
     this
 }
@@ -56,6 +59,7 @@ and jm_getBasicColorP = (this: ColorChangeEvent) => {
         return this.f_basicColor
 }
 
+JR.registerSuper("ColorChangeEvent", "AllBinaryEventObject")
 JR.registerLateBound("ColorChangeEvent.jnew_1", jnew_1)
 JR.registerLateBound("ColorChangeEvent.jm_setBasicColorP", jm_setBasicColorP)
 JR.registerLateBound("ColorChangeEvent.jm_getBasicColorP", jm_getBasicColorP)

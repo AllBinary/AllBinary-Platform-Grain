@@ -45,6 +45,7 @@ use ExitRunnable.{ type ExitRunnable }
 //J2SEForJ2ME
 provide record ProgressMidlet {
   jobject: JObject,
+  mut f_destroyed: Bool,
   mut f_logUtil: JObject,
   mut f_commonStrings: JObject,
   mut f_SET_DISPLAY: String,
@@ -60,10 +61,10 @@ provide record ProgressMidlet {
 provide let rec jclassName = () => "ProgressMidlet"
     
 and jnew_1 = (clientInformationFactory: ClientInformationFactory) => {
-    let this = { jobject: JR.newJObject("ProgressMidlet"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_SET_DISPLAY: "", f_SETTING_: "", f__DISPLAY_: "", f_SETTING_NO_TITLE: "", f_hashtable: JR.jnull, f_midletDestroyed: false, f_abeClientInformation: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("ProgressMidlet"), f_destroyed: false, f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_SET_DISPLAY: "", f_SETTING_: "", f__DISPLAY_: "", f_SETTING_NO_TITLE: "", f_hashtable: JR.nullOf(), f_midletDestroyed: false, f_abeClientInformation: JR.nullOf(), }
     
         ignore(jm_preInit(this))
-        this.f_abeClientInformation = JR.cast(ClientInformationFactory.jm_getInstance(clientInformationFactory))
+        this.f_abeClientInformation = JR.cast(ClientInformationFactory.jm_getInstance(JR.cast(clientInformationFactory)))
     this
 }
     
@@ -72,10 +73,13 @@ and jm_preInit = (this: ProgressMidlet) => {
 }
     
 and jm_exitProgress = (this: ProgressMidlet, isProgress: Bool) => {
-        let mut processor: Processor = JR.cast(MidletExitProcessorFactory.jm_getExitInstance(MidletExitProcessorFactory.jm_getInstance(), JR.cast(this)))
+        let mut processor: Processor = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("MidletExitProcessorFactory.jm_getExitInstance"))
+JR.cast(jlate(JR.cast(MidletExitProcessorFactory.jm_getInstance()), JR.cast(this)))
+})
         {
             let mut primaryThreadPool: JObject = JR.cast(PrimaryThreadPool.jm_getInstance())
-            let mut runnable: Runnable = JR.cast(ExitRunnable.jnew_3(JR.cast(this), processor, isProgress))
+            let mut runnable: Runnable = JR.cast(ExitRunnable.jnew_3(JR.cast(this), JR.cast(processor), isProgress))
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.jm_runTask"))
 JR.cast(jlate(JR.cast(primaryThreadPool), JR.cast(runnable)))
@@ -83,6 +87,7 @@ JR.cast(jlate(JR.cast(primaryThreadPool), JR.cast(runnable)))
         }
 }
 
+JR.registerSuper("ProgressMidlet", "AllBinaryMidlet")
 JR.registerLateBound("ProgressMidlet.jnew_1", jnew_1)
 JR.registerLateBound("ProgressMidlet.jm_preInit", jm_preInit)
 JR.registerLateBound("ProgressMidlet.jm_exitProgress", jm_exitProgress)

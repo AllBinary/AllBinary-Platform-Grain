@@ -27,6 +27,14 @@ from "../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
 from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
 use StringUtil.{ type StringUtil }
+from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/lang/Long.gr" include Long
+from "../../../../java/lang/Short.gr" include Short
+from "../../../../java/lang/Byte.gr" include Byte
+from "../../../../java/lang/Character.gr" include Character
+from "../../../../java/lang/Float.gr" include Float
+from "../../../../java/lang/Double.gr" include Double
+from "../../../../java/lang/Boolean.gr" include Boolean
 from "./BasicColor.gr" include BasicColor
 use BasicColor.{ type BasicColor }
 from "./BasicColorFactory.gr" include BasicColorFactory
@@ -47,7 +55,7 @@ provide let rec jclassName = () => "SmallBasicColorCacheFactory"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: SmallBasicColorCacheFactory = jnew_0()
+    let value: SmallBasicColorCacheFactory = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -73,7 +81,10 @@ and jnew_0 = () => {
     
 and jm_add = (this: SmallBasicColorCacheFactory, basicDefaultColor: BasicColor) => {
         this.f_BASIC_COLOR_ARRAY[Int32.toNumber(this.f_colorIndex)] = JR.cast(basicDefaultColor)
-        this.f_INDEX_TO_COLOR[Int32.toNumber(this.f_colorIndex)] = BasicColor.jm_intValue(basicDefaultColor)
+        this.f_INDEX_TO_COLOR[Int32.toNumber(this.f_colorIndex)] = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicColor.jm_intValue"))
+JR.cast(jlate(JR.cast(basicDefaultColor)))
+}
         this.f_colorIndex = Int32.(+)(this.f_colorIndex, 1l)
 }
     
@@ -94,8 +105,11 @@ and jm_getAndOrCreate = (this: SmallBasicColorCacheFactory, colorAsInt: Int32) =
             }
         }
         let mut l_ALPHA_MASK: Int32 = 0xFF000000l
-        basicColor = JR.cast(BasicColorFactory.jm_createInstanceAN(BasicColorFactory.jm_getInstance(), Int32.(&)(colorAsInt, l_ALPHA_MASK), Int32.(&)(colorAsInt, 0x00FFFFFFl), StringUtil.jm_getInstance().f_EMPTY_STRING))
-        ignore(jm_add(this, basicColor))
+        basicColor = JR.cast({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicColorFactory.jm_createInstanceAN"))
+JR.cast(jlate(JR.cast(BasicColorFactory.jm_getInstance()), JR.cast(Int32.(&)(colorAsInt, l_ALPHA_MASK)), JR.cast(Int32.(&)(colorAsInt, 0x00FFFFFFl)), JR.cast(StringUtil.jm_getInstance().f_EMPTY_STRING)))
+})
+        ignore(jm_add(this, JR.cast(basicColor)))
         return basicColor
 }
 

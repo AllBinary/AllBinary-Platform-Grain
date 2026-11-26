@@ -61,7 +61,7 @@ and jset_index = (value: Int32) => {
 and jstatic_pointCircularPool = () => match (jcell_pointCircularPool) {
   Some(value) => value,
   None => {
-    let value: GPointCircularPool = GPointCircularPool.jnew_1(40l)
+    let value: GPointCircularPool = JR.cast(GPointCircularPool.jnew_1(40l))
     jcell_pointCircularPool = Some(value)
     value
   },
@@ -75,7 +75,7 @@ and jnew_0 = () => {
     let this = { jobject: JR.newJObject("GestureOnlyMotionRecognizer"), f_motionGestureRecognizer: JR.nullOf(), f_id: 0l, }
     
     
-        this.f_id = { let jold = jstatic_index(); jstatic_index() = Int32.(+)(jold, 1l); jold }
+        this.f_id = { let jold = jstatic_index(); jset_index(Int32.(+)(jold, 1l)); jold }
         this.f_motionGestureRecognizer = JR.cast(MotionGestureRecognizer.jnew_1(this.f_id))
     this
 }
@@ -85,9 +85,9 @@ and jm_processStartMotionEvent = (this: GestureOnlyMotionRecognizer, x: Int32, y
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseCircularPool.jm_getNextInstance"))
 JR.cast(jlate(JR.cast(jstatic_pointCircularPool())))
 })
-        ignore(CustomGPoint.jm_setX(point, x))
-        ignore(CustomGPoint.jm_setY(point, y))
-        ignore(MotionGestureRecognizer.jm_processPressedMotionEvent(this.f_motionGestureRecognizer, JR.cast(point), deviceId, modifiers))
+        ignore(CustomGPoint.jm_setX(JR.cast(point), x))
+        ignore(CustomGPoint.jm_setY(JR.cast(point), y))
+        ignore(MotionGestureRecognizer.jm_processPressedMotionEvent(JR.cast(this.f_motionGestureRecognizer), JR.cast(point), deviceId, modifiers))
 }
     
 and jm_processEndMotionEvent = (this: GestureOnlyMotionRecognizer, x: Int32, y: Int32, deviceId: Int32, modifiers: Int32) => {
@@ -95,9 +95,9 @@ and jm_processEndMotionEvent = (this: GestureOnlyMotionRecognizer, x: Int32, y: 
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseCircularPool.jm_getNextInstance"))
 JR.cast(jlate(JR.cast(jstatic_pointCircularPool())))
 })
-        ignore(CustomGPoint.jm_setX(point, x))
-        ignore(CustomGPoint.jm_setY(point, y))
-        ignore(MotionGestureRecognizer.jm_processReleasedMotionEvent(this.f_motionGestureRecognizer, JR.cast(point), deviceId, modifiers))
+        ignore(CustomGPoint.jm_setX(JR.cast(point), x))
+        ignore(CustomGPoint.jm_setY(JR.cast(point), y))
+        ignore(MotionGestureRecognizer.jm_processReleasedMotionEvent(JR.cast(this.f_motionGestureRecognizer), JR.cast(point), deviceId, modifiers))
 }
     
 and jm_processDraggedMotionEvent = (this: GestureOnlyMotionRecognizer, x: Int32, y: Int32, deviceId: Int32, modifiers: Int32) => {
@@ -105,11 +105,12 @@ and jm_processDraggedMotionEvent = (this: GestureOnlyMotionRecognizer, x: Int32,
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseCircularPool.jm_getNextInstance"))
 JR.cast(jlate(JR.cast(jstatic_pointCircularPool())))
 })
-        ignore(CustomGPoint.jm_setX(point, x))
-        ignore(CustomGPoint.jm_setY(point, y))
-        ignore(MotionGestureRecognizer.jm_processDraggedMotionEvent(this.f_motionGestureRecognizer, JR.cast(point), deviceId, modifiers))
+        ignore(CustomGPoint.jm_setX(JR.cast(point), x))
+        ignore(CustomGPoint.jm_setY(JR.cast(point), y))
+        ignore(MotionGestureRecognizer.jm_processDraggedMotionEvent(JR.cast(this.f_motionGestureRecognizer), JR.cast(point), deviceId, modifiers))
 }
 
+JR.registerSuper("GestureOnlyMotionRecognizer", "MotionRecognizer")
 JR.registerLateBound("GestureOnlyMotionRecognizer.jnew_0", jnew_0)
 JR.registerLateBound("GestureOnlyMotionRecognizer.jm_processStartMotionEvent", jm_processStartMotionEvent)
 JR.registerLateBound("GestureOnlyMotionRecognizer.jm_processEndMotionEvent", jm_processEndMotionEvent)

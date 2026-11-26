@@ -48,7 +48,7 @@ and jnew_0 = () => {
 }
     
 and jm_processStartMotionEvent = (this: OnlyTouchButtonRecognizer, x: Int32, y: Int32, deviceId: Int32, modifiers: Int32) => {
-        if (TouchButtonRecognizer.jm_pressTouchButtonInput(this.f_touchButtonRecognizer, x, y, deviceId)) {
+        if (TouchButtonRecognizer.jm_pressTouchButtonInput(JR.cast(this.f_touchButtonRecognizer), x, y, deviceId)) {
             this.f_touchButtonProcessing = true
         }
 }
@@ -57,7 +57,7 @@ and jm_processEndMotionEvent = (this: OnlyTouchButtonRecognizer, x: Int32, y: In
         if (this.f_touchButtonProcessing) {
             this.f_touchButtonProcessing = false
         }
-        if (TouchButtonRecognizer.jm_releaseTouchButtonInput(this.f_touchButtonRecognizer, x, y, deviceId)) {
+        if (TouchButtonRecognizer.jm_releaseTouchButtonInput(JR.cast(this.f_touchButtonRecognizer), x, y, deviceId)) {
             return void
         }
     return void
@@ -65,10 +65,11 @@ and jm_processEndMotionEvent = (this: OnlyTouchButtonRecognizer, x: Int32, y: In
     
 and jm_processDraggedMotionEvent = (this: OnlyTouchButtonRecognizer, x: Int32, y: Int32, deviceId: Int32, modifiers: Int32) => {
         if (this.f_touchButtonProcessing) {
-            ignore(TouchButtonRecognizer.jm_pressTouchButtonInput(this.f_touchButtonRecognizer, x, y, deviceId))
+            ignore(TouchButtonRecognizer.jm_pressTouchButtonInput(JR.cast(this.f_touchButtonRecognizer), x, y, deviceId))
         }
 }
 
+JR.registerSuper("OnlyTouchButtonRecognizer", "MotionRecognizer")
 JR.registerLateBound("OnlyTouchButtonRecognizer.jnew_0", jnew_0)
 JR.registerLateBound("OnlyTouchButtonRecognizer.jm_processStartMotionEvent", jm_processStartMotionEvent)
 JR.registerLateBound("OnlyTouchButtonRecognizer.jm_processEndMotionEvent", jm_processEndMotionEvent)

@@ -33,6 +33,14 @@ from "../../../org/allbinary/logic/math/PrimitiveIntUtil.gr" include PrimitiveIn
 use PrimitiveIntUtil.{ type PrimitiveIntUtil }
 from "../../../org/allbinary/util/CircularIndexUtil.gr" include CircularIndexUtil
 use CircularIndexUtil.{ type CircularIndexUtil }
+from "../../../java/lang/Integer.gr" include Integer
+from "../../../java/lang/Long.gr" include Long
+from "../../../java/lang/Short.gr" include Short
+from "../../../java/lang/Byte.gr" include Byte
+from "../../../java/lang/Character.gr" include Character
+from "../../../java/lang/Float.gr" include Float
+from "../../../java/lang/Double.gr" include Double
+from "../../../java/lang/Boolean.gr" include Boolean
 from "./IndexedAnimation.gr" include IndexedAnimation
 use IndexedAnimation.{ type IndexedAnimation }
 from "./VectorAnimationInterface.gr" include VectorAnimationInterface
@@ -74,22 +82,22 @@ and jm_createVectorAnimation = (currentPoints2: Array<Array<Int32>>, basicColor:
             currentPoints[Int32.toNumber(0l)][Int32.toNumber(index)][Int32.toNumber(1l)] = currentPoints2[Int32.toNumber(index)][Int32.toNumber(1l)]
             }
         }
-        return jnew_3(currentPoints, basicColor, animationBehavior)
+        return jnew_3(currentPoints, JR.cast(basicColor), JR.cast(animationBehavior))
 }
     
 and jnew_3 = (currentPoints: Array<Array<Array<Int32>>>, basicColor: BasicColor, animationBehavior: AnimationBehavior) => {
-    let this = { jobject: JR.newJObject("VectorAnimation"), f_basicSetColorUtil: JR.jnull, f_basicColor: JR.jnull, f_colorP: 0l, f_changeBasicColorP: JR.jnull, f_changeColorP: 0l, f_alphaP: 0l, f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_animationBehaviorP: JR.jnull, f_currentPoints: [> ], f_circularIndexUtil: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("VectorAnimation"), f_basicSetColorUtil: JR.nullOf(), f_basicColor: JR.nullOf(), f_colorP: 0l, f_changeBasicColorP: JR.nullOf(), f_changeColorP: 0l, f_alphaP: 0l, f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_animationBehaviorP: JR.nullOf(), f_currentPoints: [> ], f_circularIndexUtil: JR.nullOf(), }
     this.f_currentPoints = NullUtil.jm_getInstance().f_NULL_INT_ARRAY_ARRAY_ARRAY
     this.f_circularIndexUtil = JR.cast(CircularIndexUtil.jm_createInstance(0l))
         void
         ignore(jm_setPoints(this, currentPoints))
-        ignore(jm_setBasicColorP(this, basicColor))
+        ignore(jm_setBasicColorP(this, JR.cast(basicColor)))
     this
 }
     
 and jm_setBasicColorP = (this: VectorAnimation, basicColor: BasicColor) => {
         let mut changed: Bool = false
-        if ((JR.isNull(jm_getBasicColorP(this)) || (BasicColor.jm_intValue(jm_getBasicColorP(this)) != BasicColor.jm_intValue(basicColor)))) {
+        if ((JR.isNull(jm_getBasicColorP(this)) || (BasicColor.jm_intValue(JR.cast(jm_getBasicColorP(this))) != BasicColor.jm_intValue(JR.cast(basicColor))))) {
             changed = true
         }
         ignore(jm_setBasicColorP(this, basicColor))
@@ -109,7 +117,7 @@ JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Animation.jm_getChangeBasicColor"))
 JR.cast(jlate(JR.cast(this)))
 })))
-} != BasicColor.jm_intValue(basicColor)))) {
+} != BasicColor.jm_intValue(JR.cast(basicColor))))) {
             changed = true
         }
         ignore(jm_changeBasicColor(this, basicColor))
@@ -158,11 +166,11 @@ and jm_getSequence = (this: VectorAnimation) => {
 }
     
 and jm_nextFrame = (this: VectorAnimation) => {
-        ignore(CircularIndexUtil.jm_next(this.f_circularIndexUtil))
+        ignore(CircularIndexUtil.jm_next(JR.cast(this.f_circularIndexUtil)))
 }
     
 and jm_previousFrame = (this: VectorAnimation) => {
-        ignore(CircularIndexUtil.jm_previous(this.f_circularIndexUtil))
+        ignore(CircularIndexUtil.jm_previous(JR.cast(this.f_circularIndexUtil)))
 }
     
 and jm_paintVectors = (this: VectorAnimation, graphics: JObject, x: Int32, y: Int32) => {
@@ -171,7 +179,7 @@ and jm_paintVectors = (this: VectorAnimation, graphics: JObject, x: Int32, y: In
             let mut nextPointY: Int32 = 0l
             let mut nextPoint: Array<Int32> = [> ]
             let mut point: Array<Int32> = [> ]
-            let mut currentPointsFrame: Array<Array<Int32>> = this.f_currentPoints[Int32.toNumber(CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil))]
+            let mut currentPointsFrame: Array<Array<Int32>> = this.f_currentPoints[Int32.toNumber(CircularIndexUtil.jm_getIndex(JR.cast(this.f_circularIndexUtil)))]
             let mut size: Int32 = Int32.fromNumber(Array.length(currentPointsFrame))
             let mut index: Int32 = Int32.(-)(size, 2l)
             while (Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l)) {
@@ -196,15 +204,15 @@ and jm_paintXY = (this: VectorAnimation, graphics: JObject, x: Int32, y: Int32) 
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicColorSetUtil.jm_setBasicColorP"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_basicSetColorUtil)), JR.cast(graphics), JR.cast(JR.cast(this.f_basicColor))))
 })
-        ignore(jm_paintVectors(this, graphics, x, y))
+        ignore(jm_paintVectors(this, JR.cast(graphics), x, y))
 }
     
 and jm_getFrame = (this: VectorAnimation) => {
-        return CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil)
+        return CircularIndexUtil.jm_getIndex(JR.cast(this.f_circularIndexUtil))
 }
     
 and jm_setFrame = (this: VectorAnimation, index: Int32) => {
-        ignore(CircularIndexUtil.jm_setIndex(this.f_circularIndexUtil, index))
+        ignore(CircularIndexUtil.jm_setIndex(JR.cast(this.f_circularIndexUtil), index))
 }
     
 and jm_getPoints = (this: VectorAnimation, frame: Int32) => {
@@ -220,6 +228,7 @@ and jm_getBasicColorP = (this: VectorAnimation) => {
         return jm_getBasicColorP(this)
 }
 
+JR.registerSuper("VectorAnimation", "IndexedAnimation")
 JR.registerLateBound("VectorAnimation.jnew_3", jnew_3)
 JR.registerLateBound("VectorAnimation.jm_createVectorAnimation", jm_createVectorAnimation)
 JR.registerLateBound("VectorAnimation.jm_setBasicColorP", jm_setBasicColorP)

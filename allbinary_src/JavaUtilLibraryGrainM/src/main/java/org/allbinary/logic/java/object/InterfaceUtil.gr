@@ -45,13 +45,10 @@ and jnew_0 = () => {
     
 and jm_viewAll = (myClass: String, lineBreak: String) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        let mut interfaces: Array<String> = {
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Class.jm_getInterfaces"))
-JR.cast(jlate(JR.cast(myClass)))
-}
-        ignore(StringMaker.jm_append(stringBuffer, lineBreak))
-        ignore(StringMaker.jm_append(stringBuffer, "Interfaces: "))
-        ignore(StringMaker.jm_append(stringBuffer, lineBreak))
+        let mut interfaces: Array<String> = JR.cast(JR.reflectionUnsupported("getInterfaces", myClass))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(lineBreak)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Interfaces: ")))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(lineBreak)))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -61,12 +58,12 @@ JR.cast(jlate(JR.cast(myClass)))
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, Int32.fromNumber(Array.length(interfaces))))) break
-            ignore(StringMaker.jm_append(stringBuffer, "Interface: "))
-            ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(interfaces[Int32.toNumber(index)]))))
-            ignore(StringMaker.jm_append(stringBuffer, lineBreak))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Interface: ")))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(JR.invoke0(interfaces[Int32.toNumber(index)], "jm_getName"))))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(lineBreak)))
             }
         }
-        return StringMaker.jm_toString(stringBuffer)
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
     
 and jm_getClass = (interfaceName: String, interfaces: Array<String>) => {
@@ -80,7 +77,7 @@ and jm_getClass = (interfaceName: String, interfaces: Array<String>) => {
                     }
                     jfirst = false
                     if (!(Int32.(<)(index, Int32.fromNumber(Array.length(interfaces))))) break
-                if (Int32.(>=)(JR.indexOf(JR.className(JR.cast(interfaces[Int32.toNumber(index)])), interfaceName), 0l)) {
+                if (Int32.(>=)(JR.indexOf(JR.cast(JR.invoke0(interfaces[Int32.toNumber(index)], "jm_getName")), interfaceName), 0l)) {
                     return interfaces[Int32.toNumber(index)]
                 }
                 }
@@ -90,7 +87,7 @@ and jm_getClass = (interfaceName: String, interfaces: Array<String>) => {
 }
     
 and jm_isImplemented_2_Class_Any_ = (clazz: String, anyType: JObject) => {
-        let mut classes: Array<String> = JR.className(JR.cast(JR.className(anyType)))
+        let mut classes: Array<String> = JR.cast(JR.reflectionUnsupported("getInterfaces", JR.className(anyType)))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -100,7 +97,7 @@ and jm_isImplemented_2_Class_Any_ = (clazz: String, anyType: JObject) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, Int32.fromNumber(Array.length(classes))))) break
-            if ((JR.compareTo(clazz, JR.className(JR.cast(classes[Int32.toNumber(index)]))) == 0l)) {
+            if ((JR.compareTo(clazz, JR.cast(JR.invoke0(classes[Int32.toNumber(index)], "jm_getName"))) == 0l)) {
                 return true
             }
             }
@@ -109,7 +106,7 @@ and jm_isImplemented_2_Class_Any_ = (clazz: String, anyType: JObject) => {
 }
     
 and jm_isImplemented_2_String_Any_ = (className: String, anyType: JObject) => {
-        let mut classes: Array<String> = JR.className(JR.cast(JR.className(anyType)))
+        let mut classes: Array<String> = JR.cast(JR.reflectionUnsupported("getInterfaces", JR.className(anyType)))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -119,7 +116,7 @@ and jm_isImplemented_2_String_Any_ = (className: String, anyType: JObject) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, Int32.fromNumber(Array.length(classes))))) break
-            if ((JR.indexOf(JR.className(JR.cast(classes[Int32.toNumber(index)])), className) == 0l)) {
+            if ((JR.indexOf(JR.cast(JR.invoke0(classes[Int32.toNumber(index)], "jm_getName")), className) == 0l)) {
                 return true
             }
             }
@@ -129,8 +126,8 @@ and jm_isImplemented_2_String_Any_ = (className: String, anyType: JObject) => {
     
 and jm_isImplementedView = (clazz: String, anyType: JObject) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        let mut classes: Array<String> = JR.className(JR.cast(JR.className(anyType)))
-        ignore(StringMaker.jm_append(stringBuffer, "isImplementedView: \n"))
+        let mut classes: Array<String> = JR.cast(JR.reflectionUnsupported("getInterfaces", JR.className(anyType)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("isImplementedView: \n")))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -140,14 +137,14 @@ and jm_isImplementedView = (clazz: String, anyType: JObject) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, Int32.fromNumber(Array.length(classes))))) break
-            ignore(StringMaker.jm_append(stringBuffer, clazz))
-            ignore(StringMaker.jm_append(stringBuffer, " should be = "))
-            ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(classes[Int32.toNumber(index)]))))
-            ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(classes[Int32.toNumber(index)]))))
-            ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_NEW_LINE))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(clazz)))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" should be = ")))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(JR.invoke0(classes[Int32.toNumber(index)], "jm_getName"))))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(JR.invoke0(classes[Int32.toNumber(index)], "jm_getName"))))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonSeps.jm_getInstance().f_NEW_LINE)))
             }
         }
-        return StringMaker.jm_toString(stringBuffer)
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
 JR.registerLateBound("InterfaceUtil.jnew_0", jnew_0)

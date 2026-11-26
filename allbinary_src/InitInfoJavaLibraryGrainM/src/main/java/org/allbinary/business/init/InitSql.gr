@@ -91,7 +91,7 @@ provide record InitSql {
 provide let rec jclassName = () => "InitSql"
     
 and jnew_1 = (databaseConnectionInfoInterface: DbConnectionInfo) => {
-    let this = { jobject: JR.newJObject("InitSql"), f_stringUtil: JR.nullOf(), f_commonSeps: JR.nullOf(), f_sqlTypeStrings: JR.nullOf(), f_sqlStrings: JR.nullOf(), f_stdUtil: JR.jnull, f_INSERT: "", f_UPDATE: "", f_databaseConnectionInfoInterface: JR.nullOf(), f_userid: "", f_password: "", f_tableName: "", f_conn: JR.jnull, f_useridAndPassword: false, f_SUCCESS_SQL_STATEMENT: "", f_FAILED_SQL_STATEMENT: "", f_INIT_SQL: "", f_commonStrings: JR.nullOf(), f_EQUAL_QUOTE: "", f_METHOD_GET_ROW: "", f_METHOD_UPDATE_WHERE: "", f_ROW_VALUE_LABEL: "", f_NO_RESULTS_IN_RESULT_SET: "", f_INSERT_END: "", }
+    let this = { jobject: JR.newJObject("InitSql"), f_stringUtil: JR.nullOf(), f_commonSeps: JR.nullOf(), f_sqlTypeStrings: JR.nullOf(), f_sqlStrings: JR.nullOf(), f_stdUtil: JR.nullOf(), f_INSERT: "", f_UPDATE: "", f_databaseConnectionInfoInterface: JR.nullOf(), f_userid: "", f_password: "", f_tableName: "", f_conn: JR.nullOf(), f_useridAndPassword: false, f_SUCCESS_SQL_STATEMENT: "", f_FAILED_SQL_STATEMENT: "", f_INIT_SQL: "", f_commonStrings: JR.nullOf(), f_EQUAL_QUOTE: "", f_METHOD_GET_ROW: "", f_METHOD_UPDATE_WHERE: "", f_ROW_VALUE_LABEL: "", f_NO_RESULTS_IN_RESULT_SET: "", f_INSERT_END: "", }
     this.f_stringUtil = JR.cast(StringUtil.jm_getInstance())
     this.f_commonSeps = JR.cast(CommonSeps.jm_getInstance())
     this.f_sqlTypeStrings = JR.cast(SqlTypeStrings.jm_getInstance())
@@ -118,7 +118,7 @@ JR.cast(jlate())
     this.f_ROW_VALUE_LABEL = "Row Value: "
     this.f_NO_RESULTS_IN_RESULT_SET = "No Results in ResultSet"
     this.f_INSERT_END = "')"
-        ignore(jm_setDatabaseConnectionInfoInterface(this, databaseConnectionInfoInterface))
+        ignore(jm_setDatabaseConnectionInfoInterface(this, JR.cast(databaseConnectionInfoInterface)))
     this
 }
     
@@ -133,13 +133,13 @@ and jm_setDatabaseConnectionInfoInterface = (this: InitSql, databaseConnectionIn
 and jm_createTable = (this: InitSql, tableData: String) => {
         {
             let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-            ignore(StringMaker.jm_append(stringBuffer, "Creating Table: "))
-            ignore(StringMaker.jm_append(stringBuffer, tableData))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Creating Table: ")))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(tableData)))
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this.f_INIT_SQL), JR.cast("createTable()")))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(this.f_INIT_SQL), JR.cast("createTable()")))
 })
-            ignore(jm_executeSQLStatement(this, tableData))
+            ignore(jm_executeSQLStatement(this, JR.cast(tableData)))
             return true
         }
     return false
@@ -148,7 +148,7 @@ JR.cast(jlate(JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this.f_INI
 and jm_dropTable = (this: InitSql) => {
         let mut sqlStatement: String = this.f_sqlStrings.f_DROP_TABLE ++ this.f_tableName
         {
-            ignore(jm_executeSQLStatement(this, sqlStatement))
+            ignore(jm_executeSQLStatement(this, JR.cast(sqlStatement)))
             return true
         }
     return false
@@ -156,13 +156,13 @@ and jm_dropTable = (this: InitSql) => {
     
 and jm_getRow = (this: InitSql, keysAndValues: HashMap) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_SELECT_ALL_FROM))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_tableName))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_WHERE))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_sqlStrings.f_SELECT_ALL_FROM)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_tableName)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_sqlStrings.f_WHERE)))
         {
             let mut result: HashMap = JR.nullOf()
             let mut set: Set = JR.cast(HashMap.jm_keySet_0(keysAndValues))
-            let mut keyArray: Array<JObject> = Set.jm_toArray_0(set)
+            let mut keyArray: Array<JObject> = JR.cast(Set.jm_toArray_0(set))
             let mut size: Int32 = Int32.fromNumber(Array.length(keyArray))
             {
                 let mut i: Int32 = 0l
@@ -175,16 +175,16 @@ and jm_getRow = (this: InitSql, keysAndValues: HashMap) => {
                     if (!(Int32.(<)(i, size))) break
                 let mut key: String = JR.cast(keyArray[Int32.toNumber(i)])
                 let mut value: String = JR.cast(HashMap.jm_get_1(keysAndValues, key))
-                ignore(StringMaker.jm_append(stringBuffer, key))
-                ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_EQUAL_QUOTE))
-                ignore(StringMaker.jm_append(stringBuffer, jm_getValue(this, value)))
-                ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_CLOSE_QUOTE))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(key)))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_sqlStrings.f_EQUAL_QUOTE)))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jm_getValue(this, JR.cast(value)))))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_sqlStrings.f_CLOSE_QUOTE)))
                 if (Int32.(<)(i, Int32.(-)(size, 1l))) {
-                    ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_AND))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_sqlStrings.f_AND)))
                 }
                 }
             }
-            let mut sqlStatement: String = StringMaker.jm_toString(stringBuffer)
+            let mut sqlStatement: String = StringMaker.jm_toString(JR.cast(stringBuffer))
             if ({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
 JR.cast(jlate(JR.cast({
@@ -203,7 +203,7 @@ let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLog
 JR.cast(jlate(JR.cast(this.f_sqlStrings.f_SQL_STATEMENT_LABEL ++ sqlStatement), JR.cast(this.f_INIT_SQL), JR.cast(this.f_METHOD_GET_ROW)))
 })
             }
-            let mut rset: ResultSet = JR.cast(jm_executeSQLStatement(this, sqlStatement))
+            let mut rset: ResultSet = JR.cast(jm_executeSQLStatement(this, JR.cast(sqlStatement)))
             let mut resultSetMetaData: ResultSetMetaData = JR.cast(ResultSet.jm_getMetaData_0(rset))
             while (ResultSet.jm_next_0(rset)) {
                 result = JR.cast({
@@ -240,7 +240,7 @@ JR.cast(jlate())
 }) {
                     ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(this.f_ROW_VALUE_LABEL ++ HashMap.jm_toString_0(result)), JR.cast(this.f_INIT_SQL), JR.cast(this.f_METHOD_GET_ROW)))
+JR.cast(jlate(JR.cast(this.f_ROW_VALUE_LABEL ++ JR.toStringOf(result)), JR.cast(this.f_INIT_SQL), JR.cast(this.f_METHOD_GET_ROW)))
 })
                 }
                 return result
@@ -270,11 +270,11 @@ JR.cast(jlate(JR.cast(this.f_NO_RESULTS_IN_RESULT_SET), JR.cast(this.f_INIT_SQL)
     
 and jm_updateWhere = (this: InitSql, key: String, value: String, updatedKeyValuePairs: HashMap) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_UPDATE))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_tableName))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_SET))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_sqlStrings.f_UPDATE)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_tableName)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_sqlStrings.f_SET)))
         {
-            let mut columnArray: Array<JObject> = JR.className(JR.cast(HashMap.jm_keySet_0(updatedKeyValuePairs)))
+            let mut columnArray: Array<JObject> = JR.cast(Set.jm_toArray_0(HashMap.jm_keySet_0(updatedKeyValuePairs)))
             let mut size: Int32 = Int32.fromNumber(Array.length(columnArray))
             {
                 let mut i: Int32 = 0l
@@ -286,29 +286,29 @@ and jm_updateWhere = (this: InitSql, key: String, value: String, updatedKeyValue
                     jfirst = false
                     if (!(Int32.(<)(i, size))) break
                 let mut columnName: String = JR.toStringOf(JR.cast(columnArray[Int32.toNumber(i)]))
-                ignore(StringMaker.jm_append(stringBuffer, this.f_commonSeps.f_SPACE))
-                ignore(StringMaker.jm_append(stringBuffer, columnName))
-                ignore(StringMaker.jm_append(stringBuffer, this.f_EQUAL_QUOTE))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_commonSeps.f_SPACE)))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(columnName)))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_EQUAL_QUOTE)))
                 let mut columnValue: String = JR.cast(HashMap.jm_get_1(updatedKeyValuePairs, columnName))
                 if (false) {
                     columnValue = this.f_stringUtil.f_EMPTY_STRING
                 } else {
                     void
                 }
-                ignore(StringMaker.jm_append(stringBuffer, jm_getValue(this, columnValue)))
-                ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_CLOSE_QUOTE))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jm_getValue(this, JR.cast(columnValue)))))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_sqlStrings.f_CLOSE_QUOTE)))
                 if (Int32.(<)(i, Int32.(-)(size, 1l))) {
-                    ignore(StringMaker.jm_append(stringBuffer, this.f_commonSeps.f_COMMA))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_commonSeps.f_COMMA)))
                 }
                 }
             }
-            ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_WHERE))
-            ignore(StringMaker.jm_append(stringBuffer, key))
-            ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_EQUAL_QUOTE))
-            ignore(StringMaker.jm_append(stringBuffer, jm_getValue(this, value)))
-            ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_CLOSE_QUOTE))
-            let mut sqlStatement: String = StringMaker.jm_toString(stringBuffer)
-            ignore(jm_executeSQLStatement(this, sqlStatement))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_sqlStrings.f_WHERE)))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(key)))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_sqlStrings.f_EQUAL_QUOTE)))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jm_getValue(this, JR.cast(value)))))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_sqlStrings.f_CLOSE_QUOTE)))
+            let mut sqlStatement: String = StringMaker.jm_toString(JR.cast(stringBuffer))
+            ignore(jm_executeSQLStatement(this, JR.cast(sqlStatement)))
             if ({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
 JR.cast(jlate(JR.cast({
@@ -332,11 +332,11 @@ JR.cast(jlate(JR.cast(this.f_SUCCESS_SQL_STATEMENT ++ sqlStatement), JR.cast(thi
     
 and jm_insert = (this: InitSql, values: BasicArrayList) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_INSERT_INTO))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_tableName))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_VALUES))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_sqlStrings.f_INSERT_INTO)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_tableName)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_sqlStrings.f_VALUES)))
         {
-            let mut size: Int32 = BasicArrayList.jm_size(values)
+            let mut size: Int32 = BasicArrayList.jm_size(JR.cast(values))
             {
                 let mut i: Int32 = 0l
                 let mut jfirst = true
@@ -346,16 +346,16 @@ and jm_insert = (this: InitSql, values: BasicArrayList) => {
                     }
                     jfirst = false
                     if (!(Int32.(<)(i, Int32.(-)(size, 1l)))) break
-                let mut value: String = jm_getValue(this, JR.cast(BasicArrayList.jm_get(values, i)))
-                ignore(StringMaker.jm_append(stringBuffer, value))
-                ignore(StringMaker.jm_append(stringBuffer, this.f_sqlStrings.f_SINGLE_QUOTE_COMMA_SEP))
+                let mut value: String = jm_getValue(this, JR.cast(BasicArrayList.jm_get(JR.cast(values), i)))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(value)))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_sqlStrings.f_SINGLE_QUOTE_COMMA_SEP)))
                 }
             }
-            let mut value: String = jm_getValue(this, JR.cast(BasicArrayList.jm_get(values, Int32.(-)(BasicArrayList.jm_size(values), 1l))))
-            ignore(StringMaker.jm_append(stringBuffer, value))
-            ignore(StringMaker.jm_append(stringBuffer, this.f_INSERT_END))
-            let mut sqlStatement: String = StringMaker.jm_toString(stringBuffer)
-            ignore(jm_executeSQLStatement(this, sqlStatement))
+            let mut value: String = jm_getValue(this, JR.cast(BasicArrayList.jm_get(JR.cast(values), Int32.(-)(BasicArrayList.jm_size(JR.cast(values)), 1l))))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(value)))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_INSERT_END)))
+            let mut sqlStatement: String = StringMaker.jm_toString(JR.cast(stringBuffer))
+            ignore(jm_executeSQLStatement(this, JR.cast(sqlStatement)))
             if ({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
 JR.cast(jlate(JR.cast({
@@ -378,7 +378,7 @@ JR.cast(jlate(JR.cast(this.f_SUCCESS_SQL_STATEMENT ++ sqlStatement), JR.cast(thi
 }
     
 and jm_getValue = (this: InitSql, value: String) => {
-        if (StringValidationUtil.jm_isEmpty(StringValidationUtil.jm_getInstance(), value)) {
+        if (StringValidationUtil.jm_isEmpty(JR.cast(StringValidationUtil.jm_getInstance()), JR.cast(value))) {
             return this.f_stringUtil.f_EMPTY_STRING
         } else {
             return value
@@ -405,9 +405,9 @@ JR.cast(jlate(JR.cast(this.f_conn)))
 and jm_createConnection = (this: InitSql) => {
         {
             if (JR.isSame(this.f_useridAndPassword, true)) {
-                this.f_conn = JR.cast(DriverManager.jm_getConnection_3(DbConnectionInfo.jm_getUrl(this.f_databaseConnectionInfoInterface), this.f_userid, this.f_password))
+                this.f_conn = JR.cast(DriverManager.jm_getConnection_3(DbConnectionInfo.jm_getUrl(JR.cast(this.f_databaseConnectionInfoInterface)), this.f_userid, this.f_password))
             } else {
-                this.f_conn = JR.cast(DriverManager.jm_getConnection_1(DbConnectionInfo.jm_getUrl(this.f_databaseConnectionInfoInterface)))
+                this.f_conn = JR.cast(DriverManager.jm_getConnection_1(DbConnectionInfo.jm_getUrl(JR.cast(this.f_databaseConnectionInfoInterface))))
             }
         }
 }
@@ -415,15 +415,15 @@ and jm_createConnection = (this: InitSql) => {
 and jm_initialize = (this: InitSql) => {
         {
             {
-                let mut jdbcDriver: String = DbConnectionInfo.jm_getJdbcDriver(this.f_databaseConnectionInfoInterface)
+                let mut jdbcDriver: String = DbConnectionInfo.jm_getJdbcDriver(JR.cast(this.f_databaseConnectionInfoInterface))
                 ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Loading DbConnnectionInfo: "), JR.className(this.f_databaseConnectionInfoInterface)), " Driver: "), jdbcDriver))), JR.cast(this.f_INIT_SQL), JR.cast("initialize()")))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("Loading DbConnnectionInfo: "))), JR.cast(JR.className(this.f_databaseConnectionInfoInterface)))), JR.cast(" Driver: "))), JR.cast(jdbcDriver))))), JR.cast(this.f_INIT_SQL), JR.cast("initialize()")))
 })
-                ignore(JR.className(JR.cast({
+                ignore(JR.cast(JR.invoke0({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Class.jm_forName"))
 JR.cast(jlate(JR.cast(jdbcDriver)))
-})))
+}, "jm_newInstance")))
             }
             if ((false && false)) {
                 this.f_useridAndPassword = true

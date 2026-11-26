@@ -56,9 +56,9 @@ provide record GameScrollMenuPaintable {
 provide let rec jclassName = () => "GameScrollMenuPaintable"
     
 and jnew_4 = (mainDemoStatePaintable: Paintable, ownershipPaintable: Paintable, helpPaintableInterface: Paintable, basicColor: BasicColor) => {
-    let this = { jobject: JR.newJObject("GameScrollMenuPaintable"), f_mainDemoStatePaintable: JR.jnull, f_ownershipPaintable: JR.jnull, f_helpPaintableInterface: JR.jnull, f_currentStatePaintable: JR.jnull, }
+    let this = { jobject: JR.newJObject("GameScrollMenuPaintable"), f_mainDemoStatePaintable: JR.nullOf(), f_ownershipPaintable: JR.nullOf(), f_helpPaintableInterface: JR.nullOf(), f_currentStatePaintable: JR.nullOf(), }
         void
-        ignore(jm_setColor(this, basicColor))
+        ignore(jm_setColor(this, JR.cast(basicColor)))
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_addListenerInterface"))
 JR.cast(jlate(JR.cast(ColorChangeEventHandler.jm_getInstance()), JR.cast(this)))
@@ -85,15 +85,18 @@ and jm_setColor = (this: GameScrollMenuPaintable, basicColor: BasicColor) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicGameDemoPaintable.jm_getMainDemoStatePaintable"))
 JR.cast(jlate(JR.cast(this)))
 })
-        let mut formPaintable: FormPaintable = JR.cast(MainGameDemoStatePaintable.jm_getMenuPaintableInterface(mainGameDemoStatePaintable))
-        let mut scrollSelectionForm: ScrollSelectionForm = JR.cast(FormPaintable.jm_getForm(formPaintable))
-        ignore({
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Paintable.jm_setBasicColorP"))
-JR.cast(jlate(JR.cast(MainGameDemoStatePaintable.jm_getOwnershipPaintableInterface(mainGameDemoStatePaintable)), JR.cast(basicColor)))
+        let mut formPaintable: FormPaintable = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MainGameDemoStatePaintable.jm_getMenuPaintableInterface"))
+JR.cast(jlate(JR.cast(mainGameDemoStatePaintable)))
 })
-        ignore(ScrollSelectionForm.jm_setButtonBasicColor(scrollSelectionForm, basicColor))
-        let mut item: JObject = JR.jnull
-        let mut stringComponent: JObject = JR.jnull
+        let mut scrollSelectionForm: ScrollSelectionForm = JR.cast(FormPaintable.jm_getForm(JR.cast(formPaintable)))
+        ignore(Paintable.jm_setBasicColorP(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MainGameDemoStatePaintable.jm_getOwnershipPaintableInterface"))
+JR.cast(jlate(JR.cast(mainGameDemoStatePaintable)))
+}), JR.cast(basicColor)))
+        ignore(ScrollSelectionForm.jm_setButtonBasicColor(JR.cast(scrollSelectionForm), JR.cast(basicColor)))
+        let mut item: JObject = JR.nullOf()
+        let mut stringComponent: JObject = JR.nullOf()
         {
             let mut index: Int32 = Int32.(-)({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABCustomForm.jm_size"))
@@ -124,6 +127,7 @@ JR.cast(jlate(JR.cast(stringComponent), JR.cast(basicColor)))
         }
 }
 
+JR.registerSuper("GameScrollMenuPaintable", "BasicGameDemoPaintable")
 JR.registerLateBound("GameScrollMenuPaintable.jnew_4", jnew_4)
 JR.registerLateBound("GameScrollMenuPaintable.jm_setState", jm_setState)
 JR.registerLateBound("GameScrollMenuPaintable.jm_onEvent", jm_onEvent)

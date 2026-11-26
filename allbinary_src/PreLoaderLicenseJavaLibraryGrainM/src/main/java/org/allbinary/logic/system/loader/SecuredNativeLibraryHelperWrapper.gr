@@ -48,7 +48,7 @@ provide record SecuredNativeLibraryHelperWrapper {
 provide let rec jclassName = () => "SecuredNativeLibraryHelperWrapper"
     
 and jnew_1 = (securedNativeLibraryInterface: SecuredNativeLibraryInterface) => {
-    let this = { jobject: JR.newJObject("SecuredNativeLibraryHelperWrapper"), f_libraryName: "", f_loader: JR.jnull, f_object: JR.jnull, f_securedNativeLibraryInterface: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("SecuredNativeLibraryHelperWrapper"), f_libraryName: "", f_loader: JR.nullOf(), f_object: JR.nullOf(), f_securedNativeLibraryInterface: JR.nullOf(), }
     
         void
         this.f_securedNativeLibraryInterface = JR.cast(securedNativeLibraryInterface)
@@ -56,9 +56,16 @@ and jnew_1 = (securedNativeLibraryInterface: SecuredNativeLibraryInterface) => {
 }
     
 and jm_unlock = (this: SecuredNativeLibraryHelperWrapper, abeClientInformation: AbeClientInformationInterface) => {
-        return SecuredNativeLibraryInterface.jm_unlock(this.f_securedNativeLibraryInterface, AbKeys.jm_getKey(AbKeys.jm_getInstance(), abeClientInformation, SecuredNativeLibraryInterface.jm_getName(this.f_securedNativeLibraryInterface)))
+        return {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("SecuredNativeLibraryInterface.jm_unlock"))
+JR.cast(jlate(JR.cast(this.f_securedNativeLibraryInterface), JR.cast(AbKeys.jm_getKey(JR.cast(AbKeys.jm_getInstance()), JR.cast(abeClientInformation), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SecuredNativeLibraryInterface.jm_getName"))
+JR.cast(jlate(JR.cast(this.f_securedNativeLibraryInterface)))
+})))))
+}
 }
 
+JR.registerSuper("SecuredNativeLibraryHelperWrapper", "NativeLibraryHelperWrapper")
 JR.registerLateBound("SecuredNativeLibraryHelperWrapper.jnew_1", jnew_1)
 JR.registerLateBound("SecuredNativeLibraryHelperWrapper.jm_unlock", jm_unlock)
 JR.registerLateBound("SecuredNativeLibraryHelperWrapper.f_securedNativeLibraryInterface", (this: SecuredNativeLibraryHelperWrapper) => this.f_securedNativeLibraryInterface)

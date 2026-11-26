@@ -46,7 +46,7 @@ provide record TextItemUserIdentifierVisitor {
 provide let rec jclassName = () => "TextItemUserIdentifierVisitor"
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("TextItemUserIdentifierVisitor"), f_nullUtil: JR.jnull, f_logUtil: JR.jnull, }
+    let this = { jobject: JR.newJObject("TextItemUserIdentifierVisitor"), f_nullUtil: JR.nullOf(), f_logUtil: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -60,20 +60,20 @@ and jm_visit = (this: TextItemUserIdentifierVisitor, anyType: JObject) => {
         if (Int32.(<)(JR.length(value), 2l)) {
             let mut charValue: Int32 = JR.charAt(value, 0l)
             let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
-            if (StringValidationUtil.jm_isNumber(stringValidationUtil, value)) {
+            if (StringValidationUtil.jm_isNumber(JR.cast(stringValidationUtil), JR.cast(value))) {
                 return BooleanFactory.jm_getInstance().f_TRUE
             } else if (jm_isLetter(this, charValue)) {
                 return BooleanFactory.jm_getInstance().f_TRUE
             } else {
                 {
-                    ignore(TextNotificationUtil.jm_fireError(TextNotificationUtil.jm_getInstance(), "Only Letters & Numbers Allowed"))
+                    ignore(TextNotificationUtil.jm_fireError(JR.cast(TextNotificationUtil.jm_getInstance()), JR.cast("Only Letters & Numbers Allowed")))
                 }
                 return BooleanFactory.jm_getInstance().f_FALSE
             }
         } else {
             return BooleanFactory.jm_getInstance().f_FALSE
         }
-    return JR.jnull
+    return JR.nullOf()
 }
     
 and jm_isLetter = (this: TextItemUserIdentifierVisitor, charValue: Int32) => {
@@ -81,6 +81,7 @@ and jm_isLetter = (this: TextItemUserIdentifierVisitor, charValue: Int32) => {
         return (((Int32.(>)(value, 64l) && Int32.(<)(value, 91l))) || ((Int32.(>)(value, 96l) && Int32.(<)(value, 123l))))
 }
 
+JR.registerSuper("TextItemUserIdentifierVisitor", "Visitor")
 JR.registerLateBound("TextItemUserIdentifierVisitor.jnew_0", jnew_0)
 JR.registerLateBound("TextItemUserIdentifierVisitor.jm_visit", jm_visit)
 JR.registerLateBound("TextItemUserIdentifierVisitor.jm_isLetter", jm_isLetter)

@@ -62,7 +62,7 @@ provide record ArcedMultiBeamWeaponPart {
 provide let rec jclassName = () => "ArcedMultiBeamWeaponPart"
     
 and jnew_7 = (animationInterface: Animation, sourceLayerInterface: AllBinaryLayer, weaponLayerCircularStaticPool: WeaponLayerCircularPool, total: Int32, weaponProperties: WeaponProperties, scoreableInterface: ScoreableInterface, relativeRelationship: RelativeRelationship) => {
-    let this = { jobject: JR.newJObject("ArcedMultiBeamWeaponPart"), f_animationInterface: JR.jnull, f_ownerLayerInterface: JR.jnull, f_weaponProperties: JR.jnull, f_scoreableInterface: JR.jnull, f_relativeRelationship: JR.jnull, f_weaponLayerCircularStaticPool: JR.nullOf(), f_total: 0l, f_TOTAL_ANGLE: 0l, }
+    let this = { jobject: JR.newJObject("ArcedMultiBeamWeaponPart"), f_animationInterface: JR.nullOf(), f_ownerLayerInterface: JR.nullOf(), f_weaponProperties: JR.nullOf(), f_scoreableInterface: JR.nullOf(), f_relativeRelationship: JR.nullOf(), f_weaponLayerCircularStaticPool: JR.nullOf(), f_total: 0l, f_TOTAL_ANGLE: 0l, }
     
     
     this.f_TOTAL_ANGLE = AngleFactory.jm_getInstance().f_TOTAL_ANGLE
@@ -86,16 +86,23 @@ and jm_processScore = (this: ArcedMultiBeamWeaponPart, allbinaryLayerManager: Al
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, this.f_total))) break
-            weaponLayer = JR.cast(WeaponLayerCircularPool.jm_getInstanceWeaponLayer(this.f_weaponLayerCircularStaticPool, {
+            weaponLayer = JR.cast(WeaponLayerCircularPool.jm_getInstanceWeaponLayer(JR.cast(this.f_weaponLayerCircularStaticPool), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicWeaponPart.jm_getOwnerLayerInterface"))
 JR.cast(jlate(JR.cast(this)))
-}, RelativeRelationship.jm_getX(JR.cast(this.f_relativeRelationship)), RelativeRelationship.jm_getY(JR.cast(this.f_relativeRelationship)), 0l, (Int32.(+)(minAngle, increment)), otherAngle, weaponProperties, scoreableInterface))
-            ignore(AllBinaryLayerManager.jm_append(allbinaryLayerManager, JR.cast(weaponLayer)))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RelativeRelationship.jm_getX"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_relativeRelationship))))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RelativeRelationship.jm_getY"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_relativeRelationship))))
+}, 0l, (Int32.(+)(minAngle, increment)), otherAngle, JR.cast(weaponProperties), JR.cast(scoreableInterface)))
+            ignore(AllBinaryLayerManager.jm_append(JR.cast(allbinaryLayerManager), JR.cast(weaponLayer)))
             next = Int32.(+)(next, increment)
             }
         }
 }
 
+JR.registerSuper("ArcedMultiBeamWeaponPart", "BasicWeaponPart")
 JR.registerLateBound("ArcedMultiBeamWeaponPart.jnew_7", jnew_7)
 JR.registerLateBound("ArcedMultiBeamWeaponPart.jm_processScore", jm_processScore)
 JR.registerLateBound("ArcedMultiBeamWeaponPart.f_weaponLayerCircularStaticPool", (this: ArcedMultiBeamWeaponPart) => this.f_weaponLayerCircularStaticPool)

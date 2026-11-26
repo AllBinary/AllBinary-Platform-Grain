@@ -44,7 +44,7 @@ provide let rec jclassName = () => "EnumerationUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: EnumerationUtil = jnew_0()
+    let value: EnumerationUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -73,10 +73,16 @@ and jm_nextElement = (this: EnumerationUtil, enumeration: Enumeration) => {
     
 and jm_getAsArray = (this: EnumerationUtil, enumeration: Enumeration) => {
         let mut basicArrayList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
-        while (jm_hasMoreElements(this, enumeration)) {
-            ignore(BasicArrayList.jm_add(basicArrayList, jm_nextElement(this, enumeration)))
+        while (jm_hasMoreElements(this, JR.cast(enumeration))) {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_add"))
+JR.cast(jlate(JR.cast(basicArrayList), JR.cast(jm_nextElement(this, JR.cast(enumeration)))))
+})
         }
-        return BasicArrayList.jm_toArray(basicArrayList)
+        return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_toArray"))
+JR.cast(jlate(JR.cast(basicArrayList)))
+}
 }
 
 JR.registerLateBound("EnumerationUtil.jnew_0", jnew_0)

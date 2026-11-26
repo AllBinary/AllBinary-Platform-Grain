@@ -55,7 +55,7 @@ provide record CollidableCharacterBehavior {
 provide let rec jclassName = () => "CollidableCharacterBehavior"
     
 and jnew_1 = (collidable: Bool) => {
-    let this = { jobject: JR.newJObject("CollidableCharacterBehavior"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_layerCollisionUtil: JR.jnull, f_collidable: false, f_damageUtil: JR.jnull, }
+    let this = { jobject: JR.newJObject("CollidableCharacterBehavior"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_layerCollisionUtil: JR.nullOf(), f_collidable: false, f_damageUtil: JR.nullOf(), }
         void
     this
 }
@@ -64,13 +64,16 @@ and jm_collide = (this: CollidableCharacterBehavior, ownerLayer: CollidableCompo
         let mut collisionTypeFactory: CollisionTypeFactory = JR.cast(CollisionTypeFactory.jm_getInstance())
         let mut collisionType: CollisionType = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableBaseBehavior.jm_getCollisionTypeWith"))
-JR.cast(jlate(JR.cast(CollidableCompositeLayer.jm_getCollidableInferface(collidableInterfaceCompositeInterface)), JR.cast(ownerLayer)))
+JR.cast(jlate(JR.cast(CollidableCompositeLayer.jm_getCollidableInferface(JR.cast(collidableInterfaceCompositeInterface))), JR.cast(ownerLayer)))
 })
         if (JR.isSame(collisionType, collisionTypeFactory.f_PICKUP)) {
             let mut collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer = JR.cast(ownerLayer)
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("PickupBehavior.jm_doPickupLayer"))
-JR.cast(jlate(JR.cast(CollidableDestroyableDamageableLayer.jm_getPickupBehavior(collidableDestroyableDamageableLayer)), JR.cast(JR.cast(collidableInterfaceCompositeInterface))))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CollidableDestroyableDamageableLayer.jm_getPickupBehavior"))
+JR.cast(jlate(JR.cast(collidableDestroyableDamageableLayer)))
+}), JR.cast(JR.cast(collidableInterfaceCompositeInterface))))
 })
         } else {
             ignore(jm_collide(this, ownerLayer, collidableInterfaceCompositeInterface))
@@ -78,12 +81,13 @@ JR.cast(jlate(JR.cast(CollidableDestroyableDamageableLayer.jm_getPickupBehavior(
 }
     
 and jm_collideInterface = (this: CollidableCharacterBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) => {
-        ignore(ForcedLogUtil.jm_log({
+        ignore(ForcedLogUtil.jm_log(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_NOT_IMPLEMENTED"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
-}, JR.cast(this)))
+}), JR.cast(this)))
 }
 
+JR.registerSuper("CollidableCharacterBehavior", "CollidableDestroyableDamageableBehavior")
 JR.registerLateBound("CollidableCharacterBehavior.jnew_1", jnew_1)
 JR.registerLateBound("CollidableCharacterBehavior.jm_collide", jm_collide)
 JR.registerLateBound("CollidableCharacterBehavior.jm_collideInterface", jm_collideInterface)

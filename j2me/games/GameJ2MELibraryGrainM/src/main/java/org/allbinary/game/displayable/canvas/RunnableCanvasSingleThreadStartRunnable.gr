@@ -45,7 +45,7 @@ provide record RunnableCanvasSingleThreadStartRunnable {
 provide let rec jclassName = () => "RunnableCanvasSingleThreadStartRunnable"
     
 and jnew_1 = (demoCanvas: RunnableCanvas) => {
-    let this = { jobject: JR.newJObject("RunnableCanvasSingleThreadStartRunnable"), f_WAIT: 0l, f_FAST: 0l, f_waitInMillis: 0L, f_logUtil: JR.jnull, f_runnableCanvas: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("RunnableCanvasSingleThreadStartRunnable"), f_WAIT: 0l, f_FAST: 0l, f_waitInMillis: 0L, f_logUtil: JR.nullOf(), f_runnableCanvas: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -57,14 +57,15 @@ JR.cast(jlate())
     
 and jm_run = (this: RunnableCanvasSingleThreadStartRunnable) => {
         {
-            ignore(RunnableCanvas.jm_run(this.f_runnableCanvas))
+            ignore(RunnableCanvas.jm_run(JR.cast(this.f_runnableCanvas)))
         }
 }
     
 and jm_processLoopSleep = (this: RunnableCanvasSingleThreadStartRunnable) => {
-        ignore(RunnableCanvas.jm_processLoopSleep(this.f_runnableCanvas))
+        ignore(RunnableCanvas.jm_processLoopSleep(JR.cast(this.f_runnableCanvas)))
 }
 
+JR.registerSuper("RunnableCanvasSingleThreadStartRunnable", "GameRunnable")
 JR.registerLateBound("RunnableCanvasSingleThreadStartRunnable.jnew_1", jnew_1)
 JR.registerLateBound("RunnableCanvasSingleThreadStartRunnable.jm_run", jm_run)
 JR.registerLateBound("RunnableCanvasSingleThreadStartRunnable.jm_processLoopSleep", jm_processLoopSleep)

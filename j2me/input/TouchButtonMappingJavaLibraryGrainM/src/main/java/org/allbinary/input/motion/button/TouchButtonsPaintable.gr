@@ -33,6 +33,14 @@ from "../../../../../org/allbinary/graphics/paint/Paintable.gr" include Paintabl
 use Paintable.{ type Paintable }
 from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
 use BasicArrayList.{ type BasicArrayList }
+from "../../../../../java/lang/Integer.gr" include Integer
+from "../../../../../java/lang/Long.gr" include Long
+from "../../../../../java/lang/Short.gr" include Short
+from "../../../../../java/lang/Byte.gr" include Byte
+from "../../../../../java/lang/Character.gr" include Character
+from "../../../../../java/lang/Float.gr" include Float
+from "../../../../../java/lang/Double.gr" include Double
+from "../../../../../java/lang/Boolean.gr" include Boolean
 from "./TouchButtonFactory.gr" include TouchButtonFactory
 use TouchButtonFactory.{ type TouchButtonFactory }
 
@@ -54,16 +62,19 @@ and jnew_1 = (basicColor: BasicColor) => {
     this.f_basicSetColorUtil = JR.cast(BasicColorSetUtil.jm_getInstance())
     this.f_touchButtonFactory = JR.cast(TouchButtonFactory.jm_getInstance())
         this.f_foregroundBasicColor = JR.cast(basicColor)
-        this.f_foregroundColor = BasicColor.jm_intValue(basicColor)
+        this.f_foregroundColor = BasicColor.jm_intValue(JR.cast(basicColor))
     this
 }
     
 and jm_paint = (this: TouchButtonsPaintable, graphics: JObject) => {
-        let mut list: BasicArrayList = JR.cast(TouchButtonFactory.jm_getList(this.f_touchButtonFactory))
-        ignore(BasicColorSetUtil.jm_setBasicColorP3(this.f_basicSetColorUtil, graphics, this.f_foregroundBasicColor, this.f_foregroundColor))
-        let mut touchButton: JObject = JR.jnull
+        let mut list: BasicArrayList = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchButtonFactory.jm_getList"))
+JR.cast(jlate(JR.cast(this.f_touchButtonFactory)))
+})
+        ignore(BasicColorSetUtil.jm_setBasicColorP3(JR.cast(this.f_basicSetColorUtil), JR.cast(graphics), JR.cast(this.f_foregroundBasicColor), this.f_foregroundColor))
+        let mut touchButton: JObject = JR.nullOf()
         {
-            let mut index: Int32 = BasicArrayList.jm_size(list)
+            let mut index: Int32 = BasicArrayList.jm_size(JR.cast(list))
             let mut jfirst = true
             while (true) {
                 jfirst = false
@@ -76,7 +87,7 @@ JR.cast(jlate(JR.cast(touchButton), JR.cast(graphics)))
             }
         }
         {
-            let mut index: Int32 = BasicArrayList.jm_size(list)
+            let mut index: Int32 = BasicArrayList.jm_size(JR.cast(list))
             let mut jfirst = true
             while (true) {
                 jfirst = false
@@ -90,6 +101,7 @@ JR.cast(jlate(JR.cast(touchButton), JR.cast(graphics)))
         }
 }
 
+JR.registerSuper("TouchButtonsPaintable", "Paintable")
 JR.registerLateBound("TouchButtonsPaintable.jnew_1", jnew_1)
 JR.registerLateBound("TouchButtonsPaintable.jm_paint", jm_paint)
 JR.registerLateBound("TouchButtonsPaintable.f_foregroundBasicColor", (this: TouchButtonsPaintable) => this.f_foregroundBasicColor)

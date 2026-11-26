@@ -102,7 +102,7 @@ and jm_createPaintable = () => {
 }
     
 and jnew_3 = (name: String, layerInfo: Rectangle, viewPosition: ViewPositionBase) => {
-    let this = { jobject: JR.newJObject("AllBinaryGameLayer"), f_logUtil: JR.jnull, f_x: 0l, f_y: 0l, f_z: 0l, f_width: 0l, f_height: 0l, f_visible: false, f_viewPositionEvent: JR.jnull, f_halfWidth: 0l, f_halfHeight: 0l, f_name: "", f_viewPosition: JR.jnull, f_commonStrings: JR.nullOf(), f_basicSetColorUtil: JR.nullOf(), f_RED: JR.nullOf(), f_paintable: JR.nullOf(), f_gameKeyEventList: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("AllBinaryGameLayer"), f_logUtil: JR.nullOf(), f_x: 0l, f_y: 0l, f_z: 0l, f_width: 0l, f_height: 0l, f_visible: false, f_viewPositionEvent: JR.nullOf(), f_halfWidth: 0l, f_halfHeight: 0l, f_name: "", f_viewPosition: JR.nullOf(), f_commonStrings: JR.nullOf(), f_basicSetColorUtil: JR.nullOf(), f_RED: JR.nullOf(), f_paintable: JR.nullOf(), f_gameKeyEventList: JR.nullOf(), }
     this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
     this.f_basicSetColorUtil = JR.cast(BasicColorSetUtil.jm_getInstance())
     this.f_RED = JR.cast(BasicColorFactory.jm_getInstance().f_RED)
@@ -133,7 +133,7 @@ and jm_processTick = (this: AllBinaryGameLayer, allBinaryLayerManager: AllBinary
 }
     
 and jm_onEvent = (this: AllBinaryGameLayer, eventObject: AllBinaryEventObject) => {
-        ignore(ForcedLogUtil.jm_log(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE, JR.cast(this)))
+        ignore(ForcedLogUtil.jm_log(JR.cast(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE), JR.cast(this)))
 }
     
 and jm_onViewPositionChangeEvent = (this: AllBinaryGameLayer) => {
@@ -155,7 +155,7 @@ JR.cast(jlate(JR.cast(this), JR.cast(false)))
 }
     
 and jm_paintFirst = (this: AllBinaryGameLayer, graphics: JObject) => {
-        ignore(Paintable.jm_paint(this.f_paintable, graphics))
+        ignore(Paintable.jm_paint(JR.cast(this.f_paintable), JR.cast(graphics)))
 }
     
 and jm_paintDebug = (this: AllBinaryGameLayer, graphics: JObject) => {
@@ -171,7 +171,7 @@ JR.cast(jlate(JR.cast(viewPosition)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getY"))
 JR.cast(jlate(JR.cast(viewPosition)))
 }
-        ignore(BasicColorSetUtil.jm_setBasicColorP(this.f_basicSetColorUtil, graphics, this.f_RED))
+        ignore(BasicColorSetUtil.jm_setBasicColorP(JR.cast(this.f_basicSetColorUtil), JR.cast(graphics), JR.cast(this.f_RED)))
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawRect"))
 JR.cast(jlate(JR.cast(graphics), JR.cast(viewX), JR.cast(viewY), JR.cast({
@@ -206,6 +206,7 @@ JR.cast(jlate(JR.cast(this), JR.cast(Int32.(>>)(height, 1l))))
 })
 }
 
+JR.registerSuper("AllBinaryGameLayer", "AllBinaryLayer")
 JR.registerLateBound("AllBinaryGameLayer.jnew_3", jnew_3)
 JR.registerLateBound("AllBinaryGameLayer.jm_createPaintable", jm_createPaintable)
 JR.registerLateBound("AllBinaryGameLayer.jm_set", jm_set)

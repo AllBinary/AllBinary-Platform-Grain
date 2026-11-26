@@ -64,15 +64,12 @@ provide record CaptionAnimationHelper {
 provide let rec jclassName = () => "CaptionAnimationHelper"
     
 and jnew_5 = (captionAnimation: Animation, captionDx: Int32, captionDy: Int32, dx: Int32, dy: Int32) => {
-    let this = { jobject: JR.newJObject("CaptionAnimationHelper"), f_basicSetColorUtil: JR.jnull, f_basicColor: JR.jnull, f_colorP: 0l, f_changeBasicColorP: JR.jnull, f_changeColorP: 0l, f_alphaP: 0l, f_timeHelper: JR.nullOf(), f_textAnimation: JR.nullOf(), f_captionAnimation: JR.nullOf(), f_animation: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("CaptionAnimationHelper"), f_basicSetColorUtil: JR.nullOf(), f_basicColor: JR.nullOf(), f_colorP: 0l, f_changeBasicColorP: JR.nullOf(), f_changeColorP: 0l, f_alphaP: 0l, f_timeHelper: JR.nullOf(), f_textAnimation: JR.nullOf(), f_captionAnimation: JR.nullOf(), f_animation: JR.nullOf(), }
     this.f_timeHelper = TimeDelayHelper.jnew_1(620l)
     this.f_textAnimation = TextAnimation.jnew_2(StringUtil.jm_getInstance().f_EMPTY_STRING, JR.cast(AnimationBehavior.jm_getInstance()))
     
-    this.f_animation = JR.cast({
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("NullAnimationFactory.jm_getInstance"))
-JR.cast(jlate(JR.cast(NullAnimationFactory.jm_getFactoryInstance()), JR.cast(0l)))
-})
-        this.f_captionAnimation = JR.cast(JR.cast(CaptionAnimation.jnew_6(captionAnimation, this.f_textAnimation, captionDx, captionDy, dx, dy)))
+    this.f_animation = JR.cast(NullAnimationFactory.jm_getInstance(JR.cast(NullAnimationFactory.jm_getFactoryInstance()), 0l))
+        this.f_captionAnimation = JR.cast(JR.cast(CaptionAnimation.jnew_6(JR.cast(captionAnimation), JR.cast(this.f_textAnimation), captionDx, captionDy, dx, dy)))
     this
 }
     
@@ -85,11 +82,11 @@ and jm_isShowing = (this: CaptionAnimationHelper) => {
 }
     
 and jm_tick = (this: CaptionAnimationHelper) => {
-        if (TimeDelayHelper.jm_isTime(this.f_timeHelper, GameTickTimeDelayHelperFactory.jm_getInstance().f_startTime)) {
-            this.f_animation = JR.cast({
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("NullAnimationFactory.jm_getInstance"))
-JR.cast(jlate(JR.cast(NullAnimationFactory.jm_getFactoryInstance()), JR.cast(0l)))
-})
+        if (TimeDelayHelper.jm_isTime(JR.cast(this.f_timeHelper), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameTickTimeDelayHelperFactory.f_startTime"))
+JR.cast(jlate(JR.cast(GameTickTimeDelayHelperFactory.jm_getInstance())))
+})) {
+            this.f_animation = JR.cast(NullAnimationFactory.jm_getInstance(JR.cast(NullAnimationFactory.jm_getFactoryInstance()), 0l))
         }
 }
     
@@ -98,15 +95,16 @@ and jm_update = (this: CaptionAnimationHelper, message: String, basicColor: Basi
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Animation.jm_setBasicColorP"))
 JR.cast(jlate(JR.cast(this.f_textAnimation), JR.cast(basicColor)))
 })
-        ignore(TextAnimation.jm_setText(this.f_textAnimation, message))
+        ignore(TextAnimation.jm_setText(JR.cast(this.f_textAnimation), JR.cast(message)))
         this.f_animation = JR.cast(this.f_captionAnimation)
-        ignore(TimeDelayHelper.jm_setStartTimeTNT(this.f_timeHelper))
+        ignore(TimeDelayHelper.jm_setStartTimeTNT(JR.cast(this.f_timeHelper)))
 }
     
 and jm_paintXY = (this: CaptionAnimationHelper, graphics: JObject, x: Int32, y: Int32) => {
-        ignore(Animation.jm_paintXY(this.f_animation, graphics, x, y))
+        ignore(Animation.jm_paintXY(JR.cast(this.f_animation), JR.cast(graphics), x, y))
 }
 
+JR.registerSuper("CaptionAnimationHelper", "CaptionAnimationHelperBase")
 JR.registerLateBound("CaptionAnimationHelper.jnew_5", jnew_5)
 JR.registerLateBound("CaptionAnimationHelper.jm_isShowing", jm_isShowing)
 JR.registerLateBound("CaptionAnimationHelper.jm_tick", jm_tick)

@@ -47,7 +47,7 @@ provide record GameCanvasPauseRunnable {
 provide let rec jclassName = () => "GameCanvasPauseRunnable"
     
 and jnew_1 = (allBinaryGameCanvas: JObject) => {
-    let this = { jobject: JR.newJObject("GameCanvasPauseRunnable"), f_WAIT: 0l, f_FAST: 0l, f_waitInMillis: 0L, f_logUtil: JR.jnull, f_allBinaryGameCanvas: JR.jnull, }
+    let this = { jobject: JR.newJObject("GameCanvasPauseRunnable"), f_WAIT: 0l, f_FAST: 0l, f_waitInMillis: 0L, f_logUtil: JR.nullOf(), f_allBinaryGameCanvas: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -64,7 +64,7 @@ and jm_run = (this: GameCanvasPauseRunnable) => {
 and jm_processLoopSleep = (this: GameCanvasPauseRunnable) => {
         {
             let mut features: Features = JR.cast(Features.jm_getInstance())
-            let mut isOpenGL: Bool = Features.jm_isDefault(features, JR.cast(OpenGLFeatureFactory.jm_getInstance().f_OPENGL))
+            let mut isOpenGL: Bool = Features.jm_isDefault(JR.cast(features), JR.cast(OpenGLFeatureFactory.jm_getInstance().f_OPENGL))
             if (isOpenGL) {
                 ignore({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_processSleep"))
@@ -74,6 +74,7 @@ JR.cast(jlate(JR.cast(this.f_allBinaryGameCanvas)))
         }
 }
 
+JR.registerSuper("GameCanvasPauseRunnable", "GameRunnable")
 JR.registerLateBound("GameCanvasPauseRunnable.jnew_1", jnew_1)
 JR.registerLateBound("GameCanvasPauseRunnable.jm_run", jm_run)
 JR.registerLateBound("GameCanvasPauseRunnable.jm_processLoopSleep", jm_processLoopSleep)

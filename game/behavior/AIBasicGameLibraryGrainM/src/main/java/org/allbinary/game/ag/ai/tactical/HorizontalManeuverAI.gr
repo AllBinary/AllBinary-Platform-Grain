@@ -52,7 +52,7 @@ provide record HorizontalManeuverAI {
 provide let rec jclassName = () => "HorizontalManeuverAI"
     
 and jnew_2 = (ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
-    let this = { jobject: JR.newJObject("HorizontalManeuverAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_currentRelativeAngle: 0l, f_currentSpeed: 0l, }
+    let this = { jobject: JR.newJObject("HorizontalManeuverAI"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_ownerLayerInterface: JR.nullOf(), f_gameInput: JR.nullOf(), f_lastKey: 0l, f_currentRelativeAngle: 0l, f_currentSpeed: 0l, }
     this.f_currentRelativeAngle = 0l
     
         void
@@ -65,12 +65,12 @@ and jm_processAI = (this: HorizontalManeuverAI, allBinaryLayerManager: AllBinary
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
 JR.cast(jlate(JR.cast(this)))
 })
-        let mut x: Int32 = AllBinaryLayer.jm_getXP(ownerLayerInterface)
-        if (Int32.(<=)(Int32.(-)(AllBinaryLayer.jm_getXP(ownerLayerInterface), this.f_currentSpeed), 0l)) {
+        let mut x: Int32 = AllBinaryLayer.jm_getXP(JR.cast(ownerLayerInterface))
+        if (Int32.(<=)(Int32.(-)(AllBinaryLayer.jm_getXP(JR.cast(ownerLayerInterface)), this.f_currentSpeed), 0l)) {
             ignore(jm_reverse(this))
             ignore(jm_drop(this))
         }
-        if (Int32.(>)(Int32.(+)(AllBinaryLayer.jm_getX2(ownerLayerInterface), this.f_currentSpeed), DisplayInfoSingleton.jm_getLastWidth(DisplayInfoSingleton.jm_getInstance()))) {
+        if (Int32.(>)(Int32.(+)(AllBinaryLayer.jm_getX2(JR.cast(ownerLayerInterface)), this.f_currentSpeed), DisplayInfoSingleton.jm_getLastWidth(JR.cast(DisplayInfoSingleton.jm_getInstance())))) {
             ignore(jm_reverse(this))
             ignore(jm_accelerate(this))
             ignore(jm_drop(this))
@@ -80,7 +80,7 @@ JR.cast(jlate(JR.cast(this)))
         } else if ((this.f_currentRelativeAngle == 180l)) {
             x = Int32.(-)(x, this.f_currentSpeed)
         }
-        ignore(AllBinaryLayer.jm_setPosition(ownerLayerInterface, x, AllBinaryLayer.jm_getYP(ownerLayerInterface), AllBinaryLayer.jm_getZP(ownerLayerInterface)))
+        ignore(AllBinaryLayer.jm_setPosition(JR.cast(ownerLayerInterface), x, AllBinaryLayer.jm_getYP(JR.cast(ownerLayerInterface)), AllBinaryLayer.jm_getZP(JR.cast(ownerLayerInterface))))
         if ((this.f_currentRelativeAngle == 0l)) {
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
@@ -119,15 +119,16 @@ and jm_drop = (this: HorizontalManeuverAI) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
 JR.cast(jlate(JR.cast(this)))
 })
-        let mut y: Int32 = AllBinaryLayer.jm_getYP(ownerLayerInterface)
-        if (Int32.(>)(Int32.(+)(AllBinaryLayer.jm_getY2(ownerLayerInterface), AllBinaryLayer.jm_getHeight(ownerLayerInterface)), DisplayInfoSingleton.jm_getLastHeight(DisplayInfoSingleton.jm_getInstance()))) {
+        let mut y: Int32 = AllBinaryLayer.jm_getYP(JR.cast(ownerLayerInterface))
+        if (Int32.(>)(Int32.(+)(AllBinaryLayer.jm_getY2(JR.cast(ownerLayerInterface)), AllBinaryLayer.jm_getHeight(JR.cast(ownerLayerInterface))), DisplayInfoSingleton.jm_getLastHeight(JR.cast(DisplayInfoSingleton.jm_getInstance())))) {
             y = 0l
         } else {
-            y = Int32.(+)(y, Int32.(+)(AllBinaryLayer.jm_getHeight(ownerLayerInterface), 1l))
+            y = Int32.(+)(y, Int32.(+)(AllBinaryLayer.jm_getHeight(JR.cast(ownerLayerInterface)), 1l))
         }
-        ignore(AllBinaryLayer.jm_setPosition(ownerLayerInterface, AllBinaryLayer.jm_getXP(ownerLayerInterface), y, AllBinaryLayer.jm_getZP(ownerLayerInterface)))
+        ignore(AllBinaryLayer.jm_setPosition(JR.cast(ownerLayerInterface), AllBinaryLayer.jm_getXP(JR.cast(ownerLayerInterface)), y, AllBinaryLayer.jm_getZP(JR.cast(ownerLayerInterface))))
 }
 
+JR.registerSuper("HorizontalManeuverAI", "BasicAI")
 JR.registerLateBound("HorizontalManeuverAI.jnew_2", jnew_2)
 JR.registerLateBound("HorizontalManeuverAI.jm_processAI", jm_processAI)
 JR.registerLateBound("HorizontalManeuverAI.jm_reverse", jm_reverse)

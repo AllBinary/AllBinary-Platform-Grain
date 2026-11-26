@@ -51,15 +51,10 @@ provide record PooledThread {
 provide let rec jclassName = () => "PooledThread"
     
 and jnew_1 = (threadPool: JObject) => {
-    let this = { jobject: JR.newJObject("PooledThread"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_threadObjectUtil: JR.nullOf(), f_threadPool: JR.jnull, f_INTERRUPT_EXCEPTION: "", }
-    this.f_logUtil = JR.cast({
-let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
-JR.cast(jlate())
-})
-    this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
-    this.f_threadObjectUtil = JR.cast(ThreadObjectUtil.jm_getInstance())
-    
-    this.f_INTERRUPT_EXCEPTION = "Exit InterruptedException"
+    let this: PooledThread = JR.cast(Thread.jnew_1({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.jm_createName"))
+JR.cast(jlate(JR.cast(threadPool)))
+}))
         void
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
@@ -75,7 +70,10 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.jm_threadStar
 JR.cast(jlate(JR.cast(this.f_threadPool)))
 })
         while (true) {
-            let mut task2: Runnable = JR.cast(this.f_threadObjectUtil.f_NULL_PRIORITY_RUNNABLE)
+            let mut task2: Runnable = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ThreadObjectUtil.f_NULL_PRIORITY_RUNNABLE"))
+JR.cast(jlate(JR.cast(this.f_threadObjectUtil)))
+})
             {
                 task2 = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.jm_getTask"))
@@ -90,7 +88,10 @@ let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.jm_s
 JR.cast(jlate(JR.cast(this.f_threadPool), JR.cast(task2)))
 })
             }
-            if (JR.isSame(task2, this.f_threadObjectUtil.f_NULL_PRIORITY_RUNNABLE)) {
+            if (JR.isSame(task2, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ThreadObjectUtil.f_NULL_PRIORITY_RUNNABLE"))
+JR.cast(jlate(JR.cast(this.f_threadObjectUtil)))
+})) {
                 break
             }
             {
@@ -111,6 +112,7 @@ JR.cast(jlate(JR.cast(this.f_threadPool)))
 })
 }
 
+JR.registerSuper("PooledThread", "Thread")
 JR.registerLateBound("PooledThread.jnew_1", jnew_1)
 JR.registerLateBound("PooledThread.jm_run", jm_run)
 JR.registerLateBound("PooledThread.f_logUtil", (this: PooledThread) => this.f_logUtil)

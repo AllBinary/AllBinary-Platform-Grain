@@ -42,19 +42,20 @@ provide record AbFileInputStream {
 provide let rec jclassName = () => "AbFileInputStream"
     
 and jnew_1 = (name: String) => {
-    let this = { jobject: JR.newJObject("AbFileInputStream"), }
+    let this: AbFileInputStream = JR.cast(FileInputStream.jnew_1(name))
         void
     this
 }
     
 and jm_createFromAbFile = (file: JObject) => {
-        return jnew_1(JR.className(JR.cast(AbFileNativeUtil.jm_get(file))))
+        return jnew_1(File.jm_getPath_0(AbFileNativeUtil.jm_get(JR.cast(file))))
 }
     
 and jm_createFromFile = (file: File) => {
         return jnew_1(File.jm_getPath_0(file))
 }
 
+JR.registerSuper("AbFileInputStream", "FileInputStream")
 JR.registerLateBound("AbFileInputStream.jnew_1", jnew_1)
 JR.registerLateBound("AbFileInputStream.jm_createFromAbFile", jm_createFromAbFile)
 JR.registerLateBound("AbFileInputStream.jm_createFromFile", jm_createFromFile)

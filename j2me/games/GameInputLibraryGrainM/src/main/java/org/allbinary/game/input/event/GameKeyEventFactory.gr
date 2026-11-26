@@ -52,7 +52,7 @@ provide let rec jclassName = () => "GameKeyEventFactory"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    let value: JObject = JR.cast(NullUtil.jm_getInstance().f_NULL_OBJECT)
     jcell_instance = Some(value)
     value
   },
@@ -70,7 +70,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("GameKeyEventFactory"), f_logUtil: JR.jnull, f_TOUCH_BUTTON_SOURCE_ID: 0l, f_MOTION_GESTURE_SOURCE_ID: 0l, f_MAX_SOURCES: 0l, f_ARRAY: [> ], }
+    let this = { jobject: JR.newJObject("GameKeyEventFactory"), f_logUtil: JR.nullOf(), f_TOUCH_BUTTON_SOURCE_ID: 0l, f_MOTION_GESTURE_SOURCE_ID: 0l, f_MAX_SOURCES: 0l, f_ARRAY: [> ], }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -98,7 +98,7 @@ and jm_init = (this: GameKeyEventFactory) => {
                 while (true) {
                     jfirst = false
                     if (!(Int32.(>=)({ index2 = Int32.(-)(index2, 1l); index2 }, 0l))) break
-                this.f_ARRAY[Int32.toNumber(index)][Int32.toNumber(index2)] = JR.cast(GameKeyEvent.jm_createEvent(nullUtil.f_NULL_OBJECT, index, index2))
+                this.f_ARRAY[Int32.toNumber(index)][Int32.toNumber(index2)] = JR.cast(GameKeyEvent.jm_createEvent(JR.cast(nullUtil.f_NULL_OBJECT), index, index2))
                 }
             }
             }
@@ -106,12 +106,12 @@ and jm_init = (this: GameKeyEventFactory) => {
 }
     
 and jm_getInstanceForKey = (this: GameKeyEventFactory, anyType: GameKeyEventSourceInterface, key: Int32) => {
-        let mut gameKeyEvent: GameKeyEvent = JR.cast(this.f_ARRAY[Int32.toNumber(GameKeyEventSourceInterface.jm_getSourceId(anyType))][Int32.toNumber(key)])
+        let mut gameKeyEvent: GameKeyEvent = JR.cast(this.f_ARRAY[Int32.toNumber(GameKeyEventSourceInterface.jm_getSourceId(JR.cast(anyType)))][Int32.toNumber(key)])
         return gameKeyEvent
 }
     
 and jm_getInstanceForInput = (this: GameKeyEventFactory, anyType: GameKeyEventSourceInterface, input: Input) => {
-        let mut gameKeyEvent: GameKeyEvent = JR.cast(this.f_ARRAY[Int32.toNumber(GameKeyEventSourceInterface.jm_getSourceId(anyType))][Int32.toNumber(Input.jm_getId(input))])
+        let mut gameKeyEvent: GameKeyEvent = JR.cast(this.f_ARRAY[Int32.toNumber(GameKeyEventSourceInterface.jm_getSourceId(JR.cast(anyType)))][Int32.toNumber(Input.jm_getId(JR.cast(input)))])
         return gameKeyEvent
 }
 

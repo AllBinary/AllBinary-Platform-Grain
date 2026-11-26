@@ -18,6 +18,17 @@ use CommandListener.{ type CommandListener }
 
 provide record NullCanvas {
   jobject: JObject,
+  mut f_device: JObject,
+  mut f_currentDisplay: JObject,
+  mut f_width: Int32,
+  mut f_height: Int32,
+  mut f_fullScreenMode: Bool,
+  mut f_ticker: JObject,
+  mut f_viewPortY: Int32,
+  mut f_viewPortHeight: Int32,
+  mut f_ui: JObject,
+  mut f_title: String,
+  mut f_listener: JObject,
 }
 
 let mut jcell_NULL_CANVAS: Option<NullCanvas> = None
@@ -27,7 +38,7 @@ provide let rec jclassName = () => "NullCanvas"
 and jstatic_NULL_CANVAS = () => match (jcell_NULL_CANVAS) {
   Some(value) => value,
   None => {
-    let value: NullCanvas = jnew_0()
+    let value: NullCanvas = JR.cast(jnew_0())
     jcell_NULL_CANVAS = Some(value)
     value
   },
@@ -38,7 +49,7 @@ and jset_NULL_CANVAS = (value: NullCanvas) => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("NullCanvas"), }
+    let this = { jobject: JR.newJObject("NullCanvas"), f_device: JR.nullOf(), f_currentDisplay: JR.nullOf(), f_width: 0l, f_height: 0l, f_fullScreenMode: false, f_ticker: JR.nullOf(), f_viewPortY: 0l, f_viewPortHeight: 0l, f_ui: JR.nullOf(), f_title: "", f_listener: JR.nullOf(), }
         void
     this
 }
@@ -123,6 +134,7 @@ and jm_pointerReleased = (this: NullCanvas, x: Int32, y: Int32) => {
     void
 }
 
+JR.registerSuper("NullCanvas", "Canvas")
 JR.registerLateBound("NullCanvas.jnew_0", jnew_0)
 JR.registerLateBound("NullCanvas.jm_setFullScreenMode", jm_setFullScreenMode)
 JR.registerLateBound("NullCanvas.jm_sizeChanged", jm_sizeChanged)

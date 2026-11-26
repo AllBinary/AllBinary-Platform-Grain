@@ -96,7 +96,7 @@ and jset_NORMAL_PRIORITY = (value: Int32) => {
 }
     
 and jnew_3 = (poolName: String, numThreads: Int32, priority: Int32) => {
-    let this = { jobject: JR.newJObject("ThreadPool"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_NULL_RUNNABLE: JR.nullOf(), f_threadPoolStrings: JR.nullOf(), f_threadObjectUtil: JR.nullOf(), f_poolName: "", f_priority: 0l, f_isAlive: false, f_taskQueue: JR.nullOf(), f_threadID: 0l, f_numThreads: 0l, f_runningTask: false, }
+    let this = { jobject: JR.newJObject("ThreadPool"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_NULL_RUNNABLE: JR.nullOf(), f_threadPoolStrings: JR.nullOf(), f_threadObjectUtil: JR.nullOf(), f_poolName: "", f_priority: 0l, f_isAlive: false, f_taskQueue: JR.nullOf(), f_threadID: 0l, f_numThreads: 0l, f_runningTask: false, }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -108,7 +108,7 @@ JR.cast(jlate())
     
     
     this.f_isAlive = false
-    this.f_taskQueue = JR.cast(BasicArrayListUtil.jm_getImmutableInstance(BasicArrayListUtil.jm_getInstance()))
+    this.f_taskQueue = JR.cast(BasicArrayListUtil.jm_getImmutableInstance(JR.cast(BasicArrayListUtil.jm_getInstance())))
     
     
     
@@ -122,7 +122,7 @@ and jm_init = (this: ThreadPool) => {
         if (!this.f_isAlive) {
             this.f_isAlive = true
             this.f_taskQueue = JR.cast(JR.cast(BasicArrayListD.jnew_0()))
-            let mut pooledThread: JObject = JR.jnull
+            let mut pooledThread: JObject = JR.nullOf()
             {
                 let mut i: Int32 = 0l
                 let mut jfirst = true
@@ -159,9 +159,12 @@ and jm_runTaskWithPriority = (this: ThreadPool, task: PriorityRunnable) => {
                 ignore(jm_init(this))
             }
             if (!JR.isNull(task)) {
-                let mut size: Int32 = BasicArrayList.jm_size(this.f_taskQueue)
+                let mut size: Int32 = BasicArrayList.jm_size(JR.cast(this.f_taskQueue))
                 let mut runnable: PriorityRunnable = JR.nullOf()
-                let mut lowerPriorityRunnable: PriorityRunnable = JR.cast(this.f_threadObjectUtil.f_NULL_PRIORITY_RUNNABLE)
+                let mut lowerPriorityRunnable: PriorityRunnable = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ThreadObjectUtil.f_NULL_PRIORITY_RUNNABLE"))
+JR.cast(jlate(JR.cast(this.f_threadObjectUtil)))
+})
                 {
                     let mut index: Int32 = 0l
                     let mut jfirst = true
@@ -171,18 +174,27 @@ and jm_runTaskWithPriority = (this: ThreadPool, task: PriorityRunnable) => {
                         }
                         jfirst = false
                         if (!(Int32.(<)(index, size))) break
-                    runnable = JR.cast(BasicArrayList.jm_get(this.f_taskQueue, index))
-                    if (Int32.(>)(PriorityRunnable.jm_getPriority(runnable), PriorityRunnable.jm_getPriority(task))) {
+                    runnable = JR.cast(BasicArrayList.jm_get(JR.cast(this.f_taskQueue), index))
+                    if (Int32.(>)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PriorityRunnable.jm_getPriority"))
+JR.cast(jlate(JR.cast(runnable)))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PriorityRunnable.jm_getPriority"))
+JR.cast(jlate(JR.cast(task)))
+})) {
                         lowerPriorityRunnable = JR.cast(runnable)
                         break
                     }
                     }
                 }
-                if (JR.isSame(lowerPriorityRunnable, this.f_threadObjectUtil.f_NULL_PRIORITY_RUNNABLE)) {
-                    ignore(BasicArrayList.jm_add(this.f_taskQueue, JR.cast(task)))
+                if (JR.isSame(lowerPriorityRunnable, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ThreadObjectUtil.f_NULL_PRIORITY_RUNNABLE"))
+JR.cast(jlate(JR.cast(this.f_threadObjectUtil)))
+})) {
+                    ignore(BasicArrayList.jm_add(JR.cast(this.f_taskQueue), JR.cast(task)))
                 } else {
-                    let mut index: Int32 = BasicArrayList.jm_indexOf(this.f_taskQueue, JR.cast(lowerPriorityRunnable))
-                    ignore(BasicArrayList.jm_addAt(this.f_taskQueue, index, JR.cast(task)))
+                    let mut index: Int32 = BasicArrayList.jm_indexOf(JR.cast(this.f_taskQueue), JR.cast(lowerPriorityRunnable))
+                    ignore(BasicArrayList.jm_addAt(JR.cast(this.f_taskQueue), index, JR.cast(task)))
                 }
                 ignore(void)
             }
@@ -195,7 +207,7 @@ and jm_runTask = (this: ThreadPool, task: Runnable) => {
                 ignore(jm_init(this))
             }
             if (!JR.isNull(task)) {
-                ignore(BasicArrayList.jm_add(this.f_taskQueue, JR.cast(task)))
+                ignore(BasicArrayList.jm_add(JR.cast(this.f_taskQueue), JR.cast(task)))
                 ignore(void)
             }
         }
@@ -203,13 +215,13 @@ and jm_runTask = (this: ThreadPool, task: Runnable) => {
     
 and jm_getTask = (this: ThreadPool) => {
         {
-            while ((BasicArrayList.jm_size(this.f_taskQueue) == 0l)) {
+            while ((BasicArrayList.jm_size(JR.cast(this.f_taskQueue)) == 0l)) {
                 if (!this.f_isAlive) {
                     return JR.cast(this.f_NULL_RUNNABLE)
                 }
                 ignore(void)
             }
-            let mut runnable: Runnable = JR.cast(BasicArrayList.jm_removeAt(this.f_taskQueue, 0l))
+            let mut runnable: Runnable = JR.cast(BasicArrayList.jm_removeAt(JR.cast(this.f_taskQueue), 0l))
             return runnable
         }
     return JR.nullOf()
@@ -218,7 +230,7 @@ and jm_getTask = (this: ThreadPool) => {
 and jm_clear = (this: ThreadPool) => {
         {
             if (this.f_isAlive) {
-                ignore(BasicArrayList.jm_clear(this.f_taskQueue))
+                ignore(BasicArrayList.jm_clear(JR.cast(this.f_taskQueue)))
             }
         }
 }
@@ -227,7 +239,7 @@ and jm_close = (this: ThreadPool) => {
         {
             if (this.f_isAlive) {
                 this.f_isAlive = false
-                ignore(BasicArrayList.jm_clear(this.f_taskQueue))
+                ignore(BasicArrayList.jm_clear(JR.cast(this.f_taskQueue)))
             }
         }
 }
@@ -235,7 +247,7 @@ and jm_close = (this: ThreadPool) => {
 and jm_join = (this: ThreadPool) => {
         {
             this.f_isAlive = false
-            ignore(BasicArrayList.jm_clear(this.f_taskQueue))
+            ignore(BasicArrayList.jm_clear(JR.cast(this.f_taskQueue)))
             ignore(void)
         }
 }
@@ -244,7 +256,7 @@ and jm_isBusy = (this: ThreadPool) => {
         if (!this.f_isAlive) {
             return false
         }
-        if (Int32.(>)(BasicArrayList.jm_size(this.f_taskQueue), 0l)) {
+        if (Int32.(>)(BasicArrayList.jm_size(JR.cast(this.f_taskQueue)), 0l)) {
             return true
         }
         if (this.f_runningTask) {
@@ -260,7 +272,7 @@ and jm_threadStarted = (this: ThreadPool) => {
 and jm_threadStopped = (this: ThreadPool) => {
         if ((this.f_numThreads == 1l)) {
             this.f_isAlive = false
-            ignore(BasicArrayList.jm_clear(this.f_taskQueue))
+            ignore(BasicArrayList.jm_clear(JR.cast(this.f_taskQueue)))
         }
 }
     
@@ -273,7 +285,7 @@ and jm_completedTask = (this: ThreadPool, task: Runnable) => {
 }
     
 and jm_createName = (this: ThreadPool) => {
-        return StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), this.f_poolName), jstatic_ROOT_NAME()), { let jold = this.f_threadID; this.f_threadID = Int32.(+)(jold, 1l); jold }))
+        return StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(this.f_poolName))), JR.cast(jstatic_ROOT_NAME()))), { let jold = this.f_threadID; this.f_threadID = Int32.(+)(jold, 1l); jold })))
 }
 
 JR.registerLateBound("ThreadPool.jnew_3", jnew_3)

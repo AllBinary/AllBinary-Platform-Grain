@@ -46,9 +46,13 @@ and jnew_1 = (runnableCanvas: MyCanvas) => {
 }
     
 and jm_process = (this: RunnableCanvasRefreshHelper) => {
-        ignore(MyCanvas.jm_repaint(this.f_runnableCanvas))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Canvas.jm_repaint"))
+JR.cast(jlate(JR.cast(this.f_runnableCanvas)))
+})
 }
 
+JR.registerSuper("RunnableCanvasRefreshHelper", "Processor")
 JR.registerLateBound("RunnableCanvasRefreshHelper.jnew_1", jnew_1)
 JR.registerLateBound("RunnableCanvasRefreshHelper.jm_process", jm_process)
 JR.registerLateBound("RunnableCanvasRefreshHelper.f_runnableCanvas", (this: RunnableCanvasRefreshHelper) => this.f_runnableCanvas)

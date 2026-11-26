@@ -25,12 +25,24 @@ from "char" include Char
 from "array" include Array
 from "../../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../../../javax/xml/transform/Transformer.gr" include Transformer
+use Transformer.{ type Transformer }
+from "../../../../../../javax/xml/transform/TransformerFactory.gr" include TransformerFactory
+use TransformerFactory.{ type TransformerFactory }
+from "../../../../../../javax/xml/transform/dom/DOMSource.gr" include DOMSource
+use DOMSource.{ type DOMSource }
+from "../../../../../../javax/xml/transform/stream/StreamResult.gr" include StreamResult
+use StreamResult.{ type StreamResult }
 from "../../../../../../org/allbinary/logic/io/AbDataOutputStream.gr" include AbDataOutputStream
 use AbDataOutputStream.{ type AbDataOutputStream }
 from "../../../../../../org/allbinary/logic/io/StreamUtil.gr" include StreamUtil
 use StreamUtil.{ type StreamUtil }
 from "../../../../../../org/w3c/dom/Document.gr" include Document
 use Document.{ type Document }
+from "../../../../../../java/io/FileInputStream.gr" include FileInputStream
+use FileInputStream.{ type FileInputStream }
+from "../../../../../../java/io/DataOutputStream.gr" include DataOutputStream
+use DataOutputStream.{ type DataOutputStream }
 from "./DomDocumentHelper.gr" include DomDocumentHelper
 use DomDocumentHelper.{ type DomDocumentHelper }
 
@@ -60,8 +72,8 @@ JR.cast(jlate(JR.cast(xmlFile)))
 and jm_save = (file: JObject, document: Document) => {
         let mut dataOutputStream: AbDataOutputStream = JR.nullOf()
         {
-            let mut copyTransformerFactory: TransformerFactory = JR.cast(TransformerFactory.jm_newInstance())
-            let mut copyTransformer: Transformer = JR.cast(TransformerFactory.jm_newTransformer(copyTransformerFactory))
+            let mut copyTransformerFactory: TransformerFactory = JR.cast(TransformerFactory.jm_newInstance_0())
+            let mut copyTransformer: Transformer = JR.cast(TransformerFactory.jm_newTransformer_0(copyTransformerFactory))
             let mut domSource: DOMSource = DOMSource.jnew_1(document)
             if ({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isFile"))
@@ -84,11 +96,11 @@ JR.cast(jlate())
 }), JR.cast(file)))
 })
             let mut streamResult: StreamResult = StreamResult.jnew_1(dataOutputStream)
-            ignore(Transformer.jm_transform(copyTransformer, domSource, streamResult))
-            ignore(AbDataOutputStream.jm_flush(dataOutputStream))
+            ignore(Transformer.jm_transform_2(copyTransformer, domSource, streamResult))
+            ignore(DataOutputStream.jm_flush_0(JR.cast(dataOutputStream)))
         }
         {
-            ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), JR.cast(dataOutputStream)))
+            ignore(StreamUtil.jm_close(JR.cast(StreamUtil.jm_getInstance()), JR.cast(dataOutputStream)))
         }
 }
 

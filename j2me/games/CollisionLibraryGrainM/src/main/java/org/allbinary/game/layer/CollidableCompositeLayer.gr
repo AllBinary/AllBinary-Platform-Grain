@@ -79,7 +79,7 @@ provide let rec jclassName = () => "CollidableCompositeLayer"
 and jstatic_NULL_COLLIDABLE_COMPOSITE_LAYER = () => match (jcell_NULL_COLLIDABLE_COMPOSITE_LAYER) {
   Some(value) => value,
   None => {
-    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    let value: JObject = JR.cast(NullUtil.jm_getInstance().f_NULL_OBJECT)
     jcell_NULL_COLLIDABLE_COMPOSITE_LAYER = Some(value)
     value
   },
@@ -100,7 +100,7 @@ JR.cast(jlate())
 }
     
 and jnew_4 = (name: String, layerInfo: Rectangle, viewPosition: ViewPositionBase, collidableBaseBehaviorFactory: JObject) => {
-    let this = { jobject: JR.newJObject("CollidableCompositeLayer"), f_logUtil: JR.jnull, f_x: 0l, f_y: 0l, f_z: 0l, f_width: 0l, f_height: 0l, f_visible: false, f_viewPositionEvent: JR.jnull, f_halfWidth: 0l, f_halfHeight: 0l, f_name: "", f_viewPosition: JR.jnull, f_commonStrings: JR.jnull, f_basicSetColorUtil: JR.jnull, f_RED: JR.jnull, f_paintable: JR.jnull, f_gameKeyEventList: JR.jnull, f_collidableInferface: JR.jnull, }
+    let this = { jobject: JR.newJObject("CollidableCompositeLayer"), f_logUtil: JR.nullOf(), f_x: 0l, f_y: 0l, f_z: 0l, f_width: 0l, f_height: 0l, f_visible: false, f_viewPositionEvent: JR.nullOf(), f_halfWidth: 0l, f_halfHeight: 0l, f_name: "", f_viewPosition: JR.nullOf(), f_commonStrings: JR.nullOf(), f_basicSetColorUtil: JR.nullOf(), f_RED: JR.nullOf(), f_paintable: JR.nullOf(), f_gameKeyEventList: JR.nullOf(), f_collidableInferface: JR.nullOf(), }
     this.jobject.toStringFunction = () => jm_toString(this)
     this.f_collidableInferface = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CollidableNeverCollideBehaviorFactory.jm_createBehavior"))
@@ -123,10 +123,10 @@ JR.cast(jlate(JR.cast(collidableBaseBehaviorFactory)))
 }
     
 and jm_getArtificialIntelligenceInterface = (this: CollidableCompositeLayer) => {
-        ignore(ForcedLogUtil.jm_log({
+        ignore(ForcedLogUtil.jm_log(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_NOT_IMPLEMENTED"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
-}, JR.cast(this)))
+}), JR.cast(this)))
         return ArtificialIntelligence.jm_getInstance()
 }
     
@@ -145,16 +145,17 @@ and jm_implmentsCollidableInterface = (this: CollidableCompositeLayer) => {
 and jm_toStringAppend = (this: CollidableCompositeLayer, stringBuffer: StringMaker) => {
         let mut commonSeps: CommonSeps = JR.cast(CommonSeps.jm_getInstance())
         ignore(jm_toStringAppend(this, stringBuffer))
-        ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_NEW_LINE))
-        ignore(StringMaker.jm_append(stringBuffer, JR.toStringOf(jm_getCollidableInferface(this).jobject)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(commonSeps.f_NEW_LINE)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(JR.toStringOf(jm_getCollidableInferface(this)))))
 }
     
 and jm_toString = (this: CollidableCompositeLayer) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(jm_toStringAppend(this, stringBuffer))
-        return StringMaker.jm_toString(stringBuffer)
+        ignore(jm_toStringAppend(this, JR.cast(stringBuffer)))
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
+JR.registerSuper("CollidableCompositeLayer", "AllBinaryGameLayer")
 JR.registerLateBound("CollidableCompositeLayer.jnew_4", jnew_4)
 JR.registerLateBound("CollidableCompositeLayer.jm_getNullInstance", jm_getNullInstance)
 JR.registerLateBound("CollidableCompositeLayer.jm_getArtificialIntelligenceInterface", jm_getArtificialIntelligenceInterface)

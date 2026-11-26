@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 
 provide record Feature {
   jobject: JObject,
@@ -38,13 +40,13 @@ provide let rec jclassName = () => "Feature"
 and jstatic_hashtable = () => match (jcell_hashtable) {
   Some(value) => value,
   None => {
-    let value: JObject = {
+    let value: JObject = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashtable"))
 JR.cast(jlate(JR.cast({
-let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance_0"))
 JR.cast(jlate())
 })))
-}
+})
     jcell_hashtable = Some(value)
     value
   },
@@ -59,11 +61,11 @@ and jnew_1 = (name: String) => {
     this.jobject.toStringFunction = () => jm_toString(this)
     
         this.f_name = name
-        ignore(jm_add(name, this))
+        ignore(jm_add(JR.cast(name), JR.cast(this)))
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ChangedGameFeatureListener.jm_add"))
 JR.cast(jlate(JR.cast({
-let jlate: () => JObject = JR.cast(JR.lateBound("ChangedGameFeatureListener.jm_getInstance"))
+let jlate: () => JObject = JR.cast(JR.lateBound("ChangedGameFeatureListener.jm_getInstance_0"))
 JR.cast(jlate())
 }), JR.cast(this)))
 })

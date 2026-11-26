@@ -53,7 +53,7 @@ provide record IndexedAnimation {
 provide let rec jclassName = () => "IndexedAnimation"
     
 and jnew_1 = (animationBehavior: AnimationBehavior) => {
-    let this = { jobject: JR.newJObject("IndexedAnimation"), f_basicSetColorUtil: JR.jnull, f_basicColor: JR.jnull, f_colorP: 0l, f_changeBasicColorP: JR.jnull, f_changeColorP: 0l, f_alphaP: 0l, f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_animationBehaviorP: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("IndexedAnimation"), f_basicSetColorUtil: JR.nullOf(), f_basicColor: JR.nullOf(), f_colorP: 0l, f_changeBasicColorP: JR.nullOf(), f_changeColorP: 0l, f_alphaP: 0l, f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_animationBehaviorP: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -69,7 +69,10 @@ and jm_getAnimationBehavior = (this: IndexedAnimation) => {
 }
     
 and jm_reset = (this: IndexedAnimation) => {
-        ignore(AnimationBehavior.jm_reset(this.f_animationBehaviorP))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationBehavior.jm_reset"))
+JR.cast(jlate(JR.cast(this.f_animationBehaviorP)))
+})
         ignore(jm_setFrame(this, 0l))
 }
     
@@ -113,11 +116,17 @@ and jm_setState = (this: IndexedAnimation, indexedAnimation: IndexedAnimation) =
         ignore(jm_setFrame(this, jm_getFrame(indexedAnimation)))
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Animation.jm_setDx"))
-JR.cast(jlate(JR.cast(this), JR.cast(jm_getDx(indexedAnimation))))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Animation.jm_getDx"))
+JR.cast(jlate(JR.cast(indexedAnimation)))
+})))
 })
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Animation.jm_setDy"))
-JR.cast(jlate(JR.cast(this), JR.cast(jm_getDy(indexedAnimation))))
+JR.cast(jlate(JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Animation.jm_getDy"))
+JR.cast(jlate(JR.cast(indexedAnimation)))
+})))
 })
 }
     
@@ -129,6 +138,7 @@ and jm_getHeight = (this: IndexedAnimation) => {
         return 0l
 }
 
+JR.registerSuper("IndexedAnimation", "Animation")
 JR.registerLateBound("IndexedAnimation.jnew_1", jnew_1)
 JR.registerLateBound("IndexedAnimation.jm_getAnimationBehavior", jm_getAnimationBehavior)
 JR.registerLateBound("IndexedAnimation.jm_reset", jm_reset)

@@ -48,7 +48,7 @@ provide let rec jclassName = () => "AbCryptUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: AbCryptUtil = jnew_0()
+    let value: AbCryptUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -72,14 +72,14 @@ and jnew_0 = () => {
 and jm_decrypt = (this: AbCryptUtil, inputStream: InputStream, key: String) => {
         let mut outputStream: ByteArrayOutputStream = JR.nullOf()
         {
-            outputStream = JR.cast(StreamUtil.jm_get(this.f_streamUtil, inputStream, JR.cast(ByteArrayOutputStream.jnew_0()), Array.make(Int32.toNumber(16384l), 0l)))
+            outputStream = JR.cast(StreamUtil.jm_get(JR.cast(this.f_streamUtil), JR.cast(inputStream), JR.cast(ByteArrayOutputStream.jnew_0()), Array.make(Int32.toNumber(16384l), 0l)))
             let mut abCrypt: AbCrypt = AbCrypt.jnew_1(KeySpecFactory.jm_getInstance_0().f_DESEDE)
-            ignore(AbCrypt.jm_init(abCrypt, key))
-            return AbCrypt.jm_decrypt(abCrypt, ByteArrayOutputStream.jm_toByteArray_0(outputStream))
+            ignore(AbCrypt.jm_init(JR.cast(abCrypt), JR.cast(key)))
+            return AbCrypt.jm_decrypt(JR.cast(abCrypt), ByteArrayOutputStream.jm_toByteArray_0(outputStream))
         }
         {
-            ignore(StreamUtil.jm_close(this.f_streamUtil, JR.cast(outputStream)))
-            ignore(StreamUtil.jm_close(this.f_streamUtil, JR.cast(inputStream)))
+            ignore(StreamUtil.jm_close(JR.cast(this.f_streamUtil), JR.cast(outputStream)))
+            ignore(StreamUtil.jm_close(JR.cast(this.f_streamUtil), JR.cast(inputStream)))
         }
     return [> ]
 }

@@ -50,9 +50,13 @@ and jm_process = (this: GameCanvasPaintHelper) => {
 }
     
 and jm_paint = (this: GameCanvasPaintHelper, graphics: JObject) => {
-        ignore(AllBinaryGameCanvas.jm_draw(this.f_gameCanvas, graphics))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jm_draw"))
+JR.cast(jlate(JR.cast(this.f_gameCanvas), JR.cast(graphics)))
+})
 }
 
+JR.registerSuper("GameCanvasPaintHelper", "ProcessPaintable")
 JR.registerLateBound("GameCanvasPaintHelper.jnew_1", jnew_1)
 JR.registerLateBound("GameCanvasPaintHelper.jm_process", jm_process)
 JR.registerLateBound("GameCanvasPaintHelper.jm_paint", jm_paint)

@@ -35,6 +35,8 @@ from "../../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArray
 use BasicArrayList.{ type BasicArrayList }
 from "../../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
 use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 from "./AbeLicenseInterface.gr" include AbeLicenseInterface
 use AbeLicenseInterface.{ type AbeLicenseInterface }
 from "./LicenseType.gr" include LicenseType
@@ -57,7 +59,7 @@ provide record AbeClientLicense {
 provide let rec jclassName = () => "AbeClientLicense"
     
 and jnew_1 = (hashtable: JObject) => {
-    let this = { jobject: JR.newJObject("AbeClientLicense"), f_hashtable: JR.jnull, f_id: "", f_servers: JR.nullOf(), f_special: "", f_licenseType: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("AbeClientLicense"), f_hashtable: JR.nullOf(), f_id: "", f_servers: JR.nullOf(), f_special: "", f_licenseType: JR.nullOf(), }
     this.jobject.toStringFunction = () => jm_toString(this)
     
     
@@ -74,26 +76,38 @@ JR.cast(jlate())
         let mut abeClientInformationData: AbeClientInformationData = JR.cast(AbeClientInformationData.jm_getInstance())
         let mut keyValue: JObject = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
-JR.cast(jlate(JR.cast(hashtable), JR.cast(abeClientInformationData.f_KEY)))
+JR.cast(jlate(JR.cast(hashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_KEY"))
+JR.cast(jlate(JR.cast(abeClientInformationData)))
+})))
 })
         if (!JR.isNull(keyValue)) {
             if ((JR.className(keyValue) == "String")) {
                 ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(this.f_hashtable), JR.cast(abeClientInformationData.f_KEY), JR.cast(keyValue)))
+JR.cast(jlate(JR.cast(this.f_hashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_KEY"))
+JR.cast(jlate(JR.cast(abeClientInformationData)))
+}), JR.cast(keyValue)))
 })
             }
         }
         this.f_id = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
-JR.cast(jlate(JR.cast(hashtable), JR.cast(abeClientInformationData.f_LICENSEID)))
+JR.cast(jlate(JR.cast(hashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_LICENSEID"))
+JR.cast(jlate(JR.cast(abeClientInformationData)))
+})))
 })
         let mut vector: BasicArrayList = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
-JR.cast(jlate(JR.cast(hashtable), JR.cast(abeClientInformationData.f_LICENSESERVERS)))
+JR.cast(jlate(JR.cast(hashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_LICENSESERVERS"))
+JR.cast(jlate(JR.cast(abeClientInformationData)))
+})))
 })
         this.f_servers = JR.cast(JR.cast(BasicArrayListD.jnew_0()))
-        let mut size: Int32 = BasicArrayList.jm_size(vector)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(vector))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -103,19 +117,28 @@ JR.cast(jlate(JR.cast(hashtable), JR.cast(abeClientInformationData.f_LICENSESERV
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            ignore(BasicArrayList.jm_add(this.f_servers, JR.cast(BasicArrayList.jm_get(vector, index))))
+            ignore(BasicArrayList.jm_add(JR.cast(this.f_servers), JR.cast(BasicArrayList.jm_get(JR.cast(vector), index))))
             }
         }
         let mut stringUtil: StringUtil = JR.cast(StringUtil.jm_getInstance())
-        ignore(jm_setSpecial(this, StringUtil.jm_getNonNull(stringUtil, JR.cast({
+        ignore(jm_setSpecial(this, JR.cast(StringUtil.jm_getNonNull(JR.cast(stringUtil), JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
-JR.cast(jlate(JR.cast(hashtable), JR.cast(abeClientInformationData.f_SPECIAL)))
-}))))
-        let mut licenseTypeString: String = StringUtil.jm_getNonNull(stringUtil, JR.cast({
+JR.cast(jlate(JR.cast(hashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_SPECIAL"))
+JR.cast(jlate(JR.cast(abeClientInformationData)))
+})))
+})))))
+        let mut licenseTypeString: String = StringUtil.jm_getNonNull(JR.cast(stringUtil), JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
-JR.cast(jlate(JR.cast(hashtable), JR.cast(abeClientInformationData.f_LICENSE_TYPE)))
+JR.cast(jlate(JR.cast(hashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_LICENSE_TYPE"))
+JR.cast(jlate(JR.cast(abeClientInformationData)))
+})))
 }))
-        this.f_licenseType = JR.cast(LicenseTypeFactory.jm_getInstance_1(LicenseTypeFactory.jm_getInstance_0(), licenseTypeString))
+        this.f_licenseType = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("LicenseTypeFactory.jm_getInstance_1"))
+JR.cast(jlate(JR.cast(LicenseTypeFactory.jm_getInstance_0()), JR.cast(licenseTypeString)))
+})
     this
 }
     
@@ -123,16 +146,28 @@ and jm_hasRequiredKeys = (resultHashtable: JObject) => {
         let mut abeClientInformationData: AbeClientInformationData = JR.cast(AbeClientInformationData.jm_getInstance())
         if (((({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_containsKey"))
-JR.cast(jlate(JR.cast(resultHashtable), JR.cast(abeClientInformationData.f_LICENSEID)))
+JR.cast(jlate(JR.cast(resultHashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_LICENSEID"))
+JR.cast(jlate(JR.cast(abeClientInformationData)))
+})))
 } && {
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_containsKey"))
-JR.cast(jlate(JR.cast(resultHashtable), JR.cast(abeClientInformationData.f_LICENSESERVERS)))
+JR.cast(jlate(JR.cast(resultHashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_LICENSESERVERS"))
+JR.cast(jlate(JR.cast(abeClientInformationData)))
+})))
 }) && {
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_containsKey"))
-JR.cast(jlate(JR.cast(resultHashtable), JR.cast(abeClientInformationData.f_KEY)))
+JR.cast(jlate(JR.cast(resultHashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_KEY"))
+JR.cast(jlate(JR.cast(abeClientInformationData)))
+})))
 }) && {
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_containsKey"))
-JR.cast(jlate(JR.cast(resultHashtable), JR.cast(abeClientInformationData.f_LICENSE_TYPE)))
+JR.cast(jlate(JR.cast(resultHashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_LICENSE_TYPE"))
+JR.cast(jlate(JR.cast(abeClientInformationData)))
+})))
 })) {
             return true
         } else {
@@ -161,7 +196,10 @@ and jm_getServers = (this: AbeClientLicense) => {
     
 and jm_isValid = (this: AbeClientLicense) => {
         let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
-        if (!StringValidationUtil.jm_isEmpty(stringValidationUtil, jm_getKey(this, AbeClientInformationData.jm_getInstance().f_KEY))) {
+        if (!StringValidationUtil.jm_isEmpty(JR.cast(stringValidationUtil), JR.cast(jm_getKey(this, JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_KEY"))
+JR.cast(jlate(JR.cast(AbeClientInformationData.jm_getInstance())))
+}))))) {
             return true
         }
         return false
@@ -170,17 +208,17 @@ and jm_isValid = (this: AbeClientLicense) => {
 and jm_toString = (this: AbeClientLicense) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
         let mut l_BREAK: String = "<br/>"
-        ignore(StringMaker.jm_append(stringBuffer, "License Id: "))
-        ignore(StringMaker.jm_append(stringBuffer, jm_getLicenseId(this)))
-        ignore(StringMaker.jm_append(stringBuffer, l_BREAK))
-        ignore(StringMaker.jm_append(stringBuffer, "Is Valid: "))
-        ignore(StringMaker.jm_appendboolean(stringBuffer, jm_isValid(this)))
-        ignore(StringMaker.jm_append(stringBuffer, l_BREAK))
-        ignore(StringMaker.jm_append(stringBuffer, "Keys: "))
-        ignore(StringMaker.jm_append(stringBuffer, JR.toStringOf(this.f_hashtable.jobject)))
-        ignore(StringMaker.jm_append(stringBuffer, l_BREAK))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("License Id: ")))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jm_getLicenseId(this))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(l_BREAK)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Is Valid: ")))
+        ignore(StringMaker.jm_appendboolean(JR.cast(stringBuffer), jm_isValid(this)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(l_BREAK)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Keys: ")))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(JR.toStringOf(this.f_hashtable))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(l_BREAK)))
         let mut serverVector: BasicArrayList = JR.cast(jm_getServers(this))
-        let mut size: Int32 = BasicArrayList.jm_size(serverVector)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(serverVector))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -190,13 +228,13 @@ and jm_toString = (this: AbeClientLicense) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            let mut nextServerString: String = JR.cast(BasicArrayList.jm_get(serverVector, index))
-            ignore(StringMaker.jm_append(stringBuffer, "Server: "))
-            ignore(StringMaker.jm_append(stringBuffer, nextServerString))
-            ignore(StringMaker.jm_append(stringBuffer, l_BREAK))
+            let mut nextServerString: String = JR.cast(BasicArrayList.jm_get(JR.cast(serverVector), index))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Server: ")))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(nextServerString)))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(l_BREAK)))
             }
         }
-        return StringMaker.jm_toString(stringBuffer)
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
     
 and jm_setSpecial = (this: AbeClientLicense, special: String) => {

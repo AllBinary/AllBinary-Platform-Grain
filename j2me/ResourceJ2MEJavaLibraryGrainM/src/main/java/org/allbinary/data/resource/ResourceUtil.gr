@@ -48,7 +48,7 @@ provide let rec jclassName = () => "ResourceUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: ResourceUtil = jnew_0()
+    let value: ResourceUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -63,7 +63,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("ResourceUtil"), f_logUtil: JR.jnull, }
+    let this = { jobject: JR.newJObject("ResourceUtil"), f_logUtil: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -82,9 +82,9 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(CommonStrings.jm_getInstance().f_
 and jm_getResourceAsStream = (this: ResourceUtil, resource: String) => {
         let mut inputStream: InputStream = JR.cast(JR.classResourceAsStream(JR.className(resource), resource))
         if (JR.isNull(inputStream)) {
-            inputStream = JR.cast(jm_getResourceAsStreamAtStart(this, resource, 2l))
+            inputStream = JR.cast(jm_getResourceAsStreamAtStart(this, JR.cast(resource), 2l))
             if (JR.isNull(inputStream)) {
-                inputStream = JR.cast(jm_getResourceAsStreamAtStart(this, resource, 1l))
+                inputStream = JR.cast(jm_getResourceAsStreamAtStart(this, JR.cast(resource), 1l))
                 if (JR.isNull(inputStream)) {
                     let mut stringMaker: StringMaker = StringMaker.jnew_0()
                     let mut index: Int32 = JR.lastIndexOf(resource, JR.chr(Int32.fromNumber(Char.code('/'))))
@@ -95,32 +95,32 @@ and jm_getResourceAsStream = (this: ResourceUtil, resource: String) => {
                         inputStream = JR.cast(JR.classResourceAsStream(JR.className(resource), resourcePath))
                         if (JR.isNull(inputStream)) {
                             let mut l_RES: String = "res"
-                            resourcePath = StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(stringMaker, l_RES), JR.substringFrom(resource, index)))
+                            resourcePath = StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast(l_RES))), JR.cast(JR.substringFrom(resource, index)))))
                             inputStream = JR.cast(JR.classResourceAsStream(JR.className(resource), resourcePath))
                             if (JR.isNull(inputStream)) {
-                                ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
-                                resourcePath = StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(stringMaker, "/"), l_RES), JR.substringFrom(resource, index)))
+                                ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
+                                resourcePath = StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast("/"))), JR.cast(l_RES))), JR.cast(JR.substringFrom(resource, index)))))
                                 inputStream = JR.cast(JR.classResourceAsStream(JR.className(resource), resourcePath))
                                 let mut l_COLON: String = CommonSeps.jm_getInstance().f_COLON
                                 if (JR.isNull(inputStream)) {
-                                    ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
-                                    resourcePath = StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(stringMaker, l_RES), l_COLON), JR.substringFrom(resource, index)))
+                                    ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
+                                    resourcePath = StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast(l_RES))), JR.cast(l_COLON))), JR.cast(JR.substringFrom(resource, index)))))
                                     inputStream = JR.cast(JR.classResourceAsStream(JR.className(resource), resourcePath))
                                     if (JR.isNull(inputStream)) {
-                                        ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
-                                        resourcePath = StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(stringMaker, l_RES), l_COLON), JR.substringFrom(resource, Int32.(+)(index, 1l))))
+                                        ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
+                                        resourcePath = StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast(l_RES))), JR.cast(l_COLON))), JR.cast(JR.substringFrom(resource, Int32.(+)(index, 1l))))))
                                         inputStream = JR.cast(JR.classResourceAsStream(JR.className(resource), resourcePath))
                                         if (JR.isNull(inputStream)) {
                                             let mut l_RESOURCE_STRING: String = "resource"
-                                            ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
-                                            resourcePath = StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(stringMaker, l_RESOURCE_STRING), l_COLON), JR.substringFrom(resource, index)))
+                                            ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
+                                            resourcePath = StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast(l_RESOURCE_STRING))), JR.cast(l_COLON))), JR.cast(JR.substringFrom(resource, index)))))
                                             inputStream = JR.cast(JR.classResourceAsStream(JR.className(resource), resourcePath))
                                             if (JR.isNull(inputStream)) {
-                                                ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
-                                                resourcePath = StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(stringMaker, l_RESOURCE_STRING), l_COLON), JR.substringFrom(resource, Int32.(+)(index, 1l))))
+                                                ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
+                                                resourcePath = StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast(l_RESOURCE_STRING))), JR.cast(l_COLON))), JR.cast(JR.substringFrom(resource, Int32.(+)(index, 1l))))))
                                                 inputStream = JR.cast(JR.classResourceAsStream(JR.className(resource), resourcePath))
                                                 if (JR.isNull(inputStream)) {
-                                                    ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
+                                                    ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
                                                     fail JR.toStringOf(JR.newJObject("Exception"))
                                                 }
                                             }

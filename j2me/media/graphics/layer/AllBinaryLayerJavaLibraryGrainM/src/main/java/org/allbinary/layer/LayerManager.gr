@@ -41,7 +41,7 @@ provide record LayerManager {
 provide let rec jclassName = () => "LayerManager"
     
 and jnew_1 = (layerManagerLogging: JObject) => {
-    let this = { jobject: JR.newJObject("LayerManager"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_systemWrapper: JR.nullOf(), f_tsUtil: JR.jnull, f_layerManagerLogging: JR.jnull, f_list: JR.nullOf(), f_anyType: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("LayerManager"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_systemWrapper: JR.nullOf(), f_tsUtil: JR.nullOf(), f_layerManagerLogging: JR.nullOf(), f_list: JR.nullOf(), f_anyType: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -64,14 +64,14 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_START), JR
 }
     
 and jm_contains = (this: LayerManager, layerInterface: AllBinaryLayer) => {
-        return BasicArrayList.jm_contains(this.f_list, JR.cast(layerInterface))
+        return BasicArrayList.jm_contains(JR.cast(this.f_list), JR.cast(layerInterface))
 }
     
 and jm_update = (this: LayerManager, layerInterface: AllBinaryLayer) => {
-        let mut had: Bool = BasicArrayList.jm_remove(this.f_list, JR.cast(layerInterface))
+        let mut had: Bool = BasicArrayList.jm_remove(JR.cast(this.f_list), JR.cast(layerInterface))
         if (had) {
             let mut nextLayerInterface: AllBinaryLayer = JR.nullOf()
-            let mut size: Int32 = BasicArrayList.jm_size(this.f_list)
+            let mut size: Int32 = BasicArrayList.jm_size(JR.cast(this.f_list))
             {
                 let mut index: Int32 = 0l
                 let mut jfirst = true
@@ -81,21 +81,27 @@ and jm_update = (this: LayerManager, layerInterface: AllBinaryLayer) => {
                     }
                     jfirst = false
                     if (!(Int32.(<)(index, size))) break
-                nextLayerInterface = JR.cast(BasicArrayList.jm_get(this.f_list, index))
-                if (Int32.(>)(AllBinaryLayer.jm_getZP(layerInterface), AllBinaryLayer.jm_getZP(nextLayerInterface))) {
-                    ignore(BasicArrayList.jm_addAt(this.f_list, index, JR.cast(layerInterface)))
+                nextLayerInterface = JR.cast(BasicArrayList.jm_get(JR.cast(this.f_list), index))
+                if (Int32.(>)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_getZP"))
+JR.cast(jlate(JR.cast(layerInterface)))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_getZP"))
+JR.cast(jlate(JR.cast(nextLayerInterface)))
+})) {
+                    ignore(BasicArrayList.jm_addAt(JR.cast(this.f_list), index, JR.cast(layerInterface)))
                     return void
                 }
                 }
             }
-            ignore(BasicArrayList.jm_add(this.f_list, JR.cast(layerInterface)))
+            ignore(BasicArrayList.jm_add(JR.cast(this.f_list), JR.cast(layerInterface)))
         }
     return void
 }
     
 and jm_insert = (this: LayerManager, layerInterface: AllBinaryLayer) => {
         let mut nextLayerInterface: AllBinaryLayer = JR.nullOf()
-        let mut size: Int32 = BasicArrayList.jm_size(this.f_list)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(this.f_list))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -105,14 +111,20 @@ and jm_insert = (this: LayerManager, layerInterface: AllBinaryLayer) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            nextLayerInterface = JR.cast(BasicArrayList.jm_get(this.f_list, index))
-            if (Int32.(>)(AllBinaryLayer.jm_getZP(layerInterface), AllBinaryLayer.jm_getZP(nextLayerInterface))) {
-                ignore(jm_appendAt(this, layerInterface, index))
+            nextLayerInterface = JR.cast(BasicArrayList.jm_get(JR.cast(this.f_list), index))
+            if (Int32.(>)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_getZP"))
+JR.cast(jlate(JR.cast(layerInterface)))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_getZP"))
+JR.cast(jlate(JR.cast(nextLayerInterface)))
+})) {
+                ignore(jm_appendAt(this, JR.cast(layerInterface), index))
                 return void
             }
             }
         }
-        ignore(jm_append(this, layerInterface))
+        ignore(jm_append(this, JR.cast(layerInterface)))
     return void
 }
     
@@ -121,7 +133,7 @@ and jm_append = (this: LayerManager, layerInterface: AllBinaryLayer) => {
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("LayerManagerLoggingBase.jm_append"))
 JR.cast(jlate(JR.cast(this.f_layerManagerLogging), JR.cast(layerInterface)))
 })
-        ignore(BasicArrayList.jm_add(this.f_list, JR.cast(layerInterface)))
+        ignore(BasicArrayList.jm_add(JR.cast(this.f_list), JR.cast(layerInterface)))
 }
     
 and jm_appendAt = (this: LayerManager, layerInterface: AllBinaryLayer, index: Int32) => {
@@ -129,7 +141,7 @@ and jm_appendAt = (this: LayerManager, layerInterface: AllBinaryLayer, index: In
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LayerManagerLoggingBase.jm_appendAt"))
 JR.cast(jlate(JR.cast(this.f_layerManagerLogging), JR.cast(layerInterface), JR.cast(index)))
 })
-        ignore(BasicArrayList.jm_addAt(this.f_list, index, JR.cast(layerInterface)))
+        ignore(BasicArrayList.jm_addAt(JR.cast(this.f_list), index, JR.cast(layerInterface)))
 }
     
 and jm_remove = (this: LayerManager, layerInterface: AllBinaryLayer) => {
@@ -138,7 +150,7 @@ and jm_remove = (this: LayerManager, layerInterface: AllBinaryLayer) => {
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("LayerManagerLoggingBase.jm_remove"))
 JR.cast(jlate(JR.cast(this.f_layerManagerLogging), JR.cast(layerInterface)))
 })
-            let mut result: Bool = BasicArrayList.jm_remove(this.f_list, JR.cast(layerInterface))
+            let mut result: Bool = BasicArrayList.jm_remove(JR.cast(this.f_list), JR.cast(layerInterface))
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LayerManagerLoggingBase.jm_removeResult"))
 JR.cast(jlate(JR.cast(this.f_layerManagerLogging), JR.cast(this), JR.cast(layerInterface), JR.cast(result)))
@@ -151,12 +163,12 @@ and jm_getLayerAt = (this: LayerManager, index: Int32) => {
 }
     
 and jm_getSize = (this: LayerManager) => {
-        return BasicArrayList.jm_size(this.f_list)
+        return BasicArrayList.jm_size(JR.cast(this.f_list))
 }
     
 and jm_cleanup = (this: LayerManager) => {
         {
-            ignore(BasicArrayList.jm_clear(this.f_list))
+            ignore(BasicArrayList.jm_clear(JR.cast(this.f_list)))
             ignore({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LayerManagerLoggingBase.jm_clear"))
 JR.cast(jlate(JR.cast(this.f_layerManagerLogging)))
@@ -176,14 +188,20 @@ and jm_paint = (this: LayerManager, g: JObject, x: Int32, y: Int32) => {
         {
             let mut comp: Layer = JR.nullOf()
             {
-                let mut index: Int32 = BasicArrayList.jm_size(this.f_list)
+                let mut index: Int32 = BasicArrayList.jm_size(JR.cast(this.f_list))
                 let mut jfirst = true
                 while (true) {
                     jfirst = false
                     if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
                 comp = JR.cast(this.f_list.f_objectArray[Int32.toNumber(index)])
-                if ((!JR.isNull(comp) && Layer.jm_isVisible(comp))) {
-                    ignore(Layer.jm_paint(comp, g))
+                if ((!JR.isNull(comp) && {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Layer.jm_isVisible"))
+JR.cast(jlate(JR.cast(comp)))
+})) {
+                    ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Layer.jm_paint"))
+JR.cast(jlate(JR.cast(comp), JR.cast(g)))
+})
                 }
                 }
             }

@@ -33,6 +33,8 @@ from "../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
 use BasicArrayListD.{ type BasicArrayListD }
 from "../../../../org/allbinary/util/BasicArrayListUtil.gr" include BasicArrayListUtil
 use BasicArrayListUtil.{ type BasicArrayListUtil }
+from "../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 from "./ResourceRelativeRelationshipFactoryInterface.gr" include ResourceRelativeRelationshipFactoryInterface
 use ResourceRelativeRelationshipFactoryInterface.{ type ResourceRelativeRelationshipFactoryInterface }
 
@@ -47,7 +49,7 @@ provide record ResourceRelativeRelationshipFactory {
 provide let rec jclassName = () => "ResourceRelativeRelationshipFactory"
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("ResourceRelativeRelationshipFactory"), f_basicArrayListUtil: JR.nullOf(), f_hashtable: JR.jnull, f_initialized: false, }
+    let this = { jobject: JR.newJObject("ResourceRelativeRelationshipFactory"), f_basicArrayListUtil: JR.nullOf(), f_hashtable: JR.nullOf(), f_initialized: false, }
     this.f_basicArrayListUtil = JR.cast(BasicArrayListUtil.jm_getInstance())
     this.f_hashtable = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashtable"))
@@ -70,17 +72,17 @@ let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_
 JR.cast(jlate(JR.cast(this.f_hashtable), JR.cast(resource)))
 })
         if (JR.isNull(listCanBeNull)) {
-            return BasicArrayListUtil.jm_getImmutableInstance(this.f_basicArrayListUtil)
+            return BasicArrayListUtil.jm_getImmutableInstance(JR.cast(this.f_basicArrayListUtil))
         }
         return JR.cast(listCanBeNull)
 }
     
 and jm_addResourceRelativeRelationship = (this: ResourceRelativeRelationshipFactory, resource: String, hardPoint: RelativeRelationship) => {
-        let mut list: BasicArrayList = JR.cast(jm_getResourceRelativeRelationshipList(this, resource))
-        if (JR.isSame(list, BasicArrayListUtil.jm_getImmutableInstance(this.f_basicArrayListUtil))) {
+        let mut list: BasicArrayList = JR.cast(jm_getResourceRelativeRelationshipList(this, JR.cast(resource)))
+        if (JR.isSame(list, BasicArrayListUtil.jm_getImmutableInstance(JR.cast(this.f_basicArrayListUtil)))) {
             list = JR.cast(JR.cast(BasicArrayListD.jnew_0()))
         }
-        ignore(BasicArrayList.jm_add(list, JR.cast(hardPoint)))
+        ignore(BasicArrayList.jm_add(JR.cast(list), JR.cast(hardPoint)))
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
 JR.cast(jlate(JR.cast(this.f_hashtable), JR.cast(resource), JR.cast(list)))

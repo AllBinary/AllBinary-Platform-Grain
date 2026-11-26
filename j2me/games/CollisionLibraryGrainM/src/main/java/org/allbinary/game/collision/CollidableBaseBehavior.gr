@@ -54,7 +54,7 @@ provide record CollidableBaseBehavior {
 provide let rec jclassName = () => "CollidableBaseBehavior"
     
 and jnew_1 = (collidable: Bool) => {
-    let this = { jobject: JR.newJObject("CollidableBaseBehavior"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_layerCollisionUtil: JR.nullOf(), f_collidable: false, }
+    let this = { jobject: JR.newJObject("CollidableBaseBehavior"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_layerCollisionUtil: JR.nullOf(), f_collidable: false, }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -87,11 +87,17 @@ and jm_collide = (this: CollidableBaseBehavior, ownerLayer: JObject, allbinaryCo
 }
     
 and jm_isCollision = (this: CollidableBaseBehavior, ownerLayer: JObject, collisionLayer: JObject) => {
-        return LayerCollisionUtil.jm_isCollision(this.f_layerCollisionUtil, JR.cast(ownerLayer), JR.cast(collisionLayer))
+        return {
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LayerCollisionUtil.jm_isCollision"))
+JR.cast(jlate(JR.cast(this.f_layerCollisionUtil), JR.cast(ownerLayer), JR.cast(collisionLayer)))
+}
 }
     
 and jm_isCollisionInterface = (this: CollidableBaseBehavior, ownerLayer: JObject, collidableInterfaceCompositeInterface: JObject) => {
-        return LayerCollisionUtil.jm_isCollision(this.f_layerCollisionUtil, JR.cast(ownerLayer), JR.cast(collidableInterfaceCompositeInterface))
+        return {
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LayerCollisionUtil.jm_isCollision"))
+JR.cast(jlate(JR.cast(this.f_layerCollisionUtil), JR.cast(ownerLayer), JR.cast(JR.cast(collidableInterfaceCompositeInterface))))
+}
 }
     
 and jm_collideInterface = (this: CollidableBaseBehavior, ownerLayer: JObject, collidableInterfaceCompositeInterface: JObject) => {
@@ -103,7 +109,10 @@ and jm_paint = (this: CollidableBaseBehavior, ownerLayer: JObject, graphics: JOb
 }
     
 and jm_getCollisionTypeWith = (this: CollidableBaseBehavior, layerInterface: AllBinaryLayer) => {
-        return CollisionTypeFactory.jm_getInstance().f_NONE
+        return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CollisionTypeFactory.f_NONE"))
+JR.cast(jlate(JR.cast(CollisionTypeFactory.jm_getInstance())))
+}
 }
 
 JR.registerLateBound("CollidableBaseBehavior.jnew_1", jnew_1)

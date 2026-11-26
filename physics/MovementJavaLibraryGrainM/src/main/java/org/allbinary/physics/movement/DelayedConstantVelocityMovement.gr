@@ -50,7 +50,7 @@ provide record DelayedConstantVelocityMovement {
 provide let rec jclassName = () => "DelayedConstantVelocityMovement"
     
 and jnew_2 = (basicDecimal: BasicDecimal, velocityProperties: BasicVelocityProperties) => {
-    let this = { jobject: JR.newJObject("DelayedConstantVelocityMovement"), f_velocityProperties: JR.jnull, f_speedBasicDecimal: JR.jnull, f_axisMathVectorUtil: JR.jnull, f_timeDelayHelper: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("DelayedConstantVelocityMovement"), f_velocityProperties: JR.nullOf(), f_speedBasicDecimal: JR.nullOf(), f_axisMathVectorUtil: JR.nullOf(), f_timeDelayHelper: JR.nullOf(), }
     this.f_timeDelayHelper = TimeDelayHelper.jnew_1(60l)
         void
     this
@@ -61,11 +61,15 @@ and jm_init = (this: DelayedConstantVelocityMovement, speedBasicDecimal: BasicDe
 }
     
 and jm_process = (this: DelayedConstantVelocityMovement, layer: AllBinaryGameLayer) => {
-        if (TimeDelayHelper.jm_isTime(this.f_timeDelayHelper, GameTickTimeDelayHelperFactory.jm_getInstance().f_startTime)) {
+        if (TimeDelayHelper.jm_isTime(JR.cast(this.f_timeDelayHelper), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameTickTimeDelayHelperFactory.f_startTime"))
+JR.cast(jlate(JR.cast(GameTickTimeDelayHelperFactory.jm_getInstance())))
+})) {
             ignore(jm_process(this, layer))
         }
 }
 
+JR.registerSuper("DelayedConstantVelocityMovement", "BasicConstantVelocityMovement")
 JR.registerLateBound("DelayedConstantVelocityMovement.jnew_2", jnew_2)
 JR.registerLateBound("DelayedConstantVelocityMovement.jm_init", jm_init)
 JR.registerLateBound("DelayedConstantVelocityMovement.jm_process", jm_process)

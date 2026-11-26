@@ -46,15 +46,19 @@ provide record CollidableAlwaysPickupNeverCollideBehavior {
 provide let rec jclassName = () => "CollidableAlwaysPickupNeverCollideBehavior"
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("CollidableAlwaysPickupNeverCollideBehavior"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_layerCollisionUtil: JR.jnull, f_collidable: false, }
+    let this = { jobject: JR.newJObject("CollidableAlwaysPickupNeverCollideBehavior"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_layerCollisionUtil: JR.nullOf(), f_collidable: false, }
         void
     this
 }
     
 and jm_getCollisionTypeWith = (this: CollidableAlwaysPickupNeverCollideBehavior, layerInterface: AllBinaryLayer) => {
-        return CollisionTypeFactory.jm_getInstance().f_PICKUP
+        return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CollisionTypeFactory.f_PICKUP"))
+JR.cast(jlate(JR.cast(CollisionTypeFactory.jm_getInstance())))
+}
 }
 
+JR.registerSuper("CollidableAlwaysPickupNeverCollideBehavior", "CollidableNeverCollideBehavior")
 JR.registerLateBound("CollidableAlwaysPickupNeverCollideBehavior.jnew_0", jnew_0)
 JR.registerLateBound("CollidableAlwaysPickupNeverCollideBehavior.jm_getCollisionTypeWith", jm_getCollisionTypeWith)
 

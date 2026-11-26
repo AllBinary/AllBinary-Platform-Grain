@@ -40,7 +40,7 @@ provide let rec jclassName = () => "SWTRunnableProcessor"
 and jstatic_instanceR = () => match (jcell_instanceR) {
   Some(value) => value,
   None => {
-    let value: SWTRunnableProcessor = jnew_0()
+    let value: SWTRunnableProcessor = JR.cast(jnew_0())
     jcell_instanceR = Some(value)
     value
   },
@@ -51,7 +51,7 @@ and jset_instanceR = (value: SWTRunnableProcessor) => {
 }
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("SWTRunnableProcessor"), f_runnable: JR.jnull, }
+    let this = { jobject: JR.newJObject("SWTRunnableProcessor"), f_runnable: JR.nullOf(), }
     this
 }
     
@@ -63,6 +63,7 @@ and jm_process = (this: SWTRunnableProcessor, display: EclipseDisplay) => {
     void
 }
 
+JR.registerSuper("SWTRunnableProcessor", "SWTProcessor")
 JR.registerLateBound("SWTRunnableProcessor.jnew_0", jnew_0)
 JR.registerLateBound("SWTRunnableProcessor.jm_getInstance", jm_getInstance)
 JR.registerLateBound("SWTRunnableProcessor.jm_process", jm_process)

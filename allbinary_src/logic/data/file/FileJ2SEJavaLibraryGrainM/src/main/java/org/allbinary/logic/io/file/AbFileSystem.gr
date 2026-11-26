@@ -52,7 +52,7 @@ provide let rec jclassName = () => "AbFileSystem"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: AbFileSystem = jnew_0()
+    let value: AbFileSystem = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -63,7 +63,7 @@ and jset_instance = (value: AbFileSystem) => {
 }
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("AbFileSystem"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("AbFileSystem"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -90,13 +90,13 @@ and jm_getFilesAsStringArrayForPath = (this: AbFileSystem, currentDirPath: Strin
         if (File.jm_exists_0(file)) {
             return File.jm_list_0(file)
         } else {
-            return StringUtil.jm_getArrayInstance(StringUtil.jm_getInstance())
+            return StringUtil.jm_getArrayInstance(JR.cast(StringUtil.jm_getInstance()))
         }
 }
     
 and jm_readAsString_1 = (this: AbFileSystem, fileName: String) => {
         let mut bytes: Array<Int32> = Array.make(Int32.toNumber(1000000l), 0l)
-        return jm_readAsString_2(this, fileName, bytes)
+        return jm_readAsString_2(this, JR.cast(fileName), bytes)
 }
     
 and jm_readAsString_2 = (this: AbFileSystem, fileName: String, bytes: Array<Int32>) => {
@@ -106,11 +106,11 @@ and jm_readAsString_2 = (this: AbFileSystem, fileName: String, bytes: Array<Int3
             closeable = JR.cast(idFile)
             let mut size: Int32 = InputStream.jm_read_1(idFile, bytes)
             if (Int32.(>)(size, 0l)) {
-                return JR.fromChars(bytes, 0l, size)
+                return JR.fromBytesRange(bytes, 0l, size)
             }
         }
         {
-            ignore(jm_close(this, closeable))
+            ignore(jm_close(this, JR.cast(closeable)))
         }
         return StringUtil.jm_getInstance().f_EMPTY_STRING
 }

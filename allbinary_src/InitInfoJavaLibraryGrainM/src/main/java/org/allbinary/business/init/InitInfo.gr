@@ -54,7 +54,7 @@ provide let rec jclassName = () => "InitInfo"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: InitInfo = jnew_0()
+    let value: InitInfo = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -201,7 +201,7 @@ and jm_updateIfNeeded = (this: InitInfo) => {
 and jm_isTesting = (this: InitInfo) => {
         {
             ignore(jm_updateIfNeeded(this))
-            return BooleanUtil.jm_getFromString(BooleanUtil.jm_getInstance(), this.f_testing)
+            return BooleanUtil.jm_getFromString(JR.cast(BooleanUtil.jm_getInstance()), JR.cast(this.f_testing))
         }
     return false
 }
@@ -214,7 +214,7 @@ and jm_getTesting = (this: InitInfo) => {
 and jm_getTestHtmlPath = (this: InitInfo) => {
         ignore(jm_updateIfNeeded(this))
         if (!JR.isNull(this.f_testHtmlPath)) {
-            return AbPath.jm_toString(this.f_testHtmlPath)
+            return AbPath.jm_toString(JR.cast(this.f_testHtmlPath))
         } else {
             return JR.nullOf()
         }
@@ -223,7 +223,7 @@ and jm_getTestHtmlPath = (this: InitInfo) => {
 and jm_getMainPath = (this: InitInfo) => {
         ignore(jm_updateIfNeeded(this))
         if (!JR.isNull(this.f_mainPath)) {
-            return AbPath.jm_toString(this.f_mainPath)
+            return AbPath.jm_toString(JR.cast(this.f_mainPath))
         } else {
             return JR.nullOf()
         }
@@ -250,7 +250,7 @@ and jm_isTestHtmlPathValid = (this: InitInfo, abPath: AbPath) => {
 }
     
 and jm_isTestingValid = (this: InitInfo, testing: String) => {
-        return BooleanUtil.jm_isStringBoolean(BooleanUtil.jm_getInstance(), testing)
+        return BooleanUtil.jm_isStringBoolean(JR.cast(BooleanUtil.jm_getInstance()), JR.cast(testing))
 }
     
 and jm_toHashMap = (this: InitInfo) => {

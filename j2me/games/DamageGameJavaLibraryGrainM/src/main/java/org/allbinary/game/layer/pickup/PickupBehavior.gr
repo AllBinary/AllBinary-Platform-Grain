@@ -68,7 +68,7 @@ provide let rec jclassName = () => "PickupBehavior"
 and jstatic_NULL_PICKUP_BEHAVIOR = () => match (jcell_NULL_PICKUP_BEHAVIOR) {
   Some(value) => value,
   None => {
-    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    let value: JObject = JR.cast(NullUtil.jm_getInstance().f_NULL_OBJECT)
     jcell_NULL_PICKUP_BEHAVIOR = Some(value)
     value
   },
@@ -86,7 +86,7 @@ and jm_getNullInstance = () => {
 }
     
 and jnew_2 = (ownerLayerInterface: CollidableCompositeLayer, countedIndex: Int32) => {
-    let this = { jobject: JR.newJObject("PickupBehavior"), f_logUtil: JR.jnull, f_countedIndex: 0l, f_ownerLayerInterface: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("PickupBehavior"), f_logUtil: JR.nullOf(), f_countedIndex: 0l, f_ownerLayerInterface: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -103,39 +103,75 @@ and jm_doPickup = (this: PickupBehavior, pickupProcessorInterface: PickupProcess
             let mut healthInterfaceCompositeInterface: HealthInterfaceCompositeInterface = JR.cast(this.f_ownerLayerInterface)
             if ({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Health.jm_isAlive"))
-JR.cast(jlate(JR.cast(HealthInterfaceCompositeInterface.jm_getHealthInterface(healthInterfaceCompositeInterface))))
+JR.cast(jlate(JR.cast(HealthInterfaceCompositeInterface.jm_getHealthInterface(JR.cast(healthInterfaceCompositeInterface)))))
 }) {
-                ignore(PickupProcessorInterface.jm_process(pickupProcessorInterface, JR.cast(this.f_ownerLayerInterface)))
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("PickupProcessorInterface.jm_process"))
+JR.cast(jlate(JR.cast(pickupProcessorInterface), JR.cast(this.f_ownerLayerInterface)))
+})
             }
         }
 }
     
 and jm_doPickupLayer = (this: PickupBehavior, pickupLayerInterface: PickedUpLayerInterface) => {
         {
-            let mut pickedUpLayerInterfaceFactoryInterface: PickedUpLayerInterfaceFactoryInterface = JR.cast(PickedUpLayerInterface.jm_getPickedUpLayerInterfaceFactoryInterface(pickupLayerInterface))
-            let mut pickedUpLayerType: PickedUpLayerType = JR.cast(PickedUpLayerInterfaceFactoryInterface.jm_getPickedUpLayerType(pickedUpLayerInterfaceFactoryInterface))
+            let mut pickedUpLayerInterfaceFactoryInterface: PickedUpLayerInterfaceFactoryInterface = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PickedUpLayerInterface.jm_getPickedUpLayerInterfaceFactoryInterface"))
+JR.cast(jlate(JR.cast(pickupLayerInterface)))
+})
+            let mut pickedUpLayerType: PickedUpLayerType = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PickedUpLayerInterfaceFactoryInterface.jm_getPickedUpLayerType"))
+JR.cast(jlate(JR.cast(pickedUpLayerInterfaceFactoryInterface)))
+})
             let mut pickedUpLayerTypeFactory: PickedUpLayerTypeFactory = JR.cast(PickedUpLayerTypeFactory.jm_getInstance())
-            if ((((JR.isSame(pickedUpLayerType, pickedUpLayerTypeFactory.f_BEAM) || JR.isSame(pickedUpLayerType, pickedUpLayerTypeFactory.f_MINE)) || JR.isSame(pickedUpLayerType, pickedUpLayerTypeFactory.f_PROJECTILE)) || JR.isSame(pickedUpLayerType, pickedUpLayerTypeFactory.f_ENHANCEMENT))) {
+            if ((((JR.isSame(pickedUpLayerType, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PickedUpLayerTypeFactory.f_BEAM"))
+JR.cast(jlate(JR.cast(pickedUpLayerTypeFactory)))
+}) || JR.isSame(pickedUpLayerType, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PickedUpLayerTypeFactory.f_MINE"))
+JR.cast(jlate(JR.cast(pickedUpLayerTypeFactory)))
+})) || JR.isSame(pickedUpLayerType, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PickedUpLayerTypeFactory.f_PROJECTILE"))
+JR.cast(jlate(JR.cast(pickedUpLayerTypeFactory)))
+})) || JR.isSame(pickedUpLayerType, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PickedUpLayerTypeFactory.f_ENHANCEMENT"))
+JR.cast(jlate(JR.cast(pickedUpLayerTypeFactory)))
+}))) {
                 ignore(jm_add(this, JR.cast(pickedUpLayerInterfaceFactoryInterface)))
-            } else if ((PickedUpLayerInterfaceFactoryInterface.jm_getPickedUpLayerType(pickedUpLayerInterfaceFactoryInterface) == pickedUpLayerTypeFactory.f_PART)) {
+            } else if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PickedUpLayerInterfaceFactoryInterface.jm_getPickedUpLayerType"))
+JR.cast(jlate(JR.cast(pickedUpLayerInterfaceFactoryInterface)))
+} == {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PickedUpLayerTypeFactory.f_PART"))
+JR.cast(jlate(JR.cast(pickedUpLayerTypeFactory)))
+})) {
                 let mut collidableDestroyableDamageableLayer: JObject = JR.cast(this.f_ownerLayerInterface)
                 ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableDestroyableDamageableLayer.jm_addPart"))
 JR.cast(jlate(JR.cast(collidableDestroyableDamageableLayer), JR.cast(pickedUpLayerInterfaceFactoryInterface)))
 })
-            } else if (JR.isSame(pickedUpLayerType, pickedUpLayerTypeFactory.f_NONE)) {
+            } else if (JR.isSame(pickedUpLayerType, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PickedUpLayerTypeFactory.f_NONE"))
+JR.cast(jlate(JR.cast(pickedUpLayerTypeFactory)))
+})) {
                 void
             } else {
                 let mut pickupProcessorInterface: PickupProcessorInterface = JR.cast(pickedUpLayerInterfaceFactoryInterface)
-                ignore(jm_doPickup(this, pickupProcessorInterface))
+                ignore(jm_doPickup(this, JR.cast(pickupProcessorInterface)))
             }
-            ignore(PickedUpLayerInterface.jm_setPickedUp(pickupLayerInterface))
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PickedUpLayerInterface.jm_setPickedUp"))
+JR.cast(jlate(JR.cast(pickupLayerInterface)))
+})
         }
 }
     
 and jm_add = (this: PickupBehavior, countedPickedUpLayerInterfaceFactoryInterface: CountedPickedUpLayerInterfaceFactoryInterface) => {
-        let mut partIndex: Int32 = Int32.(+)(CountedPickedUpLayerInterfaceFactoryInterface.jm_getId(countedPickedUpLayerInterfaceFactoryInterface), this.f_countedIndex)
-        ignore(jm_addAt(this, countedPickedUpLayerInterfaceFactoryInterface, partIndex))
+        let mut partIndex: Int32 = Int32.(+)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CountedPickedUpLayerInterfaceFactoryInterface.jm_getId"))
+JR.cast(jlate(JR.cast(countedPickedUpLayerInterfaceFactoryInterface)))
+}, this.f_countedIndex)
+        ignore(jm_addAt(this, JR.cast(countedPickedUpLayerInterfaceFactoryInterface), partIndex))
 }
     
 and jm_addAt = (this: PickupBehavior, countedPickedUpLayerInterfaceFactoryInterface: CountedPickedUpLayerInterfaceFactoryInterface, partIndex: Int32) => {
@@ -144,15 +180,18 @@ and jm_addAt = (this: PickupBehavior, countedPickedUpLayerInterfaceFactoryInterf
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CollidableDestroyableDamageableLayer.jm_getPartInterfaceArray"))
 JR.cast(jlate(JR.cast(collidableDestroyableDamageableLayer)))
 }[Int32.toNumber(partIndex)])
-        ignore(CountedLayerInterfaceFactoryPart.jm_setTotal(countedLayerInterfaceFactory, Int32.(+)(CountedLayerInterfaceFactoryPart.jm_getTotal(countedLayerInterfaceFactory), CountedPickedUpLayerInterfaceFactoryInterface.jm_getTotal(countedPickedUpLayerInterfaceFactoryInterface))))
+        ignore(CountedLayerInterfaceFactoryPart.jm_setTotal(JR.cast(countedLayerInterfaceFactory), Int32.(+)(CountedLayerInterfaceFactoryPart.jm_getTotal(JR.cast(countedLayerInterfaceFactory)), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CountedPickedUpLayerInterfaceFactoryInterface.jm_getTotal"))
+JR.cast(jlate(JR.cast(countedPickedUpLayerInterfaceFactoryInterface)))
+})))
 }
     
 and jm_getFirstAvailableCountedLayerInterfaceFactory = (this: PickupBehavior, pickedUpLayerTypeArray: Array<PickedUpLayerType>) => {
         let mut collidableDestroyableDamageableLayer: JObject = JR.cast(this.f_ownerLayerInterface)
-        let mut partInterfaceArray: Array<PartInterface> = {
+        let mut partInterfaceArray: Array<PartInterface> = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CollidableDestroyableDamageableLayer.jm_getPartInterfaceArray"))
 JR.cast(jlate(JR.cast(collidableDestroyableDamageableLayer)))
-}
+})
         let mut size: Int32 = Int32.fromNumber(Array.length(partInterfaceArray))
         let mut nextCountedLayerInterfaceFactory: CountedLayerInterfaceFactoryPart = JR.nullOf()
         let mut countedPickedUpLayerInterfaceFactory: CountedPickedUpLayerInterfaceFactory = JR.nullOf()
@@ -169,7 +208,7 @@ JR.cast(jlate(JR.cast(collidableDestroyableDamageableLayer)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CollidableDestroyableDamageableLayer.jm_getPartInterfaceArray"))
 JR.cast(jlate(JR.cast(collidableDestroyableDamageableLayer)))
 }[Int32.toNumber(index)])
-            countedPickedUpLayerInterfaceFactory = JR.cast(CountedLayerInterfaceFactoryPart.jm_getCountedPickedUpLayerInterfaceFactory(nextCountedLayerInterfaceFactory))
+            countedPickedUpLayerInterfaceFactory = JR.cast(CountedLayerInterfaceFactoryPart.jm_getCountedPickedUpLayerInterfaceFactory(JR.cast(nextCountedLayerInterfaceFactory)))
             {
                 let mut index2: Int32 = Int32.fromNumber(Array.length(pickedUpLayerTypeArray))
                 let mut jfirst = true
@@ -180,7 +219,7 @@ JR.cast(jlate(JR.cast(collidableDestroyableDamageableLayer)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PickedUpLayerInterfaceFactory.jm_getPickedUpLayerType"))
 JR.cast(jlate(JR.cast(countedPickedUpLayerInterfaceFactory)))
 }, pickedUpLayerTypeArray[Int32.toNumber(index2)])) {
-                    if (Int32.(>)(CountedLayerInterfaceFactoryPart.jm_getTotal(nextCountedLayerInterfaceFactory), 0l)) {
+                    if (Int32.(>)(CountedLayerInterfaceFactoryPart.jm_getTotal(JR.cast(nextCountedLayerInterfaceFactory)), 0l)) {
                         return nextCountedLayerInterfaceFactory
                     }
                 }
@@ -194,10 +233,10 @@ JR.cast(jlate(JR.cast(countedPickedUpLayerInterfaceFactory)))
 and jm_getCountedLayerInterfaceFactoryForSlot = (this: PickupBehavior, slotIndex: Int32) => {
         let mut currentSlot: Int32 = 0l
         let mut collidableDestroyableDamageableLayer: JObject = JR.cast(this.f_ownerLayerInterface)
-        let mut partInterfaceArray: Array<PartInterface> = {
+        let mut partInterfaceArray: Array<PartInterface> = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CollidableDestroyableDamageableLayer.jm_getPartInterfaceArray"))
 JR.cast(jlate(JR.cast(collidableDestroyableDamageableLayer)))
-}
+})
         let mut size: Int32 = Int32.fromNumber(Array.length(partInterfaceArray))
         let mut nextCountedLayerInterfaceFactory: CountedLayerInterfaceFactoryPart = JR.nullOf()
         {
@@ -213,7 +252,7 @@ JR.cast(jlate(JR.cast(collidableDestroyableDamageableLayer)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CollidableDestroyableDamageableLayer.jm_getPartInterfaceArray"))
 JR.cast(jlate(JR.cast(collidableDestroyableDamageableLayer)))
 }[Int32.toNumber(index)])
-            if (Int32.(>)(CountedLayerInterfaceFactoryPart.jm_getTotal(nextCountedLayerInterfaceFactory), 0l)) {
+            if (Int32.(>)(CountedLayerInterfaceFactoryPart.jm_getTotal(JR.cast(nextCountedLayerInterfaceFactory)), 0l)) {
                 if ((currentSlot == slotIndex)) {
                     return nextCountedLayerInterfaceFactory
                 } else {

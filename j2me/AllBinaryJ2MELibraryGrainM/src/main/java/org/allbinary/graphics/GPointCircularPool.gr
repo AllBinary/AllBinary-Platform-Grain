@@ -42,9 +42,9 @@ provide record GPointCircularPool {
 provide let rec jclassName = () => "GPointCircularPool"
     
 and jnew_1 = (size: Int32) => {
-    let this = { jobject: JR.newJObject("GPointCircularPool"), f_circularIndexUtil: JR.jnull, f_OBJECT_ARRAY: [> ], }
+    let this = { jobject: JR.newJObject("GPointCircularPool"), f_circularIndexUtil: JR.nullOf(), f_OBJECT_ARRAY: [> ], }
         this.f_circularIndexUtil = JR.cast(CircularIndexUtil.jm_createInstance(size))
-        this.f_OBJECT_ARRAY = JR.cast(Array.make(Int32.toNumber(size), JR.jnull))
+        this.f_OBJECT_ARRAY = JR.cast(Array.make(Int32.toNumber(size), JR.nullOf()))
         {
             let mut index: Int32 = Int32.(-)(size, 1l)
             let mut jfirst = true
@@ -60,6 +60,7 @@ and jnew_1 = (size: Int32) => {
     this
 }
 
+JR.registerSuper("GPointCircularPool", "BaseCircularPool")
 JR.registerLateBound("GPointCircularPool.jnew_1", jnew_1)
 
 

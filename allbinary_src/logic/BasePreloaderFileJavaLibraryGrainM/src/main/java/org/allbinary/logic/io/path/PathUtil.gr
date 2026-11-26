@@ -46,7 +46,7 @@ provide let rec jclassName = () => "PathUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: PathUtil = jnew_0()
+    let value: PathUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -61,7 +61,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("PathUtil"), f_abPathData: JR.jnull, f_filePathData: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("PathUtil"), f_abPathData: JR.nullOf(), f_filePathData: JR.nullOf(), }
     this.f_abPathData = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("AbPathData.jm_getInstance"))
 JR.cast(jlate())
@@ -74,7 +74,7 @@ JR.cast(jlate())
 and jm_getExtensionWithAbFilePath = (this: PathUtil, abFilePath: JObject) => {
         return {
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbPathData.jm_getExtension"))
-JR.cast(jlate(JR.cast(this.f_abPathData), JR.cast(JR.toStringOf(abFilePath.jobject))))
+JR.cast(jlate(JR.cast(this.f_abPathData), JR.cast(JR.toStringOf(abFilePath))))
 }
 }
     
@@ -89,14 +89,14 @@ JR.cast(jlate(JR.cast(abPath)))
 }
     
 and jm_getWithoutExtensionWithAbFilePath = (this: PathUtil, abFilePath: JObject) => {
-        return jm_getWithoutExtension(this, JR.toStringOf(abFilePath.jobject))
+        return jm_getWithoutExtension(this, JR.cast(JR.toStringOf(abFilePath)))
 }
     
 and jm_getWithoutExtensionWithAbPath = (this: PathUtil, abPath: JObject) => {
-        return jm_getWithoutExtension(this, {
+        return jm_getWithoutExtension(this, JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPath.jm_toString"))
 JR.cast(jlate(JR.cast(abPath)))
-})
+}))
 }
     
 and jm_getWithoutExtension = (this: PathUtil, filePath: String) => {
@@ -112,8 +112,8 @@ JR.cast(jlate(JR.cast(this.f_abPathData), JR.cast(filePath)))
 }
     
 and jm_isValid = (this: PathUtil, path: String) => {
-        if (jm_isValidStart(this, path)) {
-            if (jm_isValidEnd(this, path)) {
+        if (jm_isValidStart(this, JR.cast(path))) {
+            if (jm_isValidEnd(this, JR.cast(path))) {
                 return true
             }
         }
@@ -133,7 +133,7 @@ JR.cast(jlate(JR.cast(this.f_abPathData)))
     
 and jm_isValidEnd = (this: PathUtil, path: String) => {
         let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
-        if (StringValidationUtil.jm_isEmpty(stringValidationUtil, path)) {
+        if (StringValidationUtil.jm_isEmpty(JR.cast(stringValidationUtil), JR.cast(path))) {
             return false
         }
         if ((JR.charAt(path, Int32.(-)(JR.length(path), 1l)) == {
@@ -148,7 +148,7 @@ JR.cast(jlate(JR.cast(this.f_abPathData)))
     
 and jm_adjustStart = (this: PathUtil, path: String) => {
     let mut path = path
-        if (!jm_isValidStart(this, path)) {
+        if (!jm_isValidStart(this, JR.cast(path))) {
             path = {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATOR"))
 JR.cast(jlate(JR.cast(this.f_abPathData)))
@@ -159,7 +159,7 @@ JR.cast(jlate(JR.cast(this.f_abPathData)))
     
 and jm_adjustEnd = (this: PathUtil, path: String) => {
     let mut path = path
-        if (!jm_isValidEnd(this, path)) {
+        if (!jm_isValidEnd(this, JR.cast(path))) {
             path = path ++ {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATOR"))
 JR.cast(jlate(JR.cast(this.f_abPathData)))
@@ -171,17 +171,17 @@ JR.cast(jlate(JR.cast(this.f_abPathData)))
 and jm_adjust = (this: PathUtil, path: String) => {
     let mut path = path
         let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
-        if (StringValidationUtil.jm_isEmpty(stringValidationUtil, path)) {
+        if (StringValidationUtil.jm_isEmpty(JR.cast(stringValidationUtil), JR.cast(path))) {
             return {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATOR"))
 JR.cast(jlate(JR.cast(this.f_abPathData)))
 }
         }
         if (Int32.(>=)(JR.indexOf(path, "\\"), 0l)) {
-            path = JR.replace(path, Int32.fromNumber(Char.code('\\')), {
+            path = JR.replace(path, JR.chr(Int32.fromNumber(Char.code('\\'))), JR.chr({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATORCHAR"))
 JR.cast(jlate(JR.cast(this.f_abPathData)))
-})
+}))
         }
         return path
 }
@@ -201,7 +201,7 @@ JR.cast(jlate())
 }
         }
         if ((JR.length(path) == Int32.(+)(endIndex, 1l))) {
-            return jm_removeNameFromPath(this, JR.substring(path, 0l, Int32.(-)(endIndex, 1l)))
+            return jm_removeNameFromPath(this, JR.cast(JR.substring(path, 0l, Int32.(-)(endIndex, 1l))))
         } else {
             let mut pathWithoutName: String = JR.substring(path, 0l, endIndex)
             return {

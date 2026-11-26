@@ -43,6 +43,10 @@ from "../../../../org/allbinary/logic/system/security/crypt/DatabaseEncoder.gr" 
 use DatabaseEncoder.{ type DatabaseEncoder }
 from "../../../../org/allbinary/logic/system/security/crypt/WeakCrypt.gr" include WeakCrypt
 use WeakCrypt.{ type WeakCrypt }
+from "../../../../java/io/DataOutputStream.gr" include DataOutputStream
+use DataOutputStream.{ type DataOutputStream }
+from "../../../../java/io/DataInputStream.gr" include DataInputStream
+use DataInputStream.{ type DataInputStream }
 
 provide record InstallerInfo {
   jobject: JObject,
@@ -61,7 +65,7 @@ provide let rec jclassName = () => "InstallerInfo"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: InstallerInfo = jnew_0()
+    let value: InstallerInfo = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -137,7 +141,7 @@ and jset_hasRead = (value: Bool) => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("InstallerInfo"), f_logUtil: JR.jnull, }
+    let this = { jobject: JR.newJObject("InstallerInfo"), f_logUtil: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -164,10 +168,10 @@ let jlate: () => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getI
 JR.cast(jlate())
 }), JR.cast(newFile)))
 })
-            let mut cryptedUserName: Array<Int32> = JR.className(JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(1l), jm_getUserName(this))))
-            let mut cryptedPassword: Array<Int32> = JR.className(JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(2l), jm_getPassword(this))))
-            ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(cryptedUserName)))
-            ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(cryptedPassword)))
+            let mut cryptedUserName: Array<Int32> = JR.getBytes(WeakCrypt.jm_encrypt(JR.cast(WeakCrypt.jnew_1(1l)), JR.cast(jm_getUserName(this))))
+            let mut cryptedPassword: Array<Int32> = JR.getBytes(WeakCrypt.jm_encrypt(JR.cast(WeakCrypt.jnew_1(2l)), JR.cast(jm_getPassword(this))))
+            ignore(DataOutputStream.jm_writeUTF_1(JR.cast(dataOutputStream), DatabaseEncoder.jm_encode(cryptedUserName)))
+            ignore(DataOutputStream.jm_writeUTF_1(JR.cast(dataOutputStream), DatabaseEncoder.jm_encode(cryptedPassword)))
             jset_hasRead(false)
         }
 }
@@ -183,12 +187,12 @@ JR.cast(jlate(JR.cast(l_FILEABPATH)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isFile"))
 JR.cast(jlate(JR.cast(file)))
 }) {
-                let mut iFile: AbFileLocalInputStream = AbFileLocalInputStream.jnew_1(file)
-                let mut iData: AbDataInputStream = AbDataInputStream.jnew_1(iFile)
-                let mut decryptedUserName: String = DatabaseEncoder.jm_decode(JR.cast(AbDataInputStream.jm_readUTF(iData)))
-                let mut decryptedPassword: String = DatabaseEncoder.jm_decode(JR.cast(AbDataInputStream.jm_readUTF(iData)))
-                ignore(jm_setUserName(this, JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(1l), decryptedUserName))))
-                ignore(jm_setPassword(this, JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(2l), decryptedPassword))))
+                let mut iFile: AbFileLocalInputStream = AbFileLocalInputStream.jnew_1(JR.cast(file))
+                let mut iData: AbDataInputStream = AbDataInputStream.jnew_1(JR.cast(iFile))
+                let mut decryptedUserName: String = JR.fromBytes(DatabaseEncoder.jm_decode(JR.cast(DataInputStream.jm_readUTF_0(JR.cast(iData)))))
+                let mut decryptedPassword: String = JR.fromBytes(DatabaseEncoder.jm_decode(JR.cast(DataInputStream.jm_readUTF_0(JR.cast(iData)))))
+                ignore(jm_setUserName(this, JR.cast(WeakCrypt.jm_decrypt(JR.cast(WeakCrypt.jnew_1(1l)), JR.cast(decryptedUserName)))))
+                ignore(jm_setPassword(this, JR.cast(WeakCrypt.jm_decrypt(JR.cast(WeakCrypt.jnew_1(2l)), JR.cast(decryptedPassword)))))
             } else {
                 if ({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
@@ -205,7 +209,7 @@ JR.cast(jlate())
 }) {
                     ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Not a File - Failed Loading: " ++ AbPath.jm_toString(l_FILEABPATH)), JR.cast(this), JR.cast("read")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Not a File - Failed Loading: " ++ AbPath.jm_toString(JR.cast(l_FILEABPATH))), JR.cast(this), JR.cast("read")))
 })
                 }
             }

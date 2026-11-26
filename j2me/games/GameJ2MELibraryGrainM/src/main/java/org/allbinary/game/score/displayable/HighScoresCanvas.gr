@@ -66,6 +66,17 @@ use SecondaryThreadPool.{ type SecondaryThreadPool }
 
 provide record HighScoresCanvas {
   jobject: JObject,
+  mut f_device: JObject,
+  mut f_currentDisplay: JObject,
+  mut f_width: Int32,
+  mut f_height: Int32,
+  mut f_fullScreenMode: Bool,
+  mut f_ticker: JObject,
+  mut f_viewPortY: Int32,
+  mut f_viewPortHeight: Int32,
+  mut f_ui: JObject,
+  mut f_title: String,
+  mut f_listener: JObject,
   mut f_logUtil: JObject,
   mut f_commonStrings: JObject,
   mut f_canvasStrings: JObject,
@@ -127,7 +138,7 @@ and jset_NAME = (value: String) => {
 }
     
 and jnew_6 = (commandListener: CommandListener, allBinaryGameLayerManager: AllBinaryGameLayerManager, gameInfo: GameInfo, paintable: HighScoresPaintable, highScoresFactoryInterface: HighScoresFactoryInterface, highScoresCanvasInputProcessorFactoryInterface: JObject) => {
-    let this = { jobject: JR.newJObject("HighScoresCanvas"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_canvasStrings: JR.jnull, f_stringUtil: JR.jnull, f_displayInfo: JR.jnull, f_name: "", f_childNameList: JR.jnull, f_commandStack: JR.jnull, f_commandListener: JR.jnull, f_paused: false, f_touchME: JR.jnull, f_repaintProcessor: JR.jnull, f_gameInputStrings: JR.jnull, f_foregroundBasicColor: JR.jnull, f_backgroundBasicColor: JR.jnull, f_inputToGameKeyMapping: JR.jnull, f_gameKeyFactory: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_downGameKeyEventHandler: JR.jnull, f_upGameKeyEventHandler: JR.jnull, f_repaintBehavior: JR.jnull, f_updateMyFontProcessor: JR.jnull, f_myFontProcessor: JR.jnull, f_foregroundColor: 0l, f_backgroundColor: 0l, f_menuInputProcessor: JR.jnull, f_menuPaintable: JR.jnull, f_menuForm: JR.jnull, f_isSingleKeyRepeatableProcessing: false, f_fontHeight: 0l, f_paintable: JR.nullOf(), f_highScoreCommandsFactory: JR.nullOf(), f_waitPaintable: JR.nullOf(), f_highScoresPaintable: JR.nullOf(), f_highScoresFactoryInterface: JR.nullOf(), f_colorFillPaintable: JR.nullOf(), f_highScoresHelper: JR.nullOf(), f_gameInfo: JR.nullOf(), f_highScoresCanvasInputProcessor: JR.jnull, f_currentCommand: JR.jnull, f_hasPainted: false, }
+    let this = { jobject: JR.newJObject("HighScoresCanvas"), f_device: JR.nullOf(), f_currentDisplay: JR.nullOf(), f_width: 0l, f_height: 0l, f_fullScreenMode: false, f_ticker: JR.nullOf(), f_viewPortY: 0l, f_viewPortHeight: 0l, f_ui: JR.nullOf(), f_title: "", f_listener: JR.nullOf(), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_canvasStrings: JR.nullOf(), f_stringUtil: JR.nullOf(), f_displayInfo: JR.nullOf(), f_name: "", f_childNameList: JR.nullOf(), f_commandStack: JR.nullOf(), f_commandListener: JR.nullOf(), f_paused: false, f_touchME: JR.nullOf(), f_repaintProcessor: JR.nullOf(), f_gameInputStrings: JR.nullOf(), f_foregroundBasicColor: JR.nullOf(), f_backgroundBasicColor: JR.nullOf(), f_inputToGameKeyMapping: JR.nullOf(), f_gameKeyFactory: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_downGameKeyEventHandler: JR.nullOf(), f_upGameKeyEventHandler: JR.nullOf(), f_repaintBehavior: JR.nullOf(), f_updateMyFontProcessor: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_foregroundColor: 0l, f_backgroundColor: 0l, f_menuInputProcessor: JR.nullOf(), f_menuPaintable: JR.nullOf(), f_menuForm: JR.nullOf(), f_isSingleKeyRepeatableProcessing: false, f_fontHeight: 0l, f_paintable: JR.nullOf(), f_highScoreCommandsFactory: JR.nullOf(), f_waitPaintable: JR.nullOf(), f_highScoresPaintable: JR.nullOf(), f_highScoresFactoryInterface: JR.nullOf(), f_colorFillPaintable: JR.nullOf(), f_highScoresHelper: JR.nullOf(), f_gameInfo: JR.nullOf(), f_highScoresCanvasInputProcessor: JR.nullOf(), f_currentCommand: JR.nullOf(), f_hasPainted: false, }
     this.f_paintable = JR.cast(NullPaintable.jm_getInstance())
     this.f_highScoreCommandsFactory = JR.cast(HighScoreCommandsFactory.jm_getInstance())
     this.f_waitPaintable = SimpleTextPaintable.jnew_2({
@@ -160,16 +171,16 @@ let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("HighScoresCanva
 JR.cast(jlate(JR.cast(highScoresCanvasInputProcessorFactoryInterface), JR.cast(this)))
 })
         this.f_gameInfo = JR.cast(gameInfo)
-        ignore(SimpleTextPaintable.jm_setBasicColorP(this.f_waitPaintable, JR.cast(AllBinaryGameLayerManager.jm_getForegroundBasicColor(allBinaryGameLayerManager))))
-        ignore(HighScoresPaintable.jm_setBasicColorP(jm_getHighScoresPaintable(this), JR.cast(AllBinaryGameLayerManager.jm_getForegroundBasicColor(allBinaryGameLayerManager))))
+        ignore(SimpleTextPaintable.jm_setBasicColorP(JR.cast(this.f_waitPaintable), JR.cast(AllBinaryGameLayerManager.jm_getForegroundBasicColor(JR.cast(allBinaryGameLayerManager)))))
+        ignore(HighScoresPaintable.jm_setBasicColorP(JR.cast(jm_getHighScoresPaintable(this)), JR.cast(AllBinaryGameLayerManager.jm_getForegroundBasicColor(JR.cast(allBinaryGameLayerManager)))))
         this.f_colorFillPaintable = JR.cast({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ColorFillPaintableFactory.jm_getInstance_2"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("ColorFillPaintableFactory.jm_getInstance"))
 JR.cast(jlate())
-}), JR.cast(AllBinaryGameLayerManager.jm_getBackgroundBasicColor(allBinaryGameLayerManager)), JR.cast(false)))
+}), JR.cast(AllBinaryGameLayerManager.jm_getBackgroundBasicColor(JR.cast(allBinaryGameLayerManager))), JR.cast(false)))
 })
-        if ((Int32.fromNumber(Array.length(HighScoresHelperBase.jm_getHighScoresArray(this.f_highScoresHelper))) == Int32.fromNumber(Array.length(NoHighScoresFactory.jm_getInstance().f_NO_HIGH_SCORES)))) {
+        if ((Int32.fromNumber(Array.length(HighScoresHelperBase.jm_getHighScoresArray(JR.cast(this.f_highScoresHelper)))) == Int32.fromNumber(Array.length(NoHighScoresFactory.jm_getInstance().f_NO_HIGH_SCORES)))) {
             ignore(jm_setPaintable(this, JR.cast(this.f_waitPaintable)))
         } else {
             ignore({
@@ -179,13 +190,16 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_CONSTRUC
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 })))
 })
-            ignore(jm_updateCommand(this, this.f_currentCommand))
+            ignore(jm_updateCommand(this, JR.cast(this.f_currentCommand)))
             ignore(jm_setPaintable(this, JR.cast(jm_getHighScoresPaintable(this))))
         }
-        ignore(SecondaryThreadPool.jm_runTask(SecondaryThreadPool.jm_getInstance(), JR.cast({
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.jm_runTask"))
+JR.cast(jlate(JR.cast(SecondaryThreadPool.jm_getInstance()), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScoreRunnable.jnew_1"))
 JR.cast(jlate(JR.cast(this)))
 })))
+})
     this
 }
     
@@ -221,8 +235,8 @@ JR.cast(jlate(JR.cast(this.f_highScoresCanvasInputProcessor)))
 }
     
 and jm_paint = (this: HighScoresCanvas, graphics: JObject) => {
-        ignore(ColorFillBasePaintable.jm_paint(this.f_colorFillPaintable, graphics))
-        ignore(Paintable.jm_paint(this.f_paintable, graphics))
+        ignore(ColorFillBasePaintable.jm_paint(JR.cast(this.f_colorFillPaintable), JR.cast(graphics)))
+        ignore(Paintable.jm_paint(JR.cast(this.f_paintable), JR.cast(graphics)))
         if ((!JR.isSame(this.f_waitPaintable, this.f_paintable))) {
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("HighScoresCanvasInputProcessor.jm_paint"))
@@ -235,7 +249,7 @@ JR.cast(jlate(JR.cast(this.f_highScoresCanvasInputProcessor), JR.cast(graphics))
     
 and jm_executeUpdate = (this: HighScoresCanvas) => {
         {
-            ignore(HighScoresFactoryInterface.jm_fetchHighScores(this.f_highScoresFactoryInterface, jm_getGameInfo(this), JR.cast(this)))
+            ignore(HighScoresFactoryInterface.jm_fetchHighScores(JR.cast(this.f_highScoresFactoryInterface), JR.cast(jm_getGameInfo(this)), JR.cast(this)))
         }
 }
     
@@ -248,10 +262,10 @@ and jm_setHighScoresArray = (this: HighScoresCanvas, highScoresArray: Array<JObj
             if (!JR.isNull(highScoresArray)) {
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), {
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_START"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
-}), Int32.fromNumber(Array.length(highScoresArray))))), JR.cast(this), JR.cast("setHighScoresArray")))
+}))), Int32.fromNumber(Array.length(highScoresArray)))))), JR.cast(this), JR.cast("setHighScoresArray")))
 })
             } else {
                 ignore({
@@ -262,8 +276,8 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 }), JR.cast(this), JR.cast("setHighScoresArray")))
 })
             }
-            ignore(HighScoresHelperBase.jm_setHighScoresArray(this.f_highScoresHelper, highScoresArray))
-            ignore(jm_updateCommand(this, this.f_currentCommand))
+            ignore(HighScoresHelperBase.jm_setHighScoresArray(JR.cast(this.f_highScoresHelper), JR.cast(highScoresArray)))
+            ignore(jm_updateCommand(this, JR.cast(this.f_currentCommand)))
             ignore(jm_setPaintable(this, JR.cast(jm_getHighScoresPaintable(this))))
         }
 }
@@ -271,10 +285,10 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 and jm_updateCommand = (this: HighScoresCanvas, command: JObject) => {
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), {
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_START"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
-}), JR.toStringOf(JR.cast(JR.cast(this.f_stringUtil)))))), JR.cast(this), JR.cast({
+}))), JR.cast(JR.toStringOf(JR.cast(JR.cast(this.f_stringUtil)))))))), JR.cast(this), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_UPDATE"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 })))
@@ -289,14 +303,14 @@ let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("HighScoreComman
 JR.cast(jlate(JR.cast(this.f_highScoreCommandsFactory), JR.cast(command)))
 }
             let mut nextIndex: Int32 = Int32.(+)(index, 1l)
-            let mut highScoresArray: Array<JObject> = HighScoresHelperBase.jm_getHighScoresArray(this.f_highScoresHelper)
+            let mut highScoresArray: Array<JObject> = JR.cast(HighScoresHelperBase.jm_getHighScoresArray(JR.cast(this.f_highScoresHelper)))
             if (Int32.(>=)(nextIndex, Int32.fromNumber(Array.length(highScoresArray)))) {
                 nextIndex = 0l
             }
             if (Int32.(>)(Int32.fromNumber(Array.length(highScoresArray)), 0l)) {
-                ignore(HighScoresPaintable.jm_setHighScores(jm_getHighScoresPaintable(this), highScoresArray[Int32.toNumber(index)]))
+                ignore(HighScoresPaintable.jm_setHighScores(JR.cast(jm_getHighScoresPaintable(this)), JR.cast(highScoresArray[Int32.toNumber(index)])))
             } else {
-                ignore(HighScoresPaintable.jm_setHighScores(jm_getHighScoresPaintable(this), JR.cast(NullHighScoresSingletonFactory.jm_getInstance())))
+                ignore(HighScoresPaintable.jm_setHighScores(JR.cast(jm_getHighScoresPaintable(this)), JR.cast(NullHighScoresSingletonFactory.jm_getInstance())))
             }
             if ((index != nextIndex)) {
                 ignore({
@@ -338,6 +352,7 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_repaintBehavior)), JR.cast(this)))
 })
 }
 
+JR.registerSuper("HighScoresCanvas", "GameCommandCanvas")
 JR.registerLateBound("HighScoresCanvas.jnew_6", jnew_6)
 JR.registerLateBound("HighScoresCanvas.jm_initCommands", jm_initCommands)
 JR.registerLateBound("HighScoresCanvas.jm_open", jm_open)

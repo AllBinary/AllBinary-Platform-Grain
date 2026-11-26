@@ -54,7 +54,7 @@ provide record AnimationDamageFloaters {
 provide let rec jclassName = () => "AnimationDamageFloaters"
     
 and jnew_4 = (layerInterface: AllBinaryLayer, animationInterfaceArray: Array<IndexedAnimation>, dx: Int32, dy: Int32) => {
-    let this = { jobject: JR.newJObject("AnimationDamageFloaters"), f_logUtil: JR.jnull, f_layerInterface: JR.nullOf(), f_animationInterfaceArray: [> ], f_circularIndexUtil: JR.nullOf(), f_dx: 0l, f_dy: 0l, }
+    let this = { jobject: JR.newJObject("AnimationDamageFloaters"), f_logUtil: JR.nullOf(), f_layerInterface: JR.nullOf(), f_animationInterfaceArray: [> ], f_circularIndexUtil: JR.nullOf(), f_dx: 0l, f_dy: 0l, }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -91,17 +91,17 @@ JR.cast(jlate(JR.cast(this.f_animationInterfaceArray[Int32.toNumber(index)])))
 }
     
 and jm_add = (this: AnimationDamageFloaters, damage: Int32) => {
-        let mut i: Int32 = CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil)
+        let mut i: Int32 = CircularIndexUtil.jm_getIndex(JR.cast(this.f_circularIndexUtil))
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("IndexedAnimation.jm_setFrame"))
 JR.cast(jlate(JR.cast(this.f_animationInterfaceArray[Int32.toNumber(i)]), JR.cast(0l)))
 })
-        ignore(CircularIndexUtil.jm_next(this.f_circularIndexUtil))
+        ignore(CircularIndexUtil.jm_next(JR.cast(this.f_circularIndexUtil)))
 }
     
 and jm_paint = (this: AnimationDamageFloaters, graphics: JObject) => {
         {
-            let mut viewPosition: ViewPositionBase = JR.cast(AllBinaryLayer.jm_getViewPosition(this.f_layerInterface))
+            let mut viewPosition: ViewPositionBase = JR.cast(AllBinaryLayer.jm_getViewPosition(JR.cast(this.f_layerInterface)))
             let mut x: Int32 = {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getX"))
 JR.cast(jlate(JR.cast(viewPosition)))
@@ -120,8 +120,8 @@ JR.cast(jlate(JR.cast(viewPosition)))
                     jfirst = false
                     if (!(Int32.(<)(index, Int32.fromNumber(Array.length(this.f_animationInterfaceArray))))) break
                 let mut animationInterface: IndexedAnimation = JR.cast(this.f_animationInterfaceArray[Int32.toNumber(index)])
-                if (Int32.(<)(IndexedAnimation.jm_getFrame(animationInterface), Int32.(-)(IndexedAnimation.jm_getAnimationSize(animationInterface), 1l))) {
-                    let mut delta: Int32 = Int32.(*)(IndexedAnimation.jm_getFrame(animationInterface), 20l)
+                if (Int32.(<)(IndexedAnimation.jm_getFrame(JR.cast(animationInterface)), Int32.(-)(IndexedAnimation.jm_getAnimationSize(JR.cast(animationInterface)), 1l))) {
+                    let mut delta: Int32 = Int32.(*)(IndexedAnimation.jm_getFrame(JR.cast(animationInterface)), 20l)
                     ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Animation.jm_paintXY"))
 JR.cast(jlate(JR.cast(animationInterface), JR.cast(graphics), JR.cast(Int32.(+)(x, this.f_dx)), JR.cast(Int32.(+)(Int32.(-)(y, delta), this.f_dy))))
@@ -136,6 +136,7 @@ JR.cast(jlate(JR.cast(animationInterface)))
         }
 }
 
+JR.registerSuper("AnimationDamageFloaters", "DamageFloaters")
 JR.registerLateBound("AnimationDamageFloaters.jnew_4", jnew_4)
 JR.registerLateBound("AnimationDamageFloaters.jm_add", jm_add)
 JR.registerLateBound("AnimationDamageFloaters.jm_paint", jm_paint)

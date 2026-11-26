@@ -46,12 +46,21 @@ and jnew_0 = () => {
     
 and jm_getInstance = (vector: BasicArrayList, howMuch: Int32) => {
         let mut myRandomFactory: MyRandomFactory = JR.cast(MyRandomFactory.jm_getInstance())
-        let mut x: Int32 = Int32.(-)(1l, Int32.(+)(MyRandomFactory.jm_getNextInt(myRandomFactory, howMuch), 1l))
-        let mut y: Int32 = MyRandomFactory.jm_getNextInt(myRandomFactory, howMuch)
-        let mut graphicsPipe: BasicGraphicsPipeline = BasicGraphicsPipeline.jnew_1(vector)
-        ignore(BasicGraphicsPipeline.jm_createMatrix(graphicsPipe))
-        ignore(BasicGraphicsPipeline.jm_translate(graphicsPipe, x, y))
-        return BasicGraphicsPipeline.jm_getMatrix(graphicsPipe)
+        let mut x: Int32 = Int32.(-)(1l, Int32.(+)(MyRandomFactory.jm_getNextInt(JR.cast(myRandomFactory), howMuch), 1l))
+        let mut y: Int32 = MyRandomFactory.jm_getNextInt(JR.cast(myRandomFactory), howMuch)
+        let mut graphicsPipe: BasicGraphicsPipeline = BasicGraphicsPipeline.jnew_1(JR.cast(vector))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicGraphicsPipeline.jm_createMatrix"))
+JR.cast(jlate(JR.cast(graphicsPipe)))
+})
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicGraphicsPipeline.jm_translate"))
+JR.cast(jlate(JR.cast(graphicsPipe), JR.cast(x), JR.cast(y)))
+})
+        return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicGraphicsPipeline.jm_getMatrix"))
+JR.cast(jlate(JR.cast(graphicsPipe)))
+}
 }
 
 JR.registerLateBound("RandomTranslation.jnew_0", jnew_0)

@@ -114,16 +114,22 @@ and jset_NAME = (value: String) => {
 }
     
 and jnew_1 = (viewPosition: ViewPositionBase) => {
-    let this = { jobject: JR.newJObject("MineLayer"), f_logUtil: JR.jnull, f_x: 0l, f_y: 0l, f_z: 0l, f_width: 0l, f_height: 0l, f_visible: false, f_viewPositionEvent: JR.jnull, f_halfWidth: 0l, f_halfHeight: 0l, f_name: "", f_viewPosition: JR.jnull, f_commonStrings: JR.jnull, f_basicSetColorUtil: JR.jnull, f_RED: JR.jnull, f_paintable: JR.jnull, f_gameKeyEventList: JR.jnull, f_collidableInferface: JR.jnull, f_groupInterface: [> ], f_readyForExplosion: false, f_initWidth: 0l, f_initHeight: 0l, f_initX: 0l, f_initY: 0l, f_initZ: 0l, f_partInterfaceArrayP: [> ], f_pickupBehavior: JR.jnull, f_allBinaryGameLayerManagerP: JR.jnull, f_isDraggable: false, f_isDragged: false, f_isDropped: false, f_animationInterface: JR.jnull, f_initAnimationInterface: JR.jnull, f_destroyedAnimationInterface: JR.jnull, f_sourceLayerInterface: JR.jnull, f_totalDamage: 0l, f_initDamage: 0l, f_destroyed: false, f_scoreableInterface: JR.jnull, f_movement: JR.jnull, f_weaponProperties: JR.jnull, f_multiPlayerType: 0l, f_collidableWeaponBehavior: JR.jnull, f_viewPositionEventHandler: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("MineLayer"), f_logUtil: JR.nullOf(), f_x: 0l, f_y: 0l, f_z: 0l, f_width: 0l, f_height: 0l, f_visible: false, f_viewPositionEvent: JR.nullOf(), f_halfWidth: 0l, f_halfHeight: 0l, f_name: "", f_viewPosition: JR.nullOf(), f_commonStrings: JR.nullOf(), f_basicSetColorUtil: JR.nullOf(), f_RED: JR.nullOf(), f_paintable: JR.nullOf(), f_gameKeyEventList: JR.nullOf(), f_collidableInferface: JR.nullOf(), f_groupInterface: [> ], f_readyForExplosion: false, f_initWidth: 0l, f_initHeight: 0l, f_initX: 0l, f_initY: 0l, f_initZ: 0l, f_partInterfaceArrayP: [> ], f_pickupBehavior: JR.nullOf(), f_allBinaryGameLayerManagerP: JR.nullOf(), f_isDraggable: false, f_isDragged: false, f_isDropped: false, f_animationInterface: JR.nullOf(), f_initAnimationInterface: JR.nullOf(), f_destroyedAnimationInterface: JR.nullOf(), f_sourceLayerInterface: JR.nullOf(), f_totalDamage: 0l, f_initDamage: 0l, f_destroyed: false, f_scoreableInterface: JR.nullOf(), f_movement: JR.nullOf(), f_weaponProperties: JR.nullOf(), f_multiPlayerType: 0l, f_collidableWeaponBehavior: JR.nullOf(), f_viewPositionEventHandler: JR.nullOf(), }
     this.f_viewPositionEventHandler = JR.cast(ViewPositionEventHandler.jm_getInstance())
         void
     this
 }
     
 and jm_initXYZ = (this: MineLayer, x: Int32, y: Int32, z: Int32) => {
-        ignore(jm_setPosition(this, Int32.(+)(x, 5l), Int32.(+)(y, 5l), z))
-        ignore(ViewPositionEventHandler.jm_addListener(this.f_viewPositionEventHandler, JR.cast(this)))
-        ignore(SecondaryPlayerQueueFactory.jm_add(SecondaryPlayerQueueFactory.jm_getInstance(), DropWeaponSound.jm_getInstance()))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_setPosition"))
+JR.cast(jlate(JR.cast(this), JR.cast(Int32.(+)(x, 5l)), JR.cast(Int32.(+)(y, 5l)), JR.cast(z)))
+})
+        ignore(ViewPositionEventHandler.jm_addListener(JR.cast(this.f_viewPositionEventHandler), JR.cast(this)))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("PlayerQueue.jm_add"))
+JR.cast(jlate(JR.cast(SecondaryPlayerQueueFactory.jm_getInstance()), JR.cast(DropWeaponSound.jm_getInstance())))
+})
 }
     
 and jm_damage = (this: MineLayer, damage: Int32, damageType: Int32) => {
@@ -147,10 +153,11 @@ and jm_setDestroyed = (this: MineLayer, destroyed: Bool) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("WeaponLayer.jm_isDestroyed"))
 JR.cast(jlate(JR.cast(this)))
 }) {
-            ignore(ViewPositionEventHandler.jm_removeListener(this.f_viewPositionEventHandler, JR.cast(this)))
+            ignore(ViewPositionEventHandler.jm_removeListener(JR.cast(this.f_viewPositionEventHandler), JR.cast(this)))
         }
 }
 
+JR.registerSuper("MineLayer", "SimpleWeaponLayer")
 JR.registerLateBound("MineLayer.jnew_1", jnew_1)
 JR.registerLateBound("MineLayer.jm_initXYZ", jm_initXYZ)
 JR.registerLateBound("MineLayer.jm_damage", jm_damage)

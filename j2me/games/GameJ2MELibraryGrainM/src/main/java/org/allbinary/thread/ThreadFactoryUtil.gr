@@ -60,7 +60,7 @@ provide let rec jclassName = () => "ThreadFactoryUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: ThreadFactoryUtil = jnew_0()
+    let value: ThreadFactoryUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -71,7 +71,7 @@ and jset_instance = (value: ThreadFactoryUtil) => {
 }
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("ThreadFactoryUtil"), f_logUtil: JR.jnull, }
+    let this = { jobject: JR.newJObject("ThreadFactoryUtil"), f_logUtil: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -84,11 +84,14 @@ and jm_getInstance = () => {
 }
     
 and jm_getInstanceGameCanvasRunnable = (this: ThreadFactoryUtil, runnable: GameCanvasRunnableInterface) => {
-        return jm_getInstanceType(this, JR.cast(runnable), GameCanvasRunnableInterface.jm_getType(runnable))
+        return jm_getInstanceType(this, JR.cast(runnable), GameCanvasRunnableInterface.jm_getType(JR.cast(runnable)))
 }
     
 and jm_getInstanceForRunnable = (this: ThreadFactoryUtil, runnable: ABRunnable) => {
-        return jm_getInstanceType(this, JR.cast(runnable), ABRunnable.jm_getType(runnable))
+        return jm_getInstanceType(this, JR.cast(runnable), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABRunnable.jm_getType"))
+JR.cast(jlate(JR.cast(runnable)))
+})
 }
     
 and jm_getInstanceType = (this: ThreadFactoryUtil, runnable: Runnable, type_: Int32) => {
@@ -101,10 +104,10 @@ JR.cast(jlate())
 let jlate: () => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.jstatic_TYPE"))
 JR.cast(jlate())
 }))) {
-                let mut demoGameSingleThreadStartRunnable: RunnableCanvasSingleThreadStartRunnable = RunnableCanvasSingleThreadStartRunnable.jnew_1(JR.cast(runnable))
+                let mut demoGameSingleThreadStartRunnable: RunnableCanvasSingleThreadStartRunnable = RunnableCanvasSingleThreadStartRunnable.jnew_1(JR.cast(JR.cast(runnable)))
                 ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Using Pseudo Thread for DemoCanvas/AllBinaryGameCanvas under PlayN/HTML5: "), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(runnable))))), JR.cast(this), JR.cast(commonStrings.f_CONSTRUCTOR)))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("Using Pseudo Thread for DemoCanvas/AllBinaryGameCanvas under PlayN/HTML5: "))), JR.cast(StringUtil.jm_toString(JR.cast(StringUtil.jm_getInstance()), JR.cast(runnable))))))), JR.cast(this), JR.cast(commonStrings.f_CONSTRUCTOR)))
 })
                 let mut primaryThreadPool: JObject = JR.cast(PrimaryThreadPool.jm_getInstance())
                 ignore({
@@ -114,7 +117,7 @@ JR.cast(jlate(JR.cast(primaryThreadPool), JR.cast(demoGameSingleThreadStartRunna
             } else {
                 ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Using Pseudo Thread for Runnable under PlayN/HTML5: "), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(runnable))))), JR.cast(this), JR.cast(commonStrings.f_CONSTRUCTOR)))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("Using Pseudo Thread for Runnable under PlayN/HTML5: "))), JR.cast(StringUtil.jm_toString(JR.cast(StringUtil.jm_getInstance()), JR.cast(runnable))))))), JR.cast(this), JR.cast(commonStrings.f_CONSTRUCTOR)))
 })
                 let mut primaryThreadPool: JObject = JR.cast(PrimaryThreadPool.jm_getInstance())
                 ignore({
@@ -123,10 +126,10 @@ JR.cast(jlate(JR.cast(primaryThreadPool), JR.cast(runnable)))
 })
             }
         }
-        let mut thread: Thread = Thread.jnew_2(runnable, Runnable.jm_toString_0(runnable))
+        let mut thread: Thread = Thread.jnew_2(runnable, JR.toStringOf(runnable))
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(Thread.jm_toString_0(thread)), JR.cast(this), JR.cast(commonStrings.f_CONSTRUCTOR)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(JR.toStringOf(thread)), JR.cast(this), JR.cast(commonStrings.f_CONSTRUCTOR)))
 })
         return thread
 }

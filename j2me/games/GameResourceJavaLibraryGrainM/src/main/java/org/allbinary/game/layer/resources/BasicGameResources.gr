@@ -33,6 +33,14 @@ from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUti
 use StringUtil.{ type StringUtil }
 from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
 use CommonStrings.{ type CommonStrings }
+from "../../../../../java/lang/Integer.gr" include Integer
+from "../../../../../java/lang/Long.gr" include Long
+from "../../../../../java/lang/Short.gr" include Short
+from "../../../../../java/lang/Byte.gr" include Byte
+from "../../../../../java/lang/Character.gr" include Character
+from "../../../../../java/lang/Float.gr" include Float
+from "../../../../../java/lang/Double.gr" include Double
+from "../../../../../java/lang/Boolean.gr" include Boolean
 from "./GameGraphicsResourceUtil.gr" include GameGraphicsResourceUtil
 use GameGraphicsResourceUtil.{ type GameGraphicsResourceUtil }
 
@@ -50,7 +58,7 @@ provide let rec jclassName = () => "BasicGameResources"
 and jstatic_stringBuffer = () => match (jcell_stringBuffer) {
   Some(value) => value,
   None => {
-    let value: StringMaker = StringMaker.jnew_0()
+    let value: StringMaker = JR.cast(StringMaker.jnew_0())
     jcell_stringBuffer = Some(value)
     value
   },
@@ -61,7 +69,7 @@ and jset_stringBuffer = (value: StringMaker) => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("BasicGameResources"), f_logUtil: JR.jnull, f_RESOURCE: "", f_RESOURCE_DESTROY: "", }
+    let this = { jobject: JR.newJObject("BasicGameResources"), f_logUtil: JR.nullOf(), f_RESOURCE: "", f_RESOURCE_DESTROY: "", }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -74,12 +82,12 @@ JR.cast(jlate())
     
 and jm_init = (this: BasicGameResources, l_ROOT: String, l_SIZE: Array<String>) => {
         {
-            let mut scale: Int32 = JR.className(JR.cast({
+            let mut scale: Int32 = Integer.jm_intValue(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getValue"))
 JR.cast(jlate(JR.cast(GameConfigurationCentral.jm_getInstance().f_SCALE)))
 }))
             if ((Int32.(>)(scale, 1l) && Int32.(<)(Int32.(-)(scale, 1l), Int32.fromNumber(Array.length(l_SIZE))))) {
-                ignore(jm_append(this, l_ROOT, l_SIZE[Int32.toNumber(Int32.(-)(scale, 1l))]))
+                ignore(jm_append(this, JR.cast(l_ROOT), JR.cast(l_SIZE[Int32.toNumber(Int32.(-)(scale, 1l))])))
             } else {
                 fail JR.toStringOf(JR.newJObject("Exception"))
             }
@@ -89,21 +97,24 @@ JR.cast(jlate(JR.cast(GameConfigurationCentral.jm_getInstance().f_SCALE)))
 and jm_append = (this: BasicGameResources, l_ROOT: String, sizeString: String) => {
         let mut l_DESTROY: String = "_destroy"
         let mut string: String = jm_getString(this)
-        ignore(StringMaker.jm_delete(jstatic_stringBuffer(), 0l, StringMaker.jm_length(jstatic_stringBuffer())))
-        ignore(StringMaker.jm_append(jstatic_stringBuffer(), l_ROOT))
-        ignore(StringMaker.jm_append(jstatic_stringBuffer(), string))
-        ignore(StringMaker.jm_append(jstatic_stringBuffer(), sizeString))
-        this.f_RESOURCE = StringMaker.jm_toString(jstatic_stringBuffer())
-        ignore(StringMaker.jm_delete(jstatic_stringBuffer(), 0l, StringMaker.jm_length(jstatic_stringBuffer())))
-        ignore(StringMaker.jm_append(jstatic_stringBuffer(), l_ROOT))
-        ignore(StringMaker.jm_append(jstatic_stringBuffer(), l_DESTROY))
-        ignore(StringMaker.jm_append(jstatic_stringBuffer(), string))
-        ignore(StringMaker.jm_append(jstatic_stringBuffer(), sizeString))
-        this.f_RESOURCE_DESTROY = StringMaker.jm_toString(jstatic_stringBuffer())
+        ignore(StringMaker.jm_delete(JR.cast(jstatic_stringBuffer()), 0l, StringMaker.jm_length(JR.cast(jstatic_stringBuffer()))))
+        ignore(StringMaker.jm_append(JR.cast(jstatic_stringBuffer()), JR.cast(l_ROOT)))
+        ignore(StringMaker.jm_append(JR.cast(jstatic_stringBuffer()), JR.cast(string)))
+        ignore(StringMaker.jm_append(JR.cast(jstatic_stringBuffer()), JR.cast(sizeString)))
+        this.f_RESOURCE = StringMaker.jm_toString(JR.cast(jstatic_stringBuffer()))
+        ignore(StringMaker.jm_delete(JR.cast(jstatic_stringBuffer()), 0l, StringMaker.jm_length(JR.cast(jstatic_stringBuffer()))))
+        ignore(StringMaker.jm_append(JR.cast(jstatic_stringBuffer()), JR.cast(l_ROOT)))
+        ignore(StringMaker.jm_append(JR.cast(jstatic_stringBuffer()), JR.cast(l_DESTROY)))
+        ignore(StringMaker.jm_append(JR.cast(jstatic_stringBuffer()), JR.cast(string)))
+        ignore(StringMaker.jm_append(JR.cast(jstatic_stringBuffer()), JR.cast(sizeString)))
+        this.f_RESOURCE_DESTROY = StringMaker.jm_toString(JR.cast(jstatic_stringBuffer()))
 }
     
 and jm_getString = (this: BasicGameResources) => {
-        return GameGraphicsResourceUtil.jm_getName(GameGraphicsResourceUtil.jm_getInstance())
+        return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameGraphicsResourceUtil.jm_getName"))
+JR.cast(jlate(JR.cast(GameGraphicsResourceUtil.jm_getInstance())))
+}
 }
 
 JR.registerLateBound("BasicGameResources.jnew_0", jnew_0)

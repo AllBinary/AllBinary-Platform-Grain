@@ -39,7 +39,7 @@ provide record PreciseConstantVelocityMovement {
 provide let rec jclassName = () => "PreciseConstantVelocityMovement"
     
 and jnew_2 = (basicDecimal: BasicDecimal, velocityProperties: BasicVelocityProperties) => {
-    let this = { jobject: JR.newJObject("PreciseConstantVelocityMovement"), f_velocityProperties: JR.jnull, f_speedBasicDecimal: JR.jnull, f_axisMathVectorUtil: JR.jnull, f_accumulatedX: 0l, f_accumulatedY: 0l, f_accumulatedZ: 0l, f_factorValue: 0l, }
+    let this = { jobject: JR.newJObject("PreciseConstantVelocityMovement"), f_velocityProperties: JR.nullOf(), f_speedBasicDecimal: JR.nullOf(), f_axisMathVectorUtil: JR.nullOf(), f_accumulatedX: 0l, f_accumulatedY: 0l, f_accumulatedZ: 0l, f_factorValue: 0l, }
     
     
     
@@ -58,33 +58,25 @@ and jm_process = (this: PreciseConstantVelocityMovement, layer: AllBinaryGameLay
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicConstantVelocityMovement.jm_getVelocityProperties"))
 JR.cast(jlate(JR.cast(this)))
 })
-        this.f_accumulatedX = Int32.fromNumber(Int64.toNumber((Int64.(+)(Int64.fromNumber(Int32.toNumber(this.f_accumulatedX)), {
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_getUnscaled"))
-JR.cast(jlate(JR.cast(BasicVelocityProperties.jm_getVelocityXBasicDecimalP(velocityProperties))))
-}))))
-        this.f_accumulatedY = Int32.fromNumber(Int64.toNumber((Int64.(+)(Int64.fromNumber(Int32.toNumber(this.f_accumulatedY)), {
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_getUnscaled"))
-JR.cast(jlate(JR.cast(BasicVelocityProperties.jm_getVelocityYBasicDecimalP(velocityProperties))))
-}))))
-        this.f_accumulatedZ = Int32.fromNumber(Int64.toNumber((Int64.(+)(Int64.fromNumber(Int32.toNumber(this.f_accumulatedZ)), {
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_getUnscaled"))
-JR.cast(jlate(JR.cast(BasicVelocityProperties.jm_getVelocityZBasicDecimalP(velocityProperties))))
-}))))
+        this.f_accumulatedX = Int32.fromNumber(Int64.toNumber((Int64.(+)(Int64.fromNumber(Int32.toNumber(this.f_accumulatedX)), BasicDecimal.jm_getUnscaled(JR.cast(BasicVelocityProperties.jm_getVelocityXBasicDecimalP(JR.cast(velocityProperties))))))))
+        this.f_accumulatedY = Int32.fromNumber(Int64.toNumber((Int64.(+)(Int64.fromNumber(Int32.toNumber(this.f_accumulatedY)), BasicDecimal.jm_getUnscaled(JR.cast(BasicVelocityProperties.jm_getVelocityYBasicDecimalP(JR.cast(velocityProperties))))))))
+        this.f_accumulatedZ = Int32.fromNumber(Int64.toNumber((Int64.(+)(Int64.fromNumber(Int32.toNumber(this.f_accumulatedZ)), BasicDecimal.jm_getUnscaled(JR.cast(BasicVelocityProperties.jm_getVelocityZBasicDecimalP(JR.cast(velocityProperties))))))))
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_moveDXYZ"))
 JR.cast(jlate(JR.cast(layer), JR.cast(Int32.(/)(this.f_accumulatedX, this.f_factorValue)), JR.cast(Int32.(/)(this.f_accumulatedY, this.f_factorValue)), JR.cast(Int32.(/)(this.f_accumulatedZ, this.f_factorValue))))
 })
-        if (Int32.(>)(MathUtil.jm_abs(mathUtil, this.f_accumulatedX), this.f_factorValue)) {
+        if (Int32.(>)(MathUtil.jm_abs(JR.cast(mathUtil), this.f_accumulatedX), this.f_factorValue)) {
             this.f_accumulatedX = 0l
         }
-        if (Int32.(>)(MathUtil.jm_abs(mathUtil, this.f_accumulatedY), this.f_factorValue)) {
+        if (Int32.(>)(MathUtil.jm_abs(JR.cast(mathUtil), this.f_accumulatedY), this.f_factorValue)) {
             this.f_accumulatedY = 0l
         }
-        if (Int32.(>)(MathUtil.jm_abs(mathUtil, this.f_accumulatedZ), this.f_factorValue)) {
+        if (Int32.(>)(MathUtil.jm_abs(JR.cast(mathUtil), this.f_accumulatedZ), this.f_factorValue)) {
             this.f_accumulatedZ = 0l
         }
 }
 
+JR.registerSuper("PreciseConstantVelocityMovement", "BasicConstantVelocityMovement")
 JR.registerLateBound("PreciseConstantVelocityMovement.jnew_2", jnew_2)
 JR.registerLateBound("PreciseConstantVelocityMovement.jm_init", jm_init)
 JR.registerLateBound("PreciseConstantVelocityMovement.jm_process", jm_process)

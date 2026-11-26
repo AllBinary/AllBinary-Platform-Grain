@@ -74,7 +74,7 @@ and jset_SEQUENCE_AI = (value: String) => {
 }
     
 and jnew_3 = (artificialIntelligenceInterfaceArray: Array<ArtificialIntelligenceInterface>, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
-    let this = { jobject: JR.newJObject("SequenceAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_artificialIntelligenceInterfaceArray: [> ], f_index: 0l, }
+    let this = { jobject: JR.newJObject("SequenceAI"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_ownerLayerInterface: JR.nullOf(), f_gameInput: JR.nullOf(), f_lastKey: 0l, f_artificialIntelligenceInterfaceArray: [> ], f_index: 0l, }
     this.jobject.toStringFunction = () => jm_toString(this)
     
         void
@@ -94,9 +94,9 @@ JR.cast(jlate(JR.cast(this)))
 and jm_next = (this: SequenceAI) => {
         this.f_index = Int32.(+)(this.f_index, 1l)
         let mut artificialIntelligenceInterface: ArtificialIntelligenceInterface = JR.cast(jm_getSelectedArtificialIntelligenceInterface(this))
-        if ((ArtificialIntelligenceInterface.jm_getId(artificialIntelligenceInterface) == ArtificialIntelligence.jstatic_AI_ID())) {
+        if ((ArtificialIntelligenceInterface.jm_getId(JR.cast(artificialIntelligenceInterface)) == ArtificialIntelligence.jstatic_AI_ID())) {
             let mut artificialIntelligenceTransitionInterface: ArtificialIntelligenceTransitionInterface = JR.cast(artificialIntelligenceInterface)
-            ignore(ArtificialIntelligenceTransitionInterface.jm_transition(artificialIntelligenceTransitionInterface))
+            ignore(ArtificialIntelligenceTransitionInterface.jm_transition(JR.cast(artificialIntelligenceTransitionInterface)))
         }
 }
     
@@ -121,12 +121,13 @@ and jm_getName = (this: SequenceAI) => {
     
 and jm_toString = (this: SequenceAI) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, jm_toString(this)))
-        ignore(StringMaker.jm_append(stringBuffer, " Selected AI: "))
-        ignore(StringMaker.jm_append(stringBuffer, StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(jm_getSelectedArtificialIntelligenceInterface(this)))))
-        return StringMaker.jm_toString(stringBuffer)
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jm_toString(this))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" Selected AI: ")))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(StringUtil.jm_toString(JR.cast(StringUtil.jm_getInstance()), JR.cast(jm_getSelectedArtificialIntelligenceInterface(this))))))
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
+JR.registerSuper("SequenceAI", "ArrayAI")
 JR.registerLateBound("SequenceAI.jnew_3", jnew_3)
 JR.registerLateBound("SequenceAI.jm_processAI", jm_processAI)
 JR.registerLateBound("SequenceAI.jm_next", jm_next)

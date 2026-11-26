@@ -58,7 +58,7 @@ and jnew_2 = (basicDecimal: BasicDecimal, velocityProperties: BasicVelocityPrope
     
     this.f_speedBasicDecimal = JR.cast(BasicDecimal.jstatic_ZERO_BIGDECIMAL())
     this.f_axisMathVectorUtil = JR.cast(AxisMathVectorUtil.jm_getInstance())
-        ignore(jm_setSpeedBasicDecimal(this, basicDecimal))
+        ignore(jm_setSpeedBasicDecimal(this, JR.cast(basicDecimal)))
         this.f_velocityProperties = JR.cast(velocityProperties)
     this
 }
@@ -66,15 +66,15 @@ and jnew_2 = (basicDecimal: BasicDecimal, velocityProperties: BasicVelocityPrope
 and jm_init = (this: BasicConstantVelocityMovement, speedBasicDecimal: BasicDecimal, angle: Int32, otherAngle: Int32) => {
         this.f_speedBasicDecimal = JR.cast(speedBasicDecimal)
         let mut angleFactory: AngleFactory = JR.cast(AngleFactory.jm_getInstance())
-        ignore(BasicVelocityProperties.jm_setVelocityWithBigDecimal(this.f_velocityProperties, speedBasicDecimal, JR.cast(AngleFactory.jm_getAt(angleFactory, angle)), JR.cast(AngleFactory.jm_getAt(angleFactory, otherAngle))))
+        ignore(BasicVelocityProperties.jm_setVelocityWithBigDecimal(JR.cast(this.f_velocityProperties), JR.cast(speedBasicDecimal), JR.cast(AngleFactory.jm_getAt(JR.cast(angleFactory), angle)), JR.cast(AngleFactory.jm_getAt(JR.cast(angleFactory), otherAngle))))
 }
     
 and jm_moveOutsideRadius = (this: BasicConstantVelocityMovement, layer: AllBinaryLayer, radius: Int64, angle: Int32, otherAngle: Int32) => {
-        let mut scaleFactorValue: Int32 = BasicDecimal.jm_getScaledFactorValue(this.f_speedBasicDecimal)
-        let mut xVector: Int32 = Int32.fromNumber(Int64.toNumber((Int64.(/)(AxisMathVectorUtil.jm_calculateX(this.f_axisMathVectorUtil, radius, angle), Int64.fromNumber(Int32.toNumber(scaleFactorValue))))))
-        let mut yVector: Int32 = Int32.fromNumber(Int64.toNumber((Int64.(/)(AxisMathVectorUtil.jm_calculateY(this.f_axisMathVectorUtil, radius, angle), Int64.fromNumber(Int32.toNumber(scaleFactorValue))))))
-        let mut zVector: Int32 = Int32.fromNumber(Int64.toNumber((Int64.(/)(AxisMathVectorUtil.jm_calculateZ(this.f_axisMathVectorUtil, radius, otherAngle), Int64.fromNumber(Int32.toNumber(scaleFactorValue))))))
-        ignore(AllBinaryLayer.jm_moveDXYZ(layer, xVector, yVector, zVector))
+        let mut scaleFactorValue: Int32 = BasicDecimal.jm_getScaledFactorValue(JR.cast(this.f_speedBasicDecimal))
+        let mut xVector: Int32 = Int32.fromNumber(Int64.toNumber((Int64.(/)(AxisMathVectorUtil.jm_calculateX(JR.cast(this.f_axisMathVectorUtil), radius, angle), Int64.fromNumber(Int32.toNumber(scaleFactorValue))))))
+        let mut yVector: Int32 = Int32.fromNumber(Int64.toNumber((Int64.(/)(AxisMathVectorUtil.jm_calculateY(JR.cast(this.f_axisMathVectorUtil), radius, angle), Int64.fromNumber(Int32.toNumber(scaleFactorValue))))))
+        let mut zVector: Int32 = Int32.fromNumber(Int64.toNumber((Int64.(/)(AxisMathVectorUtil.jm_calculateZ(JR.cast(this.f_axisMathVectorUtil), radius, otherAngle), Int64.fromNumber(Int32.toNumber(scaleFactorValue))))))
+        ignore(AllBinaryLayer.jm_moveDXYZ(JR.cast(layer), xVector, yVector, zVector))
 }
     
 and jm_process = (this: BasicConstantVelocityMovement, layer: AllBinaryGameLayer) => {
@@ -82,23 +82,23 @@ and jm_process = (this: BasicConstantVelocityMovement, layer: AllBinaryGameLayer
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayer.jm_moveDXYZ"))
 JR.cast(jlate(JR.cast(layer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_getScaled"))
-JR.cast(jlate(JR.cast(BasicVelocityProperties.jm_getVelocityXBasicDecimalP(this.f_velocityProperties))))
+JR.cast(jlate(JR.cast(BasicVelocityProperties.jm_getVelocityXBasicDecimalP(JR.cast(this.f_velocityProperties)))))
 }), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_getScaled"))
-JR.cast(jlate(JR.cast(BasicVelocityProperties.jm_getVelocityYBasicDecimalP(this.f_velocityProperties))))
+JR.cast(jlate(JR.cast(BasicVelocityProperties.jm_getVelocityYBasicDecimalP(JR.cast(this.f_velocityProperties)))))
 }), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_getScaled"))
-JR.cast(jlate(JR.cast(BasicVelocityProperties.jm_getVelocityZBasicDecimalP(this.f_velocityProperties))))
+JR.cast(jlate(JR.cast(BasicVelocityProperties.jm_getVelocityZBasicDecimalP(JR.cast(this.f_velocityProperties)))))
 })))
 })
 }
     
 and jm_toString = (this: BasicConstantVelocityMovement) => {
-        return BasicVelocityProperties.jm_toString(this.f_velocityProperties)
+        return BasicVelocityProperties.jm_toString(JR.cast(this.f_velocityProperties))
 }
     
 and jm_stop = (this: BasicConstantVelocityMovement) => {
-        ignore(BasicVelocityProperties.jm_zero(this.f_velocityProperties))
+        ignore(BasicVelocityProperties.jm_zero(JR.cast(this.f_velocityProperties)))
 }
     
 and jm_getVelocityProperties = (this: BasicConstantVelocityMovement) => {
@@ -117,6 +117,7 @@ and jm_getSpeedBasicDecimal = (this: BasicConstantVelocityMovement) => {
         return this.f_speedBasicDecimal
 }
 
+JR.registerSuper("BasicConstantVelocityMovement", "Movement")
 JR.registerLateBound("BasicConstantVelocityMovement.jnew_2", jnew_2)
 JR.registerLateBound("BasicConstantVelocityMovement.jm_init", jm_init)
 JR.registerLateBound("BasicConstantVelocityMovement.jm_moveOutsideRadius", jm_moveOutsideRadius)

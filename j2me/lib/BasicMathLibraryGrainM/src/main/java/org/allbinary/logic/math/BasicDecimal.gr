@@ -44,7 +44,7 @@ provide let rec jclassName = () => "BasicDecimal"
 and jstatic_ZERO_BIGDECIMAL = () => match (jcell_ZERO_BIGDECIMAL) {
   Some(value) => value,
   None => {
-    let value: BasicDecimal = jnew_1(0L)
+    let value: BasicDecimal = JR.cast(jnew_1(0L))
     jcell_ZERO_BIGDECIMAL = Some(value)
     value
   },
@@ -63,8 +63,14 @@ and jnew_1 = (units: Int64) => {
     this.jobject.toStringFunction = () => jm_toString(this)
     
     
-    this.f_factor = ScaleFactorFactory.jm_getInstance().f_DEFAULT_SCALE_FACTOR
-    this.f_factorValue = ScaleFactorFactory.jm_getInstance().f_DEFAULT_SCALE_VALUE
+    this.f_factor = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ScaleFactorFactory.f_DEFAULT_SCALE_FACTOR"))
+JR.cast(jlate(JR.cast(ScaleFactorFactory.jm_getInstance())))
+}
+    this.f_factorValue = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ScaleFactorFactory.f_DEFAULT_SCALE_VALUE"))
+JR.cast(jlate(JR.cast(ScaleFactorFactory.jm_getInstance())))
+}
         this.f_units = units
         ignore(jm_updateScaled(this))
     this

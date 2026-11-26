@@ -57,6 +57,8 @@ from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
 use BasicArrayList.{ type BasicArrayList }
 from "../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
 use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 from "./ScoreComparator.gr" include ScoreComparator
 use ScoreComparator.{ type ScoreComparator }
 
@@ -85,13 +87,13 @@ provide let rec jclassName = () => "RecordStoreHighScores"
 and jstatic_hashTable = () => match (jcell_hashTable) {
   Some(value) => value,
   None => {
-    let value: JObject = {
+    let value: JObject = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashtable"))
 JR.cast(jlate(JR.cast({
-let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance_0"))
 JR.cast(jlate())
 })))
-}
+})
     jcell_hashTable = Some(value)
     value
   },
@@ -102,16 +104,16 @@ and jset_hashTable = (value: JObject) => {
 }
     
 and jnew_6 = (abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, name: String, heading: String, columnTwoHeading: String, recordComparatorInterface: JObject) => {
-    let this = { jobject: JR.newJObject("RecordStoreHighScores"), f_orderedHighScoresList: JR.jnull, f_name: "", f_heading: "", f_columnOneHeading: "", f_columnTwoHeading: "", f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_platformRecordIdUtil: JR.nullOf(), f_tsUtil: JR.jnull, f_RECORD_ID: "", f_MAXHIGHSCORES: 0l, f_gameInfo: JR.nullOf(), f_abeClientInformation: JR.nullOf(), f_recordComparatorInterface: JR.jnull, }
+    let this = { jobject: JR.newJObject("RecordStoreHighScores"), f_orderedHighScoresList: JR.nullOf(), f_name: "", f_heading: "", f_columnOneHeading: "", f_columnTwoHeading: "", f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_platformRecordIdUtil: JR.nullOf(), f_tsUtil: JR.nullOf(), f_RECORD_ID: "", f_MAXHIGHSCORES: 0l, f_gameInfo: JR.nullOf(), f_abeClientInformation: JR.nullOf(), f_recordComparatorInterface: JR.nullOf(), }
     this.jobject.toStringFunction = () => jm_toString(this)
     this.f_logUtil = JR.cast({
-let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance_0"))
 JR.cast(jlate())
 })
     this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
     this.f_platformRecordIdUtil = JR.cast(PlatformRecordIdUtil.jm_getInstance())
     this.f_tsUtil = JR.cast({
-let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
+let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance_0"))
 JR.cast(jlate())
 })
     this.f_RECORD_ID = "_HS"
@@ -133,7 +135,7 @@ let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_
 JR.cast(jlate(JR.cast(jstatic_hashTable()), JR.cast(JR.cast(highScoreName))))
 })
         if (JR.isNull(highScoresCanBeNull)) {
-            let mut highScores: JObject = JR.cast(jnew_6(abeClientInformation, gameInfo, highScoreName, heading, columnTwoHeading, recordComparatorInterface))
+            let mut highScores: JObject = JR.cast(jnew_6(JR.cast(abeClientInformation), JR.cast(gameInfo), highScoreName, heading, columnTwoHeading, JR.cast(recordComparatorInterface)))
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
 JR.cast(jlate(JR.cast(jstatic_hashTable()), JR.cast({
@@ -147,10 +149,10 @@ JR.cast(jlate(JR.cast(highScores)))
 }
     
 and jm_getRecordId = (this: RecordStoreHighScores, abeClientInformation: AbeClientInformationInterface) => {
-        return PlatformRecordIdUtil.jm_getRecordId(this.f_platformRecordIdUtil, abeClientInformation, StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), CommonSeps.jm_getInstance().f_UNDERSCORE), {
+        return PlatformRecordIdUtil.jm_getRecordId(JR.cast(this.f_platformRecordIdUtil), JR.cast(abeClientInformation), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(CommonSeps.jm_getInstance().f_UNDERSCORE))), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getName"))
 JR.cast(jlate(JR.cast(this)))
-}), this.f_RECORD_ID)))
+}))), JR.cast(this.f_RECORD_ID))))))
 }
     
 and jm_addHighScore = (this: RecordStoreHighScores, newHighScore: JObject) => {
@@ -158,10 +160,10 @@ and jm_addHighScore = (this: RecordStoreHighScores, newHighScore: JObject) => {
         {
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendlong(StringMaker.jm_append(StringMaker.jnew_0(), "Adding HighScore: "), {
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendlong(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("Adding HighScore: "))), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_getScore"))
 JR.cast(jlate(JR.cast(newHighScore)))
-}))), JR.cast(this), JR.cast(this.f_commonStrings.f_ADD)))
+})))), JR.cast(this), JR.cast(this.f_commonStrings.f_ADD)))
 })
             if (jm_isTooManyHighScores(this)) {
                 ignore({
@@ -172,7 +174,7 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Removing Lowest Score"), JR.cast
             }
             recordStore = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_openRecordStore"))
-JR.cast(jlate(JR.cast(jm_getRecordId(this, this.f_abeClientInformation)), JR.cast(true)))
+JR.cast(jlate(JR.cast(jm_getRecordId(this, JR.cast(this.f_abeClientInformation))), JR.cast(true)))
 })
             let mut highScoreBytes: Array<Int32> = {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_getAsBytes"))
@@ -205,7 +207,7 @@ and jm_removeLowestHighScore = (this: RecordStoreHighScores) => {
         {
             recordStore = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_openRecordStore"))
-JR.cast(jlate(JR.cast(jm_getRecordId(this, this.f_abeClientInformation)), JR.cast(true)))
+JR.cast(jlate(JR.cast(jm_getRecordId(this, JR.cast(this.f_abeClientInformation))), JR.cast(true)))
 })
             let mut recordEnum: RecordEnumeration = JR.cast({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_enumerateRecords"))
@@ -214,13 +216,16 @@ JR.cast(jlate(JR.cast(recordStore), JR.cast(NullRecordFilter.jstatic_NULL_RECORD
             let mut scoreComparator: ScoreComparator = (JR.cast(this.f_recordComparatorInterface))
             let mut bestHighScore: JObject = {
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("HighScore.jnew_4"))
-JR.cast(jlate(JR.cast(Int32.(-)(1l, Int32.(+)(1l, 1l))), JR.cast("none"), JR.cast(GameInfo.jstatic_NONE()), JR.cast(ScoreComparator.jm_getBestScore(scoreComparator))))
+JR.cast(jlate(JR.cast(Int32.(-)(1l, Int32.(+)(1l, 1l))), JR.cast("none"), JR.cast(GameInfo.jstatic_NONE()), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ScoreComparator.jm_getBestScore"))
+JR.cast(jlate(JR.cast(scoreComparator)))
+})))
 }
             let mut recordAsBytes: Array<Int32> = [> ]
             let mut byteArrayInputStream: ByteArrayInputStream = JR.nullOf()
             let mut inputStream: DataInputStream = JR.nullOf()
-            while (RecordEnumeration.jm_hasNextElement(recordEnum)) {
-                let mut id: Int32 = RecordEnumeration.jm_nextRecordId(recordEnum)
+            while (RecordEnumeration.jm_hasNextElement(JR.cast(recordEnum))) {
+                let mut id: Int32 = RecordEnumeration.jm_nextRecordId(JR.cast(recordEnum))
                 recordAsBytes = {
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_getRecord"))
 JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(recordStore), JR.cast(id)))
@@ -257,10 +262,10 @@ JR.cast(jlate(JR.cast(bestHighScore)))
 } != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendlong(StringMaker.jm_append(StringMaker.jnew_0(), "Removing Lowest HighScore: "), {
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendlong(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("Removing Lowest HighScore: "))), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_getScore"))
 JR.cast(jlate(JR.cast(bestHighScore)))
-}))), JR.cast(this), JR.cast(this.f_commonStrings.f_LOAD)))
+})))), JR.cast(this), JR.cast(this.f_commonStrings.f_LOAD)))
 })
                 ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_deleteRecord"))
@@ -292,7 +297,7 @@ and jm_load = (this: RecordStoreHighScores) => {
         {
             recordStore = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_openRecordStore"))
-JR.cast(jlate(JR.cast(jm_getRecordId(this, this.f_abeClientInformation)), JR.cast(true)))
+JR.cast(jlate(JR.cast(jm_getRecordId(this, JR.cast(this.f_abeClientInformation))), JR.cast(true)))
 })
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_setList"))
@@ -305,8 +310,8 @@ JR.cast(jlate(JR.cast(recordStore), JR.cast(NullRecordFilter.jstatic_NULL_RECORD
             let mut recordAsBytes: Array<Int32> = [> ]
             let mut byteArrayInputStream: ByteArrayInputStream = JR.nullOf()
             let mut inputStream: DataInputStream = JR.nullOf()
-            while (RecordEnumeration.jm_hasNextElement(recordEnum)) {
-                let mut id: Int32 = RecordEnumeration.jm_nextRecordId(recordEnum)
+            while (RecordEnumeration.jm_hasNextElement(JR.cast(recordEnum))) {
+                let mut id: Int32 = RecordEnumeration.jm_nextRecordId(JR.cast(recordEnum))
                 recordAsBytes = {
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_getRecord"))
 JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(recordStore), JR.cast(id)))
@@ -325,7 +330,7 @@ JR.cast(jlate(JR.cast(id), JR.cast(name), JR.cast(GameInfo.jstatic_NONE()), JR.c
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getList"))
 JR.cast(jlate(JR.cast(this)))
 })
-                        let mut size: Int32 = BasicArrayList.jm_size(list)
+                        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
                         let mut lastIndex: Int32 = size
                         {
                             let mut index: Int32 = 0l
@@ -355,7 +360,7 @@ JR.cast(jlate())
                             }
                             }
                         }
-                        ignore(BasicArrayList.jm_addAt(list, lastIndex, JR.cast(newHighScore)))
+                        ignore(BasicArrayList.jm_addAt(JR.cast(list), lastIndex, JR.cast(newHighScore)))
                     }
                 }
             }
@@ -391,7 +396,7 @@ JR.cast(jlate(JR.cast(this)))
         } else {
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), "HighScores RecordStore Max Reached: "), this.f_MAXHIGHSCORES))), JR.cast(this), JR.cast("isTooManyHighScores")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("HighScores RecordStore Max Reached: "))), this.f_MAXHIGHSCORES)))), JR.cast(this), JR.cast("isTooManyHighScores")))
 })
             return true
         }
@@ -410,7 +415,7 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Slot Available for a High Score"
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getList"))
 JR.cast(jlate(JR.cast(this)))
 })
-                let mut size: Int32 = BasicArrayList.jm_size(list)
+                let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
                 {
                     let mut index: Int32 = 0l
                     let mut jfirst = true
@@ -454,12 +459,12 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Not a High Score"), JR.cast(this
     
 and jm_toString = (this: RecordStoreHighScores) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, jm_toString(this)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jm_toString(this))))
         let mut list: BasicArrayList = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getList"))
 JR.cast(jlate(JR.cast(this)))
 })
-        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -470,16 +475,17 @@ JR.cast(jlate(JR.cast(this)))
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             let mut highScore: JObject = JR.cast(list.f_objectArray[Int32.toNumber(index)])
-            ignore(StringMaker.jm_append(stringBuffer, {
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_getScoreString"))
 JR.cast(jlate(JR.cast(highScore)))
-}))
-            ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_COMMA_SEP))
+})))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonSeps.jm_getInstance().f_COMMA_SEP)))
             }
         }
-        return StringMaker.jm_toString(stringBuffer)
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
+JR.registerSuper("RecordStoreHighScores", "HighScores")
 JR.registerLateBound("RecordStoreHighScores.jnew_6", jnew_6)
 JR.registerLateBound("RecordStoreHighScores.jm_getInstance", jm_getInstance)
 JR.registerLateBound("RecordStoreHighScores.jm_getRecordId", jm_getRecordId)

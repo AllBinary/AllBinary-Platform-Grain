@@ -82,7 +82,7 @@ and jset_HASHCODE = (value: String) => {
 }
     
 and jnew_3 = (source: JObject, id: Int32, motionGesture: MotionGestureInput) => {
-    let this = { jobject: JR.newJObject("MotionGestureEvent"), f_source: JR.jnull, f_motionGesture: JR.nullOf(), f_id: 0l, f_previousPoint: JR.nullOf(), f_currentPoint: JR.nullOf(), f_commonLabels: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("MotionGestureEvent"), f_source: JR.nullOf(), f_motionGesture: JR.nullOf(), f_id: 0l, f_previousPoint: JR.nullOf(), f_currentPoint: JR.nullOf(), f_commonLabels: JR.nullOf(), }
     this.jobject.toStringFunction = () => jm_toString(this)
     this.f_motionGesture = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.f_NO_MOTION"))
@@ -97,7 +97,7 @@ JR.cast(jlate())
     this.f_commonLabels = JR.cast(CommonLabels.jm_getInstance())
         void
         this.f_id = id
-        ignore(jm_setMotionGesture(this, motionGesture))
+        ignore(jm_setMotionGesture(this, JR.cast(motionGesture)))
     this
 }
     
@@ -128,26 +128,27 @@ and jm_setCurrentPoint = (this: MotionGestureEvent, currentPoint: GPoint) => {
 and jm_toString = (this: MotionGestureEvent) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
         let mut stringUtil: StringUtil = JR.cast(StringUtil.jm_getInstance())
-        ignore(StringMaker.jm_append(stringBuffer, StringUtil.jm_toString(stringUtil, JR.cast(this.f_motionGesture))))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_commonLabels.f_CURRENT))
-        ignore(StringMaker.jm_append(stringBuffer, StringUtil.jm_toString(stringUtil, JR.cast(this.f_currentPoint))))
-        ignore(StringMaker.jm_append(stringBuffer, jstatic_PREVIOUS()))
-        ignore(StringMaker.jm_append(stringBuffer, StringUtil.jm_toString(stringUtil, JR.cast(this.f_previousPoint))))
-        ignore(StringMaker.jm_append(stringBuffer, jstatic_HASHCODE()))
-        ignore(StringMaker.jm_appendint(stringBuffer, {
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(StringUtil.jm_toString(JR.cast(stringUtil), JR.cast(this.f_motionGesture)))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_commonLabels.f_CURRENT)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(StringUtil.jm_toString(JR.cast(stringUtil), JR.cast(this.f_currentPoint)))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_PREVIOUS())))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(StringUtil.jm_toString(JR.cast(stringUtil), JR.cast(this.f_previousPoint)))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_HASHCODE())))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), {
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_hashCode"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
 JR.cast(jlate())
 }), JR.cast(this)))
 }))
-        return StringMaker.jm_toString(stringBuffer)
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
     
 and jm_getId = (this: MotionGestureEvent) => {
         return this.f_id
 }
 
+JR.registerSuper("MotionGestureEvent", "AllBinaryEventObject")
 JR.registerLateBound("MotionGestureEvent.jnew_3", jnew_3)
 JR.registerLateBound("MotionGestureEvent.jm_getMotionGesture", jm_getMotionGesture)
 JR.registerLateBound("MotionGestureEvent.jm_setMotionGesture", jm_setMotionGesture)

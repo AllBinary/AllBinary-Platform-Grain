@@ -58,7 +58,7 @@ provide record ColorCompositeSpriteIndexedAnimationFactory {
 provide let rec jclassName = () => "ColorCompositeSpriteIndexedAnimationFactory"
     
 and jnew_5 = (image: JObject, basicColorArray: Array<BasicColor>, width: Int32, height: Int32, animationBehaviorFactory: AnimationBehaviorFactory) => {
-    let this = { jobject: JR.newJObject("ColorCompositeSpriteIndexedAnimationFactory"), f_animationFactoryImageScaleUtil: JR.jnull, f_image: JR.jnull, f_animationBehaviorFactory: JR.jnull, f_sequenceArray: [> ], f_animationFactoryInitializationVisitor: JR.jnull, f_scaleProperties: JR.jnull, f_animationFactorySpriteScaleUtil: JR.nullOf(), f_basicColorArray: [> ], }
+    let this = { jobject: JR.newJObject("ColorCompositeSpriteIndexedAnimationFactory"), f_animationFactoryImageScaleUtil: JR.nullOf(), f_image: JR.nullOf(), f_animationBehaviorFactory: JR.nullOf(), f_sequenceArray: [> ], f_animationFactoryInitializationVisitor: JR.nullOf(), f_scaleProperties: JR.nullOf(), f_animationFactorySpriteScaleUtil: JR.nullOf(), f_basicColorArray: [> ], }
     this.f_animationFactorySpriteScaleUtil = JR.cast(AnimationFactorySpriteScaleUtil.jm_getInstance())
     
         void
@@ -67,7 +67,7 @@ and jnew_5 = (image: JObject, basicColorArray: Array<BasicColor>, width: Int32, 
 }
     
 and jm_getInstance = (this: ColorCompositeSpriteIndexedAnimationFactory, instanceId: Int32) => {
-        let mut sprite: JObject = JR.cast(AnimationFactorySpriteScaleUtil.jm_createImage(this.f_animationFactorySpriteScaleUtil, {
+        let mut sprite: JObject = JR.cast(AnimationFactorySpriteScaleUtil.jm_createImage(JR.cast(this.f_animationFactorySpriteScaleUtil), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseImageAnimationFactory.jm_getImage"))
 JR.cast(jlate(JR.cast(this)))
 }, {
@@ -83,16 +83,20 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_scaleProperties))))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ScaleProperties.f_scaleHeight"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_scaleProperties))))
 }))
-        return JR.cast(SpriteIndexedAnimation.jnew_4(sprite, JR.cast({
+        return JR.cast(SpriteIndexedAnimation.jnew_4(JR.cast(sprite), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseImageAnimationFactory.jm_getImage"))
 JR.cast(jlate(JR.cast(this)))
-}), this.f_basicColorArray, JR.cast(AnimationBehaviorFactory.jm_getOrCreateInstance(JR.cast(this.f_animationBehaviorFactory)))))
+}), JR.cast(this.f_basicColorArray), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationBehaviorFactory.jm_getOrCreateInstance"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationBehaviorFactory))))
+})))
 }
     
 and jm_getInstanceAnimation = (this: ColorCompositeSpriteIndexedAnimationFactory, animationInterface: Animation) => {
         return jm_getInstance(this, 0l)
 }
 
+JR.registerSuper("ColorCompositeSpriteIndexedAnimationFactory", "BaseImageAnimationFactory")
 JR.registerLateBound("ColorCompositeSpriteIndexedAnimationFactory.jnew_5", jnew_5)
 JR.registerLateBound("ColorCompositeSpriteIndexedAnimationFactory.jm_getInstance", jm_getInstance)
 JR.registerLateBound("ColorCompositeSpriteIndexedAnimationFactory.jm_getInstanceAnimation", jm_getInstanceAnimation)

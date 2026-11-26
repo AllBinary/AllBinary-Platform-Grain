@@ -57,6 +57,14 @@ from "../../../../../org/allbinary/logic/util/event/EventStrings.gr" include Eve
 use EventStrings.{ type EventStrings }
 from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
 use CommonStrings.{ type CommonStrings }
+from "../../../../../java/lang/Integer.gr" include Integer
+from "../../../../../java/lang/Long.gr" include Long
+from "../../../../../java/lang/Short.gr" include Short
+from "../../../../../java/lang/Byte.gr" include Byte
+from "../../../../../java/lang/Character.gr" include Character
+from "../../../../../java/lang/Float.gr" include Float
+from "../../../../../java/lang/Double.gr" include Double
+from "../../../../../java/lang/Boolean.gr" include Boolean
 from "./HudGraphicsPosition.gr" include HudGraphicsPosition
 use HudGraphicsPosition.{ type HudGraphicsPosition }
 from "./BasicHudFactory.gr" include BasicHudFactory
@@ -88,7 +96,7 @@ provide record BasicHud_1 {
 provide let rec jclassName = () => "BasicHud_1"
     
 and jnew_4 = (location: Int32, direction: Int32, bufferZone: Int32, basicColor: BasicColor) => {
-    let this = { jobject: JR.newJObject("BasicHud_1"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_canvasStrings: JR.nullOf(), f_basicSetColorUtil: JR.nullOf(), f_displayInfo: JR.nullOf(), f_updateMyFontProcessor: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_location: 0l, f_direction: 0l, f_bufferZone: 0l, f_hudGraphicsPosition: JR.nullOf(), f_x: 0l, f_y: 0l, f_basicColor: JR.nullOf(), f_color: 0l, f_updateMaxWidth: 0l, f_updateMaxHeight: 0l, f_offsetY: 0l, }
+    let this = { jobject: JR.newJObject("BasicHud_1"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_canvasStrings: JR.nullOf(), f_basicSetColorUtil: JR.nullOf(), f_displayInfo: JR.nullOf(), f_updateMyFontProcessor: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_location: 0l, f_direction: 0l, f_bufferZone: 0l, f_hudGraphicsPosition: JR.nullOf(), f_x: 0l, f_y: 0l, f_basicColor: JR.nullOf(), f_color: 0l, f_updateMaxWidth: 0l, f_updateMaxHeight: 0l, f_offsetY: 0l, }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -113,22 +121,28 @@ JR.cast(jlate())
         ignore(jm_setLocation(this, location))
         ignore(jm_setDirection(this, direction))
         ignore(jm_setBufferZone(this, bufferZone))
-        ignore(jm_onDisplayChangeEvent(this, DisplayInfoSingleton.jm_getInstance().f_displayChangeEvent))
-        ignore(jm_setBasicColorP(this, basicColor))
-        this.f_color = BasicColor.jm_intValue(basicColor)
+        ignore(jm_onDisplayChangeEvent(this, JR.cast(DisplayInfoSingleton.jm_getInstance().f_displayChangeEvent)))
+        ignore(jm_setBasicColorP(this, JR.cast(basicColor)))
+        this.f_color = BasicColor.jm_intValue(JR.cast(basicColor))
     this
 }
     
 and jm_updateMeasurement = (this: BasicHud_1, graphics: JObject) => {
         {
-            this.f_hudGraphicsPosition = JR.cast(jm_getHudGraphicsPositionWH(this, DisplayInfoSingleton.jm_getLastWidth(this.f_displayInfo), DisplayInfoSingleton.jm_getLastHeight(this.f_displayInfo), this.f_updateMaxWidth, this.f_updateMaxHeight))
+            this.f_hudGraphicsPosition = JR.cast(jm_getHudGraphicsPositionWH(this, DisplayInfoSingleton.jm_getLastWidth(JR.cast(this.f_displayInfo)), DisplayInfoSingleton.jm_getLastHeight(JR.cast(this.f_displayInfo)), this.f_updateMaxWidth, this.f_updateMaxHeight))
             this.f_x = {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getX"))
-JR.cast(jlate(JR.cast(HudGraphicsPosition.jm_getPoint(this.f_hudGraphicsPosition))))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HudGraphicsPosition.jm_getPoint"))
+JR.cast(jlate(JR.cast(this.f_hudGraphicsPosition)))
+})))
 }
             ignore(jm_setY(this, {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getY"))
-JR.cast(jlate(JR.cast(HudGraphicsPosition.jm_getPoint(this.f_hudGraphicsPosition))))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HudGraphicsPosition.jm_getPoint"))
+JR.cast(jlate(JR.cast(this.f_hudGraphicsPosition)))
+})))
 }))
         }
         this.f_myFontProcessor = JR.cast(MyFontProcessor.jm_getInstance())
@@ -147,7 +161,10 @@ and jm_getHudGraphicsPositionWH = (this: BasicHud_1, width: Int32, height: Int32
         let mut y: Int32 = 0l
         let mut anchor: Int32 = 0l
         let mut basicHudFactory: BasicHudFactory = JR.cast(BasicHudFactory.jm_getInstance())
-        if ((basicHudFactory.f_BOTTOMLEFT == jm_getLocation(this))) {
+        if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicHudFactory.f_BOTTOMLEFT"))
+JR.cast(jlate(JR.cast(basicHudFactory)))
+} == jm_getLocation(this))) {
             x = Int32.(+)(this.f_bufferZone, 2l)
             y = Int32.(-)(Int32.(-)(height, maxHeight), this.f_bufferZone)
             anchor = Int32.(&)({
@@ -157,7 +174,10 @@ JR.cast(jlate())
 let jlate: () => JObject = JR.cast(JR.lateBound("Graphics.jstatic_LEFT"))
 JR.cast(jlate())
 })
-        } else if ((basicHudFactory.f_BOTTOMRIGHT == jm_getLocation(this))) {
+        } else if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicHudFactory.f_BOTTOMRIGHT"))
+JR.cast(jlate(JR.cast(basicHudFactory)))
+} == jm_getLocation(this))) {
             x = Int32.(-)(width, maxWidth)
             y = Int32.(-)(Int32.(-)(height, maxHeight), this.f_bufferZone)
             anchor = Int32.(&)({
@@ -167,11 +187,17 @@ JR.cast(jlate())
 let jlate: () => JObject = JR.cast(JR.lateBound("Graphics.jstatic_RIGHT"))
 JR.cast(jlate())
 })
-        } else if ((basicHudFactory.f_TOPLEFT == jm_getLocation(this))) {
+        } else if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicHudFactory.f_TOPLEFT"))
+JR.cast(jlate(JR.cast(basicHudFactory)))
+} == jm_getLocation(this))) {
             x = Int32.(+)(this.f_bufferZone, 2l)
             y = Int32.(+)(this.f_bufferZone, 5l)
             anchor = Anchor.jstatic_TOP_LEFT()
-        } else if ((basicHudFactory.f_TOPRIGHT == jm_getLocation(this))) {
+        } else if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicHudFactory.f_TOPRIGHT"))
+JR.cast(jlate(JR.cast(basicHudFactory)))
+} == jm_getLocation(this))) {
             x = Int32.(-)(width, maxWidth)
             y = Int32.(+)(this.f_bufferZone, 5l)
             anchor = Int32.(&)({
@@ -181,7 +207,10 @@ JR.cast(jlate())
 let jlate: () => JObject = JR.cast(JR.lateBound("Graphics.jstatic_RIGHT"))
 JR.cast(jlate())
 })
-        } else if ((basicHudFactory.f_TOPCENTER == jm_getLocation(this))) {
+        } else if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicHudFactory.f_TOPCENTER"))
+JR.cast(jlate(JR.cast(basicHudFactory)))
+} == jm_getLocation(this))) {
             x = (Int32.(/)((Int32.(-)(width, maxWidth)), 2l))
             y = Int32.(+)(this.f_bufferZone, 5l)
             anchor = Int32.(&)({
@@ -191,7 +220,10 @@ JR.cast(jlate())
 let jlate: () => JObject = JR.cast(JR.lateBound("Graphics.jstatic_HCENTER"))
 JR.cast(jlate())
 })
-        } else if ((basicHudFactory.f_BOTTOMCENTER == jm_getLocation(this))) {
+        } else if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicHudFactory.f_BOTTOMCENTER"))
+JR.cast(jlate(JR.cast(basicHudFactory)))
+} == jm_getLocation(this))) {
             x = (Int32.(/)((Int32.(-)(width, maxWidth)), 2l))
             y = Int32.(-)(Int32.(-)(height, maxHeight), this.f_bufferZone)
             anchor = Int32.(&)({
@@ -201,16 +233,19 @@ JR.cast(jlate())
 let jlate: () => JObject = JR.cast(JR.lateBound("Graphics.jstatic_HCENTER"))
 JR.cast(jlate())
 })
-        } else if ((basicHudFactory.f_ABSOLUTE == jm_getLocation(this))) {
+        } else if (({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicHudFactory.f_ABSOLUTE"))
+JR.cast(jlate(JR.cast(basicHudFactory)))
+} == jm_getLocation(this))) {
             x = maxHeight
             y = maxWidth
             anchor = 0l
         }
-        return HudGraphicsPosition.jnew_2(jm_getPoint(this, x, y), anchor)
+        return HudGraphicsPosition.jnew_2(JR.cast(jm_getPoint(this, x, y)), anchor)
 }
     
 and jm_onEvent = (this: BasicHud_1, eventObject: AllBinaryEventObject) => {
-        ignore(ForcedLogUtil.jm_log(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE, JR.cast(this)))
+        ignore(ForcedLogUtil.jm_log(JR.cast(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE), JR.cast(this)))
 }
     
 and jm_onDisplayChangeEvent = (this: BasicHud_1, displayChangeEvent: DisplayChangeEvent) => {
@@ -218,7 +253,7 @@ and jm_onDisplayChangeEvent = (this: BasicHud_1, displayChangeEvent: DisplayChan
 }
     
 and jm_getPoint = (this: BasicHud_1, x: Int32, y: Int32) => {
-        return PointFactory.jm_createXY(PointFactory.jm_getInstance(), x, y)
+        return PointFactory.jm_createXY(JR.cast(PointFactory.jm_getInstance()), x, y)
 }
     
 and jm_getBufferZone = (this: BasicHud_1) => {
@@ -270,79 +305,109 @@ and jm_getY = (this: BasicHud_1) => {
 }
     
 and jm_paintSSO = (this: BasicHud_1, graphics: JObject, string: String, string2: String, offset: Int32) => {
-        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
-        ignore(BasicColorSetUtil.jm_setBasicColorP(this.f_basicSetColorUtil, graphics, jm_getBasicColorP(this)))
+        ignore(MyFontProcessor.jm_process(JR.cast(this.f_myFontProcessor), JR.cast(graphics)))
+        ignore(BasicColorSetUtil.jm_setBasicColorP(JR.cast(this.f_basicSetColorUtil), JR.cast(graphics), JR.cast(jm_getBasicColorP(this))))
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(string), JR.cast(this.f_x), JR.cast(jm_getY(this)), JR.cast(HudGraphicsPosition.jm_getAnchor(this.f_hudGraphicsPosition))))
+JR.cast(jlate(JR.cast(graphics), JR.cast(string), JR.cast(this.f_x), JR.cast(jm_getY(this)), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HudGraphicsPosition.jm_getAnchor"))
+JR.cast(jlate(JR.cast(this.f_hudGraphicsPosition)))
+})))
 })
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(string2), JR.cast(Int32.(+)(this.f_x, offset)), JR.cast(jm_getY(this)), JR.cast(HudGraphicsPosition.jm_getAnchor(this.f_hudGraphicsPosition))))
+JR.cast(jlate(JR.cast(graphics), JR.cast(string2), JR.cast(Int32.(+)(this.f_x, offset)), JR.cast(jm_getY(this)), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HudGraphicsPosition.jm_getAnchor"))
+JR.cast(jlate(JR.cast(this.f_hudGraphicsPosition)))
+})))
 })
 }
     
 and jm_paintSSOO = (this: BasicHud_1, graphics: JObject, string: String, string2: String, offset: Int32, offset2: Int32) => {
-        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
+        ignore(MyFontProcessor.jm_process(JR.cast(this.f_myFontProcessor), JR.cast(graphics)))
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_setColor"))
 JR.cast(jlate(JR.cast(graphics), JR.cast(jm_getColor(this))))
 })
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(string), JR.cast(Int32.(+)(this.f_x, offset)), JR.cast(jm_getY(this)), JR.cast(HudGraphicsPosition.jm_getAnchor(this.f_hudGraphicsPosition))))
+JR.cast(jlate(JR.cast(graphics), JR.cast(string), JR.cast(Int32.(+)(this.f_x, offset)), JR.cast(jm_getY(this)), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HudGraphicsPosition.jm_getAnchor"))
+JR.cast(jlate(JR.cast(this.f_hudGraphicsPosition)))
+})))
 })
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(string2), JR.cast(Int32.(+)(this.f_x, offset2)), JR.cast(jm_getY(this)), JR.cast(HudGraphicsPosition.jm_getAnchor(this.f_hudGraphicsPosition))))
+JR.cast(jlate(JR.cast(graphics), JR.cast(string2), JR.cast(Int32.(+)(this.f_x, offset2)), JR.cast(jm_getY(this)), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HudGraphicsPosition.jm_getAnchor"))
+JR.cast(jlate(JR.cast(this.f_hudGraphicsPosition)))
+})))
 })
 }
     
 and jm_paintDXY = (this: BasicHud_1, graphics: JObject, charArray: Array<Int32>, offset: Int32, len: Int32, charArray2: Array<Int32>, offset2: Int32, len2: Int32, xOffset: Int32, xOffset2: Int32) => {
-        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
-        ignore(BasicColorSetUtil.jm_setBasicColorP(this.f_basicSetColorUtil, graphics, jm_getBasicColorP(this)))
+        ignore(MyFontProcessor.jm_process(JR.cast(this.f_myFontProcessor), JR.cast(graphics)))
+        ignore(BasicColorSetUtil.jm_setBasicColorP(JR.cast(this.f_basicSetColorUtil), JR.cast(graphics), JR.cast(jm_getBasicColorP(this))))
         let mut y: Int32 = jm_getY(this)
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawChars"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(charArray), JR.cast(offset), JR.cast(len), JR.cast(Int32.(+)(this.f_x, xOffset)), JR.cast(y), JR.cast(HudGraphicsPosition.jm_getAnchor(this.f_hudGraphicsPosition))))
+JR.cast(jlate(JR.cast(graphics), JR.cast(charArray), JR.cast(offset), JR.cast(len), JR.cast(Int32.(+)(this.f_x, xOffset)), JR.cast(y), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HudGraphicsPosition.jm_getAnchor"))
+JR.cast(jlate(JR.cast(this.f_hudGraphicsPosition)))
+})))
 })
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawChars"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(charArray2), JR.cast(offset2), JR.cast(len2), JR.cast(Int32.(+)(this.f_x, xOffset2)), JR.cast(y), JR.cast(HudGraphicsPosition.jm_getAnchor(this.f_hudGraphicsPosition))))
+JR.cast(jlate(JR.cast(graphics), JR.cast(charArray2), JR.cast(offset2), JR.cast(len2), JR.cast(Int32.(+)(this.f_x, xOffset2)), JR.cast(y), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HudGraphicsPosition.jm_getAnchor"))
+JR.cast(jlate(JR.cast(this.f_hudGraphicsPosition)))
+})))
 })
 }
     
 and jm_paintDX = (this: BasicHud_1, graphics: JObject, charArray: Array<Int32>, offset: Int32, len: Int32, charArray2: Array<Int32>, offset2: Int32, len2: Int32, xOffset: Int32) => {
-        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
-        ignore(BasicColorSetUtil.jm_setBasicColorP(this.f_basicSetColorUtil, graphics, jm_getBasicColorP(this)))
+        ignore(MyFontProcessor.jm_process(JR.cast(this.f_myFontProcessor), JR.cast(graphics)))
+        ignore(BasicColorSetUtil.jm_setBasicColorP(JR.cast(this.f_basicSetColorUtil), JR.cast(graphics), JR.cast(jm_getBasicColorP(this))))
         let mut y: Int32 = jm_getY(this)
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawChars"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(charArray), JR.cast(offset), JR.cast(len), JR.cast(this.f_x), JR.cast(y), JR.cast(HudGraphicsPosition.jm_getAnchor(this.f_hudGraphicsPosition))))
+JR.cast(jlate(JR.cast(graphics), JR.cast(charArray), JR.cast(offset), JR.cast(len), JR.cast(this.f_x), JR.cast(y), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HudGraphicsPosition.jm_getAnchor"))
+JR.cast(jlate(JR.cast(this.f_hudGraphicsPosition)))
+})))
 })
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawChars"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(charArray2), JR.cast(offset2), JR.cast(len2), JR.cast(Int32.(+)(this.f_x, xOffset)), JR.cast(y), JR.cast(HudGraphicsPosition.jm_getAnchor(this.f_hudGraphicsPosition))))
+JR.cast(jlate(JR.cast(graphics), JR.cast(charArray2), JR.cast(offset2), JR.cast(len2), JR.cast(Int32.(+)(this.f_x, xOffset)), JR.cast(y), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HudGraphicsPosition.jm_getAnchor"))
+JR.cast(jlate(JR.cast(this.f_hudGraphicsPosition)))
+})))
 })
 }
     
 and jm_paintOffsetAndLength = (this: BasicHud_1, graphics: JObject, charArray: Array<Int32>, offset: Int32, len: Int32) => {
-        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
-        ignore(BasicColorSetUtil.jm_setBasicColorP(this.f_basicSetColorUtil, graphics, jm_getBasicColorP(this)))
+        ignore(MyFontProcessor.jm_process(JR.cast(this.f_myFontProcessor), JR.cast(graphics)))
+        ignore(BasicColorSetUtil.jm_setBasicColorP(JR.cast(this.f_basicSetColorUtil), JR.cast(graphics), JR.cast(jm_getBasicColorP(this))))
         let mut y: Int32 = jm_getY(this)
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawChars"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(charArray), JR.cast(offset), JR.cast(len), JR.cast(this.f_x), JR.cast(y), JR.cast(HudGraphicsPosition.jm_getAnchor(this.f_hudGraphicsPosition))))
+JR.cast(jlate(JR.cast(graphics), JR.cast(charArray), JR.cast(offset), JR.cast(len), JR.cast(this.f_x), JR.cast(y), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HudGraphicsPosition.jm_getAnchor"))
+JR.cast(jlate(JR.cast(this.f_hudGraphicsPosition)))
+})))
 })
 }
     
 and jm_paintString = (this: BasicHud_1, graphics: JObject, string: String) => {
-        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
-        ignore(BasicColorSetUtil.jm_setBasicColorP(this.f_basicSetColorUtil, graphics, jm_getBasicColorP(this)))
+        ignore(MyFontProcessor.jm_process(JR.cast(this.f_myFontProcessor), JR.cast(graphics)))
+        ignore(BasicColorSetUtil.jm_setBasicColorP(JR.cast(this.f_basicSetColorUtil), JR.cast(graphics), JR.cast(jm_getBasicColorP(this))))
         let mut y: Int32 = Int32.(+)(jm_getY(this), this.f_offsetY)
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(string), JR.cast(this.f_x), JR.cast(y), JR.cast(HudGraphicsPosition.jm_getAnchor(this.f_hudGraphicsPosition))))
+JR.cast(jlate(JR.cast(graphics), JR.cast(string), JR.cast(this.f_x), JR.cast(y), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HudGraphicsPosition.jm_getAnchor"))
+JR.cast(jlate(JR.cast(this.f_hudGraphicsPosition)))
+})))
 })
 }
 

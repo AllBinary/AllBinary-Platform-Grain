@@ -69,7 +69,7 @@ and jnew_2 = (info: Array<String>, developers: Array<String>) => {
     this.f_ABOUT = CanvasStrings.jm_getInstance().f_ABOUT
     
     
-    this.f_paintableArray = [> this]
+    this.f_paintableArray = [> JR.cast(this)]
     this.f_myFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(JR.cast(this)))
     
     
@@ -136,8 +136,8 @@ and jm_getPaintableArrayInstance = (this: AboutPaintable) => {
 }
     
 and jm_paint = (this: AboutPaintable, graphics: JObject) => {
-        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
-        let mut halfWidth: Int32 = DisplayInfoSingleton.jm_getLastHalfWidth(this.f_displayInfoSingleton)
+        ignore(MyFontProcessor.jm_process(JR.cast(this.f_myFontProcessor), JR.cast(graphics)))
+        let mut halfWidth: Int32 = DisplayInfoSingleton.jm_getLastHalfWidth(JR.cast(this.f_displayInfoSingleton))
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
 JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_ABOUT), JR.cast(Int32.(-)(halfWidth, this.f_aboutBeginWidth)), JR.cast(Int32.(*)(2l, this.f_charHeight)), JR.cast(this.f_anchor)))
@@ -176,6 +176,7 @@ JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_developers[Int32.toNumber(index)
         }
 }
 
+JR.registerSuper("AboutPaintable", "Paintable")
 JR.registerLateBound("AboutPaintable.jnew_2", jnew_2)
 JR.registerLateBound("AboutPaintable.jm_getInstance", jm_getInstance)
 JR.registerLateBound("AboutPaintable.jm_updateMeasurement", jm_updateMeasurement)

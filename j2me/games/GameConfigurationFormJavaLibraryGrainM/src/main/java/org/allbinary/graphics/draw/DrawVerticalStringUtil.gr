@@ -52,7 +52,7 @@ provide let rec jclassName = () => "DrawVerticalStringUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: DrawVerticalStringUtil = jnew_0()
+    let value: DrawVerticalStringUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -155,10 +155,13 @@ JR.cast(jlate(JR.cast(graphics), JR.cast(aChar), JR.cast(Int32.(+)(x, this.f_off
 }
     
 and jm_drawCenterString = (this: DrawVerticalStringUtil, graphics: JObject, string: String, offset: Int32, length: Int32, x: Int32, y: Int32) => {
-        let mut width: Int32 = (Int32.(>>)(JR.className(JR.cast({
+        let mut width: Int32 = (Int32.(>>)({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Font.jm_substringWidth"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_getFont"))
 JR.cast(jlate(JR.cast(graphics)))
-})), 1l))
+}), JR.cast(string), JR.cast(offset), JR.cast(length)))
+}, 1l))
         {
             ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawSubstring"))
@@ -180,10 +183,13 @@ and jm_drawCenterStrings = (this: DrawVerticalStringUtil, graphics: JObject, str
                 if (!(Int32.(<)(index, Int32.fromNumber(Array.length(stringArray))))) break
             let mut string: String = stringArray[Int32.toNumber(index)]
             if ((string != this.f_EMPTY_STRING)) {
-                let mut width: Int32 = JR.className(JR.cast({
+                let mut width: Int32 = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Font.jm_stringWidth"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_getFont"))
 JR.cast(jlate(JR.cast(graphics)))
-}))
+}), JR.cast(string)))
+}
                 let mut minTotalLines: Int32 = 1l
                 if (Int32.(>)(width, maxWidth)) {
                     minTotalLines = Int32.(+)((Int32.(/)(width, maxWidth)), 1l)
@@ -197,14 +203,14 @@ JR.cast(jlate(JR.cast(graphics)))
                         currentLength = Int32.(-)(size, offset)
                     }
                     if ((Int32.(+)(offset, currentLength) != size)) {
-                        while ((Int32.(>)(currentLength, 0l) && (JR.className(JR.cast(stringArray[Int32.toNumber(index)])) != Int32.fromNumber(Char.code(' '))))) {
+                        while ((Int32.(>)(currentLength, 0l) && (JR.charAt(stringArray[Int32.toNumber(index)], Int32.(+)(offset, currentLength)) != Int32.fromNumber(Char.code(' '))))) {
                             currentLength = Int32.(-)(currentLength, 1l)
                         }
                         if (Int32.(<=)(currentLength, 4l)) {
                             currentLength = linePortion
                         }
                     }
-                    ignore(jm_drawCenterString(this, graphics, string, offset, currentLength, x, Int32.(+)(y, (Int32.(*)((Int32.(+)(index, { let jold = extraLines; extraLines = Int32.(+)(jold, 1l); jold })), this.f_charHeight)))))
+                    ignore(jm_drawCenterString(this, JR.cast(graphics), JR.cast(string), offset, currentLength, x, Int32.(+)(y, (Int32.(*)((Int32.(+)(index, { let jold = extraLines; extraLines = Int32.(+)(jold, 1l); jold })), this.f_charHeight)))))
                     offset = Int32.(+)(offset, currentLength)
                     currentLength = linePortion
                 }

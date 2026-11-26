@@ -32,6 +32,13 @@ use StringMaker.{ type StringMaker }
 from "../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
 use CommonStrings.{ type CommonStrings }
 from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/lang/Long.gr" include Long
+from "../../../../java/lang/Short.gr" include Short
+from "../../../../java/lang/Byte.gr" include Byte
+from "../../../../java/lang/Character.gr" include Character
+from "../../../../java/lang/Float.gr" include Float
+from "../../../../java/lang/Double.gr" include Double
+from "../../../../java/lang/Boolean.gr" include Boolean
 from "./GameConfigurationSingleton.gr" include GameConfigurationSingleton
 use GameConfigurationSingleton.{ type GameConfigurationSingleton }
 from "./GameConfiguration.gr" include GameConfiguration
@@ -58,7 +65,7 @@ provide let rec jclassName = () => "GameConfigurationUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: GameConfigurationUtil = jnew_0()
+    let value: GameConfigurationUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -69,7 +76,7 @@ and jset_instance = (value: GameConfigurationUtil) => {
 }
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("GameConfigurationUtil"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_GAUGE_UPDATE: "", f_FROM: "", f_TO: "", f_COMPETITION_VALUE: 0l, }
+    let this = { jobject: JR.newJObject("GameConfigurationUtil"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_GAUGE_UPDATE: "", f_FROM: "", f_TO: "", f_COMPETITION_VALUE: 0l, }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -87,70 +94,151 @@ and jm_getInstance = () => {
 }
     
 and jm_change = (this: GameConfigurationUtil, gameOptionsForm: JObject, gauge: GameConfigurationGauge) => {
-        ignore(jm_update(this, gauge))
+        ignore(jm_update(this, JR.cast(gauge)))
         let mut gameConfigurationSingleton: GameConfigurationSingleton = JR.cast(GameConfigurationSingleton.jm_getInstance())
-        let mut gameConfiguration: GameConfiguration = JR.cast(GameConfigurationSingleton.jm_getInstanceByName(gameConfigurationSingleton, JR.cast(GameConfigurationGauge.jm_getLabel(gauge))))
-        ignore(jm_updateChallange(this, gameOptionsForm, gameConfiguration))
+        let mut gameConfiguration: GameConfiguration = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationSingleton.jm_getInstanceByName"))
+JR.cast(jlate(JR.cast(gameConfigurationSingleton), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Item.jm_getLabel"))
+JR.cast(jlate(JR.cast(gauge)))
+})))
+})
+        ignore(jm_updateChallange(this, JR.cast(gameOptionsForm), JR.cast(gameConfiguration)))
 }
     
 and jm_update = (this: GameConfigurationUtil, gauge: GameConfigurationGauge) => {
         let mut gameConfigurationSingleton: GameConfigurationSingleton = JR.cast(GameConfigurationSingleton.jm_getInstance())
-        let mut gameConfiguration: GameConfiguration = JR.cast(GameConfigurationSingleton.jm_getInstanceByName(gameConfigurationSingleton, JR.cast(GameConfigurationGauge.jm_getLabel(gauge))))
+        let mut gameConfiguration: GameConfiguration = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationSingleton.jm_getInstanceByName"))
+JR.cast(jlate(JR.cast(gameConfigurationSingleton), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Item.jm_getLabel"))
+JR.cast(jlate(JR.cast(gauge)))
+})))
+})
         let mut smallIntegerSingletonFactory: SmallIntegerSingletonFactory = JR.cast(SmallIntegerSingletonFactory.jm_getInstance())
-        let mut value: Int32 = SmallIntegerSingletonFactory.jm_getAt(smallIntegerSingletonFactory, Int32.(+)(GameConfigurationGauge.jm_getValue(gauge), JR.className(JR.cast(GameConfiguration.jm_getMinValue(gameConfiguration)))))
+        let mut value: Int32 = SmallIntegerSingletonFactory.jm_getAt(JR.cast(smallIntegerSingletonFactory), Int32.(+)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Gauge.jm_getValue"))
+JR.cast(jlate(JR.cast(gauge)))
+}, Integer.jm_intValue(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getMinValue"))
+JR.cast(jlate(JR.cast(gameConfiguration)))
+}))))
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, this.f_GAUGE_UPDATE))
-        ignore(StringMaker.jm_append(stringBuffer, GameConfiguration.jm_getName(gameConfiguration)))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_FROM))
-        ignore(StringMaker.jm_appendint(stringBuffer, JR.className(JR.cast(GameConfiguration.jm_getValue(gameConfiguration)))))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_TO))
-        ignore(StringMaker.jm_appendint(stringBuffer, Integer.jm_intValue(value)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_GAUGE_UPDATE)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getName"))
+JR.cast(jlate(JR.cast(gameConfiguration)))
+})))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_FROM)))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), Integer.jm_intValue(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getValue"))
+JR.cast(jlate(JR.cast(gameConfiguration)))
+}))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_TO)))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), Integer.jm_intValue(JR.cast(value))))
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast(this.f_commonStrings.f_UPDATE)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(this), JR.cast(this.f_commonStrings.f_UPDATE)))
 })
-        ignore(GameConfiguration.jm_setValue(gameConfiguration, value))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_setValue"))
+JR.cast(jlate(JR.cast(gameConfiguration), JR.cast(value)))
+})
 }
     
 and jm_setDefault = (this: GameConfigurationUtil, gauge: GameConfigurationGauge) => {
         let mut gameConfigurationSingleton: GameConfigurationSingleton = JR.cast(GameConfigurationSingleton.jm_getInstance())
-        let mut gameConfiguration: GameConfiguration = JR.cast(GameConfigurationSingleton.jm_getInstanceByName(gameConfigurationSingleton, JR.cast(GameConfigurationGauge.jm_getLabel(gauge))))
+        let mut gameConfiguration: GameConfiguration = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationSingleton.jm_getInstanceByName"))
+JR.cast(jlate(JR.cast(gameConfigurationSingleton), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Item.jm_getLabel"))
+JR.cast(jlate(JR.cast(gauge)))
+})))
+})
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, "Gauge Default: "))
-        ignore(StringMaker.jm_append(stringBuffer, GameConfiguration.jm_getName(gameConfiguration)))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_TO))
-        ignore(StringMaker.jm_appendint(stringBuffer, JR.className(JR.cast(GameConfiguration.jm_getDefaultValue(gameConfiguration)))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Gauge Default: ")))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getName"))
+JR.cast(jlate(JR.cast(gameConfiguration)))
+})))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_TO)))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), Integer.jm_intValue(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getDefaultValue"))
+JR.cast(jlate(JR.cast(gameConfiguration)))
+}))))
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast("setDefault")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(this), JR.cast("setDefault")))
 })
-        ignore(GameConfigurationGauge.jm_setValue(gauge, Int32.(-)(JR.className(JR.cast(GameConfiguration.jm_getDefaultValue(gameConfiguration))), JR.className(JR.cast(GameConfiguration.jm_getMinValue(gameConfiguration))))))
-        ignore(GameConfiguration.jm_setValue(gameConfiguration, JR.cast(GameConfiguration.jm_getDefaultValue(gameConfiguration))))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Gauge.jm_setValue"))
+JR.cast(jlate(JR.cast(gauge), JR.cast(Int32.(-)(Integer.jm_intValue(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getDefaultValue"))
+JR.cast(jlate(JR.cast(gameConfiguration)))
+})), Integer.jm_intValue(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getMinValue"))
+JR.cast(jlate(JR.cast(gameConfiguration)))
+}))))))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_setValue"))
+JR.cast(jlate(JR.cast(gameConfiguration), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getDefaultValue"))
+JR.cast(jlate(JR.cast(gameConfiguration)))
+})))
+})
 }
     
 and jm_updateChallange = (this: GameConfigurationUtil, gameOptionsForm: JObject, gameConfiguration: GameConfiguration) => {
         let mut gameConfigurationSingleton: GameConfigurationSingleton = JR.cast(GameConfigurationSingleton.jm_getInstance())
         let mut gameConfigurationCentral: GameConfigurationCentral = JR.cast(GameConfigurationCentral.jm_getInstance())
-        if (JR.isSame(gameConfiguration, gameConfigurationCentral.f_CHALLENGE_LEVEL)) {
+        if (JR.isSame(gameConfiguration, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationCentral.f_CHALLENGE_LEVEL"))
+JR.cast(jlate(JR.cast(gameConfigurationCentral)))
+})) {
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_START), JR.cast(this), JR.cast("updateChallange")))
 })
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_setValue"))
-JR.cast(jlate(JR.cast(gameConfigurationCentral.f_COLLIDE_DAMAGE), JR.cast(GameConfiguration.jm_getValue(gameConfiguration))))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationCentral.f_COLLIDE_DAMAGE"))
+JR.cast(jlate(JR.cast(gameConfigurationCentral)))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getValue"))
+JR.cast(jlate(JR.cast(gameConfiguration)))
+})))
 })
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_setValue"))
-JR.cast(jlate(JR.cast(gameConfigurationCentral.f_ATTACK_CHALLENGE_LEVEL), JR.cast(GameConfiguration.jm_getValue(gameConfiguration))))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationCentral.f_ATTACK_CHALLENGE_LEVEL"))
+JR.cast(jlate(JR.cast(gameConfigurationCentral)))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getValue"))
+JR.cast(jlate(JR.cast(gameConfiguration)))
+})))
 })
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_setValue"))
-JR.cast(jlate(JR.cast(gameConfigurationCentral.f_DURABILITY_CHALLENGE_LEVEL), JR.cast(GameConfiguration.jm_getValue(gameConfiguration))))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationCentral.f_DURABILITY_CHALLENGE_LEVEL"))
+JR.cast(jlate(JR.cast(gameConfigurationCentral)))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getValue"))
+JR.cast(jlate(JR.cast(gameConfiguration)))
+})))
 })
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_setValue"))
-JR.cast(jlate(JR.cast(gameConfigurationCentral.f_SPEED_CHALLENGE_LEVEL), JR.cast(GameConfiguration.jm_getValue(gameConfiguration))))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationCentral.f_SPEED_CHALLENGE_LEVEL"))
+JR.cast(jlate(JR.cast(gameConfigurationCentral)))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getValue"))
+JR.cast(jlate(JR.cast(gameConfiguration)))
+})))
 })
             let mut size: Int32 = {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameOptionsForm.jm_size"))
@@ -175,27 +263,78 @@ JR.cast(jlate(JR.cast(gameOptionsForm), JR.cast(index)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Item.jm_getLabel"))
 JR.cast(jlate(JR.cast(item)))
 }
-                    let mut nextGameConfiguration: GameConfiguration = JR.cast(GameConfigurationSingleton.jm_getInstanceByName(gameConfigurationSingleton, name))
-                    if (JR.isSame(nextGameConfiguration, gameConfigurationCentral.f_COLLIDE_DAMAGE)) {
-                        ignore(GameConfigurationGauge.jm_setValue(gauge, Int32.(-)(JR.className(JR.cast({
+                    let mut nextGameConfiguration: GameConfiguration = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationSingleton.jm_getInstanceByName"))
+JR.cast(jlate(JR.cast(gameConfigurationSingleton), JR.cast(name)))
+})
+                    if (JR.isSame(nextGameConfiguration, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationCentral.f_COLLIDE_DAMAGE"))
+JR.cast(jlate(JR.cast(gameConfigurationCentral)))
+})) {
+                        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Gauge.jm_setValue"))
+JR.cast(jlate(JR.cast(gauge), JR.cast(Int32.(-)(Integer.jm_intValue(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getValue"))
-JR.cast(jlate(JR.cast(gameConfigurationCentral.f_COLLIDE_DAMAGE)))
-})), JR.className(JR.cast(GameConfiguration.jm_getMinValue(gameConfiguration))))))
-                    } else if (JR.isSame(nextGameConfiguration, gameConfigurationCentral.f_DURABILITY_CHALLENGE_LEVEL)) {
-                        ignore(GameConfigurationGauge.jm_setValue(gauge, Int32.(-)(JR.className(JR.cast({
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationCentral.f_COLLIDE_DAMAGE"))
+JR.cast(jlate(JR.cast(gameConfigurationCentral)))
+})))
+})), Integer.jm_intValue(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getMinValue"))
+JR.cast(jlate(JR.cast(gameConfiguration)))
+}))))))
+})
+                    } else if (JR.isSame(nextGameConfiguration, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationCentral.f_DURABILITY_CHALLENGE_LEVEL"))
+JR.cast(jlate(JR.cast(gameConfigurationCentral)))
+})) {
+                        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Gauge.jm_setValue"))
+JR.cast(jlate(JR.cast(gauge), JR.cast(Int32.(-)(Integer.jm_intValue(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getValue"))
-JR.cast(jlate(JR.cast(gameConfigurationCentral.f_DURABILITY_CHALLENGE_LEVEL)))
-})), JR.className(JR.cast(GameConfiguration.jm_getMinValue(gameConfiguration))))))
-                    } else if (JR.isSame(nextGameConfiguration, gameConfigurationCentral.f_ATTACK_CHALLENGE_LEVEL)) {
-                        ignore(GameConfigurationGauge.jm_setValue(gauge, Int32.(-)(JR.className(JR.cast({
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationCentral.f_DURABILITY_CHALLENGE_LEVEL"))
+JR.cast(jlate(JR.cast(gameConfigurationCentral)))
+})))
+})), Integer.jm_intValue(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getMinValue"))
+JR.cast(jlate(JR.cast(gameConfiguration)))
+}))))))
+})
+                    } else if (JR.isSame(nextGameConfiguration, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationCentral.f_ATTACK_CHALLENGE_LEVEL"))
+JR.cast(jlate(JR.cast(gameConfigurationCentral)))
+})) {
+                        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Gauge.jm_setValue"))
+JR.cast(jlate(JR.cast(gauge), JR.cast(Int32.(-)(Integer.jm_intValue(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getValue"))
-JR.cast(jlate(JR.cast(gameConfigurationCentral.f_ATTACK_CHALLENGE_LEVEL)))
-})), JR.className(JR.cast(GameConfiguration.jm_getMinValue(gameConfiguration))))))
-                    } else if (JR.isSame(nextGameConfiguration, gameConfigurationCentral.f_SPEED_CHALLENGE_LEVEL)) {
-                        ignore(GameConfigurationGauge.jm_setValue(gauge, Int32.(-)(JR.className(JR.cast({
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationCentral.f_ATTACK_CHALLENGE_LEVEL"))
+JR.cast(jlate(JR.cast(gameConfigurationCentral)))
+})))
+})), Integer.jm_intValue(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getMinValue"))
+JR.cast(jlate(JR.cast(gameConfiguration)))
+}))))))
+})
+                    } else if (JR.isSame(nextGameConfiguration, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationCentral.f_SPEED_CHALLENGE_LEVEL"))
+JR.cast(jlate(JR.cast(gameConfigurationCentral)))
+})) {
+                        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Gauge.jm_setValue"))
+JR.cast(jlate(JR.cast(gauge), JR.cast(Int32.(-)(Integer.jm_intValue(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getValue"))
-JR.cast(jlate(JR.cast(gameConfigurationCentral.f_SPEED_CHALLENGE_LEVEL)))
-})), JR.className(JR.cast(GameConfiguration.jm_getMinValue(gameConfiguration))))))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationCentral.f_SPEED_CHALLENGE_LEVEL"))
+JR.cast(jlate(JR.cast(gameConfigurationCentral)))
+})))
+})), Integer.jm_intValue(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getMinValue"))
+JR.cast(jlate(JR.cast(gameConfiguration)))
+}))))))
+})
                     }
                 }
                 }
@@ -209,18 +348,30 @@ let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBoun
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_START), JR.cast(this), JR.cast("updateCompetitionValue")))
 })
         let mut gameConfigurationCentral: GameConfigurationCentral = JR.cast(GameConfigurationCentral.jm_getInstance())
-        this.f_COMPETITION_VALUE = Int32.(+)(Int32.(+)(Int32.(+)(JR.className(JR.cast({
+        this.f_COMPETITION_VALUE = Int32.(+)(Int32.(+)(Int32.(+)(Integer.jm_intValue(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getValue"))
-JR.cast(jlate(JR.cast(gameConfigurationCentral.f_COLLIDE_DAMAGE)))
-})), JR.className(JR.cast({
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationCentral.f_COLLIDE_DAMAGE"))
+JR.cast(jlate(JR.cast(gameConfigurationCentral)))
+})))
+})), Integer.jm_intValue(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getValue"))
-JR.cast(jlate(JR.cast(gameConfigurationCentral.f_ATTACK_CHALLENGE_LEVEL)))
-}))), JR.className(JR.cast({
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationCentral.f_ATTACK_CHALLENGE_LEVEL"))
+JR.cast(jlate(JR.cast(gameConfigurationCentral)))
+})))
+}))), Integer.jm_intValue(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getValue"))
-JR.cast(jlate(JR.cast(gameConfigurationCentral.f_DURABILITY_CHALLENGE_LEVEL)))
-}))), JR.className(JR.cast({
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationCentral.f_DURABILITY_CHALLENGE_LEVEL"))
+JR.cast(jlate(JR.cast(gameConfigurationCentral)))
+})))
+}))), Integer.jm_intValue(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getValue"))
-JR.cast(jlate(JR.cast(gameConfigurationCentral.f_SPEED_CHALLENGE_LEVEL)))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationCentral.f_SPEED_CHALLENGE_LEVEL"))
+JR.cast(jlate(JR.cast(gameConfigurationCentral)))
+})))
 })))
         this.f_COMPETITION_VALUE = (Int32.(>>)(this.f_COMPETITION_VALUE, 2l))
 }

@@ -35,6 +35,8 @@ from "../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayLi
 use BasicArrayListD.{ type BasicArrayListD }
 from "../../../../../org/allbinary/logic/io/StreamUtil.gr" include StreamUtil
 use StreamUtil.{ type StreamUtil }
+from "../../../../../java/io/FileOutputStream.gr" include FileOutputStream
+use FileOutputStream.{ type FileOutputStream }
 
 provide record FileLockUtil {
   jobject: JObject,
@@ -48,7 +50,7 @@ provide let rec jclassName = () => "FileLockUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: FileLockUtil = jnew_0()
+    let value: FileLockUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -63,7 +65,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("FileLockUtil"), f_logUtil: JR.jnull, }
+    let this = { jobject: JR.newJObject("FileLockUtil"), f_logUtil: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -74,7 +76,7 @@ JR.cast(jlate())
     
 and jm_getAll = (this: FileLockUtil, vector: BasicArrayList, isReturnOnFailure: Bool) => {
         let mut fileLockVector: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
-        let mut size: Int32 = BasicArrayList.jm_size(vector)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(vector))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -84,8 +86,8 @@ and jm_getAll = (this: FileLockUtil, vector: BasicArrayList, isReturnOnFailure: 
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            let mut file: JObject = JR.cast(BasicArrayList.jm_get(vector, index))
-            let mut fileLock: FileLock = JR.cast(jm_getLock_1_AbFile_(this, file))
+            let mut file: JObject = JR.cast(BasicArrayList.jm_get(JR.cast(vector), index))
+            let mut fileLock: FileLock = JR.cast(jm_getLock_1_AbFile_(this, JR.cast(file)))
             if (!JR.isNull(fileLock)) {
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
@@ -94,11 +96,11 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getAbsolutePat
 JR.cast(jlate(JR.cast(file)))
 }), JR.cast(this), JR.cast("getAll")))
 })
-                ignore(BasicArrayList.jm_add(fileLockVector, JR.cast(fileLock)))
+                ignore(BasicArrayList.jm_add(JR.cast(fileLockVector), JR.cast(fileLock)))
             } else if (isReturnOnFailure) {
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Total Locks Obtained: " ++ toString(BasicArrayList.jm_size(fileLockVector))), JR.cast(this), JR.cast("getAll")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Total Locks Obtained: " ++ toString(BasicArrayList.jm_size(JR.cast(fileLockVector)))), JR.cast(this), JR.cast("getAll")))
 })
                 return fileLockVector
             }
@@ -106,18 +108,18 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Total Locks Obtained: " ++ toStr
         }
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Total Locks Obtained: " ++ toString(BasicArrayList.jm_size(fileLockVector))), JR.cast(this), JR.cast("getAll")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Total Locks Obtained: " ++ toString(BasicArrayList.jm_size(JR.cast(fileLockVector)))), JR.cast(this), JR.cast("getAll")))
 })
         return fileLockVector
 }
     
 and jm_getAllPossible = (this: FileLockUtil, vector: BasicArrayList) => {
-        return jm_getAll(this, vector, false)
+        return jm_getAll(this, JR.cast(vector), false)
 }
     
 and jm_getAllOrNone = (this: FileLockUtil, vector: BasicArrayList) => {
-        let mut fileLockVector: BasicArrayList = JR.cast(jm_getAll(this, vector, true))
-        if ((BasicArrayList.jm_size(vector) != BasicArrayList.jm_size(fileLockVector))) {
+        let mut fileLockVector: BasicArrayList = JR.cast(jm_getAll(this, JR.cast(vector), true))
+        if ((BasicArrayList.jm_size(JR.cast(vector)) != BasicArrayList.jm_size(JR.cast(fileLockVector)))) {
             return JR.cast(BasicArrayListD.jnew_0())
         } else {
             return fileLockVector
@@ -126,7 +128,7 @@ and jm_getAllOrNone = (this: FileLockUtil, vector: BasicArrayList) => {
     
 and jm_getLock_1_AbFile_ = (this: FileLockUtil, file: JObject) => {
         {
-            return jm_getLock_1_AbFile_(this, JR.cast({
+            return jm_getLock_1_AbFileOutputStream_(this, JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbFileOutputStream.jm_createFromAbFileAppend"))
 JR.cast(jlate(JR.cast(file), JR.cast(true)))
 }))
@@ -150,7 +152,7 @@ JR.cast(jlate(JR.cast(fileOutputStream)))
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Finally - Closing FileOutputStream"), JR.cast(this), JR.cast("getLock")))
 })
-            ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), JR.cast(fileOutputStream)))
+            ignore(StreamUtil.jm_close(JR.cast(StreamUtil.jm_getInstance()), JR.cast(fileOutputStream)))
         }
     return JR.nullOf()
 }

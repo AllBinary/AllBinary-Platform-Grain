@@ -47,7 +47,7 @@ provide let rec jclassName = () => "RandomRotationFactory"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: RandomRotationFactory = jnew_0()
+    let value: RandomRotationFactory = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -69,14 +69,23 @@ and jm_getInstance = () => {
 }
     
 and jm_getInstanceList = (this: RandomRotationFactory, vector: BasicArrayList, howMuch: Int32) => {
-        let mut graphicsPipe: BasicGraphicsPipeline = BasicGraphicsPipeline.jnew_1(vector)
-        ignore(BasicGraphicsPipeline.jm_createMatrix(graphicsPipe))
-        ignore(BasicGraphicsPipeline.jm_rotateToAngle(graphicsPipe, JR.cast(AngleFactory.jm_getAt(this.f_angleFactory, jm_getNextRandomAngle(this, howMuch)))))
-        return BasicGraphicsPipeline.jm_getMatrix(graphicsPipe)
+        let mut graphicsPipe: BasicGraphicsPipeline = BasicGraphicsPipeline.jnew_1(JR.cast(vector))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicGraphicsPipeline.jm_createMatrix"))
+JR.cast(jlate(JR.cast(graphicsPipe)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicGraphicsPipeline.jm_rotateToAngle"))
+JR.cast(jlate(JR.cast(graphicsPipe), JR.cast(AngleFactory.jm_getAt(JR.cast(this.f_angleFactory), jm_getNextRandomAngle(this, howMuch)))))
+})
+        return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicGraphicsPipeline.jm_getMatrix"))
+JR.cast(jlate(JR.cast(graphicsPipe)))
+}
 }
     
 and jm_getNextRandomAngle = (this: RandomRotationFactory, howMuch: Int32) => {
-        return MyRandomFactory.jm_getNextInt(this.f_myRandomFactory, Int32.(*)(howMuch, 10l))
+        return MyRandomFactory.jm_getNextInt(JR.cast(this.f_myRandomFactory), Int32.(*)(howMuch, 10l))
 }
 
 JR.registerLateBound("RandomRotationFactory.jnew_0", jnew_0)

@@ -67,7 +67,7 @@ provide let rec jclassName = () => "GroupLayerManagerListener"
 and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
   Some(value) => value,
   None => {
-    let value: GroupLayerManagerListener = jnew_0()
+    let value: GroupLayerManagerListener = JR.cast(jnew_0())
     jcell_SINGLETON = Some(value)
     value
   },
@@ -82,19 +82,19 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("GroupLayerManagerListener"), f_logUtil: JR.jnull, f_list: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("GroupLayerManagerListener"), f_logUtil: JR.nullOf(), f_list: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
 })
     this.f_list = JR.cast(BasicArrayListD.jnew_0())
-        ignore(LayerManagerEventHandler.jm_addListener(LayerManagerEventHandler.jm_getInstance(), JR.cast(this)))
+        ignore(LayerManagerEventHandler.jm_addListener(JR.cast(LayerManagerEventHandler.jm_getInstance()), JR.cast(this)))
     this
 }
     
 and jm_clear = (this: GroupLayerManagerListener) => {
         let mut groupList: BasicArrayList = JR.nullOf()
-        let mut size: Int32 = BasicArrayList.jm_size(this.f_list)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(this.f_list))
         {
             let mut index: Int32 = Int32.(-)(size, 1l)
             let mut jfirst = true
@@ -105,23 +105,23 @@ and jm_clear = (this: GroupLayerManagerListener) => {
                 jfirst = false
                 if (!(Int32.(>=)(index, 0l))) break
             groupList = JR.cast(this.f_list.f_objectArray[Int32.toNumber(index)])
-            ignore(BasicArrayList.jm_clear(groupList))
+            ignore(BasicArrayList.jm_clear(JR.cast(groupList)))
             }
         }
 }
     
 and jm_getGroupSizeFromInterface = (this: GroupLayerManagerListener, groupInterfaceCompositeInterface: GroupInterfaceCompositeInterface) => {
-        let mut groupInterfaceArray: Array<Group> = GroupInterfaceCompositeInterface.jm_getGroupInterface(groupInterfaceCompositeInterface)
-        return jm_getGroupSize(this, groupInterfaceArray[Int32.toNumber(0l)])
+        let mut groupInterfaceArray: Array<Group> = JR.cast(GroupInterfaceCompositeInterface.jm_getGroupInterface(JR.cast(groupInterfaceCompositeInterface)))
+        return jm_getGroupSize(this, JR.cast(groupInterfaceArray[Int32.toNumber(0l)]))
 }
     
 and jm_getGroupSize = (this: GroupLayerManagerListener, groupInterface: Group) => {
-        let mut id: Int32 = Group.jm_getGroupId(groupInterface)
+        let mut id: Int32 = Group.jm_getGroupId(JR.cast(groupInterface))
         return jm_getGroupSizeById(this, id)
 }
     
 and jm_getList = (this: GroupLayerManagerListener, groupInterface: Group) => {
-        let mut id: Int32 = Group.jm_getGroupId(groupInterface)
+        let mut id: Int32 = Group.jm_getGroupId(JR.cast(groupInterface))
         return jm_getListById(this, id)
 }
     
@@ -132,13 +132,13 @@ and jm_getListById = (this: GroupLayerManagerListener, groupId: Int32) => {
     
 and jm_getGroupSizeById = (this: GroupLayerManagerListener, groupId: Int32) => {
         let mut groupList: BasicArrayList = JR.cast(this.f_list.f_objectArray[Int32.toNumber(groupId)])
-        let mut size: Int32 = BasicArrayList.jm_size(groupList)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(groupList))
         return size
 }
     
 and jm_areAllOtherGroupsEmpty = (this: GroupLayerManagerListener, groupInterface: Group) => {
-        let mut id: Int32 = Group.jm_getGroupId(groupInterface)
-        let mut size: Int32 = BasicArrayList.jm_size(this.f_list)
+        let mut id: Int32 = Group.jm_getGroupId(JR.cast(groupInterface))
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(this.f_list))
         {
             let mut index: Int32 = Int32.(-)(size, 1l)
             let mut jfirst = true
@@ -153,7 +153,7 @@ and jm_areAllOtherGroupsEmpty = (this: GroupLayerManagerListener, groupInterface
                 if ((groupSize != 0l)) {
                     ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), "Group Size: "), groupSize))), JR.cast(this), JR.cast("areAllOtherGroupsEmpty")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("Group Size: "))), groupSize)))), JR.cast(this), JR.cast("areAllOtherGroupsEmpty")))
 })
                     return false
                 }
@@ -164,7 +164,7 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMak
 }
     
 and jm_isIdInList = (this: GroupLayerManagerListener, id: Int32, excludeGroupList: BasicArrayList) => {
-        let mut size: Int32 = BasicArrayList.jm_size(excludeGroupList)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(excludeGroupList))
         let mut groupInterfaceArray: Array<Group> = [> ]
         let mut groupInterface: Group = JR.nullOf()
         let mut groupId: Int32 = 0l
@@ -189,7 +189,7 @@ and jm_isIdInList = (this: GroupLayerManagerListener, id: Int32, excludeGroupLis
                     jfirst = false
                     if (!(Int32.(<)(index2, size2))) break
                 groupInterface = groupInterfaceArray[Int32.toNumber(index2)]
-                groupId = Group.jm_getGroupId(groupInterface)
+                groupId = Group.jm_getGroupId(JR.cast(groupInterface))
                 if ((groupId == id)) {
                     return true
                 }
@@ -201,7 +201,7 @@ and jm_isIdInList = (this: GroupLayerManagerListener, id: Int32, excludeGroupLis
 }
     
 and jm_areAllOtherGroupsLessThan = (this: GroupLayerManagerListener, excludeGroupList: BasicArrayList, maxSize: Int32) => {
-        let mut size: Int32 = BasicArrayList.jm_size(this.f_list)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(this.f_list))
         {
             let mut index: Int32 = Int32.(-)(size, 1l)
             let mut jfirst = true
@@ -211,7 +211,7 @@ and jm_areAllOtherGroupsLessThan = (this: GroupLayerManagerListener, excludeGrou
                 }
                 jfirst = false
                 if (!(Int32.(>=)(index, 0l))) break
-            if (!jm_isIdInList(this, index, excludeGroupList)) {
+            if (!jm_isIdInList(this, index, JR.cast(excludeGroupList))) {
                 let mut groupSize: Int32 = jm_getGroupSizeById(this, index)
                 if (Int32.(>=)(groupSize, maxSize)) {
                     return false
@@ -223,18 +223,18 @@ and jm_areAllOtherGroupsLessThan = (this: GroupLayerManagerListener, excludeGrou
 }
     
 and jm_init = (this: GroupLayerManagerListener, total: Int32) => {
-        while (Int32.(<=)(BasicArrayList.jm_size(this.f_list), Int32.(+)(total, 1l))) {
-            ignore(BasicArrayList.jm_add(this.f_list, JR.cast(BasicArrayListD.jnew_0())))
+        while (Int32.(<=)(BasicArrayList.jm_size(JR.cast(this.f_list)), Int32.(+)(total, 1l))) {
+            ignore(BasicArrayList.jm_add(JR.cast(this.f_list), JR.cast(BasicArrayListD.jnew_0())))
         }
 }
     
 and jm_onEvent = (this: GroupLayerManagerListener, eventObject: AllBinaryEventObject) => {
-        ignore(ForcedLogUtil.jm_log(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE, JR.cast(this)))
+        ignore(ForcedLogUtil.jm_log(JR.cast(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE), JR.cast(this)))
 }
     
 and jm_onCreateLayerManagerEvent = (this: GroupLayerManagerListener, layerManagerEvent: LayerManagerEvent) => {
-        let mut layerInterface: AllBinaryLayer = JR.cast(LayerManagerEvent.jm_getLayerInterface(layerManagerEvent))
-        let mut groupInterfaceArray: Array<Group> = AllBinaryLayer.jm_getGroupInterface(layerInterface)
+        let mut layerInterface: AllBinaryLayer = JR.cast(LayerManagerEvent.jm_getLayerInterface(JR.cast(layerManagerEvent)))
+        let mut groupInterfaceArray: Array<Group> = JR.cast(AllBinaryLayer.jm_getGroupInterface(JR.cast(layerInterface)))
         let mut size: Int32 = Int32.fromNumber(Array.length(groupInterfaceArray))
         let mut id: Int32 = 0l
         let mut groupList: BasicArrayList = JR.nullOf()
@@ -255,11 +255,11 @@ JR.cast(jlate(JR.cast(groupInterfaceArray[Int32.toNumber(index)])))
             if (JR.isNull(groupList)) {
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), "id: "), id))), JR.cast(this), JR.cast("onCreateLayerManagerEvent")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("id: "))), id)))), JR.cast(this), JR.cast("onCreateLayerManagerEvent")))
 })
             }
-            if (!BasicArrayList.jm_contains(groupList, JR.cast(layerInterface))) {
-                ignore(BasicArrayList.jm_add(groupList, JR.cast(layerInterface)))
+            if (!BasicArrayList.jm_contains(JR.cast(groupList), JR.cast(layerInterface))) {
+                ignore(BasicArrayList.jm_add(JR.cast(groupList), JR.cast(layerInterface)))
             } else {
                 void
             }
@@ -268,8 +268,8 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMak
 }
     
 and jm_onDeleteLayerManagerEvent = (this: GroupLayerManagerListener, layerManagerEvent: LayerManagerEvent) => {
-        let mut layerInterface: AllBinaryLayer = JR.cast(LayerManagerEvent.jm_getLayerInterface(layerManagerEvent))
-        let mut groupInterfaceArray: Array<Group> = AllBinaryLayer.jm_getGroupInterface(layerInterface)
+        let mut layerInterface: AllBinaryLayer = JR.cast(LayerManagerEvent.jm_getLayerInterface(JR.cast(layerManagerEvent)))
+        let mut groupInterfaceArray: Array<Group> = JR.cast(AllBinaryLayer.jm_getGroupInterface(JR.cast(layerInterface)))
         let mut size: Int32 = Int32.fromNumber(Array.length(groupInterfaceArray))
         let mut id: Int32 = 0l
         let mut groupList: BasicArrayList = JR.nullOf()
@@ -287,7 +287,7 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Group.jm_getGroupId"))
 JR.cast(jlate(JR.cast(groupInterfaceArray[Int32.toNumber(index)])))
 }
             groupList = JR.cast(this.f_list.f_objectArray[Int32.toNumber(id)])
-            ignore(BasicArrayList.jm_remove(groupList, JR.cast(layerInterface)))
+            ignore(BasicArrayList.jm_remove(JR.cast(groupList), JR.cast(layerInterface)))
             }
         }
 }
@@ -297,7 +297,7 @@ and jm_log = (this: GroupLayerManagerListener) => {
         let mut l_GROUP: String = "Group: "
         let mut l_SPACE: String = CommonSeps.jm_getInstance().f_SPACE
         let mut l_TOTAL_LABEL: String = CommonLabels.jm_getInstance().f_TOTAL_LABEL
-        let mut size: Int32 = BasicArrayList.jm_size(this.f_list)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(this.f_list))
         {
             let mut index: Int32 = Int32.(-)(size, 1l)
             let mut jfirst = true
@@ -308,20 +308,21 @@ and jm_log = (this: GroupLayerManagerListener) => {
                 jfirst = false
                 if (!(Int32.(>=)(index, 0l))) break
             let mut groupList: BasicArrayList = JR.cast(this.f_list.f_objectArray[Int32.toNumber(index)])
-            ignore(StringMaker.jm_append(stringBuffer, l_GROUP))
-            ignore(StringMaker.jm_appendint(stringBuffer, index))
-            ignore(StringMaker.jm_append(stringBuffer, l_SPACE))
-            ignore(StringMaker.jm_append(stringBuffer, l_TOTAL_LABEL))
-            ignore(StringMaker.jm_appendint(stringBuffer, BasicArrayList.jm_size(groupList)))
-            ignore(StringMaker.jm_append(stringBuffer, l_SPACE))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(l_GROUP)))
+            ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), index))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(l_SPACE)))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(l_TOTAL_LABEL)))
+            ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), BasicArrayList.jm_size(JR.cast(groupList))))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(l_SPACE)))
             }
         }
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast("log")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(this), JR.cast("log")))
 })
 }
 
+JR.registerSuper("GroupLayerManagerListener", "LayerManagerEventListener")
 JR.registerLateBound("GroupLayerManagerListener.jnew_0", jnew_0)
 JR.registerLateBound("GroupLayerManagerListener.jm_getInstance", jm_getInstance)
 JR.registerLateBound("GroupLayerManagerListener.jm_clear", jm_clear)

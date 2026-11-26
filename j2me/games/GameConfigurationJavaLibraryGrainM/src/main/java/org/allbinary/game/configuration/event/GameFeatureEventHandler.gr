@@ -49,7 +49,7 @@ provide let rec jclassName = () => "GameFeatureEventHandler"
 and jstatic_gameKeyEventHandler = () => match (jcell_gameKeyEventHandler) {
   Some(value) => value,
   None => {
-    let value: GameFeatureEventHandler = jnew_0()
+    let value: GameFeatureEventHandler = JR.cast(jnew_0())
     jcell_gameKeyEventHandler = Some(value)
     value
   },
@@ -60,7 +60,7 @@ and jset_gameKeyEventHandler = (value: GameFeatureEventHandler) => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("GameFeatureEventHandler"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_eventStrings: JR.jnull, f_eventListenerInterfaceList: JR.jnull, }
+    let this = { jobject: JR.newJObject("GameFeatureEventHandler"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_eventStrings: JR.nullOf(), f_eventListenerInterfaceList: JR.nullOf(), }
         void
     this
 }
@@ -71,9 +71,13 @@ and jm_getInstance = () => {
     
 and jm_process = (this: GameFeatureEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) => {
         let mut gameFeatureListenerInterface: GameFeatureListenerInterface = (JR.cast(eventListenerInterface))
-        ignore(GameFeatureListenerInterface.jm_onGameFeatureChange(gameFeatureListenerInterface, JR.cast(eventObject)))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("GameFeatureListenerInterface.jm_onGameFeatureChange"))
+JR.cast(jlate(JR.cast(gameFeatureListenerInterface), JR.cast(JR.cast(eventObject))))
+})
 }
 
+JR.registerSuper("GameFeatureEventHandler", "BasicEventHandler")
 JR.registerLateBound("GameFeatureEventHandler.jnew_0", jnew_0)
 JR.registerLateBound("GameFeatureEventHandler.jm_getInstance", jm_getInstance)
 JR.registerLateBound("GameFeatureEventHandler.jm_process", jm_process)

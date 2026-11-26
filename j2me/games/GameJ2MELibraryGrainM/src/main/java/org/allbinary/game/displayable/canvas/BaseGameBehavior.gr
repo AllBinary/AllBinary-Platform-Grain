@@ -48,7 +48,7 @@ provide let rec jclassName = () => "BaseGameBehavior"
 and jstatic_instanceC = () => match (jcell_instanceC) {
   Some(value) => value,
   None => {
-    let value: BaseGameBehavior = jnew_0()
+    let value: BaseGameBehavior = JR.cast(jnew_0())
     jcell_instanceC = Some(value)
     value
   },
@@ -59,7 +59,7 @@ and jset_instanceC = (value: BaseGameBehavior) => {
 }
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("BaseGameBehavior"), f_logUtil: JR.jnull, }
+    let this = { jobject: JR.newJObject("BaseGameBehavior"), f_logUtil: JR.nullOf(), }
     this
 }
     
@@ -68,7 +68,7 @@ and jm_getInstance = () => {
 }
     
 and jm_init = (this: BaseGameBehavior) => {
-        let mut gameAdState: JObject = JR.cast(GameAdStateFactory.jm_getCurrentInstance(GameAdStateFactory.jm_getInstance()))
+        let mut gameAdState: JObject = JR.cast(GameAdStateFactory.jm_getCurrentInstance(JR.cast(GameAdStateFactory.jm_getInstance())))
         ignore({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameAdState.jm_playingAdState"))
 JR.cast(jlate(JR.cast(gameAdState)))
@@ -77,7 +77,7 @@ JR.cast(jlate(JR.cast(gameAdState)))
     
 and jm_pause = (this: BaseGameBehavior, allBinaryGameCanvas: JObject) => {
         let mut features: Features = JR.cast(Features.jm_getInstance())
-        if (Features.jm_isDefault(features, JR.cast(OpenGLFeatureFactory.jm_getInstance().f_OPENGL_AS_GAME_THREAD))) {
+        if (Features.jm_isDefault(JR.cast(features), JR.cast(OpenGLFeatureFactory.jm_getInstance().f_OPENGL_AS_GAME_THREAD))) {
             let mut currentDisplayableFactory: JObject = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("CurrentDisplayableFactory.jm_getInstance"))
 JR.cast(jlate())
@@ -93,7 +93,7 @@ JR.cast(jlate(JR.cast(allBinaryGameCanvas)))
 }
     
 and jm_unPause = (this: BaseGameBehavior, allBinaryGameCanvas: JObject) => {
-        if (Features.jm_isDefault(Features.jm_getInstance(), JR.cast(OpenGLFeatureFactory.jm_getInstance().f_OPENGL_AS_GAME_THREAD))) {
+        if (Features.jm_isDefault(JR.cast(Features.jm_getInstance()), JR.cast(OpenGLFeatureFactory.jm_getInstance().f_OPENGL_AS_GAME_THREAD))) {
             let mut currentDisplayableFactory: JObject = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("CurrentDisplayableFactory.jm_getInstance"))
 JR.cast(jlate())
@@ -168,6 +168,7 @@ JR.cast(jlate(JR.cast(allBinaryGameCanvas), JR.cast(abeClientInformation), JR.ca
 })
 }
 
+JR.registerSuper("BaseGameBehavior", "DemoGameBehavior")
 JR.registerLateBound("BaseGameBehavior.jnew_0", jnew_0)
 JR.registerLateBound("BaseGameBehavior.jm_getInstance", jm_getInstance)
 JR.registerLateBound("BaseGameBehavior.jm_init", jm_init)

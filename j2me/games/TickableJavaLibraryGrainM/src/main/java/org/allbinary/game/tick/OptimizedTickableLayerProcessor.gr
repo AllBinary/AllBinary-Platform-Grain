@@ -46,24 +46,25 @@ provide record OptimizedTickableLayerProcessor {
 provide let rec jclassName = () => "OptimizedTickableLayerProcessor"
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("OptimizedTickableLayerProcessor"), f_commonStrings: JR.jnull, f_layerManager: JR.jnull, }
+    let this = { jobject: JR.newJObject("OptimizedTickableLayerProcessor"), f_commonStrings: JR.nullOf(), f_layerManager: JR.nullOf(), }
         void
     this
 }
     
 and jm_processAt = (this: OptimizedTickableLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: Int32) => {
         let mut tickableInterface: AllBinaryGameLayer = JR.cast(layerInterface)
-        ignore(AllBinaryGameLayer.jm_processTick(tickableInterface, allBinaryLayerManager))
+        ignore(AllBinaryGameLayer.jm_processTick(JR.cast(tickableInterface), JR.cast(allBinaryLayerManager)))
 }
     
 and jm_isProcessorLayer = (this: OptimizedTickableLayerProcessor, layerInterface: AllBinaryLayer) => {
-        if (AllBinaryLayer.jm_implmentsTickableInterface(layerInterface)) {
+        if (AllBinaryLayer.jm_implmentsTickableInterface(JR.cast(layerInterface))) {
             return true
         } else {
             return false
         }
 }
 
+JR.registerSuper("OptimizedTickableLayerProcessor", "LayerProcessor")
 JR.registerLateBound("OptimizedTickableLayerProcessor.jnew_0", jnew_0)
 JR.registerLateBound("OptimizedTickableLayerProcessor.jm_processAt", jm_processAt)
 JR.registerLateBound("OptimizedTickableLayerProcessor.jm_isProcessorLayer", jm_isProcessorLayer)

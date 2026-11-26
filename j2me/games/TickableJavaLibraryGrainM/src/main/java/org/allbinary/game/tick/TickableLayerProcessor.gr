@@ -46,24 +46,28 @@ provide record TickableLayerProcessor {
 provide let rec jclassName = () => "TickableLayerProcessor"
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("TickableLayerProcessor"), f_commonStrings: JR.jnull, f_layerManager: JR.jnull, }
+    let this = { jobject: JR.newJObject("TickableLayerProcessor"), f_commonStrings: JR.nullOf(), f_layerManager: JR.nullOf(), }
         void
     this
 }
     
 and jm_processAt = (this: TickableLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: Int32) => {
         let mut tickableInterface: TickableInterface = JR.cast(layerInterface)
-        ignore(TickableInterface.jm_processTick(tickableInterface, allBinaryLayerManager))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TickableInterface.jm_processTick"))
+JR.cast(jlate(JR.cast(tickableInterface), JR.cast(allBinaryLayerManager)))
+})
 }
     
 and jm_isProcessorLayer = (this: TickableLayerProcessor, layerInterface: AllBinaryLayer) => {
-        if (AllBinaryLayer.jm_implmentsTickableInterface(layerInterface)) {
+        if (AllBinaryLayer.jm_implmentsTickableInterface(JR.cast(layerInterface))) {
             return true
         } else {
             return false
         }
 }
 
+JR.registerSuper("TickableLayerProcessor", "LayerProcessor")
 JR.registerLateBound("TickableLayerProcessor.jnew_0", jnew_0)
 JR.registerLateBound("TickableLayerProcessor.jm_processAt", jm_processAt)
 JR.registerLateBound("TickableLayerProcessor.jm_isProcessorLayer", jm_isProcessorLayer)

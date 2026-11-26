@@ -40,6 +40,15 @@ use MathUtil.{ type MathUtil }
 from "../../../../../../org/allbinary/logic/math/SmallIntegerSingletonFactory.gr" include SmallIntegerSingletonFactory
 use SmallIntegerSingletonFactory.{ type SmallIntegerSingletonFactory }
 from "../../../../../../java/lang/Integer.gr" include Integer
+from "../../../../../../java/lang/Long.gr" include Long
+from "../../../../../../java/lang/Short.gr" include Short
+from "../../../../../../java/lang/Byte.gr" include Byte
+from "../../../../../../java/lang/Character.gr" include Character
+from "../../../../../../java/lang/Float.gr" include Float
+from "../../../../../../java/lang/Double.gr" include Double
+from "../../../../../../java/lang/Boolean.gr" include Boolean
+from "../../../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 
 provide record BasePatrolAI {
   jobject: JObject,
@@ -66,7 +75,7 @@ provide let rec jclassName = () => "BasePatrolAI"
 and jstatic_MAX_DISTANCE = () => match (jcell_MAX_DISTANCE) {
   Some(value) => value,
   None => {
-    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 2l)
+    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(JR.cast(SmallIntegerSingletonFactory.jm_getInstance()), 2l)
     jcell_MAX_DISTANCE = Some(value)
     value
   },
@@ -79,7 +88,7 @@ and jset_MAX_DISTANCE = (value: Int32) => {
 and jstatic_DIRECTION_ARRAY = () => match (jcell_DIRECTION_ARRAY) {
   Some(value) => value,
   None => {
-    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 3l)
+    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(JR.cast(SmallIntegerSingletonFactory.jm_getInstance()), 3l)
     jcell_DIRECTION_ARRAY = Some(value)
     value
   },
@@ -92,7 +101,7 @@ and jset_DIRECTION_ARRAY = (value: Int32) => {
 and jstatic_FIRING_DISTANCE = () => match (jcell_FIRING_DISTANCE) {
   Some(value) => value,
   None => {
-    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 4l)
+    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(JR.cast(SmallIntegerSingletonFactory.jm_getInstance()), 4l)
     jcell_FIRING_DISTANCE = Some(value)
     value
   },
@@ -105,7 +114,7 @@ and jset_FIRING_DISTANCE = (value: Int32) => {
 and jstatic_SPEED = () => match (jcell_SPEED) {
   Some(value) => value,
   None => {
-    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 5l)
+    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(JR.cast(SmallIntegerSingletonFactory.jm_getInstance()), 5l)
     jcell_SPEED = Some(value)
     value
   },
@@ -116,7 +125,7 @@ and jset_SPEED = (value: Int32) => {
 }
     
 and jnew_3 = (hashtable: JObject, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
-    let this = { jobject: JR.newJObject("BasePatrolAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_maxDistance: 0l, f_currentDistance: 0l, f_xTotalDistance: 0l, f_lastKeyDirection: 0l, f_keyDirection: 0l, }
+    let this = { jobject: JR.newJObject("BasePatrolAI"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_ownerLayerInterface: JR.nullOf(), f_gameInput: JR.nullOf(), f_lastKey: 0l, f_maxDistance: 0l, f_currentDistance: 0l, f_xTotalDistance: 0l, f_lastKeyDirection: 0l, f_keyDirection: 0l, }
     
     
     
@@ -133,7 +142,7 @@ JR.cast(jlate())
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
 JR.cast(jlate(JR.cast(hashtable), JR.cast(jstatic_MAX_DISTANCE())))
 })
-        this.f_currentDistance = Integer.jm_intValue(this.f_maxDistance)
+        this.f_currentDistance = Integer.jm_intValue(JR.cast(this.f_maxDistance))
     this
 }
     
@@ -147,16 +156,16 @@ and jm_updateTotalDistance = (this: BasePatrolAI) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
 JR.cast(jlate(JR.cast(this)))
 })
-        let mut velocityProperties: BasicVelocityProperties = JR.cast(VelocityInterfaceCompositeInterface.jm_getVelocityProperties(velocityInterfaceCompositeInterface))
+        let mut velocityProperties: BasicVelocityProperties = JR.cast(VelocityInterfaceCompositeInterface.jm_getVelocityProperties(JR.cast(velocityInterfaceCompositeInterface)))
         this.f_xTotalDistance = Int32.(+)(this.f_xTotalDistance, {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_getScaled"))
-JR.cast(jlate(JR.cast(BasicVelocityProperties.jm_getVelocityXBasicDecimalP(velocityProperties))))
+JR.cast(jlate(JR.cast(BasicVelocityProperties.jm_getVelocityXBasicDecimalP(JR.cast(velocityProperties)))))
 })
 }
     
 and jm_changeDirectionIfReachedPacingAreaMax = (this: BasePatrolAI) => {
         let mut mathUtil: MathUtil = JR.cast(MathUtil.jm_getInstance())
-        let mut totalDistance: Int32 = MathUtil.jm_abs(mathUtil, this.f_xTotalDistance)
+        let mut totalDistance: Int32 = MathUtil.jm_abs(JR.cast(mathUtil), this.f_xTotalDistance)
         if (Int32.(>)(totalDistance, this.f_currentDistance)) {
             ignore(jm_nextDirection(this))
         }
@@ -190,6 +199,7 @@ and jm_disable = (this: BasePatrolAI) => {
     void
 }
 
+JR.registerSuper("BasePatrolAI", "BasicAI")
 JR.registerLateBound("BasePatrolAI.jnew_3", jnew_3)
 JR.registerLateBound("BasePatrolAI.jm_update", jm_update)
 JR.registerLateBound("BasePatrolAI.jm_updateTotalDistance", jm_updateTotalDistance)

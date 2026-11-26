@@ -59,7 +59,7 @@ provide let rec jclassName = () => "VectorExplosionGenerator"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: VectorExplosionGenerator = jnew_0()
+    let value: VectorExplosionGenerator = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -85,7 +85,7 @@ and jnew_0 = () => {
     
 and jm_createList = (this: VectorExplosionGenerator, list: BasicArrayList, howMuch: Int32, type_: VectorExplosionType) => {
         let mut point: GPoint = JR.nullOf()
-        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
         let mut points: Array<Array<Int32>> = Array.init(Int32.toNumber(size), jindex1 => Array.make(Int32.toNumber(2l), 0l))
         {
             let mut index: Int32 = 0l
@@ -97,35 +97,38 @@ and jm_createList = (this: VectorExplosionGenerator, list: BasicArrayList, howMu
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             point = JR.cast(list.f_objectArray[Int32.toNumber(index)])
-            points[Int32.toNumber(index)][Int32.toNumber(0l)] = GPoint.jm_getX(point)
-            points[Int32.toNumber(index)][Int32.toNumber(1l)] = GPoint.jm_getY(point)
+            points[Int32.toNumber(index)][Int32.toNumber(0l)] = GPoint.jm_getX(JR.cast(point))
+            points[Int32.toNumber(index)][Int32.toNumber(1l)] = GPoint.jm_getY(JR.cast(point))
             }
         }
-        return jm_createListFromPoints(this, list, points, howMuch, type_)
+        return jm_createListFromPoints(this, JR.cast(list), points, howMuch, JR.cast(type_))
 }
     
 and jm_getInstance_3 = (this: VectorExplosionGenerator, points: Array<Array<Int32>>, howMuch: Int32, type_: VectorExplosionType) => {
-        let mut pointsBasicArrayList: BasicArrayList = JR.cast(jm_getInstanceStartFrame(this, points, howMuch, type_, true))
+        let mut pointsBasicArrayList: BasicArrayList = JR.cast(jm_getInstanceStartFrame(this, points, howMuch, JR.cast(type_), true))
         let mut tempBasicArrayList: BasicArrayList = JR.cast(pointsBasicArrayList.f_objectArray[Int32.toNumber(0l)])
-        let mut newPoints: Array<Array<Array<Int32>>> = VectorAnimationUtil.jm_toAnimationArrayFromListOfPointListWithPointsPerFrame(this.f_vectorAnimationUtil, pointsBasicArrayList, BasicArrayList.jm_size(tempBasicArrayList))
+        let mut newPoints: Array<Array<Array<Int32>>> = {
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("VectorAnimationUtil.jm_toAnimationArrayFromListOfPointListWithPointsPerFrame"))
+JR.cast(jlate(JR.cast(this.f_vectorAnimationUtil), JR.cast(pointsBasicArrayList), JR.cast(BasicArrayList.jm_size(JR.cast(tempBasicArrayList)))))
+}
         return newPoints
 }
     
 and jm_getInstanceStartFrame = (this: VectorExplosionGenerator, points: Array<Array<Int32>>, howMuch: Int32, type_: VectorExplosionType, startFrame: Bool) => {
         {
             let mut pointsBasicArrayList: BasicArrayList = JR.cast(BasicArrayListS.jnew_1(howMuch))
-            ignore(BasicArrayList.jm_add(pointsBasicArrayList, JR.cast(jm_createPointsBasicArrayList(this, points))))
+            ignore(BasicArrayList.jm_add(JR.cast(pointsBasicArrayList), JR.cast(jm_createPointsBasicArrayList(this, points))))
             let mut frameIndex: Int32 = 0l
             let mut tempBasicArrayList: BasicArrayList = JR.nullOf()
             let mut pointBasicArrayList: BasicArrayList = JR.nullOf()
             while (Int32.(<)(frameIndex, howMuch)) {
                 tempBasicArrayList = JR.cast(pointsBasicArrayList.f_objectArray[Int32.toNumber(frameIndex)])
-                pointBasicArrayList = JR.cast(jm_createListFromPoints(this, tempBasicArrayList, points, howMuch, type_))
-                ignore(BasicArrayList.jm_add(pointsBasicArrayList, JR.cast(pointBasicArrayList)))
+                pointBasicArrayList = JR.cast(jm_createListFromPoints(this, JR.cast(tempBasicArrayList), points, howMuch, JR.cast(type_)))
+                ignore(BasicArrayList.jm_add(JR.cast(pointsBasicArrayList), JR.cast(pointBasicArrayList)))
                 frameIndex = Int32.(+)(frameIndex, 1l)
             }
             if (!startFrame) {
-                ignore(BasicArrayList.jm_removeAt(pointsBasicArrayList, 0l))
+                ignore(BasicArrayList.jm_removeAt(JR.cast(pointsBasicArrayList), 0l))
             }
             return pointsBasicArrayList
         }
@@ -139,17 +142,17 @@ and jm_createListFromPoints = (this: VectorExplosionGenerator, tempBasicArrayLis
         while (Int32.(<)(index, Int32.fromNumber(Array.length(points)))) {
             sectionBasicArrayList = JR.cast(JR.cast(BasicArrayListD.jnew_0()))
             while ((points[Int32.toNumber(index)][Int32.toNumber(0l)] != 1000l)) {
-                ignore(BasicArrayList.jm_add(sectionBasicArrayList, tempBasicArrayList.f_objectArray[Int32.toNumber(index)]))
+                ignore(BasicArrayList.jm_add(JR.cast(sectionBasicArrayList), JR.cast(tempBasicArrayList.f_objectArray[Int32.toNumber(index)])))
                 index = Int32.(+)(index, 1l)
                 if (Int32.(>=)(index, Int32.fromNumber(Array.length(points)))) {
                     break
                 }
             }
-            sectionBasicArrayList = JR.cast(RandomTranslation.jm_getInstance(sectionBasicArrayList, howMuch))
+            sectionBasicArrayList = JR.cast(RandomTranslation.jm_getInstance(JR.cast(sectionBasicArrayList), howMuch))
             if (JR.isSame(type_, this.f_ROTATION)) {
-                sectionBasicArrayList = JR.cast(RandomRotationFactory.jm_getInstanceList(this.f_randomRotationFactory, sectionBasicArrayList, howMuch))
+                sectionBasicArrayList = JR.cast(RandomRotationFactory.jm_getInstanceList(JR.cast(this.f_randomRotationFactory), JR.cast(sectionBasicArrayList), howMuch))
             }
-            let mut size: Int32 = BasicArrayList.jm_size(sectionBasicArrayList)
+            let mut size: Int32 = BasicArrayList.jm_size(JR.cast(sectionBasicArrayList))
             {
                 let mut index2: Int32 = 0l
                 let mut jfirst = true
@@ -159,13 +162,13 @@ and jm_createListFromPoints = (this: VectorExplosionGenerator, tempBasicArrayLis
                     }
                     jfirst = false
                     if (!(Int32.(<)(index2, size))) break
-                ignore(BasicArrayList.jm_add(pointBasicArrayList, sectionBasicArrayList.f_objectArray[Int32.toNumber(index2)]))
+                ignore(BasicArrayList.jm_add(JR.cast(pointBasicArrayList), JR.cast(sectionBasicArrayList.f_objectArray[Int32.toNumber(index2)])))
                 }
             }
             if (Int32.(>=)(index, Int32.fromNumber(Array.length(points)))) {
                 break
             } else if ((points[Int32.toNumber(index)][Int32.toNumber(0l)] == 1000l)) {
-                ignore(BasicArrayList.jm_add(pointBasicArrayList, tempBasicArrayList.f_objectArray[Int32.toNumber(index)]))
+                ignore(BasicArrayList.jm_add(JR.cast(pointBasicArrayList), JR.cast(tempBasicArrayList.f_objectArray[Int32.toNumber(index)])))
                 index = Int32.(+)(index, 1l)
             }
         }
@@ -187,7 +190,7 @@ and jm_createPointsBasicArrayList = (this: VectorExplosionGenerator, points: Arr
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, Int32.fromNumber(Array.length(points))))) break
-            ignore(BasicArrayList.jm_add(firstPointBasicArrayList, JR.cast(PointFactory.jm_createXY(pointFactory, points[Int32.toNumber(index)][Int32.toNumber(0l)], points[Int32.toNumber(index)][Int32.toNumber(1l)]))))
+            ignore(BasicArrayList.jm_add(JR.cast(firstPointBasicArrayList), JR.cast(PointFactory.jm_createXY(JR.cast(pointFactory), points[Int32.toNumber(index)][Int32.toNumber(0l)], points[Int32.toNumber(index)][Int32.toNumber(1l)]))))
             }
         }
         return firstPointBasicArrayList

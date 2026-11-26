@@ -37,6 +37,14 @@ from "../../../../org/allbinary/graphics/font/UpdateMyFontInterface.gr" include 
 use UpdateMyFontInterface.{ type UpdateMyFontInterface }
 from "../../../../org/allbinary/graphics/font/UpdateMyFontProcessor.gr" include UpdateMyFontProcessor
 use UpdateMyFontProcessor.{ type UpdateMyFontProcessor }
+from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/lang/Long.gr" include Long
+from "../../../../java/lang/Short.gr" include Short
+from "../../../../java/lang/Byte.gr" include Byte
+from "../../../../java/lang/Character.gr" include Character
+from "../../../../java/lang/Float.gr" include Float
+from "../../../../java/lang/Double.gr" include Double
+from "../../../../java/lang/Boolean.gr" include Boolean
 from "./Paintable.gr" include Paintable
 use Paintable.{ type Paintable }
 
@@ -87,11 +95,11 @@ JR.cast(jlate(JR.cast(font)))
 }
     
 and jm_paint = (this: SimpleTextPaintable, graphics: JObject) => {
-        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
-        let mut width: Int32 = DisplayInfoSingleton.jm_getLast(this.f_displayInfoSingleton)[Int32.toNumber(this.f_displayInfoSingleton.f_WIDTH)]
+        ignore(MyFontProcessor.jm_process(JR.cast(this.f_myFontProcessor), JR.cast(graphics)))
+        let mut width: Int32 = DisplayInfoSingleton.jm_getLast(JR.cast(this.f_displayInfoSingleton))[Int32.toNumber(this.f_displayInfoSingleton.f_WIDTH)]
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_setColor"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(BasicColor.jm_intValue(jm_getBasicColorP(this)))))
+JR.cast(jlate(JR.cast(graphics), JR.cast(BasicColor.jm_intValue(JR.cast(jm_getBasicColorP(this))))))
 })
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
@@ -116,6 +124,7 @@ and jm_getText = (this: SimpleTextPaintable) => {
         return this.f_text
 }
 
+JR.registerSuper("SimpleTextPaintable", "Paintable")
 JR.registerLateBound("SimpleTextPaintable.jnew_2", jnew_2)
 JR.registerLateBound("SimpleTextPaintable.jm_updateMeasurement", jm_updateMeasurement)
 JR.registerLateBound("SimpleTextPaintable.jm_paint", jm_paint)

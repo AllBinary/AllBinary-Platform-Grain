@@ -84,7 +84,7 @@ and jset_LISTENER_LABEL = (value: String) => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("DownKeyEventHandlerBase"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_eventStrings: JR.jnull, f_eventListenerInterfaceList: JR.jnull, f_list: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("DownKeyEventHandlerBase"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_eventStrings: JR.nullOf(), f_eventListenerInterfaceList: JR.nullOf(), f_list: JR.nullOf(), }
     this.jobject.toStringFunction = () => jm_toString(this)
     this.f_list = JR.cast(BasicArrayListD.jnew_0())
         void
@@ -92,36 +92,36 @@ and jnew_0 = () => {
 }
     
 and jm_addListener = (this: DownKeyEventHandlerBase, playerGameInput: PlayerGameInput) => {
-        if (!BasicArrayList.jm_contains(this.f_list, JR.cast(playerGameInput))) {
-            ignore(BasicArrayList.jm_add(this.f_list, JR.cast(playerGameInput)))
+        if (!BasicArrayList.jm_contains(JR.cast(this.f_list), JR.cast(playerGameInput))) {
+            ignore(BasicArrayList.jm_add(JR.cast(this.f_list), JR.cast(playerGameInput)))
         }
 }
     
 and jm_removeAllListeners = (this: DownKeyEventHandlerBase) => {
-        ignore(BasicArrayList.jm_clear(this.f_list))
+        ignore(BasicArrayList.jm_clear(JR.cast(this.f_list)))
         ignore(jm_removeAllListeners(this))
 }
     
 and jm_removeListenerSingleThreaded = (this: DownKeyEventHandlerBase, eventListenerInterface: EventListenerInterface) => {
-        ignore(BasicArrayList.jm_remove(this.f_list, JR.cast(eventListenerInterface)))
+        ignore(BasicArrayList.jm_remove(JR.cast(this.f_list), JR.cast(eventListenerInterface)))
         ignore(jm_removeListenerSingleThreaded(this, eventListenerInterface))
 }
     
 and jm_removeListener = (this: DownKeyEventHandlerBase, eventListenerInterface: EventListenerInterface) => {
-        ignore(BasicArrayList.jm_remove(this.f_list, JR.cast(eventListenerInterface)))
+        ignore(BasicArrayList.jm_remove(JR.cast(this.f_list), JR.cast(eventListenerInterface)))
         ignore(jm_removeListener(this, eventListenerInterface))
 }
     
 and jm_fireEventI = (this: DownKeyEventHandlerBase, eventObject: Int32) => {
         {
-            let mut index: Int32 = BasicArrayList.jm_size(this.f_list)
+            let mut index: Int32 = BasicArrayList.jm_size(JR.cast(this.f_list))
             let mut jfirst = true
             while (true) {
                 jfirst = false
                 if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
             {
                 let mut playerGameInput: PlayerGameInput = JR.cast(this.f_list.f_objectArray[Int32.toNumber(index)])
-                ignore(PlayerGameInput.jm_onDownKey(playerGameInput, eventObject))
+                ignore(PlayerGameInput.jm_onDownKey(JR.cast(playerGameInput), eventObject))
             }
             }
         }
@@ -136,14 +136,14 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_eventListenerInterfaceList))))
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_get"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_eventListenerInterfaceList)), JR.cast(index)))
 })
-                ignore(jm_processI(this, eventObject, eventListenerInterface))
+                ignore(jm_processI(this, eventObject, JR.cast(eventListenerInterface)))
             }
             index = Int32.(+)(index, 1l)
         }
 }
     
 and jm_fireEventForGameKeyEvent = (this: DownKeyEventHandlerBase, eventObject: GameKeyEvent) => {
-        let mut size: Int32 = BasicArrayList.jm_size(this.f_list)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(this.f_list))
         {
             let mut index: Int32 = size
             let mut jfirst = true
@@ -152,7 +152,7 @@ and jm_fireEventForGameKeyEvent = (this: DownKeyEventHandlerBase, eventObject: G
                 if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
             {
                 let mut playerGameInput: PlayerGameInput = JR.cast(this.f_list.f_objectArray[Int32.toNumber(index)])
-                ignore(PlayerGameInput.jm_onDownKeyEvent(playerGameInput, eventObject))
+                ignore(PlayerGameInput.jm_onDownKeyEvent(JR.cast(playerGameInput), JR.cast(eventObject)))
             }
             }
         }
@@ -167,7 +167,7 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_eventListenerInterfaceList))))
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_get"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_eventListenerInterfaceList)), JR.cast(index)))
 })
-                ignore(jm_processEvent(this, eventObject, eventListenerInterface))
+                ignore(jm_processEvent(this, JR.cast(eventObject), JR.cast(eventListenerInterface)))
             }
             index = Int32.(+)(index, 1l)
         }
@@ -175,19 +175,25 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_eventListenerInterfaceList)), JR.cast(index
     
 and jm_processI = (this: DownKeyEventHandlerBase, eventObject: Int32, eventListenerInterface: EventListenerInterface) => {
         let mut downKeyEventListenerInterface: DownKeyEventListenerInterface = JR.cast(eventListenerInterface)
-        ignore(DownKeyEventListenerInterface.jm_onDownKey(downKeyEventListenerInterface, eventObject))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DownKeyEventListenerInterface.jm_onDownKey"))
+JR.cast(jlate(JR.cast(downKeyEventListenerInterface), JR.cast(eventObject)))
+})
 }
     
 and jm_processEvent = (this: DownKeyEventHandlerBase, eventObject: GameKeyEvent, eventListenerInterface: EventListenerInterface) => {
         let mut downKeyEventListenerInterface: DownKeyEventListenerInterface = JR.cast(eventListenerInterface)
-        ignore(DownKeyEventListenerInterface.jm_onDownKeyEvent(downKeyEventListenerInterface, eventObject))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DownKeyEventListenerInterface.jm_onDownKeyEvent"))
+JR.cast(jlate(JR.cast(downKeyEventListenerInterface), JR.cast(eventObject)))
+})
 }
     
 and jm_toString = (this: DownKeyEventHandlerBase) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, jm_toString(this)))
-        ignore(StringMaker.jm_append(stringBuffer, jstatic_TOTAL_LISTENERS()))
-        ignore(StringMaker.jm_appendint(stringBuffer, BasicArrayList.jm_size(this.f_list)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jm_toString(this))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_TOTAL_LISTENERS())))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), BasicArrayList.jm_size(JR.cast(this.f_list))))
         let mut eventListenerInterface: EventListenerInterface = JR.nullOf()
         {
             let mut index: Int32 = 0l
@@ -197,17 +203,18 @@ and jm_toString = (this: DownKeyEventHandlerBase) => {
                     index = Int32.(+)(index, 1l)
                 }
                 jfirst = false
-                if (!(Int32.(<)(index, BasicArrayList.jm_size(this.f_list)))) break
+                if (!(Int32.(<)(index, BasicArrayList.jm_size(JR.cast(this.f_list))))) break
             {
-                eventListenerInterface = JR.cast(BasicArrayList.jm_get(this.f_list, index))
-                ignore(StringMaker.jm_append(stringBuffer, jstatic_LISTENER_LABEL()))
-                ignore(StringMaker.jm_append(stringBuffer, JR.toStringOf(eventListenerInterface.jobject)))
+                eventListenerInterface = JR.cast(BasicArrayList.jm_get(JR.cast(this.f_list), index))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_LISTENER_LABEL())))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(JR.toStringOf(eventListenerInterface))))
             }
             }
         }
-        return StringMaker.jm_toString(stringBuffer)
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
+JR.registerSuper("DownKeyEventHandlerBase", "BasicEventHandler")
 JR.registerLateBound("DownKeyEventHandlerBase.jnew_0", jnew_0)
 JR.registerLateBound("DownKeyEventHandlerBase.jm_addListener", jm_addListener)
 JR.registerLateBound("DownKeyEventHandlerBase.jm_removeAllListeners", jm_removeAllListeners)

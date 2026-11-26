@@ -23,6 +23,13 @@ from "../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
 use CommonStrings.{ type CommonStrings }
 from "../../../org/allbinary/thread/ThreadObjectUtil.gr" include ThreadObjectUtil
 use ThreadObjectUtil.{ type ThreadObjectUtil }
+from "../../../java/lang/Integer.gr" include Integer
+from "../../../java/lang/Long.gr" include Long
+from "../../../java/lang/Short.gr" include Short
+from "../../../java/lang/Byte.gr" include Byte
+from "../../../java/lang/Character.gr" include Character
+from "../../../java/lang/Float.gr" include Float
+from "../../../java/lang/Double.gr" include Double
 from "../../../java/lang/Boolean.gr" include Boolean
 from "./TimeDelayHelper.gr" include TimeDelayHelper
 use TimeDelayHelper.{ type TimeDelayHelper }
@@ -39,7 +46,7 @@ provide record StupidTimer {
 provide let rec jclassName = () => "StupidTimer"
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("StupidTimer"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_nullUtil: JR.nullOf(), f_threadObjectUtil: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("StupidTimer"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_nullUtil: JR.nullOf(), f_threadObjectUtil: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -51,8 +58,8 @@ JR.cast(jlate())
 }
     
 and jm_visitBool = (this: StupidTimer, visitorInterface: Visitor) => {
-        let mut result: Bool = JR.cast(Visitor.jm_visit(visitorInterface, this.f_nullUtil.f_NULL_OBJECT))
-        let mut result2: Bool = Boolean.jm_booleanValue(result)
+        let mut result: Bool = JR.cast(Visitor.jm_visit(JR.cast(visitorInterface), JR.cast(this.f_nullUtil.f_NULL_OBJECT)))
+        let mut result2: Bool = Boolean.jm_booleanValue(JR.cast(result))
         return result2
 }
     
@@ -61,21 +68,24 @@ and jm_visit = (this: StupidTimer, visitorInterface: Visitor, timeDelayHelper: T
         let mut l_WAITING_FOR: String = "Waiting for: "
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), l_WAITING_FOR), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(visitorInterface))))), JR.cast(this), JR.cast(this.f_commonStrings.f_VISIT)))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(l_WAITING_FOR))), JR.cast(StringUtil.jm_toString(JR.cast(StringUtil.jm_getInstance()), JR.cast(visitorInterface))))))), JR.cast(this), JR.cast(this.f_commonStrings.f_VISIT)))
 })
         let mut index: Int32 = 0l
-        while (jm_visitBool(this, visitorInterface)) {
+        while (jm_visitBool(this, JR.cast(visitorInterface))) {
             if ((Int32.rem(index, 10l) == 0l)) {
                 ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), l_WAITING_FOR), index))), JR.cast(this), JR.cast(this.f_commonStrings.f_VISIT)))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(l_WAITING_FOR))), index)))), JR.cast(this), JR.cast(this.f_commonStrings.f_VISIT)))
 })
             }
             index = Int32.(+)(index, 1l)
             {
-                ignore(ThreadObjectUtil.jm_waitObjectFor(this.f_threadObjectUtil, JR.cast(this), 1800L))
+                ignore(ThreadObjectUtil.jm_waitObjectFor(JR.cast(this.f_threadObjectUtil), JR.cast(this), 1800L))
             }
-            if (TimeDelayHelper.jm_isTimeTNT(timeDelayHelper)) {
+            if ({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TimeDelayHelper.jm_isTimeTNT"))
+JR.cast(jlate(JR.cast(timeDelayHelper)))
+}) {
                 tookTooLong = true
                 break
             }
@@ -88,14 +98,17 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_EXCEPTION)
         } else {
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(TimeDelayHelper.jm_toString(timeDelayHelper)), JR.cast(this), JR.cast(this.f_commonStrings.f_VISIT)))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TimeDelayHelper.jm_toString"))
+JR.cast(jlate(JR.cast(timeDelayHelper)))
+}), JR.cast(this), JR.cast(this.f_commonStrings.f_VISIT)))
 })
         }
 }
     
 and jm_stopWaiting = (this: StupidTimer) => {
         {
-            ignore(ThreadObjectUtil.jm_notifyObject(this.f_threadObjectUtil, JR.cast(this)))
+            ignore(ThreadObjectUtil.jm_notifyObject(JR.cast(this.f_threadObjectUtil), JR.cast(this)))
         }
 }
 

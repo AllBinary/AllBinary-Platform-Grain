@@ -50,20 +50,23 @@ provide record OptimizedAllBinaryCollisionLayerProcessorForCollidableLayer {
 provide let rec jclassName = () => "OptimizedAllBinaryCollisionLayerProcessorForCollidableLayer"
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("OptimizedAllBinaryCollisionLayerProcessorForCollidableLayer"), f_commonStrings: JR.jnull, f_layerManager: JR.jnull, }
+    let this = { jobject: JR.newJObject("OptimizedAllBinaryCollisionLayerProcessorForCollidableLayer"), f_commonStrings: JR.nullOf(), f_layerManager: JR.nullOf(), }
         void
     this
 }
     
 and jm_processAt = (this: OptimizedAllBinaryCollisionLayerProcessorForCollidableLayer, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, startIndex: Int32) => {
         let mut collidableInterfaceCompositeInterface: CollidableCompositeLayer = JR.cast(layerInterface)
-        let mut collidableBase: CollidableBaseBehavior = JR.cast(CollidableCompositeLayer.jm_getCollidableInferface(collidableInterfaceCompositeInterface))
-        if (CollidableBaseBehavior.jm_isCollidable(collidableBase, collidableInterfaceCompositeInterface)) {
+        let mut collidableBase: CollidableBaseBehavior = JR.cast(CollidableCompositeLayer.jm_getCollidableInferface(JR.cast(collidableInterfaceCompositeInterface)))
+        if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableBaseBehavior.jm_isCollidable"))
+JR.cast(jlate(JR.cast(collidableBase), JR.cast(collidableInterfaceCompositeInterface)))
+}) {
             let mut layerManager: LayerManager = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LayerProcessor.jm_getLayerManager"))
 JR.cast(jlate(JR.cast(this)))
 })
-            let mut size: Int32 = LayerManager.jm_getSize(layerManager)
+            let mut size: Int32 = LayerManager.jm_getSize(JR.cast(layerManager))
             let mut collidableInterfaceCompositeInterface2: CollidableCompositeLayer = JR.nullOf()
             let mut collidableBase2: CollidableBaseBehavior = JR.nullOf()
             {
@@ -75,11 +78,23 @@ JR.cast(jlate(JR.cast(this)))
                     }
                     jfirst = false
                     if (!(Int32.(<)(index, size))) break
-                collidableInterfaceCompositeInterface2 = JR.cast(LayerManager.jm_getLayerAt(layerManager, index))
-                collidableBase2 = JR.cast(CollidableCompositeLayer.jm_getCollidableInferface(collidableInterfaceCompositeInterface2))
-                if ((CollidableBaseBehavior.jm_isCollidable(collidableBase2, collidableInterfaceCompositeInterface) && CollidableBaseBehavior.jm_isCollision(collidableBase, collidableInterfaceCompositeInterface, collidableInterfaceCompositeInterface2))) {
-                    ignore(CollidableBaseBehavior.jm_collide(collidableBase, collidableInterfaceCompositeInterface, collidableInterfaceCompositeInterface2))
-                    ignore(CollidableBaseBehavior.jm_collide(collidableBase2, collidableInterfaceCompositeInterface2, collidableInterfaceCompositeInterface))
+                collidableInterfaceCompositeInterface2 = JR.cast(LayerManager.jm_getLayerAt(JR.cast(layerManager), index))
+                collidableBase2 = JR.cast(CollidableCompositeLayer.jm_getCollidableInferface(JR.cast(collidableInterfaceCompositeInterface2)))
+                if (({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableBaseBehavior.jm_isCollidable"))
+JR.cast(jlate(JR.cast(collidableBase2), JR.cast(collidableInterfaceCompositeInterface)))
+} && {
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableBaseBehavior.jm_isCollision"))
+JR.cast(jlate(JR.cast(collidableBase), JR.cast(collidableInterfaceCompositeInterface), JR.cast(collidableInterfaceCompositeInterface2)))
+})) {
+                    ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableBaseBehavior.jm_collide"))
+JR.cast(jlate(JR.cast(collidableBase), JR.cast(collidableInterfaceCompositeInterface), JR.cast(collidableInterfaceCompositeInterface2)))
+})
+                    ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableBaseBehavior.jm_collide"))
+JR.cast(jlate(JR.cast(collidableBase2), JR.cast(collidableInterfaceCompositeInterface2), JR.cast(collidableInterfaceCompositeInterface)))
+})
                 }
                 }
             }
@@ -87,13 +102,14 @@ JR.cast(jlate(JR.cast(this)))
 }
     
 and jm_isProcessorLayer = (this: OptimizedAllBinaryCollisionLayerProcessorForCollidableLayer, layerInterface: AllBinaryLayer) => {
-        if (AllBinaryLayer.jm_implmentsCollidableInterface(layerInterface)) {
+        if (AllBinaryLayer.jm_implmentsCollidableInterface(JR.cast(layerInterface))) {
             return true
         } else {
             return false
         }
 }
 
+JR.registerSuper("OptimizedAllBinaryCollisionLayerProcessorForCollidableLayer", "LayerProcessor")
 JR.registerLateBound("OptimizedAllBinaryCollisionLayerProcessorForCollidableLayer.jnew_0", jnew_0)
 JR.registerLateBound("OptimizedAllBinaryCollisionLayerProcessorForCollidableLayer.jm_processAt", jm_processAt)
 JR.registerLateBound("OptimizedAllBinaryCollisionLayerProcessorForCollidableLayer.jm_isProcessorLayer", jm_isProcessorLayer)

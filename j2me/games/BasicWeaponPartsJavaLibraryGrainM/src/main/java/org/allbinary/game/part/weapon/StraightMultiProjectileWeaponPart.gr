@@ -64,11 +64,11 @@ provide record StraightMultiProjectileWeaponPart {
 provide let rec jclassName = () => "StraightMultiProjectileWeaponPart"
     
 and jm_createStraightMultiProjectileWeaponPart = (animationInterface: Animation, weaponLayerCircularStaticPool: WeaponLayerCircularPool) => {
-        return jnew_7(animationInterface, JR.cast(AllBinaryLayer.jstatic_NULL_ALLBINARY_LAYER()), weaponLayerCircularStaticPool, 2l, JR.cast(WeaponProperties.jstatic_NULL_WEAPON_PROPERTIES()), JR.cast(NoScoreable.jm_getInstance()), JR.cast(RelativeRelationship.jstatic_NULL_RELATIVE_RELATIONSHIP()))
+        return jnew_7(JR.cast(animationInterface), JR.cast(AllBinaryLayer.jstatic_NULL_ALLBINARY_LAYER()), JR.cast(weaponLayerCircularStaticPool), 2l, JR.cast(WeaponProperties.jstatic_NULL_WEAPON_PROPERTIES()), JR.cast(NoScoreable.jm_getInstance()), JR.cast(RelativeRelationship.jstatic_NULL_RELATIVE_RELATIONSHIP()))
 }
     
 and jnew_7 = (animationInterface: Animation, sourceLayerInterface: AllBinaryLayer, weaponLayerCircularStaticPool: WeaponLayerCircularPool, total: Int32, weaponProperties: WeaponProperties, scoreableInterface: ScoreableInterface, relativeRelationship: RelativeRelationship) => {
-    let this = { jobject: JR.newJObject("StraightMultiProjectileWeaponPart"), f_animationInterface: JR.jnull, f_ownerLayerInterface: JR.jnull, f_weaponProperties: JR.jnull, f_scoreableInterface: JR.jnull, f_relativeRelationship: JR.jnull, f_weaponLayerCircularStaticPool: JR.nullOf(), f_total: 0l, f_noDecimalTrigTable: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("StraightMultiProjectileWeaponPart"), f_animationInterface: JR.nullOf(), f_ownerLayerInterface: JR.nullOf(), f_weaponProperties: JR.nullOf(), f_scoreableInterface: JR.nullOf(), f_relativeRelationship: JR.nullOf(), f_weaponLayerCircularStaticPool: JR.nullOf(), f_total: 0l, f_noDecimalTrigTable: JR.nullOf(), }
     
     
     this.f_noDecimalTrigTable = JR.cast(NoDecimalTrigTable.jm_getInstance())
@@ -83,10 +83,16 @@ and jm_processScore = (this: StraightMultiProjectileWeaponPart, allbinaryLayerMa
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicWeaponPart.jm_getOwnerLayerInterface"))
 JR.cast(jlate(JR.cast(this)))
 })
-        let mut reducedWidth: Int32 = (Int32.(/)(Int32.(*)(AllBinaryLayer.jm_getWidth(sourceLayerInterface), 8l), 10l))
+        let mut reducedWidth: Int32 = (Int32.(/)(Int32.(*)(AllBinaryLayer.jm_getWidth(JR.cast(sourceLayerInterface)), 8l), 10l))
         let mut halfWidth: Int32 = (Int32.(>>)(reducedWidth, 1l))
-        let mut x: Int32 = RelativeRelationship.jm_getX(JR.cast(this.f_relativeRelationship))
-        let mut y: Int32 = RelativeRelationship.jm_getY(JR.cast(this.f_relativeRelationship))
+        let mut x: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RelativeRelationship.jm_getX"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_relativeRelationship))))
+}
+        let mut y: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RelativeRelationship.jm_getY"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_relativeRelationship))))
+}
         let mut sine: Int64 = 0L
         let mut beamX: Int32 = 0l
         let mut cosine: Int64 = 0L
@@ -103,17 +109,18 @@ JR.cast(jlate(JR.cast(this)))
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, this.f_total))) break
-            sine = (Int64.(*)(Int64.fromNumber(Int32.toNumber(next)), NoDecimalTrigTable.jm_sin(this.f_noDecimalTrigTable, angle)))
+            sine = (Int64.(*)(Int64.fromNumber(Int32.toNumber(next)), NoDecimalTrigTable.jm_sin(JR.cast(this.f_noDecimalTrigTable), angle)))
             beamX = Int32.fromNumber(Int64.toNumber((Int64.(/)(sine, Int64.fromNumber(Int32.toNumber(this.f_noDecimalTrigTable.f_SCALE))))))
-            cosine = (Int64.(*)(Int64.fromNumber(Int32.toNumber(next)), NoDecimalTrigTable.jm_cos(this.f_noDecimalTrigTable, angle)))
+            cosine = (Int64.(*)(Int64.fromNumber(Int32.toNumber(next)), NoDecimalTrigTable.jm_cos(JR.cast(this.f_noDecimalTrigTable), angle)))
             beamY = Int32.(-)(1l, Int32.(+)(Int32.fromNumber(Int64.toNumber((Int64.(/)(cosine, Int64.fromNumber(Int32.toNumber(this.f_noDecimalTrigTable.f_SCALE)))))), 1l))
-            weaponLayer = JR.cast(WeaponLayerCircularPool.jm_getInstanceWeaponLayer(this.f_weaponLayerCircularStaticPool, sourceLayerInterface, Int32.(+)(x, beamX), Int32.(+)(y, beamY), 0l, angle, otherAngle, weaponProperties, scoreableInterface))
-            ignore(AllBinaryLayerManager.jm_append(allbinaryLayerManager, JR.cast(weaponLayer)))
+            weaponLayer = JR.cast(WeaponLayerCircularPool.jm_getInstanceWeaponLayer(JR.cast(this.f_weaponLayerCircularStaticPool), JR.cast(sourceLayerInterface), Int32.(+)(x, beamX), Int32.(+)(y, beamY), 0l, angle, otherAngle, JR.cast(weaponProperties), JR.cast(scoreableInterface)))
+            ignore(AllBinaryLayerManager.jm_append(JR.cast(allbinaryLayerManager), JR.cast(weaponLayer)))
             next = Int32.(+)(next, increment)
             }
         }
 }
 
+JR.registerSuper("StraightMultiProjectileWeaponPart", "BasicWeaponPart")
 JR.registerLateBound("StraightMultiProjectileWeaponPart.jnew_7", jnew_7)
 JR.registerLateBound("StraightMultiProjectileWeaponPart.jm_createStraightMultiProjectileWeaponPart", jm_createStraightMultiProjectileWeaponPart)
 JR.registerLateBound("StraightMultiProjectileWeaponPart.jm_processScore", jm_processScore)

@@ -63,7 +63,10 @@ and jset_ANGLE = (value: String) => {
 }
     
 and jm_getInstance = (angleIncrement: Int32) => {
-        return jnew_1(JR.cast(AngleIncrementInfoFactory.jm_getAt(AngleIncrementInfoFactory.jm_getInstance(), angleIncrement)))
+        return jnew_1(JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AngleIncrementInfoFactory.jm_getAt"))
+JR.cast(jlate(JR.cast(AngleIncrementInfoFactory.jm_getInstance()), JR.cast(angleIncrement)))
+}))
 }
     
 and jnew_1 = (angleIncrementInfo: AngleIncrementInfo) => {
@@ -77,8 +80,14 @@ and jnew_1 = (angleIncrementInfo: AngleIncrementInfo) => {
 }
     
 and jm_adjustAngle = (this: AngleInfo, frame: Int32) => {
-        let mut newAngle: Int32 = Int32.(-)(Int32.(*)(AngleIncrementInfo.jm_getAngleIncrement(this.f_angleIncrementInfo), frame), 90l)
-        ignore(jm_setAngle(this, JR.i16(FrameUtil.jm_adjustAngleToFrameAngle(this.f_frameUtil, newAngle))))
+        let mut newAngle: Int32 = Int32.(-)(Int32.(*)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AngleIncrementInfo.jm_getAngleIncrement"))
+JR.cast(jlate(JR.cast(this.f_angleIncrementInfo)))
+}, frame), 90l)
+        ignore(jm_setAngle(this, JR.i16({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("FrameUtil.jm_adjustAngleToFrameAngle"))
+JR.cast(jlate(JR.cast(this.f_frameUtil), JR.cast(newAngle)))
+})))
 }
     
 and jm_getAngle = (this: AngleInfo) => {
@@ -95,11 +104,11 @@ and jm_getAngleIncrementInfo = (this: AngleInfo) => {
     
 and jm_toString = (this: AngleInfo) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, jstatic_ANGLE()))
-        ignore(StringMaker.jm_appendshort(stringBuffer, this.f_angle))
-        ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
-        ignore(StringMaker.jm_append(stringBuffer, StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(jm_getAngleIncrementInfo(this)))))
-        return StringMaker.jm_toString(stringBuffer)
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_ANGLE())))
+        ignore(StringMaker.jm_appendshort(JR.cast(stringBuffer), this.f_angle))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonSeps.jm_getInstance().f_SPACE)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(StringUtil.jm_toString(JR.cast(StringUtil.jm_getInstance()), JR.cast(jm_getAngleIncrementInfo(this))))))
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
 JR.registerLateBound("AngleInfo.jnew_1", jnew_1)

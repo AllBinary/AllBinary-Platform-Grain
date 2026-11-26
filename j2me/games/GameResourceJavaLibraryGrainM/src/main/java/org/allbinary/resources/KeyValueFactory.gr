@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 
 provide record KeyValueFactory {
   jobject: JObject,
@@ -38,7 +40,7 @@ provide let rec jclassName = () => "KeyValueFactory"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: KeyValueFactory = jnew_0()
+    let value: KeyValueFactory = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -49,7 +51,7 @@ and jset_instance = (value: KeyValueFactory) => {
 }
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("KeyValueFactory"), f_MAP: JR.jnull, }
+    let this = { jobject: JR.newJObject("KeyValueFactory"), f_MAP: JR.nullOf(), }
     this.f_MAP = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashtable"))
 JR.cast(jlate(JR.cast({

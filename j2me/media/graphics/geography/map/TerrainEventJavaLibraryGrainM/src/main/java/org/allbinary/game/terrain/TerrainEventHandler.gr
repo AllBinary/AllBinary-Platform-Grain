@@ -35,6 +35,8 @@ from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
 use BasicArrayList.{ type BasicArrayList }
 from "../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
 use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 from "./TerrainEventListener.gr" include TerrainEventListener
 use TerrainEventListener.{ type TerrainEventListener }
 from "./TerrainEvent.gr" include TerrainEvent
@@ -58,13 +60,13 @@ provide let rec jclassName = () => "TerrainEventHandler"
 and jstatic_hashtable = () => match (jcell_hashtable) {
   Some(value) => value,
   None => {
-    let value: JObject = {
+    let value: JObject = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.f_NULL_TABLE"))
 JR.cast(jlate(JR.cast({
-let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance_0"))
 JR.cast(jlate())
 })))
-}
+})
     jcell_hashtable = Some(value)
     value
   },
@@ -78,7 +80,7 @@ and jm_init = () => {
         jset_hashtable(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashtable"))
 JR.cast(jlate(JR.cast({
-let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance_0"))
 JR.cast(jlate())
 })))
 }))
@@ -100,38 +102,41 @@ JR.cast(jlate(JR.cast(jstatic_hashtable()), JR.cast(anyType), JR.cast(eventHandl
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("TerrainEventHandler"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_eventStrings: JR.jnull, f_eventListenerInterfaceList: JR.jnull, f_list: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("TerrainEventHandler"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_eventStrings: JR.nullOf(), f_eventListenerInterfaceList: JR.nullOf(), f_list: JR.nullOf(), }
     this.f_list = JR.cast(BasicArrayListD.jnew_0())
         void
     this
 }
     
 and jm_addListener = (this: TerrainEventHandler, terrainEventListener: TerrainEventListener) => {
-        if (!BasicArrayList.jm_contains(this.f_list, JR.cast(terrainEventListener))) {
-            ignore(BasicArrayList.jm_add(this.f_list, JR.cast(terrainEventListener)))
+        if (!BasicArrayList.jm_contains(JR.cast(this.f_list), JR.cast(terrainEventListener))) {
+            ignore(BasicArrayList.jm_add(JR.cast(this.f_list), JR.cast(terrainEventListener)))
         }
 }
     
 and jm_removeAllListeners = (this: TerrainEventHandler) => {
-        ignore(BasicArrayList.jm_clear(this.f_list))
+        ignore(BasicArrayList.jm_clear(JR.cast(this.f_list)))
         ignore(jm_removeAllListeners(this))
 }
     
 and jm_removeListener = (this: TerrainEventHandler, eventListenerInterface: EventListenerInterface) => {
-        ignore(BasicArrayList.jm_remove(this.f_list, JR.cast(eventListenerInterface)))
+        ignore(BasicArrayList.jm_remove(JR.cast(this.f_list), JR.cast(eventListenerInterface)))
         ignore(jm_removeListener(this, eventListenerInterface))
 }
     
 and jm_fireEvent = (this: TerrainEventHandler, eventObject: AllBinaryEventObject) => {
         {
-            let mut index: Int32 = BasicArrayList.jm_size(this.f_list)
+            let mut index: Int32 = BasicArrayList.jm_size(JR.cast(this.f_list))
             let mut jfirst = true
             while (true) {
                 jfirst = false
                 if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
             {
-                let mut terrainEventListener: TerrainEventListener = JR.cast(BasicArrayList.jm_get(this.f_list, index))
-                ignore(TerrainEventListener.jm_onTerrainEvent(terrainEventListener, JR.cast(eventObject)))
+                let mut terrainEventListener: TerrainEventListener = JR.cast(BasicArrayList.jm_get(JR.cast(this.f_list), index))
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TerrainEventListener.jm_onTerrainEvent"))
+JR.cast(jlate(JR.cast(terrainEventListener), JR.cast(JR.cast(eventObject))))
+})
             }
             }
         }
@@ -140,9 +145,13 @@ and jm_fireEvent = (this: TerrainEventHandler, eventObject: AllBinaryEventObject
     
 and jm_process = (this: TerrainEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) => {
         let mut terrainEventListenerInterface: TerrainEventListenerInterface = JR.cast(eventListenerInterface)
-        ignore(TerrainEventListenerInterface.jm_onTerrainEvent(terrainEventListenerInterface, JR.cast(eventObject)))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TerrainEventListenerInterface.jm_onTerrainEvent"))
+JR.cast(jlate(JR.cast(terrainEventListenerInterface), JR.cast(JR.cast(eventObject))))
+})
 }
 
+JR.registerSuper("TerrainEventHandler", "BasicEventHandler")
 JR.registerLateBound("TerrainEventHandler.jnew_0", jnew_0)
 JR.registerLateBound("TerrainEventHandler.jm_init", jm_init)
 JR.registerLateBound("TerrainEventHandler.jm_getInstance", jm_getInstance)

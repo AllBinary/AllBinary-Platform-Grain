@@ -60,7 +60,7 @@ provide let rec jclassName = () => "LayerManagerEventHandler"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: LayerManagerEventHandler = jnew_0()
+    let value: LayerManagerEventHandler = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -75,7 +75,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("LayerManagerEventHandler"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_eventStrings: JR.jnull, f_eventListenerInterfaceList: JR.jnull, f_list: JR.nullOf(), f_CREATE: "", f_DELETE: "", }
+    let this = { jobject: JR.newJObject("LayerManagerEventHandler"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_eventStrings: JR.nullOf(), f_eventListenerInterfaceList: JR.nullOf(), f_list: JR.nullOf(), f_CREATE: "", f_DELETE: "", }
     this.f_list = JR.cast(BasicArrayListD.jnew_0())
     this.f_CREATE = "Create"
     this.f_DELETE = "Delete"
@@ -84,31 +84,34 @@ and jnew_0 = () => {
 }
     
 and jm_addListener = (this: LayerManagerEventHandler, layerManagerEventListener: LayerManagerEventListener) => {
-        if (!BasicArrayList.jm_contains(this.f_list, JR.cast(layerManagerEventListener))) {
-            ignore(BasicArrayList.jm_add(this.f_list, JR.cast(layerManagerEventListener)))
+        if (!BasicArrayList.jm_contains(JR.cast(this.f_list), JR.cast(layerManagerEventListener))) {
+            ignore(BasicArrayList.jm_add(JR.cast(this.f_list), JR.cast(layerManagerEventListener)))
         }
 }
     
 and jm_removeAllListeners = (this: LayerManagerEventHandler) => {
-        ignore(BasicArrayList.jm_clear(this.f_list))
+        ignore(BasicArrayList.jm_clear(JR.cast(this.f_list)))
         ignore(jm_removeAllListeners(this))
 }
     
 and jm_removeListener = (this: LayerManagerEventHandler, eventListenerInterface: EventListenerInterface) => {
-        ignore(BasicArrayList.jm_remove(this.f_list, JR.cast(eventListenerInterface)))
+        ignore(BasicArrayList.jm_remove(JR.cast(this.f_list), JR.cast(eventListenerInterface)))
         ignore(jm_removeListener(this, eventListenerInterface))
 }
     
 and jm_fireEvent = (this: LayerManagerEventHandler, eventObject: AllBinaryEventObject) => {
         {
-            let mut index: Int32 = BasicArrayList.jm_size(this.f_list)
+            let mut index: Int32 = BasicArrayList.jm_size(JR.cast(this.f_list))
             let mut jfirst = true
             while (true) {
                 jfirst = false
                 if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
             {
                 let mut layerManagerEventListener: LayerManagerEventListener = JR.cast(this.f_list.f_objectArray[Int32.toNumber(index)])
-                ignore(LayerManagerEventListener.jm_onCreateLayerManagerEvent(layerManagerEventListener, JR.cast(eventObject)))
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("LayerManagerEventListener.jm_onCreateLayerManagerEvent"))
+JR.cast(jlate(JR.cast(layerManagerEventListener), JR.cast(JR.cast(eventObject))))
+})
             }
             }
         }
@@ -117,14 +120,17 @@ and jm_fireEvent = (this: LayerManagerEventHandler, eventObject: AllBinaryEventO
     
 and jm_fireDeleteEvent = (this: LayerManagerEventHandler, eventObject: AllBinaryEventObject) => {
         {
-            let mut index: Int32 = BasicArrayList.jm_size(this.f_list)
+            let mut index: Int32 = BasicArrayList.jm_size(JR.cast(this.f_list))
             let mut jfirst = true
             while (true) {
                 jfirst = false
                 if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
             {
                 let mut layerManagerEventListener: LayerManagerEventListener = JR.cast(this.f_list.f_objectArray[Int32.toNumber(index)])
-                ignore(LayerManagerEventListener.jm_onDeleteLayerManagerEvent(layerManagerEventListener, JR.cast(eventObject)))
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("LayerManagerEventListener.jm_onDeleteLayerManagerEvent"))
+JR.cast(jlate(JR.cast(layerManagerEventListener), JR.cast(JR.cast(eventObject))))
+})
             }
             }
         }
@@ -132,11 +138,14 @@ and jm_fireDeleteEvent = (this: LayerManagerEventHandler, eventObject: AllBinary
         let mut eventListenerInterface: EventListenerInterface = JR.nullOf()
         let mut layerManagerEventListenerInterface: LayerManagerEventListenerInterface = JR.nullOf()
         let mut listenerIndex: Int32 = 0l
-        while (Int32.(<)(listenerIndex, BasicArrayList.jm_size(eventListenerInterfaceList))) {
+        while (Int32.(<)(listenerIndex, BasicArrayList.jm_size(JR.cast(eventListenerInterfaceList)))) {
             {
                 eventListenerInterface = JR.cast(eventListenerInterfaceList.f_objectArray[Int32.toNumber(listenerIndex)])
                 layerManagerEventListenerInterface = (JR.cast(eventListenerInterface))
-                ignore(LayerManagerEventListenerInterface.jm_onDeleteLayerManagerEvent(layerManagerEventListenerInterface, JR.cast(eventObject)))
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("LayerManagerEventListenerInterface.jm_onDeleteLayerManagerEvent"))
+JR.cast(jlate(JR.cast(layerManagerEventListenerInterface), JR.cast(JR.cast(eventObject))))
+})
             }
             listenerIndex = Int32.(+)(listenerIndex, 1l)
         }
@@ -144,9 +153,13 @@ and jm_fireDeleteEvent = (this: LayerManagerEventHandler, eventObject: AllBinary
     
 and jm_process = (this: LayerManagerEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) => {
         let mut layerManagerEventListenerInterface: LayerManagerEventListenerInterface = (JR.cast(eventListenerInterface))
-        ignore(LayerManagerEventListenerInterface.jm_onCreateLayerManagerEvent(layerManagerEventListenerInterface, JR.cast(eventObject)))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("LayerManagerEventListenerInterface.jm_onCreateLayerManagerEvent"))
+JR.cast(jlate(JR.cast(layerManagerEventListenerInterface), JR.cast(JR.cast(eventObject))))
+})
 }
 
+JR.registerSuper("LayerManagerEventHandler", "BasicEventHandler")
 JR.registerLateBound("LayerManagerEventHandler.jnew_0", jnew_0)
 JR.registerLateBound("LayerManagerEventHandler.jm_getInstance", jm_getInstance)
 JR.registerLateBound("LayerManagerEventHandler.jm_addListener", jm_addListener)

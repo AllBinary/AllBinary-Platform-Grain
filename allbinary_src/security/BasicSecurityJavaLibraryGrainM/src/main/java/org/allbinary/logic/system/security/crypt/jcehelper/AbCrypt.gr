@@ -29,6 +29,12 @@ from "../../../../../../../java/security/Security.gr" include Security
 use Security.{ type Security }
 from "../../../../../../../java/security/spec/KeySpec.gr" include KeySpec
 use KeySpec.{ type KeySpec }
+from "../../../../../../../javax/crypto/Cipher.gr" include Cipher
+use Cipher.{ type Cipher }
+from "../../../../../../../javax/crypto/SecretKey.gr" include SecretKey
+use SecretKey.{ type SecretKey }
+from "../../../../../../../javax/crypto/SecretKeyFactory.gr" include SecretKeyFactory
+use SecretKeyFactory.{ type SecretKeyFactory }
 from "../../../../../../../org/allbinary/init/crypt/jcehelper/CryptInterface.gr" include CryptInterface
 use CryptInterface.{ type CryptInterface }
 from "../../../../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
@@ -55,7 +61,7 @@ provide record AbCrypt {
 provide let rec jclassName = () => "AbCrypt"
     
 and jnew_1 = (algorithm: String) => {
-    let this = { jobject: JR.newJObject("AbCrypt"), f_tsUtil: JR.jnull, f_secretComposite: JR.nullOf(), f_algorithm: "", }
+    let this = { jobject: JR.newJObject("AbCrypt"), f_tsUtil: JR.nullOf(), f_secretComposite: JR.nullOf(), f_algorithm: "", }
     this.f_tsUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -76,24 +82,33 @@ and jm_init = (this: AbCrypt, keyAsString: String) => {
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_getByteArray"))
 JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(keyAsString)))
 }
-            let mut keySpec: KeySpec = JR.cast(KeySpecFactory.jm_getInstance_2(KeySpecFactory.jm_getInstance_0(), this.f_algorithm, key))
-            let mut keyFactory: SecretKeyFactory = JR.cast(SecretKeyFactory.jm_getInstance(this.f_algorithm))
-            let mut secretKey: SecretKey = JR.cast(SecretKeyFactory.jm_generateSecret(keyFactory, keySpec))
-            let mut cipher: Cipher = JR.cast(Cipher.jm_getInstance(this.f_algorithm))
-            this.f_secretComposite = JR.cast(JR.cast(SecretComposite.jnew_3(secretKey, cipher, key)))
+            let mut keySpec: KeySpec = JR.cast({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("KeySpecFactory.jm_getInstance_2"))
+JR.cast(jlate(JR.cast(KeySpecFactory.jm_getInstance_0()), JR.cast(this.f_algorithm), JR.cast(key)))
+})
+            let mut keyFactory: SecretKeyFactory = JR.cast(SecretKeyFactory.jm_getInstance_1(this.f_algorithm))
+            let mut secretKey: SecretKey = JR.cast(SecretKeyFactory.jm_generateSecret_1(keyFactory, keySpec))
+            let mut cipher: Cipher = JR.cast(Cipher.jm_getInstance_1(this.f_algorithm))
+            this.f_secretComposite = JR.cast(JR.cast(SecretComposite.jnew_3(JR.cast(secretKey), JR.cast(cipher), key)))
         }
 }
     
 and jm_encrypt = (this: AbCrypt, array: Array<Int32>) => {
         {
-            return BaseSecretComposite.jm_encrypt(this.f_secretComposite, array)
+            return {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BaseSecretComposite.jm_encrypt"))
+JR.cast(jlate(JR.cast(this.f_secretComposite), JR.cast(array)))
+}
         }
     return [> ]
 }
     
 and jm_decrypt = (this: AbCrypt, array: Array<Int32>) => {
         {
-            return BaseSecretComposite.jm_decrypt(this.f_secretComposite, array)
+            return {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BaseSecretComposite.jm_decrypt"))
+JR.cast(jlate(JR.cast(this.f_secretComposite), JR.cast(array)))
+}
         }
     return [> ]
 }

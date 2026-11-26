@@ -29,6 +29,8 @@ from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
 use BasicArrayList.{ type BasicArrayList }
 from "../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
 use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 
 provide record GameConfigurationSingleton {
   jobject: JObject,
@@ -43,7 +45,7 @@ provide let rec jclassName = () => "GameConfigurationSingleton"
 and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
   Some(value) => value,
   None => {
-    let value: GameConfigurationSingleton = jnew_0()
+    let value: GameConfigurationSingleton = JR.cast(jnew_0())
     jcell_SINGLETON = Some(value)
     value
   },
@@ -58,7 +60,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("GameConfigurationSingleton"), f_list: JR.nullOf(), f_hashtable: JR.jnull, }
+    let this = { jobject: JR.newJObject("GameConfigurationSingleton"), f_list: JR.nullOf(), f_hashtable: JR.nullOf(), }
     
     
         this.f_list = JR.cast(JR.cast(BasicArrayListD.jnew_0()))
@@ -84,7 +86,7 @@ and jm_getOptionsBasicArrayList = (this: GameConfigurationSingleton) => {
 }
     
 and jm_add = (this: GameConfigurationSingleton, gameConfiguration: JObject) => {
-        ignore(BasicArrayList.jm_add(this.f_list, JR.cast(gameConfiguration)))
+        ignore(BasicArrayList.jm_add(JR.cast(this.f_list), JR.cast(gameConfiguration)))
 }
     
 and jm_getHashtable = (this: GameConfigurationSingleton) => {

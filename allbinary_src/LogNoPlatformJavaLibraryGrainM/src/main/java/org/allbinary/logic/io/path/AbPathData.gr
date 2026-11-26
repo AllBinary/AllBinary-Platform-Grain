@@ -46,7 +46,7 @@ provide let rec jclassName = () => "AbPathData"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: AbPathData = jnew_0()
+    let value: AbPathData = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -82,7 +82,7 @@ and jm_getExtensionIndex = (this: AbPathData, filePath: String) => {
 }
     
 and jm_getExtensionWithDot = (this: AbPathData, filePath: String) => {
-        let mut indexOfFileExtensionDelmiter: Int32 = jm_getExtensionIndex(this, filePath)
+        let mut indexOfFileExtensionDelmiter: Int32 = jm_getExtensionIndex(this, JR.cast(filePath))
         let mut extension: String = StringUtil.jm_getInstance().f_EMPTY_STRING
         if (Int32.(>=)(indexOfFileExtensionDelmiter, 0l)) {
             extension = JR.substringFrom(filePath, indexOfFileExtensionDelmiter)
@@ -91,7 +91,7 @@ and jm_getExtensionWithDot = (this: AbPathData, filePath: String) => {
 }
     
 and jm_getExtension = (this: AbPathData, filePath: String) => {
-        let mut indexOfFileExtensionDelmiter: Int32 = jm_getExtensionIndex(this, filePath)
+        let mut indexOfFileExtensionDelmiter: Int32 = jm_getExtensionIndex(this, JR.cast(filePath))
         let mut extension: String = StringUtil.jm_getInstance().f_EMPTY_STRING
         if (Int32.(>=)(indexOfFileExtensionDelmiter, 0l)) {
             extension = JR.substringFrom(filePath, Int32.(+)(indexOfFileExtensionDelmiter, 1l))
@@ -109,7 +109,7 @@ and jm_getNameFromPath = (this: AbPathData, path: String) => {
         }
         if ((JR.length(path) == Int32.(+)(endIndex, 1l))) {
             let mut categoryName: String = JR.substring(path, 0l, endIndex)
-            return jm_getNameFromPath(this, categoryName)
+            return jm_getNameFromPath(this, JR.cast(categoryName))
         } else {
             let mut categoryName: String = JR.substringFrom(path, Int32.(+)(endIndex, 1l))
             return categoryName
@@ -125,7 +125,7 @@ and jm_removeNameFromPath = (this: AbPathData, path: String) => {
             return StringUtil.jm_getInstance().f_EMPTY_STRING
         }
         if ((JR.length(path) == Int32.(+)(endIndex, 1l))) {
-            return jm_removeNameFromPath(this, JR.substring(path, 0l, Int32.(-)(endIndex, 1l)))
+            return jm_removeNameFromPath(this, JR.cast(JR.substring(path, 0l, Int32.(-)(endIndex, 1l))))
         } else {
             let mut pathWithoutName: String = JR.substring(path, 0l, endIndex)
             return pathWithoutName

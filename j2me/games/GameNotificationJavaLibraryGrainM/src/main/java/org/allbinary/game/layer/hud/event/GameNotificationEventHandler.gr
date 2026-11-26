@@ -54,7 +54,7 @@ provide let rec jclassName = () => "GameNotificationEventHandler"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: GameNotificationEventHandler = jnew_0()
+    let value: GameNotificationEventHandler = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -65,7 +65,7 @@ and jset_instance = (value: GameNotificationEventHandler) => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("GameNotificationEventHandler"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_eventStrings: JR.jnull, f_eventListenerInterfaceList: JR.jnull, f_enabled: false, }
+    let this = { jobject: JR.newJObject("GameNotificationEventHandler"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_eventStrings: JR.nullOf(), f_eventListenerInterfaceList: JR.nullOf(), f_enabled: false, }
     this.f_enabled = true
         void
     this
@@ -74,11 +74,11 @@ and jnew_0 = () => {
 and jm_removeAllListeners = (this: GameNotificationEventHandler) => {
         let mut eventListenerInterface: EventListenerInterface = JR.cast(NullEventListener.jstatic_NULL_EVENT_LISTENER())
         let mut list: BasicArrayList = JR.cast(this.f_eventListenerInterfaceList)
-        if (Int32.(>)(BasicArrayList.jm_size(list), 0l)) {
+        if (Int32.(>)(BasicArrayList.jm_size(JR.cast(list)), 0l)) {
             eventListenerInterface = JR.cast(list.f_objectArray[Int32.toNumber(0l)])
         }
         ignore(jm_removeAllListeners(this))
-        if ((!JR.isSame(eventListenerInterface, NullEventListener.jstatic_NULL_EVENT_LISTENER()))) {
+        if (!JR.isSame(eventListenerInterface, NullEventListener.jstatic_NULL_EVENT_LISTENER())) {
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_addListenerInterface"))
 JR.cast(jlate(JR.cast(this), JR.cast(eventListenerInterface)))
@@ -95,10 +95,14 @@ and jm_process = (this: GameNotificationEventHandler, eventObject: AllBinaryEven
             return void
         }
         let mut gameNotificationListenerInterface: GameNotificationListenerInterface = JR.cast(eventListenerInterface)
-        ignore(GameNotificationListenerInterface.jm_onGameNotificationEvent(gameNotificationListenerInterface, JR.cast(eventObject)))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("GameNotificationListenerInterface.jm_onGameNotificationEvent"))
+JR.cast(jlate(JR.cast(gameNotificationListenerInterface), JR.cast(JR.cast(eventObject))))
+})
     return void
 }
 
+JR.registerSuper("GameNotificationEventHandler", "BasicEventHandler")
 JR.registerLateBound("GameNotificationEventHandler.jnew_0", jnew_0)
 JR.registerLateBound("GameNotificationEventHandler.jm_removeAllListeners", jm_removeAllListeners)
 JR.registerLateBound("GameNotificationEventHandler.jm_getInstance", jm_getInstance)

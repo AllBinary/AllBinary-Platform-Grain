@@ -42,8 +42,8 @@ provide record AllBinaryEventCircularPool {
 provide let rec jclassName = () => "AllBinaryEventCircularPool"
     
 and jnew_1 = (max: Int32) => {
-    let this = { jobject: JR.newJObject("AllBinaryEventCircularPool"), f_circularIndexUtil: JR.jnull, f_OBJECT_ARRAY: [> ], }
-        this.f_OBJECT_ARRAY = JR.cast(Array.make(Int32.toNumber(max), JR.jnull))
+    let this = { jobject: JR.newJObject("AllBinaryEventCircularPool"), f_circularIndexUtil: JR.nullOf(), f_OBJECT_ARRAY: [> ], }
+        this.f_OBJECT_ARRAY = JR.cast(Array.make(Int32.toNumber(max), JR.nullOf()))
         this.f_circularIndexUtil = JR.cast(CircularIndexUtil.jm_createInstance(max))
     this
 }
@@ -66,11 +66,15 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_circularIndexUtil))))
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            JR.cast(this.f_OBJECT_ARRAY)[Int32.toNumber(index)] = JR.cast(AllBinaryEventObjectFactoryInterface.jm_getInstance(allBinaryEventObjectFactoryInterface))
+            JR.cast(this.f_OBJECT_ARRAY)[Int32.toNumber(index)] = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryEventObjectFactoryInterface.jm_getInstance"))
+JR.cast(jlate(JR.cast(allBinaryEventObjectFactoryInterface)))
+})
             }
         }
 }
 
+JR.registerSuper("AllBinaryEventCircularPool", "BaseCircularPool")
 JR.registerLateBound("AllBinaryEventCircularPool.jnew_1", jnew_1)
 JR.registerLateBound("AllBinaryEventCircularPool.jm_initAllBinaryEventCircularPool", jm_initAllBinaryEventCircularPool)
 

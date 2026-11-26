@@ -67,7 +67,7 @@ provide let rec jclassName = () => "BasicAI"
 and jstatic_AI_VISITOR = () => match (jcell_AI_VISITOR) {
   Some(value) => value,
   None => {
-    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 2l)
+    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(JR.cast(SmallIntegerSingletonFactory.jm_getInstance()), 2l)
     jcell_AI_VISITOR = Some(value)
     value
   },
@@ -80,7 +80,7 @@ and jset_AI_VISITOR = (value: Int32) => {
 and jstatic_ID = () => match (jcell_ID) {
   Some(value) => value,
   None => {
-    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 1l)
+    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(JR.cast(SmallIntegerSingletonFactory.jm_getInstance()), 1l)
     jcell_ID = Some(value)
     value
   },
@@ -91,7 +91,7 @@ and jset_ID = (value: Int32) => {
 }
     
 and jnew_2 = (ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
-    let this = { jobject: JR.newJObject("BasicAI"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_ownerLayerInterface: JR.nullOf(), f_gameInput: JR.nullOf(), f_lastKey: 0l, }
+    let this = { jobject: JR.newJObject("BasicAI"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_ownerLayerInterface: JR.nullOf(), f_gameInput: JR.nullOf(), f_lastKey: 0l, }
     this.jobject.toStringFunction = () => jm_toString(this)
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
@@ -113,7 +113,7 @@ and jm_processAI = (this: BasicAI, allBinaryLayerManager: AllBinaryLayerManager)
     
 and jm_processKeyAI = (this: BasicAI, key: Int32) => {
         if ((key != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
-            ignore(GameInput.jm_add(this.f_gameInput, JR.cast(GameKeyEventFactory.jm_getInstanceForKey(this.f_gameKeyEventFactory, JR.cast(this), key))))
+            ignore(GameInput.jm_add(JR.cast(this.f_gameInput), JR.cast(GameKeyEventFactory.jm_getInstanceForKey(JR.cast(this.f_gameKeyEventFactory), JR.cast(this), key))))
         }
 }
     
@@ -139,17 +139,18 @@ and jm_getName = (this: BasicAI) => {
     
 and jm_toString = (this: BasicAI) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_NEW_LINE))
-        ignore(StringMaker.jm_append(stringBuffer, jm_getName(this)))
-        ignore(StringMaker.jm_append(stringBuffer, " LastKey: "))
-        ignore(StringMaker.jm_append(stringBuffer, CanvasUtil.jm_getKeyName(jm_getLastKey(this))))
-        return StringMaker.jm_toString(stringBuffer)
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonSeps.jm_getInstance().f_NEW_LINE)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jm_getName(this))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" LastKey: ")))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CanvasUtil.jm_getKeyName(jm_getLastKey(this)))))
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
     
 and jm_getSourceId = (this: BasicAI) => {
         return 1l
 }
 
+JR.registerSuper("BasicAI", "ArtificialIntelligence")
 JR.registerLateBound("BasicAI.jnew_2", jnew_2)
 JR.registerLateBound("BasicAI.jm_processAI", jm_processAI)
 JR.registerLateBound("BasicAI.jm_processKeyAI", jm_processKeyAI)

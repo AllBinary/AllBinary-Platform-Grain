@@ -50,7 +50,7 @@ provide record CollidableInterfaceLayerProcessor {
 provide let rec jclassName = () => "CollidableInterfaceLayerProcessor"
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("CollidableInterfaceLayerProcessor"), f_commonStrings: JR.jnull, f_layerManager: JR.jnull, }
+    let this = { jobject: JR.newJObject("CollidableInterfaceLayerProcessor"), f_commonStrings: JR.nullOf(), f_layerManager: JR.nullOf(), }
         void
     this
 }
@@ -59,23 +59,27 @@ and jm_processAt = (this: CollidableInterfaceLayerProcessor, allBinaryLayerManag
         let mut collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface = JR.cast(layerInterface)
         if ({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableBaseBehavior.jm_isCollidable"))
-JR.cast(jlate(JR.cast(CollidableInterfaceCompositeInterface.jm_getCollidableInferface(collidableInterfaceCompositeInterface)), JR.cast(JR.cast(collidableInterfaceCompositeInterface))))
+JR.cast(jlate(JR.cast(CollidableInterfaceCompositeInterface.jm_getCollidableInferface(JR.cast(collidableInterfaceCompositeInterface))), JR.cast(JR.cast(collidableInterfaceCompositeInterface))))
 }) {
-            ignore(AllBinaryCollisionManager.jm_process(AllBinaryCollisionManager.jm_getInstance(), {
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryCollisionManager.jm_process"))
+JR.cast(jlate(JR.cast(AllBinaryCollisionManager.jm_getInstance()), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LayerProcessor.jm_getLayerManager"))
 JR.cast(jlate(JR.cast(this)))
-}, collidableInterfaceCompositeInterface, index))
+}), JR.cast(collidableInterfaceCompositeInterface), JR.cast(index)))
+})
         }
 }
     
 and jm_isProcessorLayer = (this: CollidableInterfaceLayerProcessor, layerInterface: AllBinaryLayer) => {
-        if (AllBinaryLayer.jm_implmentsCollidableInterface(layerInterface)) {
+        if (AllBinaryLayer.jm_implmentsCollidableInterface(JR.cast(layerInterface))) {
             return true
         } else {
             return false
         }
 }
 
+JR.registerSuper("CollidableInterfaceLayerProcessor", "LayerProcessor")
 JR.registerLateBound("CollidableInterfaceLayerProcessor.jnew_0", jnew_0)
 JR.registerLateBound("CollidableInterfaceLayerProcessor.jm_processAt", jm_processAt)
 JR.registerLateBound("CollidableInterfaceLayerProcessor.jm_isProcessorLayer", jm_isProcessorLayer)

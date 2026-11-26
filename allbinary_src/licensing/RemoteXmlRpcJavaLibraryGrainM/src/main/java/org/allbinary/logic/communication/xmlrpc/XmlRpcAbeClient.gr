@@ -90,7 +90,7 @@ and jset_isOnline = (value: Bool) => {
 }
     
 and jnew_2 = (clientInfo: AbeClientInformationInterface, remoteMethod: String) => {
-    let this = { jobject: JR.newJObject("XmlRpcAbeClient"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_remoteMethod: "", f_clientInfo: JR.nullOf(), f_client: JR.nullOf(), f_server: 0l, f_start: 0l, f_maxServers: 0l, f_isDone: false, f_START_SERVER: "", f_TRYING: "", f_SEP: "", f_CLIENT_INFO: "", f_RESULT: "", f_INVALID: "", f_EXCEPTION_IN_CLIENT: "", f_SERVER_REPORTED_ERROR: "", f_UNKNOWN_ERROR: "", f_TRYING_OTHER_SERVERS: "", f_HOST_NOT_RESOLVED_MSG: "", f_HOST_NOT_RESOLVED: "", f_myRandomFactory: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("XmlRpcAbeClient"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_remoteMethod: "", f_clientInfo: JR.nullOf(), f_client: JR.nullOf(), f_server: 0l, f_start: 0l, f_maxServers: 0l, f_isDone: false, f_START_SERVER: "", f_TRYING: "", f_SEP: "", f_CLIENT_INFO: "", f_RESULT: "", f_INVALID: "", f_EXCEPTION_IN_CLIENT: "", f_SERVER_REPORTED_ERROR: "", f_UNKNOWN_ERROR: "", f_TRYING_OTHER_SERVERS: "", f_HOST_NOT_RESOLVED_MSG: "", f_HOST_NOT_RESOLVED: "", f_myRandomFactory: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -118,29 +118,29 @@ JR.cast(jlate())
     this.f_myRandomFactory = JR.cast(MyRandomFactory.jm_getInstance())
         this.f_remoteMethod = remoteMethod
         this.f_clientInfo = JR.cast(clientInfo)
-        if (Int32.(>)(AbeClientInformationInterface.jm_getNumberOfLicenseServers(clientInfo), 1l)) {
-            this.f_maxServers = Int32.(-)(AbeClientInformationInterface.jm_getNumberOfLicenseServers(clientInfo), 2l)
-            this.f_start = Int32.(+)(MyRandomFactory.jm_getAbsoluteNextInt(this.f_myRandomFactory, this.f_maxServers), 1l)
-        } else if ((AbeClientInformationInterface.jm_getNumberOfLicenseServers(clientInfo) == 1l)) {
+        if (Int32.(>)(AbeClientInformationInterface.jm_getNumberOfLicenseServers(JR.cast(clientInfo)), 1l)) {
+            this.f_maxServers = Int32.(-)(AbeClientInformationInterface.jm_getNumberOfLicenseServers(JR.cast(clientInfo)), 2l)
+            this.f_start = Int32.(+)(MyRandomFactory.jm_getAbsoluteNextInt(JR.cast(this.f_myRandomFactory), this.f_maxServers), 1l)
+        } else if ((AbeClientInformationInterface.jm_getNumberOfLicenseServers(JR.cast(clientInfo)) == 1l)) {
             this.f_maxServers = 0l
             this.f_start = 0l
         }
         this.f_isDone = false
         this.f_server = this.f_start
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, this.f_START_SERVER))
-        ignore(StringMaker.jm_appendint(stringBuffer, jm_getServer(this)))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_SEP))
-        ignore(StringMaker.jm_append(stringBuffer, AbeClientInformationInterface.jm_getLicenseServer(clientInfo, jm_getServer(this))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_START_SERVER)))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), jm_getServer(this)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_SEP)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(AbeClientInformationInterface.jm_getLicenseServer(JR.cast(clientInfo), jm_getServer(this)))))
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast(this.f_commonStrings.f_CONSTRUCTOR)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(this), JR.cast(this.f_commonStrings.f_CONSTRUCTOR)))
 })
     this
 }
     
 and jm_get = (this: XmlRpcAbeClient, anyType: JObject) => {
-        ignore(ForcedLogUtil.jm_log(this.f_commonStrings.f_NOT_IMPLEMENTED, JR.cast(this)))
+        ignore(ForcedLogUtil.jm_log(JR.cast(this.f_commonStrings.f_NOT_IMPLEMENTED), JR.cast(this)))
         return NullUtil.jm_getInstance().f_NULL_OBJECT
 }
     
@@ -151,12 +151,12 @@ and jm_tryAnother = (this: XmlRpcAbeClient, anyType: JObject) => {
             ignore(jm_setServer(this, 0l))
         }
         if (((jm_getServer(this) != jm_getStart(this)) && !jm_isIsDone(this))) {
-            return jm_get(this, anyType)
+            return jm_get(this, JR.cast(anyType))
         } else {
             ignore(jm_setIsDone(this, true))
         }
         fail JR.toStringOf(JR.newJObject("Exception"))
-    return JR.jnull
+    return JR.nullOf()
 }
     
 and jm_getClientInfo = (this: XmlRpcAbeClient) => {

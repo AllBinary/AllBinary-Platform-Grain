@@ -51,7 +51,7 @@ provide let rec jclassName = () => "AlwaysRepaintBehavior"
 and jstatic_instanceC = () => match (jcell_instanceC) {
   Some(value) => value,
   None => {
-    let value: AlwaysRepaintBehavior = jnew_0()
+    let value: AlwaysRepaintBehavior = JR.cast(jnew_0())
     jcell_instanceC = Some(value)
     value
   },
@@ -62,7 +62,7 @@ and jset_instanceC = (value: AlwaysRepaintBehavior) => {
 }
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("AlwaysRepaintBehavior"), f_logUtil: JR.jnull, f_NAME: "", }
+    let this = { jobject: JR.newJObject("AlwaysRepaintBehavior"), f_logUtil: JR.nullOf(), f_NAME: "", }
     this.f_NAME = "AlwaysRepaintBehavior"
     this
 }
@@ -74,10 +74,10 @@ and jm_getInstance = () => {
 and jm_repaint = (this: AlwaysRepaintBehavior, canvas: JObject) => {
         let mut features: Features = JR.cast(Features.jm_getInstance())
         let mut openGLFeatureFactory: OpenGLFeatureFactory = JR.cast(OpenGLFeatureFactory.jm_getInstance())
-        if (Features.jm_isFeature(features, JR.cast(openGLFeatureFactory.f_OPENGL))) {
-            ignore(DisplayInfoSingleton.jm_process(DisplayInfoSingleton.jm_getInstance()))
+        if (Features.jm_isFeature(JR.cast(features), JR.cast(openGLFeatureFactory.f_OPENGL))) {
+            ignore(DisplayInfoSingleton.jm_process(JR.cast(DisplayInfoSingleton.jm_getInstance())))
         } else {
-            let mut thread: Thread = Thread.jnew_2(RepaintRunnable.jnew_1(canvas), this.f_NAME)
+            let mut thread: Thread = Thread.jnew_2(RepaintRunnable.jnew_1(JR.cast(canvas)), this.f_NAME)
             ignore(Thread.jm_start_0(thread))
         }
 }
@@ -86,6 +86,7 @@ and jm_onChangeRepaint = (this: AlwaysRepaintBehavior, canvas: JObject) => {
     void
 }
 
+JR.registerSuper("AlwaysRepaintBehavior", "RepaintBehavior")
 JR.registerLateBound("AlwaysRepaintBehavior.jnew_0", jnew_0)
 JR.registerLateBound("AlwaysRepaintBehavior.jm_getInstance", jm_getInstance)
 JR.registerLateBound("AlwaysRepaintBehavior.jm_repaint", jm_repaint)

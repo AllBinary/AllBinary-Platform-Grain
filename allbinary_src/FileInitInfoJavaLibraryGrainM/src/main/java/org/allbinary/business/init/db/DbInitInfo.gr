@@ -49,6 +49,12 @@ from "../../../../../org/allbinary/logic/system/security/crypt/WeakCrypt.gr" inc
 use WeakCrypt.{ type WeakCrypt }
 from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
 use CommonStrings.{ type CommonStrings }
+from "../../../../../java/io/DataOutputStream.gr" include DataOutputStream
+use DataOutputStream.{ type DataOutputStream }
+from "../../../../../java/io/FileInputStream.gr" include FileInputStream
+use FileInputStream.{ type FileInputStream }
+from "../../../../../java/io/DataInputStream.gr" include DataInputStream
+use DataInputStream.{ type DataInputStream }
 from "./DbConnectionInfo.gr" include DbConnectionInfo
 use DbConnectionInfo.{ type DbConnectionInfo }
 
@@ -122,7 +128,7 @@ JR.cast(jlate(JR.cast(this.f_httpData.f_URL_LABEL ++ url), JR.cast(this), JR.cas
     
 and jm_write = (this: DbInitInfo) => {
         let mut l_PATH: AbPath = AbPath.jnew_2(URLGLOBALS.jm_getWebappPath() ++ this.f_PACKAGE, StringUtil.jm_getInstance().f_EMPTY_STRING)
-        ignore(Directory.jm_create_1_AbPath_(this.f_directory, l_PATH))
+        ignore(Directory.jm_create_1_AbPath_(JR.cast(this.f_directory), JR.cast(l_PATH)))
         let mut l_FILEABPATH: AbPath = AbPath.jnew_2(URLGLOBALS.jm_getWebappPath() ++ this.f_PACKAGE, this.f_initFileName)
         {
             let mut newFile: JObject = JR.cast({
@@ -141,27 +147,27 @@ JR.cast(jlate())
 }), JR.cast(newFile)))
 })
             {
-                let mut cryptedJdbcDriver: Array<Int32> = JR.className(JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(1l), {
+                let mut cryptedJdbcDriver: Array<Int32> = JR.getBytes(WeakCrypt.jm_encrypt(JR.cast(WeakCrypt.jnew_1(1l)), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DbConnectionInfo.jm_getJdbcDriver"))
 JR.cast(jlate(JR.cast(this)))
-})))
-                let mut cryptedName: Array<Int32> = JR.className(JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(2l), jm_getName(this))))
-                let mut cryptedUserName: Array<Int32> = JR.className(JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(3l), jm_getUserName(this))))
-                let mut cryptedPassword: Array<Int32> = JR.className(JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(4l), jm_getPassword(this))))
-                let mut cryptedSchema: Array<Int32> = JR.className(JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(5l), jm_getSchema(this))))
-                let mut cryptedServer: Array<Int32> = JR.className(JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(6l), jm_getServer(this))))
-                let mut cryptedPort: Array<Int32> = JR.className(JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(7l), jm_getPort(this))))
-                ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(cryptedJdbcDriver)))
-                ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(cryptedName)))
-                ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(cryptedUserName)))
-                ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(cryptedPassword)))
-                ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(cryptedSchema)))
-                ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(cryptedServer)))
-                ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(cryptedPort)))
+}))
+                let mut cryptedName: Array<Int32> = JR.getBytes(WeakCrypt.jm_encrypt(JR.cast(WeakCrypt.jnew_1(2l)), JR.cast(jm_getName(this))))
+                let mut cryptedUserName: Array<Int32> = JR.getBytes(WeakCrypt.jm_encrypt(JR.cast(WeakCrypt.jnew_1(3l)), JR.cast(jm_getUserName(this))))
+                let mut cryptedPassword: Array<Int32> = JR.getBytes(WeakCrypt.jm_encrypt(JR.cast(WeakCrypt.jnew_1(4l)), JR.cast(jm_getPassword(this))))
+                let mut cryptedSchema: Array<Int32> = JR.getBytes(WeakCrypt.jm_encrypt(JR.cast(WeakCrypt.jnew_1(5l)), JR.cast(jm_getSchema(this))))
+                let mut cryptedServer: Array<Int32> = JR.getBytes(WeakCrypt.jm_encrypt(JR.cast(WeakCrypt.jnew_1(6l)), JR.cast(jm_getServer(this))))
+                let mut cryptedPort: Array<Int32> = JR.getBytes(WeakCrypt.jm_encrypt(JR.cast(WeakCrypt.jnew_1(7l)), JR.cast(jm_getPort(this))))
+                ignore(DataOutputStream.jm_writeUTF_1(JR.cast(dataOutputStream), DatabaseEncoder.jm_encode(cryptedJdbcDriver)))
+                ignore(DataOutputStream.jm_writeUTF_1(JR.cast(dataOutputStream), DatabaseEncoder.jm_encode(cryptedName)))
+                ignore(DataOutputStream.jm_writeUTF_1(JR.cast(dataOutputStream), DatabaseEncoder.jm_encode(cryptedUserName)))
+                ignore(DataOutputStream.jm_writeUTF_1(JR.cast(dataOutputStream), DatabaseEncoder.jm_encode(cryptedPassword)))
+                ignore(DataOutputStream.jm_writeUTF_1(JR.cast(dataOutputStream), DatabaseEncoder.jm_encode(cryptedSchema)))
+                ignore(DataOutputStream.jm_writeUTF_1(JR.cast(dataOutputStream), DatabaseEncoder.jm_encode(cryptedServer)))
+                ignore(DataOutputStream.jm_writeUTF_1(JR.cast(dataOutputStream), DatabaseEncoder.jm_encode(cryptedPort)))
                 this.f_hasRead = false
             }
             {
-                ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), JR.cast(dataOutputStream)))
+                ignore(StreamUtil.jm_close(JR.cast(StreamUtil.jm_getInstance()), JR.cast(dataOutputStream)))
             }
         }
 }
@@ -181,47 +187,47 @@ JR.cast(jlate(JR.cast(file)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFileInputStream.jm_createFromAbFile"))
 JR.cast(jlate(JR.cast(file)))
 })
-                let mut iData: AbDataInputStream = AbDataInputStream.jnew_1(iFile)
+                let mut iData: AbDataInputStream = AbDataInputStream.jnew_1(JR.cast(iFile))
                 {
-                    let mut decryptedJdbcDriver: String = DatabaseEncoder.jm_decode(JR.cast(AbDataInputStream.jm_readUTF(iData)))
-                    let mut decryptedName: String = DatabaseEncoder.jm_decode(JR.cast(AbDataInputStream.jm_readUTF(iData)))
-                    let mut decryptedUserName: String = DatabaseEncoder.jm_decode(JR.cast(AbDataInputStream.jm_readUTF(iData)))
-                    let mut decryptedPassword: String = DatabaseEncoder.jm_decode(JR.cast(AbDataInputStream.jm_readUTF(iData)))
-                    let mut decryptedSchema: String = DatabaseEncoder.jm_decode(JR.cast(AbDataInputStream.jm_readUTF(iData)))
-                    let mut decryptedServer: String = DatabaseEncoder.jm_decode(JR.cast(AbDataInputStream.jm_readUTF(iData)))
-                    let mut decryptedPort: String = DatabaseEncoder.jm_decode(JR.cast(AbDataInputStream.jm_readUTF(iData)))
+                    let mut decryptedJdbcDriver: String = JR.fromBytes(DatabaseEncoder.jm_decode(JR.cast(DataInputStream.jm_readUTF_0(JR.cast(iData)))))
+                    let mut decryptedName: String = JR.fromBytes(DatabaseEncoder.jm_decode(JR.cast(DataInputStream.jm_readUTF_0(JR.cast(iData)))))
+                    let mut decryptedUserName: String = JR.fromBytes(DatabaseEncoder.jm_decode(JR.cast(DataInputStream.jm_readUTF_0(JR.cast(iData)))))
+                    let mut decryptedPassword: String = JR.fromBytes(DatabaseEncoder.jm_decode(JR.cast(DataInputStream.jm_readUTF_0(JR.cast(iData)))))
+                    let mut decryptedSchema: String = JR.fromBytes(DatabaseEncoder.jm_decode(JR.cast(DataInputStream.jm_readUTF_0(JR.cast(iData)))))
+                    let mut decryptedServer: String = JR.fromBytes(DatabaseEncoder.jm_decode(JR.cast(DataInputStream.jm_readUTF_0(JR.cast(iData)))))
+                    let mut decryptedPort: String = JR.fromBytes(DatabaseEncoder.jm_decode(JR.cast(DataInputStream.jm_readUTF_0(JR.cast(iData)))))
                     ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DbConnectionInfo.jm_setJdbcDriver"))
-JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(1l), decryptedJdbcDriver))))
+JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(JR.cast(WeakCrypt.jnew_1(1l)), JR.cast(decryptedJdbcDriver)))))
 })
                     ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DbConnectionInfo.jm_setName"))
-JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(2l), decryptedName))))
+JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(JR.cast(WeakCrypt.jnew_1(2l)), JR.cast(decryptedName)))))
 })
                     ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DbConnectionInfo.jm_setUserName"))
-JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(3l), decryptedUserName))))
+JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(JR.cast(WeakCrypt.jnew_1(3l)), JR.cast(decryptedUserName)))))
 })
                     ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DbConnectionInfo.jm_setPassword"))
-JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(4l), decryptedPassword))))
+JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(JR.cast(WeakCrypt.jnew_1(4l)), JR.cast(decryptedPassword)))))
 })
                     ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DbConnectionInfo.jm_setSchema"))
-JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(5l), decryptedSchema))))
+JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(JR.cast(WeakCrypt.jnew_1(5l)), JR.cast(decryptedSchema)))))
 })
                     ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DbConnectionInfo.jm_setServer"))
-JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(6l), decryptedServer))))
+JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(JR.cast(WeakCrypt.jnew_1(6l)), JR.cast(decryptedServer)))))
 })
                     ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DbConnectionInfo.jm_setPort"))
-JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(7l), decryptedPort))))
+JR.cast(jlate(JR.cast(this), JR.cast(WeakCrypt.jm_decrypt(JR.cast(WeakCrypt.jnew_1(7l)), JR.cast(decryptedPort)))))
 })
                     let mut stringUtil: StringUtil = JR.cast(StringUtil.jm_getInstance())
                 }
                 {
-                    ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), JR.cast(iData)))
+                    ignore(StreamUtil.jm_close(JR.cast(StreamUtil.jm_getInstance()), JR.cast(iData)))
                 }
             } else {
                 this.f_hasRead = false
@@ -240,7 +246,7 @@ JR.cast(jlate())
 }) {
                     ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast("Not a File - Failed Loading: " ++ AbPath.jm_toString(l_FILEABPATH)), JR.cast(this), JR.cast(this.f_commonStrings.f_LOAD)))
+JR.cast(jlate(JR.cast("Not a File - Failed Loading: " ++ AbPath.jm_toString(JR.cast(l_FILEABPATH))), JR.cast(this), JR.cast(this.f_commonStrings.f_LOAD)))
 })
                 }
             }
@@ -326,6 +332,7 @@ and jm_getPort = (this: DbInitInfo) => {
         return jm_getPort(this)
 }
 
+JR.registerSuper("DbInitInfo", "DbConnectionInfo")
 JR.registerLateBound("DbInitInfo.jnew_2", jnew_2)
 JR.registerLateBound("DbInitInfo.jm_getUrl", jm_getUrl)
 JR.registerLateBound("DbInitInfo.jm_write", jm_write)

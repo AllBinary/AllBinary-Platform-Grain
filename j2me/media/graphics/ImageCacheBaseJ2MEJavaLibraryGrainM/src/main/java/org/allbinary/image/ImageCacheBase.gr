@@ -39,6 +39,8 @@ from "../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
 use BasicArrayList.{ type BasicArrayList }
 from "../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
 use BasicArrayListD.{ type BasicArrayListD }
+from "../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 from "./ImageFactory.gr" include ImageFactory
 use ImageFactory.{ type ImageFactory }
 
@@ -60,7 +62,7 @@ provide record ImageCacheBase {
 provide let rec jclassName = () => "ImageCacheBase"
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("ImageCacheBase"), f_logUtil: JR.jnull, f_imageFactory: JR.nullOf(), f_hashtable: JR.jnull, f_SIZE: 0l, f_widths: [> ], f_heights: [> ], f_listOfList: [> ], f_availableListOfList: [> ], f_volume: 0l, f_nextIndex: 0l, }
+    let this = { jobject: JR.newJObject("ImageCacheBase"), f_logUtil: JR.nullOf(), f_imageFactory: JR.nullOf(), f_hashtable: JR.nullOf(), f_SIZE: 0l, f_widths: [> ], f_heights: [> ], f_listOfList: [> ], f_availableListOfList: [> ], f_volume: 0l, f_nextIndex: 0l, }
     this.jobject.toStringFunction = () => jm_toString(this)
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
@@ -141,7 +143,7 @@ JR.cast(jlate(JR.cast(this.f_availableListOfList[Int32.toNumber(index)]), JR.cas
         }
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "ImageCache: "), jm_toString(this)))), JR.cast(this), JR.cast("releaseAll")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("ImageCache: "))), JR.cast(jm_toString(this)))))), JR.cast(this), JR.cast("releaseAll")))
 })
 }
     
@@ -173,7 +175,7 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size")
 JR.cast(jlate(JR.cast(this.f_availableListOfList[Int32.toNumber(foundIndex)])))
 }, 0l)) {
                 let mut list: BasicArrayList = JR.cast(this.f_availableListOfList[Int32.toNumber(foundIndex)])
-                return JR.cast(BasicArrayList.jm_removeAt(list, Int32.(-)(BasicArrayList.jm_size(list), 1l)))
+                return JR.cast(BasicArrayList.jm_removeAt(JR.cast(list), Int32.(-)(BasicArrayList.jm_size(JR.cast(list)), 1l)))
             }
         }
         return NullImage.jstatic_NULL_IMAGE()
@@ -188,11 +190,17 @@ and jm_getWithKey = (this: ImageCacheBase, key: JObject) => {
 }
     
 and jm_createImage = (this: ImageCacheBase, caller: String, width: Int32, height: Int32) => {
-        return ImageFactory.jm_createImage(this.f_imageFactory, caller, width, height)
+        return {
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageFactory.jm_createImage"))
+JR.cast(jlate(JR.cast(this.f_imageFactory), JR.cast(caller), JR.cast(width), JR.cast(height)))
+}
 }
     
 and jm_createImageFromInputStream = (this: ImageCacheBase, key: JObject, inputStream: InputStream) => {
-        return ImageFactory.jm_createImageFromInputStream_2(this.f_imageFactory, key, inputStream)
+        return {
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageFactory.jm_createImageFromInputStream_2"))
+JR.cast(jlate(JR.cast(this.f_imageFactory), JR.cast(key), JR.cast(inputStream)))
+}
 }
     
 and jm_toString = (this: ImageCacheBase) => {
@@ -216,18 +224,18 @@ JR.cast(jlate(JR.cast(this.f_listOfList[Int32.toNumber(index)])))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
 JR.cast(jlate(JR.cast(this.f_availableListOfList[Int32.toNumber(index)])))
 }
-            ignore(StringMaker.jm_append(stringBuffer, " w: "))
-            ignore(StringMaker.jm_appendint(stringBuffer, width))
-            ignore(StringMaker.jm_append(stringBuffer, " h: "))
-            ignore(StringMaker.jm_appendint(stringBuffer, height))
-            ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
-            ignore(StringMaker.jm_append(stringBuffer, CommonLabels.jm_getInstance().f_TOTAL_LABEL))
-            ignore(StringMaker.jm_appendint(stringBuffer, total))
-            ignore(StringMaker.jm_append(stringBuffer, " available: "))
-            ignore(StringMaker.jm_appendint(stringBuffer, totalAvailable))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" w: ")))
+            ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), width))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" h: ")))
+            ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), height))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonSeps.jm_getInstance().f_SPACE)))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonLabels.jm_getInstance().f_TOTAL_LABEL)))
+            ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), total))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" available: ")))
+            ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), totalAvailable))
             }
         }
-        return StringMaker.jm_toString(stringBuffer)
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
     
 and jm_getHashtableP = (this: ImageCacheBase) => {

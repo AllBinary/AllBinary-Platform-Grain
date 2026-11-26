@@ -59,16 +59,16 @@ provide record CustomTextAnimationFactory {
 provide let rec jclassName = () => "CustomTextAnimationFactory"
     
 and jm_createDXY = (text: String, fontSize: Int32, dx: Int32, dy: Int32, animationBehaviorFactory: AnimationBehaviorFactory) => {
-        let mut customTextAnimationFactory: CustomTextAnimationFactory = jnew_3(text, fontSize, animationBehaviorFactory)
+        let mut customTextAnimationFactory: CustomTextAnimationFactory = jnew_3(text, fontSize, JR.cast(animationBehaviorFactory))
         customTextAnimationFactory.f_dx = dx
         customTextAnimationFactory.f_dy = dy
         return customTextAnimationFactory
 }
     
 and jnew_3 = (text: String, fontSize: Int32, animationBehaviorFactory: AnimationBehaviorFactory) => {
-    let this = { jobject: JR.newJObject("CustomTextAnimationFactory"), f_logUtil: JR.jnull, f_animationBehaviorFactory: JR.nullOf(), f_basicColor: JR.nullOf(), f_text: "", f_initScaleHeight: 0l, f_dx: 0l, f_dy: 0l, f_font: JR.jnull, f_scaleProperties: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("CustomTextAnimationFactory"), f_logUtil: JR.nullOf(), f_animationBehaviorFactory: JR.nullOf(), f_basicColor: JR.nullOf(), f_text: "", f_initScaleHeight: 0l, f_dx: 0l, f_dy: 0l, f_font: JR.nullOf(), f_scaleProperties: JR.nullOf(), }
     this.f_logUtil = JR.cast({
-let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance_0"))
 JR.cast(jlate())
 })
     
@@ -100,9 +100,9 @@ JR.cast(jlate())
 and jm_getInstance = (this: CustomTextAnimationFactory, instanceId: Int32) => {
         let mut customTextAnimation: CustomTextAnimation = JR.nullOf()
         if (((this.f_dx != 0l) || (this.f_dy != 0l))) {
-            customTextAnimation = JR.cast(JR.cast(AdjustCustomTextAnimation.jnew_5(this.f_text, this.f_scaleProperties.f_scaleHeight, this.f_dx, this.f_dy, JR.cast(AnimationBehaviorFactory.jm_getOrCreateInstance(this.f_animationBehaviorFactory)))))
+            customTextAnimation = JR.cast(JR.cast(AdjustCustomTextAnimation.jnew_5(this.f_text, this.f_scaleProperties.f_scaleHeight, this.f_dx, this.f_dy, JR.cast(AnimationBehaviorFactory.jm_getOrCreateInstance(JR.cast(this.f_animationBehaviorFactory))))))
         } else {
-            customTextAnimation = JR.cast(CustomTextAnimation.jnew_3(this.f_text, this.f_scaleProperties.f_scaleHeight, JR.cast(AnimationBehaviorFactory.jm_getOrCreateInstance(this.f_animationBehaviorFactory))))
+            customTextAnimation = JR.cast(CustomTextAnimation.jnew_3(this.f_text, this.f_scaleProperties.f_scaleHeight, JR.cast(AnimationBehaviorFactory.jm_getOrCreateInstance(JR.cast(this.f_animationBehaviorFactory)))))
         }
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Animation.jm_setBasicColorP"))

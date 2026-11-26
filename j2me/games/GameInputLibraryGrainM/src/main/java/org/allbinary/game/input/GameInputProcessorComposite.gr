@@ -54,7 +54,7 @@ provide record GameInputProcessorComposite {
 provide let rec jclassName = () => "GameInputProcessorComposite"
     
 and jnew_2 = (name: String, gameInputProcessorInterface: GameInputProcessorInterface) => {
-    let this = { jobject: JR.newJObject("GameInputProcessorComposite"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventList: JR.jnull, f_removalGameKeyEventList: JR.jnull, f_isRemoveDuplicateKeyPresses: false, f_gameInputStrings: JR.jnull, f_playerInputId: 0l, f_name: "", f_gameInputProcessorInterface: JR.nullOf(), f_NAME_LABEL: "", }
+    let this = { jobject: JR.newJObject("GameInputProcessorComposite"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_gameKeyEventList: JR.nullOf(), f_removalGameKeyEventList: JR.nullOf(), f_isRemoveDuplicateKeyPresses: false, f_gameInputStrings: JR.nullOf(), f_playerInputId: 0l, f_name: "", f_gameInputProcessorInterface: JR.nullOf(), f_NAME_LABEL: "", }
     this.jobject.toStringFunction = () => jm_toString(this)
     
     
@@ -71,14 +71,18 @@ and jm_update = (this: GameInputProcessorComposite) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInput.jm_getGameKeyEventList"))
 JR.cast(jlate(JR.cast(this)))
 })
-            ignore(GameInputProcessorInterface.jm_onInput(this.f_gameInputProcessorInterface, list))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("GameInputProcessorInterface.jm_onInput"))
+JR.cast(jlate(JR.cast(this.f_gameInputProcessorInterface), JR.cast(list)))
+})
         }
 }
     
 and jm_toString = (this: GameInputProcessorComposite) => {
-        return StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), jm_toString(this)), this.f_NAME_LABEL), this.f_name))
+        return StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(jm_toString(this)))), JR.cast(this.f_NAME_LABEL))), JR.cast(this.f_name))))
 }
 
+JR.registerSuper("GameInputProcessorComposite", "PlayerGameInput")
 JR.registerLateBound("GameInputProcessorComposite.jnew_2", jnew_2)
 JR.registerLateBound("GameInputProcessorComposite.jm_update", jm_update)
 JR.registerLateBound("GameInputProcessorComposite.jm_toString", jm_toString)

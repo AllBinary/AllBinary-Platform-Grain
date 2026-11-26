@@ -77,7 +77,7 @@ and jm_createAbPath = () => {
 }
     
 and jnew_2 = (aPath: String, name: String) => {
-    let this = { jobject: JR.newJObject("AbPath"), f_commonSeps: JR.nullOf(), f_abPathData: JR.jnull, f_abPathUtil: JR.jnull, f_EMPTY_STRING: "", f_schema: "", f_path: "", f_nameP: "", f_hasSchemaP: false, f_numberOfSeps: 0l, }
+    let this = { jobject: JR.newJObject("AbPath"), f_commonSeps: JR.nullOf(), f_abPathData: JR.nullOf(), f_abPathUtil: JR.nullOf(), f_EMPTY_STRING: "", f_schema: "", f_path: "", f_nameP: "", f_hasSchemaP: false, f_numberOfSeps: 0l, }
     this.jobject.toStringFunction = () => jm_toString(this)
     this.f_commonSeps = JR.cast(CommonSeps.jm_getInstance())
     this.f_abPathData = JR.cast({
@@ -95,19 +95,19 @@ JR.cast(jlate())
     this.f_hasSchemaP = false
     this.f_numberOfSeps = 0l
         let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
-        if (!StringValidationUtil.jm_isEmpty(stringValidationUtil, aPath)) {
-            this.f_schema = jm_getSchema(this, aPath)
+        if (!StringValidationUtil.jm_isEmpty(JR.cast(stringValidationUtil), JR.cast(aPath))) {
+            this.f_schema = jm_getSchema(this, JR.cast(aPath))
             this.f_nameP = name
             this.f_path = {
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("PathUtil.jm_adjustEnd"))
 JR.cast(jlate(JR.cast(this.f_abPathUtil), JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("PathUtil.jm_adjust"))
-JR.cast(jlate(JR.cast(this.f_abPathUtil), JR.cast(jm_getPathFromPath(this, aPath))))
+JR.cast(jlate(JR.cast(this.f_abPathUtil), JR.cast(jm_getPathFromPath(this, JR.cast(aPath)))))
 })))
 }
         } else {
             ignore(jm_init(this))
-            if (!StringValidationUtil.jm_isEmpty(stringValidationUtil, name)) {
+            if (!StringValidationUtil.jm_isEmpty(JR.cast(stringValidationUtil), JR.cast(name))) {
                 this.f_nameP = name
             }
         }
@@ -116,10 +116,10 @@ JR.cast(jlate(JR.cast(this.f_abPathUtil), JR.cast(jm_getPathFromPath(this, aPath
     
 and jm_init = (this: AbPath) => {
         this.f_schema = this.f_EMPTY_STRING
-        ignore(jm_setPath(this, {
+        ignore(jm_setPath(this, JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATOR"))
 JR.cast(jlate(JR.cast(this.f_abPathData)))
-}))
+})))
         this.f_nameP = this.f_EMPTY_STRING
 }
     
@@ -176,26 +176,26 @@ and jm_getName = (this: AbPath) => {
 and jm_toString = (this: AbPath) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
         if (jm_hasSchema(this)) {
-            ignore(StringMaker.jm_append(stringBuffer, this.f_schema))
-            ignore(StringMaker.jm_append(stringBuffer, jstatic_NETWORK_SEP()))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_schema)))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_NETWORK_SEP())))
         }
-        ignore(StringMaker.jm_append(stringBuffer, jm_getPath(this)))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_nameP))
-        return StringMaker.jm_toString(stringBuffer)
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jm_getPath(this))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_nameP)))
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
     
 and jm_toFileSystemString = (this: AbPath) => {
         if (jm_hasSchema(this)) {
             let mut filePathData: FilePathData = JR.cast(FilePathData.jm_getInstance())
             let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-            ignore(StringMaker.jm_append(stringBuffer, this.f_schema))
-            ignore(StringMaker.jm_append(stringBuffer, this.f_commonSeps.f_COLON))
-            ignore(StringMaker.jm_append(stringBuffer, filePathData.f_PATH_START))
-            ignore(StringMaker.jm_append(stringBuffer, FilePathUtil.jm_adjust(jm_getPath(this))))
-            ignore(StringMaker.jm_append(stringBuffer, this.f_nameP))
-            return StringMaker.jm_toString(stringBuffer)
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_schema)))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_commonSeps.f_COLON)))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(filePathData.f_PATH_START)))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(FilePathUtil.jm_adjust(JR.cast(jm_getPath(this))))))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_nameP)))
+            return StringMaker.jm_toString(JR.cast(stringBuffer))
         } else {
-            return FilePathUtil.jm_adjust(jm_getPath(this)) ++ this.f_nameP
+            return FilePathUtil.jm_adjust(JR.cast(jm_getPath(this))) ++ this.f_nameP
         }
 }
     

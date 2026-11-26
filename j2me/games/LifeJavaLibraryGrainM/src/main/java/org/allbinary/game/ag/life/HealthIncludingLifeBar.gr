@@ -54,7 +54,7 @@ provide record HealthIncludingLifeBar {
 provide let rec jclassName = () => "HealthIncludingLifeBar"
     
 and jm_createHealthIncludingLifeBar = (layerInterface: AllBinaryLayer, life: Life, healthInterface: Health, location: Int32, direction: Int32) => {
-        return jnew_5(layerInterface, life, healthInterface, JR.cast(HealthBarTwodAnimation.jnew_2(layerInterface, location)), direction)
+        return jnew_5(JR.cast(layerInterface), JR.cast(life), JR.cast(healthInterface), JR.cast(HealthBarTwodAnimation.jnew_2(JR.cast(layerInterface), location)), direction)
 }
     
 and jnew_5 = (layerInterface: AllBinaryLayer, life: Life, healthInterface: Health, animationInterface: HealthBarAnimation, direction: Int32) => {
@@ -67,13 +67,19 @@ and jnew_5 = (layerInterface: AllBinaryLayer, life: Life, healthInterface: Healt
         this.f_animationInterface = JR.cast(animationInterface)
         this.f_life = JR.cast(life)
         this.f_healthInterface = JR.cast(healthInterface)
-        ignore(HealthInterface.jm_addListener(this.f_healthInterface, JR.cast(this)))
+        ignore(HealthInterface.jm_addListener(JR.cast(this.f_healthInterface), JR.cast(this)))
         ignore(jm_onHealthChange(this))
     this
 }
     
 and jm_onHealthChange = (this: HealthIncludingLifeBar) => {
-        ignore(HealthBarAnimation.jm_onHealthChange(this.f_animationInterface, Int32.(/)((Int32.(*)((Int32.(+)(HealthInterface.jm_getHealth(this.f_healthInterface), (Int32.(*)(HealthInterface.jm_getMaxHealth(this.f_healthInterface), Life.jm_get(this.f_life))))), AllBinaryLayer.jm_getWidth(this.f_allbinaryLayer))), (Int32.(+)(HealthInterface.jm_getMaxHealth(this.f_healthInterface), (Int32.(*)(HealthInterface.jm_getMaxHealth(this.f_healthInterface), Life.jm_getStartLives(this.f_life))))))))
+        ignore(HealthBarAnimation.jm_onHealthChange(JR.cast(this.f_animationInterface), Int32.(/)((Int32.(*)((Int32.(+)(HealthInterface.jm_getHealth(JR.cast(this.f_healthInterface)), (Int32.(*)(HealthInterface.jm_getMaxHealth(JR.cast(this.f_healthInterface)), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Life.jm_get"))
+JR.cast(jlate(JR.cast(this.f_life)))
+})))), AllBinaryLayer.jm_getWidth(JR.cast(this.f_allbinaryLayer)))), (Int32.(+)(HealthInterface.jm_getMaxHealth(JR.cast(this.f_healthInterface)), (Int32.(*)(HealthInterface.jm_getMaxHealth(JR.cast(this.f_healthInterface)), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Life.jm_getStartLives"))
+JR.cast(jlate(JR.cast(this.f_life)))
+})))))))
 }
     
 and jm_paint = (this: HealthIncludingLifeBar, graphics: JObject) => {
@@ -90,6 +96,7 @@ JR.cast(jlate(JR.cast(this.f_animationInterface), JR.cast(graphics), JR.cast(0l)
 })
 }
 
+JR.registerSuper("HealthIncludingLifeBar", "Paintable")
 JR.registerLateBound("HealthIncludingLifeBar.jnew_5", jnew_5)
 JR.registerLateBound("HealthIncludingLifeBar.jm_createHealthIncludingLifeBar", jm_createHealthIncludingLifeBar)
 JR.registerLateBound("HealthIncludingLifeBar.jm_onHealthChange", jm_onHealthChange)

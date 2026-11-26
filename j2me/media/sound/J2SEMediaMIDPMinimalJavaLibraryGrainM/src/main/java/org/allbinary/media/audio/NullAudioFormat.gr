@@ -25,6 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../javax/sound/sampled/AudioFormat.gr" include AudioFormat
+use AudioFormat.{ type AudioFormat }
 
 provide record NullAudioFormat {
   jobject: JObject,
@@ -37,7 +39,7 @@ provide let rec jclassName = () => "NullAudioFormat"
 and jstatic_NULL_AUDIO_FORMAT = () => match (jcell_NULL_AUDIO_FORMAT) {
   Some(value) => value,
   None => {
-    let value: AudioFormat = AudioFormat.jnew_7(AudioFormat.jstatic_Encoding().f_PCM_UNSIGNED, 0.0f, 0l, 0l, 0l, 0.0f, false)
+    let value: AudioFormat = JR.cast(AudioFormat.jnew_7(JR.nullOf(), 0.0f, 0l, 0l, 0l, 0.0f, false))
     jcell_NULL_AUDIO_FORMAT = Some(value)
     value
   },

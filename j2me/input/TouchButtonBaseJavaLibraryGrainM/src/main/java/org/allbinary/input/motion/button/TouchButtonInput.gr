@@ -56,7 +56,7 @@ provide record TouchButtonInput {
 provide let rec jclassName = () => "TouchButtonInput"
     
 and jnew_2 = (id: Int32, name: String) => {
-    let this = { jobject: JR.newJObject("TouchButtonInput"), f_id: 0l, f_name: "", f_logUtil: JR.jnull, f_gameKeyEventFactory: JR.nullOf(), f_TOUCH_BUTTON_SOURCE_ID: 0l, f_gameKeyEvent: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("TouchButtonInput"), f_id: 0l, f_name: "", f_logUtil: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_TOUCH_BUTTON_SOURCE_ID: 0l, f_gameKeyEvent: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -66,7 +66,7 @@ JR.cast(jlate())
     this.f_gameKeyEvent = JR.cast(GameKeyEvent.jstatic_NONE())
         void
         let mut inputFactory: InputFactory = JR.cast(InputFactory.jm_getInstance())
-        ignore(InputFactory.jm_add(inputFactory, {
+        ignore(InputFactory.jm_add(JR.cast(inputFactory), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Input.jm_getId"))
 JR.cast(jlate(JR.cast(this)))
 }, JR.cast(this)))
@@ -75,11 +75,11 @@ JR.cast(jlate(JR.cast(this)))
     
 and jm_update = (this: TouchButtonInput, inputToGameKeyMapping: InputToGameKeyMapping) => {
         {
-            let mut gameKey: GameKey = JR.cast(InputToGameKeyMapping.jm_getInstance(inputToGameKeyMapping, {
+            let mut gameKey: GameKey = JR.cast(InputToGameKeyMapping.jm_getInstance(JR.cast(inputToGameKeyMapping), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Input.jm_getId"))
 JR.cast(jlate(JR.cast(this)))
 }))
-            this.f_gameKeyEvent = JR.cast(GameKeyEventFactory.jm_getInstanceForInput(this.f_gameKeyEventFactory, JR.cast(this), JR.cast(gameKey)))
+            this.f_gameKeyEvent = JR.cast(GameKeyEventFactory.jm_getInstanceForInput(JR.cast(this.f_gameKeyEventFactory), JR.cast(this), JR.cast(gameKey)))
         }
 }
     
@@ -91,6 +91,7 @@ and jm_getGameKeyEvent = (this: TouchButtonInput) => {
         return this.f_gameKeyEvent
 }
 
+JR.registerSuper("TouchButtonInput", "Input")
 JR.registerLateBound("TouchButtonInput.jnew_2", jnew_2)
 JR.registerLateBound("TouchButtonInput.jm_update", jm_update)
 JR.registerLateBound("TouchButtonInput.jm_getSourceId", jm_getSourceId)

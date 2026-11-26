@@ -46,9 +46,13 @@ and jnew_1 = (playerGameInputCompositeInterface: PlayerGameInputCompositeInterfa
 }
     
 and jm_process = (this: FormPlayerGameInputProcessor) => {
-        ignore(JR.className(JR.cast(PlayerGameInputCompositeInterface.jm_getPlayerGameInput(this.f_playerGameInputCompositeInterface))))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInput.jm_update"))
+JR.cast(jlate(JR.cast(PlayerGameInputCompositeInterface.jm_getPlayerGameInput(JR.cast(this.f_playerGameInputCompositeInterface)))))
+})
 }
 
+JR.registerSuper("FormPlayerGameInputProcessor", "Processor")
 JR.registerLateBound("FormPlayerGameInputProcessor.jnew_1", jnew_1)
 JR.registerLateBound("FormPlayerGameInputProcessor.jm_process", jm_process)
 JR.registerLateBound("FormPlayerGameInputProcessor.f_playerGameInputCompositeInterface", (this: FormPlayerGameInputProcessor) => this.f_playerGameInputCompositeInterface)

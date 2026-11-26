@@ -48,7 +48,7 @@ provide let rec jclassName = () => "NoHighScoresFactory"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: NoHighScoresFactory = jnew_0()
+    let value: NoHighScoresFactory = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -63,12 +63,12 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("NoHighScoresFactory"), f_commonStrings: JR.jnull, f_logUtil: JR.jnull, f_NO_HIGH_SCORES: [> ], }
+    let this = { jobject: JR.newJObject("NoHighScoresFactory"), f_commonStrings: JR.nullOf(), f_logUtil: JR.nullOf(), f_NO_HIGH_SCORES: [> ], }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
 })
-    this.f_NO_HIGH_SCORES = Array.make(Int32.toNumber(0l), JR.jnull)
+    this.f_NO_HIGH_SCORES = Array.make(Int32.toNumber(0l), JR.nullOf())
         void
     this
 }
@@ -78,7 +78,10 @@ and jm_fetchHighScores = (this: NoHighScoresFactory, gameInfo: GameInfo, highSco
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Getting No HighScores"), JR.cast(this), JR.cast("fetchHighScores")))
 })
-        ignore(HighScoresResultsListener.jm_setHighScoresArray(highScoresResultsListener, this.f_NO_HIGH_SCORES))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("HighScoresResultsListener.jm_setHighScoresArray"))
+JR.cast(jlate(JR.cast(highScoresResultsListener), JR.cast(this.f_NO_HIGH_SCORES)))
+})
 }
     
 and jm_createHighScoresHelper = (this: NoHighScoresFactory) => {
@@ -88,6 +91,7 @@ JR.cast(jlate())
 }
 }
 
+JR.registerSuper("NoHighScoresFactory", "HighScoresBase")
 JR.registerLateBound("NoHighScoresFactory.jnew_0", jnew_0)
 JR.registerLateBound("NoHighScoresFactory.jm_getInstance", jm_getInstance)
 JR.registerLateBound("NoHighScoresFactory.jm_fetchHighScores", jm_fetchHighScores)

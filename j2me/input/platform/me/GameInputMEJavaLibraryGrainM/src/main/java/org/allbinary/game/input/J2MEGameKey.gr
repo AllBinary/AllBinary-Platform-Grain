@@ -53,24 +53,34 @@ JR.cast(jlate(JR.cast(this)))
 }
         if (Int32.(>=)(id, 0l)) {
             let mut inputFactory: InputFactory = JR.cast(InputFactory.jm_getInstance())
-            ignore(InputFactory.jm_add(inputFactory, id, JR.cast(this)))
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("InputFactory.jm_add"))
+JR.cast(jlate(JR.cast(inputFactory), JR.cast(id), JR.cast(this)))
+})
         }
     this
 }
     
 and jm_toString = (this: J2MEGameKey) => {
-        return StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "J2MEGameKey: "), jm_toString(this)))
+        return StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("J2MEGameKey: "))), JR.cast(jm_toString(this)))))
 }
     
 and jm_getString = (keyCode: Int32) => {
-        let mut input: Input = JR.cast(InputFactory.jm_getInstanceById(InputFactory.jm_getInstance(), keyCode))
+        let mut input: Input = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("InputFactory.jm_getInstanceById"))
+JR.cast(jlate(JR.cast(InputFactory.jm_getInstance()), JR.cast(keyCode)))
+})
         if (!JR.isNull(input)) {
-            return Input.jm_getName(input)
+            return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Input.jm_getName"))
+JR.cast(jlate(JR.cast(input)))
+}
         } else {
             return StringUtil.jm_getInstance().f_EMPTY_STRING
         }
 }
 
+JR.registerSuper("J2MEGameKey", "Input")
 JR.registerLateBound("J2MEGameKey.jnew_2", jnew_2)
 JR.registerLateBound("J2MEGameKey.jm_toString", jm_toString)
 JR.registerLateBound("J2MEGameKey.jm_getString", jm_getString)

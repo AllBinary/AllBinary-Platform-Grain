@@ -50,7 +50,7 @@ provide let rec jclassName = () => "LogUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: LogUtil = jnew_0()
+    let value: LogUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -65,7 +65,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("LogUtil"), f_logFormatUtil: JR.jnull, f_LOG_SUCCESS: "", }
+    let this = { jobject: JR.newJObject("LogUtil"), f_logFormatUtil: JR.nullOf(), f_LOG_SUCCESS: "", }
     this.f_logFormatUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogFormatUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -76,23 +76,35 @@ JR.cast(jlate())
 }
     
 and jm_putL = (this: LogUtil, log: Log) => {
-        let mut specialMessage: String = Log.jm_getSpecialMessage(log)
-        let mut anyType: JObject = JR.cast(Log.jm_getObject(log))
-        let mut functionName: String = Log.jm_getFunctionName(log)
-        let mut exception_: JObject = JR.cast(Log.jm_getThrowable(log))
-        ignore(jm_put(this, specialMessage, anyType, functionName, exception_))
+        let mut specialMessage: String = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Log.jm_getSpecialMessage"))
+JR.cast(jlate(JR.cast(log)))
+}
+        let mut anyType: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Log.jm_getObject"))
+JR.cast(jlate(JR.cast(log)))
+})
+        let mut functionName: String = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Log.jm_getFunctionName"))
+JR.cast(jlate(JR.cast(log)))
+}
+        let mut exception_: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Log.jm_getThrowable"))
+JR.cast(jlate(JR.cast(log)))
+})
+        ignore(jm_put(this, JR.cast(specialMessage), JR.cast(anyType), JR.cast(functionName), JR.cast(exception_)))
 }
     
 and jm_putF = (this: LogUtil, specialMessage: String, anyType: JObject, functionName: String) => {
         let mut className: String = CommonStrings.jm_getInstance().f_EMPTY
         if (true) {
-            className = StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), JR.className(anyType)), CommonSeps.jm_getInstance().f_COLON), JR.cast(Integer.jm_toHexString({
+            className = StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(JR.className(anyType)))), JR.cast(CommonSeps.jm_getInstance().f_COLON))), JR.cast(Integer.jm_toHexString({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_hashCode"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
 JR.cast(jlate())
 }), JR.cast(anyType)))
-}))))
+})))))
         }
         let mut message: String = {
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogFormatUtil.jm_getS"))
@@ -122,7 +134,7 @@ JR.cast(jlate())
 }), JR.cast(anyType)))
 }
             let mut hexString: String = Integer.jm_toHexString(hashCodeValue)
-            className = StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), JR.className(anyType)), CommonSeps.jm_getInstance().f_COLON), hexString))
+            className = StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(JR.className(anyType)))), JR.cast(CommonSeps.jm_getInstance().f_COLON))), JR.cast(hexString))))
         }
         let mut message: String = {
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogFormatUtil.jm_get"))

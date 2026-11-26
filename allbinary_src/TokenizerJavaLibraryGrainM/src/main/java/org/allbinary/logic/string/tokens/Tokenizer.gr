@@ -31,6 +31,8 @@ from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayLis
 use BasicArrayList.{ type BasicArrayList }
 from "../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
 use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 
 provide record Tokenizer {
   jobject: JObject,
@@ -75,7 +77,7 @@ and jm_getInsideSep = (this: Tokenizer, string: String) => {
             if ((index != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
                 let mut end: Int32 = JR.indexOfFrom(string, this.f_endSep, Int32.(+)(index, JR.length(this.f_sep)))
                 if ((end != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
-                    ignore(BasicArrayList.jm_add(tokenList, JR.cast(JR.substring(string, Int32.(+)(index, JR.length(this.f_sep)), Int32.(-)(end, (Int32.(-)(JR.length(this.f_endSep), 1l)))))))
+                    ignore(BasicArrayList.jm_add(JR.cast(tokenList), JR.cast(JR.substring(string, Int32.(+)(index, JR.length(this.f_sep)), Int32.(-)(end, (Int32.(-)(JR.length(this.f_endSep), 1l)))))))
                     index = Int32.(+)(end, JR.length(this.f_endSep))
                 } else {
                     void
@@ -93,10 +95,10 @@ and jm_getTokensFromString = (this: Tokenizer, string: String, tokenVector: Basi
         while (Int32.(<)(index, JR.length(string))) {
             end = JR.indexOfFrom(string, this.f_sep, index)
             if ((end != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
-                ignore(BasicArrayList.jm_add(tokenVector, JR.cast(JR.substring(string, index, end))))
+                ignore(BasicArrayList.jm_add(JR.cast(tokenVector), JR.cast(JR.substring(string, index, end))))
                 index = Int32.(+)(end, JR.length(this.f_sep))
             } else {
-                ignore(BasicArrayList.jm_add(tokenVector, JR.cast(JR.substring(string, index, JR.length(string)))))
+                ignore(BasicArrayList.jm_add(JR.cast(tokenVector), JR.cast(JR.substring(string, index, JR.length(string)))))
                 break
             }
         }
@@ -113,7 +115,7 @@ JR.cast(jlate())
 })
         let mut string: String = StringUtil.jm_getInstance().f_EMPTY_STRING
         let mut end: Int32 = 0l
-        let mut size: Int32 = BasicArrayList.jm_size(stringVector)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(stringVector))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true

@@ -53,7 +53,7 @@ provide let rec jclassName = () => "RawKeyEventHandler"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: RawKeyEventHandler = jnew_0()
+    let value: RawKeyEventHandler = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -94,7 +94,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("RawKeyEventHandler"), f_logUtil: JR.jnull, f_eventListenerInterfaceList: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("RawKeyEventHandler"), f_logUtil: JR.nullOf(), f_eventListenerInterfaceList: JR.nullOf(), }
     this.jobject.toStringFunction = () => jm_toString(this)
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
@@ -111,7 +111,7 @@ and jm_removeAllListeners = (this: RawKeyEventHandler) => {
     
 and jm_addListeners = (this: RawKeyEventHandler, vector: BasicArrayList) => {
         let mut eventListenerInterface: RawKeyEventListener = JR.nullOf()
-        let mut size: Int32 = BasicArrayList.jm_size(vector)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(vector))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -121,46 +121,49 @@ and jm_addListeners = (this: RawKeyEventHandler, vector: BasicArrayList) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            eventListenerInterface = JR.cast(BasicArrayList.jm_get(vector, index))
-            ignore(jm_addListener(this, eventListenerInterface))
+            eventListenerInterface = JR.cast(BasicArrayList.jm_get(JR.cast(vector), index))
+            ignore(jm_addListener(this, JR.cast(eventListenerInterface)))
             }
         }
 }
     
 and jm_addListenerSingleThreaded = (this: RawKeyEventHandler, eventListenerInterface: RawKeyEventListener) => {
-        if (!BasicArrayList.jm_contains(this.f_eventListenerInterfaceList, JR.cast(eventListenerInterface))) {
-            ignore(BasicArrayList.jm_add(this.f_eventListenerInterfaceList, JR.cast(eventListenerInterface)))
+        if (!BasicArrayList.jm_contains(JR.cast(this.f_eventListenerInterfaceList), JR.cast(eventListenerInterface))) {
+            ignore(BasicArrayList.jm_add(JR.cast(this.f_eventListenerInterfaceList), JR.cast(eventListenerInterface)))
         }
 }
     
 and jm_addListener = (this: RawKeyEventHandler, eventListenerInterface: RawKeyEventListener) => {
-        if (!BasicArrayList.jm_contains(this.f_eventListenerInterfaceList, JR.cast(eventListenerInterface))) {
-            ignore(BasicArrayList.jm_add(this.f_eventListenerInterfaceList, JR.cast(eventListenerInterface)))
+        if (!BasicArrayList.jm_contains(JR.cast(this.f_eventListenerInterfaceList), JR.cast(eventListenerInterface))) {
+            ignore(BasicArrayList.jm_add(JR.cast(this.f_eventListenerInterfaceList), JR.cast(eventListenerInterface)))
         }
 }
     
 and jm_removeListenerSingleThreaded = (this: RawKeyEventHandler, eventListenerInterface: RawKeyEventListener) => {
-        ignore(BasicArrayList.jm_remove(this.f_eventListenerInterfaceList, JR.cast(eventListenerInterface)))
+        ignore(BasicArrayList.jm_remove(JR.cast(this.f_eventListenerInterfaceList), JR.cast(eventListenerInterface)))
 }
     
 and jm_removeListener = (this: RawKeyEventHandler, eventListenerInterface: RawKeyEventListener) => {
-        ignore(BasicArrayList.jm_remove(this.f_eventListenerInterfaceList, JR.cast(eventListenerInterface)))
+        ignore(BasicArrayList.jm_remove(JR.cast(this.f_eventListenerInterfaceList), JR.cast(eventListenerInterface)))
 }
     
 and jm_fireEvent = (this: RawKeyEventHandler, keyCode: Int32, deviceId: Int32, repeated: Bool) => {
         let mut eventListenerInterface: RawKeyEventListener = JR.nullOf()
         let mut index: Int32 = 0l
-        while (Int32.(<)(index, BasicArrayList.jm_size(this.f_eventListenerInterfaceList))) {
+        while (Int32.(<)(index, BasicArrayList.jm_size(JR.cast(this.f_eventListenerInterfaceList)))) {
             {
-                eventListenerInterface = JR.cast(BasicArrayList.jm_get(this.f_eventListenerInterfaceList, index))
-                ignore(jm_process(this, keyCode, deviceId, repeated, eventListenerInterface))
+                eventListenerInterface = JR.cast(BasicArrayList.jm_get(JR.cast(this.f_eventListenerInterfaceList), index))
+                ignore(jm_process(this, keyCode, deviceId, repeated, JR.cast(eventListenerInterface)))
             }
             index = Int32.(+)(index, 1l)
         }
 }
     
 and jm_process = (this: RawKeyEventHandler, keyCode: Int32, deviceId: Int32, repeated: Bool, eventListenerInterface: RawKeyEventListener) => {
-        ignore(RawKeyEventListener.jm_onEventRaw(eventListenerInterface, keyCode, deviceId, repeated))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("RawKeyEventListener.jm_onEventRaw"))
+JR.cast(jlate(JR.cast(eventListenerInterface), JR.cast(keyCode), JR.cast(deviceId), JR.cast(repeated)))
+})
 }
     
 and jm_getEventListenerInterfaceListP = (this: RawKeyEventHandler) => {
@@ -169,19 +172,19 @@ and jm_getEventListenerInterfaceListP = (this: RawKeyEventHandler) => {
     
 and jm_toString = (this: RawKeyEventHandler) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, jstatic_TOTAL_LISTENERS()))
-        ignore(StringMaker.jm_appendint(stringBuffer, BasicArrayList.jm_size(this.f_eventListenerInterfaceList)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_TOTAL_LISTENERS())))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), BasicArrayList.jm_size(JR.cast(this.f_eventListenerInterfaceList))))
         let mut eventListenerInterface: RawKeyEventListener = JR.nullOf()
         let mut index: Int32 = 0l
-        while (Int32.(<)(index, BasicArrayList.jm_size(this.f_eventListenerInterfaceList))) {
+        while (Int32.(<)(index, BasicArrayList.jm_size(JR.cast(this.f_eventListenerInterfaceList)))) {
             {
-                eventListenerInterface = JR.cast(BasicArrayList.jm_get(this.f_eventListenerInterfaceList, index))
-                ignore(StringMaker.jm_append(stringBuffer, jstatic_LISTENER_LABEL()))
-                ignore(StringMaker.jm_append(stringBuffer, JR.toStringOf(eventListenerInterface.jobject)))
+                eventListenerInterface = JR.cast(BasicArrayList.jm_get(JR.cast(this.f_eventListenerInterfaceList), index))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_LISTENER_LABEL())))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(JR.toStringOf(eventListenerInterface))))
             }
             index = Int32.(+)(index, 1l)
         }
-        return StringMaker.jm_toString(stringBuffer)
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
 JR.registerLateBound("RawKeyEventHandler.jnew_0", jnew_0)

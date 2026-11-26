@@ -38,7 +38,15 @@ use StringMaker.{ type StringMaker }
 from "../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
 use StringUtil.{ type StringUtil }
 from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/lang/Long.gr" include Long
+from "../../../../java/lang/Short.gr" include Short
+from "../../../../java/lang/Byte.gr" include Byte
+from "../../../../java/lang/Character.gr" include Character
+from "../../../../java/lang/Float.gr" include Float
+from "../../../../java/lang/Double.gr" include Double
 from "../../../../java/lang/Boolean.gr" include Boolean
+from "../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 
 provide record GameConfiguration {
   jobject: JObject,
@@ -71,23 +79,23 @@ and jnew_4 = (name: String, defaultValue: Int32, minValue: Int32, maxValue: Int3
     let this = { jobject: JR.newJObject("GameConfiguration"), f_name: "", f_defaultValue: 0l, f_value: 0l, f_minValue: 0l, f_maxValue: 0l, f_modifiable: false, }
     this.jobject.toStringFunction = () => jm_toString(this)
     this.f_name = StringUtil.jm_getInstance().f_EMPTY_STRING
-    this.f_defaultValue = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 0l)
+    this.f_defaultValue = SmallIntegerSingletonFactory.jm_getAt(JR.cast(SmallIntegerSingletonFactory.jm_getInstance()), 0l)
     this.f_value = jstatic_MIN_VALUE()
     this.f_minValue = this.f_defaultValue
     this.f_maxValue = this.f_defaultValue
     this.f_modifiable = BooleanFactory.jm_getInstance().f_TRUE
-        ignore(jm_setName(this, name))
+        ignore(jm_setName(this, JR.cast(name)))
         ignore(jm_setDefaultValue(this, defaultValue))
         this.f_value = jm_getDefaultValue(this)
         ignore(jm_setMinValue(this, minValue))
         ignore(jm_setMaxValue(this, maxValue))
-        ignore(JR.className(JR.cast({
+        ignore(Hashtable.jm_put_2(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationSingleton.jm_getHashtable"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("GameConfigurationSingleton.jm_getInstance"))
 JR.cast(jlate())
 })))
-})))
+}), jm_getName(this), this))
     this
 }
     
@@ -97,7 +105,7 @@ and jm_setValue = (this: GameConfiguration, value: Int32) => {
             this.f_value = value
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_fireEvent"))
-JR.cast(jlate(JR.cast(GameFeatureEventHandler.jm_getInstance()), JR.cast(GameFeatureEvent.jnew_2(JR.cast(this), StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), this.f_name), " value: from: "), Integer.jm_intValue(oldValue)), " to "), Integer.jm_intValue(this.f_value)))))))
+JR.cast(jlate(JR.cast(GameFeatureEventHandler.jm_getInstance()), JR.cast(GameFeatureEvent.jnew_2(JR.cast(this), StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(this.f_name))), JR.cast(" value: from: "))), Integer.jm_intValue(JR.cast(oldValue)))), JR.cast(" to "))), Integer.jm_intValue(JR.cast(this.f_value)))))))))
 })
         }
 }
@@ -144,19 +152,19 @@ and jm_setDefault = (this: GameConfiguration) => {
     
 and jm_toString = (this: GameConfiguration) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, "Name: "))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_name))
-        ignore(StringMaker.jm_append(stringBuffer, " Min: "))
-        ignore(StringMaker.jm_appendint(stringBuffer, Integer.jm_intValue(jm_getMinValue(this))))
-        ignore(StringMaker.jm_append(stringBuffer, " Max: "))
-        ignore(StringMaker.jm_appendint(stringBuffer, Integer.jm_intValue(jm_getMaxValue(this))))
-        ignore(StringMaker.jm_append(stringBuffer, " Value: "))
-        ignore(StringMaker.jm_appendint(stringBuffer, Integer.jm_intValue(jm_getValue(this))))
-        ignore(StringMaker.jm_append(stringBuffer, " Default: "))
-        ignore(StringMaker.jm_appendint(stringBuffer, Integer.jm_intValue(jm_getDefaultValue(this))))
-        ignore(StringMaker.jm_append(stringBuffer, " Modifiable: "))
-        ignore(StringMaker.jm_appendboolean(stringBuffer, Boolean.jm_booleanValue(jm_isModifiable(this))))
-        return StringMaker.jm_toString(stringBuffer)
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Name: ")))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_name)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" Min: ")))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), Integer.jm_intValue(JR.cast(jm_getMinValue(this)))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" Max: ")))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), Integer.jm_intValue(JR.cast(jm_getMaxValue(this)))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" Value: ")))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), Integer.jm_intValue(JR.cast(jm_getValue(this)))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" Default: ")))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), Integer.jm_intValue(JR.cast(jm_getDefaultValue(this)))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" Modifiable: ")))
+        ignore(StringMaker.jm_appendboolean(JR.cast(stringBuffer), Boolean.jm_booleanValue(JR.cast(jm_isModifiable(this)))))
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
     
 and jm_setModifiable = (this: GameConfiguration, modifiable: Bool) => {

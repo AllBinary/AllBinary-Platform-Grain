@@ -94,14 +94,14 @@ provide record CommandFormInputProcessor {
 provide let rec jclassName = () => "CommandFormInputProcessor"
     
 and jnew_4 = (gameKeyEventList: BasicArrayList, playerInputId: Int32, gameCanvas: MyCanvas, form: ScrollSelectionForm) => {
-    let this = { jobject: JR.newJObject("CommandFormInputProcessor"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventList: JR.jnull, f_removalGameKeyEventList: JR.jnull, f_isRemoveDuplicateKeyPresses: false, f_gameInputStrings: JR.jnull, f_playerInputId: 0l, f_motionGestureEventList: JR.jnull, f_canvas: JR.jnull, f_MOTION_GESTURE_SOURCE_ID: 0l, f_CLICK_DELAY: 0l, f_clickTimeHelper: JR.nullOf(), f_DOUBLE_CLICK_DELAY: 0l, f_doubleClickTimeHelper: JR.nullOf(), f_isSingleKeyProcessing: false, f_form: JR.nullOf(), f_hasPressed: false, f_PROCESS_COMMAND: "", f_NAME_LABEL: "", }
+    let this = { jobject: JR.newJObject("CommandFormInputProcessor"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_gameKeyEventList: JR.nullOf(), f_removalGameKeyEventList: JR.nullOf(), f_isRemoveDuplicateKeyPresses: false, f_gameInputStrings: JR.nullOf(), f_playerInputId: 0l, f_motionGestureEventList: JR.nullOf(), f_canvas: JR.nullOf(), f_MOTION_GESTURE_SOURCE_ID: 0l, f_CLICK_DELAY: 0l, f_clickTimeHelper: JR.nullOf(), f_DOUBLE_CLICK_DELAY: 0l, f_doubleClickTimeHelper: JR.nullOf(), f_isSingleKeyProcessing: false, f_form: JR.nullOf(), f_hasPressed: false, f_PROCESS_COMMAND: "", f_NAME_LABEL: "", }
     this.jobject.toStringFunction = () => jm_toString(this)
     this.f_MOTION_GESTURE_SOURCE_ID = GameKeyEventFactory.jm_getInstance().f_MOTION_GESTURE_SOURCE_ID
     this.f_CLICK_DELAY = 150l
     this.f_clickTimeHelper = TimeDelayHelper.jnew_1(this.f_CLICK_DELAY)
     this.f_DOUBLE_CLICK_DELAY = 1200l
     this.f_doubleClickTimeHelper = TimeDelayHelper.jnew_1(this.f_DOUBLE_CLICK_DELAY)
-    this.f_isSingleKeyProcessing = InputFeatureFactory.jm_isSingleKeyProcessing(InputFeatureFactory.jm_getInstance())
+    this.f_isSingleKeyProcessing = InputFeatureFactory.jm_isSingleKeyProcessing(JR.cast(InputFeatureFactory.jm_getInstance()))
     
     this.f_hasPressed = false
     this.f_PROCESS_COMMAND = "processCommand"
@@ -125,14 +125,20 @@ JR.cast(jlate())
 let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_DOWN"))
 JR.cast(jlate())
 }))) {
-            ignore(PrimaryPlayerQueueFactory.jm_add(PrimaryPlayerQueueFactory.jm_getInstance(), SelectSound.jm_getInstance()))
-            ignore(ScrollSelectionForm.jm_processInputKey(this.f_form, key))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("PlayerQueue.jm_add"))
+JR.cast(jlate(JR.cast(PrimaryPlayerQueueFactory.jm_getInstance()), JR.cast(SelectSound.jm_getInstance())))
+})
+            ignore(ScrollSelectionForm.jm_processInputKey(JR.cast(this.f_form), key))
             return 1l
         } else if ((key == {
 let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_FIRE"))
 JR.cast(jlate())
 })) {
-            ignore(PrimaryPlayerQueueFactory.jm_add(PrimaryPlayerQueueFactory.jm_getInstance(), SelectSound.jm_getInstance()))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("PlayerQueue.jm_add"))
+JR.cast(jlate(JR.cast(PrimaryPlayerQueueFactory.jm_getInstance()), JR.cast(SelectSound.jm_getInstance())))
+})
             return jm_processCommand(this)
         }
         return 0l
@@ -140,14 +146,17 @@ JR.cast(jlate())
     
 and jm_processCommand = (this: CommandFormInputProcessor) => {
         let mut commandCurrentSelectionForm: CommandCurrentSelectionForm = JR.cast(this.f_form)
-        let mut command: JObject = JR.cast(CommandCurrentSelectionForm.jm_getSelectedCommand(commandCurrentSelectionForm))
+        let mut command: JObject = JR.cast(CommandCurrentSelectionForm.jm_getSelectedCommand(JR.cast(commandCurrentSelectionForm)))
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(JR.toStringOf(command.jobject)), JR.cast(this), JR.cast(this.f_PROCESS_COMMAND)))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Command.jm_toString"))
+JR.cast(jlate(JR.cast(command)))
+}), JR.cast(this), JR.cast(this.f_PROCESS_COMMAND)))
 })
         let mut features: Features = JR.cast(Features.jm_getInstance())
         let mut openGLFeatureFactory: OpenGLFeatureFactory = JR.cast(OpenGLFeatureFactory.jm_getInstance())
-        if (((SWTUtil.jstatic_isSWT() && Features.jm_isFeature(features, JR.cast(openGLFeatureFactory.f_OPENGL))) && (!JR.isSame(command, GameCommandsFactory.jm_getInstance().f_EXIT_COMMAND)))) {
+        if (((SWTUtil.jstatic_isSWT() && Features.jm_isFeature(JR.cast(features), JR.cast(openGLFeatureFactory.f_OPENGL))) && (!JR.isSame(command, GameCommandsFactory.jm_getInstance().f_EXIT_COMMAND)))) {
             ignore({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommandRunnable.jm_run"))
 JR.cast(jlate(JR.cast({
@@ -156,10 +165,13 @@ JR.cast(jlate(JR.cast(this), JR.cast(command)))
 })))
 })
         } else {
-            ignore(PrimaryThreadPool.jm_runTask(PrimaryThreadPool.jm_getInstance(), JR.cast({
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.jm_runTask"))
+JR.cast(jlate(JR.cast(PrimaryThreadPool.jm_getInstance()), JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CommandRunnable.jnew_2"))
 JR.cast(jlate(JR.cast(this), JR.cast(command)))
 })))
+})
         }
         if (JR.isSame(command, GameCommandsFactory.jm_getInstance().f_QUIT_COMMAND)) {
             return Int32.(-)(1l, Int32.(+)(1l, 1l))
@@ -175,7 +187,7 @@ and jm_processInputList = (this: CommandFormInputProcessor) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInput.jm_getGameKeyEventList"))
 JR.cast(jlate(JR.cast(this)))
 })
-            let mut size: Int32 = BasicArrayList.jm_size(list)
+            let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
             let mut key: Int32 = 0l
             let mut gameKeyEvent: GameKeyEvent = JR.nullOf()
             {
@@ -188,8 +200,8 @@ JR.cast(jlate(JR.cast(this)))
                     jfirst = false
                     if (!(Int32.(<)(index, size))) break
                 gameKeyEvent = JR.cast(list.f_objectArray[Int32.toNumber(index)])
-                key = GameKeyEvent.jm_getKey(gameKeyEvent)
-                if ((GameKeyEvent.jm_getSourceId(gameKeyEvent) != this.f_MOTION_GESTURE_SOURCE_ID)) {
+                key = GameKeyEvent.jm_getKey(JR.cast(gameKeyEvent))
+                if ((GameKeyEvent.jm_getSourceId(JR.cast(gameKeyEvent)) != this.f_MOTION_GESTURE_SOURCE_ID)) {
                     if ((jm_processInput(this, key) == 1l)) {
                         break
                     }
@@ -219,7 +231,7 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_motionGestureEventList))))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.f_objectArray"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_motionGestureEventList))))
 }[Int32.toNumber(lastIndex)])
-            ignore(jm_processMotionInput(this, motionGestureEvent))
+            ignore(jm_processMotionInput(this, JR.cast(motionGestureEvent)))
         }
         ignore({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_clear"))
@@ -233,21 +245,24 @@ and jm_processMotionInput = (this: CommandFormInputProcessor, motionGestureEvent
 let jlate: () => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.jm_getInstance"))
 JR.cast(jlate())
 })
-        let mut motionGestureInput: MotionGestureInput = JR.cast(MotionGestureEvent.jm_getMotionGesture(motionGestureEvent))
+        let mut motionGestureInput: MotionGestureInput = JR.cast(MotionGestureEvent.jm_getMotionGesture(JR.cast(motionGestureEvent)))
         if (JR.isSame(motionGestureInput, {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.f_RELEASED"))
 JR.cast(jlate(JR.cast(touchMotionGestureFactory)))
 })) {
-            let mut point: GPoint = JR.cast(MotionGestureEvent.jm_getCurrentPoint(motionGestureEvent))
-            if (ScrollSelectionForm.jm_isInForm(this.f_form, point)) {
-                let mut index: Int32 = ScrollSelectionForm.jm_getSelectedIndexForPoint(this.f_form, point)
+            let mut point: GPoint = JR.cast(MotionGestureEvent.jm_getCurrentPoint(JR.cast(motionGestureEvent)))
+            if (ScrollSelectionForm.jm_isInForm(JR.cast(this.f_form), JR.cast(point))) {
+                let mut index: Int32 = ScrollSelectionForm.jm_getSelectedIndexForPoint(JR.cast(this.f_form), JR.cast(point))
                 if ((index != Int32.(-)(1l, Int32.(+)(1l, 1l)))) {
-                    ignore(PrimaryPlayerQueueFactory.jm_add(PrimaryPlayerQueueFactory.jm_getInstance(), SelectSound.jm_getInstance()))
+                    ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("PlayerQueue.jm_add"))
+JR.cast(jlate(JR.cast(PrimaryPlayerQueueFactory.jm_getInstance()), JR.cast(SelectSound.jm_getInstance())))
+})
                     if ((index == {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABCustomForm.jm_getSelectedIndex"))
 JR.cast(jlate(JR.cast(this.f_form)))
 })) {
-                        if (TimeDelayHelper.jm_isTimeTNT(this.f_clickTimeHelper)) {
+                        if (TimeDelayHelper.jm_isTimeTNT(JR.cast(this.f_clickTimeHelper))) {
                             ignore(jm_processCommand(this))
                         }
                     } else {
@@ -261,7 +276,7 @@ JR.cast(jlate(JR.cast(this.f_form), JR.cast(index)))
                 }
             }
             if (this.f_hasPressed) {
-                if (!TimeDelayHelper.jm_isTimeTNT(this.f_doubleClickTimeHelper)) {
+                if (!TimeDelayHelper.jm_isTimeTNT(JR.cast(this.f_doubleClickTimeHelper))) {
                     ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast("Double Press"), JR.cast(this), JR.cast({
@@ -272,7 +287,7 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_gameInputStrings))))
                     ignore(jm_processCommand(this))
                 }
                 this.f_doubleClickTimeHelper.f_delay = this.f_DOUBLE_CLICK_DELAY
-                ignore(TimeDelayHelper.jm_setStartTimeTNT(this.f_doubleClickTimeHelper))
+                ignore(TimeDelayHelper.jm_setStartTimeTNT(JR.cast(this.f_doubleClickTimeHelper)))
             }
             this.f_hasPressed = false
         } else if (JR.isSame(motionGestureInput, {
@@ -285,9 +300,10 @@ JR.cast(jlate(JR.cast(touchMotionGestureFactory)))
 }
     
 and jm_toString = (this: CommandFormInputProcessor) => {
-        return StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), jm_toString(this)), this.f_NAME_LABEL), JR.toStringOf(this.f_form.jobject)))
+        return StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(jm_toString(this)))), JR.cast(this.f_NAME_LABEL))), JR.cast(JR.toStringOf(this.f_form)))))
 }
 
+JR.registerSuper("CommandFormInputProcessor", "BasicMenuInputProcessor")
 JR.registerLateBound("CommandFormInputProcessor.jnew_4", jnew_4)
 JR.registerLateBound("CommandFormInputProcessor.jm_processInput", jm_processInput)
 JR.registerLateBound("CommandFormInputProcessor.jm_processCommand", jm_processCommand)

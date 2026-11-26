@@ -65,7 +65,7 @@ and jset_IMAGE_ROTATION_ANIMATION_POOL = (value: PoolInterface) => {
 }
     
 and jnew_1 = (cacheableInterfaceFactoryInterface: CacheableInterfaceFactoryInterface) => {
-    let this = { jobject: JR.newJObject("ImageArrayRotationAnimationPool"), f_commonStrings: JR.jnull, f_buffers: JR.jnull, f_cacheableInterfaceFactoryInterface: JR.jnull, }
+    let this = { jobject: JR.newJObject("ImageArrayRotationAnimationPool"), f_commonStrings: JR.nullOf(), f_buffers: JR.nullOf(), f_cacheableInterfaceFactoryInterface: JR.nullOf(), }
         void
     this
 }
@@ -80,11 +80,15 @@ and jm_remove = (this: ImageArrayRotationAnimationPool, key: JObject) => {
         let mut imageArrayRotationAnimationCacheable: ImageArrayRotationAnimationCacheable = (JR.cast(cacheableInterface))
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageArrayRotationAnimation.jm_setImageArray"))
-JR.cast(jlate(JR.cast(imageArrayRotationAnimationCacheable), JR.cast(ImageArrayRotationAnimationInfo.jm_getImageArray(allBinaryImageRotationAnimationInfo))))
+JR.cast(jlate(JR.cast(imageArrayRotationAnimationCacheable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ImageArrayRotationAnimationInfo.jm_getImageArray"))
+JR.cast(jlate(JR.cast(allBinaryImageRotationAnimationInfo)))
+})))
 })
         return cacheableInterface
 }
 
+JR.registerSuper("ImageArrayRotationAnimationPool", "BasicArrayListResetablePool")
 JR.registerLateBound("ImageArrayRotationAnimationPool.jnew_1", jnew_1)
 JR.registerLateBound("ImageArrayRotationAnimationPool.jm_getInstance", jm_getInstance)
 JR.registerLateBound("ImageArrayRotationAnimationPool.jm_remove", jm_remove)

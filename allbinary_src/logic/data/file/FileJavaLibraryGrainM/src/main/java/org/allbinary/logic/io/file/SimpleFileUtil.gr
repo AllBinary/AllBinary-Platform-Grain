@@ -71,7 +71,7 @@ provide let rec jclassName = () => "SimpleFileUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: SimpleFileUtil = jnew_0()
+    let value: SimpleFileUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -82,7 +82,7 @@ and jset_instance = (value: SimpleFileUtil) => {
 }
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("SimpleFileUtil"), f_logUtil: JR.jnull, f_NULL_WRITER: JR.nullOf(), f_NULL_READER: JR.nullOf(), f_commonStrings: JR.nullOf(), f_nullUtil: JR.nullOf(), f_streamUtil: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("SimpleFileUtil"), f_logUtil: JR.nullOf(), f_NULL_WRITER: JR.nullOf(), f_NULL_READER: JR.nullOf(), f_commonStrings: JR.nullOf(), f_nullUtil: JR.nullOf(), f_streamUtil: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -112,7 +112,7 @@ and jm_nullReader = () => {
 }
     
 and jm_loadFileAsList = (this: SimpleFileUtil, inputStream: InputStream, max: Int32, byteArray1: Array<Int32>) => {
-        return jm_loadFileAsListReturnLine(this, inputStream, max, byteArray1, 0l)
+        return jm_loadFileAsListReturnLine(this, JR.cast(inputStream), max, byteArray1, 0l)
 }
     
 and jm_loadFileAsListReturnLine = (this: SimpleFileUtil, inputStream: InputStream, max: Int32, byteArray1: Array<Int32>, includeReturnLine: Int32) => {
@@ -123,8 +123,8 @@ and jm_loadFileAsListReturnLine = (this: SimpleFileUtil, inputStream: InputStrea
         let mut byteArray: Array<Int32> = this.f_nullUtil.f_NULL_BYTE_ARRAY
         {
             let mut outputStream2: ByteArrayOutputStream = ByteArrayOutputStream.jnew_1(max)
-            byteArray = StreamUtil.jm_getByteArray(this.f_streamUtil, inputStream, outputStream2, byteArray1)
-            ignore(StreamUtil.jm_close(this.f_streamUtil, JR.cast(inputStream)))
+            byteArray = StreamUtil.jm_getByteArray(JR.cast(this.f_streamUtil), JR.cast(inputStream), JR.cast(outputStream2), byteArray1)
+            ignore(StreamUtil.jm_close(JR.cast(this.f_streamUtil), JR.cast(inputStream)))
         }
         if (JR.isNull(byteArray)) {
             return stringList
@@ -145,8 +145,8 @@ and jm_loadFileAsListReturnLine = (this: SimpleFileUtil, inputStream: InputStrea
                     returnLine = 0l
                 }
             }
-            let mut s: String = JR.fromChars(byteArray, startIndex, (Int32.(-)(Int32.(-)(Int32.(+)(index, includeReturnLine), returnLine), startIndex)))
-            ignore(BasicArrayList.jm_add(stringList, JR.cast(s)))
+            let mut s: String = JR.fromBytesRange(byteArray, startIndex, (Int32.(-)(Int32.(-)(Int32.(+)(index, includeReturnLine), returnLine), startIndex)))
+            ignore(BasicArrayList.jm_add(JR.cast(stringList), JR.cast(s)))
             index = Int32.(+)(index, 1l)
         }
         return stringList
@@ -164,10 +164,10 @@ and jm_createStringFromArrayOfStrings = (this: SimpleFileUtil, stringArray: Arra
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            ignore(StringMaker.jm_append(stringMaker, stringArray[Int32.toNumber(index)]))
+            ignore(StringMaker.jm_append(JR.cast(stringMaker), JR.cast(stringArray[Int32.toNumber(index)])))
             }
         }
-        return StringMaker.jm_toString(stringMaker)
+        return StringMaker.jm_toString(JR.cast(stringMaker))
 }
 
 JR.registerLateBound("SimpleFileUtil.jnew_0", jnew_0)

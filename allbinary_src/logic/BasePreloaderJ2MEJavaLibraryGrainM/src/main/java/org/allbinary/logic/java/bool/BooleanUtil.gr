@@ -44,7 +44,7 @@ provide let rec jclassName = () => "BooleanUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: BooleanUtil = jnew_0()
+    let value: BooleanUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -59,7 +59,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("BooleanUtil"), f_tsUtil: JR.jnull, }
+    let this = { jobject: JR.newJObject("BooleanUtil"), f_tsUtil: JR.nullOf(), }
     this.f_tsUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -71,18 +71,24 @@ JR.cast(jlate())
 and jm_getFromString = (this: BooleanUtil, booleanString: String) => {
         let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
         let mut booleanFactory: BooleanFactory = JR.cast(BooleanFactory.jm_getInstance())
-        if (StringValidationUtil.jm_isEmpty(stringValidationUtil, booleanString)) {
+        if (StringValidationUtil.jm_isEmpty(JR.cast(stringValidationUtil), JR.cast(booleanString))) {
             return false
         }
         let mut booleanStringLowerCase: String = JR.toLowerCase(booleanString)
         if (({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_compareTo"))
-JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(booleanStringLowerCase), JR.cast(booleanFactory.f_TRUE_STRING)))
+JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(booleanStringLowerCase), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BooleanFactory.f_TRUE_STRING"))
+JR.cast(jlate(JR.cast(booleanFactory)))
+})))
 } == 0l)) {
             return true
         } else if (({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_compareTo"))
-JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(booleanStringLowerCase), JR.cast(booleanFactory.f_FALSE_STRING)))
+JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(booleanStringLowerCase), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BooleanFactory.f_FALSE_STRING"))
+JR.cast(jlate(JR.cast(booleanFactory)))
+})))
 } == 0l)) {
             return false
         } else {
@@ -94,7 +100,13 @@ JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(booleanStringLowerCase), JR.cast(b
 and jm_isStringBoolean = (this: BooleanUtil, booleanString: String) => {
         let mut booleanFactory: BooleanFactory = JR.cast(BooleanFactory.jm_getInstance())
         let mut booleanStringLowerCase: String = JR.toLowerCase(booleanString)
-        if (((JR.compareTo(booleanStringLowerCase, booleanFactory.f_TRUE_STRING) == 0l) || (JR.compareTo(booleanStringLowerCase, booleanFactory.f_FALSE_STRING) == 0l))) {
+        if (((JR.compareTo(booleanStringLowerCase, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BooleanFactory.f_TRUE_STRING"))
+JR.cast(jlate(JR.cast(booleanFactory)))
+}) == 0l) || (JR.compareTo(booleanStringLowerCase, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BooleanFactory.f_FALSE_STRING"))
+JR.cast(jlate(JR.cast(booleanFactory)))
+}) == 0l))) {
             return true
         }
         return false
@@ -112,10 +124,10 @@ and jm_toStringFromBooleanArray = (this: BooleanUtil, booleanArray: Array<Bool>)
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            ignore(StringMaker.jm_appendboolean(stringMaker, booleanArray[Int32.toNumber(index)]))
+            ignore(StringMaker.jm_appendboolean(JR.cast(stringMaker), booleanArray[Int32.toNumber(index)]))
             }
         }
-        return StringMaker.jm_toString(stringMaker)
+        return StringMaker.jm_toString(JR.cast(stringMaker))
 }
 
 JR.registerLateBound("BooleanUtil.jnew_0", jnew_0)

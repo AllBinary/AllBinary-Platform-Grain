@@ -56,18 +56,22 @@ provide record TimedVectorAnimation {
 provide let rec jclassName = () => "TimedVectorAnimation"
     
 and jnew_3 = (currentPoints: Array<Array<Array<Int32>>>, basicColor: BasicColor, animationBehavior: AnimationBehavior) => {
-    let this = { jobject: JR.newJObject("TimedVectorAnimation"), f_basicSetColorUtil: JR.jnull, f_basicColor: JR.jnull, f_colorP: 0l, f_changeBasicColorP: JR.jnull, f_changeColorP: 0l, f_alphaP: 0l, f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_animationBehaviorP: JR.jnull, f_currentPoints: [> ], f_circularIndexUtil: JR.jnull, f_timeElapsedHelper: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("TimedVectorAnimation"), f_basicSetColorUtil: JR.nullOf(), f_basicColor: JR.nullOf(), f_colorP: 0l, f_changeBasicColorP: JR.nullOf(), f_changeColorP: 0l, f_alphaP: 0l, f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_animationBehaviorP: JR.nullOf(), f_currentPoints: [> ], f_circularIndexUtil: JR.nullOf(), f_timeElapsedHelper: JR.nullOf(), }
     this.f_timeElapsedHelper = TimeDelayHelper.jnew_1(200l)
         void
     this
 }
     
 and jm_nextFrame = (this: TimedVectorAnimation) => {
-        if (TimeDelayHelper.jm_isTime(this.f_timeElapsedHelper, GameTickTimeDelayHelperFactory.jm_getInstance().f_startTime)) {
+        if (TimeDelayHelper.jm_isTime(JR.cast(this.f_timeElapsedHelper), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameTickTimeDelayHelperFactory.f_startTime"))
+JR.cast(jlate(JR.cast(GameTickTimeDelayHelperFactory.jm_getInstance())))
+})) {
             ignore(jm_nextFrame(this))
         }
 }
 
+JR.registerSuper("TimedVectorAnimation", "VectorAnimation")
 JR.registerLateBound("TimedVectorAnimation.jnew_3", jnew_3)
 JR.registerLateBound("TimedVectorAnimation.jm_nextFrame", jm_nextFrame)
 JR.registerLateBound("TimedVectorAnimation.f_timeElapsedHelper", (this: TimedVectorAnimation) => this.f_timeElapsedHelper)

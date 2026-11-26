@@ -44,9 +44,32 @@ use StringUtil.{ type StringUtil }
 from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
 use BasicArrayList.{ type BasicArrayList }
 from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/lang/Long.gr" include Long
+from "../../../../java/lang/Short.gr" include Short
+from "../../../../java/lang/Byte.gr" include Byte
+from "../../../../java/lang/Character.gr" include Character
+from "../../../../java/lang/Float.gr" include Float
+from "../../../../java/lang/Double.gr" include Double
+from "../../../../java/lang/Boolean.gr" include Boolean
 
 provide record GameDifficultyOptions {
   jobject: JObject,
+  mut f_device: JObject,
+  mut f_currentDisplay: JObject,
+  mut f_width: Int32,
+  mut f_height: Int32,
+  mut f_fullScreenMode: Bool,
+  mut f_ticker: JObject,
+  mut f_viewPortY: Int32,
+  mut f_viewPortHeight: Int32,
+  mut f_ui: JObject,
+  mut f_title: String,
+  mut f_listener: JObject,
+  mut f_ANDROID_FORM_UI: String,
+  mut f_items: Array<JObject>,
+  mut f_numOfItems: Int32,
+  mut f_focusItemIndex: Int32,
+  mut f_itemStateListener: JObject,
   mut f_logUtil: JObject,
   mut f_commonStrings: JObject,
   mut f_repaintProcessor: JObject,
@@ -59,7 +82,7 @@ provide record GameDifficultyOptions {
 provide let rec jclassName = () => "GameDifficultyOptions"
     
 and jnew_5 = (commandListener: CommandListener, title: String, list: BasicArrayList, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
-    let this = { jobject: JR.newJObject("GameDifficultyOptions"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_repaintProcessor: JR.jnull, f_commandStack: JR.jnull, f_meUtil: JR.nullOf(), f_list: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("GameDifficultyOptions"), f_device: JR.nullOf(), f_currentDisplay: JR.nullOf(), f_width: 0l, f_height: 0l, f_fullScreenMode: false, f_ticker: JR.nullOf(), f_viewPortY: 0l, f_viewPortHeight: 0l, f_ui: JR.nullOf(), f_title: "", f_listener: JR.nullOf(), f_ANDROID_FORM_UI: "", f_items: [> ], f_numOfItems: 0l, f_focusItemIndex: 0l, f_itemStateListener: JR.nullOf(), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_repaintProcessor: JR.nullOf(), f_commandStack: JR.nullOf(), f_meUtil: JR.nullOf(), f_list: JR.nullOf(), }
     this.f_meUtil = JR.cast(MIDPUtil.jm_getInstance())
     
         void
@@ -75,9 +98,9 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 })
         this.f_list = JR.cast(list)
         ignore(jm_update(this))
-        ignore(jm_initCommands(this, commandListener))
+        ignore(jm_initCommands(this, JR.cast(commandListener)))
         let mut gameDifficultyFactory: GameDifficultyFactory = JR.cast(GameDifficultyFactory.jm_getInstance())
-        ignore(jm_setSelectedId(this, GameDifficultyFactory.jm_getLevel(gameDifficultyFactory)))
+        ignore(jm_setSelectedId(this, GameDifficultyFactory.jm_getLevel(JR.cast(gameDifficultyFactory))))
     this
 }
     
@@ -92,7 +115,7 @@ and jm_close = (this: GameDifficultyOptions) => {
     
 and jm_save = (this: GameDifficultyOptions) => {
         let mut gameDifficultyFactory: GameDifficultyFactory = JR.cast(GameDifficultyFactory.jm_getInstance())
-        ignore(GameDifficultyFactory.jm_setLevel(gameDifficultyFactory, jm_getSelectedId(this)))
+        ignore(GameDifficultyFactory.jm_setLevel(JR.cast(gameDifficultyFactory), jm_getSelectedId(this)))
 }
     
 and jm_initCommands = (this: GameDifficultyOptions, cmdListener: CommandListener) => {
@@ -105,12 +128,18 @@ JR.cast(jlate(JR.cast(this)))
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CommandForm.jm_addCommand"))
 JR.cast(jlate(JR.cast(this), JR.cast(gameCommandsFactory.f_CLOSE_AND_SHOW_GAME_CANVAS)))
 })
-        ignore(jm_setCommandListener(this, cmdListener))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Displayable.jm_setCommandListener"))
+JR.cast(jlate(JR.cast(this), JR.cast(cmdListener)))
+})
 }
     
 and jm_update = (this: GameDifficultyOptions) => {
-        ignore(jm_deleteAll(this))
-        ignore(jm_add(this, this.f_list, "Difficulty", {
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Form.jm_deleteAll"))
+JR.cast(jlate(JR.cast(this)))
+})
+        ignore(jm_add(this, JR.cast(this.f_list), JR.cast("Difficulty"), {
 let jlate: () => JObject = JR.cast(JR.lateBound("Choice.jstatic_EXCLUSIVE"))
 JR.cast(jlate())
 }))
@@ -118,14 +147,14 @@ JR.cast(jlate())
 }
     
 and jm_add = (this: GameDifficultyOptions, list: BasicArrayList, name: String, option: Int32) => {
-        let mut choiceGroup: JObject = JR.cast(jm_getChoiceGroup(this, list, name, option))
-        if (Int32.(>)(BasicArrayList.jm_size(list), 0l)) {
+        let mut choiceGroup: JObject = JR.cast(jm_getChoiceGroup(this, JR.cast(list), JR.cast(name), option))
+        if (Int32.(>)(BasicArrayList.jm_size(JR.cast(list)), 0l)) {
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ChoiceGroup.jm_setSelectedIndex"))
 JR.cast(jlate(JR.cast(choiceGroup), JR.cast(0l), JR.cast(true)))
 })
         }
-        ignore(MIDPUtil.jm_appendItem(this.f_meUtil, JR.cast(this), JR.cast(choiceGroup)))
+        ignore(MIDPUtil.jm_appendItem(JR.cast(this.f_meUtil), JR.cast(this), JR.cast(choiceGroup)))
 }
     
 and jm_getChoiceGroup = (this: GameDifficultyOptions, list: BasicArrayList, name: String, option: Int32) => {
@@ -133,10 +162,10 @@ and jm_getChoiceGroup = (this: GameDifficultyOptions, list: BasicArrayList, name
         let mut l_NAME: String = "Adding Choice: "
         let mut choiceGroup: JObject = {
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ChoiceGroup.jnew_4"))
-JR.cast(jlate(JR.cast(name), JR.cast(option), JR.cast(StringUtil.jm_getArrayInstance(StringUtil.jm_getInstance())), JR.cast(NullImage.jstatic_NULL_IMAGE_ARRAY())))
+JR.cast(jlate(JR.cast(name), JR.cast(option), JR.cast(StringUtil.jm_getArrayInstance(JR.cast(StringUtil.jm_getInstance()))), JR.cast(NullImage.jstatic_NULL_IMAGE_ARRAY())))
 }
-        let mut size: Int32 = BasicArrayList.jm_size(list)
-        let mut anyType: JObject = JR.jnull
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
+        let mut anyType: JObject = JR.nullOf()
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -149,7 +178,7 @@ JR.cast(jlate(JR.cast(name), JR.cast(option), JR.cast(StringUtil.jm_getArrayInst
             anyType = list.f_objectArray[Int32.toNumber(index)]
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), l_NAME), JR.toStringOf(JR.cast(anyType))))), JR.cast(this), JR.cast(l_METHOD_NAME)))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(l_NAME))), JR.cast(JR.toStringOf(JR.cast(anyType))))))), JR.cast(this), JR.cast(l_METHOD_NAME)))
 })
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ChoiceGroup.jm_append"))
@@ -161,7 +190,10 @@ JR.cast(jlate(JR.cast(choiceGroup), JR.cast(JR.toStringOf(JR.cast(anyType))), JR
 }
     
 and jm_setSelectedId = (this: GameDifficultyOptions, id: Int32) => {
-        let mut choiceGroup: JObject = JR.cast(jm_get(this, 0l))
+        let mut choiceGroup: JObject = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Form.jm_get"))
+JR.cast(jlate(JR.cast(this), JR.cast(0l)))
+})
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ChoiceGroup.jm_setSelectedIndex"))
 JR.cast(jlate(JR.cast(choiceGroup), JR.cast(id), JR.cast(true)))
@@ -169,7 +201,10 @@ JR.cast(jlate(JR.cast(choiceGroup), JR.cast(id), JR.cast(true)))
 }
     
 and jm_getSelectedId = (this: GameDifficultyOptions) => {
-        let mut choiceGroup: JObject = JR.cast(jm_get(this, 0l))
+        let mut choiceGroup: JObject = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Form.jm_get"))
+JR.cast(jlate(JR.cast(this), JR.cast(0l)))
+})
         return {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ChoiceGroup.jm_getSelectedIndex"))
 JR.cast(jlate(JR.cast(choiceGroup)))
@@ -177,8 +212,11 @@ JR.cast(jlate(JR.cast(choiceGroup)))
 }
     
 and jm_getSelectedText = (this: GameDifficultyOptions) => {
-        let mut choiceGroup: JObject = JR.cast(jm_get(this, 0l))
-        let mut value: Int32 = Integer.jm_intValue(toString({
+        let mut choiceGroup: JObject = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Form.jm_get"))
+JR.cast(jlate(JR.cast(this), JR.cast(0l)))
+})
+        let mut value: Int32 = Integer.jm_intValue(Integer.jm_parseInt({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ChoiceGroup.jm_getString"))
 JR.cast(jlate(JR.cast(choiceGroup), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ChoiceGroup.jm_getSelectedIndex"))
@@ -188,6 +226,7 @@ JR.cast(jlate(JR.cast(choiceGroup)))
         return value
 }
 
+JR.registerSuper("GameDifficultyOptions", "CommandForm")
 JR.registerLateBound("GameDifficultyOptions.jnew_5", jnew_5)
 JR.registerLateBound("GameDifficultyOptions.jm_open", jm_open)
 JR.registerLateBound("GameDifficultyOptions.jm_close", jm_close)

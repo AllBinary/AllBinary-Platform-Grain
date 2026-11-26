@@ -43,6 +43,8 @@ from "../../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArray
 use BasicArrayList.{ type BasicArrayList }
 from "../../../../../../org/allbinary/util/BasicArrayListUtil.gr" include BasicArrayListUtil
 use BasicArrayListUtil.{ type BasicArrayListUtil }
+from "../../../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 from "./AbeClientInformationInterface.gr" include AbeClientInformationInterface
 use AbeClientInformationInterface.{ type AbeClientInformationInterface }
 from "./AbeClientInformationData.gr" include AbeClientInformationData
@@ -66,7 +68,7 @@ provide record ClientInformation {
 provide let rec jclassName = () => "ClientInformation"
     
 and jnew_4 = (name: String, version: String, specialName: String, shortName: String) => {
-    let this = { jobject: JR.newJObject("ClientInformation"), f_operatingSystemInterface: JR.nullOf(), f_tsUtil: JR.jnull, f_name: "", f_shortName: "", f_version: "", f_specialName: "", f_hardSale: false, f_licenseId: "", f_licenseServers: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("ClientInformation"), f_operatingSystemInterface: JR.nullOf(), f_tsUtil: JR.nullOf(), f_name: "", f_shortName: "", f_version: "", f_specialName: "", f_hardSale: false, f_licenseId: "", f_licenseServers: JR.nullOf(), }
     this.f_operatingSystemInterface = JR.cast(NoOperatingSystem.jstatic_NO_OPERATING_SYSTEM())
     this.f_tsUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
@@ -78,11 +80,11 @@ JR.cast(jlate())
     
     this.f_hardSale = true
     this.f_licenseId = StringUtil.jm_getInstance().f_EMPTY_STRING
-    this.f_licenseServers = JR.cast(BasicArrayListUtil.jm_getImmutableInstance(BasicArrayListUtil.jm_getInstance()))
+    this.f_licenseServers = JR.cast(BasicArrayListUtil.jm_getImmutableInstance(JR.cast(BasicArrayListUtil.jm_getInstance())))
         this.f_name = name
         this.f_version = version
         this.f_specialName = specialName
-        this.f_shortName = StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), shortName), CommonSeps.jm_getInstance().f_UNDERSCORE), version))
+        this.f_shortName = StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(shortName))), JR.cast(CommonSeps.jm_getInstance().f_UNDERSCORE))), JR.cast(version))))
         ignore(jm_init(this))
     this
 }
@@ -120,7 +122,7 @@ and jm_getLicenseServer = (this: ClientInformation, index: Int32) => {
 }
     
 and jm_getNumberOfLicenseServers = (this: ClientInformation) => {
-        return BasicArrayList.jm_size(this.f_licenseServers)
+        return BasicArrayList.jm_size(JR.cast(this.f_licenseServers))
 }
     
 and jm_toHashtable = (this: ClientInformation) => {
@@ -135,41 +137,68 @@ JR.cast(jlate())
 })
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(clientInfoHashtable), JR.cast(abeClientInformationData.f_NAME), JR.cast(this.f_name)))
+JR.cast(jlate(JR.cast(clientInfoHashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_NAME"))
+JR.cast(jlate(JR.cast(abeClientInformationData)))
+}), JR.cast(this.f_name)))
 })
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(clientInfoHashtable), JR.cast(abeClientInformationData.f_VERSION), JR.cast(this.f_version)))
+JR.cast(jlate(JR.cast(clientInfoHashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_VERSION"))
+JR.cast(jlate(JR.cast(abeClientInformationData)))
+}), JR.cast(this.f_version)))
 })
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(clientInfoHashtable), JR.cast(abeClientInformationData.f_SPECIALNAME), JR.cast(this.f_specialName)))
+JR.cast(jlate(JR.cast(clientInfoHashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_SPECIALNAME"))
+JR.cast(jlate(JR.cast(abeClientInformationData)))
+}), JR.cast(this.f_specialName)))
 })
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(clientInfoHashtable), JR.cast(abeClientInformationData.f_LICENSEID), JR.cast(jm_getLicenseId(this))))
+JR.cast(jlate(JR.cast(clientInfoHashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_LICENSEID"))
+JR.cast(jlate(JR.cast(abeClientInformationData)))
+}), JR.cast(jm_getLicenseId(this))))
 })
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(clientInfoHashtable), JR.cast(abeClientInformationData.f_OSNAME), JR.cast(GenericOperatingSystem.jm_getName(genericOperatingSystem))))
+JR.cast(jlate(JR.cast(clientInfoHashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_OSNAME"))
+JR.cast(jlate(JR.cast(abeClientInformationData)))
+}), JR.cast(GenericOperatingSystem.jm_getName(JR.cast(genericOperatingSystem)))))
 })
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(clientInfoHashtable), JR.cast(abeClientInformationData.f_OSARCH), JR.cast(GenericOperatingSystem.jm_getArch(genericOperatingSystem))))
+JR.cast(jlate(JR.cast(clientInfoHashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_OSARCH"))
+JR.cast(jlate(JR.cast(abeClientInformationData)))
+}), JR.cast(GenericOperatingSystem.jm_getArch(JR.cast(genericOperatingSystem)))))
 })
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(clientInfoHashtable), JR.cast(abeClientInformationData.f_OSVERSION), JR.cast(GenericOperatingSystem.jm_getVersion(genericOperatingSystem))))
+JR.cast(jlate(JR.cast(clientInfoHashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_OSVERSION"))
+JR.cast(jlate(JR.cast(abeClientInformationData)))
+}), JR.cast(GenericOperatingSystem.jm_getVersion(JR.cast(genericOperatingSystem)))))
 })
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(clientInfoHashtable), JR.cast(abeClientInformationData.f_OS), JR.cast(GenericOperatingSystem.jm_toString(genericOperatingSystem))))
+JR.cast(jlate(JR.cast(clientInfoHashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_OS"))
+JR.cast(jlate(JR.cast(abeClientInformationData)))
+}), JR.cast(GenericOperatingSystem.jm_toString(JR.cast(genericOperatingSystem)))))
 })
-        let mut hardwareInterface: HardwareInterface = JR.cast(SystemHardwareFactory.jm_getInstance_1(SystemHardwareFactory.jm_getInstance_0(), genericOperatingSystem))
-        let mut hardwareString: String = HardwareInterface.jm_toString(hardwareInterface)
+        let mut hardwareInterface: HardwareInterface = JR.cast(SystemHardwareFactory.jm_getInstance_1(JR.cast(SystemHardwareFactory.jm_getInstance_0()), JR.cast(genericOperatingSystem)))
+        let mut hardwareString: String = HardwareInterface.jm_toString(JR.cast(hardwareInterface))
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(clientInfoHashtable), JR.cast(abeClientInformationData.f_HARDWARE), JR.cast(hardwareString)))
+JR.cast(jlate(JR.cast(clientInfoHashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_HARDWARE"))
+JR.cast(jlate(JR.cast(abeClientInformationData)))
+}), JR.cast(hardwareString)))
 })
         return clientInfoHashtable
 }
@@ -186,8 +215,8 @@ JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(jm_getLicenseId(this)), JR.cast(al
 }
     
 and jm_isLargerOrDifferentServerList = (this: ClientInformation, list: BasicArrayList) => {
-        let mut size: Int32 = Int32.(-)(BasicArrayList.jm_size(list), 1l)
-        let mut currentSize: Int32 = Int32.(-)(BasicArrayList.jm_size(this.f_licenseServers), 1l)
+        let mut size: Int32 = Int32.(-)(BasicArrayList.jm_size(JR.cast(list)), 1l)
+        let mut currentSize: Int32 = Int32.(-)(BasicArrayList.jm_size(JR.cast(this.f_licenseServers)), 1l)
         if (Int32.(>)(size, currentSize)) {
             return true
         }

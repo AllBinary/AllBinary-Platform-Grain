@@ -47,9 +47,9 @@ and jnew_0 = () => {
     
 and jm_viewAll = (myClass: String, lineBreak: String) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        let mut method: Array<Method> = JR.reflectionUnsupported("getMethods", myClass)
-        ignore(StringMaker.jm_append(stringBuffer, "Methods: "))
-        ignore(StringMaker.jm_append(stringBuffer, lineBreak))
+        let mut method: Array<Method> = JR.cast(JR.reflectionUnsupported("getMethods", myClass))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Methods: ")))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(lineBreak)))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -59,16 +59,16 @@ and jm_viewAll = (myClass: String, lineBreak: String) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, Int32.fromNumber(Array.length(method))))) break
-            ignore(StringMaker.jm_append(stringBuffer, JR.className(JR.cast(Method.jm_getReturnType_0(JR.cast(method[Int32.toNumber(index)]))))))
-            ignore(StringMaker.jm_append(stringBuffer, " "))
-            ignore(StringMaker.jm_append(stringBuffer, Method.jm_getName_0(JR.cast(method[Int32.toNumber(index)]))))
-            ignore(StringMaker.jm_append(stringBuffer, "("))
-            ignore(ParamsUtil.jm_viewParams(Method.jm_getParameterTypes_0(JR.cast(method[Int32.toNumber(index)]))))
-            ignore(StringMaker.jm_append(stringBuffer, ")"))
-            ignore(StringMaker.jm_append(stringBuffer, lineBreak))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(JR.invoke0(Method.jm_getReturnType_0(JR.cast(method[Int32.toNumber(index)])), "jm_getName"))))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" ")))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(Method.jm_getName_0(JR.cast(method[Int32.toNumber(index)])))))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("(")))
+            ignore(ParamsUtil.jm_viewParams(JR.cast(Method.jm_getParameterTypes_0(JR.cast(method[Int32.toNumber(index)])))))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(")")))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(lineBreak)))
             }
         }
-        return StringMaker.jm_toString(stringBuffer)
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
 JR.registerLateBound("MethodUtil.jnew_0", jnew_0)

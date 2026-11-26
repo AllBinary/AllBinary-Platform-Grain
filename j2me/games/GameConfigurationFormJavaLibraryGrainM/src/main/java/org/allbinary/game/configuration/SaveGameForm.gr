@@ -39,6 +39,22 @@ from "../../../../java/lang/Long.gr" include Long
 
 provide record SaveGameForm {
   jobject: JObject,
+  mut f_device: JObject,
+  mut f_currentDisplay: JObject,
+  mut f_width: Int32,
+  mut f_height: Int32,
+  mut f_fullScreenMode: Bool,
+  mut f_ticker: JObject,
+  mut f_viewPortY: Int32,
+  mut f_viewPortHeight: Int32,
+  mut f_ui: JObject,
+  mut f_title: String,
+  mut f_listener: JObject,
+  mut f_ANDROID_FORM_UI: String,
+  mut f_items: Array<JObject>,
+  mut f_numOfItems: Int32,
+  mut f_focusItemIndex: Int32,
+  mut f_itemStateListener: JObject,
   mut f_logUtil: JObject,
   mut f_commonStrings: JObject,
   mut f_repaintProcessor: JObject,
@@ -53,10 +69,10 @@ provide let rec jclassName = () => "SaveGameForm"
 and jstatic_FORM = () => match (jcell_FORM) {
   Some(value) => value,
   None => {
-    let value: JObject = {
+    let value: JObject = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("CommandForm.jm_getNullCommandForm"))
 JR.cast(jlate())
-}
+})
     jcell_FORM = Some(value)
     value
   },
@@ -67,7 +83,7 @@ and jset_FORM = (value: JObject) => {
 }
     
 and jm_createForm = (commandListener: CommandListener, title: String, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
-        jset_FORM(JR.cast(jnew_4(commandListener, title, backgrounBasicColor, foregroundBasicColor)))
+        jset_FORM(JR.cast(jnew_4(JR.cast(commandListener), title, JR.cast(backgrounBasicColor), JR.cast(foregroundBasicColor))))
         return jstatic_FORM()
 }
     
@@ -76,7 +92,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_4 = (commandListener: CommandListener, title: String, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
-    let this = { jobject: JR.newJObject("SaveGameForm"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_repaintProcessor: JR.jnull, f_commandStack: JR.jnull, f_meUtil: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("SaveGameForm"), f_device: JR.nullOf(), f_currentDisplay: JR.nullOf(), f_width: 0l, f_height: 0l, f_fullScreenMode: false, f_ticker: JR.nullOf(), f_viewPortY: 0l, f_viewPortHeight: 0l, f_ui: JR.nullOf(), f_title: "", f_listener: JR.nullOf(), f_ANDROID_FORM_UI: "", f_items: [> ], f_numOfItems: 0l, f_focusItemIndex: 0l, f_itemStateListener: JR.nullOf(), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_repaintProcessor: JR.nullOf(), f_commandStack: JR.nullOf(), f_meUtil: JR.nullOf(), }
     this.f_meUtil = JR.cast(MIDPUtil.jm_getInstance())
         void
         ignore({
@@ -89,15 +105,15 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_CONSTRUC
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 })))
 })
-        let mut timeString: String = toString(ABSystemWrapper.jm_currentTimeMillis(ABSystemWrapper.jm_getInstance()))
-        ignore(MIDPUtil.jm_appendItem(this.f_meUtil, JR.cast(this), JR.cast({
+        let mut timeString: String = toString(ABSystemWrapper.jm_currentTimeMillis(JR.cast(ABSystemWrapper.jm_getInstance())))
+        ignore(MIDPUtil.jm_appendItem(JR.cast(this.f_meUtil), JR.cast(this), JR.cast({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TextField.jnew_4"))
 JR.cast(jlate(JR.cast("Name: "), JR.cast(timeString), JR.cast(30l), JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("TextField.jstatic_ANY"))
 JR.cast(jlate())
 })))
 })))
-        ignore(jm_initCommands(this, commandListener))
+        ignore(jm_initCommands(this, JR.cast(commandListener)))
     this
 }
     
@@ -115,9 +131,13 @@ JR.cast(jlate(JR.cast(this), JR.cast(gameCommandsFactory.f_SAVE)))
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CommandForm.jm_addCommand"))
 JR.cast(jlate(JR.cast(this), JR.cast(gameCommandsFactory.f_CLOSE_AND_SHOW_GAME_CANVAS)))
 })
-        ignore(jm_setCommandListener(this, cmdListener))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Displayable.jm_setCommandListener"))
+JR.cast(jlate(JR.cast(this), JR.cast(cmdListener)))
+})
 }
 
+JR.registerSuper("SaveGameForm", "CommandForm")
 JR.registerLateBound("SaveGameForm.jnew_4", jnew_4)
 JR.registerLateBound("SaveGameForm.jm_createForm", jm_createForm)
 JR.registerLateBound("SaveGameForm.jm_getInstance", jm_getInstance)

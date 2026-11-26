@@ -43,6 +43,8 @@ from "../../../org/allbinary/system/Memory.gr" include Memory
 use Memory.{ type Memory }
 from "../../../java/lang/Thread.gr" include Thread
 use Thread.{ type Thread }
+from "../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 from "./ImageCacheBase.gr" include ImageCacheBase
 use ImageCacheBase.{ type ImageCacheBase }
 
@@ -69,7 +71,7 @@ provide let rec jclassName = () => "ImageCache"
 and jstatic_NULL_IMAGE_CACHE = () => match (jcell_NULL_IMAGE_CACHE) {
   Some(value) => value,
   None => {
-    let value: ImageCache = jnew_0()
+    let value: ImageCache = JR.cast(jnew_0())
     jcell_NULL_IMAGE_CACHE = Some(value)
     value
   },
@@ -80,7 +82,7 @@ and jset_NULL_IMAGE_CACHE = (value: ImageCache) => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("ImageCache"), f_logUtil: JR.jnull, f_imageFactory: JR.jnull, f_hashtable: JR.jnull, f_SIZE: 0l, f_widths: [> ], f_heights: [> ], f_listOfList: [> ], f_availableListOfList: [> ], f_volume: 0l, f_nextIndex: 0l, f_commonStrings: JR.nullOf(), f_tsUtil: JR.jnull, }
+    let this = { jobject: JR.newJObject("ImageCache"), f_logUtil: JR.nullOf(), f_imageFactory: JR.nullOf(), f_hashtable: JR.nullOf(), f_SIZE: 0l, f_widths: [> ], f_heights: [> ], f_listOfList: [> ], f_availableListOfList: [> ], f_volume: 0l, f_nextIndex: 0l, f_commonStrings: JR.nullOf(), f_tsUtil: JR.nullOf(), }
     this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
     this.f_tsUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
@@ -107,14 +109,14 @@ and jm_getIndex = (this: ImageCache, key: JObject) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            if (JR.isSame(resourceStringArray[Int32.toNumber(index)], key)) {
+            if ((resourceStringArray[Int32.toNumber(index)] == JR.cast(key))) {
                 return index
             }
             }
         }
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "unable to find key: "), StringUtil.jm_toString(StringUtil.jm_getInstance(), key)))), JR.cast(this), JR.cast(this.f_commonStrings.f_RUN)))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("unable to find key: "))), JR.cast(StringUtil.jm_toString(JR.cast(StringUtil.jm_getInstance()), JR.cast(key))))))), JR.cast(this), JR.cast(this.f_commonStrings.f_RUN)))
 })
         fail JR.toStringOf(JR.newJObject("RuntimeException"))
     return 0l
@@ -211,6 +213,7 @@ and jm_isLazy = (this: ImageCache) => {
         return false
 }
 
+JR.registerSuper("ImageCache", "ImageCacheBase")
 JR.registerLateBound("ImageCache.jnew_0", jnew_0)
 JR.registerLateBound("ImageCache.jm_addListener", jm_addListener)
 JR.registerLateBound("ImageCache.jm_getIndex", jm_getIndex)

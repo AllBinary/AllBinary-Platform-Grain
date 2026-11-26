@@ -56,6 +56,17 @@ use HighScoreUtil.{ type HighScoreUtil }
 
 provide record HighScoreTextBox {
   jobject: JObject,
+  mut f_device: JObject,
+  mut f_currentDisplay: JObject,
+  mut f_width: Int32,
+  mut f_height: Int32,
+  mut f_fullScreenMode: Bool,
+  mut f_ticker: JObject,
+  mut f_viewPortY: Int32,
+  mut f_viewPortHeight: Int32,
+  mut f_ui: JObject,
+  mut f_title: String,
+  mut f_listener: JObject,
   mut f_logUtil: JObject,
   mut f_commonStrings: JObject,
   mut f_canvasStrings: JObject,
@@ -99,7 +110,7 @@ provide record HighScoreTextBox {
 provide let rec jclassName = () => "HighScoreTextBox"
     
 and jnew_9 = (highScoresFactoryInterface: HighScoresFactoryInterface, highScoresHelper: HighScoresHelperBaseInterface, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, cmdListener: CommandListener, name: String, highScore: JObject, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
-    let this = { jobject: JR.newJObject("HighScoreTextBox"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_canvasStrings: JR.jnull, f_stringUtil: JR.jnull, f_displayInfo: JR.jnull, f_name: "", f_childNameList: JR.jnull, f_commandStack: JR.jnull, f_commandListener: JR.jnull, f_paused: false, f_touchME: JR.jnull, f_repaintProcessor: JR.jnull, f_gameInputStrings: JR.jnull, f_foregroundBasicColor: JR.jnull, f_backgroundBasicColor: JR.jnull, f_inputToGameKeyMapping: JR.jnull, f_gameKeyFactory: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_downGameKeyEventHandler: JR.jnull, f_upGameKeyEventHandler: JR.jnull, f_repaintBehavior: JR.jnull, f_updateMyFontProcessor: JR.jnull, f_myFontProcessor: JR.jnull, f_foregroundColor: 0l, f_backgroundColor: 0l, f_menuInputProcessor: JR.jnull, f_menuPaintable: JR.jnull, f_menuForm: JR.jnull, f_isSingleKeyRepeatableProcessing: false, f_fontHeight: 0l, f_textFieldItem: JR.jnull, f_inputFactory: JR.jnull, f_virtualKeyboardEventHandler: JR.nullOf(), f_highScoreUtil: JR.nullOf(), f_pleaseWait: JR.nullOf(), f_paintable: JR.nullOf(), f_submitted: false, }
+    let this = { jobject: JR.newJObject("HighScoreTextBox"), f_device: JR.nullOf(), f_currentDisplay: JR.nullOf(), f_width: 0l, f_height: 0l, f_fullScreenMode: false, f_ticker: JR.nullOf(), f_viewPortY: 0l, f_viewPortHeight: 0l, f_ui: JR.nullOf(), f_title: "", f_listener: JR.nullOf(), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_canvasStrings: JR.nullOf(), f_stringUtil: JR.nullOf(), f_displayInfo: JR.nullOf(), f_name: "", f_childNameList: JR.nullOf(), f_commandStack: JR.nullOf(), f_commandListener: JR.nullOf(), f_paused: false, f_touchME: JR.nullOf(), f_repaintProcessor: JR.nullOf(), f_gameInputStrings: JR.nullOf(), f_foregroundBasicColor: JR.nullOf(), f_backgroundBasicColor: JR.nullOf(), f_inputToGameKeyMapping: JR.nullOf(), f_gameKeyFactory: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_downGameKeyEventHandler: JR.nullOf(), f_upGameKeyEventHandler: JR.nullOf(), f_repaintBehavior: JR.nullOf(), f_updateMyFontProcessor: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_foregroundColor: 0l, f_backgroundColor: 0l, f_menuInputProcessor: JR.nullOf(), f_menuPaintable: JR.nullOf(), f_menuForm: JR.nullOf(), f_isSingleKeyRepeatableProcessing: false, f_fontHeight: 0l, f_textFieldItem: JR.nullOf(), f_inputFactory: JR.nullOf(), f_virtualKeyboardEventHandler: JR.nullOf(), f_highScoreUtil: JR.nullOf(), f_pleaseWait: JR.nullOf(), f_paintable: JR.nullOf(), f_submitted: false, }
     this.f_virtualKeyboardEventHandler = JR.cast(VirtualKeyboardEventHandler.jm_getInstance())
     
     this.f_pleaseWait = JR.cast(SimpleTextPaintable.jnew_2({
@@ -109,7 +120,7 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
     this.f_paintable = JR.cast(NullPaintable.jm_getInstance())
     this.f_submitted = false
         void
-        this.f_highScoreUtil = JR.cast(HighScoreUtil.jnew_7(highScoresFactoryInterface, highScoresHelper, abeClientInformation, gameInfo, cmdListener, name, highScore))
+        this.f_highScoreUtil = JR.cast(HighScoreUtil.jnew_7(JR.cast(highScoresFactoryInterface), JR.cast(highScoresHelper), JR.cast(abeClientInformation), JR.cast(gameInfo), JR.cast(cmdListener), name, JR.cast(highScore)))
         let mut operatingSystemInterface: GenericOperatingSystem = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("OperatingSystemFactory.jm_getOperatingSystemInstance"))
 JR.cast(jlate(JR.cast({
@@ -117,7 +128,7 @@ let jlate: () => JObject = JR.cast(JR.lateBound("OperatingSystemFactory.jm_getIn
 JR.cast(jlate())
 })))
 })
-        if (GenericOperatingSystem.jm_isOverScan(operatingSystemInterface)) {
+        if (GenericOperatingSystem.jm_isOverScan(JR.cast(operatingSystemInterface))) {
             let mut username: String = {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("InApplicationPurchaseFactory.jm_getUserName"))
 JR.cast(jlate(JR.cast({
@@ -159,13 +170,13 @@ JR.cast(jlate(JR.cast(this), JR.cast(cmdListener)))
 }
     
 and jm_open = (this: HighScoreTextBox) => {
-        ignore(VirtualKeyboardEventHandler.jm_open(this.f_virtualKeyboardEventHandler))
+        ignore(VirtualKeyboardEventHandler.jm_open(JR.cast(this.f_virtualKeyboardEventHandler)))
         this.f_paintable = JR.cast(NullPaintable.jm_getInstance())
         ignore(jm_open(this))
 }
     
 and jm_close = (this: HighScoreTextBox) => {
-        ignore(VirtualKeyboardEventHandler.jm_close(this.f_virtualKeyboardEventHandler))
+        ignore(VirtualKeyboardEventHandler.jm_close(JR.cast(this.f_virtualKeyboardEventHandler)))
         this.f_paintable = JR.cast(this.f_pleaseWait)
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RepaintBehavior.jm_onChangeRepaint"))
@@ -178,7 +189,10 @@ JR.cast(jlate(JR.cast(this), JR.cast(HighScoreUtil.jstatic_SUBMIT_TEXTBOX_COMMAN
 })
         ignore(jm_update(this))
         if (this.f_submitted) {
-            ignore(HighScoreUtil.jm_saveHighScore(this.f_highScoreUtil))
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScoreUtil.jm_saveHighScore"))
+JR.cast(jlate(JR.cast(this.f_highScoreUtil)))
+})
         } else {
             void
         }
@@ -197,23 +211,33 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CustomTextBox.jm_getText
 JR.cast(jlate(JR.cast(this)))
 })))
 }
-        ignore(HighScoreUtil.jm_update(this.f_highScoreUtil, name))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("HighScoreUtil.jm_update"))
+JR.cast(jlate(JR.cast(this.f_highScoreUtil), JR.cast(name)))
+})
         ignore(jm_update(this))
 }
     
 and jm_paint = (this: HighScoreTextBox, graphics: JObject) => {
         ignore(jm_paint(this, graphics))
-        ignore(Paintable.jm_paint(this.f_paintable, graphics))
+        ignore(Paintable.jm_paint(JR.cast(this.f_paintable), JR.cast(graphics)))
 }
     
 and jm_saveHighScore = (this: HighScoreTextBox) => {
-        ignore(HighScoreUtil.jm_saveHighScore(this.f_highScoreUtil))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScoreUtil.jm_saveHighScore"))
+JR.cast(jlate(JR.cast(this.f_highScoreUtil)))
+})
 }
     
 and jm_submit = (this: HighScoreTextBox) => {
-        ignore(HighScoreUtil.jm_submit(this.f_highScoreUtil, JR.cast(this)))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("HighScoreUtil.jm_submit"))
+JR.cast(jlate(JR.cast(this.f_highScoreUtil), JR.cast(this)))
+})
 }
 
+JR.registerSuper("HighScoreTextBox", "CustomTextBox")
 JR.registerLateBound("HighScoreTextBox.jnew_9", jnew_9)
 JR.registerLateBound("HighScoreTextBox.jm_initCommands", jm_initCommands)
 JR.registerLateBound("HighScoreTextBox.jm_open", jm_open)

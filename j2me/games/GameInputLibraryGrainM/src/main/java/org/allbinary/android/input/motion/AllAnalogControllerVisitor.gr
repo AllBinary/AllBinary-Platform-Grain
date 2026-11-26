@@ -51,10 +51,10 @@ and jnew_0 = () => {
 }
     
 and jm_process = (this: AllAnalogControllerVisitor, allbinaryLayerManager: AllBinaryLayerManager, analogLocationInputProcessor: AnalogLocationInputProcessor) => {
-        let mut analogLocationInputList: BasicArrayList = JR.cast(AnalogLocationInputFactory.jm_getList(AnalogLocationInputFactory.jm_getInstance()))
+        let mut analogLocationInputList: BasicArrayList = JR.cast(AnalogLocationInputFactory.jm_getList(JR.cast(AnalogLocationInputFactory.jm_getInstance())))
         let mut analogLocationInput: AnalogLocationInput = JR.nullOf()
         {
-            let mut index: Int32 = Int32.(-)(BasicArrayList.jm_size(analogLocationInputList), 1l)
+            let mut index: Int32 = Int32.(-)(BasicArrayList.jm_size(JR.cast(analogLocationInputList)), 1l)
             let mut jfirst = true
             while (true) {
                 if (!jfirst) {
@@ -62,12 +62,16 @@ and jm_process = (this: AllAnalogControllerVisitor, allbinaryLayerManager: AllBi
                 }
                 jfirst = false
                 if (!(Int32.(>=)(index, 0l))) break
-            analogLocationInput = JR.cast(BasicArrayList.jm_get(analogLocationInputList, index))
-            ignore(AnalogLocationInputProcessor.jm_process(analogLocationInputProcessor, allbinaryLayerManager, analogLocationInput))
+            analogLocationInput = JR.cast(BasicArrayList.jm_get(JR.cast(analogLocationInputList), index))
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("AnalogLocationInputProcessor.jm_process"))
+JR.cast(jlate(JR.cast(analogLocationInputProcessor), JR.cast(allbinaryLayerManager), JR.cast(analogLocationInput)))
+})
             }
         }
 }
 
+JR.registerSuper("AllAnalogControllerVisitor", "AnalogControllerVisitor")
 JR.registerLateBound("AllAnalogControllerVisitor.jnew_0", jnew_0)
 JR.registerLateBound("AllAnalogControllerVisitor.jm_process", jm_process)
 

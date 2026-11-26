@@ -44,7 +44,7 @@ provide let rec jclassName = () => "CancelTouchButtonInputFactory"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    let value: JObject = JR.cast(NullUtil.jm_getInstance().f_NULL_OBJECT)
     jcell_instance = Some(value)
     value
   },
@@ -127,7 +127,10 @@ JR.cast(jlate(JR.cast(basicTouchInputFactory)))
 }
     
 and jm_getCancel = (this: CancelTouchButtonInputFactory, touchButtonInput: TouchButtonInput) => {
-        return this.f_cancelInputArray[Int32.toNumber(TouchButtonInput.jm_getSourceId(touchButtonInput))]
+        return this.f_cancelInputArray[Int32.toNumber({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchButtonInput.jm_getSourceId"))
+JR.cast(jlate(JR.cast(touchButtonInput)))
+})]
 }
 
 JR.registerLateBound("CancelTouchButtonInputFactory.jnew_0", jnew_0)

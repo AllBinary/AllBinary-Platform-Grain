@@ -25,8 +25,8 @@ from "char" include Char
 from "array" include Array
 from "../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
-from "./Type.gr" include Type
-use Type.{ type Type }
+from "../../../../javax/sound/sampled/Control.gr" include Control
+use Control.{ type Control }
 
 provide record NullJ2SEControl {
   jobject: JObject,
@@ -35,12 +35,13 @@ provide record NullJ2SEControl {
 
 provide let rec jclassName = () => "NullJ2SEControl"
     
-and jnew_1 = (type_: Type) => {
-    let this = { jobject: JR.newJObject("NullJ2SEControl"), }
+and jnew_1 = (type_: JObject) => {
+    let this: NullJ2SEControl = JR.cast(Control.jnew_1(type_))
         void
     this
 }
 
+JR.registerSuper("NullJ2SEControl", "Control")
 JR.registerLateBound("NullJ2SEControl.jnew_1", jnew_1)
 
 

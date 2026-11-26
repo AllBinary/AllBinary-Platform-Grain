@@ -52,7 +52,7 @@ provide record BasicEventHandler {
 provide let rec jclassName = () => "BasicEventHandler"
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("BasicEventHandler"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_eventStrings: JR.nullOf(), f_eventListenerInterfaceList: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("BasicEventHandler"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_eventStrings: JR.nullOf(), f_eventListenerInterfaceList: JR.nullOf(), }
     this.jobject.toStringFunction = () => jm_toString(this)
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
@@ -71,7 +71,7 @@ and jm_removeAllListeners = (this: BasicEventHandler) => {
     
 and jm_addListeners = (this: BasicEventHandler, vector: BasicArrayList) => {
         let mut eventListenerInterface: EventListenerInterface = JR.nullOf()
-        let mut size: Int32 = BasicArrayList.jm_size(vector)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(vector))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -81,15 +81,15 @@ and jm_addListeners = (this: BasicEventHandler, vector: BasicArrayList) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            eventListenerInterface = JR.cast(BasicArrayList.jm_get(vector, index))
-            ignore(jm_addListenerInterface(this, eventListenerInterface))
+            eventListenerInterface = JR.cast(BasicArrayList.jm_get(JR.cast(vector), index))
+            ignore(jm_addListenerInterface(this, JR.cast(eventListenerInterface)))
             }
         }
 }
     
 and jm_removeListeners = (this: BasicEventHandler, vector: BasicArrayList) => {
         let mut eventListenerInterface: EventListenerInterface = JR.nullOf()
-        let mut size: Int32 = BasicArrayList.jm_size(vector)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(vector))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -99,46 +99,46 @@ and jm_removeListeners = (this: BasicEventHandler, vector: BasicArrayList) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            eventListenerInterface = JR.cast(BasicArrayList.jm_get(vector, index))
-            ignore(jm_removeListener(this, eventListenerInterface))
+            eventListenerInterface = JR.cast(BasicArrayList.jm_get(JR.cast(vector), index))
+            ignore(jm_removeListener(this, JR.cast(eventListenerInterface)))
             }
         }
 }
     
 and jm_addListenerSingleThreaded = (this: BasicEventHandler, eventListenerInterface: EventListenerInterface) => {
-        if (!BasicArrayList.jm_contains(this.f_eventListenerInterfaceList, JR.cast(eventListenerInterface))) {
-            ignore(BasicArrayList.jm_add(this.f_eventListenerInterfaceList, JR.cast(eventListenerInterface)))
+        if (!BasicArrayList.jm_contains(JR.cast(this.f_eventListenerInterfaceList), JR.cast(eventListenerInterface))) {
+            ignore(BasicArrayList.jm_add(JR.cast(this.f_eventListenerInterfaceList), JR.cast(eventListenerInterface)))
         }
 }
     
 and jm_addListenerInterface = (this: BasicEventHandler, eventListenerInterface: EventListenerInterface) => {
-        if (!BasicArrayList.jm_contains(this.f_eventListenerInterfaceList, JR.cast(eventListenerInterface))) {
-            ignore(BasicArrayList.jm_add(this.f_eventListenerInterfaceList, JR.cast(eventListenerInterface)))
+        if (!BasicArrayList.jm_contains(JR.cast(this.f_eventListenerInterfaceList), JR.cast(eventListenerInterface))) {
+            ignore(BasicArrayList.jm_add(JR.cast(this.f_eventListenerInterfaceList), JR.cast(eventListenerInterface)))
         }
 }
     
 and jm_removeListenerSingleThreaded = (this: BasicEventHandler, eventListenerInterface: EventListenerInterface) => {
-        ignore(BasicArrayList.jm_remove(this.f_eventListenerInterfaceList, JR.cast(eventListenerInterface)))
+        ignore(BasicArrayList.jm_remove(JR.cast(this.f_eventListenerInterfaceList), JR.cast(eventListenerInterface)))
 }
     
 and jm_removeListener = (this: BasicEventHandler, eventListenerInterface: EventListenerInterface) => {
-        ignore(BasicArrayList.jm_remove(this.f_eventListenerInterfaceList, JR.cast(eventListenerInterface)))
+        ignore(BasicArrayList.jm_remove(JR.cast(this.f_eventListenerInterfaceList), JR.cast(eventListenerInterface)))
 }
     
 and jm_fireEvent = (this: BasicEventHandler, eventObject: AllBinaryEventObject) => {
         let mut eventListenerInterface: EventListenerInterface = JR.nullOf()
         let mut index: Int32 = 0l
-        while (Int32.(<)(index, BasicArrayList.jm_size(this.f_eventListenerInterfaceList))) {
+        while (Int32.(<)(index, BasicArrayList.jm_size(JR.cast(this.f_eventListenerInterfaceList)))) {
             {
-                eventListenerInterface = JR.cast(BasicArrayList.jm_get(this.f_eventListenerInterfaceList, index))
-                ignore(jm_process(this, eventObject, eventListenerInterface))
+                eventListenerInterface = JR.cast(BasicArrayList.jm_get(JR.cast(this.f_eventListenerInterfaceList), index))
+                ignore(jm_process(this, JR.cast(eventObject), JR.cast(eventListenerInterface)))
             }
             index = Int32.(+)(index, 1l)
         }
 }
     
 and jm_process = (this: BasicEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) => {
-        ignore(EventListenerInterface.jm_onEvent(eventListenerInterface, eventObject))
+        ignore(EventListenerInterface.jm_onEvent(JR.cast(eventListenerInterface), JR.cast(eventObject)))
 }
     
 and jm_getEventListenerInterfaceListP = (this: BasicEventHandler) => {
@@ -147,19 +147,19 @@ and jm_getEventListenerInterfaceListP = (this: BasicEventHandler) => {
     
 and jm_toString = (this: BasicEventHandler) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, this.f_eventStrings.f_TOTAL_LISTENERS))
-        ignore(StringMaker.jm_appendint(stringBuffer, BasicArrayList.jm_size(this.f_eventListenerInterfaceList)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_eventStrings.f_TOTAL_LISTENERS)))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), BasicArrayList.jm_size(JR.cast(this.f_eventListenerInterfaceList))))
         let mut eventListenerInterface: EventListenerInterface = JR.nullOf()
         let mut index: Int32 = 0l
-        while (Int32.(<)(index, BasicArrayList.jm_size(this.f_eventListenerInterfaceList))) {
+        while (Int32.(<)(index, BasicArrayList.jm_size(JR.cast(this.f_eventListenerInterfaceList)))) {
             {
-                eventListenerInterface = JR.cast(BasicArrayList.jm_get(this.f_eventListenerInterfaceList, index))
-                ignore(StringMaker.jm_append(stringBuffer, this.f_eventStrings.f_LISTENER_LABEL))
-                ignore(StringMaker.jm_append(stringBuffer, JR.toStringOf(eventListenerInterface.jobject)))
+                eventListenerInterface = JR.cast(BasicArrayList.jm_get(JR.cast(this.f_eventListenerInterfaceList), index))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_eventStrings.f_LISTENER_LABEL)))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(JR.toStringOf(eventListenerInterface))))
             }
             index = Int32.(+)(index, 1l)
         }
-        return StringMaker.jm_toString(stringBuffer)
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
 JR.registerLateBound("BasicEventHandler.jnew_0", jnew_0)

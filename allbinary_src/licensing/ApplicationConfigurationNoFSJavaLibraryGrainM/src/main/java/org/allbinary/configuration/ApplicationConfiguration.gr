@@ -39,7 +39,7 @@ provide let rec jclassName = () => "ApplicationConfiguration"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    let value: JObject = JR.cast(NullUtil.jm_getInstance().f_NULL_OBJECT)
     jcell_instance = Some(value)
     value
   },
@@ -57,7 +57,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("ApplicationConfiguration"), f_logUtil: JR.jnull, f_fullscreen: false, f_showTitleBar: false, f_progressBarView: false, }
+    let this = { jobject: JR.newJObject("ApplicationConfiguration"), f_logUtil: JR.nullOf(), f_fullscreen: false, f_showTitleBar: false, f_progressBarView: false, }
     this.jobject.toStringFunction = () => jm_toString(this)
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
@@ -89,7 +89,7 @@ and jm_write = (this: ApplicationConfiguration) => {
 and jm_update = (this: ApplicationConfiguration, gameFeature: Feature) => {
         if (JR.isSame(gameFeature, MainFeatureFactory.jm_getInstance().f_FULL_SCREEN)) {
             let mut features: Features = JR.cast(Features.jm_getInstance())
-            if (Features.jm_isFeature(features, gameFeature)) {
+            if (Features.jm_isFeature(JR.cast(features), JR.cast(gameFeature))) {
                 if (!jm_isFullscreen(this)) {
                     ignore(jm_setFullscreen(this, true))
                     ignore(jm_write(this))
@@ -129,13 +129,13 @@ and jm_isProgressBarView = (this: ApplicationConfiguration) => {
     
 and jm_toString = (this: ApplicationConfiguration) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, "isFullscreen: "))
-        ignore(StringMaker.jm_appendboolean(stringBuffer, jm_isFullscreen(this)))
-        ignore(StringMaker.jm_append(stringBuffer, " isProgressBarView: "))
-        ignore(StringMaker.jm_appendboolean(stringBuffer, jm_isProgressBarView(this)))
-        ignore(StringMaker.jm_append(stringBuffer, " isShowTitleBar: "))
-        ignore(StringMaker.jm_appendboolean(stringBuffer, jm_isShowTitleBar(this)))
-        return StringMaker.jm_toString(stringBuffer)
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("isFullscreen: ")))
+        ignore(StringMaker.jm_appendboolean(JR.cast(stringBuffer), jm_isFullscreen(this)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" isProgressBarView: ")))
+        ignore(StringMaker.jm_appendboolean(JR.cast(stringBuffer), jm_isProgressBarView(this)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" isShowTitleBar: ")))
+        ignore(StringMaker.jm_appendboolean(JR.cast(stringBuffer), jm_isShowTitleBar(this)))
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
 JR.registerLateBound("ApplicationConfiguration.jnew_0", jnew_0)

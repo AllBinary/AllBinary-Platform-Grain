@@ -82,7 +82,7 @@ provide record TempExplosionWeaponLayer {
 provide let rec jclassName = () => "TempExplosionWeaponLayer"
     
 and jnew_6 = (name: String, movement: Movement, animationInterface: Animation, rectangle: Rectangle, viewPosition: ViewPositionBase, timeDelay: Int32) => {
-    let this = { jobject: JR.newJObject("TempExplosionWeaponLayer"), f_logUtil: JR.jnull, f_x: 0l, f_y: 0l, f_z: 0l, f_width: 0l, f_height: 0l, f_visible: false, f_viewPositionEvent: JR.jnull, f_halfWidth: 0l, f_halfHeight: 0l, f_name: "", f_viewPosition: JR.jnull, f_commonStrings: JR.jnull, f_basicSetColorUtil: JR.jnull, f_RED: JR.jnull, f_paintable: JR.jnull, f_gameKeyEventList: JR.jnull, f_collidableInferface: JR.jnull, f_groupInterface: [> ], f_readyForExplosion: false, f_initWidth: 0l, f_initHeight: 0l, f_initX: 0l, f_initY: 0l, f_initZ: 0l, f_partInterfaceArrayP: [> ], f_pickupBehavior: JR.jnull, f_allBinaryGameLayerManagerP: JR.jnull, f_isDraggable: false, f_isDragged: false, f_isDropped: false, f_animationInterface: JR.jnull, f_initAnimationInterface: JR.jnull, f_destroyedAnimationInterface: JR.jnull, f_sourceLayerInterface: JR.jnull, f_totalDamage: 0l, f_initDamage: 0l, f_destroyed: false, f_scoreableInterface: JR.jnull, f_movement: JR.jnull, f_multiPlayerType: 0l, f_collidableWeaponBehavior: JR.jnull, f_weaponProperties: JR.nullOf(), f_timeDelayHelper: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("TempExplosionWeaponLayer"), f_logUtil: JR.nullOf(), f_x: 0l, f_y: 0l, f_z: 0l, f_width: 0l, f_height: 0l, f_visible: false, f_viewPositionEvent: JR.nullOf(), f_halfWidth: 0l, f_halfHeight: 0l, f_name: "", f_viewPosition: JR.nullOf(), f_commonStrings: JR.nullOf(), f_basicSetColorUtil: JR.nullOf(), f_RED: JR.nullOf(), f_paintable: JR.nullOf(), f_gameKeyEventList: JR.nullOf(), f_collidableInferface: JR.nullOf(), f_groupInterface: [> ], f_readyForExplosion: false, f_initWidth: 0l, f_initHeight: 0l, f_initX: 0l, f_initY: 0l, f_initZ: 0l, f_partInterfaceArrayP: [> ], f_pickupBehavior: JR.nullOf(), f_allBinaryGameLayerManagerP: JR.nullOf(), f_isDraggable: false, f_isDragged: false, f_isDropped: false, f_animationInterface: JR.nullOf(), f_initAnimationInterface: JR.nullOf(), f_destroyedAnimationInterface: JR.nullOf(), f_sourceLayerInterface: JR.nullOf(), f_totalDamage: 0l, f_initDamage: 0l, f_destroyed: false, f_scoreableInterface: JR.nullOf(), f_movement: JR.nullOf(), f_multiPlayerType: 0l, f_collidableWeaponBehavior: JR.nullOf(), f_weaponProperties: JR.nullOf(), f_timeDelayHelper: JR.nullOf(), }
     this.f_weaponProperties = WeaponProperties.jnew_5(Int64.(-)(1L, Int64.(+)(1L, 1L)), Int64.(-)(1L, Int64.(+)(1L, 1L)), 0L, 1000l, JR.i16(0l))
     this.f_timeDelayHelper = TimeDelayHelper.jnew_1(0l)
         void
@@ -91,10 +91,16 @@ and jnew_6 = (name: String, movement: Movement, animationInterface: Animation, r
 }
     
 and jm_processTick = (this: TempExplosionWeaponLayer, allBinaryLayerManager: AllBinaryLayerManager) => {
-        if (TimeDelayHelper.jm_isTime(this.f_timeDelayHelper, GameTickTimeDelayHelperFactory.jm_getInstance().f_startTime)) {
+        if (TimeDelayHelper.jm_isTime(JR.cast(this.f_timeDelayHelper), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameTickTimeDelayHelperFactory.f_startTime"))
+JR.cast(jlate(JR.cast(GameTickTimeDelayHelperFactory.jm_getInstance())))
+})) {
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableBaseBehavior.jm_collide"))
-JR.cast(jlate(JR.cast(jm_getCollidableInferface(this)), JR.cast(this), JR.cast(this)))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CollidableCompositeLayer.jm_getCollidableInferface"))
+JR.cast(jlate(JR.cast(this)))
+}), JR.cast(this), JR.cast(this)))
 })
             this.f_totalDamage = JR.cast(Int32.(+)({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("WeaponLayer.jm_getInitDamage"))
@@ -104,6 +110,7 @@ JR.cast(jlate(JR.cast(this)))
         ignore(jm_processTick(this, allBinaryLayerManager))
 }
 
+JR.registerSuper("TempExplosionWeaponLayer", "SimpleWeaponLayer")
 JR.registerLateBound("TempExplosionWeaponLayer.jnew_6", jnew_6)
 JR.registerLateBound("TempExplosionWeaponLayer.jm_processTick", jm_processTick)
 JR.registerLateBound("TempExplosionWeaponLayer.f_weaponProperties", (this: TempExplosionWeaponLayer) => this.f_weaponProperties)

@@ -42,7 +42,7 @@ provide let rec jclassName = () => "AngleIncrementInfoFactory"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: AngleIncrementInfoFactory = jnew_0()
+    let value: AngleIncrementInfoFactory = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -54,7 +54,10 @@ and jset_instance = (value: AngleIncrementInfoFactory) => {
 
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("AngleIncrementInfoFactory"), f_angleIncrementInfo: [> ], }
-    this.f_angleIncrementInfo = Array.make(Int32.toNumber(AngleFactory.jm_getInstance().f_TOTAL_ANGLE), JR.nullOf())
+    this.f_angleIncrementInfo = Array.make(Int32.toNumber({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AngleFactory.f_TOTAL_ANGLE"))
+JR.cast(jlate(JR.cast(AngleFactory.jm_getInstance())))
+}), JR.nullOf())
     this
 }
     

@@ -49,7 +49,7 @@ provide record CustomGravityConstantVelocityMovement {
 provide let rec jclassName = () => "CustomGravityConstantVelocityMovement"
     
 and jnew_2 = (speedBasicDecimal: BasicDecimal, customGravity: Int32) => {
-    let this = { jobject: JR.newJObject("CustomGravityConstantVelocityMovement"), f_velocityProperties: JR.jnull, f_speedBasicDecimal: JR.jnull, f_axisMathVectorUtil: JR.jnull, f_customGravity: 0l, f_gravityUtil: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("CustomGravityConstantVelocityMovement"), f_velocityProperties: JR.nullOf(), f_speedBasicDecimal: JR.nullOf(), f_axisMathVectorUtil: JR.nullOf(), f_customGravity: 0l, f_gravityUtil: JR.nullOf(), }
     
     this.f_gravityUtil = JR.cast(GravityUtil.jm_getInstance())
         void
@@ -59,7 +59,7 @@ and jnew_2 = (speedBasicDecimal: BasicDecimal, customGravity: Int32) => {
     
 and jm_process = (this: CustomGravityConstantVelocityMovement, layer: AllBinaryGameLayer) => {
         ignore(jm_process(this, layer))
-        ignore(GravityUtil.jm_process(this.f_gravityUtil, {
+        ignore(GravityUtil.jm_process(JR.cast(this.f_gravityUtil), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicConstantVelocityMovement.jm_getVelocityProperties"))
 JR.cast(jlate(JR.cast(this)))
 }, this.f_customGravity))
@@ -67,9 +67,10 @@ JR.cast(jlate(JR.cast(this)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicConstantVelocityMovement.jm_getVelocityProperties"))
 JR.cast(jlate(JR.cast(this)))
 })
-        ignore(VelocityProperties.jm_limitMaxYForwardVelocity(velocityProperties))
+        ignore(VelocityProperties.jm_limitMaxYForwardVelocity(JR.cast(velocityProperties)))
 }
 
+JR.registerSuper("CustomGravityConstantVelocityMovement", "BasicConstantVelocityMovement")
 JR.registerLateBound("CustomGravityConstantVelocityMovement.jnew_2", jnew_2)
 JR.registerLateBound("CustomGravityConstantVelocityMovement.jm_process", jm_process)
 JR.registerLateBound("CustomGravityConstantVelocityMovement.f_customGravity", (this: CustomGravityConstantVelocityMovement) => this.f_customGravity)

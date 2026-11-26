@@ -32,7 +32,7 @@ provide record ObjectPermutationVisitor {
 provide let rec jclassName = () => "ObjectPermutationVisitor"
     
 and jnew_1 = (data: Array<JObject>) => {
-    let this = { jobject: JR.newJObject("ObjectPermutationVisitor"), f_nullUtil: JR.jnull, f_data: [> ], f_stringBuilder: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("ObjectPermutationVisitor"), f_nullUtil: JR.nullOf(), f_data: [> ], f_stringBuilder: JR.nullOf(), }
     
     this.f_stringBuilder = StringMaker.jnew_0()
         this.f_data = data
@@ -40,14 +40,14 @@ and jnew_1 = (data: Array<JObject>) => {
 }
     
 and jm_visit = (this: ObjectPermutationVisitor, anyType: JObject) => {
-        ignore(StringMaker.jm_delete(this.f_stringBuilder, 0l, StringMaker.jm_length(this.f_stringBuilder)))
-        ignore(jm_print_2(this, this.f_data, this.f_stringBuilder))
+        ignore(StringMaker.jm_delete(JR.cast(this.f_stringBuilder), 0l, StringMaker.jm_length(JR.cast(this.f_stringBuilder))))
+        ignore(jm_print_2(this, JR.cast(this.f_data), JR.cast(this.f_stringBuilder)))
         return NullUtil.jm_getInstance().f_NULL_OBJECT
 }
     
 and jm_print_1 = (this: ObjectPermutationVisitor, data: Array<JObject>) => {
         let mut stringBuilder: StringMaker = StringMaker.jnew_0()
-        ignore(jm_print_2(this, data, stringBuilder))
+        ignore(jm_print_2(this, JR.cast(data), JR.cast(stringBuilder)))
 }
     
 and jm_print_2 = (this: ObjectPermutationVisitor, data: Array<JObject>, stringBuilder: StringMaker) => {
@@ -65,16 +65,17 @@ JR.cast(jlate())
                 }
                 jfirst = false
                 if (!(Int32.(<)(i, size))) break
-            ignore(StringMaker.jm_appendint(stringBuilder, {
+            ignore(StringMaker.jm_appendint(JR.cast(stringBuilder), {
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_hashCode"))
 JR.cast(jlate(JR.cast(tsUtil), JR.cast(data[Int32.toNumber(i)])))
 }))
-            ignore(StringMaker.jm_append(stringBuilder, CommonSeps.jm_getInstance().f_SPACE))
+            ignore(StringMaker.jm_append(JR.cast(stringBuilder), JR.cast(CommonSeps.jm_getInstance().f_SPACE)))
             }
         }
-        ignore(print(StringMaker.jm_toString(stringBuilder)))
+        ignore(print(StringMaker.jm_toString(JR.cast(stringBuilder))))
 }
 
+JR.registerSuper("ObjectPermutationVisitor", "Visitor")
 JR.registerLateBound("ObjectPermutationVisitor.jnew_1", jnew_1)
 JR.registerLateBound("ObjectPermutationVisitor.jm_visit", jm_visit)
 JR.registerLateBound("ObjectPermutationVisitor.jm_print_1", jm_print_1)

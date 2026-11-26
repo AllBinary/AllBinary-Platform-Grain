@@ -33,6 +33,14 @@ from "../../../../org/allbinary/graphics/color/ColorCompositeInterface.gr" inclu
 use ColorCompositeInterface.{ type ColorCompositeInterface }
 from "../../../../org/allbinary/graphics/paint/Paintable.gr" include Paintable
 use Paintable.{ type Paintable }
+from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/lang/Long.gr" include Long
+from "../../../../java/lang/Short.gr" include Short
+from "../../../../java/lang/Byte.gr" include Byte
+from "../../../../java/lang/Character.gr" include Character
+from "../../../../java/lang/Float.gr" include Float
+from "../../../../java/lang/Double.gr" include Double
+from "../../../../java/lang/Boolean.gr" include Boolean
 
 provide record ColorFillBasePaintable {
   jobject: JObject,
@@ -47,13 +55,13 @@ and jnew_1 = (basicColor: BasicColor) => {
     let this = { jobject: JR.newJObject("ColorFillBasePaintable"), f_basicColor: JR.nullOf(), f_colorP: 0l, }
     this.f_basicColor = JR.cast(BasicColorFactory.jm_getInstance().f_WHITE)
     
-        ignore(jm_setBasicColorP(this, basicColor))
+        ignore(jm_setBasicColorP(this, JR.cast(basicColor)))
     this
 }
     
 and jm_setBasicColorP = (this: ColorFillBasePaintable, basicColor: BasicColor) => {
         this.f_basicColor = JR.cast(basicColor)
-        ignore(jm_setColor(this, BasicColor.jm_intValue(jm_getBasicColorP(this))))
+        ignore(jm_setColor(this, BasicColor.jm_intValue(JR.cast(jm_getBasicColorP(this)))))
 }
     
 and jm_getBasicColorP = (this: ColorFillBasePaintable) => {
@@ -72,6 +80,7 @@ and jm_paint = (this: ColorFillBasePaintable, graphics: JObject) => {
     void
 }
 
+JR.registerSuper("ColorFillBasePaintable", "Paintable")
 JR.registerLateBound("ColorFillBasePaintable.jnew_1", jnew_1)
 JR.registerLateBound("ColorFillBasePaintable.jm_setBasicColorP", jm_setBasicColorP)
 JR.registerLateBound("ColorFillBasePaintable.jm_getBasicColorP", jm_getBasicColorP)

@@ -65,7 +65,7 @@ JR.cast(jlate(JR.cast(logUtil), JR.cast(commonStrings.f_EXCEPTION), JR.cast(prim
 }
     
 and jnew_2 = (powerOfTen: Int32, unused: JObject) => {
-    let this = { jobject: JR.newJObject("PrimitiveLongUtil"), f_logUtil: JR.jnull, f_powerOfTen: 0l, f_maxValue: 0l, f_maxDigits: 0l, f_charArray: [> ], f_currentTotalDigits: 0l, f_primitiveLongSingleton: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("PrimitiveLongUtil"), f_logUtil: JR.nullOf(), f_powerOfTen: 0l, f_maxValue: 0l, f_maxDigits: 0l, f_charArray: [> ], f_currentTotalDigits: 0l, f_primitiveLongSingleton: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -76,7 +76,10 @@ JR.cast(jlate())
     
     
     this.f_primitiveLongSingleton = JR.cast(PrimitiveLongSingleton.jm_getInstance())
-        this.f_maxDigits = MathUtil.jm_getTotalDigits(MathUtil.jm_getInstance(), powerOfTen)
+        this.f_maxDigits = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("MathUtil.jm_getTotalDigits"))
+JR.cast(jlate(JR.cast(MathUtil.jm_getInstance()), JR.cast(powerOfTen)))
+}
         this.f_powerOfTen = powerOfTen
         this.f_maxValue = Int32.(-)((Int32.(*)(powerOfTen, 10l)), 1l)
         this.f_charArray = Array.make(Int32.toNumber(this.f_maxDigits), 0l)
@@ -86,11 +89,17 @@ JR.cast(jlate())
 and jm_getCharArray = (this: PrimitiveLongUtil, value: Int32) => {
         if (Int32.(<)(value, 10l)) {
             ignore(jm_setCurrentTotalDigits(this, 1l))
-            return this.f_primitiveLongSingleton.f_NUMBER_CHAR_ARRAYS[Int32.toNumber(value)]
+            return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PrimitiveLongSingleton.f_NUMBER_CHAR_ARRAYS"))
+JR.cast(jlate(JR.cast(this.f_primitiveLongSingleton)))
+}[Int32.toNumber(value)]
         }
         if (Int32.(>)(value, this.f_maxValue)) {
             ignore(jm_setCurrentTotalDigits(this, 3l))
-            return this.f_primitiveLongSingleton.f_UNK
+            return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PrimitiveLongSingleton.f_UNK"))
+JR.cast(jlate(JR.cast(this.f_primitiveLongSingleton)))
+}
         }
         let mut index: Int32 = 0l
         let mut div: Int32 = this.f_powerOfTen
@@ -101,7 +110,10 @@ and jm_getCharArray = (this: PrimitiveLongUtil, value: Int32) => {
                 if (((digit == 0l) && (index == 0l))) {
                     void
                 } else {
-                    this.f_charArray[Int32.toNumber({ let jold = index; index = Int32.(+)(jold, 1l); jold })] = this.f_primitiveLongSingleton.f_NUMBER_CHAR_ARRAY[Int32.toNumber(digit)]
+                    this.f_charArray[Int32.toNumber({ let jold = index; index = Int32.(+)(jold, 1l); jold })] = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PrimitiveLongSingleton.f_NUMBER_CHAR_ARRAY"))
+JR.cast(jlate(JR.cast(this.f_primitiveLongSingleton)))
+}[Int32.toNumber(digit)]
                 }
                 lastValue = Int32.(+)(lastValue, Int32.(*)(digit, div))
             }

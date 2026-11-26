@@ -52,6 +52,15 @@ use BasicArrayList.{ type BasicArrayList }
 from "../../../../org/allbinary/util/HashtableUtil.gr" include HashtableUtil
 use HashtableUtil.{ type HashtableUtil }
 from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/lang/Long.gr" include Long
+from "../../../../java/lang/Short.gr" include Short
+from "../../../../java/lang/Byte.gr" include Byte
+from "../../../../java/lang/Character.gr" include Character
+from "../../../../java/lang/Float.gr" include Float
+from "../../../../java/lang/Double.gr" include Double
+from "../../../../java/lang/Boolean.gr" include Boolean
+from "../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 from "./GameConfigurationTextInput.gr" include GameConfigurationTextInput
 use GameConfigurationTextInput.{ type GameConfigurationTextInput }
 from "./GameConfigurationSingleton.gr" include GameConfigurationSingleton
@@ -65,6 +74,22 @@ use GameConfigurationCentral.{ type GameConfigurationCentral }
 
 provide record GameOptionsForm {
   jobject: JObject,
+  mut f_device: JObject,
+  mut f_currentDisplay: JObject,
+  mut f_width: Int32,
+  mut f_height: Int32,
+  mut f_fullScreenMode: Bool,
+  mut f_ticker: JObject,
+  mut f_viewPortY: Int32,
+  mut f_viewPortHeight: Int32,
+  mut f_ui: JObject,
+  mut f_title: String,
+  mut f_listener: JObject,
+  mut f_ANDROID_FORM_UI: String,
+  mut f_items: Array<JObject>,
+  mut f_numOfItems: Int32,
+  mut f_focusItemIndex: Int32,
+  mut f_itemStateListener: JObject,
   mut f_logUtil: JObject,
   mut f_commonStrings: JObject,
   mut f_repaintProcessor: JObject,
@@ -76,7 +101,7 @@ provide record GameOptionsForm {
 provide let rec jclassName = () => "GameOptionsForm"
     
 and jnew_4 = (commandListener: CommandListener, title: String, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
-    let this = { jobject: JR.newJObject("GameOptionsForm"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_repaintProcessor: JR.jnull, f_commandStack: JR.jnull, f_meUtil: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("GameOptionsForm"), f_device: JR.nullOf(), f_currentDisplay: JR.nullOf(), f_width: 0l, f_height: 0l, f_fullScreenMode: false, f_ticker: JR.nullOf(), f_viewPortY: 0l, f_viewPortHeight: 0l, f_ui: JR.nullOf(), f_title: "", f_listener: JR.nullOf(), f_ANDROID_FORM_UI: "", f_items: [> ], f_numOfItems: 0l, f_focusItemIndex: 0l, f_itemStateListener: JR.nullOf(), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_repaintProcessor: JR.nullOf(), f_commandStack: JR.nullOf(), f_meUtil: JR.nullOf(), }
     this.f_meUtil = JR.cast(MIDPUtil.jm_getInstance())
         void
         ignore({
@@ -96,29 +121,26 @@ JR.cast(jlate())
 })
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("GameFeatureFormUtil.jm_addChoiceGroup"))
-JR.cast(jlate(JR.cast(gameFeatureFormUtil), JR.cast(this), JR.cast({
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameFeatureChoiceGroups.jm_get"))
-JR.cast(jlate(JR.cast(GameFeatureChoiceGroups.jm_getExclusiveInstance())))
-}), JR.cast({
+JR.cast(jlate(JR.cast(gameFeatureFormUtil), JR.cast(this), JR.cast(GameFeatureChoiceGroups.jm_get(JR.cast(GameFeatureChoiceGroups.jm_getExclusiveInstance()))), JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("Choice.jstatic_EXCLUSIVE"))
 JR.cast(jlate())
 })))
 })
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("GameFeatureFormUtil.jm_addChoiceGroup"))
-JR.cast(jlate(JR.cast(gameFeatureFormUtil), JR.cast(this), JR.cast({
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameFeatureChoiceGroups.jm_get"))
-JR.cast(jlate(JR.cast(GameFeatureChoiceGroups.jm_getMultipleInstance())))
-}), JR.cast({
+JR.cast(jlate(JR.cast(gameFeatureFormUtil), JR.cast(this), JR.cast(GameFeatureChoiceGroups.jm_get(JR.cast(GameFeatureChoiceGroups.jm_getMultipleInstance()))), JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("Choice.jstatic_MULTIPLE"))
 JR.cast(jlate())
 })))
 })
-        ignore(jm_initCommands(this, commandListener))
-        ignore(jm_setItemStateListener(this, {
+        ignore(jm_initCommands(this, JR.cast(commandListener)))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Form.jm_setItemStateListener"))
+JR.cast(jlate(JR.cast(this), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameFeatureItemStateListener.jnew_1"))
 JR.cast(jlate(JR.cast(this)))
-}))
+})))
+})
         ignore(jm_addTextFieldsIfSimulated(this))
     this
 }
@@ -128,15 +150,12 @@ and jm_closeClientInformation = (this: GameOptionsForm, abeClientInformation: Ab
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommandForm.jm_close"))
 JR.cast(jlate(JR.cast(this)))
 })
-        ignore(jm_save(this, abeClientInformation))
+        ignore(jm_save(this, JR.cast(abeClientInformation)))
 }
     
 and jm_addTextFieldsIfSimulated = (this: GameOptionsForm) => {
         let mut key: String = OrientationData.jm_getInstance().f_ORIENTATION_SENSOR_INPUT
-        let mut hashtable: JObject = JR.cast({
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameFeatureChoiceGroups.jm_get"))
-JR.cast(jlate(JR.cast(GameFeatureChoiceGroups.jm_getExclusiveInstance())))
-})
+        let mut hashtable: JObject = JR.cast(GameFeatureChoiceGroups.jm_get(JR.cast(GameFeatureChoiceGroups.jm_getExclusiveInstance())))
         if (!JR.isNull(hashtable)) {
             let mut listCanBeNull: JObject = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
@@ -144,7 +163,7 @@ JR.cast(jlate(JR.cast(hashtable), JR.cast(key)))
 })
             if (!JR.isNull(listCanBeNull)) {
                 let mut list: BasicArrayList = JR.cast(listCanBeNull)
-                if (BasicArrayList.jm_contains(list, JR.cast(SensorFeatureFactory.jm_getInstance().f_SIMULATED_ORIENTATION_SENSORS))) {
+                if (BasicArrayList.jm_contains(JR.cast(list), JR.cast(SensorFeatureFactory.jm_getInstance().f_SIMULATED_ORIENTATION_SENSORS))) {
                     ignore(jm_addTextFields(this))
                 }
             }
@@ -157,9 +176,9 @@ and jm_addTextFields = (this: GameOptionsForm) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_size"))
 JR.cast(jlate(JR.cast(hashtable)))
 }
-        let mut objectArray: Array<JObject> = HashtableUtil.jm_getKeysAsArray(HashtableUtil.jm_getInstance(), hashtable)
+        let mut objectArray: Array<JObject> = JR.cast(HashtableUtil.jm_getKeysAsArray(JR.cast(HashtableUtil.jm_getInstance()), JR.cast(hashtable)))
         let mut gameConfigurationTextInput: GameConfigurationTextInput = JR.nullOf()
-        let mut textField: JObject = JR.jnull
+        let mut textField: JObject = JR.nullOf()
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -175,12 +194,18 @@ JR.cast(jlate(JR.cast(hashtable), JR.cast(JR.cast(objectArray[Int32.toNumber(ind
 })
             textField = JR.cast({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TextField.jnew_4"))
-JR.cast(jlate(JR.cast(GameConfigurationTextInput.jm_getLabel(gameConfigurationTextInput)), JR.cast(GameConfigurationTextInput.jm_getText(gameConfigurationTextInput)), JR.cast(30l), JR.cast({
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationTextInput.jm_getLabel"))
+JR.cast(jlate(JR.cast(gameConfigurationTextInput)))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationTextInput.jm_getText"))
+JR.cast(jlate(JR.cast(gameConfigurationTextInput)))
+}), JR.cast(30l), JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("TextField.jstatic_ANY"))
 JR.cast(jlate())
 })))
 })
-            ignore(MIDPUtil.jm_appendItem(this.f_meUtil, JR.cast(this), JR.cast(textField)))
+            ignore(MIDPUtil.jm_appendItem(JR.cast(this.f_meUtil), JR.cast(this), JR.cast(textField)))
             }
         }
 }
@@ -188,10 +213,13 @@ JR.cast(jlate())
 and jm_addConfiguration = (this: GameOptionsForm) => {
         let mut l_METHOD_NAME: String = "addConfiguration"
         let mut l_NAME: String = "Name: "
-        let mut list: BasicArrayList = JR.cast(GameConfigurationSingleton.jm_getOptionsBasicArrayList(GameConfigurationSingleton.jm_getInstance()))
+        let mut list: BasicArrayList = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationSingleton.jm_getOptionsBasicArrayList"))
+JR.cast(jlate(JR.cast(GameConfigurationSingleton.jm_getInstance())))
+})
         let mut l_GAUGE_CHANGE: JObject = JR.cast(MyCommandsFactory.jm_getInstance().f_GAUGE_CHANGE)
         let mut stringMaker: StringMaker = StringMaker.jnew_0()
-        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
         let mut gameConfiguration: GameConfiguration = JR.nullOf()
         let mut gauge: GameConfigurationGauge = JR.nullOf()
         {
@@ -204,18 +232,27 @@ and jm_addConfiguration = (this: GameOptionsForm) => {
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             gameConfiguration = JR.cast(list.f_objectArray[Int32.toNumber(index)])
-            ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
+            ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(stringMaker, l_NAME), GameConfiguration.jm_toString(gameConfiguration)))), JR.cast(this), JR.cast(l_METHOD_NAME)))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast(l_NAME))), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_toString"))
+JR.cast(jlate(JR.cast(gameConfiguration)))
+}))))), JR.cast(this), JR.cast(l_METHOD_NAME)))
 })
-            gauge = JR.cast(GameConfigurationGauge.jnew_1(gameConfiguration))
-            ignore(GameConfigurationGauge.jm_setDefaultCommand(gauge, l_GAUGE_CHANGE))
-            ignore(GameConfigurationGauge.jm_setItemCommandListener(gauge, {
+            gauge = JR.cast(GameConfigurationGauge.jnew_1(JR.cast(gameConfiguration)))
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Gauge.jm_setDefaultCommand"))
+JR.cast(jlate(JR.cast(gauge), JR.cast(l_GAUGE_CHANGE)))
+})
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Gauge.jm_setItemCommandListener"))
+JR.cast(jlate(JR.cast(gauge), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameFeatureItemCommandListener.jnew_1"))
 JR.cast(jlate(JR.cast(this)))
-}))
-            ignore(MIDPUtil.jm_appendItem(this.f_meUtil, JR.cast(this), JR.cast(gauge)))
+})))
+})
+            ignore(MIDPUtil.jm_appendItem(JR.cast(this.f_meUtil), JR.cast(this), JR.cast(gauge)))
             }
         }
 }
@@ -234,12 +271,18 @@ JR.cast(jlate(JR.cast(this), JR.cast(gameCommandsFactory.f_CLOSE_OPTIONS)))
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CommandForm.jm_addCommand"))
 JR.cast(jlate(JR.cast(this), JR.cast(gameCommandsFactory.f_DEFAULT_OPTIONS)))
 })
-        ignore(jm_setCommandListener(this, cmdListener))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Displayable.jm_setCommandListener"))
+JR.cast(jlate(JR.cast(this), JR.cast(cmdListener)))
+})
 }
     
 and jm_save = (this: GameOptionsForm, abeClientInformation: AbeClientInformationInterface) => {
-        let mut size: Int32 = jm_size(this)
-        let mut item: JObject = JR.jnull
+        let mut size: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Form.jm_size"))
+JR.cast(jlate(JR.cast(this)))
+}
+        let mut item: JObject = JR.nullOf()
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -249,7 +292,10 @@ and jm_save = (this: GameOptionsForm, abeClientInformation: AbeClientInformation
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            item = JR.cast(jm_get(this, index))
+            item = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Form.jm_get"))
+JR.cast(jlate(JR.cast(this), JR.cast(index)))
+})
             if ((JR.className(item) == "GameConfigurationGauge")) {
                 ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationUtil.jm_update"))
@@ -277,10 +323,19 @@ let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
 JR.cast(jlate())
 })))
 })
-        let mut l_SCALE: GameConfiguration = JR.cast(GameConfigurationCentral.jm_getInstance().f_SCALE)
+        let mut l_SCALE: GameConfiguration = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationCentral.f_SCALE"))
+JR.cast(jlate(JR.cast(GameConfigurationCentral.jm_getInstance())))
+})
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(hashtable), JR.cast(GameConfiguration.jm_getName(l_SCALE)), JR.cast(toString(JR.className(JR.cast(GameConfiguration.jm_getValue(l_SCALE)))))))
+JR.cast(jlate(JR.cast(hashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getName"))
+JR.cast(jlate(JR.cast(l_SCALE)))
+}), JR.cast(toString(Integer.jm_intValue(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getValue"))
+JR.cast(jlate(JR.cast(l_SCALE)))
+}))))))
 })
         let mut keyValuePersistance: JObject = JR.cast(GameConfigurationPersistanceSingleton.jm_getInstance())
         ignore({
@@ -299,7 +354,7 @@ JR.cast(jlate(JR.cast(keyValuePersistance)))
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("KeyValuePersistance.jm_save"))
 JR.cast(jlate(JR.cast(keyValuePersistance), JR.cast(abeClientInformation), JR.cast(hashtable)))
 })
-        let mut size2: Int32 = BasicArrayList.jm_size(list)
+        let mut size2: Int32 = BasicArrayList.jm_size(JR.cast(list))
         let mut integer: Int32 = 0l
         {
             let mut index: Int32 = 0l
@@ -313,12 +368,13 @@ JR.cast(jlate(JR.cast(keyValuePersistance), JR.cast(abeClientInformation), JR.ca
             integer = JR.cast(list.f_objectArray[Int32.toNumber(index)])
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("KeyValuePersistance.jm_delete"))
-JR.cast(jlate(JR.cast(keyValuePersistance), JR.cast(abeClientInformation), JR.cast(Integer.jm_intValue(integer))))
+JR.cast(jlate(JR.cast(keyValuePersistance), JR.cast(abeClientInformation), JR.cast(Integer.jm_intValue(JR.cast(integer)))))
 })
             }
         }
 }
 
+JR.registerSuper("GameOptionsForm", "CommandForm")
 JR.registerLateBound("GameOptionsForm.jnew_4", jnew_4)
 JR.registerLateBound("GameOptionsForm.jm_closeClientInformation", jm_closeClientInformation)
 JR.registerLateBound("GameOptionsForm.jm_addTextFieldsIfSimulated", jm_addTextFieldsIfSimulated)

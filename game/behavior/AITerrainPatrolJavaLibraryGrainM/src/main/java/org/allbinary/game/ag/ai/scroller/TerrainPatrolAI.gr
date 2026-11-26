@@ -73,13 +73,13 @@ provide record TerrainPatrolAI {
 provide let rec jclassName = () => "TerrainPatrolAI"
     
 and jnew_3 = (hashtable: JObject, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
-    let this = { jobject: JR.newJObject("TerrainPatrolAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_maxDistance: JR.jnull, f_currentDistance: 0l, f_xTotalDistance: 0l, f_lastKeyDirection: 0l, f_keyDirection: 0l, f_trackingList: JR.jnull, f_firingDistance: 0l, f_isFollowLimitedByTerrain: false, f_terrainEventListener: JR.nullOf(), f_DOWN: JR.nullOf(), f_CLIFF: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("TerrainPatrolAI"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_ownerLayerInterface: JR.nullOf(), f_gameInput: JR.nullOf(), f_lastKey: 0l, f_maxDistance: JR.nullOf(), f_currentDistance: 0l, f_xTotalDistance: 0l, f_lastKeyDirection: 0l, f_keyDirection: 0l, f_trackingList: JR.nullOf(), f_firingDistance: 0l, f_isFollowLimitedByTerrain: false, f_terrainEventListener: JR.nullOf(), f_DOWN: JR.nullOf(), f_CLIFF: JR.nullOf(), }
     this.f_terrainEventListener = TerrainEventListener.jnew_0()
     this.f_DOWN = JR.cast(AngleFactory.jm_getInstance().f_DOWN)
-    this.f_CLIFF = BasicTerrainInfo.jnew_1(this.f_DOWN)
+    this.f_CLIFF = BasicTerrainInfo.jnew_1(JR.cast(this.f_DOWN))
         void
-        ignore(TerrainEventHandler.jm_addListener(TerrainEventHandler.jm_getInstance(JR.cast(ownerLayerInterface)), this.f_terrainEventListener))
-        ignore(TerrainEventListener.jm_onTerrainEvent(this.f_terrainEventListener, JR.cast(TerrainEventCircularStaticPool.jm_getNext(TerrainEventCircularStaticPool.jm_getInstance(), this.f_CLIFF))))
+        ignore(TerrainEventHandler.jm_addListener(JR.cast(TerrainEventHandler.jm_getInstance(JR.cast(ownerLayerInterface))), JR.cast(this.f_terrainEventListener)))
+        ignore(TerrainEventListener.jm_onTerrainEvent(JR.cast(this.f_terrainEventListener), JR.cast(TerrainEventCircularStaticPool.jm_getNext(JR.cast(TerrainEventCircularStaticPool.jm_getInstance()), JR.cast(this.f_CLIFF)))))
     this
 }
     
@@ -89,8 +89,8 @@ and jm_update = (this: TerrainPatrolAI) => {
 }
     
 and jm_changeDirectionIfCliffReached = (this: TerrainPatrolAI) => {
-        let mut list: BasicArrayList = JR.cast(TerrainEventListener.jm_getList(this.f_terrainEventListener))
-        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut list: BasicArrayList = JR.cast(TerrainEventListener.jm_getList(JR.cast(this.f_terrainEventListener)))
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -100,9 +100,9 @@ and jm_changeDirectionIfCliffReached = (this: TerrainPatrolAI) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            let mut terrainEvent: TerrainEvent = JR.cast(BasicArrayList.jm_removeAt(list, index))
-            let mut basicTerrainInfo: BasicTerrainInfo = JR.cast(TerrainEvent.jm_getBasicTerrainInfo(terrainEvent))
-            let mut angle: Angle = JR.cast(BasicTerrainInfo.jm_getAngle(basicTerrainInfo))
+            let mut terrainEvent: TerrainEvent = JR.cast(BasicArrayList.jm_removeAt(JR.cast(list), index))
+            let mut basicTerrainInfo: BasicTerrainInfo = JR.cast(TerrainEvent.jm_getBasicTerrainInfo(JR.cast(terrainEvent)))
+            let mut angle: Angle = JR.cast(BasicTerrainInfo.jm_getAngle(JR.cast(basicTerrainInfo)))
             if (JR.isSame(angle, this.f_DOWN)) {
                 ignore({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasePatrolAI.jm_nextDirection"))
@@ -120,6 +120,7 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast("Following Limited"), JR
         }
 }
 
+JR.registerSuper("TerrainPatrolAI", "PacePatrolAI")
 JR.registerLateBound("TerrainPatrolAI.jnew_3", jnew_3)
 JR.registerLateBound("TerrainPatrolAI.jm_update", jm_update)
 JR.registerLateBound("TerrainPatrolAI.jm_changeDirectionIfCliffReached", jm_changeDirectionIfCliffReached)

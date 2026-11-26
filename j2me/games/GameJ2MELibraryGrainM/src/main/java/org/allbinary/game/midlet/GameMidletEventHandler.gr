@@ -47,7 +47,7 @@ provide let rec jclassName = () => "GameMidletEventHandler"
 and jstatic_gameKeyEventHandler = () => match (jcell_gameKeyEventHandler) {
   Some(value) => value,
   None => {
-    let value: GameMidletEventHandler = jnew_0()
+    let value: GameMidletEventHandler = JR.cast(jnew_0())
     jcell_gameKeyEventHandler = Some(value)
     value
   },
@@ -58,7 +58,7 @@ and jset_gameKeyEventHandler = (value: GameMidletEventHandler) => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("GameMidletEventHandler"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_eventStrings: JR.jnull, f_eventListenerInterfaceList: JR.jnull, }
+    let this = { jobject: JR.newJObject("GameMidletEventHandler"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_eventStrings: JR.nullOf(), f_eventListenerInterfaceList: JR.nullOf(), }
         void
     this
 }
@@ -69,9 +69,13 @@ and jm_getInstance = () => {
     
 and jm_process = (this: GameMidletEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) => {
         let mut gameMidletEventListener: GameMidletEventListener = JR.cast(eventListenerInterface)
-        ignore(GameMidletEventListener.jm_onGameEnd(gameMidletEventListener, eventObject))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("GameMidletEventListener.jm_onGameEnd"))
+JR.cast(jlate(JR.cast(gameMidletEventListener), JR.cast(eventObject)))
+})
 }
 
+JR.registerSuper("GameMidletEventHandler", "BasicEventHandler")
 JR.registerLateBound("GameMidletEventHandler.jnew_0", jnew_0)
 JR.registerLateBound("GameMidletEventHandler.jm_getInstance", jm_getInstance)
 JR.registerLateBound("GameMidletEventHandler.jm_process", jm_process)

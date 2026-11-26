@@ -52,16 +52,16 @@ provide record ComboSequenceAI {
 provide let rec jclassName = () => "ComboSequenceAI"
     
 and jnew_3 = (artificialIntelligenceInterface: Array<ArtificialIntelligenceInterface>, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
-    let this = { jobject: JR.newJObject("ComboSequenceAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_artificialIntelligenceInterfaceArray: [> ], f_index: 0l, }
+    let this = { jobject: JR.newJObject("ComboSequenceAI"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_ownerLayerInterface: JR.nullOf(), f_gameInput: JR.nullOf(), f_lastKey: 0l, f_artificialIntelligenceInterfaceArray: [> ], f_index: 0l, }
         void
     this
 }
     
 and jm_processAI = (this: ComboSequenceAI, allBinaryLayerManager: AllBinaryLayerManager) => {
-        let mut artificialIntelligenceInterfaceArray: Array<ArtificialIntelligenceInterface> = {
+        let mut artificialIntelligenceInterfaceArray: Array<ArtificialIntelligenceInterface> = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ArrayAI.jm_getArtificialIntelligenceInterface"))
 JR.cast(jlate(JR.cast(this)))
-}
+})
         let mut size: Int32 = Int32.fromNumber(Array.length(artificialIntelligenceInterfaceArray))
         {
             let mut index: Int32 = 0l
@@ -81,6 +81,7 @@ JR.cast(jlate(JR.cast(this), JR.cast(index)))
         }
 }
 
+JR.registerSuper("ComboSequenceAI", "SequenceAI")
 JR.registerLateBound("ComboSequenceAI.jnew_3", jnew_3)
 JR.registerLateBound("ComboSequenceAI.jm_processAI", jm_processAI)
 

@@ -67,7 +67,7 @@ provide let rec jclassName = () => "PtsDamageFloaters"
 and jstatic_basicColorArrayIndexer = () => match (jcell_basicColorArrayIndexer) {
   Some(value) => value,
   None => {
-    let value: BasicColorArrayIndexer = BasicColorArrayIndexer.jnew_1([> BasicColorFactory.jm_getInstance().f_WHITE, BasicColorFactory.jm_getInstance().f_RED, BasicColorFactory.jm_getInstance().f_YELLOW, BasicColorFactory.jm_getInstance().f_BLUE])
+    let value: BasicColorArrayIndexer = JR.cast(BasicColorArrayIndexer.jnew_1(JR.cast([> JR.cast(BasicColorFactory.jm_getInstance().f_WHITE), JR.cast(BasicColorFactory.jm_getInstance().f_RED), JR.cast(BasicColorFactory.jm_getInstance().f_YELLOW), JR.cast(BasicColorFactory.jm_getInstance().f_BLUE)])))
     jcell_basicColorArrayIndexer = Some(value)
     value
   },
@@ -89,7 +89,7 @@ and jnew_1 = (layerInterface: AllBinaryLayer) => {
     this.f_myRandomFactory = JR.cast(MyRandomFactory.jm_getInstance())
         this.f_primitiveLongUtil = JR.cast(PrimitiveLongUtil.jm_createPowerOfTen(100000l))
         this.f_layerInterface = JR.cast(layerInterface)
-        let mut l_CHAR_ARRAY: Array<Int32> = CharArrayFactory.jm_getZeroCharArray(CharArrayFactory.jm_getInstance())
+        let mut l_CHAR_ARRAY: Array<Int32> = CharArrayFactory.jm_getZeroCharArray(JR.cast(CharArrayFactory.jm_getInstance()))
         {
             let mut index: Int32 = Int32.(-)(Int32.fromNumber(Array.length(this.f_lastDamageString)), 1l)
             let mut jfirst = true
@@ -106,15 +106,15 @@ and jnew_1 = (layerInterface: AllBinaryLayer) => {
 }
     
 and jm_add = (this: PtsDamageFloaters, damage: Int32) => {
-        let mut index: Int32 = CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil)
+        let mut index: Int32 = CircularIndexUtil.jm_getIndex(JR.cast(this.f_circularIndexUtil))
         this.f_lastDamage[Int32.toNumber(index)] = damage
-        this.f_lastDamageString[Int32.toNumber(index)] = JR.cast(PrimitiveLongUtil.jm_getCharArray(this.f_primitiveLongUtil, this.f_lastDamage[Int32.toNumber(index)]))
-        this.f_lastDamageStringSizeArray[Int32.toNumber(index)] = PrimitiveLongUtil.jm_getCurrentTotalDigits(this.f_primitiveLongUtil)
-        ignore(CircularIndexUtil.jm_next(this.f_circularIndexUtil))
+        this.f_lastDamageString[Int32.toNumber(index)] = JR.cast(PrimitiveLongUtil.jm_getCharArray(JR.cast(this.f_primitiveLongUtil), this.f_lastDamage[Int32.toNumber(index)]))
+        this.f_lastDamageStringSizeArray[Int32.toNumber(index)] = PrimitiveLongUtil.jm_getCurrentTotalDigits(JR.cast(this.f_primitiveLongUtil))
+        ignore(CircularIndexUtil.jm_next(JR.cast(this.f_circularIndexUtil)))
 }
     
 and jm_paint = (this: PtsDamageFloaters, graphics: JObject) => {
-        let mut viewPosition: ViewPositionBase = JR.cast(AllBinaryLayer.jm_getViewPosition(this.f_layerInterface))
+        let mut viewPosition: ViewPositionBase = JR.cast(AllBinaryLayer.jm_getViewPosition(JR.cast(this.f_layerInterface)))
         let mut x: Int32 = {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getX"))
 JR.cast(jlate(JR.cast(viewPosition)))
@@ -134,18 +134,19 @@ JR.cast(jlate(JR.cast(viewPosition)))
                 if (!(Int32.(>=)(index, 0l))) break
             if ((this.f_lastDamage[Int32.toNumber(index)] != 0l)) {
                 let mut delta: Int32 = Int32.(*)(10l, (Int32.(+)(index, 2l)))
-                ignore(BasicColorSetUtil.jm_setBasicColorP(this.f_basicSetColorUtil, graphics, JR.cast(BasicColorArrayIndexer.jm_get(jstatic_basicColorArrayIndexer()))))
+                ignore(BasicColorSetUtil.jm_setBasicColorP(JR.cast(this.f_basicSetColorUtil), JR.cast(graphics), JR.cast(BasicColorArrayIndexer.jm_get(JR.cast(jstatic_basicColorArrayIndexer())))))
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawChars"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_lastDamageString[Int32.toNumber(index)]), JR.cast(0l), JR.cast(this.f_lastDamageStringSizeArray[Int32.toNumber(index)]), JR.cast(Int32.(-)(x, MyRandomFactory.jm_getNextInt(this.f_myRandomFactory, delta))), JR.cast(Int32.(-)(y, delta)), JR.cast(0l)))
+JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_lastDamageString[Int32.toNumber(index)]), JR.cast(0l), JR.cast(this.f_lastDamageStringSizeArray[Int32.toNumber(index)]), JR.cast(Int32.(-)(x, MyRandomFactory.jm_getNextInt(JR.cast(this.f_myRandomFactory), delta))), JR.cast(Int32.(-)(y, delta)), JR.cast(0l)))
 })
-                ignore(BasicColorArrayIndexer.jm_next(jstatic_basicColorArrayIndexer()))
+                ignore(BasicColorArrayIndexer.jm_next(JR.cast(jstatic_basicColorArrayIndexer())))
             }
             this.f_lastDamage[Int32.toNumber(index)] = 0l
             }
         }
 }
 
+JR.registerSuper("PtsDamageFloaters", "DamageFloaters")
 JR.registerLateBound("PtsDamageFloaters.jnew_1", jnew_1)
 JR.registerLateBound("PtsDamageFloaters.jm_add", jm_add)
 JR.registerLateBound("PtsDamageFloaters.jm_paint", jm_paint)

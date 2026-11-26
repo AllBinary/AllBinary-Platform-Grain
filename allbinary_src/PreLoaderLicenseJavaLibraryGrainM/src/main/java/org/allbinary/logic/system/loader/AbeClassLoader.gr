@@ -43,8 +43,6 @@ from "../../../../../org/allbinary/globals/URLGLOBALS.gr" include URLGLOBALS
 use URLGLOBALS.{ type URLGLOBALS }
 from "../../../../../java/lang/ClassLoader.gr" include ClassLoader
 use ClassLoader.{ type ClassLoader }
-from "./NoClassDefFoundError.gr" include NoClassDefFoundError
-use NoClassDefFoundError.{ type NoClassDefFoundError }
 
 provide record AbeClassLoader {
   jobject: JObject,
@@ -63,13 +61,13 @@ provide let rec jclassName = () => "AbeClassLoader"
 and jstatic_classes = () => match (jcell_classes) {
   Some(value) => value,
   None => {
-    let value: Map = {
+    let value: Map = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashMap"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
 JR.cast(jlate())
 })))
-}
+})
     jcell_classes = Some(value)
     value
   },
@@ -93,21 +91,7 @@ and jset_PATH = (value: String) => {
 }
     
 and jnew_2 = (parent: ClassLoader, key: String) => {
-    let this = { jobject: JR.newJObject("AbeClassLoader"), f_logUtil: JR.jnull, f_abCryptUtil: JR.nullOf(), f_LOAD_CLASS: "", f_ENCRYPTED_EXTENSION: "", f_key: "", }
-    this.f_logUtil = JR.cast({
-let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
-JR.cast(jlate())
-})
-    this.f_abCryptUtil = JR.cast(AbCryptUtil.jm_getInstance())
-    this.f_LOAD_CLASS = "loadClass"
-    this.f_ENCRYPTED_EXTENSION = {
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_EXTENSION_SEP"))
-JR.cast(jlate(JR.cast({
-let jlate: () => JObject = JR.cast(JR.lateBound("AbPathData.jm_getInstance"))
-JR.cast(jlate())
-})))
-} ++ "abc"
-    
+    let this: AbeClassLoader = JR.cast(ClassLoader.jnew_1(parent))
         void
         this.f_key = key
         jset_PATH(URLGLOBALS.jm_getWebappPath() ++ "WEB-INF/classes/")
@@ -115,42 +99,42 @@ JR.cast(jlate())
 }
     
 and jm_findLoadedClass1 = (this: AbeClassLoader, name: String) => {
-        return JR.cast(Map.jm_get(jstatic_classes(), name))
+        return JR.cast(Map.jm_get_1(jstatic_classes(), name))
 }
     
 and jm_loadClass_1 = (this: AbeClassLoader, name: String) => {
-        return jm_loadClass_2(this, name, false)
+        return jm_loadClass_2(this, JR.cast(name), false)
 }
     
 and jm_loadClass_2 = (this: AbeClassLoader, name: String, resolve: Bool) => {
         let mut loadedWith: String = "findLoadedClass1"
         let mut logBuffer: LogBuffer = LogBuffer.jnew_0()
         {
-            let mut myClass: String = jm_findLoadedClass1(this, name)
+            let mut myClass: String = jm_findLoadedClass1(this, JR.cast(name))
             if (JR.isNull(myClass)) {
                 {
                     loadedWith = "super.loadClass"
-                    let mut normalClass: String = jm_loadClass_2(this, name, resolve)
+                    let mut normalClass: String = ClassLoader.jm_loadClass_2(JR.cast(this), name, resolve)
                     if (!JR.isNull(normalClass)) {
                         return normalClass
                     }
                 }
-                let mut classBytes: Array<Int32> = jm_loadClassBytesFromFile(this, name)
+                let mut classBytes: Array<Int32> = jm_loadClassBytesFromFile(this, JR.cast(name))
                 if (JR.isNull(classBytes)) {
                     fail JR.toStringOf(JR.newJObject("ClassNotFoundException"))
                 }
-                myClass = JR.cast(jm_defineClass(this, name, classBytes, 0l, Int32.fromNumber(Array.length(classBytes))))
+                myClass = JR.cast(ClassLoader.jm_defineClass_4(JR.cast(this), name, classBytes, 0l, Int32.fromNumber(Array.length(classBytes))))
                 if (JR.isNull(myClass)) {
                     fail JR.toStringOf(JR.newJObject("ClassNotFoundException"))
                 }
-                ignore(Map.jm_put(jstatic_classes(), name, myClass))
+                ignore(Map.jm_put_2(jstatic_classes(), name, myClass))
             } else {
-                ignore(LogBuffer.jm_add(logBuffer, JR.cast({
+                ignore(LogBuffer.jm_add(JR.cast(logBuffer), JR.cast({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogFactory.jm_getInstanceF"))
 JR.cast(jlate(JR.cast("Already Loaded: " ++ name ++ "\nwith: " ++ loadedWith), JR.cast(this), JR.cast(this.f_LOAD_CLASS)))
 })))
             }
-            ignore(jm_resolveClass(this, myClass))
+            ignore(ClassLoader.jm_resolveClass_1(JR.cast(this), myClass))
             return myClass
         }
     return ""
@@ -160,15 +144,15 @@ and jm_loadClassBytesFromFile = (this: AbeClassLoader, name: String) => {
         let mut in: FileInputStream = JR.nullOf()
         let mut cname: String = StringUtil.jm_getInstance().f_EMPTY_STRING
         {
-            cname = jstatic_PATH() ++ JR.replace(name, Int32.fromNumber(Char.code('.')), {
+            cname = jstatic_PATH() ++ JR.replace(name, JR.chr(Int32.fromNumber(Char.code('.'))), JR.chr({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATORCHAR"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("AbPathData.jm_getInstance"))
 JR.cast(jlate())
 })))
-}) ++ this.f_ENCRYPTED_EXTENSION
+})) ++ this.f_ENCRYPTED_EXTENSION
             in = JR.cast(FileInputStream.jnew_1(cname))
-            let mut decrypted: Array<Int32> = AbCryptUtil.jm_decrypt(this.f_abCryptUtil, JR.cast(in), this.f_key)
+            let mut decrypted: Array<Int32> = AbCryptUtil.jm_decrypt(JR.cast(this.f_abCryptUtil), JR.cast(in), JR.cast(this.f_key))
             return decrypted
         }
         return JR.nullOf()
@@ -177,25 +161,25 @@ JR.cast(jlate())
 and jm_oldLoadClass = (this: AbeClassLoader, name: String, resolve: Bool) => {
         let mut loadedWith: String = "findLoadedClass1"
         {
-            let mut myClass: String = jm_findLoadedClass1(this, name)
+            let mut myClass: String = jm_findLoadedClass1(this, JR.cast(name))
             if (JR.isNull(myClass)) {
                 {
                     loadedWith = "super.loadClass"
-                    let mut normalClass: String = jm_loadClass_2(this, name, resolve)
+                    let mut normalClass: String = ClassLoader.jm_loadClass_2(JR.cast(this), name, resolve)
                     if (!JR.isNull(normalClass)) {
                         return normalClass
                     }
                 }
                 loadedWith = "loadClassBytes"
-                let mut classBytes: Array<Int32> = jm_loadClassBytesFromFile(this, name)
+                let mut classBytes: Array<Int32> = jm_loadClassBytesFromFile(this, JR.cast(name))
                 if (JR.isNull(classBytes)) {
                     fail JR.toStringOf(JR.newJObject("ClassNotFoundException"))
                 }
-                myClass = JR.cast(jm_defineClass(this, name, classBytes, 0l, Int32.fromNumber(Array.length(classBytes))))
+                myClass = JR.cast(ClassLoader.jm_defineClass_4(JR.cast(this), name, classBytes, 0l, Int32.fromNumber(Array.length(classBytes))))
                 if (JR.isNull(myClass)) {
                     fail JR.toStringOf(JR.newJObject("ClassNotFoundException"))
                 }
-                ignore(Map.jm_put(jstatic_classes(), name, myClass))
+                ignore(Map.jm_put_2(jstatic_classes(), name, myClass))
             } else {
                 if ({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
@@ -216,12 +200,13 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Already Loaded: " ++ name ++ " w
 })
                 }
             }
-            ignore(jm_resolveClass(this, myClass))
+            ignore(ClassLoader.jm_resolveClass_1(JR.cast(this), myClass))
             return myClass
         }
     return ""
 }
 
+JR.registerSuper("AbeClassLoader", "ClassLoader")
 JR.registerLateBound("AbeClassLoader.jnew_2", jnew_2)
 JR.registerLateBound("AbeClassLoader.jm_findLoadedClass1", jm_findLoadedClass1)
 JR.registerLateBound("AbeClassLoader.jm_loadClass_1", jm_loadClass_1)

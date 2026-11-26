@@ -39,6 +39,8 @@ from "../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLay
 use AllBinaryLayer.{ type AllBinaryLayer }
 from "../../../../../org/allbinary/logic/util/visitor/Visitor.gr" include Visitor
 use Visitor.{ type Visitor }
+from "../../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 from "./ThrustAIVisitorFactory.gr" include ThrustAIVisitorFactory
 use ThrustAIVisitorFactory.{ type ThrustAIVisitorFactory }
 from "./BasicProbabilityAIDataFactory.gr" include BasicProbabilityAIDataFactory
@@ -68,13 +70,16 @@ JR.cast(jlate(JR.cast(hashtable), JR.cast(JR.cast(BasicAI.jstatic_AI_VISITOR()))
         if (JR.isNull(visitorCanBeNull)) {
             visitorCanBeNull = JR.cast(ThrustAIVisitorFactory.jm_getInstance())
         }
-        let mut hashtable2: JObject = JR.cast(BasicProbabilityAIDataFactory.jm_getInstance(BasicProbabilityAIDataFactory.jnew_0()))
+        let mut hashtable2: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicProbabilityAIDataFactory.jm_getInstance"))
+JR.cast(jlate(JR.cast(BasicProbabilityAIDataFactory.jnew_0())))
+})
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
 JR.cast(jlate(JR.cast(hashtable2), JR.cast(BasicAI.jstatic_AI_VISITOR()), JR.cast(LastKeyAIVisitorFactory.jm_getInstance())))
 })
-        let mut artificialIntelligenceInterface: ArtificialIntelligenceInterface = JR.cast(BasicRandomAIFactory.jm_getInstance(BasicRandomAIFactory.jnew_0(), hashtable2, ownerLayerInterface, gameInput))
-        return JR.cast(DiveAndDirectionalTrackingAI.jnew_4(ownerLayerInterface, artificialIntelligenceInterface, gameInput, JR.cast(visitorCanBeNull)))
+        let mut artificialIntelligenceInterface: ArtificialIntelligenceInterface = JR.cast(BasicRandomAIFactory.jm_getInstance(JR.cast(BasicRandomAIFactory.jnew_0()), JR.cast(hashtable2), JR.cast(ownerLayerInterface), JR.cast(gameInput)))
+        return JR.cast(DiveAndDirectionalTrackingAI.jnew_4(JR.cast(ownerLayerInterface), JR.cast(artificialIntelligenceInterface), JR.cast(gameInput), JR.cast(JR.cast(visitorCanBeNull))))
 }
 
 JR.registerLateBound("DiveAndDirectionalTrackingAIFactory.jnew_0", jnew_0)

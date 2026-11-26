@@ -55,7 +55,7 @@ provide let rec jclassName = () => "VirtualKeyboardEventHandler"
 and jstatic_gameKeyEventHandler = () => match (jcell_gameKeyEventHandler) {
   Some(value) => value,
   None => {
-    let value: VirtualKeyboardEventHandler = jnew_0()
+    let value: VirtualKeyboardEventHandler = JR.cast(jnew_0())
     jcell_gameKeyEventHandler = Some(value)
     value
   },
@@ -66,7 +66,7 @@ and jset_gameKeyEventHandler = (value: VirtualKeyboardEventHandler) => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("VirtualKeyboardEventHandler"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_eventStrings: JR.jnull, f_eventListenerInterfaceList: JR.jnull, f_SHOW_EVENT: JR.nullOf(), f_HIDE_EVENT: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("VirtualKeyboardEventHandler"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_eventStrings: JR.nullOf(), f_eventListenerInterfaceList: JR.nullOf(), f_SHOW_EVENT: JR.nullOf(), f_HIDE_EVENT: JR.nullOf(), }
     this.f_SHOW_EVENT = VirtualKeyboardEvent.jnew_1(JR.cast(BooleanFactory.jm_getInstance().f_TRUE))
     this.f_HIDE_EVENT = VirtualKeyboardEvent.jnew_1(JR.cast(BooleanFactory.jm_getInstance().f_FALSE))
         void
@@ -79,12 +79,15 @@ and jm_getInstance = () => {
     
 and jm_process = (this: VirtualKeyboardEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) => {
         let mut virtualKeyboardEventListenerInterface: VirtualKeyboardEventListenerInterface = JR.cast(eventListenerInterface)
-        ignore(VirtualKeyboardEventListenerInterface.jm_onVirtualKeyboardEvent(virtualKeyboardEventListenerInterface, JR.cast(eventObject)))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("VirtualKeyboardEventListenerInterface.jm_onVirtualKeyboardEvent"))
+JR.cast(jlate(JR.cast(virtualKeyboardEventListenerInterface), JR.cast(JR.cast(eventObject))))
+})
 }
     
 and jm_open = (this: VirtualKeyboardEventHandler) => {
         {
-            ignore(Thread.jm_sleep(120l))
+            ignore(Thread.jm_sleep(120L))
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_fireEvent"))
 JR.cast(jlate(JR.cast(this), JR.cast(this.f_SHOW_EVENT)))
@@ -94,7 +97,7 @@ JR.cast(jlate(JR.cast(this), JR.cast(this.f_SHOW_EVENT)))
     
 and jm_close = (this: VirtualKeyboardEventHandler) => {
         {
-            ignore(Thread.jm_sleep(120l))
+            ignore(Thread.jm_sleep(120L))
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicEventHandler.jm_fireEvent"))
 JR.cast(jlate(JR.cast(this), JR.cast(this.f_HIDE_EVENT)))
@@ -102,6 +105,7 @@ JR.cast(jlate(JR.cast(this), JR.cast(this.f_HIDE_EVENT)))
         }
 }
 
+JR.registerSuper("VirtualKeyboardEventHandler", "BasicEventHandler")
 JR.registerLateBound("VirtualKeyboardEventHandler.jnew_0", jnew_0)
 JR.registerLateBound("VirtualKeyboardEventHandler.jm_getInstance", jm_getInstance)
 JR.registerLateBound("VirtualKeyboardEventHandler.jm_process", jm_process)

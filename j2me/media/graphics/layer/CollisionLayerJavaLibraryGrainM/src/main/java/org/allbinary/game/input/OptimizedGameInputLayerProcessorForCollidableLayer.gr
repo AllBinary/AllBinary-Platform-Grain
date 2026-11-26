@@ -46,24 +46,25 @@ provide record OptimizedGameInputLayerProcessorForCollidableLayer {
 provide let rec jclassName = () => "OptimizedGameInputLayerProcessorForCollidableLayer"
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("OptimizedGameInputLayerProcessorForCollidableLayer"), f_commonStrings: JR.jnull, f_layerManager: JR.jnull, }
+    let this = { jobject: JR.newJObject("OptimizedGameInputLayerProcessorForCollidableLayer"), f_commonStrings: JR.nullOf(), f_layerManager: JR.nullOf(), }
         void
     this
 }
     
 and jm_processAt = (this: OptimizedGameInputLayerProcessorForCollidableLayer, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: Int32) => {
         let mut gameInputInterface: AllBinaryGameLayer = JR.cast(layerInterface)
-        ignore(AllBinaryGameLayer.jm_processInput(gameInputInterface, allBinaryLayerManager))
+        ignore(AllBinaryGameLayer.jm_processInput(JR.cast(gameInputInterface), JR.cast(allBinaryLayerManager)))
 }
     
 and jm_isProcessorLayer = (this: OptimizedGameInputLayerProcessorForCollidableLayer, layerInterface: AllBinaryLayer) => {
-        if (AllBinaryLayer.jm_implmentsGameInputInterface(layerInterface)) {
+        if (AllBinaryLayer.jm_implmentsGameInputInterface(JR.cast(layerInterface))) {
             return true
         } else {
             return false
         }
 }
 
+JR.registerSuper("OptimizedGameInputLayerProcessorForCollidableLayer", "LayerProcessor")
 JR.registerLateBound("OptimizedGameInputLayerProcessorForCollidableLayer.jnew_0", jnew_0)
 JR.registerLateBound("OptimizedGameInputLayerProcessorForCollidableLayer.jm_processAt", jm_processAt)
 JR.registerLateBound("OptimizedGameInputLayerProcessorForCollidableLayer.jm_isProcessorLayer", jm_isProcessorLayer)

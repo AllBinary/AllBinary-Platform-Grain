@@ -29,6 +29,10 @@ from "../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
 use NullUtil.{ type NullUtil }
 from "../../../../org/allbinary/logic/io/path/AbPath.gr" include AbPath
 use AbPath.{ type AbPath }
+from "../../../../java/io/FileInputStream.gr" include FileInputStream
+use FileInputStream.{ type FileInputStream }
+from "../../../../java/io/FileOutputStream.gr" include FileOutputStream
+use FileOutputStream.{ type FileOutputStream }
 
 provide record FileStreamFactory {
   jobject: JObject,
@@ -41,7 +45,7 @@ provide let rec jclassName = () => "FileStreamFactory"
 and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
   Some(value) => value,
   None => {
-    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    let value: JObject = JR.cast(NullUtil.jm_getInstance().f_NULL_OBJECT)
     jcell_SINGLETON = Some(value)
     value
   },

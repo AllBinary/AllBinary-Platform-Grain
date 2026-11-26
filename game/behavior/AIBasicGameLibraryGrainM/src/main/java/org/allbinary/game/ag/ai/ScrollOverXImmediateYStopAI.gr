@@ -50,7 +50,7 @@ provide record ScrollOverXImmediateYStopAI {
 provide let rec jclassName = () => "ScrollOverXImmediateYStopAI"
     
 and jnew_2 = (ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
-    let this = { jobject: JR.newJObject("ScrollOverXImmediateYStopAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, }
+    let this = { jobject: JR.newJObject("ScrollOverXImmediateYStopAI"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_ownerLayerInterface: JR.nullOf(), f_gameInput: JR.nullOf(), f_lastKey: 0l, }
         void
     this
 }
@@ -60,27 +60,28 @@ and jm_processAI = (this: ScrollOverXImmediateYStopAI, allBinaryLayerManager: Al
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
 JR.cast(jlate(JR.cast(this)))
 })
-        let mut x: Int32 = AllBinaryLayer.jm_getXP(ownerLayerInterface)
-        let mut y: Int32 = AllBinaryLayer.jm_getYP(ownerLayerInterface)
-        let mut x2: Int32 = AllBinaryLayer.jm_getX2(ownerLayerInterface)
-        let mut y2: Int32 = AllBinaryLayer.jm_getY2(ownerLayerInterface)
-        let mut width: Int32 = AllBinaryLayer.jm_getWidth(ownerLayerInterface)
-        let mut height: Int32 = AllBinaryLayer.jm_getHeight(ownerLayerInterface)
+        let mut x: Int32 = AllBinaryLayer.jm_getXP(JR.cast(ownerLayerInterface))
+        let mut y: Int32 = AllBinaryLayer.jm_getYP(JR.cast(ownerLayerInterface))
+        let mut x2: Int32 = AllBinaryLayer.jm_getX2(JR.cast(ownerLayerInterface))
+        let mut y2: Int32 = AllBinaryLayer.jm_getY2(JR.cast(ownerLayerInterface))
+        let mut width: Int32 = AllBinaryLayer.jm_getWidth(JR.cast(ownerLayerInterface))
+        let mut height: Int32 = AllBinaryLayer.jm_getHeight(JR.cast(ownerLayerInterface))
         let mut displayInfo: DisplayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
-        if (Int32.(>)(x2, DisplayInfoSingleton.jm_getLastWidth(displayInfo))) {
-            ignore(AllBinaryLayer.jm_setPosition(ownerLayerInterface, 0l, y, AllBinaryLayer.jm_getZP(ownerLayerInterface)))
+        if (Int32.(>)(x2, DisplayInfoSingleton.jm_getLastWidth(JR.cast(displayInfo)))) {
+            ignore(AllBinaryLayer.jm_setPosition(JR.cast(ownerLayerInterface), 0l, y, AllBinaryLayer.jm_getZP(JR.cast(ownerLayerInterface))))
         }
-        if (Int32.(>)(y2, DisplayInfoSingleton.jm_getLastHeight(displayInfo))) {
-            ignore(AllBinaryLayer.jm_setPosition(ownerLayerInterface, x, Int32.(-)(DisplayInfoSingleton.jm_getLastHeight(displayInfo), height), AllBinaryLayer.jm_getZP(ownerLayerInterface)))
+        if (Int32.(>)(y2, DisplayInfoSingleton.jm_getLastHeight(JR.cast(displayInfo)))) {
+            ignore(AllBinaryLayer.jm_setPosition(JR.cast(ownerLayerInterface), x, Int32.(-)(DisplayInfoSingleton.jm_getLastHeight(JR.cast(displayInfo)), height), AllBinaryLayer.jm_getZP(JR.cast(ownerLayerInterface))))
         }
         if (Int32.(<)(x, 0l)) {
-            ignore(AllBinaryLayer.jm_setPosition(ownerLayerInterface, Int32.(-)(DisplayInfoSingleton.jm_getLastWidth(displayInfo), width), y, AllBinaryLayer.jm_getZP(ownerLayerInterface)))
+            ignore(AllBinaryLayer.jm_setPosition(JR.cast(ownerLayerInterface), Int32.(-)(DisplayInfoSingleton.jm_getLastWidth(JR.cast(displayInfo)), width), y, AllBinaryLayer.jm_getZP(JR.cast(ownerLayerInterface))))
         }
         if (Int32.(<)(y, 0l)) {
-            ignore(AllBinaryLayer.jm_setPosition(ownerLayerInterface, x, 0l, AllBinaryLayer.jm_getZP(ownerLayerInterface)))
+            ignore(AllBinaryLayer.jm_setPosition(JR.cast(ownerLayerInterface), x, 0l, AllBinaryLayer.jm_getZP(JR.cast(ownerLayerInterface))))
         }
 }
 
+JR.registerSuper("ScrollOverXImmediateYStopAI", "BasicAI")
 JR.registerLateBound("ScrollOverXImmediateYStopAI.jnew_2", jnew_2)
 JR.registerLateBound("ScrollOverXImmediateYStopAI.jm_processAI", jm_processAI)
 

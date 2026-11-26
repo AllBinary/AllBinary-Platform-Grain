@@ -46,24 +46,28 @@ provide record GameInputLayerProcessor {
 provide let rec jclassName = () => "GameInputLayerProcessor"
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("GameInputLayerProcessor"), f_commonStrings: JR.jnull, f_layerManager: JR.jnull, }
+    let this = { jobject: JR.newJObject("GameInputLayerProcessor"), f_commonStrings: JR.nullOf(), f_layerManager: JR.nullOf(), }
         void
     this
 }
     
 and jm_processAt = (this: GameInputLayerProcessor, allBinaryLayerManager: AllBinaryLayerManager, layerInterface: AllBinaryLayer, index: Int32) => {
         let mut gameInputInterface: GameInputInterface = JR.cast(layerInterface)
-        ignore(GameInputInterface.jm_processInput(gameInputInterface, allBinaryLayerManager))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("GameInputInterface.jm_processInput"))
+JR.cast(jlate(JR.cast(gameInputInterface), JR.cast(allBinaryLayerManager)))
+})
 }
     
 and jm_isProcessorLayer = (this: GameInputLayerProcessor, layerInterface: AllBinaryLayer) => {
-        if (AllBinaryLayer.jm_implmentsGameInputInterface(layerInterface)) {
+        if (AllBinaryLayer.jm_implmentsGameInputInterface(JR.cast(layerInterface))) {
             return true
         } else {
             return false
         }
 }
 
+JR.registerSuper("GameInputLayerProcessor", "LayerProcessor")
 JR.registerLateBound("GameInputLayerProcessor.jnew_0", jnew_0)
 JR.registerLateBound("GameInputLayerProcessor.jm_processAt", jm_processAt)
 JR.registerLateBound("GameInputLayerProcessor.jm_isProcessorLayer", jm_isProcessorLayer)

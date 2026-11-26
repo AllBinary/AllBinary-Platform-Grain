@@ -69,17 +69,17 @@ and jnew_3 = (onDemandResourcesFactory: OnDemandResourcesFactory, gameLayerPlace
     
 and jm_init = (this: OnDemandLoader, imageCache: JObject, level: Int32, loadingString: String) => {
         let mut resourceLoadingLevelFactory: ResourceLoadingLevelFactory = JR.cast(ResourceLoadingLevelFactory.jm_getInstance())
-        if (Features.jm_isFeature(Features.jm_getInstance(), MainFeatureFactory.jm_getInstance().f_LOAD_ALL)) {
-            if (BaseResourceAnimationInterfaceFactoryInterfaceFactory.jm_isInitialized(this.f_resourceAnimationInterfaceFactoryInterfaceFactory)) {
+        if (Features.jm_isFeature(JR.cast(Features.jm_getInstance()), JR.cast(MainFeatureFactory.jm_getInstance().f_LOAD_ALL))) {
+            if (BaseResourceAnimationInterfaceFactoryInterfaceFactory.jm_isInitialized(JR.cast(this.f_resourceAnimationInterfaceFactoryInterfaceFactory))) {
                 return void
             }
-            ignore(jm_initAll(this, imageCache, loadingString))
+            ignore(jm_initAll(this, JR.cast(imageCache), JR.cast(loadingString)))
         } else if ((level != {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ResourceLoadingLevel.jm_getLevel"))
 JR.cast(jlate(JR.cast(resourceLoadingLevelFactory.f_LOAD_ALL)))
 })) {
-            let mut layerPlacementInterfaceBasicArrayListFactoryInterface: LayerPlacementInterfaceBasicArrayListFactoryInterface = JR.cast(GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory.jm_getInstance(this.f_gameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory, level))
-            ignore(jm_initLevel(this, layerPlacementInterfaceBasicArrayListFactoryInterface, imageCache, level, loadingString))
+            let mut layerPlacementInterfaceBasicArrayListFactoryInterface: LayerPlacementInterfaceBasicArrayListFactoryInterface = JR.cast(GameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory.jm_getInstance(JR.cast(this.f_gameLayerPlacementInterfaceBasicArrayListFactoryInterfaceFactory), level))
+            ignore(jm_initLevel(this, JR.cast(layerPlacementInterfaceBasicArrayListFactoryInterface), JR.cast(imageCache), level, JR.cast(loadingString)))
         }
     return void
 }
@@ -89,14 +89,23 @@ and jm_initAll = (this: OnDemandLoader, imageCache: JObject, loadingString: Stri
         let mut portion: Int32 = 120l
         let mut onDemandResources: OnDemandResources = JR.nullOf()
         {
-            let mut onDemandIndex: Int32 = OnDemandResourcesFactory.jm_size(this.f_onDemandResourcesFactory)
+            let mut onDemandIndex: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("OnDemandResourcesFactory.jm_size"))
+JR.cast(jlate(JR.cast(this.f_onDemandResourcesFactory)))
+}
             let mut jfirst = true
             while (true) {
                 jfirst = false
                 if (!(Int32.(>=)({ onDemandIndex = Int32.(-)(onDemandIndex, 1l); onDemandIndex }, 0l))) break
-            onDemandResources = JR.cast(OnDemandResourcesFactory.jm_remove(this.f_onDemandResourcesFactory, onDemandIndex))
-            if ((!JR.isSame(onDemandResources, OnDemandResources.jstatic_NULL_ON_DEMAND_RESOURCES()))) {
-                index = OnDemandResources.jm_initAt(onDemandResources, imageCache, this.f_resourceAnimationInterfaceFactoryInterfaceFactory, portion, loadingString, index)
+            onDemandResources = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("OnDemandResourcesFactory.jm_remove"))
+JR.cast(jlate(JR.cast(this.f_onDemandResourcesFactory), JR.cast(onDemandIndex)))
+})
+            if (!JR.isSame(onDemandResources, OnDemandResources.jstatic_NULL_ON_DEMAND_RESOURCES())) {
+                index = {
+let jlate: (JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("OnDemandResources.jm_initAt"))
+JR.cast(jlate(JR.cast(onDemandResources), JR.cast(imageCache), JR.cast(this.f_resourceAnimationInterfaceFactoryInterfaceFactory), JR.cast(portion), JR.cast(loadingString), JR.cast(index)))
+}
             }
             }
         }
@@ -106,10 +115,10 @@ and jm_initLevel = (this: OnDemandLoader, layerPlacementInterfaceBasicArrayListF
         let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
         let mut portion: Int32 = 120l
         let mut index: Int32 = 0l
-        let mut onDemandArray: Array<Int32> = LayerPlacementInterfaceBasicArrayListFactoryInterface.jm_getOnDemandResources(layerPlacementInterfaceBasicArrayListFactoryInterface)
+        let mut onDemandArray: Array<Int32> = LayerPlacementInterfaceBasicArrayListFactoryInterface.jm_getOnDemandResources(JR.cast(layerPlacementInterfaceBasicArrayListFactoryInterface))
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), commonStrings.f_START), Int32.fromNumber(Array.length(onDemandArray))))), JR.cast(this), JR.cast("initLevel")))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(commonStrings.f_START))), Int32.fromNumber(Array.length(onDemandArray)))))), JR.cast(this), JR.cast("initLevel")))
 })
         let mut onDemandResources: OnDemandResources = JR.nullOf()
         {
@@ -118,9 +127,15 @@ JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMak
             while (true) {
                 jfirst = false
                 if (!(Int32.(>=)({ onDemandIndex = Int32.(-)(onDemandIndex, 1l); onDemandIndex }, 0l))) break
-            onDemandResources = JR.cast(OnDemandResourcesFactory.jm_remove(this.f_onDemandResourcesFactory, onDemandArray[Int32.toNumber(onDemandIndex)]))
-            if ((!JR.isSame(onDemandResources, OnDemandResources.jstatic_NULL_ON_DEMAND_RESOURCES()))) {
-                index = OnDemandResources.jm_initAt(onDemandResources, imageCache, this.f_resourceAnimationInterfaceFactoryInterfaceFactory, portion, loadingString, index)
+            onDemandResources = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("OnDemandResourcesFactory.jm_remove"))
+JR.cast(jlate(JR.cast(this.f_onDemandResourcesFactory), JR.cast(onDemandArray[Int32.toNumber(onDemandIndex)])))
+})
+            if (!JR.isSame(onDemandResources, OnDemandResources.jstatic_NULL_ON_DEMAND_RESOURCES())) {
+                index = {
+let jlate: (JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("OnDemandResources.jm_initAt"))
+JR.cast(jlate(JR.cast(onDemandResources), JR.cast(imageCache), JR.cast(this.f_resourceAnimationInterfaceFactoryInterfaceFactory), JR.cast(portion), JR.cast(loadingString), JR.cast(index)))
+}
             }
             }
         }

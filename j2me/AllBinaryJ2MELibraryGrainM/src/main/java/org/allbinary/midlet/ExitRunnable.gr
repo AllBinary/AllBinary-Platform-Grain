@@ -47,7 +47,7 @@ provide record ExitRunnable {
 provide let rec jclassName = () => "ExitRunnable"
     
 and jnew_3 = (midlet: AllBinaryMidlet, processor: Processor, isProgress: Bool) => {
-    let this = { jobject: JR.newJObject("ExitRunnable"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_midlet: JR.nullOf(), f_processor: JR.nullOf(), f_isProgress: false, }
+    let this = { jobject: JR.newJObject("ExitRunnable"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_midlet: JR.nullOf(), f_processor: JR.nullOf(), f_isProgress: false, }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -68,17 +68,26 @@ and jm_run = (this: ExitRunnable) => {
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_START_RUNNABLE), JR.cast(this), JR.cast(this.f_commonStrings.f_RUN)))
 })
-            ignore(AllBinaryMidlet.jm_destroyAppInRunnable(this.f_midlet, false, this.f_isProgress))
-            ignore(AllBinaryMidlet.jm_setDisplay(this.f_midlet, JR.cast({
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryMidlet.jm_destroyAppInRunnable"))
+JR.cast(jlate(JR.cast(this.f_midlet), JR.cast(false), JR.cast(this.f_isProgress)))
+})
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AllBinaryMidlet.jm_setDisplay"))
+JR.cast(jlate(JR.cast(this.f_midlet), JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("NullCanvas.jstatic_NULL_CANVAS"))
 JR.cast(jlate())
 })))
-            ignore(AllBinaryMidlet.jm_notifyDestroyed(this.f_midlet))
+})
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MIDlet.jm_notifyDestroyed"))
+JR.cast(jlate(JR.cast(this.f_midlet)))
+})
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_END_RUNNABLE), JR.cast(this), JR.cast(this.f_commonStrings.f_RUN)))
 })
-            ignore(Processor.jm_process(this.f_processor))
+            ignore(Processor.jm_process(JR.cast(this.f_processor)))
         }
 }
 

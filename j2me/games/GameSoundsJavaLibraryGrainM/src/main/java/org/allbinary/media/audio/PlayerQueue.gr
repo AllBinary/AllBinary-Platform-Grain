@@ -76,8 +76,8 @@ and jnew_1 = (max: Int32) => {
     
 and jm_add = (this: PlayerQueue, sound: Sound) => {
         {
-            if (!BasicArrayList.jm_contains(this.f_list, JR.cast(sound))) {
-                ignore(BasicArrayList.jm_add(this.f_list, JR.cast(sound)))
+            if (!BasicArrayList.jm_contains(JR.cast(this.f_list), JR.cast(sound))) {
+                ignore(BasicArrayList.jm_add(JR.cast(this.f_list), JR.cast(sound)))
             }
         }
 }
@@ -86,13 +86,19 @@ and jm_process = (this: PlayerQueue) => {
         let mut sound: Sound = JR.cast(NoSound.jm_getInstance())
         {
             let mut played: Bool = false
-            if (Int32.(>)(BasicArrayList.jm_size(this.f_list), 0l)) {
-                sound = JR.cast(BasicArrayList.jm_removeAt(this.f_list, 0l))
+            if (Int32.(>)(BasicArrayList.jm_size(JR.cast(this.f_list)), 0l)) {
+                sound = JR.cast(BasicArrayList.jm_removeAt(JR.cast(this.f_list), 0l))
                 if (!JR.isNull(sound)) {
-                    ignore(JR.className(JR.cast(Sound.jm_getPlayerP(sound))))
+                    ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Player.jm_start"))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Sound.jm_getPlayerP"))
+JR.cast(jlate(JR.cast(sound)))
+})))
+})
                 }
-                while (Int32.(>)(BasicArrayList.jm_size(this.f_list), this.f_max)) {
-                    ignore(BasicArrayList.jm_removeAt(this.f_list, 0l))
+                while (Int32.(>)(BasicArrayList.jm_size(JR.cast(this.f_list)), this.f_max)) {
+                    ignore(BasicArrayList.jm_removeAt(JR.cast(this.f_list), 0l))
                 }
                 played = true
             }
@@ -102,11 +108,11 @@ and jm_process = (this: PlayerQueue) => {
 }
     
 and jm_clear = (this: PlayerQueue) => {
-        ignore(BasicArrayList.jm_clear(this.f_list))
+        ignore(BasicArrayList.jm_clear(JR.cast(this.f_list)))
 }
     
 and jm_toString = (this: PlayerQueue) => {
-        return StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), jstatic_TOTAL()), BasicArrayList.jm_size(this.f_list)))
+        return StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(jstatic_TOTAL()))), BasicArrayList.jm_size(JR.cast(this.f_list)))))
 }
 
 JR.registerLateBound("PlayerQueue.jnew_1", jnew_1)

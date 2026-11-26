@@ -27,6 +27,14 @@ from "../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
 from "../../../org/allbinary/game/configuration/GameConfigurationCentral.gr" include GameConfigurationCentral
 use GameConfigurationCentral.{ type GameConfigurationCentral }
+from "../../../java/lang/Integer.gr" include Integer
+from "../../../java/lang/Long.gr" include Long
+from "../../../java/lang/Short.gr" include Short
+from "../../../java/lang/Byte.gr" include Byte
+from "../../../java/lang/Character.gr" include Character
+from "../../../java/lang/Float.gr" include Float
+from "../../../java/lang/Double.gr" include Double
+from "../../../java/lang/Boolean.gr" include Boolean
 from "./AllBinaryVibrationME.gr" include AllBinaryVibrationME
 use AllBinaryVibrationME.{ type AllBinaryVibrationME }
 from "./AllBinaryNoVibration.gr" include AllBinaryNoVibration
@@ -43,7 +51,7 @@ provide let rec jclassName = () => "AllBinaryVibration"
 and jstatic_VIBRATION = () => match (jcell_VIBRATION) {
   Some(value) => value,
   None => {
-    let value: AllBinaryVibrationME = AllBinaryNoVibration.jstatic_NO_VIBRATION()
+    let value: AllBinaryVibrationME = JR.cast(AllBinaryNoVibration.jstatic_NO_VIBRATION())
     jcell_VIBRATION = Some(value)
     value
   },
@@ -64,7 +72,7 @@ and jm_getInstance = () => {
 }
     
 and jm_init = () => {
-        if ((JR.className(JR.cast({
+        if ((Integer.jm_intValue(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getValue"))
 JR.cast(jlate(JR.cast(GameConfigurationCentral.jm_getInstance().f_VIBRATION)))
 })) == 0l)) {
@@ -78,6 +86,7 @@ and jm_vibrate = (this: AllBinaryVibration, duration: Int32, type_: Int32, volum
     void
 }
 
+JR.registerSuper("AllBinaryVibration", "AllBinaryVibrationME")
 JR.registerLateBound("AllBinaryVibration.jnew_0", jnew_0)
 JR.registerLateBound("AllBinaryVibration.jm_getInstance", jm_getInstance)
 JR.registerLateBound("AllBinaryVibration.jm_init", jm_init)

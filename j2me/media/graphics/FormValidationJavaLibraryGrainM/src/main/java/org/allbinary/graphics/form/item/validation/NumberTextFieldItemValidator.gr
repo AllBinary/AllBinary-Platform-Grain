@@ -38,6 +38,12 @@ use BasicArrayList.{ type BasicArrayList }
 from "../../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
 use BasicArrayListD.{ type BasicArrayListD }
 from "../../../../../../java/lang/Integer.gr" include Integer
+from "../../../../../../java/lang/Long.gr" include Long
+from "../../../../../../java/lang/Short.gr" include Short
+from "../../../../../../java/lang/Byte.gr" include Byte
+from "../../../../../../java/lang/Character.gr" include Character
+from "../../../../../../java/lang/Float.gr" include Float
+from "../../../../../../java/lang/Double.gr" include Double
 from "../../../../../../java/lang/Boolean.gr" include Boolean
 
 provide record NumberTextFieldItemValidator {
@@ -52,7 +58,7 @@ provide record NumberTextFieldItemValidator {
 provide let rec jclassName = () => "NumberTextFieldItemValidator"
     
 and jnew_4 = (textFieldItem: JObject, maxChars: Int32, min: Int32, max: Int32) => {
-    let this = { jobject: JR.newJObject("NumberTextFieldItemValidator"), f_textFieldItem: JR.jnull, f_min: 0l, f_max: 0l, f_maxChars: 0l, }
+    let this = { jobject: JR.newJObject("NumberTextFieldItemValidator"), f_textFieldItem: JR.nullOf(), f_min: 0l, f_max: 0l, f_maxChars: 0l, }
     
     
     
@@ -112,30 +118,31 @@ JR.cast(jlate(JR.cast(this.f_textFieldItem)))
         let mut stringMaker: StringMaker = StringMaker.jnew_0()
         if ((Int32.(>)(textLength, 0l) && Int32.(<)(textLength, this.f_maxChars))) {
             {
-                let mut number: Int32 = SmallIntegerSingletonFactory.jm_createInstance(smallIntegerSingletonFactory, Integer.jm_parseInt({
+                let mut number: Int32 = SmallIntegerSingletonFactory.jm_createInstance(JR.cast(smallIntegerSingletonFactory), Integer.jm_parseInt({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABTextFieldItem.jm_getString"))
 JR.cast(jlate(JR.cast(this.f_textFieldItem)))
 }))
-                if (Int32.(>)(Integer.jm_intValue(number), this.f_min)) {
-                    ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
-                    ignore(BasicArrayList.jm_add(list, JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(stringMaker, name), " is to small")))))
-                } else if (Int32.(>)(Integer.jm_intValue(number), this.f_max)) {
-                    ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
-                    ignore(BasicArrayList.jm_add(list, JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(stringMaker, name), " is to large")))))
+                if (Int32.(>)(Integer.jm_intValue(JR.cast(number)), this.f_min)) {
+                    ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
+                    ignore(BasicArrayList.jm_add(JR.cast(list), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast(name))), JR.cast(" is to small")))))))
+                } else if (Int32.(>)(Integer.jm_intValue(JR.cast(number)), this.f_max)) {
+                    ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
+                    ignore(BasicArrayList.jm_add(JR.cast(list), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast(name))), JR.cast(" is to large")))))))
                 }
             }
         } else {
             if (Int32.(<)(textLength, 1l)) {
-                ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
-                ignore(BasicArrayList.jm_add(list, JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(stringMaker, name), " is to short")))))
+                ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
+                ignore(BasicArrayList.jm_add(JR.cast(list), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast(name))), JR.cast(" is to short")))))))
             } else if (Int32.(>)(textLength, this.f_maxChars)) {
-                ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
-                ignore(BasicArrayList.jm_add(list, JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(stringMaker, name), " is to long")))))
+                ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
+                ignore(BasicArrayList.jm_add(JR.cast(list), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast(name))), JR.cast(" is to long")))))))
             }
         }
         return list
 }
 
+JR.registerSuper("NumberTextFieldItemValidator", "ValidatorBase")
 JR.registerLateBound("NumberTextFieldItemValidator.jnew_4", jnew_4)
 JR.registerLateBound("NumberTextFieldItemValidator.jm_isNumberValid", jm_isNumberValid)
 JR.registerLateBound("NumberTextFieldItemValidator.jm_toNumberVector", jm_toNumberVector)

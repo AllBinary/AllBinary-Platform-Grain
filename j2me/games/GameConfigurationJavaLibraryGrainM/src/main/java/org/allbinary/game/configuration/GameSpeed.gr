@@ -25,6 +25,14 @@ from "char" include Char
 from "array" include Array
 from "../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/lang/Long.gr" include Long
+from "../../../../java/lang/Short.gr" include Short
+from "../../../../java/lang/Byte.gr" include Byte
+from "../../../../java/lang/Character.gr" include Character
+from "../../../../java/lang/Float.gr" include Float
+from "../../../../java/lang/Double.gr" include Double
+from "../../../../java/lang/Boolean.gr" include Boolean
 from "./GameConfigurationCentral.gr" include GameConfigurationCentral
 use GameConfigurationCentral.{ type GameConfigurationCentral }
 from "./GameConfiguration.gr" include GameConfiguration
@@ -41,7 +49,7 @@ provide let rec jclassName = () => "GameSpeed"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: GameSpeed = jnew_0()
+    let value: GameSpeed = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -57,13 +65,31 @@ and jnew_0 = () => {
 }
     
 and jm_getSpeed = (this: GameSpeed) => {
-        let mut speedGameConfiguration: GameConfiguration = JR.cast(GameConfigurationCentral.jm_getInstance().f_SPEED)
-        return (Int32.(+)(Int32.(-)(JR.className(JR.cast(GameConfiguration.jm_getMaxValue(speedGameConfiguration))), JR.className(JR.cast(GameConfiguration.jm_getValue(speedGameConfiguration)))), 1l))
+        let mut speedGameConfiguration: GameConfiguration = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationCentral.f_SPEED"))
+JR.cast(jlate(JR.cast(GameConfigurationCentral.jm_getInstance())))
+})
+        return (Int32.(+)(Int32.(-)(Integer.jm_intValue(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getMaxValue"))
+JR.cast(jlate(JR.cast(speedGameConfiguration)))
+})), Integer.jm_intValue(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getValue"))
+JR.cast(jlate(JR.cast(speedGameConfiguration)))
+}))), 1l))
 }
     
 and jm_getDelay = (this: GameSpeed) => {
-        let mut speedGameConfiguration: GameConfiguration = JR.cast(GameConfigurationCentral.jm_getInstance().f_SPEED)
-        return Int32.(*)(19l, (Int32.(-)(JR.className(JR.cast(GameConfiguration.jm_getMaxValue(speedGameConfiguration))), JR.className(JR.cast(GameConfiguration.jm_getValue(speedGameConfiguration))))))
+        let mut speedGameConfiguration: GameConfiguration = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfigurationCentral.f_SPEED"))
+JR.cast(jlate(JR.cast(GameConfigurationCentral.jm_getInstance())))
+})
+        return Int32.(*)(19l, (Int32.(-)(Integer.jm_intValue(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getMaxValue"))
+JR.cast(jlate(JR.cast(speedGameConfiguration)))
+})), Integer.jm_intValue(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameConfiguration.jm_getValue"))
+JR.cast(jlate(JR.cast(speedGameConfiguration)))
+})))))
 }
     
 and jm_getInstance = () => {

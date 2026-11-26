@@ -95,6 +95,24 @@ echo "Grain modules: $count"
 
 output="$("$compiler" "${compiler_flags[@]}" "$check" 2>&1)"
 status=$?
+# grain 0.7.2 can abort in binaryen (Assertion failed: !isBasic() in getRecGroup, isSignature() in getSignature) for a
+# program that compiles from another folder: the same tree failed every time under /tmp/grainXXXXXX and passed under a
+# longer path, so the abort depends on the module paths, not the code. It is retried from folders of other path lengths.
+retry_trees=""
+attempt=1
+while [ "$attempt" -le 4 ] && echo "$output" | grep -q "Aborted(Assertion failed"; do
+    padding="$(printf '%*s' "$((attempt * 7))" '' | tr ' ' 'r')"
+    retry_tree="$(mktemp -d "/tmp/grain${padding}XXXXXX")"
+    retry_trees="$retry_trees $retry_tree"
+    cp -R "$short_tree/." "$retry_tree/"
+    find "$retry_tree" -type f \( -name '*.gro' -o -name '*.wasm' \) -delete
+    cd "$retry_tree" || exit 1
+    echo "Grain compiler aborted in binaryen; retry $attempt from $retry_tree"
+    output="$("$compiler" "${compiler_flags[@]}" "$check" 2>&1)"
+    status=$?
+    attempt=$((attempt + 1))
+done
+[ -n "$retry_trees" ] && cd / && rm -rf $retry_trees
 echo "$output"
 if [ "$status" = "0" ] && ! echo "$output" | grep -q -E "Error|error:"; then
     exit 0

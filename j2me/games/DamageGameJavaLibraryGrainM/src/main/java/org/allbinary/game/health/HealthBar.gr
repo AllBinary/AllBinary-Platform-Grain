@@ -56,13 +56,25 @@ and jnew_4 = (layerInterface: AllBinaryLayer, healthInterface: Health, animation
         this.f_allbinaryLayer = JR.cast(layerInterface)
         this.f_animationInterface = JR.cast(animationInterface)
         this.f_healthInterface = JR.cast(healthInterface)
-        ignore(HealthInterface.jm_addListener(this.f_healthInterface, JR.cast(this)))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("HealthInterface.jm_addListener"))
+JR.cast(jlate(JR.cast(this.f_healthInterface), JR.cast(this)))
+})
         ignore(jm_onHealthChange(this))
     this
 }
     
 and jm_onHealthChange = (this: HealthBar) => {
-        ignore(HealthBarAnimation.jm_onHealthChange(this.f_animationInterface, Int32.(/)(Int32.(*)(HealthInterface.jm_getHealth(this.f_healthInterface), AllBinaryLayer.jm_getWidth(this.f_allbinaryLayer)), HealthInterface.jm_getMaxHealth(this.f_healthInterface))))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("HealthBarAnimation.jm_onHealthChange"))
+JR.cast(jlate(JR.cast(this.f_animationInterface), JR.cast(Int32.(/)(Int32.(*)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HealthInterface.jm_getHealth"))
+JR.cast(jlate(JR.cast(this.f_healthInterface)))
+}, AllBinaryLayer.jm_getWidth(JR.cast(this.f_allbinaryLayer))), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HealthInterface.jm_getMaxHealth"))
+JR.cast(jlate(JR.cast(this.f_healthInterface)))
+}))))
+})
 }
     
 and jm_paint = (this: HealthBar, graphics: JObject) => {
@@ -79,6 +91,7 @@ JR.cast(jlate(JR.cast(this.f_animationInterface), JR.cast(graphics), JR.cast(0l)
 })
 }
 
+JR.registerSuper("HealthBar", "Paintable")
 JR.registerLateBound("HealthBar.jnew_4", jnew_4)
 JR.registerLateBound("HealthBar.jm_onHealthChange", jm_onHealthChange)
 JR.registerLateBound("HealthBar.jm_paint", jm_paint)

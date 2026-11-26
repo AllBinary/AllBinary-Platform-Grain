@@ -31,6 +31,8 @@ from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonString
 use CommonStrings.{ type CommonStrings }
 from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
 use BasicArrayList.{ type BasicArrayList }
+from "../../../../../java/io/FileInputStream.gr" include FileInputStream
+use FileInputStream.{ type FileInputStream }
 from "./SimpleFileUtil.gr" include SimpleFileUtil
 use SimpleFileUtil.{ type SimpleFileUtil }
 
@@ -48,7 +50,7 @@ provide let rec jclassName = () => "FileUtil2"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: FileUtil2 = jnew_0()
+    let value: FileUtil2 = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -63,7 +65,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("FileUtil2"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_streamUtil: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("FileUtil2"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_streamUtil: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -82,7 +84,10 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFileInputStream.jm_cre
 JR.cast(jlate(JR.cast(file)))
 })
         }
-        return SimpleFileUtil.jm_loadFileAsList(SimpleFileUtil.jm_getInstance(), JR.cast(inputStream), max, byteArray1)
+        return {
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("SimpleFileUtil.jm_loadFileAsList"))
+JR.cast(jlate(JR.cast(SimpleFileUtil.jm_getInstance()), JR.cast(inputStream), JR.cast(max), JR.cast(byteArray1)))
+}
 }
 
 JR.registerLateBound("FileUtil2.jnew_0", jnew_0)

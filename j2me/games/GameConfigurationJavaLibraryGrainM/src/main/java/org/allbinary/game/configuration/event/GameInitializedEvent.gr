@@ -43,7 +43,7 @@ provide record GameInitializedEvent {
 provide let rec jclassName = () => "GameInitializedEvent"
     
 and jnew_1 = (anyType: JObject) => {
-    let this = { jobject: JR.newJObject("GameInitializedEvent"), f_source: JR.jnull, f_resourceLoadingLevel: JR.nullOf(), f_level: 0l, }
+    let this = { jobject: JR.newJObject("GameInitializedEvent"), f_source: JR.nullOf(), f_resourceLoadingLevel: JR.nullOf(), f_level: 0l, }
     this.f_resourceLoadingLevel = JR.cast(ResourceLoadingLevelFactory.jm_getInstance().f_LEVEL)
     
         void
@@ -61,13 +61,14 @@ and jm_getLevel = (this: GameInitializedEvent) => {
     
 and jm_setResourceLoadingLevel = (this: GameInitializedEvent, resourceLoadingLevel: ResourceLoadingLevel) => {
         this.f_resourceLoadingLevel = JR.cast(resourceLoadingLevel)
-        this.f_level = ResourceLoadingLevel.jm_getLevel(this.f_resourceLoadingLevel)
+        this.f_level = ResourceLoadingLevel.jm_getLevel(JR.cast(this.f_resourceLoadingLevel))
 }
     
 and jm_getResourceLoadingLevel = (this: GameInitializedEvent) => {
         return this.f_resourceLoadingLevel
 }
 
+JR.registerSuper("GameInitializedEvent", "AllBinaryEventObject")
 JR.registerLateBound("GameInitializedEvent.jnew_1", jnew_1)
 JR.registerLateBound("GameInitializedEvent.jm_setLevel", jm_setLevel)
 JR.registerLateBound("GameInitializedEvent.jm_getLevel", jm_getLevel)

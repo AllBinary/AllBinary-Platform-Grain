@@ -40,6 +40,22 @@ use StringUtil.{ type StringUtil }
 
 provide record InGameOptionsForm {
   jobject: JObject,
+  mut f_device: JObject,
+  mut f_currentDisplay: JObject,
+  mut f_width: Int32,
+  mut f_height: Int32,
+  mut f_fullScreenMode: Bool,
+  mut f_ticker: JObject,
+  mut f_viewPortY: Int32,
+  mut f_viewPortHeight: Int32,
+  mut f_ui: JObject,
+  mut f_title: String,
+  mut f_listener: JObject,
+  mut f_ANDROID_FORM_UI: String,
+  mut f_items: Array<JObject>,
+  mut f_numOfItems: Int32,
+  mut f_focusItemIndex: Int32,
+  mut f_itemStateListener: JObject,
   mut f_logUtil: JObject,
   mut f_commonStrings: JObject,
   mut f_repaintProcessor: JObject,
@@ -55,13 +71,13 @@ provide let rec jclassName = () => "InGameOptionsForm"
 and jstatic_DISPLAY = () => match (jcell_DISPLAY) {
   Some(value) => value,
   None => {
-    let value: JObject = {
+    let value: JObject = JR.cast({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Command.jnew_4"))
 JR.cast(jlate(JR.cast("Options In Game"), JR.cast(StringUtil.jm_getInstance().f_EMPTY_STRING), JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("Command.jstatic_SCREEN"))
 JR.cast(jlate())
 }), JR.cast(1l)))
-}
+})
     jcell_DISPLAY = Some(value)
     value
   },
@@ -74,13 +90,13 @@ and jset_DISPLAY = (value: JObject) => {
 and jstatic_SAVE = () => match (jcell_SAVE) {
   Some(value) => value,
   None => {
-    let value: JObject = {
+    let value: JObject = JR.cast({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Command.jnew_4"))
 JR.cast(jlate(JR.cast("Save"), JR.cast(StringUtil.jm_getInstance().f_EMPTY_STRING), JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("Command.jstatic_SCREEN"))
 JR.cast(jlate())
 }), JR.cast(1l)))
-}
+})
     jcell_SAVE = Some(value)
     value
   },
@@ -93,13 +109,13 @@ and jset_SAVE = (value: JObject) => {
 and jstatic_DEFAULT = () => match (jcell_DEFAULT) {
   Some(value) => value,
   None => {
-    let value: JObject = {
+    let value: JObject = JR.cast({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Command.jnew_4"))
 JR.cast(jlate(JR.cast("Default"), JR.cast(StringUtil.jm_getInstance().f_EMPTY_STRING), JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("Command.jstatic_SCREEN"))
 JR.cast(jlate())
 }), JR.cast(1l)))
-}
+})
     jcell_DEFAULT = Some(value)
     value
   },
@@ -110,7 +126,7 @@ and jset_DEFAULT = (value: JObject) => {
 }
     
 and jnew_4 = (commandListener: CommandListener, title: String, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
-    let this = { jobject: JR.newJObject("InGameOptionsForm"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_repaintProcessor: JR.jnull, f_commandStack: JR.jnull, }
+    let this = { jobject: JR.newJObject("InGameOptionsForm"), f_device: JR.nullOf(), f_currentDisplay: JR.nullOf(), f_width: 0l, f_height: 0l, f_fullScreenMode: false, f_ticker: JR.nullOf(), f_viewPortY: 0l, f_viewPortHeight: 0l, f_ui: JR.nullOf(), f_title: "", f_listener: JR.nullOf(), f_ANDROID_FORM_UI: "", f_items: [> ], f_numOfItems: 0l, f_focusItemIndex: 0l, f_itemStateListener: JR.nullOf(), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_repaintProcessor: JR.nullOf(), f_commandStack: JR.nullOf(), }
         void
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
@@ -123,21 +139,15 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 })))
 })
         let mut gameFeatureFormUtil: GameFeatureFormUtil = JR.cast(GameFeatureFormUtil.jm_getInstance())
-        ignore(GameFeatureFormUtil.jm_addChoiceGroup(gameFeatureFormUtil, JR.cast(this), JR.cast({
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("InGameFeatureChoiceGroups.jm_get"))
-JR.cast(jlate(JR.cast(InGameFeatureChoiceGroups.jm_getExclusiveInstance())))
-}), {
+        ignore(GameFeatureFormUtil.jm_addChoiceGroup(JR.cast(gameFeatureFormUtil), JR.cast(this), JR.cast(InGameFeatureChoiceGroups.jm_get(JR.cast(InGameFeatureChoiceGroups.jm_getExclusiveInstance()))), {
 let jlate: () => JObject = JR.cast(JR.lateBound("Choice.jstatic_EXCLUSIVE"))
 JR.cast(jlate())
 }))
-        ignore(GameFeatureFormUtil.jm_addChoiceGroup(gameFeatureFormUtil, JR.cast(this), JR.cast({
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("InGameFeatureChoiceGroups.jm_get"))
-JR.cast(jlate(JR.cast(InGameFeatureChoiceGroups.jm_getMultipleInstance())))
-}), {
+        ignore(GameFeatureFormUtil.jm_addChoiceGroup(JR.cast(gameFeatureFormUtil), JR.cast(this), JR.cast(InGameFeatureChoiceGroups.jm_get(JR.cast(InGameFeatureChoiceGroups.jm_getMultipleInstance()))), {
 let jlate: () => JObject = JR.cast(JR.lateBound("Choice.jstatic_MULTIPLE"))
 JR.cast(jlate())
 }))
-        ignore(jm_initCommands(this, commandListener))
+        ignore(jm_initCommands(this, JR.cast(commandListener)))
     this
 }
     
@@ -154,9 +164,13 @@ JR.cast(jlate(JR.cast(this), JR.cast(GameCommandsFactory.jm_getInstance().f_CLOS
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CommandForm.jm_addCommand"))
 JR.cast(jlate(JR.cast(this), JR.cast(jstatic_DEFAULT())))
 })
-        ignore(jm_setCommandListener(this, cmdListener))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Displayable.jm_setCommandListener"))
+JR.cast(jlate(JR.cast(this), JR.cast(cmdListener)))
+})
 }
 
+JR.registerSuper("InGameOptionsForm", "CommandForm")
 JR.registerLateBound("InGameOptionsForm.jnew_4", jnew_4)
 JR.registerLateBound("InGameOptionsForm.jm_initCommands", jm_initCommands)
 JR.registerLateBound("InGameOptionsForm.jstatic_DISPLAY", jstatic_DISPLAY)

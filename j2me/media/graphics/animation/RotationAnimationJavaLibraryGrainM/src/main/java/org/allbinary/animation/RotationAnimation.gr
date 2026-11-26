@@ -67,7 +67,7 @@ provide record RotationAnimation {
 provide let rec jclassName = () => "RotationAnimation"
     
 and jnew_3 = (angleInfo: AngleInfo, circularIndexUtil: CircularIndexUtil, animationBehavior: AnimationBehavior) => {
-    let this = { jobject: JR.newJObject("RotationAnimation"), f_basicSetColorUtil: JR.jnull, f_basicColor: JR.jnull, f_colorP: 0l, f_changeBasicColorP: JR.jnull, f_changeColorP: 0l, f_alphaP: 0l, f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_animationBehaviorP: JR.jnull, f_frameUtil: JR.nullOf(), f_directionUtil: JR.nullOf(), f_angleInfo: JR.nullOf(), f_circularIndexUtil: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("RotationAnimation"), f_basicSetColorUtil: JR.nullOf(), f_basicColor: JR.nullOf(), f_colorP: 0l, f_changeBasicColorP: JR.nullOf(), f_changeColorP: 0l, f_alphaP: 0l, f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_animationBehaviorP: JR.nullOf(), f_frameUtil: JR.nullOf(), f_directionUtil: JR.nullOf(), f_angleInfo: JR.nullOf(), f_circularIndexUtil: JR.nullOf(), }
     this.jobject.toStringFunction = () => jm_toString(this)
     this.f_frameUtil = JR.cast(FrameUtil.jm_getInstance())
     this.f_directionUtil = JR.cast(DirectionUtil.jm_getInstance())
@@ -88,11 +88,11 @@ and jm_previousRotationX = (this: RotationAnimation) => {
 }
     
 and jm_nextRotation = (this: RotationAnimation) => {
-        ignore(AngleInfo.jm_adjustAngle(this.f_angleInfo, CircularIndexUtil.jm_next(this.f_circularIndexUtil)))
+        ignore(AngleInfo.jm_adjustAngle(JR.cast(this.f_angleInfo), CircularIndexUtil.jm_next(JR.cast(this.f_circularIndexUtil))))
 }
     
 and jm_previousRotation = (this: RotationAnimation) => {
-        ignore(AngleInfo.jm_adjustAngle(this.f_angleInfo, CircularIndexUtil.jm_previous(this.f_circularIndexUtil)))
+        ignore(AngleInfo.jm_adjustAngle(JR.cast(this.f_angleInfo), CircularIndexUtil.jm_previous(JR.cast(this.f_circularIndexUtil))))
 }
     
 and jm_nextRotationZ = (this: RotationAnimation) => {
@@ -104,37 +104,37 @@ and jm_previousRotationZ = (this: RotationAnimation) => {
 }
     
 and jm_setFrame = (this: RotationAnimation, index: Int32) => {
-        ignore(CircularIndexUtil.jm_setIndex(this.f_circularIndexUtil, index))
-        let mut newFrame: Int32 = CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil)
-        ignore(AngleInfo.jm_adjustAngle(this.f_angleInfo, newFrame))
+        ignore(CircularIndexUtil.jm_setIndex(JR.cast(this.f_circularIndexUtil), index))
+        let mut newFrame: Int32 = CircularIndexUtil.jm_getIndex(JR.cast(this.f_circularIndexUtil))
+        ignore(AngleInfo.jm_adjustAngle(JR.cast(this.f_angleInfo), newFrame))
 }
     
 and jm_setFrameByDirection = (this: RotationAnimation, direction: Direction) => {
-        let mut angle: Angle = JR.cast(DirectionUtil.jm_getFrameAngle(this.f_directionUtil, direction))
-        ignore(jm_adjustFrameToAngle(this, angle))
+        let mut angle: Angle = JR.cast(DirectionUtil.jm_getFrameAngle(JR.cast(this.f_directionUtil), JR.cast(direction)))
+        ignore(jm_adjustFrameToAngle(this, JR.cast(angle)))
 }
     
 and jm_setFrameToAngle = (this: RotationAnimation, angle: Angle) => {
-        ignore(jm_adjustFrameToAngle(this, angle))
+        ignore(jm_adjustFrameToAngle(this, JR.cast(angle)))
 }
     
 and jm_adjustFrameToAngle = (this: RotationAnimation, angle: Angle) => {
-        ignore(jm_adjustFrame(this, Angle.jm_getValue(angle)))
+        ignore(jm_adjustFrame(this, Angle.jm_getValue(JR.cast(angle))))
 }
     
 and jm_adjustFrame = (this: RotationAnimation, angle: Int32) => {
-        ignore(jm_setFrame(this, FrameUtil.jm_getFrameForAngle(this.f_frameUtil, angle, {
+        ignore(jm_setFrame(this, FrameUtil.jm_getFrameForAngle(JR.cast(this.f_frameUtil), angle, {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AngleIncrementInfo.jm_getAngleIncrement"))
-JR.cast(jlate(JR.cast(AngleInfo.jm_getAngleIncrementInfo(this.f_angleInfo))))
+JR.cast(jlate(JR.cast(AngleInfo.jm_getAngleIncrementInfo(JR.cast(this.f_angleInfo)))))
 })))
 }
     
 and jm_getFrame = (this: RotationAnimation) => {
-        return CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil)
+        return CircularIndexUtil.jm_getIndex(JR.cast(this.f_circularIndexUtil))
 }
     
 and jm_getSize = (this: RotationAnimation) => {
-        return CircularIndexUtil.jm_getSize(this.f_circularIndexUtil)
+        return CircularIndexUtil.jm_getSize(JR.cast(this.f_circularIndexUtil))
 }
     
 and jm_getAngleInfoP = (this: RotationAnimation) => {
@@ -142,9 +142,10 @@ and jm_getAngleInfoP = (this: RotationAnimation) => {
 }
     
 and jm_toString = (this: RotationAnimation) => {
-        return StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), jm_toString(this)), "circularIndexUtil: "), CircularIndexUtil.jm_toString(this.f_circularIndexUtil)), "angleInfo: "), AngleInfo.jm_toString(this.f_angleInfo)))
+        return StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(jm_toString(this)))), JR.cast("circularIndexUtil: "))), JR.cast(CircularIndexUtil.jm_toString(JR.cast(this.f_circularIndexUtil))))), JR.cast("angleInfo: "))), JR.cast(AngleInfo.jm_toString(JR.cast(this.f_angleInfo))))))
 }
 
+JR.registerSuper("RotationAnimation", "IndexedAnimation")
 JR.registerLateBound("RotationAnimation.jnew_3", jnew_3)
 JR.registerLateBound("RotationAnimation.jm_nextRotationX", jm_nextRotationX)
 JR.registerLateBound("RotationAnimation.jm_previousRotationX", jm_previousRotationX)

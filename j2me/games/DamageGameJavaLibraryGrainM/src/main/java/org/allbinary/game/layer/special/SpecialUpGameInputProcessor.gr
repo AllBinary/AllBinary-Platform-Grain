@@ -43,15 +43,19 @@ provide record SpecialUpGameInputProcessor {
 provide let rec jclassName = () => "SpecialUpGameInputProcessor"
     
 and jnew_1 = (collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer) => {
-    let this = { jobject: JR.newJObject("SpecialUpGameInputProcessor"), f_collidableDestroyableDamageableLayer: JR.jnull, }
+    let this = { jobject: JR.newJObject("SpecialUpGameInputProcessor"), f_collidableDestroyableDamageableLayer: JR.nullOf(), }
         void
     this
 }
     
 and jm_processEvent = (this: SpecialUpGameInputProcessor, allbinaryLayerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) => {
-        ignore(CollidableDestroyableDamageableLayer.jm_up(JR.cast(this.f_collidableDestroyableDamageableLayer)))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CollidableDestroyableDamageableLayer.jm_up"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_collidableDestroyableDamageableLayer))))
+})
 }
 
+JR.registerSuper("SpecialUpGameInputProcessor", "SpecialGameInputProcessor")
 JR.registerLateBound("SpecialUpGameInputProcessor.jnew_1", jnew_1)
 JR.registerLateBound("SpecialUpGameInputProcessor.jm_processEvent", jm_processEvent)
 

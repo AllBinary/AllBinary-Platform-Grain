@@ -55,7 +55,7 @@ provide let rec jclassName = () => "DestroyedLayerProcessor"
 and jstatic_DESTROYED_LAYER_PROCESSOR = () => match (jcell_DESTROYED_LAYER_PROCESSOR) {
   Some(value) => value,
   None => {
-    let value: BasicLayerProcessor = BasicLayerProcessor.jstatic_NULL_LAYER_PROCESSOR()
+    let value: BasicLayerProcessor = JR.cast(BasicLayerProcessor.jstatic_NULL_LAYER_PROCESSOR())
     jcell_DESTROYED_LAYER_PROCESSOR = Some(value)
     value
   },
@@ -66,7 +66,7 @@ and jset_DESTROYED_LAYER_PROCESSOR = (value: BasicLayerProcessor) => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("DestroyedLayerProcessor"), f_logUtil: JR.jnull, f_list: JR.jnull, }
+    let this = { jobject: JR.newJObject("DestroyedLayerProcessor"), f_logUtil: JR.nullOf(), f_list: JR.nullOf(), }
         void
     this
 }
@@ -84,7 +84,7 @@ and jm_process = (this: DestroyedLayerProcessor, allBinaryLayerManager: AllBinar
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicLayerProcessor.jm_getList"))
 JR.cast(jlate(JR.cast(this)))
 })
-        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
         let mut destroyedEventHandler: DestroyedEventHandler = JR.cast(DestroyedEventHandler.jm_getInstance())
         let mut destroyEventCircularStaticPool: DestroyEventCircularStaticPool = JR.cast(DestroyEventCircularStaticPool.jm_getInstance())
         let mut destroyedEvent: DestroyedEvent = JR.nullOf()
@@ -101,17 +101,18 @@ JR.cast(jlate(JR.cast(this)))
             let mut layerInterfaceCanBeNull: JObject = JR.cast(list.f_objectArray[Int32.toNumber(index)])
             if (!JR.isNull(layerInterfaceCanBeNull)) {
                 layerInterface = JR.cast(layerInterfaceCanBeNull)
-                ignore(AllBinaryLayerManager.jm_remove(allBinaryLayerManager, layerInterface))
-                destroyedEvent = JR.cast(DestroyEventCircularStaticPool.jm_getInstanceForLayer(destroyEventCircularStaticPool, layerInterface))
-                ignore(DestroyedEventHandler.jm_fireEvent(destroyedEventHandler, JR.cast(destroyedEvent)))
+                ignore(AllBinaryLayerManager.jm_remove(JR.cast(allBinaryLayerManager), JR.cast(layerInterface)))
+                destroyedEvent = JR.cast(DestroyEventCircularStaticPool.jm_getInstanceForLayer(JR.cast(destroyEventCircularStaticPool), JR.cast(layerInterface)))
+                ignore(DestroyedEventHandler.jm_fireEvent(JR.cast(destroyedEventHandler), JR.cast(destroyedEvent)))
             } else {
                 let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
             }
             }
         }
-        ignore(BasicArrayList.jm_clear(list))
+        ignore(BasicArrayList.jm_clear(JR.cast(list)))
 }
 
+JR.registerSuper("DestroyedLayerProcessor", "BasicLayerProcessor")
 JR.registerLateBound("DestroyedLayerProcessor.jnew_0", jnew_0)
 JR.registerLateBound("DestroyedLayerProcessor.jm_init", jm_init)
 JR.registerLateBound("DestroyedLayerProcessor.jm_getInstance", jm_getInstance)

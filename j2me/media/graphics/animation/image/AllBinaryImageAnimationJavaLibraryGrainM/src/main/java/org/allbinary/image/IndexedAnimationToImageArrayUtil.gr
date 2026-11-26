@@ -43,8 +43,8 @@ and jnew_0 = () => {
 }
     
 and jm_getInstance = (width: Int32, height: Int32, sequentialAnimationInterface: IndexedAnimation) => {
-        let mut size: Int32 = IndexedAnimation.jm_getAnimationSize(sequentialAnimationInterface)
-        let mut imageArray: Array<JObject> = Array.make(Int32.toNumber(size), JR.jnull)
+        let mut size: Int32 = IndexedAnimation.jm_getAnimationSize(JR.cast(sequentialAnimationInterface))
+        let mut imageArray: Array<JObject> = Array.make(Int32.toNumber(size), JR.nullOf())
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -54,8 +54,11 @@ and jm_getInstance = (width: Int32, height: Int32, sequentialAnimationInterface:
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            ignore(IndexedAnimation.jm_setFrame(sequentialAnimationInterface, index))
-            imageArray[Int32.toNumber(index)] = JR.cast(AnimationFrameToImageUtil.jm_getInstanceWH(AnimationFrameToImageUtil.jm_getInstance(), width, height, JR.cast(sequentialAnimationInterface)))
+            ignore(IndexedAnimation.jm_setFrame(JR.cast(sequentialAnimationInterface), index))
+            imageArray[Int32.toNumber(index)] = JR.cast({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("AnimationFrameToImageUtil.jm_getInstanceWH"))
+JR.cast(jlate(JR.cast(AnimationFrameToImageUtil.jm_getInstance()), JR.cast(width), JR.cast(height), JR.cast(sequentialAnimationInterface)))
+})
             }
         }
         return imageArray

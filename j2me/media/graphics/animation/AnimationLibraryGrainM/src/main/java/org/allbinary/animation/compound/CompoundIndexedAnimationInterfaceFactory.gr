@@ -46,7 +46,7 @@ provide record CompoundIndexedAnimationInterfaceFactory {
 provide let rec jclassName = () => "CompoundIndexedAnimationInterfaceFactory"
     
 and jnew_2 = (basicAnimationInterfaceFactoryInterfaceArray: Array<AnimationInterfaceFactoryInterface>, animationBehaviorFactory: AnimationBehaviorFactory) => {
-    let this = { jobject: JR.newJObject("CompoundIndexedAnimationInterfaceFactory"), f_basicAnimationInterfaceFactoryInterfaceArrayP: [> ], f_animationBehaviorFactory: JR.jnull, }
+    let this = { jobject: JR.newJObject("CompoundIndexedAnimationInterfaceFactory"), f_basicAnimationInterfaceFactoryInterfaceArrayP: [> ], f_animationBehaviorFactory: JR.nullOf(), }
         void
     this
 }
@@ -56,9 +56,13 @@ and jm_createArray = (this: CompoundIndexedAnimationInterfaceFactory, size: Int3
 }
     
 and jm_createAnimation = (this: CompoundIndexedAnimationInterfaceFactory, animationArray: Array<Animation>) => {
-        return JR.cast(CompoundIndexedAnimation.jnew_2(animationArray, JR.cast(AnimationBehaviorFactory.jm_getOrCreateInstance(JR.cast(this.f_animationBehaviorFactory)))))
+        return JR.cast(CompoundIndexedAnimation.jnew_2(JR.cast(animationArray), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationBehaviorFactory.jm_getOrCreateInstance"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationBehaviorFactory))))
+})))
 }
 
+JR.registerSuper("CompoundIndexedAnimationInterfaceFactory", "CompoundAnimationInterfaceFactory")
 JR.registerLateBound("CompoundIndexedAnimationInterfaceFactory.jnew_2", jnew_2)
 JR.registerLateBound("CompoundIndexedAnimationInterfaceFactory.jm_createArray", jm_createArray)
 JR.registerLateBound("CompoundIndexedAnimationInterfaceFactory.jm_createAnimation", jm_createAnimation)

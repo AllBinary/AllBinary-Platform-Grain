@@ -65,7 +65,7 @@ and jm_createMatrix = (this: BasicGraphicsPipeline) => {
     
 and jm_translate = (this: BasicGraphicsPipeline, x: Int32, y: Int32) => {
         let mut newBasicArrayList: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
-        let mut size: Int32 = BasicArrayList.jm_size(this.f_pointBasicArrayList)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(this.f_pointBasicArrayList))
         let mut pointFactory: PointFactory = JR.cast(PointFactory.jm_getInstance())
         let mut secondPoint: GPoint = JR.nullOf()
         {
@@ -78,10 +78,10 @@ and jm_translate = (this: BasicGraphicsPipeline, x: Int32, y: Int32) => {
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             secondPoint = JR.cast(this.f_pointBasicArrayList.f_objectArray[Int32.toNumber(index)])
-            if ((GPoint.jm_getX(secondPoint) != 1000l)) {
-                ignore(BasicArrayList.jm_add(newBasicArrayList, JR.cast(PointFactory.jm_createXY(pointFactory, Int32.(+)(GPoint.jm_getX(secondPoint), x), Int32.(+)(GPoint.jm_getY(secondPoint), y)))))
+            if ((GPoint.jm_getX(JR.cast(secondPoint)) != 1000l)) {
+                ignore(BasicArrayList.jm_add(JR.cast(newBasicArrayList), JR.cast(PointFactory.jm_createXY(JR.cast(pointFactory), Int32.(+)(GPoint.jm_getX(JR.cast(secondPoint)), x), Int32.(+)(GPoint.jm_getY(JR.cast(secondPoint)), y)))))
             } else {
-                ignore(BasicArrayList.jm_add(newBasicArrayList, JR.cast(secondPoint)))
+                ignore(BasicArrayList.jm_add(JR.cast(newBasicArrayList), JR.cast(secondPoint)))
             }
             }
         }
@@ -89,7 +89,7 @@ and jm_translate = (this: BasicGraphicsPipeline, x: Int32, y: Int32) => {
 }
     
 and jm_rotateToAngle = (this: BasicGraphicsPipeline, angle: Angle) => {
-        ignore(jm_rotate(this, Angle.jm_getValue(angle)))
+        ignore(jm_rotate(this, Angle.jm_getValue(JR.cast(angle))))
 }
     
 and jm_rotate = (this: BasicGraphicsPipeline, angle: Int32) => {
@@ -100,7 +100,7 @@ and jm_rotate = (this: BasicGraphicsPipeline, angle: Int32) => {
         let mut secondY: Int64 = 0L
         let mut point: GPoint = JR.nullOf()
         let mut pointFactory: PointFactory = JR.cast(PointFactory.jm_getInstance())
-        let mut size: Int32 = BasicArrayList.jm_size(this.f_pointBasicArrayList)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(this.f_pointBasicArrayList))
         let mut sin: Int64 = 0L
         let mut cos: Int64 = 0L
         {
@@ -113,16 +113,16 @@ and jm_rotate = (this: BasicGraphicsPipeline, angle: Int32) => {
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             secondPoint = JR.cast(this.f_pointBasicArrayList.f_objectArray[Int32.toNumber(index)])
-            if ((GPoint.jm_getX(secondPoint) != 1000l)) {
-                sin = NoDecimalTrigTable.jm_sin(this.f_noDecimalTrigTable, angle)
-                cos = NoDecimalTrigTable.jm_cos(this.f_noDecimalTrigTable, angle)
-                y = Int64.(*)(Int64.fromNumber(Int32.toNumber(GPoint.jm_getY(secondPoint))), sin)
-                secondX = Int64.(-)((Int64.(*)(Int64.fromNumber(Int32.toNumber(GPoint.jm_getX(secondPoint))), cos)), y)
-                secondY = Int64.(+)((Int64.(*)(Int64.fromNumber(Int32.toNumber(GPoint.jm_getX(secondPoint))), sin)), (Int64.(*)(Int64.fromNumber(Int32.toNumber(GPoint.jm_getY(secondPoint))), cos)))
-                point = JR.cast(PointFactory.jm_createXY(pointFactory, Int32.(/)(Int32.fromNumber(Int64.toNumber(secondX)), 10000l), Int32.(/)(Int32.fromNumber(Int64.toNumber(secondY)), 10000l)))
-                ignore(BasicArrayList.jm_add(newBasicArrayList, JR.cast(point)))
+            if ((GPoint.jm_getX(JR.cast(secondPoint)) != 1000l)) {
+                sin = NoDecimalTrigTable.jm_sin(JR.cast(this.f_noDecimalTrigTable), angle)
+                cos = NoDecimalTrigTable.jm_cos(JR.cast(this.f_noDecimalTrigTable), angle)
+                y = Int64.(*)(Int64.fromNumber(Int32.toNumber(GPoint.jm_getY(JR.cast(secondPoint)))), sin)
+                secondX = Int64.(-)((Int64.(*)(Int64.fromNumber(Int32.toNumber(GPoint.jm_getX(JR.cast(secondPoint)))), cos)), y)
+                secondY = Int64.(+)((Int64.(*)(Int64.fromNumber(Int32.toNumber(GPoint.jm_getX(JR.cast(secondPoint)))), sin)), (Int64.(*)(Int64.fromNumber(Int32.toNumber(GPoint.jm_getY(JR.cast(secondPoint)))), cos)))
+                point = JR.cast(PointFactory.jm_createXY(JR.cast(pointFactory), Int32.(/)(Int32.fromNumber(Int64.toNumber(secondX)), 10000l), Int32.(/)(Int32.fromNumber(Int64.toNumber(secondY)), 10000l)))
+                ignore(BasicArrayList.jm_add(JR.cast(newBasicArrayList), JR.cast(point)))
             } else {
-                ignore(BasicArrayList.jm_add(newBasicArrayList, JR.cast(secondPoint)))
+                ignore(BasicArrayList.jm_add(JR.cast(newBasicArrayList), JR.cast(secondPoint)))
             }
             }
         }
@@ -136,7 +136,7 @@ and jm_mirror = (this: BasicGraphicsPipeline, width: Int32) => {
         let mut secondPoint: GPoint = JR.nullOf()
         let mut newX: Int32 = 0l
         let mut point: GPoint = JR.nullOf()
-        let mut size: Int32 = BasicArrayList.jm_size(this.f_pointBasicArrayList)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(this.f_pointBasicArrayList))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -147,17 +147,17 @@ and jm_mirror = (this: BasicGraphicsPipeline, width: Int32) => {
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             secondPoint = JR.cast(this.f_pointBasicArrayList.f_objectArray[Int32.toNumber(index)])
-            if ((GPoint.jm_getX(secondPoint) != 1000l)) {
+            if ((GPoint.jm_getX(JR.cast(secondPoint)) != 1000l)) {
                 newX = 0l
-                if (Int32.(>)(GPoint.jm_getX(secondPoint), halfWidth)) {
-                    newX = Int32.(-)(halfWidth, (Int32.(-)(GPoint.jm_getX(secondPoint), halfWidth)))
+                if (Int32.(>)(GPoint.jm_getX(JR.cast(secondPoint)), halfWidth)) {
+                    newX = Int32.(-)(halfWidth, (Int32.(-)(GPoint.jm_getX(JR.cast(secondPoint)), halfWidth)))
                 } else {
-                    newX = Int32.(+)(halfWidth, (Int32.(-)(halfWidth, GPoint.jm_getX(secondPoint))))
+                    newX = Int32.(+)(halfWidth, (Int32.(-)(halfWidth, GPoint.jm_getX(JR.cast(secondPoint)))))
                 }
-                point = JR.cast(PointFactory.jm_createXY(pointFactory, newX, GPoint.jm_getY(secondPoint)))
-                ignore(BasicArrayList.jm_add(newBasicArrayList, JR.cast(point)))
+                point = JR.cast(PointFactory.jm_createXY(JR.cast(pointFactory), newX, GPoint.jm_getY(JR.cast(secondPoint))))
+                ignore(BasicArrayList.jm_add(JR.cast(newBasicArrayList), JR.cast(point)))
             } else {
-                ignore(BasicArrayList.jm_add(newBasicArrayList, JR.cast(secondPoint)))
+                ignore(BasicArrayList.jm_add(JR.cast(newBasicArrayList), JR.cast(secondPoint)))
             }
             }
         }

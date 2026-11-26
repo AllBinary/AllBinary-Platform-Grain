@@ -41,7 +41,7 @@ provide let rec jclassName = () => "StringValidationUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: StringValidationUtil = jnew_0()
+    let value: StringValidationUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -56,7 +56,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("StringValidationUtil"), f_stringUtil: JR.nullOf(), f_tsUtil: JR.jnull, }
+    let this = { jobject: JR.newJObject("StringValidationUtil"), f_stringUtil: JR.nullOf(), f_tsUtil: JR.nullOf(), }
     this.f_stringUtil = JR.cast(StringUtil.jm_getInstance())
     this.f_tsUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
@@ -114,10 +114,10 @@ and jm_isValidRequired = (this: StringValidationUtil, value: String, min: Int32,
 }
     
 and jm_isValidRequiredNumber = (this: StringValidationUtil, value: String, min: Int32, max: Int32) => {
-        if (((jm_isEmpty(this, value) || Int32.(<)(JR.length(value), min)) || Int32.(>)(JR.length(value), max))) {
+        if (((jm_isEmpty(this, JR.cast(value)) || Int32.(<)(JR.length(value), min)) || Int32.(>)(JR.length(value), max))) {
             return false
         }
-        if (!jm_isNumber(this, value)) {
+        if (!jm_isNumber(this, JR.cast(value))) {
             return false
         }
         return true
@@ -136,11 +136,14 @@ and jm_isValidNotRequiredNumber = (this: StringValidationUtil, value: String, mi
         if (Int32.(>)(JR.length(value), 0l)) {
             if (((({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_compareTo"))
-JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(value), JR.cast(this.f_stringUtil.f_NULL_STRING)))
+JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(value), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StringUtil.f_NULL_STRING"))
+JR.cast(jlate(JR.cast(this.f_stringUtil)))
+})))
 } == 0l) || Int32.(<)(JR.length(value), min)) || Int32.(>)(JR.length(value), max))) {
                 return false
             }
-            if (!jm_isNumber(this, value)) {
+            if (!jm_isNumber(this, JR.cast(value))) {
                 return false
             }
         }
@@ -150,10 +153,16 @@ JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(value), JR.cast(this.f_stringUtil.
 and jm_isEmpty = (this: StringValidationUtil, string: String) => {
         if ((({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_compareTo"))
-JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(string), JR.cast(this.f_stringUtil.f_NULL_STRING)))
+JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(string), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StringUtil.f_NULL_STRING"))
+JR.cast(jlate(JR.cast(this.f_stringUtil)))
+})))
 } != 0l) && ({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_compareTo"))
-JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(string), JR.cast(this.f_stringUtil.f_EMPTY_STRING)))
+JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(string), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StringUtil.f_EMPTY_STRING"))
+JR.cast(jlate(JR.cast(this.f_stringUtil)))
+})))
 } != 0l))) {
             return false
         } else {

@@ -84,7 +84,7 @@ provide let rec jclassName = () => "TestingInputSingleton"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: TestingInputSingleton = jnew_0()
+    let value: TestingInputSingleton = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -99,11 +99,14 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("TestingInputSingleton"), f_logUtil: JR.jnull, f_x: 0l, f_y: 0l, f_z: 0l, f_width: 0l, f_height: 0l, f_visible: false, f_viewPositionEvent: JR.jnull, f_halfWidth: 0l, f_halfHeight: 0l, f_name: "", f_viewPosition: JR.jnull, f_commonStrings: JR.jnull, f_basicSetColorUtil: JR.jnull, f_RED: JR.jnull, f_paintable: JR.jnull, f_gameKeyEventList: JR.jnull, f_inputProcessorArray: [> ], f_testInputPaintable: JR.nullOf(), }
-    this.f_inputProcessorArray = Array.make(Int32.toNumber(InputFactory.jm_getInstance().f_MAX), JR.nullOf())
+    let this = { jobject: JR.newJObject("TestingInputSingleton"), f_logUtil: JR.nullOf(), f_x: 0l, f_y: 0l, f_z: 0l, f_width: 0l, f_height: 0l, f_visible: false, f_viewPositionEvent: JR.nullOf(), f_halfWidth: 0l, f_halfHeight: 0l, f_name: "", f_viewPosition: JR.nullOf(), f_commonStrings: JR.nullOf(), f_basicSetColorUtil: JR.nullOf(), f_RED: JR.nullOf(), f_paintable: JR.nullOf(), f_gameKeyEventList: JR.nullOf(), f_inputProcessorArray: [> ], f_testInputPaintable: JR.nullOf(), }
+    this.f_inputProcessorArray = Array.make(Int32.toNumber({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("InputFactory.f_MAX"))
+JR.cast(jlate(JR.cast(InputFactory.jm_getInstance())))
+}), JR.nullOf())
     this.f_testInputPaintable = JR.cast(NullPaintable.jm_getInstance())
         void
-        ignore(GameInputProcessorUtil.jm_init(this.f_inputProcessorArray))
+        ignore(GameInputProcessorUtil.jm_init(JR.cast(this.f_inputProcessorArray)))
     this
 }
     
@@ -138,13 +141,13 @@ JR.cast(jlate())
 let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_KEY_NUM9"))
 JR.cast(jlate())
 })] = JR.cast(GameInputProcessor.jnew_0())
-        ignore(GameInputProcessorUtil.jm_init(this.f_inputProcessorArray))
+        ignore(GameInputProcessorUtil.jm_init(JR.cast(this.f_inputProcessorArray)))
 }
     
 and jm_processInputList = (this: TestingInputSingleton, allbinaryLayerManager: AllBinaryLayerManager, list: BasicArrayList) => {
         let mut key: Int32 = 0l
         let mut gameKeyEvent: GameKeyEvent = JR.nullOf()
-        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -155,7 +158,7 @@ and jm_processInputList = (this: TestingInputSingleton, allbinaryLayerManager: A
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             gameKeyEvent = (JR.cast(list.f_objectArray[Int32.toNumber(index)]))
-            key = GameKeyEvent.jm_getKey(gameKeyEvent)
+            key = GameKeyEvent.jm_getKey(JR.cast(gameKeyEvent))
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("GameInputProcessor.jm_processEvent"))
 JR.cast(jlate(JR.cast(this.f_inputProcessorArray[Int32.toNumber(key)]), JR.cast(allbinaryLayerManager), JR.cast(GameKeyEvent.jstatic_NONE())))
@@ -165,7 +168,7 @@ JR.cast(jlate(JR.cast(this.f_inputProcessorArray[Int32.toNumber(key)]), JR.cast(
 }
     
 and jm_processInput = (this: TestingInputSingleton, allbinaryLayerManager: AllBinaryLayerManager) => {
-        ignore(jm_processInputList(this, allbinaryLayerManager, {
+        ignore(jm_processInputList(this, JR.cast(allbinaryLayerManager), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameLayer.jm_getGameKeyEventList"))
 JR.cast(jlate(JR.cast(this)))
 }))
@@ -179,13 +182,14 @@ JR.cast(jlate(JR.cast(this)))
 }
     
 and jm_paint = (this: TestingInputSingleton, graphics: JObject) => {
-        ignore(PaintableInterface.jm_paint(this.f_testInputPaintable, graphics))
+        ignore(PaintableInterface.jm_paint(JR.cast(this.f_testInputPaintable), JR.cast(graphics)))
 }
     
 and jm_implmentsGameInputInterface = (this: TestingInputSingleton) => {
         return true
 }
 
+JR.registerSuper("TestingInputSingleton", "AllBinaryGameLayer")
 JR.registerLateBound("TestingInputSingleton.jnew_0", jnew_0)
 JR.registerLateBound("TestingInputSingleton.jm_getInstance", jm_getInstance)
 JR.registerLateBound("TestingInputSingleton.jm_initInputProcessors", jm_initInputProcessors)

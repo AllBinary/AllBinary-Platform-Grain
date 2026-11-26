@@ -43,6 +43,14 @@ from "../../../../../org/allbinary/logic/NullUtil.gr" include NullUtil
 use NullUtil.{ type NullUtil }
 from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUtil
 use StringUtil.{ type StringUtil }
+from "../../../../../java/lang/Integer.gr" include Integer
+from "../../../../../java/lang/Long.gr" include Long
+from "../../../../../java/lang/Short.gr" include Short
+from "../../../../../java/lang/Byte.gr" include Byte
+from "../../../../../java/lang/Character.gr" include Character
+from "../../../../../java/lang/Float.gr" include Float
+from "../../../../../java/lang/Double.gr" include Double
+from "../../../../../java/lang/Boolean.gr" include Boolean
 
 provide record HelpPaintable {
   jobject: JObject,
@@ -68,7 +76,7 @@ and jnew_3 = (title: String, backgroundBasicColor: BasicColor, basicColor: Basic
     this.f_myFontProcessor = JR.cast(this.f_updateMyFontProcessor)
     this.f_anchor = Anchor.jstatic_TOP_LEFT()
     
-    this.f_inputInfo = StringUtil.jm_getArrayInstance(StringUtil.jm_getInstance())
+    this.f_inputInfo = StringUtil.jm_getArrayInstance(JR.cast(StringUtil.jm_getInstance()))
     
     
     this.f_beginWidthArray = NullUtil.jm_getInstance().f_NULL_INT_ARRAY
@@ -117,11 +125,11 @@ and jm_setInputInfoP = (this: HelpPaintable, inputInfo: Array<String>) => {
 }
     
 and jm_paint = (this: HelpPaintable, graphics: JObject) => {
-        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
-        let mut halfWidth: Int32 = DisplayInfoSingleton.jm_getLastHalfWidth(this.f_displayInfo)
+        ignore(MyFontProcessor.jm_process(JR.cast(this.f_myFontProcessor), JR.cast(graphics)))
+        let mut halfWidth: Int32 = DisplayInfoSingleton.jm_getLastHalfWidth(JR.cast(this.f_displayInfo))
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_setColor"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(BasicColor.jm_intValue(this.f_basicColor))))
+JR.cast(jlate(JR.cast(graphics), JR.cast(BasicColor.jm_intValue(JR.cast(this.f_basicColor)))))
 })
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
@@ -145,6 +153,7 @@ JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_inputInfo[Int32.toNumber(index)]
         }
 }
 
+JR.registerSuper("HelpPaintable", "Paintable")
 JR.registerLateBound("HelpPaintable.jnew_3", jnew_3)
 JR.registerLateBound("HelpPaintable.jm_updateMeasurement", jm_updateMeasurement)
 JR.registerLateBound("HelpPaintable.jm_setInputInfoP", jm_setInputInfoP)

@@ -38,6 +38,15 @@ use BasicArrayListD.{ type BasicArrayListD }
 from "../../../../org/allbinary/util/EnumerationUtil.gr" include EnumerationUtil
 use EnumerationUtil.{ type EnumerationUtil }
 from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/lang/Long.gr" include Long
+from "../../../../java/lang/Short.gr" include Short
+from "../../../../java/lang/Byte.gr" include Byte
+from "../../../../java/lang/Character.gr" include Character
+from "../../../../java/lang/Float.gr" include Float
+from "../../../../java/lang/Double.gr" include Double
+from "../../../../java/lang/Boolean.gr" include Boolean
+from "../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 
 provide record LevelLayersFinder {
   jobject: JObject,
@@ -51,7 +60,7 @@ provide let rec jclassName = () => "LevelLayersFinder"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: LevelLayersFinder = jnew_0()
+    let value: LevelLayersFinder = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -78,21 +87,21 @@ and jm_get = (this: LevelLayersFinder, hashtable: JObject) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_keys"))
 JR.cast(jlate(JR.cast(hashtable)))
 })
-        let mut layerHashtableCanBeNull: JObject = JR.jnull
+        let mut layerHashtableCanBeNull: JObject = JR.nullOf()
         let mut integerCanBeNull: Int32 = 0l
         let mut cachedIntegerCanBeNull: Int32 = 0l
-        while (EnumerationUtil.jm_hasMoreElements(this.f_enumerationUtil, enumeration)) {
+        while (EnumerationUtil.jm_hasMoreElements(JR.cast(this.f_enumerationUtil), JR.cast(enumeration))) {
             layerHashtableCanBeNull = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
-JR.cast(jlate(JR.cast(hashtable), JR.cast(JR.cast(EnumerationUtil.jm_nextElement(this.f_enumerationUtil, enumeration)))))
+JR.cast(jlate(JR.cast(hashtable), JR.cast(JR.cast(EnumerationUtil.jm_nextElement(JR.cast(this.f_enumerationUtil), JR.cast(enumeration))))))
 })
             integerCanBeNull = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
 JR.cast(jlate(JR.cast(layerHashtableCanBeNull), JR.cast(JR.cast(Layer.jstatic_ID()))))
 })
-            cachedIntegerCanBeNull = SmallIntegerSingletonFactory.jm_getAt(smallIntegerSingletonFactory, Integer.jm_intValue(integerCanBeNull))
-            if (!BasicArrayList.jm_contains(list, cachedIntegerCanBeNull)) {
-                ignore(BasicArrayList.jm_add(list, cachedIntegerCanBeNull))
+            cachedIntegerCanBeNull = SmallIntegerSingletonFactory.jm_getAt(JR.cast(smallIntegerSingletonFactory), Integer.jm_intValue(JR.cast(integerCanBeNull)))
+            if (!BasicArrayList.jm_contains(JR.cast(list), JR.cast(cachedIntegerCanBeNull))) {
+                ignore(BasicArrayList.jm_add(JR.cast(list), JR.cast(cachedIntegerCanBeNull)))
             }
         }
         return list

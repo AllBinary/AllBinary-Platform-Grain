@@ -47,10 +47,13 @@ and jnew_2 = (p1: GPoint, p2: GPoint) => {
     
     
     
-        this.f_p1 = JR.cast(PointFactory.jm_getInstance().f_ZERO_ZERO)
+        this.f_p1 = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PointFactory.f_ZERO_ZERO"))
+JR.cast(jlate(JR.cast(PointFactory.jm_getInstance())))
+})
         this.f_p2 = JR.cast(this.f_p1)
-        ignore(jm_setP1(this, p1))
-        ignore(jm_setP2(this, p2))
+        ignore(jm_setP1(this, JR.cast(p1)))
+        ignore(jm_setP2(this, JR.cast(p2)))
     this
 }
     
@@ -59,8 +62,20 @@ and jm_getGradient = (this: Line) => {
 }
     
 and jm_update = (this: Line) => {
-        this.f_deltaX = Float64.(-)(Float64.fromNumber(Int32.toNumber(GPoint.jm_getX(jm_getP1(this)))), Float64.fromNumber(Int32.toNumber(GPoint.jm_getX(jm_getP2(this)))))
-        this.f_deltaY = Float64.(-)(Float64.fromNumber(Int32.toNumber(GPoint.jm_getY(jm_getP1(this)))), Float64.fromNumber(Int32.toNumber(GPoint.jm_getY(jm_getP2(this)))))
+        this.f_deltaX = Float64.(-)(Float64.fromNumber(Int32.toNumber({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getX"))
+JR.cast(jlate(JR.cast(jm_getP1(this))))
+})), Float64.fromNumber(Int32.toNumber({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getX"))
+JR.cast(jlate(JR.cast(jm_getP2(this))))
+})))
+        this.f_deltaY = Float64.(-)(Float64.fromNumber(Int32.toNumber({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getY"))
+JR.cast(jlate(JR.cast(jm_getP1(this))))
+})), Float64.fromNumber(Int32.toNumber({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getY"))
+JR.cast(jlate(JR.cast(jm_getP2(this))))
+})))
 }
     
 and jm_getDeltaX = (this: Line) => {

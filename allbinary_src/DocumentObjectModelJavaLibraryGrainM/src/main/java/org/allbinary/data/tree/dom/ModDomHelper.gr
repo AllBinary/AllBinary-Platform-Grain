@@ -59,51 +59,51 @@ and jnew_0 = () => {
 }
     
 and jm_createTextNode = (document: Document, name: String, text: String) => {
-        let mut newValueNode: Node = JR.cast(Document.jm_createElement(document, name))
-        let mut newValueTextNode: Node = JR.cast(Document.jm_createTextNode(document, text))
-        ignore(Node.jm_appendChild(newValueNode, newValueTextNode))
+        let mut newValueNode: Node = JR.cast(Document.jm_createElement_1(document, name))
+        let mut newValueTextNode: Node = JR.cast(Document.jm_createTextNode_1(document, text))
+        ignore(Node.jm_appendChild_1(newValueNode, newValueTextNode))
         return newValueNode
 }
     
 and jm_createValueNode = (document: Document, text: String) => {
-        return jm_createTextNode(document, DomData.jstatic_VALUE(), text)
+        return jm_createTextNode(JR.cast(document), JR.cast(DomData.jstatic_VALUE()), JR.cast(text))
 }
     
 and jm_createNameNode = (document: Document, text: String) => {
-        return jm_createTextNode(document, DomData.jstatic_NAME(), text)
+        return jm_createTextNode(JR.cast(document), JR.cast(DomData.jstatic_NAME()), JR.cast(text))
 }
     
 and jm_createIndexNode = (document: Document, index: Int32) => {
-        return jm_createTextNode(document, DomData.jstatic_INDEX(), Integer.jm_toString(index))
+        return jm_createTextNode(JR.cast(document), JR.cast(DomData.jstatic_INDEX()), JR.cast(Integer.jm_toString(JR.cast(index))))
 }
     
 and jm_createNameValueNodes_4_Document_String_String_String_ = (document: Document, elementName: String, nameText: String, valueText: String) => {
-        let mut newNode: Node = JR.cast(Document.jm_createElement(document, elementName))
-        ignore(Node.jm_appendChild(newNode, jm_createNameNode(document, nameText)))
-        ignore(Node.jm_appendChild(newNode, jm_createValueNode(document, valueText)))
+        let mut newNode: Node = JR.cast(Document.jm_createElement_1(document, elementName))
+        ignore(Node.jm_appendChild_1(newNode, jm_createNameNode(JR.cast(document), JR.cast(nameText))))
+        ignore(Node.jm_appendChild_1(newNode, jm_createValueNode(JR.cast(document), JR.cast(valueText))))
         return newNode
 }
     
 and jm_createNameValueNodes_3_Document_String_String_ = (document: Document, elementNameAndNameText: String, valueText: String) => {
-        let mut newNode: Node = JR.cast(jm_createNameValueNodes_4_Document_String_String_String_(document, elementNameAndNameText, elementNameAndNameText, valueText))
+        let mut newNode: Node = JR.cast(jm_createNameValueNodes_4_Document_String_String_String_(JR.cast(document), JR.cast(elementNameAndNameText), JR.cast(elementNameAndNameText), JR.cast(valueText)))
         return newNode
 }
     
 and jm_createNameValueIndexNodes_4_Document_String_int_String_ = (document: Document, elementNameAndNameText: String, index: Int32, valueText: String) => {
-        let mut newNode: Node = JR.cast(jm_createNameValueNodes_3_Document_String_String_(document, elementNameAndNameText, valueText))
-        ignore(Node.jm_appendChild(newNode, jm_createIndexNode(document, index)))
+        let mut newNode: Node = JR.cast(jm_createNameValueNodes_3_Document_String_String_(JR.cast(document), JR.cast(elementNameAndNameText), JR.cast(valueText)))
+        ignore(Node.jm_appendChild_1(newNode, jm_createIndexNode(JR.cast(document), index)))
         return newNode
 }
     
 and jm_createNameValueNodes_3_Document_String_HashMap_ = (document: Document, rootNode: String, hashMap: HashMap) => {
-        let mut node: Node = JR.cast(Document.jm_createElement(document, rootNode))
-        return jm_createNameValueNodes_3_Document_Node_HashMap_(document, JR.cast(node), JR.cast(hashMap))
+        let mut node: Node = JR.cast(Document.jm_createElement_1(document, rootNode))
+        return jm_createNameValueNodes_3_Document_Node_HashMap_(JR.cast(document), JR.cast(node), JR.cast(hashMap))
 }
     
 and jm_createNameValueNodes_3_Document_Node_HashMap_ = (document: Document, node: Node, hashMap: HashMap) => {
         let mut stringUtil: StringUtil = JR.cast(StringUtil.jm_getInstance())
         let mut keySet: Set = JR.cast(HashMap.jm_keySet_0(hashMap))
-        let mut keyArray: Array<JObject> = Set.jm_toArray_0(keySet)
+        let mut keyArray: Array<JObject> = JR.cast(Set.jm_toArray_0(keySet))
         let mut size: Int32 = Int32.fromNumber(Array.length(keyArray))
         {
             let mut i: Int32 = 0l
@@ -119,12 +119,12 @@ and jm_createNameValueNodes_3_Document_Node_HashMap_ = (document: Document, node
             let mut anyType: JObject = JR.cast(HashMap.jm_get_1(hashMap, objectKey))
             if (JR.isNull(anyType)) {
                 let mut value: String = stringUtil.f_EMPTY_STRING
-                ignore(Node.jm_appendChild(node, jm_createNameValueNodes_3_Document_String_String_(document, name, value)))
+                ignore(Node.jm_appendChild_1(node, jm_createNameValueNodes_3_Document_String_String_(JR.cast(document), JR.cast(name), JR.cast(value))))
             } else if ((JR.className(anyType) == "String")) {
-                let mut value: String = StringUtil.jm_getNonNull(stringUtil, JR.cast(anyType))
-                ignore(Node.jm_appendChild(node, jm_createNameValueNodes_3_Document_String_String_(document, name, value)))
+                let mut value: String = StringUtil.jm_getNonNull(JR.cast(stringUtil), JR.cast(anyType))
+                ignore(Node.jm_appendChild_1(node, jm_createNameValueNodes_3_Document_String_String_(JR.cast(document), JR.cast(name), JR.cast(value))))
             } else if ((JR.className(anyType) == "HashMap")) {
-                ignore(Node.jm_appendChild(node, jm_createNameValueNodes_3_Document_String_HashMap_(document, name, JR.cast(hashMap))))
+                ignore(Node.jm_appendChild_1(node, jm_createNameValueNodes_3_Document_String_HashMap_(JR.cast(document), JR.cast(name), JR.cast(hashMap))))
             } else {
                 fail JR.toStringOf(JR.newJObject("Exception"))
             }
@@ -135,8 +135,8 @@ and jm_createNameValueNodes_3_Document_Node_HashMap_ = (document: Document, node
     
 and jm_createNameValueNodes_4_Document_String_String_BasicArrayList_ = (document: Document, rootNodeName: String, duplicateNodeName: String, valueVector: BasicArrayList) => {
         let mut stringUtil: StringUtil = JR.cast(StringUtil.jm_getInstance())
-        let mut node: Node = JR.cast(Document.jm_createElement(document, rootNodeName))
-        let mut size: Int32 = BasicArrayList.jm_size(valueVector)
+        let mut node: Node = JR.cast(Document.jm_createElement_1(document, rootNodeName))
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(valueVector))
         {
             let mut i: Int32 = 0l
             let mut jfirst = true
@@ -146,8 +146,8 @@ and jm_createNameValueNodes_4_Document_String_String_BasicArrayList_ = (document
                 }
                 jfirst = false
                 if (!(Int32.(<)(i, size))) break
-            let mut value: String = StringUtil.jm_getNonNull(stringUtil, JR.cast(BasicArrayList.jm_get(valueVector, i)))
-            ignore(Node.jm_appendChild(node, jm_createNameValueNodes_3_Document_String_String_(document, duplicateNodeName, value)))
+            let mut value: String = StringUtil.jm_getNonNull(JR.cast(stringUtil), JR.cast(BasicArrayList.jm_get(JR.cast(valueVector), i)))
+            ignore(Node.jm_appendChild_1(node, jm_createNameValueNodes_3_Document_String_String_(JR.cast(document), JR.cast(duplicateNodeName), JR.cast(value))))
             }
         }
         return node
@@ -155,8 +155,8 @@ and jm_createNameValueNodes_4_Document_String_String_BasicArrayList_ = (document
     
 and jm_createNameValueIndexNodes_4_Document_String_String_BasicArrayList_ = (document: Document, rootNodeName: String, duplicateNodeName: String, valueVector: BasicArrayList) => {
         let mut stringUtil: StringUtil = JR.cast(StringUtil.jm_getInstance())
-        let mut node: Node = JR.cast(Document.jm_createElement(document, rootNodeName))
-        let mut size: Int32 = BasicArrayList.jm_size(valueVector)
+        let mut node: Node = JR.cast(Document.jm_createElement_1(document, rootNodeName))
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(valueVector))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -166,22 +166,22 @@ and jm_createNameValueIndexNodes_4_Document_String_String_BasicArrayList_ = (doc
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            let mut value: String = StringUtil.jm_getNonNull(stringUtil, JR.cast(BasicArrayList.jm_get(valueVector, index)))
-            ignore(Node.jm_appendChild(node, jm_createNameValueIndexNodes_4_Document_String_int_String_(document, duplicateNodeName, index, value)))
+            let mut value: String = StringUtil.jm_getNonNull(JR.cast(stringUtil), JR.cast(BasicArrayList.jm_get(JR.cast(valueVector), index)))
+            ignore(Node.jm_appendChild_1(node, jm_createNameValueIndexNodes_4_Document_String_int_String_(JR.cast(document), JR.cast(duplicateNodeName), index, JR.cast(value))))
             }
         }
         return node
 }
     
 and jm_createNodeWithValueNodes_3_Document_String_HashMap_ = (document: Document, rootNode: String, hashMap: HashMap) => {
-        let mut node: Node = JR.cast(Document.jm_createElement(document, rootNode))
-        return jm_createNodeWithValueNodes_3_Document_Node_HashMap_(document, JR.cast(node), hashMap)
+        let mut node: Node = JR.cast(Document.jm_createElement_1(document, rootNode))
+        return jm_createNodeWithValueNodes_3_Document_Node_HashMap_(JR.cast(document), JR.cast(node), JR.cast(hashMap))
 }
     
 and jm_createNodeWithValueNodes_3_Document_Node_HashMap_ = (document: Document, node: Node, hashMap: HashMap) => {
         let mut stringUtil: StringUtil = JR.cast(StringUtil.jm_getInstance())
         let mut keySet: Set = JR.cast(HashMap.jm_keySet_0(hashMap))
-        let mut keyArray: Array<JObject> = Set.jm_toArray_0(keySet)
+        let mut keyArray: Array<JObject> = JR.cast(Set.jm_toArray_0(keySet))
         let mut size: Int32 = Int32.fromNumber(Array.length(keyArray))
         {
             let mut i: Int32 = 0l
@@ -194,8 +194,8 @@ and jm_createNodeWithValueNodes_3_Document_Node_HashMap_ = (document: Document, 
                 if (!(Int32.(<)(i, size))) break
             let mut name: String = JR.cast(keyArray[Int32.toNumber(i)])
             let mut anyType: JObject = JR.cast(HashMap.jm_get_1(hashMap, name))
-            let mut value: String = StringUtil.jm_getNonNull(stringUtil, JR.cast(anyType))
-            ignore(Node.jm_appendChild(node, jm_createTextNode(document, name, value)))
+            let mut value: String = StringUtil.jm_getNonNull(JR.cast(stringUtil), JR.cast(anyType))
+            ignore(Node.jm_appendChild_1(node, jm_createTextNode(JR.cast(document), JR.cast(name), JR.cast(value))))
             }
         }
         return node

@@ -41,7 +41,7 @@ provide let rec jclassName = () => "AnimationFrameToImageUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: AnimationFrameToImageUtil = jnew_0()
+    let value: AnimationFrameToImageUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -61,7 +61,10 @@ and jm_getInstance = () => {
 }
     
 and jm_getInstanceTranslate = (this: AnimationFrameToImageUtil, width: Int32, height: Int32, animationInterface: Animation) => {
-        let mut image: JObject = JR.cast(GameFeatureImageCacheFactory.jm_get(GameFeatureImageCacheFactory.jm_getInstance(), JR.className(jstatic_instance()), (Int32.(>>)((Int32.(*)(width, 3l)), 1l)), (Int32.(>>)((Int32.(*)(height, 3l)), 1l))))
+        let mut image: JObject = JR.cast({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageCache.jm_get"))
+JR.cast(jlate(JR.cast(GameFeatureImageCacheFactory.jm_getInstance()), JR.cast(JR.className(jstatic_instance())), JR.cast((Int32.(>>)((Int32.(*)(width, 3l)), 1l))), JR.cast((Int32.(>>)((Int32.(*)(height, 3l)), 1l)))))
+})
         let mut graphics: JObject = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getGraphics"))
 JR.cast(jlate(JR.cast(image)))
@@ -72,7 +75,7 @@ JR.cast(jlate(JR.cast(image)))
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_translate"))
 JR.cast(jlate(JR.cast(graphics), JR.cast(tranlateX), JR.cast(tranlateY)))
 })
-        ignore(Animation.jm_paintXY(animationInterface, graphics, 0l, 0l))
+        ignore(Animation.jm_paintXY(JR.cast(animationInterface), JR.cast(graphics), 0l, 0l))
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_translate"))
 JR.cast(jlate(JR.cast(graphics), JR.cast(Int32.(-)(1l, Int32.(+)(tranlateX, 1l))), JR.cast(Int32.(-)(1l, Int32.(+)(tranlateY, 1l)))))
@@ -81,12 +84,15 @@ JR.cast(jlate(JR.cast(graphics), JR.cast(Int32.(-)(1l, Int32.(+)(tranlateX, 1l))
 }
     
 and jm_getInstanceWH = (this: AnimationFrameToImageUtil, width: Int32, height: Int32, animationInterface: Animation) => {
-        let mut image: JObject = JR.cast(GameFeatureImageCacheFactory.jm_get(GameFeatureImageCacheFactory.jm_getInstance(), JR.className(jstatic_instance()), width, height))
+        let mut image: JObject = JR.cast({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageCache.jm_get"))
+JR.cast(jlate(JR.cast(GameFeatureImageCacheFactory.jm_getInstance()), JR.cast(JR.className(jstatic_instance())), JR.cast(width), JR.cast(height)))
+})
         let mut graphics: JObject = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getGraphics"))
 JR.cast(jlate(JR.cast(image)))
 })
-        ignore(Animation.jm_paintXY(animationInterface, graphics, 0l, 0l))
+        ignore(Animation.jm_paintXY(JR.cast(animationInterface), JR.cast(graphics), 0l, 0l))
         return image
 }
 

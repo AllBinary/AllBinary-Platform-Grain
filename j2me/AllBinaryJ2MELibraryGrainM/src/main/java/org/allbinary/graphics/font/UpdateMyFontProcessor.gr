@@ -46,9 +46,13 @@ and jnew_1 = (keyValueDrawCharArray: UpdateMyFontInterface) => {
 }
     
 and jm_process = (this: UpdateMyFontProcessor, graphics: JObject) => {
-        ignore(UpdateMyFontInterface.jm_updateMeasurement(this.f_updateMeasurementProcessor, graphics))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontInterface.jm_updateMeasurement"))
+JR.cast(jlate(JR.cast(this.f_updateMeasurementProcessor), JR.cast(graphics)))
+})
 }
 
+JR.registerSuper("UpdateMyFontProcessor", "MyFontProcessor")
 JR.registerLateBound("UpdateMyFontProcessor.jnew_1", jnew_1)
 JR.registerLateBound("UpdateMyFontProcessor.jm_process", jm_process)
 JR.registerLateBound("UpdateMyFontProcessor.f_updateMeasurementProcessor", (this: UpdateMyFontProcessor) => this.f_updateMeasurementProcessor)

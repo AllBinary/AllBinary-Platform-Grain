@@ -43,7 +43,7 @@ provide let rec jclassName = () => "FullScreenUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: FullScreenUtil = jnew_0()
+    let value: FullScreenUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -64,7 +64,7 @@ and jm_getInstance = () => {
     
 and jm_initOnRun = (this: FullScreenUtil, fullScreenInterface: JObject, commandListener: CommandListener) => {
         if (!JR.isNull(commandListener)) {
-            ignore(jm_init(this, fullScreenInterface))
+            ignore(jm_init(this, JR.cast(fullScreenInterface)))
         }
 }
     
@@ -75,7 +75,7 @@ and jm_init = (this: FullScreenUtil, fullScreenInterface: JObject) => {
 and jm_isScreenChange = (this: FullScreenUtil, isFullScreen: Bool) => {
         let mut mainFeatureFactory: MainFeatureFactory = JR.cast(MainFeatureFactory.jm_getInstance())
         let mut features: Features = JR.cast(Features.jm_getInstance())
-        if ((!JR.isSame(Features.jm_isFeature(features, mainFeatureFactory.f_FULL_SCREEN), isFullScreen))) {
+        if ((!JR.isSame(Features.jm_isFeature(JR.cast(features), JR.cast(mainFeatureFactory.f_FULL_SCREEN)), isFullScreen))) {
             return true
         }
         return false

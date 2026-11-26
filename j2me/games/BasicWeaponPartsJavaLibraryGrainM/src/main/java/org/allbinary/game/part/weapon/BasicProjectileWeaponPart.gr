@@ -60,11 +60,11 @@ provide record BasicProjectileWeaponPart {
 provide let rec jclassName = () => "BasicProjectileWeaponPart"
     
 and jm_createBasicProjectileWeaponPart = (animationInterface: Animation, weaponLayerCircularStaticPool: WeaponLayerCircularPool) => {
-        return jnew_6(animationInterface, JR.cast(AllBinaryLayer.jstatic_NULL_ALLBINARY_LAYER()), weaponLayerCircularStaticPool, JR.cast(WeaponProperties.jstatic_NULL_WEAPON_PROPERTIES()), JR.cast(NoScoreable.jm_getInstance()), JR.cast(RelativeRelationship.jstatic_NULL_RELATIVE_RELATIONSHIP()))
+        return jnew_6(JR.cast(animationInterface), JR.cast(AllBinaryLayer.jstatic_NULL_ALLBINARY_LAYER()), JR.cast(weaponLayerCircularStaticPool), JR.cast(WeaponProperties.jstatic_NULL_WEAPON_PROPERTIES()), JR.cast(NoScoreable.jm_getInstance()), JR.cast(RelativeRelationship.jstatic_NULL_RELATIVE_RELATIONSHIP()))
 }
     
 and jnew_6 = (animationInterface: Animation, sourceLayerInterface: AllBinaryLayer, weaponLayerCircularStaticPool: WeaponLayerCircularPool, weaponProperties: WeaponProperties, scoreableInterface: ScoreableInterface, relativeRelationship: RelativeRelationship) => {
-    let this = { jobject: JR.newJObject("BasicProjectileWeaponPart"), f_animationInterface: JR.jnull, f_ownerLayerInterface: JR.jnull, f_weaponProperties: JR.jnull, f_scoreableInterface: JR.jnull, f_relativeRelationship: JR.jnull, f_weaponLayerCircularStaticPool: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("BasicProjectileWeaponPart"), f_animationInterface: JR.nullOf(), f_ownerLayerInterface: JR.nullOf(), f_weaponProperties: JR.nullOf(), f_scoreableInterface: JR.nullOf(), f_relativeRelationship: JR.nullOf(), f_weaponLayerCircularStaticPool: JR.nullOf(), }
     
         void
         this.f_weaponLayerCircularStaticPool = JR.cast(weaponLayerCircularStaticPool)
@@ -72,13 +72,23 @@ and jnew_6 = (animationInterface: Animation, sourceLayerInterface: AllBinaryLaye
 }
     
 and jm_processScore = (this: BasicProjectileWeaponPart, allbinaryLayerManager: AllBinaryLayerManager, angle: Int32, otherAngle: Int32, weaponProperties: WeaponProperties, scoreableInterface: ScoreableInterface) => {
-        let mut weaponLayer: WeaponLayer = JR.cast(WeaponLayerCircularPool.jm_getInstanceWeaponLayer(this.f_weaponLayerCircularStaticPool, {
+        let mut weaponLayer: WeaponLayer = JR.cast(WeaponLayerCircularPool.jm_getInstanceWeaponLayer(JR.cast(this.f_weaponLayerCircularStaticPool), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicWeaponPart.jm_getOwnerLayerInterface"))
 JR.cast(jlate(JR.cast(this)))
-}, RelativeRelationship.jm_getX(JR.cast(this.f_relativeRelationship)), RelativeRelationship.jm_getY(JR.cast(this.f_relativeRelationship)), RelativeRelationship.jm_getZ(JR.cast(this.f_relativeRelationship)), angle, otherAngle, weaponProperties, scoreableInterface))
-        ignore(AllBinaryLayerManager.jm_append(allbinaryLayerManager, JR.cast(weaponLayer)))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RelativeRelationship.jm_getX"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_relativeRelationship))))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RelativeRelationship.jm_getY"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_relativeRelationship))))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RelativeRelationship.jm_getZ"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_relativeRelationship))))
+}, angle, otherAngle, JR.cast(weaponProperties), JR.cast(scoreableInterface)))
+        ignore(AllBinaryLayerManager.jm_append(JR.cast(allbinaryLayerManager), JR.cast(weaponLayer)))
 }
 
+JR.registerSuper("BasicProjectileWeaponPart", "BasicWeaponPart")
 JR.registerLateBound("BasicProjectileWeaponPart.jnew_6", jnew_6)
 JR.registerLateBound("BasicProjectileWeaponPart.jm_createBasicProjectileWeaponPart", jm_createBasicProjectileWeaponPart)
 JR.registerLateBound("BasicProjectileWeaponPart.jm_processScore", jm_processScore)

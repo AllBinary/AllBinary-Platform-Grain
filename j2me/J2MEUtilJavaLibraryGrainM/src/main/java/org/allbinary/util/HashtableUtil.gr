@@ -27,6 +27,8 @@ from "../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
 from "../../../java/util/Enumeration.gr" include Enumeration
 use Enumeration.{ type Enumeration }
+from "../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 from "./EnumerationUtil.gr" include EnumerationUtil
 use EnumerationUtil.{ type EnumerationUtil }
 from "./BasicArrayListS.gr" include BasicArrayListS
@@ -46,7 +48,7 @@ provide let rec jclassName = () => "HashtableUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: HashtableUtil = jnew_0()
+    let value: HashtableUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -71,10 +73,16 @@ and jm_putAll = (this: HashtableUtil, fromHashtable: JObject, hashtable: JObject
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_keys"))
 JR.cast(jlate(JR.cast(fromHashtable)))
 })
-        let mut keyCanBeNull: JObject = JR.jnull
-        let mut valueCanBeNull: JObject = JR.jnull
-        while (EnumerationUtil.jm_hasMoreElements(this.f_enumerationUtil, enumeration)) {
-            keyCanBeNull = JR.cast(EnumerationUtil.jm_nextElement(this.f_enumerationUtil, enumeration))
+        let mut keyCanBeNull: JObject = JR.nullOf()
+        let mut valueCanBeNull: JObject = JR.nullOf()
+        while ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("EnumerationUtil.jm_hasMoreElements"))
+JR.cast(jlate(JR.cast(this.f_enumerationUtil), JR.cast(enumeration)))
+}) {
+            keyCanBeNull = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("EnumerationUtil.jm_nextElement"))
+JR.cast(jlate(JR.cast(this.f_enumerationUtil), JR.cast(enumeration)))
+})
             valueCanBeNull = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
 JR.cast(jlate(JR.cast(hashtable), JR.cast(keyCanBeNull)))
@@ -94,14 +102,20 @@ and jm_getKeysAsArray = (this: HashtableUtil, hashtable: JObject) => {
         let mut objectArray: Array<JObject> = Array.make(Int32.toNumber({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_size"))
 JR.cast(jlate(JR.cast(hashtable)))
-}), JR.jnull)
+}), JR.nullOf())
         let mut index: Int32 = 0l
         let mut enumeration: Enumeration = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_keys"))
 JR.cast(jlate(JR.cast(hashtable)))
 })
-        while (EnumerationUtil.jm_hasMoreElements(this.f_enumerationUtil, enumeration)) {
-            objectArray[Int32.toNumber({ let jold = index; index = Int32.(+)(jold, 1l); jold })] = JR.cast(EnumerationUtil.jm_nextElement(this.f_enumerationUtil, enumeration))
+        while ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("EnumerationUtil.jm_hasMoreElements"))
+JR.cast(jlate(JR.cast(this.f_enumerationUtil), JR.cast(enumeration)))
+}) {
+            objectArray[Int32.toNumber({ let jold = index; index = Int32.(+)(jold, 1l); jold })] = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("EnumerationUtil.jm_nextElement"))
+JR.cast(jlate(JR.cast(this.f_enumerationUtil), JR.cast(enumeration)))
+})
         }
         return objectArray
 }
@@ -115,8 +129,17 @@ JR.cast(jlate(JR.cast(hashtable)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_keys"))
 JR.cast(jlate(JR.cast(hashtable)))
 })
-        while (EnumerationUtil.jm_hasMoreElements(this.f_enumerationUtil, enumeration)) {
-            ignore(BasicArrayList.jm_add(list, JR.cast(EnumerationUtil.jm_nextElement(this.f_enumerationUtil, enumeration))))
+        while ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("EnumerationUtil.jm_hasMoreElements"))
+JR.cast(jlate(JR.cast(this.f_enumerationUtil), JR.cast(enumeration)))
+}) {
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_add"))
+JR.cast(jlate(JR.cast(list), JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("EnumerationUtil.jm_nextElement"))
+JR.cast(jlate(JR.cast(this.f_enumerationUtil), JR.cast(enumeration)))
+})))
+})
         }
         return list
 }

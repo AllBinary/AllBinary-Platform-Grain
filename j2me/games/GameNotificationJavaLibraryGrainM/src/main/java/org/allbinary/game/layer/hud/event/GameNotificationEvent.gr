@@ -49,15 +49,15 @@ provide record GameNotificationEvent {
 provide let rec jclassName = () => "GameNotificationEvent"
     
 and jnew_5 = (anyType: JObject, string: String, seconds: Int32, basicColor: BasicColor, permanent: Bool) => {
-    let this = { jobject: JR.newJObject("GameNotificationEvent"), f_source: JR.jnull, f_string: "", f_seconds: 0l, f_basicColor: JR.nullOf(), f_removeable: false, }
+    let this = { jobject: JR.newJObject("GameNotificationEvent"), f_source: JR.nullOf(), f_string: "", f_seconds: 0l, f_basicColor: JR.nullOf(), f_removeable: false, }
     this.f_string = StringUtil.jm_getInstance().f_EMPTY_STRING
     
     this.f_basicColor = JR.cast(BasicColorFactory.jm_getInstance().f_BLACK)
     
         void
-        ignore(jm_setString(this, string))
+        ignore(jm_setString(this, JR.cast(string)))
         this.f_seconds = seconds
-        ignore(jm_setBasicColorP(this, basicColor))
+        ignore(jm_setBasicColorP(this, JR.cast(basicColor)))
         this.f_removeable = permanent
     this
 }
@@ -86,6 +86,7 @@ and jm_setBasicColorP = (this: GameNotificationEvent, basicColor: BasicColor) =>
         this.f_basicColor = JR.cast(basicColor)
 }
 
+JR.registerSuper("GameNotificationEvent", "AllBinaryEventObject")
 JR.registerLateBound("GameNotificationEvent.jnew_5", jnew_5)
 JR.registerLateBound("GameNotificationEvent.jm_getString", jm_getString)
 JR.registerLateBound("GameNotificationEvent.jm_getSeconds", jm_getSeconds)

@@ -56,13 +56,16 @@ and jnew_3 = (currentPoints: Array<Array<Array<Int32>>>, basicColor: BasicColor,
     this.f_basicColor = JR.cast(BasicColorFactory.jm_getInstance().f_WHITE)
     
         this.f_currentPoints = currentPoints
-        ignore(jm_setBasicColorP(this, basicColor))
+        ignore(jm_setBasicColorP(this, JR.cast(basicColor)))
         this.f_animationBehaviorFactory = JR.cast(animationBehaviorFactory)
     this
 }
     
 and jm_getInstance = (this: VectorAnimationInterfaceFactory, instanceId: Int32) => {
-        return JR.cast(VectorAnimation.jnew_3(this.f_currentPoints, jm_getBasicColorP(this), JR.cast(AnimationBehaviorFactory.jm_getOrCreateInstance(this.f_animationBehaviorFactory))))
+        return JR.cast(VectorAnimation.jnew_3(JR.cast(this.f_currentPoints), JR.cast(jm_getBasicColorP(this)), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationBehaviorFactory.jm_getOrCreateInstance"))
+JR.cast(jlate(JR.cast(this.f_animationBehaviorFactory)))
+})))
 }
     
 and jm_setBasicColorP = (this: VectorAnimationInterfaceFactory, basicColor: BasicColor) => {

@@ -49,6 +49,14 @@ from "../../../../org/allbinary/logic/util/event/AllBinaryEventObject.gr" includ
 use AllBinaryEventObject.{ type AllBinaryEventObject }
 from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
 use BasicArrayList.{ type BasicArrayList }
+from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/lang/Long.gr" include Long
+from "../../../../java/lang/Short.gr" include Short
+from "../../../../java/lang/Byte.gr" include Byte
+from "../../../../java/lang/Character.gr" include Character
+from "../../../../java/lang/Float.gr" include Float
+from "../../../../java/lang/Double.gr" include Double
+from "../../../../java/lang/Boolean.gr" include Boolean
 from "./NullHighScoresSingletonFactory.gr" include NullHighScoresSingletonFactory
 use NullHighScoresSingletonFactory.{ type NullHighScoresSingletonFactory }
 
@@ -66,7 +74,7 @@ provide record HighScoresPaintable {
 provide let rec jclassName = () => "HighScoresPaintable"
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("HighScoresPaintable"), f_displayInfoSingleton: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_basicColor: JR.nullOf(), f_highScores: JR.jnull, f_anchor: 0l, f_charHeight: 0l, }
+    let this = { jobject: JR.newJObject("HighScoresPaintable"), f_displayInfoSingleton: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_basicColor: JR.nullOf(), f_highScores: JR.nullOf(), f_anchor: 0l, f_charHeight: 0l, }
     this.f_displayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
     this.f_myFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(JR.cast(this)))
     this.f_basicColor = JR.cast(BasicColorFactory.jm_getInstance().f_WHITE)
@@ -91,25 +99,28 @@ JR.cast(jlate(JR.cast(font)))
     
 and jm_onEvent = (this: HighScoresPaintable, eventObject: AllBinaryEventObject) => {
         let mut colorChangeEvent: ColorChangeEvent = JR.cast(eventObject)
-        this.f_basicColor = JR.cast(ColorChangeEvent.jm_getBasicColorP(colorChangeEvent))
+        this.f_basicColor = JR.cast(ColorChangeEvent.jm_getBasicColorP(JR.cast(colorChangeEvent)))
 }
     
 and jm_paint = (this: HighScoresPaintable, graphics: JObject) => {
-        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
-        let mut width: Int32 = DisplayInfoSingleton.jm_getLastWidth(this.f_displayInfoSingleton)
-        let mut height: Int32 = DisplayInfoSingleton.jm_getLastHeight(this.f_displayInfoSingleton)
+        ignore(MyFontProcessor.jm_process(JR.cast(this.f_myFontProcessor), JR.cast(graphics)))
+        let mut width: Int32 = DisplayInfoSingleton.jm_getLastWidth(JR.cast(this.f_displayInfoSingleton))
+        let mut height: Int32 = DisplayInfoSingleton.jm_getLastHeight(JR.cast(this.f_displayInfoSingleton))
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_setColor"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(BasicColor.jm_intValue(jm_getBasicColorP(this)))))
+JR.cast(jlate(JR.cast(graphics), JR.cast(BasicColor.jm_intValue(JR.cast(jm_getBasicColorP(this))))))
 })
         let mut heading: String = {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getHeading"))
 JR.cast(jlate(JR.cast(this.f_highScores)))
 }
-        let mut topScoresWidth: Int32 = (Int32.(>>)(JR.className(JR.cast({
+        let mut topScoresWidth: Int32 = (Int32.(>>)({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Font.jm_stringWidth"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_getFont"))
 JR.cast(jlate(JR.cast(graphics)))
-})), 1l))
+}), JR.cast(heading)))
+}, 1l))
         let mut charHeight: Int32 = this.f_charHeight
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
@@ -126,10 +137,13 @@ JR.cast(jlate(JR.cast(this.f_highScores)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getColumnTwoHeading"))
 JR.cast(jlate(JR.cast(this.f_highScores)))
 }
-        let mut columnTwoHeadingWidth: Int32 = JR.className(JR.cast({
+        let mut columnTwoHeadingWidth: Int32 = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Font.jm_stringWidth"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_getFont"))
 JR.cast(jlate(JR.cast(graphics)))
-}))
+}), JR.cast(columnTwoHeading)))
+}
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
 JR.cast(jlate(JR.cast(graphics), JR.cast(columnTwoHeading), JR.cast(Int32.(-)(Int32.(-)(width, 10l), columnTwoHeadingWidth)), JR.cast(Int32.(*)(charHeight, 3l)), JR.cast(this.f_anchor)))
@@ -140,15 +154,21 @@ JR.cast(jlate(JR.cast(graphics), JR.cast(columnTwoHeading), JR.cast(Int32.(-)(In
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScores.jm_getList"))
 JR.cast(jlate(JR.cast(this.f_highScores)))
 })
-        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
         let mut vectorIndex: Int32 = 0l
-        let mut highScore: JObject = JR.jnull
+        let mut highScore: JObject = JR.nullOf()
         while ((Int32.(<)(vectorIndex, size) && Int32.(<)(Int32.(*)(charHeight, index), Int32.(-)(height, (Int32.(*)(charHeight, 2l)))))) {
             highScore = JR.cast(list.f_objectArray[Int32.toNumber(vectorIndex)])
-            let mut nextScoreWidth: Int32 = JR.className(JR.cast({
+            let mut nextScoreWidth: Int32 = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Font.jm_stringWidth"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_getFont"))
 JR.cast(jlate(JR.cast(graphics)))
-}))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HighScore.jm_getScoreString"))
+JR.cast(jlate(JR.cast(highScore)))
+})))
+}
             if (Int32.(>)(nextScoreWidth, largestSecondColumnWidth)) {
                 largestSecondColumnWidth = nextScoreWidth
             }
@@ -188,6 +208,7 @@ and jm_setHighScores = (this: HighScoresPaintable, highScores: JObject) => {
         this.f_highScores = JR.cast(highScores)
 }
 
+JR.registerSuper("HighScoresPaintable", "Paintable")
 JR.registerLateBound("HighScoresPaintable.jnew_0", jnew_0)
 JR.registerLateBound("HighScoresPaintable.jm_updateMeasurement", jm_updateMeasurement)
 JR.registerLateBound("HighScoresPaintable.jm_onEvent", jm_onEvent)

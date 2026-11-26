@@ -65,11 +65,17 @@ and jm_setPoint = (this: Rectangle, point: GPoint) => {
 }
     
 and jm_getMaxX = (this: Rectangle) => {
-        return Int32.(+)(GPoint.jm_getX(this.f_point), this.f_width)
+        return Int32.(+)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getX"))
+JR.cast(jlate(JR.cast(this.f_point)))
+}, this.f_width)
 }
     
 and jm_getMaxY = (this: Rectangle) => {
-        return Int32.(+)(GPoint.jm_getY(this.f_point), this.f_height)
+        return Int32.(+)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getY"))
+JR.cast(jlate(JR.cast(this.f_point)))
+}, this.f_height)
 }
     
 and jm_getWidth = (this: Rectangle) => {
@@ -90,18 +96,21 @@ and jm_setHeight = (this: Rectangle, height: Int32) => {
     
 and jm_toString = (this: Rectangle) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, GPoint.jm_toString(jm_getPoint(this))))
-        ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
-        ignore(StringMaker.jm_append(stringBuffer, CommonLabels.jm_getInstance().f_WIDTH_LABEL))
-        ignore(StringMaker.jm_appendint(stringBuffer, jm_getWidth(this)))
-        ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
-        ignore(StringMaker.jm_append(stringBuffer, CommonLabels.jm_getInstance().f_HEIGHT_LABEL))
-        ignore(StringMaker.jm_appendint(stringBuffer, jm_getHeight(this)))
-        ignore(StringMaker.jm_append(stringBuffer, " MaxX: "))
-        ignore(StringMaker.jm_appendint(stringBuffer, jm_getMaxX(this)))
-        ignore(StringMaker.jm_append(stringBuffer, " MaxY: "))
-        ignore(StringMaker.jm_appendint(stringBuffer, jm_getMaxY(this)))
-        return StringMaker.jm_toString(stringBuffer)
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_toString"))
+JR.cast(jlate(JR.cast(jm_getPoint(this))))
+})))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonSeps.jm_getInstance().f_SPACE)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonLabels.jm_getInstance().f_WIDTH_LABEL)))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), jm_getWidth(this)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonSeps.jm_getInstance().f_SPACE)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonLabels.jm_getInstance().f_HEIGHT_LABEL)))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), jm_getHeight(this)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" MaxX: ")))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), jm_getMaxX(this)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" MaxY: ")))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), jm_getMaxY(this)))
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
 JR.registerLateBound("Rectangle.jnew_3", jnew_3)

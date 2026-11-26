@@ -58,16 +58,16 @@ and jnew_3 = (mainDemoStatePaintable: Paintable, ownershipPaintable: Paintable, 
     
 and jm_setState = (this: BasicGameDemoPaintable, state: Int32) => {
         if ((state == 0l)) {
-            ignore(jm_setCurrentStatePaintable(this, jm_getMainDemoStatePaintable(this)))
+            ignore(jm_setCurrentStatePaintable(this, JR.cast(jm_getMainDemoStatePaintable(this))))
         } else if ((state == 1l)) {
-            ignore(jm_setCurrentStatePaintable(this, this.f_helpPaintableInterface))
+            ignore(jm_setCurrentStatePaintable(this, JR.cast(this.f_helpPaintableInterface)))
         } else {
-            ignore(jm_setCurrentStatePaintable(this, this.f_ownershipPaintable))
+            ignore(jm_setCurrentStatePaintable(this, JR.cast(this.f_ownershipPaintable)))
         }
 }
     
 and jm_paint = (this: BasicGameDemoPaintable, graphics: JObject) => {
-        ignore(Paintable.jm_paint(jm_getCurrentStatePaintable(this), graphics))
+        ignore(Paintable.jm_paint(JR.cast(jm_getCurrentStatePaintable(this)), JR.cast(graphics)))
 }
     
 and jm_getHelpPaintableInterface = (this: BasicGameDemoPaintable) => {
@@ -86,6 +86,7 @@ and jm_getMainDemoStatePaintable = (this: BasicGameDemoPaintable) => {
         return this.f_mainDemoStatePaintable
 }
 
+JR.registerSuper("BasicGameDemoPaintable", "StatePaintable")
 JR.registerLateBound("BasicGameDemoPaintable.jnew_3", jnew_3)
 JR.registerLateBound("BasicGameDemoPaintable.jm_setState", jm_setState)
 JR.registerLateBound("BasicGameDemoPaintable.jm_paint", jm_paint)

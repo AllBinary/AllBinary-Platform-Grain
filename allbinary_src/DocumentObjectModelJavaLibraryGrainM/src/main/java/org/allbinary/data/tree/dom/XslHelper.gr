@@ -33,6 +33,18 @@ from "../../../../../java/io/OutputStream.gr" include OutputStream
 use OutputStream.{ type OutputStream }
 from "../../../../../java/io/StringBufferInputStream.gr" include StringBufferInputStream
 use StringBufferInputStream.{ type StringBufferInputStream }
+from "../../../../../javax/xml/transform/Templates.gr" include Templates
+use Templates.{ type Templates }
+from "../../../../../javax/xml/transform/Transformer.gr" include Transformer
+use Transformer.{ type Transformer }
+from "../../../../../javax/xml/transform/TransformerFactory.gr" include TransformerFactory
+use TransformerFactory.{ type TransformerFactory }
+from "../../../../../javax/xml/transform/URIResolver.gr" include URIResolver
+use URIResolver.{ type URIResolver }
+from "../../../../../javax/xml/transform/stream/StreamResult.gr" include StreamResult
+use StreamResult.{ type StreamResult }
+from "../../../../../javax/xml/transform/stream/StreamSource.gr" include StreamSource
+use StreamSource.{ type StreamSource }
 from "../../../../../org/allbinary/data/tree/dom/document/XmlDocumentHelper.gr" include XmlDocumentHelper
 use XmlDocumentHelper.{ type XmlDocumentHelper }
 from "../../../../../org/w3c/dom/Document.gr" include Document
@@ -50,7 +62,7 @@ provide let rec jclassName = () => "XslHelper"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: XslHelper = jnew_0()
+    let value: XslHelper = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -72,21 +84,21 @@ and jnew_0 = () => {
     
 and jm_translate_3_StreamSource_StreamSource_StreamResult_ = (this: XslHelper, xsltStreamSource: StreamSource, xmlStreamSource: StreamSource, streamResult: StreamResult) => {
         {
-            let mut transformerFactory: TransformerFactory = JR.cast(TransformerFactory.jm_newInstance())
-            let mut transformer: Transformer = JR.cast(TransformerFactory.jm_newTransformer(transformerFactory, xsltStreamSource))
-            ignore(Transformer.jm_transform(transformer, xmlStreamSource, streamResult))
-            return StreamResult.jm_getOutputStream(streamResult)
+            let mut transformerFactory: TransformerFactory = JR.cast(TransformerFactory.jm_newInstance_0())
+            let mut transformer: Transformer = JR.cast(TransformerFactory.jm_newTransformer_1(transformerFactory, xsltStreamSource))
+            ignore(Transformer.jm_transform_2(transformer, xmlStreamSource, streamResult))
+            return StreamResult.jm_getOutputStream_0(streamResult)
         }
     return JR.nullOf()
 }
     
 and jm_translate_4 = (this: XslHelper, resolver: URIResolver, xsltStreamSource: StreamSource, xmlStreamSource: StreamSource, streamResult: StreamResult) => {
         {
-            let mut tFactory: TransformerFactory = JR.cast(TransformerFactory.jm_newInstance())
-            ignore(TransformerFactory.jm_setURIResolver(tFactory, resolver))
-            let mut transformer: Transformer = JR.cast(TransformerFactory.jm_newTransformer(tFactory, xsltStreamSource))
-            ignore(Transformer.jm_transform(transformer, xmlStreamSource, streamResult))
-            return StreamResult.jm_getOutputStream(streamResult)
+            let mut tFactory: TransformerFactory = JR.cast(TransformerFactory.jm_newInstance_0())
+            ignore(TransformerFactory.jm_setURIResolver_1(tFactory, resolver))
+            let mut transformer: Transformer = JR.cast(TransformerFactory.jm_newTransformer_1(tFactory, xsltStreamSource))
+            ignore(Transformer.jm_transform_2(transformer, xmlStreamSource, streamResult))
+            return StreamResult.jm_getOutputStream_0(streamResult)
         }
     return JR.nullOf()
 }
@@ -95,8 +107,8 @@ and jm_translateTemplate = (this: XslHelper, templates: Templates, xmlStreamSour
         {
             let mut outputStream: ByteArrayOutputStream = ByteArrayOutputStream.jnew_0()
             let mut streamResult: StreamResult = StreamResult.jnew_1(outputStream)
-            ignore(JR.className(JR.cast(Templates.jm_newTransformer(templates))))
-            return JR.toStringOf(JR.cast(StreamResult.jm_getOutputStream(streamResult)))
+            ignore(Transformer.jm_transform_2(Templates.jm_newTransformer_0(templates), xmlStreamSource, streamResult))
+            return JR.toStringOf(StreamResult.jm_getOutputStream_0(streamResult))
         }
     return ""
 }
@@ -104,7 +116,7 @@ and jm_translateTemplate = (this: XslHelper, templates: Templates, xmlStreamSour
 and jm_translate_2_StreamSource_Document_ = (this: XslHelper, xsltStreamSource: StreamSource, xmlDocument: Document) => {
         {
             let mut outputStream: ByteArrayOutputStream = ByteArrayOutputStream.jnew_0()
-            return OutputStream.jm_toString_0(jm_translate_3_StreamSource_StreamSource_StreamResult_(this, xsltStreamSource, StreamSource.jnew_1(StringBufferInputStream.jnew_1(XmlDocumentHelper.jm_toString(xmlDocument))), StreamResult.jnew_1(outputStream)))
+            return JR.toStringOf(jm_translate_3_StreamSource_StreamSource_StreamResult_(this, JR.cast(xsltStreamSource), JR.cast(StreamSource.jnew_1(StringBufferInputStream.jnew_1(XmlDocumentHelper.jm_toString(JR.cast(xmlDocument))))), JR.cast(StreamResult.jnew_1(outputStream))))
         }
     return ""
 }
@@ -112,7 +124,7 @@ and jm_translate_2_StreamSource_Document_ = (this: XslHelper, xsltStreamSource: 
 and jm_translate_2_StreamSource_StreamSource_ = (this: XslHelper, xsltStreamSource: StreamSource, xmlStreamSource: StreamSource) => {
         {
             let mut outputStream: ByteArrayOutputStream = ByteArrayOutputStream.jnew_0()
-            return OutputStream.jm_toString_0(jm_translate_3_StreamSource_StreamSource_StreamResult_(this, xsltStreamSource, xmlStreamSource, StreamResult.jnew_1(outputStream)))
+            return JR.toStringOf(jm_translate_3_StreamSource_StreamSource_StreamResult_(this, JR.cast(xsltStreamSource), JR.cast(xmlStreamSource), JR.cast(StreamResult.jnew_1(outputStream))))
         }
     return ""
 }
@@ -120,7 +132,7 @@ and jm_translate_2_StreamSource_StreamSource_ = (this: XslHelper, xsltStreamSour
 and jm_translate_3_URIResolver_StreamSource_StreamSource_ = (this: XslHelper, resolver: URIResolver, xsltStreamSource: StreamSource, xmlStreamSource: StreamSource) => {
         {
             let mut outputStream: ByteArrayOutputStream = ByteArrayOutputStream.jnew_0()
-            return OutputStream.jm_toString_0(jm_translate_4(this, resolver, xsltStreamSource, xmlStreamSource, StreamResult.jnew_1(outputStream)))
+            return JR.toStringOf(jm_translate_4(this, JR.cast(resolver), JR.cast(xsltStreamSource), JR.cast(xmlStreamSource), JR.cast(StreamResult.jnew_1(outputStream))))
         }
     return ""
 }
@@ -128,7 +140,7 @@ and jm_translate_3_URIResolver_StreamSource_StreamSource_ = (this: XslHelper, re
 and jm_export = (this: XslHelper, outputFile: File, xsltFilePath: String, xmlDocument: Document) => {
         {
             ignore(File.jm_createNewFile_0(outputFile))
-            ignore(jm_translate_3_StreamSource_StreamSource_StreamResult_(this, StreamSource.jnew_1(xsltFilePath), StreamSource.jnew_1(StringBufferInputStream.jnew_1(XmlDocumentHelper.jm_toString(xmlDocument))), StreamResult.jnew_1(outputFile)))
+            ignore(jm_translate_3_StreamSource_StreamSource_StreamResult_(this, JR.cast(StreamSource.jnew_1(xsltFilePath)), JR.cast(StreamSource.jnew_1(StringBufferInputStream.jnew_1(XmlDocumentHelper.jm_toString(JR.cast(xmlDocument))))), JR.cast(StreamResult.jnew_1(outputFile))))
         }
 }
 

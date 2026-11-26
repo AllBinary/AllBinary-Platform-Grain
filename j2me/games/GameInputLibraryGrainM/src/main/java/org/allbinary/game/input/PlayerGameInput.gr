@@ -62,7 +62,7 @@ provide record PlayerGameInput {
 provide let rec jclassName = () => "PlayerGameInput"
     
 and jnew_3 = (gameKeyEventList: BasicArrayList, removalGameKeyEventList: BasicArrayList, playerInputId: Int32) => {
-    let this = { jobject: JR.newJObject("PlayerGameInput"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventList: JR.jnull, f_removalGameKeyEventList: JR.jnull, f_isRemoveDuplicateKeyPresses: false, f_gameInputStrings: JR.nullOf(), f_playerInputId: 0l, }
+    let this = { jobject: JR.newJObject("PlayerGameInput"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_gameKeyEventList: JR.nullOf(), f_removalGameKeyEventList: JR.nullOf(), f_isRemoveDuplicateKeyPresses: false, f_gameInputStrings: JR.nullOf(), f_playerInputId: 0l, }
     this.f_gameInputStrings = JR.cast(GameInputStrings.jm_getInstance())
     
         void
@@ -102,7 +102,10 @@ JR.cast(jlate(JR.cast(this), JR.cast(gameKeyEvent)))
 and jm_onDownKey = (this: PlayerGameInput, gameKeyEvent: Int32) => {
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), CommonLabels.jm_getInstance().f_START_LABEL), Integer.jm_toString(gameKeyEvent)))), JR.cast(this), JR.cast(this.f_gameInputStrings.f_ON_DOWN_GAME_KEY)))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(CommonLabels.jm_getInstance().f_START_LABEL))), JR.cast(Integer.jm_toString(JR.cast(gameKeyEvent))))))), JR.cast(this), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInputStrings.f_ON_DOWN_GAME_KEY"))
+JR.cast(jlate(JR.cast(this.f_gameInputStrings)))
+})))
 })
 }
     
@@ -118,13 +121,14 @@ and jm_onUpKeyEvent = (this: PlayerGameInput, gameKeyEvent: Int32) => {
 }
     
 and jm_onEvent = (this: PlayerGameInput, eventObject: AllBinaryEventObject) => {
-        ignore(ForcedLogUtil.jm_log(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE, JR.cast(this)))
+        ignore(ForcedLogUtil.jm_log(JR.cast(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE), JR.cast(this)))
 }
     
 and jm_getPlayerInputId = (this: PlayerGameInput) => {
         return this.f_playerInputId
 }
 
+JR.registerSuper("PlayerGameInput", "GameInput")
 JR.registerLateBound("PlayerGameInput.jnew_3", jnew_3)
 JR.registerLateBound("PlayerGameInput.jm_onPressGameKeyEvent", jm_onPressGameKeyEvent)
 JR.registerLateBound("PlayerGameInput.jm_onDownGameKeyEvent", jm_onDownGameKeyEvent)

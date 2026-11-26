@@ -49,7 +49,7 @@ provide let rec jclassName = () => "BasicMotionGesturesHandler"
 and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
   Some(value) => value,
   None => {
-    let value: BasicMotionGesturesHandler = jnew_0()
+    let value: BasicMotionGesturesHandler = JR.cast(jnew_0())
     jcell_SINGLETON = Some(value)
     value
   },
@@ -64,16 +64,20 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("BasicMotionGesturesHandler"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_eventStrings: JR.jnull, f_eventListenerInterfaceList: JR.jnull, }
+    let this = { jobject: JR.newJObject("BasicMotionGesturesHandler"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_eventStrings: JR.nullOf(), f_eventListenerInterfaceList: JR.nullOf(), }
         void
     this
 }
     
 and jm_process = (this: BasicMotionGesturesHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) => {
         let mut baseMotionGestureEventListener: BaseMotionGestureEventListener = JR.cast(eventListenerInterface)
-        ignore(BaseMotionGestureEventListener.jm_onMotionGestureEvent(baseMotionGestureEventListener, JR.cast(eventObject)))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BaseMotionGestureEventListener.jm_onMotionGestureEvent"))
+JR.cast(jlate(JR.cast(baseMotionGestureEventListener), JR.cast(JR.cast(eventObject))))
+})
 }
 
+JR.registerSuper("BasicMotionGesturesHandler", "BasicEventHandler")
 JR.registerLateBound("BasicMotionGesturesHandler.jnew_0", jnew_0)
 JR.registerLateBound("BasicMotionGesturesHandler.jm_getInstance", jm_getInstance)
 JR.registerLateBound("BasicMotionGesturesHandler.jm_process", jm_process)

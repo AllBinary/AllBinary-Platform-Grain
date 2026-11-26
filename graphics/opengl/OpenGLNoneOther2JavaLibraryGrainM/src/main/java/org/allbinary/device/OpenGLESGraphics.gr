@@ -24,6 +24,9 @@ use GraphicsInterface.{ type GraphicsInterface }
 
 provide record OpenGLESGraphics {
   jobject: JObject,
+  mut f_strokeStyle: Int32,
+  mut f_translateX: Int32,
+  mut f_translateY: Int32,
   mut f_commonStrings: CommonStrings,
   mut f_gl: JObject,
 }
@@ -32,7 +35,7 @@ provide record OpenGLESGraphics {
 provide let rec jclassName = () => "OpenGLESGraphics"
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("OpenGLESGraphics"), f_commonStrings: JR.nullOf(), f_gl: JR.jnull, }
+    let this = { jobject: JR.newJObject("OpenGLESGraphics"), f_strokeStyle: 0l, f_translateX: 0l, f_translateY: 0l, f_commonStrings: JR.nullOf(), f_gl: JR.nullOf(), }
     this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
     this.f_gl = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("NullGL10.jstatic_NULL_GL10"))
@@ -74,6 +77,7 @@ and jm_setFontDebug = (this: OpenGLESGraphics, font: JObject, fontDebug: FontDeb
         fail JR.toStringOf(JR.newJObject("RuntimeException"))
 }
 
+JR.registerSuper("OpenGLESGraphics", "Graphics")
 JR.registerLateBound("OpenGLESGraphics.jnew_0", jnew_0)
 JR.registerLateBound("OpenGLESGraphics.jm_updateGL", jm_updateGL)
 JR.registerLateBound("OpenGLESGraphics.jm_set", jm_set)

@@ -47,6 +47,8 @@ from "../../../../../org/allbinary/util/EnumerationUtil.gr" include EnumerationU
 use EnumerationUtil.{ type EnumerationUtil }
 from "../../../../../java/lang/Long.gr" include Long
 from "../../../../../java/lang/Boolean.gr" include Boolean
+from "../../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 from "./RemoteHighScoresData.gr" include RemoteHighScoresData
 use RemoteHighScoresData.{ type RemoteHighScoresData }
 
@@ -72,13 +74,13 @@ provide let rec jclassName = () => "RemoteHighScores"
 and jstatic_hashTable = () => match (jcell_hashTable) {
   Some(value) => value,
   None => {
-    let value: JObject = {
+    let value: JObject = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashtable"))
 JR.cast(jlate(JR.cast({
-let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
+let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance_0"))
 JR.cast(jlate())
 })))
-}
+})
     jcell_hashTable = Some(value)
     value
   },
@@ -89,9 +91,9 @@ and jset_hashTable = (value: JObject) => {
 }
     
 and jnew_7 = (abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: String, columnTwoHeading: String, ascending: Bool, preload: Bool) => {
-    let this = { jobject: JR.newJObject("RemoteHighScores"), f_orderedHighScoresList: JR.jnull, f_name: "", f_heading: "", f_columnOneHeading: "", f_columnTwoHeading: "", f_logUtil: JR.jnull, f_enumerationUtil: JR.nullOf(), f_abeClientInformation: JR.nullOf(), f_softwareInformation: JR.nullOf(), f_ascending: false, f_ASCENDING: "", }
+    let this = { jobject: JR.newJObject("RemoteHighScores"), f_orderedHighScoresList: JR.nullOf(), f_name: "", f_heading: "", f_columnOneHeading: "", f_columnTwoHeading: "", f_logUtil: JR.nullOf(), f_enumerationUtil: JR.nullOf(), f_abeClientInformation: JR.nullOf(), f_softwareInformation: JR.nullOf(), f_ascending: false, f_ASCENDING: "", }
     this.f_logUtil = JR.cast({
-let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance_0"))
 JR.cast(jlate())
 })
     this.f_enumerationUtil = JR.cast(EnumerationUtil.jm_getInstance())
@@ -105,9 +107,9 @@ JR.cast(jlate())
         ignore(jm_setAscending(this, ascending))
         if (preload) {
             ignore({
-let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("RemoteHighScoresProcessorFactory.jm_process"))
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("RemoteHighScoresProcessorInterface.jm_process"))
 JR.cast(jlate(JR.cast({
-let jlate: () => JObject = JR.cast(JR.lateBound("RemoteHighScoresProcessorFactory.jm_getInstance"))
+let jlate: () => JObject = JR.cast(JR.lateBound("RemoteHighScoresProcessorFactory.jm_getInstance_0"))
 JR.cast(jlate())
 }), JR.cast(this), JR.cast(this.f_abeClientInformation), JR.cast(gameInfo)))
 })
@@ -116,12 +118,12 @@ JR.cast(jlate())
 }
     
 and jm_getInstance = (abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: String, columnTwoHeading: String, isAscending: Bool) => {
-        return jm_getInstancePreload(abeClientInformation, softwareInformation, gameInfo, heading, columnTwoHeading, isAscending, true)
+        return jm_getInstancePreload(JR.cast(abeClientInformation), JR.cast(softwareInformation), JR.cast(gameInfo), JR.cast(heading), JR.cast(columnTwoHeading), isAscending, true)
 }
     
 and jm_getInstancePreload = (abeClientInformation: AbeClientInformationInterface, softwareInformation: SoftwareInformation, gameInfo: GameInfo, heading: String, columnTwoHeading: String, isAscending: Bool, preload: Bool) => {
         let mut logUtil: JObject = JR.cast({
-let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
+let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance_0"))
 JR.cast(jlate())
 })
         {
@@ -130,7 +132,7 @@ let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_
 JR.cast(jlate(JR.cast(jstatic_hashTable()), JR.cast(gameInfo)))
 })
             if (JR.isNull(highScores)) {
-                highScores = JR.cast(JR.cast(jnew_7(abeClientInformation, softwareInformation, gameInfo, heading, columnTwoHeading, isAscending, preload)))
+                highScores = JR.cast(JR.cast(jnew_7(JR.cast(abeClientInformation), JR.cast(softwareInformation), JR.cast(gameInfo), heading, columnTwoHeading, isAscending, preload)))
                 ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
 JR.cast(jlate(JR.cast(jstatic_hashTable()), JR.cast(gameInfo), JR.cast(highScores)))
@@ -138,14 +140,14 @@ JR.cast(jlate(JR.cast(jstatic_hashTable()), JR.cast(gameInfo), JR.cast(highScore
             }
             return highScores
         }
-    return JR.jnull
+    return JR.nullOf()
 }
     
 and jm_addHighScore = (this: RemoteHighScores, newHighScore: JObject) => {
         ignore({
-let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("RemoteHighScoresSubmissionProcessorFactory.jm_process"))
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("RemoteHighScoresSubmissionProcessorInterface.jm_process"))
 JR.cast(jlate(JR.cast({
-let jlate: () => JObject = JR.cast(JR.lateBound("RemoteHighScoresSubmissionProcessorFactory.jm_getInstance"))
+let jlate: () => JObject = JR.cast(JR.lateBound("RemoteHighScoresSubmissionProcessorFactory.jm_getInstance_0"))
 JR.cast(jlate())
 }), JR.cast(this), JR.cast(this.f_abeClientInformation), JR.cast(newHighScore)))
 })
@@ -161,10 +163,13 @@ JR.cast(jlate(JR.cast(this)))
 })
         let mut vector: BasicArrayList = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
-JR.cast(jlate(JR.cast(hashtable), JR.cast(JR.cast(RemoteHighScoresData.jm_getInstance().f_HIGH_SCORES))))
+JR.cast(jlate(JR.cast(hashtable), JR.cast(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RemoteHighScoresData.f_HIGH_SCORES"))
+JR.cast(jlate(JR.cast(RemoteHighScoresData.jm_getInstance())))
+}))))
 })
         if (!JR.isNull(vector)) {
-            let mut size: Int32 = BasicArrayList.jm_size(vector)
+            let mut size: Int32 = BasicArrayList.jm_size(JR.cast(vector))
             {
                 let mut index: Int32 = 0l
                 let mut jfirst = true
@@ -174,9 +179,9 @@ JR.cast(jlate(JR.cast(hashtable), JR.cast(JR.cast(RemoteHighScoresData.jm_getIns
                     }
                     jfirst = false
                     if (!(Int32.(<)(index, size))) break
-                let mut highScoreVector: BasicArrayList = JR.cast(BasicArrayList.jm_get(vector, index))
-                let mut displayName: String = JR.cast(BasicArrayList.jm_get(highScoreVector, 0l))
-                let mut score: String = JR.cast(BasicArrayList.jm_get(highScoreVector, 1l))
+                let mut highScoreVector: BasicArrayList = JR.cast(BasicArrayList.jm_get(JR.cast(vector), index))
+                let mut displayName: String = JR.cast(BasicArrayList.jm_get(JR.cast(highScoreVector), 0l))
+                let mut score: String = JR.cast(BasicArrayList.jm_get(JR.cast(highScoreVector), 1l))
                 let mut longScore: Int64 = Long.jm_parseLong(score)
                 let mut highScore: JObject = {
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("HighScore.jnew_4"))
@@ -192,15 +197,15 @@ JR.cast(jlate(JR.cast(this)))
                 }
             }
         } else {
-            let mut l_NEXT_ELEMENT: String = StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), CommonLabels.jm_getInstance().f_NEXT), "Element: "))
+            let mut l_NEXT_ELEMENT: String = StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(CommonLabels.jm_getInstance().f_NEXT))), JR.cast("Element: "))))
             let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
             let mut enumeration: Enumeration = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_elements"))
 JR.cast(jlate(JR.cast(hashtable)))
 })
-            let mut nextElement: JObject = JR.jnull
-            while (EnumerationUtil.jm_hasMoreElements(this.f_enumerationUtil, enumeration)) {
-                nextElement = JR.cast(EnumerationUtil.jm_nextElement(this.f_enumerationUtil, enumeration))
+            let mut nextElement: JObject = JR.nullOf()
+            while (EnumerationUtil.jm_hasMoreElements(JR.cast(this.f_enumerationUtil), JR.cast(enumeration))) {
+                nextElement = JR.cast(EnumerationUtil.jm_nextElement(JR.cast(this.f_enumerationUtil), JR.cast(enumeration)))
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(l_NEXT_ELEMENT ++ toString(nextElement)), JR.cast(this), JR.cast(commonStrings.f_PROCESS)))
@@ -221,6 +226,7 @@ and jm_getSoftwareInformation = (this: RemoteHighScores) => {
         return this.f_softwareInformation
 }
 
+JR.registerSuper("RemoteHighScores", "HighScores")
 JR.registerLateBound("RemoteHighScores.jnew_7", jnew_7)
 JR.registerLateBound("RemoteHighScores.jm_getInstance", jm_getInstance)
 JR.registerLateBound("RemoteHighScores.jm_getInstancePreload", jm_getInstancePreload)

@@ -33,6 +33,14 @@ from "../../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinary
 use AllBinaryLayer.{ type AllBinaryLayer }
 from "../../../../../../org/allbinary/layer/AllBinaryLayerManager.gr" include AllBinaryLayerManager
 use AllBinaryLayerManager.{ type AllBinaryLayerManager }
+from "../../../../../../java/lang/Integer.gr" include Integer
+from "../../../../../../java/lang/Long.gr" include Long
+from "../../../../../../java/lang/Short.gr" include Short
+from "../../../../../../java/lang/Byte.gr" include Byte
+from "../../../../../../java/lang/Character.gr" include Character
+from "../../../../../../java/lang/Float.gr" include Float
+from "../../../../../../java/lang/Double.gr" include Double
+from "../../../../../../java/lang/Boolean.gr" include Boolean
 from "./BasePatrolAI.gr" include BasePatrolAI
 use BasePatrolAI.{ type BasePatrolAI }
 
@@ -56,7 +64,7 @@ provide record RandomPatrolAI {
 provide let rec jclassName = () => "RandomPatrolAI"
     
 and jnew_3 = (hashtable: JObject, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
-    let this = { jobject: JR.newJObject("RandomPatrolAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_maxDistance: JR.jnull, f_currentDistance: 0l, f_xTotalDistance: 0l, f_lastKeyDirection: 0l, f_keyDirection: 0l, f_changedDirection: false, }
+    let this = { jobject: JR.newJObject("RandomPatrolAI"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_ownerLayerInterface: JR.nullOf(), f_gameInput: JR.nullOf(), f_lastKey: 0l, f_maxDistance: JR.nullOf(), f_currentDistance: 0l, f_xTotalDistance: 0l, f_lastKeyDirection: 0l, f_keyDirection: 0l, f_changedDirection: false, }
     this.f_changedDirection = true
         void
         ignore(jm_updateRandomDistance(this))
@@ -64,7 +72,7 @@ and jnew_3 = (hashtable: JObject, ownerLayerInterface: AllBinaryLayer, gameInput
 }
     
 and jm_updateRandomDistance = (this: RandomPatrolAI) => {
-        this.f_currentDistance = JR.cast(MyRandomFactory.jm_getAbsoluteNextInt(MyRandomFactory.jm_getInstance(), JR.className(JR.cast(JR.cast(this.f_maxDistance)))))
+        this.f_currentDistance = JR.cast(MyRandomFactory.jm_getAbsoluteNextInt(JR.cast(MyRandomFactory.jm_getInstance()), Integer.jm_intValue(JR.cast(JR.cast(this.f_maxDistance)))))
 }
     
 and jm_processAI = (this: RandomPatrolAI, allBinaryLayerManager: AllBinaryLayerManager) => {
@@ -94,6 +102,7 @@ and jm_nextDirection = (this: RandomPatrolAI) => {
         this.f_changedDirection = true
 }
 
+JR.registerSuper("RandomPatrolAI", "BasePatrolAI")
 JR.registerLateBound("RandomPatrolAI.jnew_3", jnew_3)
 JR.registerLateBound("RandomPatrolAI.jm_updateRandomDistance", jm_updateRandomDistance)
 JR.registerLateBound("RandomPatrolAI.jm_processAI", jm_processAI)

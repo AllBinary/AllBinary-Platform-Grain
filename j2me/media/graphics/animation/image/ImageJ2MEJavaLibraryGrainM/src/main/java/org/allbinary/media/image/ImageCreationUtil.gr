@@ -39,7 +39,7 @@ provide let rec jclassName = () => "ImageCreationUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: ImageCreationUtil = jnew_0()
+    let value: ImageCreationUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -60,12 +60,18 @@ and jnew_0 = () => {
 }
     
 and jm_createImageWH = (this: ImageCreationUtil, width: Int32, height: Int32) => {
-        let mut image: JObject = JR.cast(GameFeatureImageCacheFactory.jm_get(GameFeatureImageCacheFactory.jm_getInstance(), JR.className(this), width, height))
+        let mut image: JObject = JR.cast({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageCache.jm_get"))
+JR.cast(jlate(JR.cast(GameFeatureImageCacheFactory.jm_getInstance()), JR.cast(JR.className(this)), JR.cast(width), JR.cast(height)))
+})
         return image
 }
     
 and jm_createImage = (this: ImageCreationUtil, width: Int32, height: Int32, maxScaleX: Float32, maxScaleY: Float32) => {
-        let mut image: JObject = JR.cast(GameFeatureImageCacheFactory.jm_get(GameFeatureImageCacheFactory.jm_getInstance(), JR.className(this), Int32.(+)(JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(width)), maxScaleX)))), 1l), Int32.(+)(JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(height)), maxScaleY)))), 1l)))
+        let mut image: JObject = JR.cast({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageCache.jm_get"))
+JR.cast(jlate(JR.cast(GameFeatureImageCacheFactory.jm_getInstance()), JR.cast(JR.className(this)), JR.cast(Int32.(+)(JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(width)), maxScaleX)))), 1l)), JR.cast(Int32.(+)(JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(height)), maxScaleY)))), 1l))))
+})
         return image
 }
 

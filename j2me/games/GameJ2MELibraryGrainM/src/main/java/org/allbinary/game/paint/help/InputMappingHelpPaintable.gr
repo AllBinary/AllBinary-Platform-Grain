@@ -53,6 +53,14 @@ from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonString
 use CommonStrings.{ type CommonStrings }
 from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
 use BasicArrayList.{ type BasicArrayList }
+from "../../../../../java/lang/Integer.gr" include Integer
+from "../../../../../java/lang/Long.gr" include Long
+from "../../../../../java/lang/Short.gr" include Short
+from "../../../../../java/lang/Byte.gr" include Byte
+from "../../../../../java/lang/Character.gr" include Character
+from "../../../../../java/lang/Float.gr" include Float
+from "../../../../../java/lang/Double.gr" include Double
+from "../../../../../java/lang/Boolean.gr" include Boolean
 from "./HelpPaintable.gr" include HelpPaintable
 use HelpPaintable.{ type HelpPaintable }
 from "./UpdateMyFontProperties.gr" include UpdateMyFontProperties
@@ -131,7 +139,7 @@ and jset_MORE_THAN_TWO_IN_LIST_AND = (value: String) => {
 }
     
 and jnew_3 = (gameInputMappingArray: Array<GameInputMapping>, backgroundBasicColor: BasicColor, basicColor: BasicColor) => {
-    let this = { jobject: JR.newJObject("InputMappingHelpPaintable"), f_displayInfo: JR.jnull, f_updateMyFontProcessor: JR.jnull, f_myFontProcessor: JR.jnull, f_anchor: 0l, f_title: "", f_inputInfo: [> ], f_basicColor: JR.jnull, f_titleBeginWidth: 0l, f_beginWidthArray: [> ], f_charHeight: 0l, f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_commonSeps: JR.nullOf(), f_stringUtil: JR.nullOf(), f_basicColorFactory: JR.nullOf(), f_NONE: JR.nullOf(), f_EMPTY_STRING: "", f_gameInputMappingArray: [> ], f_keyMappingArray: [> ], f_actionBasicColor: [> ], f_inputBasicColorArray: [> ], f_selectedBasicColor: JR.nullOf(), f_updateMyFontProperties: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("InputMappingHelpPaintable"), f_displayInfo: JR.nullOf(), f_updateMyFontProcessor: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_anchor: 0l, f_title: "", f_inputInfo: [> ], f_basicColor: JR.nullOf(), f_titleBeginWidth: 0l, f_beginWidthArray: [> ], f_charHeight: 0l, f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_commonSeps: JR.nullOf(), f_stringUtil: JR.nullOf(), f_basicColorFactory: JR.nullOf(), f_NONE: JR.nullOf(), f_EMPTY_STRING: "", f_gameInputMappingArray: [> ], f_keyMappingArray: [> ], f_actionBasicColor: [> ], f_inputBasicColorArray: [> ], f_selectedBasicColor: JR.nullOf(), f_updateMyFontProperties: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -144,13 +152,13 @@ JR.cast(jlate())
     this.f_EMPTY_STRING = StringUtil.jm_getInstance().f_EMPTY_STRING
     
     this.f_keyMappingArray = Array.make(Int32.toNumber(0l), JR.nullOf())
-    this.f_actionBasicColor = BasicColorUtil.jm_getInstance().f_ZERO_ARRAY
+    this.f_actionBasicColor = JR.cast(BasicColorUtil.jm_getInstance().f_ZERO_ARRAY)
     this.f_inputBasicColorArray = Array.init(Int32.toNumber(0l), jindex1 => Array.make(Int32.toNumber(0l), JR.nullOf()))
     
     this.f_updateMyFontProperties = UpdateMyFontProperties.jnew_0()
         void
         this.f_gameInputMappingArray = gameInputMappingArray
-        ignore(jm_update(this, this.f_NONE, JR.cast(this.f_NONE)))
+        ignore(jm_update(this, JR.cast(this.f_NONE), JR.cast(this.f_NONE)))
         if ((JR.isSame(backgroundBasicColor, this.f_basicColorFactory.f_WHITE) || JR.isSame(basicColor, this.f_basicColorFactory.f_WHITE))) {
             this.f_selectedBasicColor = JR.cast(this.f_basicColorFactory.f_RED)
         } else {
@@ -165,19 +173,40 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_getFont"))
 JR.cast(jlate(JR.cast(graphics)))
 })
         let mut updateMyFontProperties: UpdateMyFontProperties = UpdateMyFontProperties.jnew_0()
-        updateMyFontProperties.f_charHeight = {
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.set_f_charHeight"))
+JR.cast(jlate(JR.cast(updateMyFontProperties), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Font.jm_getHeight"))
 JR.cast(jlate(JR.cast(font)))
-}
+})))
+})
         let mut stringMaker: StringMaker = StringMaker.jnew_0()
         let mut inputInfo: Array<String> = JR.cast(this.f_inputInfo)
         let mut size: Int32 = Int32.fromNumber(Array.length(inputInfo))
-        updateMyFontProperties.f_actionStringArray = Array.make(Int32.toNumber(size), "")
-        updateMyFontProperties.f_keymappingBeginWidthArray = Array.make(Int32.toNumber(size), 0l)
-        updateMyFontProperties.f_actionStringDeltaXArray = Array.make(Int32.toNumber(size), 0l)
-        updateMyFontProperties.f_inputDeltaXArray = Array.init(Int32.toNumber(size), jindex1 => Array.make(Int32.toNumber(0l), 0l))
-        updateMyFontProperties.f_sepArray = Array.init(Int32.toNumber(size), jindex1 => Array.make(Int32.toNumber(0l), ""))
-        updateMyFontProperties.f_sepWidthArray = Array.init(Int32.toNumber(size), jindex1 => Array.make(Int32.toNumber(0l), 0l))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.set_f_actionStringArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties), JR.cast(Array.make(Int32.toNumber(size), ""))))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.set_f_keymappingBeginWidthArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties), JR.cast(Array.make(Int32.toNumber(size), 0l))))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.set_f_actionStringDeltaXArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties), JR.cast(Array.make(Int32.toNumber(size), 0l))))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.set_f_inputDeltaXArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties), JR.cast(Array.init(Int32.toNumber(size), jindex1 => Array.make(Int32.toNumber(0l), 0l)))))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.set_f_sepArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties), JR.cast(Array.init(Int32.toNumber(size), jindex1 => Array.make(Int32.toNumber(0l), "")))))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.set_f_sepWidthArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties), JR.cast(Array.init(Int32.toNumber(size), jindex1 => Array.make(Int32.toNumber(0l), 0l)))))
+})
         let mut list: BasicArrayList = JR.nullOf()
         let mut keyMappings: String = ""
         let mut actionString: String = ""
@@ -193,23 +222,44 @@ JR.cast(jlate(JR.cast(font)))
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             list = this.f_keyMappingArray[Int32.toNumber(index)]
-            keyMappings = jm_get(this, list)
-            ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
-            actionString = StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(stringMaker, inputInfo[Int32.toNumber(index)]), this.f_commonSeps.f_COLON), this.f_commonSeps.f_SPACE), this.f_commonSeps.f_SPACE))
-            updateMyFontProperties.f_actionStringArray[Int32.toNumber(index)] = JR.cast(actionString)
-            ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
-            updateMyFontProperties.f_keymappingBeginWidthArray[Int32.toNumber(index)] = (Int32.(>>)({
+            keyMappings = jm_get(this, JR.cast(list))
+            ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
+            actionString = StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast(inputInfo[Int32.toNumber(index)]))), JR.cast(this.f_commonSeps.f_COLON))), JR.cast(this.f_commonSeps.f_SPACE))), JR.cast(this.f_commonSeps.f_SPACE))))
+            {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_actionStringArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties)))
+}[Int32.toNumber(index)] = JR.cast(actionString)
+            ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
+            {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_keymappingBeginWidthArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties)))
+}[Int32.toNumber(index)] = (Int32.(>>)({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Font.jm_stringWidth"))
-JR.cast(jlate(JR.cast(font), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(stringMaker, updateMyFontProperties.f_actionStringArray[Int32.toNumber(index)]), keyMappings)))))
+JR.cast(jlate(JR.cast(font), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_actionStringArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties)))
+}[Int32.toNumber(index)]))), JR.cast(keyMappings)))))))
 }, 1l))
-            updateMyFontProperties.f_actionStringDeltaXArray[Int32.toNumber(index)] = JR.cast({
+            {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_actionStringDeltaXArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties)))
+}[Int32.toNumber(index)] = {
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Font.jm_stringWidth"))
 JR.cast(jlate(JR.cast(font), JR.cast(actionString)))
-})
-            size2 = BasicArrayList.jm_size(list)
-            updateMyFontProperties.f_inputDeltaXArray[Int32.toNumber(index)] = Array.make(Int32.toNumber(size2), 0l)
-            updateMyFontProperties.f_sepArray[Int32.toNumber(index)] = Array.make(Int32.toNumber(size2), "")
-            updateMyFontProperties.f_sepWidthArray[Int32.toNumber(index)] = Array.make(Int32.toNumber(size2), 0l)
+}
+            size2 = BasicArrayList.jm_size(JR.cast(list))
+            {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_inputDeltaXArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties)))
+}[Int32.toNumber(index)] = Array.make(Int32.toNumber(size2), 0l)
+            {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_sepArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties)))
+}[Int32.toNumber(index)] = Array.make(Int32.toNumber(size2), "")
+            {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_sepWidthArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties)))
+}[Int32.toNumber(index)] = Array.make(Int32.toNumber(size2), 0l)
             {
                 let mut index2: Int32 = 0l
                 let mut jfirst = true
@@ -220,27 +270,51 @@ JR.cast(jlate(JR.cast(font), JR.cast(actionString)))
                     jfirst = false
                     if (!(Int32.(<)(index2, size2))) break
                 input = JR.cast(list.f_objectArray[Int32.toNumber(index2)])
-                updateMyFontProperties.f_inputDeltaXArray[Int32.toNumber(index)][Int32.toNumber(index2)] = JR.cast({
+                {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_inputDeltaXArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties)))
+}[Int32.toNumber(index)][Int32.toNumber(index2)] = {
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Font.jm_stringWidth"))
-JR.cast(jlate(JR.cast(font), JR.cast(Input.jm_getName(input))))
-})
-                updateMyFontProperties.f_sepArray[Int32.toNumber(index)][Int32.toNumber(index2)] = JR.cast(this.f_EMPTY_STRING)
-                if (Int32.(<)(Int32.(+)(index2, 1l), BasicArrayList.jm_size(list))) {
-                    if ((BasicArrayList.jm_size(list) == 2l)) {
-                        updateMyFontProperties.f_sepArray[Int32.toNumber(index)][Int32.toNumber(index2)] = JR.cast(jstatic_AND())
+JR.cast(jlate(JR.cast(font), JR.cast(Input.jm_getName(JR.cast(input)))))
+}
+                {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_sepArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties)))
+}[Int32.toNumber(index)][Int32.toNumber(index2)] = JR.cast(this.f_EMPTY_STRING)
+                if (Int32.(<)(Int32.(+)(index2, 1l), BasicArrayList.jm_size(JR.cast(list)))) {
+                    if ((BasicArrayList.jm_size(JR.cast(list)) == 2l)) {
+                        {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_sepArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties)))
+}[Int32.toNumber(index)][Int32.toNumber(index2)] = JR.cast(jstatic_AND())
                     } else {
-                        if ((Int32.(+)(index2, 2l) == BasicArrayList.jm_size(list))) {
-                            updateMyFontProperties.f_sepArray[Int32.toNumber(index)][Int32.toNumber(index2)] = JR.cast(jstatic_MORE_THAN_TWO_IN_LIST_AND())
+                        if ((Int32.(+)(index2, 2l) == BasicArrayList.jm_size(JR.cast(list)))) {
+                            {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_sepArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties)))
+}[Int32.toNumber(index)][Int32.toNumber(index2)] = JR.cast(jstatic_MORE_THAN_TWO_IN_LIST_AND())
                         } else {
-                            updateMyFontProperties.f_sepArray[Int32.toNumber(index)][Int32.toNumber(index2)] = JR.cast(jstatic_SEP())
+                            {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_sepArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties)))
+}[Int32.toNumber(index)][Int32.toNumber(index2)] = JR.cast(jstatic_SEP())
                         }
                     }
                 }
-                if ((!JR.isSame(updateMyFontProperties.f_sepArray[Int32.toNumber(index)][Int32.toNumber(index2)], this.f_EMPTY_STRING))) {
-                    updateMyFontProperties.f_sepWidthArray[Int32.toNumber(index)][Int32.toNumber(index2)] = JR.cast({
+                if ((!JR.isSame({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_sepArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties)))
+}[Int32.toNumber(index)][Int32.toNumber(index2)], this.f_EMPTY_STRING))) {
+                    {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_sepWidthArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties)))
+}[Int32.toNumber(index)][Int32.toNumber(index2)] = {
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Font.jm_stringWidth"))
-JR.cast(jlate(JR.cast(font), JR.cast(updateMyFontProperties.f_sepArray[Int32.toNumber(index)][Int32.toNumber(index2)])))
-})
+JR.cast(jlate(JR.cast(font), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_sepArray"))
+JR.cast(jlate(JR.cast(updateMyFontProperties)))
+}[Int32.toNumber(index)][Int32.toNumber(index2)])))
+}
                 }
                 }
             }
@@ -254,7 +328,7 @@ and jm_update = (this: InputMappingHelpPaintable, selectedGameKey: GameKey, sele
         let mut stringMaker: StringMaker = StringMaker.jnew_0()
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(stringMaker, CommonLabels.jm_getInstance().f_START_LABEL), "selected GameKey: "), StringUtil.jm_toString(this.f_stringUtil, JR.cast(selectedGameKey))), " Input: "), StringUtil.jm_toString(this.f_stringUtil, JR.cast(selectedInput))))), JR.cast(this), JR.cast(this.f_commonStrings.f_UPDATE)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast(CommonLabels.jm_getInstance().f_START_LABEL))), JR.cast("selected GameKey: "))), JR.cast(StringUtil.jm_toString(JR.cast(this.f_stringUtil), JR.cast(selectedGameKey))))), JR.cast(" Input: "))), JR.cast(StringUtil.jm_toString(JR.cast(this.f_stringUtil), JR.cast(selectedInput))))))), JR.cast(this), JR.cast(this.f_commonStrings.f_UPDATE)))
 })
         let mut gameKeyMapping: PersistentInputMapping = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PlatformInputMappingFactory.jm_getPersistentInputMappingInstance"))
@@ -281,9 +355,12 @@ JR.cast(jlate())
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             gameInputMapping = this.f_gameInputMappingArray[Int32.toNumber(index)]
-            gameKey = JR.cast(GameInputMapping.jm_getGameKey(gameInputMapping))
-            list = JR.cast(JR.className(JR.cast(PersistentInputMapping.jm_getInputMapping(gameKeyMapping))))
-            let mut size2: Int32 = BasicArrayList.jm_size(list)
+            gameKey = JR.cast(GameInputMapping.jm_getGameKey(JR.cast(gameInputMapping)))
+            list = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("InputMapping.jm_getMappedInput"))
+JR.cast(jlate(JR.cast(PersistentInputMapping.jm_getInputMapping(JR.cast(gameKeyMapping))), JR.cast(gameKey)))
+})
+            let mut size2: Int32 = BasicArrayList.jm_size(JR.cast(list))
             inputBasicColorArray[Int32.toNumber(index)] = Array.make(Int32.toNumber(size2), JR.nullOf())
             {
                 let mut index2: Int32 = 0l
@@ -298,25 +375,25 @@ JR.cast(jlate())
                 }
             }
             if (JR.isSame(gameKey, selectedGameKey)) {
-                ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
+                ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(stringMaker, "Found: selected GameKey: "), StringUtil.jm_toString(this.f_stringUtil, JR.cast(selectedGameKey))))), JR.cast(this), JR.cast(this.f_commonStrings.f_UPDATE)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast("Found: selected GameKey: "))), JR.cast(StringUtil.jm_toString(JR.cast(this.f_stringUtil), JR.cast(selectedGameKey))))))), JR.cast(this), JR.cast(this.f_commonStrings.f_UPDATE)))
 })
                 actionBasicColor[Int32.toNumber(index)] = JR.cast(this.f_selectedBasicColor)
-                let mut indexOfSelectedInput: Int32 = BasicArrayList.jm_indexOf(list, JR.cast(selectedInput))
+                let mut indexOfSelectedInput: Int32 = BasicArrayList.jm_indexOf(JR.cast(list), JR.cast(selectedInput))
                 if (Int32.(>=)(indexOfSelectedInput, 0l)) {
-                    ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
+                    ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
                     ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(stringMaker, "Found: selected Input: "), StringUtil.jm_toString(this.f_stringUtil, JR.cast(selectedInput))))), JR.cast(this), JR.cast(this.f_commonStrings.f_UPDATE)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast("Found: selected Input: "))), JR.cast(StringUtil.jm_toString(JR.cast(this.f_stringUtil), JR.cast(selectedInput))))))), JR.cast(this), JR.cast(this.f_commonStrings.f_UPDATE)))
 })
                     inputBasicColorArray[Int32.toNumber(index)][Int32.toNumber(indexOfSelectedInput)] = JR.cast(this.f_selectedBasicColor)
                 }
             } else {
                 actionBasicColor[Int32.toNumber(index)] = JR.cast(JR.cast(this.f_basicColor))
             }
-            keyInfo[Int32.toNumber(index)] = JR.cast(GameInputMapping.jm_getName(gameInputMapping))
+            keyInfo[Int32.toNumber(index)] = JR.cast(GameInputMapping.jm_getName(JR.cast(gameInputMapping)))
             keyMappingArray[Int32.toNumber(index)] = JR.cast(list)
             }
         }
@@ -333,7 +410,7 @@ JR.cast(jlate(JR.cast(this), JR.cast(keyInfo)))
 and jm_get = (this: InputMappingHelpPaintable, keyList: BasicArrayList) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
         let mut key: Input = JR.nullOf()
-        let mut size: Int32 = BasicArrayList.jm_size(keyList)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(keyList))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -344,21 +421,21 @@ and jm_get = (this: InputMappingHelpPaintable, keyList: BasicArrayList) => {
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             key = JR.cast(keyList.f_objectArray[Int32.toNumber(index)])
-            ignore(StringMaker.jm_append(stringBuffer, Input.jm_getName(key)))
-            if (Int32.(<)(Int32.(+)(index, 1l), BasicArrayList.jm_size(keyList))) {
-                if ((BasicArrayList.jm_size(keyList) == 2l)) {
-                    ignore(StringMaker.jm_append(stringBuffer, jstatic_AND()))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(Input.jm_getName(JR.cast(key)))))
+            if (Int32.(<)(Int32.(+)(index, 1l), BasicArrayList.jm_size(JR.cast(keyList)))) {
+                if ((BasicArrayList.jm_size(JR.cast(keyList)) == 2l)) {
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_AND())))
                 } else {
-                    if ((Int32.(+)(index, 2l) == BasicArrayList.jm_size(keyList))) {
-                        ignore(StringMaker.jm_append(stringBuffer, jstatic_MORE_THAN_TWO_IN_LIST_AND()))
+                    if ((Int32.(+)(index, 2l) == BasicArrayList.jm_size(JR.cast(keyList)))) {
+                        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_MORE_THAN_TWO_IN_LIST_AND())))
                     } else {
-                        ignore(StringMaker.jm_append(stringBuffer, jstatic_SEP()))
+                        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_SEP())))
                     }
                 }
             }
             }
         }
-        return StringMaker.jm_toString(stringBuffer)
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
     
 and jm_paint = (this: InputMappingHelpPaintable, graphics: JObject) => {
@@ -372,11 +449,17 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_displayInfo))))
 }
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_setColor"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(BasicColor.jm_intValue(JR.cast(this.f_basicColor)))))
+JR.cast(jlate(JR.cast(graphics), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicColor.jm_intValue"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_basicColor))))
+})))
 })
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(JR.cast(this.f_title)), JR.cast(Int32.(-)(halfWidth, JR.cast(this.f_titleBeginWidth))), JR.cast(this.f_updateMyFontProperties.f_charHeight), JR.cast(JR.cast(this.f_anchor))))
+JR.cast(jlate(JR.cast(graphics), JR.cast(JR.cast(this.f_title)), JR.cast(Int32.(-)(halfWidth, JR.cast(this.f_titleBeginWidth))), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_charHeight"))
+JR.cast(jlate(JR.cast(this.f_updateMyFontProperties)))
+}), JR.cast(JR.cast(this.f_anchor))))
 })
         let mut inputInfo: Array<String> = JR.cast(this.f_inputInfo)
         let mut size: Int32 = Int32.fromNumber(Array.length(inputInfo))
@@ -397,11 +480,17 @@ JR.cast(jlate(JR.cast(graphics), JR.cast(JR.cast(this.f_title)), JR.cast(Int32.(
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            y = Int32.(*)((Int32.(+)(index, 3l)), this.f_updateMyFontProperties.f_charHeight)
+            y = Int32.(*)((Int32.(+)(index, 3l)), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_charHeight"))
+JR.cast(jlate(JR.cast(this.f_updateMyFontProperties)))
+})
             deltaX = 0l
             list = this.f_keyMappingArray[Int32.toNumber(index)]
-            size2 = BasicArrayList.jm_size(list)
-            beginWidth = this.f_updateMyFontProperties.f_keymappingBeginWidthArray[Int32.toNumber(index)]
+            size2 = BasicArrayList.jm_size(JR.cast(list))
+            beginWidth = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_keymappingBeginWidthArray"))
+JR.cast(jlate(JR.cast(this.f_updateMyFontProperties)))
+}[Int32.toNumber(index)]
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_setColor"))
 JR.cast(jlate(JR.cast(graphics), JR.cast({
@@ -409,12 +498,18 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicColor.jm_intValue")
 JR.cast(jlate(JR.cast(this.f_actionBasicColor[Int32.toNumber(index)])))
 })))
 })
-            actionString = this.f_updateMyFontProperties.f_actionStringArray[Int32.toNumber(index)]
+            actionString = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_actionStringArray"))
+JR.cast(jlate(JR.cast(this.f_updateMyFontProperties)))
+}[Int32.toNumber(index)]
             ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
 JR.cast(jlate(JR.cast(graphics), JR.cast(actionString), JR.cast(Int32.(+)(Int32.(-)(halfWidth, beginWidth), deltaX)), JR.cast(y), JR.cast(JR.cast(this.f_anchor))))
 })
-            deltaX = Int32.(+)(deltaX, this.f_updateMyFontProperties.f_actionStringDeltaXArray[Int32.toNumber(index)])
+            deltaX = Int32.(+)(deltaX, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_actionStringDeltaXArray"))
+JR.cast(jlate(JR.cast(this.f_updateMyFontProperties)))
+}[Int32.toNumber(index)])
             {
                 let mut index2: Int32 = 0l
                 let mut jfirst = true
@@ -427,29 +522,42 @@ JR.cast(jlate(JR.cast(graphics), JR.cast(actionString), JR.cast(Int32.(+)(Int32.
                 input = JR.cast(list.f_objectArray[Int32.toNumber(index2)])
                 ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_setColor"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(JR.className(JR.cast(this.f_inputBasicColorArray[Int32.toNumber(index)][Int32.toNumber(index2)])))))
+JR.cast(jlate(JR.cast(graphics), JR.cast(JR.cast(JR.invoke0(this.f_inputBasicColorArray[Int32.toNumber(index)][Int32.toNumber(index2)], "jm_intValue")))))
 })
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(Input.jm_getName(input)), JR.cast(Int32.(+)(Int32.(-)(halfWidth, beginWidth), deltaX)), JR.cast(y), JR.cast(JR.cast(this.f_anchor))))
+JR.cast(jlate(JR.cast(graphics), JR.cast(Input.jm_getName(JR.cast(input))), JR.cast(Int32.(+)(Int32.(-)(halfWidth, beginWidth), deltaX)), JR.cast(y), JR.cast(JR.cast(this.f_anchor))))
 })
-                deltaX = Int32.(+)(deltaX, this.f_updateMyFontProperties.f_inputDeltaXArray[Int32.toNumber(index)][Int32.toNumber(index2)])
-                sep = this.f_updateMyFontProperties.f_sepArray[Int32.toNumber(index)][Int32.toNumber(index2)]
+                deltaX = Int32.(+)(deltaX, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_inputDeltaXArray"))
+JR.cast(jlate(JR.cast(this.f_updateMyFontProperties)))
+}[Int32.toNumber(index)][Int32.toNumber(index2)])
+                sep = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_sepArray"))
+JR.cast(jlate(JR.cast(this.f_updateMyFontProperties)))
+}[Int32.toNumber(index)][Int32.toNumber(index2)]
                 ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_setColor"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(BasicColor.jm_intValue(JR.cast(this.f_basicColor)))))
+JR.cast(jlate(JR.cast(graphics), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicColor.jm_intValue"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_basicColor))))
+})))
 })
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
 JR.cast(jlate(JR.cast(graphics), JR.cast(sep), JR.cast(Int32.(+)(Int32.(-)(halfWidth, beginWidth), deltaX)), JR.cast(y), JR.cast(JR.cast(this.f_anchor))))
 })
-                deltaX = Int32.(+)(deltaX, this.f_updateMyFontProperties.f_sepWidthArray[Int32.toNumber(index)][Int32.toNumber(index2)])
+                deltaX = Int32.(+)(deltaX, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("UpdateMyFontProperties.f_sepWidthArray"))
+JR.cast(jlate(JR.cast(this.f_updateMyFontProperties)))
+}[Int32.toNumber(index)][Int32.toNumber(index2)])
                 }
             }
             }
         }
 }
 
+JR.registerSuper("InputMappingHelpPaintable", "HelpPaintable")
 JR.registerLateBound("InputMappingHelpPaintable.jnew_3", jnew_3)
 JR.registerLateBound("InputMappingHelpPaintable.jm_updateMeasurement", jm_updateMeasurement)
 JR.registerLateBound("InputMappingHelpPaintable.jm_update", jm_update)

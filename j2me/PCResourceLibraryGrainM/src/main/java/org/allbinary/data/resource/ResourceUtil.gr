@@ -58,7 +58,7 @@ provide let rec jclassName = () => "ResourceUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: ResourceUtil = jnew_0()
+    let value: ResourceUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -73,7 +73,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("ResourceUtil"), f_logUtil: JR.jnull, f_path: "", f_ext: "", }
+    let this = { jobject: JR.newJObject("ResourceUtil"), f_logUtil: JR.nullOf(), f_path: "", f_ext: "", }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -94,9 +94,9 @@ and jm_setClassLoader = (this: ResourceUtil, classLoader: ClassLoader) => {
 }
     
 and jm_getResourceAsStream = (this: ResourceUtil, resource: String) => {
-        let mut inputStream: InputStream = JR.cast(jm_getResourceAsStreamAtStart(this, resource, 2l))
+        let mut inputStream: InputStream = JR.cast(jm_getResourceAsStreamAtStart(this, JR.cast(resource), 2l))
         if (JR.isNull(inputStream)) {
-            inputStream = JR.cast(jm_getResourceAsStreamAtStart(this, resource, 1l))
+            inputStream = JR.cast(jm_getResourceAsStreamAtStart(this, JR.cast(resource), 1l))
             if (JR.isNull(inputStream)) {
                 fail JR.toStringOf(JR.newJObject("Exception"))
             }
@@ -105,10 +105,10 @@ and jm_getResourceAsStream = (this: ResourceUtil, resource: String) => {
 }
     
 and jm_getResourceAsStreamAtStart = (this: ResourceUtil, resource: String, startIndex: Int32) => {
-        let mut inputStream: InputStream = JR.cast(FileInputStream.jnew_1(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), this.f_path), resource), this.f_ext))))
+        let mut inputStream: InputStream = JR.cast(FileInputStream.jnew_1(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(this.f_path))), JR.cast(resource))), JR.cast(this.f_ext))))))
         if (!JR.isNull(inputStream)) {
             let mut byteArray: Array<Int32> = Array.make(Int32.toNumber(InputStream.jm_available_0(inputStream)), 0l)
-            ignore(StreamUtil.jm_getByteArray(StreamUtil.jm_getInstance(), inputStream, ByteArrayOutputStream.jnew_0(), byteArray))
+            ignore(StreamUtil.jm_getByteArray(JR.cast(StreamUtil.jm_getInstance()), JR.cast(inputStream), JR.cast(ByteArrayOutputStream.jnew_0()), byteArray))
             return JR.cast(ByteArrayInputStream.jnew_1(byteArray))
         }
         return inputStream

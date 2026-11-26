@@ -42,6 +42,13 @@ use Visitor.{ type Visitor }
 from "../../../../../../org/allbinary/time/GameTickTimeDelayHelperFactory.gr" include GameTickTimeDelayHelperFactory
 use GameTickTimeDelayHelperFactory.{ type GameTickTimeDelayHelperFactory }
 from "../../../../../../java/lang/Integer.gr" include Integer
+from "../../../../../../java/lang/Long.gr" include Long
+from "../../../../../../java/lang/Short.gr" include Short
+from "../../../../../../java/lang/Byte.gr" include Byte
+from "../../../../../../java/lang/Character.gr" include Character
+from "../../../../../../java/lang/Float.gr" include Float
+from "../../../../../../java/lang/Double.gr" include Double
+from "../../../../../../java/lang/Boolean.gr" include Boolean
 
 provide record BasicRandomAI {
   jobject: JObject,
@@ -62,7 +69,7 @@ provide record BasicRandomAI {
 provide let rec jclassName = () => "BasicRandomAI"
     
 and jnew_4 = (ownerLayerInterface: AllBinaryLayer, gameInput: GameInput, inputProbability: InputProbability, visitor: Visitor) => {
-    let this = { jobject: JR.newJObject("BasicRandomAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_i_random: 0l, f_inputProbability: JR.nullOf(), f_visitor: JR.nullOf(), f_keyArray: [> ], f_myRandomFactory: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("BasicRandomAI"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_ownerLayerInterface: JR.nullOf(), f_gameInput: JR.nullOf(), f_lastKey: 0l, f_i_random: 0l, f_inputProbability: JR.nullOf(), f_visitor: JR.nullOf(), f_keyArray: [> ], f_myRandomFactory: JR.nullOf(), }
     this.f_i_random = 0l
     
     
@@ -98,23 +105,26 @@ JR.cast(jlate())
 and jm_processAI = (this: BasicRandomAI, allBinaryLayerManager: AllBinaryLayerManager) => {
         if ({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TimeDelayHelper.jm_isTime"))
-JR.cast(jlate(JR.cast(InputProbability.jm_getTimeDelayHelper(this.f_inputProbability)), JR.cast(GameTickTimeDelayHelperFactory.jm_getInstance().f_startTime)))
+JR.cast(jlate(JR.cast(InputProbability.jm_getTimeDelayHelper(JR.cast(this.f_inputProbability))), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameTickTimeDelayHelperFactory.f_startTime"))
+JR.cast(jlate(JR.cast(GameTickTimeDelayHelperFactory.jm_getInstance())))
+})))
 }) {
-            this.f_i_random = MyRandomFactory.jm_getAbsoluteNextInt(this.f_myRandomFactory, InputProbability.jm_getMax(this.f_inputProbability))
+            this.f_i_random = MyRandomFactory.jm_getAbsoluteNextInt(JR.cast(this.f_myRandomFactory), InputProbability.jm_getMax(JR.cast(this.f_inputProbability)))
             let mut repeat: Bool = false
-            let mut repeatLikelyhoodIntegerArray: Array<Int32> = InputProbability.jm_getRepeatLikelyhoodIntegerArray(this.f_inputProbability)
+            let mut repeatLikelyhoodIntegerArray: Array<Int32> = InputProbability.jm_getRepeatLikelyhoodIntegerArray(JR.cast(this.f_inputProbability))
             if ((({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getLastKey"))
 JR.cast(jlate(JR.cast(this)))
-} != Int32.(-)(1l, Int32.(+)(1l, 1l))) && Int32.(>=)(JR.className(JR.cast(repeatLikelyhoodIntegerArray[Int32.toNumber({
+} != Int32.(-)(1l, Int32.(+)(1l, 1l))) && Int32.(>=)(Integer.jm_intValue(JR.cast(repeatLikelyhoodIntegerArray[Int32.toNumber({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getLastKey"))
 JR.cast(jlate(JR.cast(this)))
 })])), this.f_i_random))) {
                 repeat = true
             }
             if (!repeat) {
-                let mut likelyhoodIntegerArray: Array<Array<Int32>> = InputProbability.jm_getLikelyhoodIntegerArray(this.f_inputProbability)
-                this.f_i_random = MyRandomFactory.jm_getAbsoluteNextInt(this.f_myRandomFactory, InputProbability.jm_getMax(this.f_inputProbability))
+                let mut likelyhoodIntegerArray: Array<Array<Int32>> = InputProbability.jm_getLikelyhoodIntegerArray(JR.cast(this.f_inputProbability))
+                this.f_i_random = MyRandomFactory.jm_getAbsoluteNextInt(JR.cast(this.f_myRandomFactory), InputProbability.jm_getMax(JR.cast(this.f_inputProbability)))
                 let mut size: Int32 = Int32.fromNumber(Array.length(this.f_keyArray))
                 let mut likelyhoodIntegerKeyArray: Array<Int32> = [> ]
                 {
@@ -129,7 +139,7 @@ JR.cast(jlate(JR.cast(this)))
                     let mut key: Int32 = this.f_keyArray[Int32.toNumber(index)]
                     likelyhoodIntegerKeyArray = likelyhoodIntegerArray[Int32.toNumber(key)]
                     if ((Int32.(>=)(Int32.fromNumber(Array.length(likelyhoodIntegerArray)), key) && !JR.isNull(likelyhoodIntegerKeyArray[Int32.toNumber(0l)]))) {
-                        if ((Int32.(>=)(this.f_i_random, JR.className(JR.cast(likelyhoodIntegerKeyArray[Int32.toNumber(0l)]))) && Int32.(<)(this.f_i_random, JR.className(JR.cast(likelyhoodIntegerKeyArray[Int32.toNumber(1l)]))))) {
+                        if ((Int32.(>=)(this.f_i_random, Integer.jm_intValue(JR.cast(likelyhoodIntegerKeyArray[Int32.toNumber(0l)]))) && Int32.(<)(this.f_i_random, Integer.jm_intValue(JR.cast(likelyhoodIntegerKeyArray[Int32.toNumber(1l)]))))) {
                             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_setLastKey"))
 JR.cast(jlate(JR.cast(this), JR.cast(key)))
@@ -140,10 +150,11 @@ JR.cast(jlate(JR.cast(this), JR.cast(key)))
                     }
                 }
             }
-            ignore(Visitor.jm_visit(this.f_visitor, JR.cast(this)))
+            ignore(Visitor.jm_visit(JR.cast(this.f_visitor), JR.cast(this)))
         }
 }
 
+JR.registerSuper("BasicRandomAI", "BasicAI")
 JR.registerLateBound("BasicRandomAI.jnew_4", jnew_4)
 JR.registerLateBound("BasicRandomAI.jm_processAI", jm_processAI)
 JR.registerLateBound("BasicRandomAI.f_i_random", (this: BasicRandomAI) => this.f_i_random)

@@ -39,11 +39,14 @@ from "../../../../org/allbinary/thread/PrimaryThreadPool.gr" include PrimaryThre
 use PrimaryThreadPool.{ type PrimaryThreadPool }
 from "../../../../org/allbinary/game/displayable/canvas/NullGameCanvasRunnable.gr" include NullGameCanvasRunnable
 use NullGameCanvasRunnable.{ type NullGameCanvasRunnable }
+from "../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 from "./GameMidlet.gr" include GameMidlet
 use GameMidlet.{ type GameMidlet }
 
 provide record DemoGameMidlet {
   jobject: JObject,
+  mut f_destroyed: Bool,
   mut f_logUtil: JObject,
   mut f_commonStrings: JObject,
   mut f_SET_DISPLAY: String,
@@ -87,7 +90,7 @@ provide record DemoGameMidlet {
 provide let rec jclassName = () => "DemoGameMidlet"
     
 and jnew_1 = (clientInformationFactory: ClientInformationFactory) => {
-    let this = { jobject: JR.newJObject("DemoGameMidlet"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_SET_DISPLAY: "", f_SETTING_: "", f__DISPLAY_: "", f_SETTING_NO_TITLE: "", f_hashtable: JR.jnull, f_midletDestroyed: false, f_abeClientInformation: JR.jnull, f_enumerationUtil: JR.jnull, f_basicColorFactory: JR.jnull, f_features: JR.jnull, f_midletStrings: JR.jnull, f_myCommandsFactory: JR.jnull, f_gameStrings: JR.jnull, f_gameAdStateFactory: JR.jnull, f_gameStateFactory: JR.jnull, f_tsUtil: JR.jnull, f_DISPLAYABLE: "", f_COMMAND_NAME: "", f_NO_COMMAND: "", f_NO_DISPLAYABLE: "", f_COMMAND_ACTION: "", f_PAUSE_APP_BACKGROUND: "", f_UN_PAUSE_APP_BACKGROUND: "", f_aboutCommandProcessor: JR.jnull, f_webCommandProcessor: JR.jnull, f_gameMidletStateFactory: JR.jnull, f_gameStartTimeHelper: JR.jnull, f_fullScreenUtil: JR.jnull, f_debugInterface: JR.jnull, f_allbinaryGameCanvasRunnableInterface: JR.jnull, f_thread: JR.jnull, f_loadGameForm: JR.jnull, f_isFullScreen: false, f_resized: false, f_startedBefore: false, }
+    let this = { jobject: JR.newJObject("DemoGameMidlet"), f_destroyed: false, f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_SET_DISPLAY: "", f_SETTING_: "", f__DISPLAY_: "", f_SETTING_NO_TITLE: "", f_hashtable: JR.nullOf(), f_midletDestroyed: false, f_abeClientInformation: JR.nullOf(), f_enumerationUtil: JR.nullOf(), f_basicColorFactory: JR.nullOf(), f_features: JR.nullOf(), f_midletStrings: JR.nullOf(), f_myCommandsFactory: JR.nullOf(), f_gameStrings: JR.nullOf(), f_gameAdStateFactory: JR.nullOf(), f_gameStateFactory: JR.nullOf(), f_tsUtil: JR.nullOf(), f_DISPLAYABLE: "", f_COMMAND_NAME: "", f_NO_COMMAND: "", f_NO_DISPLAYABLE: "", f_COMMAND_ACTION: "", f_PAUSE_APP_BACKGROUND: "", f_UN_PAUSE_APP_BACKGROUND: "", f_aboutCommandProcessor: JR.nullOf(), f_webCommandProcessor: JR.nullOf(), f_gameMidletStateFactory: JR.nullOf(), f_gameStartTimeHelper: JR.nullOf(), f_fullScreenUtil: JR.nullOf(), f_debugInterface: JR.nullOf(), f_allbinaryGameCanvasRunnableInterface: JR.nullOf(), f_thread: JR.nullOf(), f_loadGameForm: JR.nullOf(), f_isFullScreen: false, f_resized: false, f_startedBefore: false, }
         void
     this
 }
@@ -153,11 +156,14 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 }), JR.cast(this), JR.cast("setDemo")))
 })
         let mut progressCanvas: ProgressCanvas = JR.cast(ProgressCanvasFactory.jm_getInstance())
-        ignore(ProgressCanvas.jm_start(progressCanvas))
-        ignore(PrimaryThreadPool.jm_runTask(PrimaryThreadPool.jm_getInstance(), JR.cast({
+        ignore(ProgressCanvas.jm_start(JR.cast(progressCanvas)))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.jm_runTask"))
+JR.cast(jlate(JR.cast(PrimaryThreadPool.jm_getInstance()), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DemoRunnable.jnew_1"))
 JR.cast(jlate(JR.cast(this)))
 })))
+})
 }
     
 and jm_createGame = (this: DemoGameMidlet) => {
@@ -170,7 +176,7 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 }), JR.cast(this), JR.cast(l_CREATE_GAME)))
 })
         let mut progressCanvas: ProgressCanvas = JR.cast(ProgressCanvasFactory.jm_getInstance())
-        ignore(ProgressCanvas.jm_start(progressCanvas))
+        ignore(ProgressCanvas.jm_start(JR.cast(progressCanvas)))
         let mut hashtable: JObject = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryMidlet.jm_getStartStateHashtable"))
 JR.cast(jlate(JR.cast(this)))
@@ -185,10 +191,13 @@ JR.cast(jlate())
 })))
 })))
 })
-        ignore(PrimaryThreadPool.jm_runTask(PrimaryThreadPool.jm_getInstance(), JR.cast({
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ThreadPool.jm_runTask"))
+JR.cast(jlate(JR.cast(PrimaryThreadPool.jm_getInstance()), JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CreateGameRunnable.jnew_2"))
 JR.cast(jlate(JR.cast(this), JR.cast(hashtable)))
 })))
+})
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast({
@@ -202,6 +211,7 @@ and jm_isReady = (this: DemoGameMidlet) => {
         return true
 }
 
+JR.registerSuper("DemoGameMidlet", "GameMidlet")
 JR.registerLateBound("DemoGameMidlet.jnew_1", jnew_1)
 JR.registerLateBound("DemoGameMidlet.jm_isContinue", jm_isContinue)
 JR.registerLateBound("DemoGameMidlet.jm_getHighestLevel", jm_getHighestLevel)

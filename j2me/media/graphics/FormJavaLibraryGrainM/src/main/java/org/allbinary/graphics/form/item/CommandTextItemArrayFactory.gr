@@ -41,6 +41,13 @@ from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayLis
 use BasicArrayList.{ type BasicArrayList }
 from "../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
 use BasicArrayListD.{ type BasicArrayListD }
+from "../../../../../java/lang/Integer.gr" include Integer
+from "../../../../../java/lang/Long.gr" include Long
+from "../../../../../java/lang/Short.gr" include Short
+from "../../../../../java/lang/Byte.gr" include Byte
+from "../../../../../java/lang/Character.gr" include Character
+from "../../../../../java/lang/Float.gr" include Float
+from "../../../../../java/lang/Double.gr" include Double
 from "../../../../../java/lang/Boolean.gr" include Boolean
 from "./CommandTextItem.gr" include CommandTextItem
 use CommandTextItem.{ type CommandTextItem }
@@ -64,16 +71,16 @@ and jnew_1 = (visitorInterface: Visitor) => {
     
 and jm_getInstance = (this: CommandTextItemArrayFactory, vector: JObject, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
         let mut vectorUtil: VectorUtil = JR.cast(VectorUtil.jm_getInstance())
-        let mut size: Int32 = VectorUtil.jm_getSize(vectorUtil, vector)
-        ignore(BasicArrayList.jm_clear(this.f_list))
+        let mut size: Int32 = VectorUtil.jm_getSize(JR.cast(vectorUtil), JR.cast(vector))
+        ignore(BasicArrayList.jm_clear(JR.cast(this.f_list)))
         let mut textItem: CommandTextItem = JR.nullOf()
         let mut priorityLimit: Int32 = 7l
         let mut displayInfo: DisplayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
-        let mut isLargeEnoughDisplayForBigMenu: Bool = (((DisplayInfoSingleton.jm_isPortrait(displayInfo) && Int32.(>=)(DisplayInfoSingleton.jm_getLastHeight(displayInfo), ScreenInfo.jm_getInstance().f_MEDIUM_WIDTH))) || ((!DisplayInfoSingleton.jm_isPortrait(displayInfo) && Int32.(>=)(DisplayInfoSingleton.jm_getLastWidth(displayInfo), ScreenInfo.jm_getInstance().f_MEDIUM_WIDTH))))
+        let mut isLargeEnoughDisplayForBigMenu: Bool = (((DisplayInfoSingleton.jm_isPortrait(JR.cast(displayInfo)) && Int32.(>=)(DisplayInfoSingleton.jm_getLastHeight(JR.cast(displayInfo)), ScreenInfo.jm_getInstance().f_MEDIUM_WIDTH))) || ((!DisplayInfoSingleton.jm_isPortrait(JR.cast(displayInfo)) && Int32.(>=)(DisplayInfoSingleton.jm_getLastWidth(JR.cast(displayInfo)), ScreenInfo.jm_getInstance().f_MEDIUM_WIDTH))))
         if ((!isLargeEnoughDisplayForBigMenu && Int32.(>)(size, 3l))) {
             priorityLimit = 3l
         }
-        let mut command: JObject = JR.jnull
+        let mut command: JObject = JR.nullOf()
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -83,23 +90,23 @@ and jm_getInstance = (this: CommandTextItemArrayFactory, vector: JObject, backgr
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            command = JR.cast(VectorUtil.jm_elementAt(vectorUtil, vector, index))
+            command = JR.cast(VectorUtil.jm_elementAt(JR.cast(vectorUtil), JR.cast(vector), index))
             if (Int32.(<)({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Command.jm_getPriority"))
 JR.cast(jlate(JR.cast(command)))
 }, priorityLimit)) {
-                let mut aBoolean: Bool = JR.cast(Visitor.jm_visit(this.f_visitorInterface, JR.cast(command)))
-                if (Boolean.jm_booleanValue(aBoolean)) {
-                    textItem = JR.cast(CommandTextItem.jnew_5(command, {
+                let mut aBoolean: Bool = JR.cast(Visitor.jm_visit(JR.cast(this.f_visitorInterface), JR.cast(command)))
+                if (Boolean.jm_booleanValue(JR.cast(aBoolean))) {
+                    textItem = JR.cast(CommandTextItem.jnew_5(JR.cast(command), {
 let jlate: () => JObject = JR.cast(JR.lateBound("ImageItem.jstatic_LAYOUT_DEFAULT"))
 JR.cast(jlate())
-}, StringUtil.jm_getInstance().f_EMPTY_STRING, backgroundBasicColor, foregroundBasicColor))
-                    ignore(BasicArrayList.jm_add(this.f_list, JR.cast(textItem)))
+}, StringUtil.jm_getInstance().f_EMPTY_STRING, JR.cast(backgroundBasicColor), JR.cast(foregroundBasicColor)))
+                    ignore(BasicArrayList.jm_add(JR.cast(this.f_list), JR.cast(textItem)))
                 }
             }
             }
         }
-        let mut textItemArray: Array<JObject> = Array.make(Int32.toNumber(BasicArrayList.jm_size(this.f_list)), JR.jnull)
+        let mut textItemArray: Array<JObject> = Array.make(Int32.toNumber(BasicArrayList.jm_size(JR.cast(this.f_list))), JR.nullOf())
         let mut size2: Int32 = Int32.fromNumber(Array.length(textItemArray))
         {
             let mut index: Int32 = 0l

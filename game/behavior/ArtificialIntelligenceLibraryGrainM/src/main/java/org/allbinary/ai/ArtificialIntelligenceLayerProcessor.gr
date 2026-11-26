@@ -46,7 +46,7 @@ provide record ArtificialIntelligenceLayerProcessor {
 provide let rec jclassName = () => "ArtificialIntelligenceLayerProcessor"
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("ArtificialIntelligenceLayerProcessor"), f_commonStrings: JR.jnull, f_layerManager: JR.jnull, }
+    let this = { jobject: JR.newJObject("ArtificialIntelligenceLayerProcessor"), f_commonStrings: JR.nullOf(), f_layerManager: JR.nullOf(), }
         void
     this
 }
@@ -55,18 +55,22 @@ and jm_processAt = (this: ArtificialIntelligenceLayerProcessor, allBinaryLayerMa
         let mut artificialIntelligenceCompositeInterface: ArtificialIntelligenceCompositeInterface = JR.cast(layerInterface)
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ArtificialIntelligenceInterface.jm_processAI"))
-JR.cast(jlate(JR.cast(ArtificialIntelligenceCompositeInterface.jm_getArtificialIntelligenceInterface(artificialIntelligenceCompositeInterface)), JR.cast(allBinaryLayerManager)))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ArtificialIntelligenceCompositeInterface.jm_getArtificialIntelligenceInterface"))
+JR.cast(jlate(JR.cast(artificialIntelligenceCompositeInterface)))
+}), JR.cast(allBinaryLayerManager)))
 })
 }
     
 and jm_isProcessorLayer = (this: ArtificialIntelligenceLayerProcessor, layerInterface: AllBinaryLayer) => {
-        if (AllBinaryLayer.jm_implmentsArtificialIntelligenceCompositeInterface(layerInterface)) {
+        if (AllBinaryLayer.jm_implmentsArtificialIntelligenceCompositeInterface(JR.cast(layerInterface))) {
             return true
         } else {
             return false
         }
 }
 
+JR.registerSuper("ArtificialIntelligenceLayerProcessor", "LayerProcessor")
 JR.registerLateBound("ArtificialIntelligenceLayerProcessor.jnew_0", jnew_0)
 JR.registerLateBound("ArtificialIntelligenceLayerProcessor.jm_processAt", jm_processAt)
 JR.registerLateBound("ArtificialIntelligenceLayerProcessor.jm_isProcessorLayer", jm_isProcessorLayer)

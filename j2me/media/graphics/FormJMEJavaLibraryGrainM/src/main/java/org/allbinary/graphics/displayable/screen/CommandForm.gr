@@ -45,11 +45,29 @@ from "../../../../../org/allbinary/logic/string/StringUtil.gr" include StringUti
 use StringUtil.{ type StringUtil }
 from "../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
 use CommonStrings.{ type CommonStrings }
+from "../../../../../java/util/Stack.gr" include Stack
+use Stack.{ type Stack }
 from "./ScreenRepaintProcessorFactory.gr" include ScreenRepaintProcessorFactory
 use ScreenRepaintProcessorFactory.{ type ScreenRepaintProcessorFactory }
 
 provide record CommandForm {
   jobject: JObject,
+  mut f_device: JObject,
+  mut f_currentDisplay: JObject,
+  mut f_width: Int32,
+  mut f_height: Int32,
+  mut f_fullScreenMode: Bool,
+  mut f_ticker: JObject,
+  mut f_viewPortY: Int32,
+  mut f_viewPortHeight: Int32,
+  mut f_ui: JObject,
+  mut f_title: String,
+  mut f_listener: JObject,
+  mut f_ANDROID_FORM_UI: String,
+  mut f_items: Array<JObject>,
+  mut f_numOfItems: Int32,
+  mut f_focusItemIndex: Int32,
+  mut f_itemStateListener: JObject,
   mut f_logUtil: JObject,
   mut f_commonStrings: CommonStrings,
   mut f_repaintProcessor: Processor,
@@ -63,7 +81,7 @@ provide let rec jclassName = () => "CommandForm"
 and jstatic_NULL_COMMAND_FORM = () => match (jcell_NULL_COMMAND_FORM) {
   Some(value) => value,
   None => {
-    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    let value: JObject = JR.cast(NullUtil.jm_getInstance().f_NULL_OBJECT)
     jcell_NULL_COMMAND_FORM = Some(value)
     value
   },
@@ -81,13 +99,16 @@ and jm_getNullCommandForm = () => {
 }
     
 and jnew_4 = (commandListener: CommandListener, formTitle: String, backgrounBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
-    let this = { jobject: JR.newJObject("CommandForm"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_repaintProcessor: JR.nullOf(), f_commandStack: JR.jnull, }
+    let this = { jobject: JR.newJObject("CommandForm"), f_device: JR.nullOf(), f_currentDisplay: JR.nullOf(), f_width: 0l, f_height: 0l, f_fullScreenMode: false, f_ticker: JR.nullOf(), f_viewPortY: 0l, f_viewPortHeight: 0l, f_ui: JR.nullOf(), f_title: "", f_listener: JR.nullOf(), f_ANDROID_FORM_UI: "", f_items: [> ], f_numOfItems: 0l, f_focusItemIndex: 0l, f_itemStateListener: JR.nullOf(), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_repaintProcessor: JR.nullOf(), f_commandStack: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
 })
     this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
-    this.f_repaintProcessor = JR.cast(ScreenRepaintProcessorFactory.jm_create(ScreenRepaintProcessorFactory.jm_getInstance(), JR.cast(this)))
+    this.f_repaintProcessor = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ScreenRepaintProcessorFactory.jm_create"))
+JR.cast(jlate(JR.cast(ScreenRepaintProcessorFactory.jm_getInstance()), JR.cast(this)))
+})
     
         void
         this.f_commandStack = JR.cast({
@@ -98,7 +119,7 @@ JR.cast(jlate())
 })))
 })
         {
-            ignore(Processor.jm_process(this.f_repaintProcessor))
+            ignore(Processor.jm_process(JR.cast(this.f_repaintProcessor)))
         }
     this
 }
@@ -122,7 +143,7 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_START), JR
 }
     
 and jm_update = (this: CommandForm) => {
-        ignore(Processor.jm_process(this.f_repaintProcessor))
+        ignore(Processor.jm_process(JR.cast(this.f_repaintProcessor)))
 }
     
 and jm_getSourceId = (this: CommandForm) => {
@@ -151,14 +172,18 @@ JR.cast(jlate(JR.cast(this.f_commandStack)))
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            ignore(jm_removeCommand(this, JR.cast({
+            ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Displayable.jm_removeCommand"))
+JR.cast(jlate(JR.cast(this), JR.cast(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABStack.jm_pop"))
 JR.cast(jlate(JR.cast(this.f_commandStack)))
-})))
+}))))
+})
             }
         }
 }
 
+JR.registerSuper("CommandForm", "Form")
 JR.registerLateBound("CommandForm.jnew_4", jnew_4)
 JR.registerLateBound("CommandForm.jm_getNullCommandForm", jm_getNullCommandForm)
 JR.registerLateBound("CommandForm.jm_initCommands", jm_initCommands)

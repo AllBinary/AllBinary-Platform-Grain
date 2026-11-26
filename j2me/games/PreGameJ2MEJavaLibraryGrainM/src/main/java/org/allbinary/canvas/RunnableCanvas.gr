@@ -62,6 +62,17 @@ use RunnableCanvasRefreshHelper.{ type RunnableCanvasRefreshHelper }
 
 provide record RunnableCanvas {
   jobject: JObject,
+  mut f_device: JObject,
+  mut f_currentDisplay: JObject,
+  mut f_width: Int32,
+  mut f_height: Int32,
+  mut f_fullScreenMode: Bool,
+  mut f_ticker: JObject,
+  mut f_viewPortY: Int32,
+  mut f_viewPortHeight: Int32,
+  mut f_ui: JObject,
+  mut f_title: String,
+  mut f_listener: JObject,
   mut f_logUtil: JObject,
   mut f_commonStrings: JObject,
   mut f_canvasStrings: JObject,
@@ -100,7 +111,7 @@ provide record RunnableCanvas {
 provide let rec jclassName = () => "RunnableCanvas"
     
 and jnew_3 = (commandListener: CommandListener, childNameList: BasicArrayList, hasParam: Bool) => {
-    let this = { jobject: JR.newJObject("RunnableCanvas"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_canvasStrings: JR.jnull, f_stringUtil: JR.jnull, f_displayInfo: JR.jnull, f_name: "", f_childNameList: JR.jnull, f_commandStack: JR.jnull, f_commandListener: JR.jnull, f_paused: false, f_touchME: JR.jnull, f_nullUtil: JR.nullOf(), f_stdUtil: JR.jnull, f_systemWrapper: JR.nullOf(), f_tsUtil: JR.jnull, f_thread: JR.nullOf(), f_currentThread: JR.nullOf(), f_running: false, f_loopTimeHelper: JR.nullOf(), f_runnableCanvasRefreshHelper: JR.nullOf(), f_commonLabels: JR.nullOf(), f_threadObjectUtil: JR.nullOf(), f_SET_RUNNING: "", f_IS_RUNNING: "", f_THREAD: "", f_NOT_EQUAL: "", f_PAUSE_SLEEP: "", f_START_PAUSE: "", f_END_PAUSE: "", f_PROCESS_LOOP_SLEEP: "", f_pauseWait: 0L, f_notified: false, }
+    let this = { jobject: JR.newJObject("RunnableCanvas"), f_device: JR.nullOf(), f_currentDisplay: JR.nullOf(), f_width: 0l, f_height: 0l, f_fullScreenMode: false, f_ticker: JR.nullOf(), f_viewPortY: 0l, f_viewPortHeight: 0l, f_ui: JR.nullOf(), f_title: "", f_listener: JR.nullOf(), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_canvasStrings: JR.nullOf(), f_stringUtil: JR.nullOf(), f_displayInfo: JR.nullOf(), f_name: "", f_childNameList: JR.nullOf(), f_commandStack: JR.nullOf(), f_commandListener: JR.nullOf(), f_paused: false, f_touchME: JR.nullOf(), f_nullUtil: JR.nullOf(), f_stdUtil: JR.nullOf(), f_systemWrapper: JR.nullOf(), f_tsUtil: JR.nullOf(), f_thread: JR.nullOf(), f_currentThread: JR.nullOf(), f_running: false, f_loopTimeHelper: JR.nullOf(), f_runnableCanvasRefreshHelper: JR.nullOf(), f_commonLabels: JR.nullOf(), f_threadObjectUtil: JR.nullOf(), f_SET_RUNNING: "", f_IS_RUNNING: "", f_THREAD: "", f_NOT_EQUAL: "", f_PAUSE_SLEEP: "", f_START_PAUSE: "", f_END_PAUSE: "", f_PROCESS_LOOP_SLEEP: "", f_pauseWait: 0L, f_notified: false, }
     this.f_nullUtil = JR.cast(NullUtil.jm_getInstance())
     this.f_stdUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
@@ -114,7 +125,10 @@ JR.cast(jlate())
     this.f_thread = JR.cast(NullThread.jstatic_NULL_THREAD())
     this.f_currentThread = JR.cast(NullThread.jstatic_NULL_THREAD())
     
-    this.f_loopTimeHelper = TimeDelayHelper.jnew_1(NullWaitGameRunnable.jm_getInstance().f_WAIT)
+    this.f_loopTimeHelper = TimeDelayHelper.jnew_1({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("NullWaitGameRunnable.f_WAIT"))
+JR.cast(jlate(JR.cast(NullWaitGameRunnable.jm_getInstance())))
+})
     this.f_runnableCanvasRefreshHelper = JR.cast(Processor.jm_getInstance())
     this.f_commonLabels = JR.cast(CommonLabels.jm_getInstance())
     this.f_threadObjectUtil = JR.cast(ThreadObjectUtil.jm_getInstance())
@@ -131,14 +145,14 @@ JR.cast(jlate())
         void
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), "RunnableCanvas delay: "), this.f_loopTimeHelper.f_delay))), JR.cast(this), JR.cast({
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("RunnableCanvas delay: "))), this.f_loopTimeHelper.f_delay)))), JR.cast(this), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_CONSTRUCTOR"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 })))
 })
         this.f_runnableCanvasRefreshHelper = JR.cast(JR.cast(RunnableCanvasRefreshHelper.jnew_1(JR.cast(this))))
         if (!JR.isNull(commandListener)) {
-            ignore(jm_initCommands(this, commandListener))
+            ignore(jm_initCommands(this, JR.cast(commandListener)))
         } else if (hasParam) {
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
@@ -178,12 +192,12 @@ and jm_setRunning = (this: RunnableCanvas, running: Bool) => {
         if (!this.f_running) {
             this.f_thread = JR.cast(NullThread.jstatic_NULL_THREAD())
             {
-                ignore(ThreadObjectUtil.jm_notifyObject(this.f_threadObjectUtil, JR.cast(this)))
+                ignore(ThreadObjectUtil.jm_notifyObject(JR.cast(this.f_threadObjectUtil), JR.cast(this)))
             }
         }
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendboolean(StringMaker.jm_append(StringMaker.jnew_0(), this.f_IS_RUNNING), this.f_running))), JR.cast(this), JR.cast(this.f_SET_RUNNING)))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendboolean(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(this.f_IS_RUNNING))), this.f_running)))), JR.cast(this), JR.cast(this.f_SET_RUNNING)))
 })
 }
     
@@ -192,17 +206,17 @@ and jm_isRunning = (this: RunnableCanvas) => {
             return this.f_running
         } else {
             let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-            ignore(StringMaker.jm_append(stringBuffer, this.f_THREAD))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_THREAD)))
             if (!JR.isNull(this.f_thread)) {
-                ignore(StringMaker.jm_append(stringBuffer, Thread.jm_toString_0(this.f_thread)))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(JR.toStringOf(this.f_thread))))
             }
-            ignore(StringMaker.jm_append(stringBuffer, this.f_NOT_EQUAL))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_NOT_EQUAL)))
             if (!JR.isNull(this.f_currentThread)) {
-                ignore(StringMaker.jm_append(stringBuffer, StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(this.f_currentThread))))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(StringUtil.jm_toString(JR.cast(StringUtil.jm_getInstance()), JR.cast(this.f_currentThread)))))
             }
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast(this.f_IS_RUNNING)))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(this), JR.cast(this.f_IS_RUNNING)))
 })
             return false
         }
@@ -217,7 +231,7 @@ and jm_setWait = (this: RunnableCanvas, wait: Int32) => {
         this.f_pauseWait = Int64.(*)(Int64.fromNumber(Int32.toNumber(wait)), 3L)
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), "setWait - delay: "), this.f_loopTimeHelper.f_delay))), JR.cast(this), JR.cast({
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("setWait - delay: "))), this.f_loopTimeHelper.f_delay)))), JR.cast(this), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_CONSTRUCTOR"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 })))
@@ -245,17 +259,20 @@ and jm_showNotify = (this: RunnableCanvas) => {
 and jm_stopWaiting = (this: RunnableCanvas) => {
         this.f_notified = true
         {
-            ignore(ThreadObjectUtil.jm_notifyObject(this.f_threadObjectUtil, JR.cast(this)))
+            ignore(ThreadObjectUtil.jm_notifyObject(JR.cast(this.f_threadObjectUtil), JR.cast(this)))
         }
-        ignore(jm_repaint(this))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Canvas.jm_repaint"))
+JR.cast(jlate(JR.cast(this)))
+})
 }
     
 and jm_waitOnNotify = (this: RunnableCanvas, wait: Int64) => {
         if (!this.f_notified) {
             if (Int64.(>)(wait, 0L)) {
-                ignore(ThreadObjectUtil.jm_waitObjectFor(this.f_threadObjectUtil, JR.cast(this), wait))
+                ignore(ThreadObjectUtil.jm_waitObjectFor(JR.cast(this.f_threadObjectUtil), JR.cast(this), wait))
             } else {
-                ignore(ThreadObjectUtil.jm_waitObject(this.f_threadObjectUtil, JR.cast(this)))
+                ignore(ThreadObjectUtil.jm_waitObject(JR.cast(this.f_threadObjectUtil), JR.cast(this)))
             }
         }
 }
@@ -273,18 +290,21 @@ and jm_processGameSleep = (this: RunnableCanvas, sleep: Int64) => {
 }
     
 and jm_processLoopSleep = (this: RunnableCanvas) => {
-        ignore(Processor.jm_process(this.f_runnableCanvasRefreshHelper))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Processor.jm_process"))
+JR.cast(jlate(JR.cast(this.f_runnableCanvasRefreshHelper)))
+})
         if ({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MyCanvas.jm_isPaused"))
 JR.cast(jlate(JR.cast(this)))
 }) {
             let mut stringMaker: StringMaker = StringMaker.jnew_0()
             if ((jm_isRunning(this) && !jm_isSingleThread(this))) {
-                ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
-                let mut currentTimeMillis: Int64 = ABSystemWrapper.jm_currentTimeMillis(this.f_systemWrapper)
+                ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
+                let mut currentTimeMillis: Int64 = ABSystemWrapper.jm_currentTimeMillis(JR.cast(this.f_systemWrapper))
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendlong(StringMaker.jm_append(StringMaker.jm_appendlong(StringMaker.jm_append(stringMaker, this.f_START_PAUSE), currentTimeMillis), this.f_PAUSE_SLEEP), this.f_pauseWait))), JR.cast(this), JR.cast(this.f_PROCESS_LOOP_SLEEP)))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendlong(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_appendlong(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast(this.f_START_PAUSE))), currentTimeMillis)), JR.cast(this.f_PAUSE_SLEEP))), this.f_pauseWait)))), JR.cast(this), JR.cast(this.f_PROCESS_LOOP_SLEEP)))
 })
                 while ((({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MyCanvas.jm_isPaused"))
@@ -292,17 +312,17 @@ JR.cast(jlate(JR.cast(this)))
 } && jm_isRunning(this)) && !jm_isSingleThread(this))) {
                     ignore(jm_processSleep(this))
                     if (!jm_isPausable(this)) {
-                        ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
+                        ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
                         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendlong(StringMaker.jm_append(stringMaker, this.f_END_PAUSE), currentTimeMillis))), JR.cast(this), JR.cast(this.f_PROCESS_LOOP_SLEEP)))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendlong(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast(this.f_END_PAUSE))), currentTimeMillis)))), JR.cast(this), JR.cast(this.f_PROCESS_LOOP_SLEEP)))
 })
                         return void
                     }
                 }
             }
         }
-        let mut elapsedTime: Int64 = TimeDelayHelper.jm_getElapsedTNT(this.f_loopTimeHelper)
+        let mut elapsedTime: Int64 = TimeDelayHelper.jm_getElapsedTNT(JR.cast(this.f_loopTimeHelper))
         let mut wait: Int64 = Int64.fromNumber(Int32.toNumber(this.f_loopTimeHelper.f_delay))
         if (Int64.(>)(elapsedTime, wait)) {
             elapsedTime = wait
@@ -328,6 +348,7 @@ and jm_getType = (this: RunnableCanvas) => {
         return Int32.(-)(1l, Int32.(+)(1l, 1l))
 }
 
+JR.registerSuper("RunnableCanvas", "MyCanvas")
 JR.registerLateBound("RunnableCanvas.jnew_3", jnew_3)
 JR.registerLateBound("RunnableCanvas.jm_initCommands", jm_initCommands)
 JR.registerLateBound("RunnableCanvas.jm_isMainCanvas", jm_isMainCanvas)

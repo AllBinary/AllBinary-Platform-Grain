@@ -62,7 +62,7 @@ provide let rec jclassName = () => "TimedFireAI"
 and jstatic_TIME = () => match (jcell_TIME) {
   Some(value) => value,
   None => {
-    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 1l)
+    let value: Int32 = SmallIntegerSingletonFactory.jm_getAt(JR.cast(SmallIntegerSingletonFactory.jm_getInstance()), 1l)
     jcell_TIME = Some(value)
     value
   },
@@ -73,7 +73,7 @@ and jset_TIME = (value: Int32) => {
 }
     
 and jnew_3 = (delay: Int32, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
-    let this = { jobject: JR.newJObject("TimedFireAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_maxFireDelayTimeHelper: JR.nullOf(), f_delay: 0l, }
+    let this = { jobject: JR.newJObject("TimedFireAI"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_ownerLayerInterface: JR.nullOf(), f_gameInput: JR.nullOf(), f_lastKey: 0l, f_maxFireDelayTimeHelper: JR.nullOf(), f_delay: 0l, }
     this.f_maxFireDelayTimeHelper = TimeDelayHelper.jnew_1(0l)
     
         void
@@ -86,7 +86,13 @@ and jm_processAI = (this: TimedFireAI, allBinaryLayerManager: AllBinaryLayerMana
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
 JR.cast(jlate(JR.cast(this)))
 })
-        if ((TimeDelayHelper.jm_isTime(this.f_maxFireDelayTimeHelper, GameTickTimeDelayHelperFactory.jm_getInstance().f_startTime) && Int64.(<)(Int64.(+)(TimeFiredInterface.jm_getLastFireTime(timeFiredInterface), this.f_maxFireDelayTimeHelper.f_delay), TimeDelayHelper.jm_getStartTime(this.f_maxFireDelayTimeHelper)))) {
+        if ((TimeDelayHelper.jm_isTime(JR.cast(this.f_maxFireDelayTimeHelper), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameTickTimeDelayHelperFactory.f_startTime"))
+JR.cast(jlate(JR.cast(GameTickTimeDelayHelperFactory.jm_getInstance())))
+}) && Int64.(<)(Int64.(+)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TimeFiredInterface.jm_getLastFireTime"))
+JR.cast(jlate(JR.cast(timeFiredInterface)))
+}, Int64.fromNumber(Int32.toNumber(this.f_maxFireDelayTimeHelper.f_delay))), TimeDelayHelper.jm_getStartTime(JR.cast(this.f_maxFireDelayTimeHelper))))) {
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_processKeyAI"))
 JR.cast(jlate(JR.cast(this), JR.cast({
@@ -98,6 +104,7 @@ JR.cast(jlate())
         }
 }
 
+JR.registerSuper("TimedFireAI", "BasicAI")
 JR.registerLateBound("TimedFireAI.jnew_3", jnew_3)
 JR.registerLateBound("TimedFireAI.jm_processAI", jm_processAI)
 JR.registerLateBound("TimedFireAI.f_maxFireDelayTimeHelper", (this: TimedFireAI) => this.f_maxFireDelayTimeHelper)

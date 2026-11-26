@@ -54,7 +54,7 @@ provide let rec jclassName = () => "AbFile"
 and jstatic_NULL_FILE = () => match (jcell_NULL_FILE) {
   Some(value) => value,
   None => {
-    let value: AbFile = jm_createAbFileFromRawPath(StringUtil.jm_getInstance().f_EMPTY_STRING)
+    let value: AbFile = JR.cast(jm_createAbFileFromRawPath(JR.cast(StringUtil.jm_getInstance().f_EMPTY_STRING)))
     jcell_NULL_FILE = Some(value)
     value
   },
@@ -69,15 +69,15 @@ and jm_createAbFileWithChild = (file: AbFile, childPathName: String) => {
 }
     
 and jm_createAbFile = (filePath: String) => {
-        return jnew_1(JR.cast(File.jnew_1(AbPath.jm_toFileSystemString(AbPath.jnew_2(filePath, StringUtil.jm_getInstance().f_EMPTY_STRING)))))
+        return jnew_1(JR.cast(File.jnew_1(AbPath.jm_toFileSystemString(JR.cast(AbPath.jnew_2(filePath, StringUtil.jm_getInstance().f_EMPTY_STRING))))))
 }
     
 and jm_createAbFilePathAndName = (filePath: String, fileName: String) => {
-        return jnew_1(JR.cast(File.jnew_2(AbPath.jm_toFileSystemString(AbPath.jnew_2(filePath, StringUtil.jm_getInstance().f_EMPTY_STRING)), fileName)))
+        return jnew_1(JR.cast(File.jnew_2(AbPath.jm_toFileSystemString(JR.cast(AbPath.jnew_2(filePath, StringUtil.jm_getInstance().f_EMPTY_STRING))), fileName)))
 }
     
 and jm_createAbFileFromAbPath = (abPath: AbPath) => {
-        return jnew_1(JR.cast(File.jnew_1(AbPath.jm_toFileSystemString(abPath))))
+        return jnew_1(JR.cast(File.jnew_1(AbPath.jm_toFileSystemString(JR.cast(abPath)))))
 }
     
 and jm_createAbFileFromRawPath = (filePath: String) => {
@@ -165,7 +165,7 @@ and jm_lastModified = (this: AbFile) => {
 }
     
 and jm_length = (this: AbFile) => {
-        return Int64.fromNumber(Int32.toNumber(File.jm_length_0(this.f_file)))
+        return File.jm_length_0(this.f_file)
 }
     
 and jm_createNewFile = (this: AbFile) => {

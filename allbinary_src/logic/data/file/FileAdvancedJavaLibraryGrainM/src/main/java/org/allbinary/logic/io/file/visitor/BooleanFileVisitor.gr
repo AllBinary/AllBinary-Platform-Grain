@@ -31,6 +31,13 @@ from "../../../../../../org/allbinary/string/CommonStrings.gr" include CommonStr
 use CommonStrings.{ type CommonStrings }
 from "../../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
 use BasicArrayList.{ type BasicArrayList }
+from "../../../../../../java/lang/Integer.gr" include Integer
+from "../../../../../../java/lang/Long.gr" include Long
+from "../../../../../../java/lang/Short.gr" include Short
+from "../../../../../../java/lang/Byte.gr" include Byte
+from "../../../../../../java/lang/Character.gr" include Character
+from "../../../../../../java/lang/Float.gr" include Float
+from "../../../../../../java/lang/Double.gr" include Double
 from "../../../../../../java/lang/Boolean.gr" include Boolean
 
 provide record BooleanFileVisitor {
@@ -46,10 +53,10 @@ and jnew_1 = (filterStringBasicArrayList: BasicArrayList) => {
     let this = { jobject: JR.newJObject("BooleanFileVisitor"), f_commonStrings: JR.nullOf(), f_filterStringBasicArrayList: JR.nullOf(), }
     this.f_commonStrings = JR.cast(CommonStrings.jm_getInstance())
     
-        ignore(jm_setFilterStringBasicArrayList(this, filterStringBasicArrayList))
+        ignore(jm_setFilterStringBasicArrayList(this, JR.cast(filterStringBasicArrayList)))
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast("Filter BasicArrayList: " ++ BasicArrayList.jm_toString(jm_getFilterStringBasicArrayList(this))), JR.cast(this), JR.cast(this.f_commonStrings.f_CONSTRUCTOR)))
+JR.cast(jlate(JR.cast("Filter BasicArrayList: " ++ BasicArrayList.jm_toString(JR.cast(jm_getFilterStringBasicArrayList(this)))), JR.cast(this), JR.cast(this.f_commonStrings.f_CONSTRUCTOR)))
 })
     this
 }
@@ -60,7 +67,7 @@ and jm_visit_1_Any_ = (this: BooleanFileVisitor, anyType: JObject) => {
     
 and jm_visit_1_AbFile_ = (this: BooleanFileVisitor, file: JObject) => {
         let mut list: BasicArrayList = JR.cast(jm_getFilterStringBasicArrayList(this))
-        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
         let mut nextFileFilterString: String = ""
         {
             let mut index: Int32 = 0l
@@ -71,8 +78,8 @@ and jm_visit_1_AbFile_ = (this: BooleanFileVisitor, file: JObject) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            nextFileFilterString = JR.cast(BasicArrayList.jm_get(list, index))
-            if (JR.className(JR.cast(jm_visit_2(this, file, nextFileFilterString)))) {
+            nextFileFilterString = JR.cast(BasicArrayList.jm_get(JR.cast(list), index))
+            if (Boolean.jm_booleanValue(JR.cast(jm_visit_2(this, JR.cast(file), JR.cast(nextFileFilterString))))) {
                 return true
             }
             }

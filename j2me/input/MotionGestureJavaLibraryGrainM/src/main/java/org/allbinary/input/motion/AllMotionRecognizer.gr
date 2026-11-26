@@ -68,7 +68,7 @@ and jset_index = (value: Int32) => {
 and jstatic_pointCircularPool = () => match (jcell_pointCircularPool) {
   Some(value) => value,
   None => {
-    let value: GPointCircularPool = GPointCircularPool.jnew_1(40l)
+    let value: GPointCircularPool = JR.cast(GPointCircularPool.jnew_1(40l))
     jcell_pointCircularPool = Some(value)
     value
   },
@@ -79,7 +79,7 @@ and jset_pointCircularPool = (value: GPointCircularPool) => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("AllMotionRecognizer"), f_logUtil: JR.jnull, f_motionGestureRecognizer: JR.nullOf(), f_touchButtonProcessing: false, f_touchButtonRecognizer: JR.nullOf(), f_id: 0l, f_lastX: 0l, f_lastY: 0l, }
+    let this = { jobject: JR.newJObject("AllMotionRecognizer"), f_logUtil: JR.nullOf(), f_motionGestureRecognizer: JR.nullOf(), f_touchButtonProcessing: false, f_touchButtonRecognizer: JR.nullOf(), f_id: 0l, f_lastX: 0l, f_lastY: 0l, }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -90,14 +90,14 @@ JR.cast(jlate())
     
     
     
-        this.f_id = { let jold = jstatic_index(); jstatic_index() = Int32.(+)(jold, 1l); jold }
+        this.f_id = { let jold = jstatic_index(); jset_index(Int32.(+)(jold, 1l)); jold }
         this.f_motionGestureRecognizer = JR.cast(MotionGestureRecognizer.jnew_1(this.f_id))
         this.f_touchButtonRecognizer = JR.cast(TouchButtonRecognizer.jnew_0())
     this
 }
     
 and jm_processStartMotionEvent = (this: AllMotionRecognizer, x: Int32, y: Int32, deviceId: Int32, modifiers: Int32) => {
-        if (TouchButtonRecognizer.jm_pressTouchButtonInput(this.f_touchButtonRecognizer, x, y, deviceId)) {
+        if (TouchButtonRecognizer.jm_pressTouchButtonInput(JR.cast(this.f_touchButtonRecognizer), x, y, deviceId)) {
             this.f_touchButtonProcessing = true
         }
         if (!this.f_touchButtonProcessing) {
@@ -105,14 +105,14 @@ and jm_processStartMotionEvent = (this: AllMotionRecognizer, x: Int32, y: Int32,
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseCircularPool.jm_getNextInstance"))
 JR.cast(jlate(JR.cast(jstatic_pointCircularPool())))
 })
-            ignore(CustomGPoint.jm_setX(point, x))
-            ignore(CustomGPoint.jm_setY(point, y))
-            ignore(MotionGestureRecognizer.jm_processPressedMotionEvent(this.f_motionGestureRecognizer, JR.cast(point), deviceId, modifiers))
+            ignore(CustomGPoint.jm_setX(JR.cast(point), x))
+            ignore(CustomGPoint.jm_setY(JR.cast(point), y))
+            ignore(MotionGestureRecognizer.jm_processPressedMotionEvent(JR.cast(this.f_motionGestureRecognizer), JR.cast(point), deviceId, modifiers))
         }
 }
     
 and jm_processEndMotionEvent = (this: AllMotionRecognizer, x: Int32, y: Int32, deviceId: Int32, modifiers: Int32) => {
-        if (TouchButtonRecognizer.jm_releaseTouchButtonInput(this.f_touchButtonRecognizer, x, y, deviceId)) {
+        if (TouchButtonRecognizer.jm_releaseTouchButtonInput(JR.cast(this.f_touchButtonRecognizer), x, y, deviceId)) {
             void
         }
         if (!this.f_touchButtonProcessing) {
@@ -120,9 +120,9 @@ and jm_processEndMotionEvent = (this: AllMotionRecognizer, x: Int32, y: Int32, d
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseCircularPool.jm_getNextInstance"))
 JR.cast(jlate(JR.cast(jstatic_pointCircularPool())))
 })
-            ignore(CustomGPoint.jm_setX(point, x))
-            ignore(CustomGPoint.jm_setY(point, y))
-            ignore(MotionGestureRecognizer.jm_processReleasedMotionEvent(this.f_motionGestureRecognizer, JR.cast(point), deviceId, modifiers))
+            ignore(CustomGPoint.jm_setX(JR.cast(point), x))
+            ignore(CustomGPoint.jm_setY(JR.cast(point), y))
+            ignore(MotionGestureRecognizer.jm_processReleasedMotionEvent(JR.cast(this.f_motionGestureRecognizer), JR.cast(point), deviceId, modifiers))
         }
         if (this.f_touchButtonProcessing) {
             this.f_touchButtonProcessing = false
@@ -131,16 +131,16 @@ JR.cast(jlate(JR.cast(jstatic_pointCircularPool())))
     
 and jm_processDraggedMotionEvent = (this: AllMotionRecognizer, x: Int32, y: Int32, deviceId: Int32, modifiers: Int32) => {
         if (this.f_touchButtonProcessing) {
-            ignore(TouchButtonRecognizer.jm_pressTouchButtonInput(this.f_touchButtonRecognizer, x, y, deviceId))
+            ignore(TouchButtonRecognizer.jm_pressTouchButtonInput(JR.cast(this.f_touchButtonRecognizer), x, y, deviceId))
         }
         if (!this.f_touchButtonProcessing) {
             let mut point: CustomGPoint = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseCircularPool.jm_getNextInstance"))
 JR.cast(jlate(JR.cast(jstatic_pointCircularPool())))
 })
-            ignore(CustomGPoint.jm_setX(point, x))
-            ignore(CustomGPoint.jm_setY(point, y))
-            ignore(MotionGestureRecognizer.jm_processDraggedMotionEvent(this.f_motionGestureRecognizer, JR.cast(point), deviceId, modifiers))
+            ignore(CustomGPoint.jm_setX(JR.cast(point), x))
+            ignore(CustomGPoint.jm_setY(JR.cast(point), y))
+            ignore(MotionGestureRecognizer.jm_processDraggedMotionEvent(JR.cast(this.f_motionGestureRecognizer), JR.cast(point), deviceId, modifiers))
         }
 }
     
@@ -152,9 +152,9 @@ and jm_processMovedMotionEvent = (this: AllMotionRecognizer, x: Int32, y: Int32,
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseCircularPool.jm_getNextInstance"))
 JR.cast(jlate(JR.cast(jstatic_pointCircularPool())))
 })
-            ignore(CustomGPoint.jm_setX(point, x))
-            ignore(CustomGPoint.jm_setY(point, y))
-            ignore(MotionGestureRecognizer.jm_processMovedMotionEvent(this.f_motionGestureRecognizer, JR.cast(point), deviceId, modifiers))
+            ignore(CustomGPoint.jm_setX(JR.cast(point), x))
+            ignore(CustomGPoint.jm_setY(JR.cast(point), y))
+            ignore(MotionGestureRecognizer.jm_processMovedMotionEvent(JR.cast(this.f_motionGestureRecognizer), JR.cast(point), deviceId, modifiers))
         }
 }
     
@@ -163,15 +163,16 @@ and jm_processScrolledMotionEvent = (this: AllMotionRecognizer, x: Int32, y: Int
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseCircularPool.jm_getNextInstance"))
 JR.cast(jlate(JR.cast(jstatic_pointCircularPool())))
 })
-        ignore(CustomGPoint.jm_setX(point, x))
-        ignore(CustomGPoint.jm_setY(point, y))
-        ignore(MotionGestureRecognizer.jm_processScrolledMotionEvent(this.f_motionGestureRecognizer, JR.cast(point), deviceId, modifiers))
+        ignore(CustomGPoint.jm_setX(JR.cast(point), x))
+        ignore(CustomGPoint.jm_setY(JR.cast(point), y))
+        ignore(MotionGestureRecognizer.jm_processScrolledMotionEvent(JR.cast(this.f_motionGestureRecognizer), JR.cast(point), deviceId, modifiers))
 }
     
 and jm_getMotionGestureRecognizer = (this: AllMotionRecognizer) => {
         return this.f_motionGestureRecognizer
 }
 
+JR.registerSuper("AllMotionRecognizer", "MotionRecognizer")
 JR.registerLateBound("AllMotionRecognizer.jnew_0", jnew_0)
 JR.registerLateBound("AllMotionRecognizer.jm_processStartMotionEvent", jm_processStartMotionEvent)
 JR.registerLateBound("AllMotionRecognizer.jm_processEndMotionEvent", jm_processEndMotionEvent)

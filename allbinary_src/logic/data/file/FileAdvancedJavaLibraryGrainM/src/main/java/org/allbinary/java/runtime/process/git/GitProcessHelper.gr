@@ -41,10 +41,12 @@ from "../../../../../../org/allbinary/logic/string/StringMaker.gr" include Strin
 use StringMaker.{ type StringMaker }
 from "../../../../../../org/allbinary/string/CommonStrings.gr" include CommonStrings
 use CommonStrings.{ type CommonStrings }
-from "./ProcessBuilder.gr" include ProcessBuilder
-use ProcessBuilder.{ type ProcessBuilder }
-from "./Process.gr" include Process
+from "../../../../../../java/lang/Process.gr" include Process
 use Process.{ type Process }
+from "../../../../../../java/lang/ProcessBuilder.gr" include ProcessBuilder
+use ProcessBuilder.{ type ProcessBuilder }
+from "../../../../../../java/io/InputStream.gr" include InputStream
+use InputStream.{ type InputStream }
 
 //Do not use this instead just skip target, build, Application paths.
 provide record GitProcessHelper {
@@ -59,7 +61,7 @@ provide let rec jclassName = () => "GitProcessHelper"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: GitProcessHelper = jnew_0()
+    let value: GitProcessHelper = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -90,13 +92,13 @@ JR.cast(jlate(JR.cast(logUtil), JR.cast(l_THIS_IS_SLOW), JR.cast(this), JR.cast(
 }
     
 and jm_trackedFiles_2 = (this: GitProcessHelper, rootAsString: String, pathspec: String) => {
-        return jm_trackedFiles_3(this, rootAsString, pathspec, ".java")
+        return jm_trackedFiles_3(this, JR.cast(rootAsString), JR.cast(pathspec), JR.cast(".java"))
 }
     
 and jm_trackedFiles_3 = (this: GitProcessHelper, rootAsString: String, pathspec: String, suffix: String) => {
-        let mut process: Process = JR.cast(JR.className(JR.cast(ProcessBuilder.jm_redirectError(ProcessBuilder.jnew_7(this.f_trackedStrings.f_GIT_COMMAND, this.f_trackedStrings.f_CHANGE_DIRECTORY_OPTION, rootAsString, this.f_trackedStrings.f_LIST_FILES_COMMAND, this.f_trackedStrings.f_SEP_BY_NULL_CHAR_INSTEAD_OF_NEW_LINE, this.f_trackedStrings.f_PATHSPEC_SEPARATOR, pathspec), ProcessBuilder.jstatic_Redirect().f_INHERIT))))
-        let mut output: Array<Int32> = JR.className(JR.cast(Process.jm_getInputStream(process)))
-        let mut exitCode: Int32 = Process.jm_waitFor(process)
+        let mut process: Process = JR.cast(ProcessBuilder.jm_start_0(JR.cast(ProcessBuilder.jm_redirectError_1(ProcessBuilder.jnew_7(this.f_trackedStrings.f_GIT_COMMAND, this.f_trackedStrings.f_CHANGE_DIRECTORY_OPTION, rootAsString, this.f_trackedStrings.f_LIST_FILES_COMMAND, this.f_trackedStrings.f_SEP_BY_NULL_CHAR_INSTEAD_OF_NEW_LINE, this.f_trackedStrings.f_PATHSPEC_SEPARATOR, pathspec), JR.nullOf()))))
+        let mut output: Array<Int32> = InputStream.jm_readAllBytes_0(Process.jm_getInputStream_0(process))
+        let mut exitCode: Int32 = Process.jm_waitFor_0(process)
         if ((exitCode != 0l)) {
             fail JR.toStringOf(JR.newJObject("IllegalStateException"))
         }
@@ -113,7 +115,7 @@ and jm_trackedFiles_3 = (this: GitProcessHelper, rootAsString: String, pathspec:
                 jfirst = false
                 if (!(Int32.(<)(index, Int32.fromNumber(Array.length(output))))) break
             if ((output[Int32.toNumber(index)] == 0l)) {
-                relativePath = JR.fromChars(output, start, Int32.(-)(index, start), StandardCharsets.jstatic_UTF_8())
+                relativePath = JR.fromBytesRange(output, start, Int32.(-)(index, start))
                 if (JR.endsWith(relativePath, suffix)) {
                     ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("List.jm_add"))
@@ -129,11 +131,11 @@ JR.cast(jlate(JR.cast(files), JR.cast(relativePath)))
     
 and jm_isTracked = (this: GitProcessHelper, file: JObject) => {
         {
-            let mut nativeFile: File = JR.cast(AbFileNativeUtil.jm_get(file))
+            let mut nativeFile: File = JR.cast(AbFileNativeUtil.jm_get(JR.cast(file)))
             let mut parentFile: File = JR.cast(File.jm_getParentFile_0(nativeFile))
-            let mut process: Process = JR.cast(JR.className(JR.cast(ProcessBuilder.jm_redirectErrorStream(ProcessBuilder.jnew_7(this.f_trackedStrings.f_GIT_COMMAND, this.f_trackedStrings.f_CHANGE_DIRECTORY_OPTION, File.jm_getPath_0(parentFile), this.f_trackedStrings.f_LIST_FILES_COMMAND, this.f_trackedStrings.f_ERROR_UNMATCH_OPTION, this.f_trackedStrings.f_PATHSPEC_SEPARATOR, File.jm_getName_0(nativeFile)), true))))
-            ignore(JR.className(JR.cast(Process.jm_getInputStream(process))))
-            return (Process.jm_waitFor(process) == 0l)
+            let mut process: Process = JR.cast(ProcessBuilder.jm_start_0(JR.cast(ProcessBuilder.jm_redirectErrorStream_1(ProcessBuilder.jnew_7(this.f_trackedStrings.f_GIT_COMMAND, this.f_trackedStrings.f_CHANGE_DIRECTORY_OPTION, File.jm_getPath_0(parentFile), this.f_trackedStrings.f_LIST_FILES_COMMAND, this.f_trackedStrings.f_ERROR_UNMATCH_OPTION, this.f_trackedStrings.f_PATHSPEC_SEPARATOR, File.jm_getName_0(nativeFile)), true))))
+            ignore(InputStream.jm_readAllBytes_0(Process.jm_getInputStream_0(process)))
+            return (Process.jm_waitFor_0(process) == 0l)
         }
     return false
 }

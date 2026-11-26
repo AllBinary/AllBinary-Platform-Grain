@@ -81,7 +81,7 @@ provide record PacePatrolAI {
 provide let rec jclassName = () => "PacePatrolAI"
     
 and jnew_3 = (hashtable: JObject, ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
-    let this = { jobject: JR.newJObject("PacePatrolAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_maxDistance: JR.jnull, f_currentDistance: 0l, f_xTotalDistance: 0l, f_lastKeyDirection: 0l, f_keyDirection: 0l, f_trackingList: JR.nullOf(), f_firingDistance: 0l, f_isFollowLimitedByTerrain: false, }
+    let this = { jobject: JR.newJObject("PacePatrolAI"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_ownerLayerInterface: JR.nullOf(), f_gameInput: JR.nullOf(), f_lastKey: 0l, f_maxDistance: JR.nullOf(), f_currentDistance: 0l, f_xTotalDistance: 0l, f_lastKeyDirection: 0l, f_keyDirection: 0l, f_trackingList: JR.nullOf(), f_firingDistance: 0l, f_isFollowLimitedByTerrain: false, }
     
     
     this.f_isFollowLimitedByTerrain = false
@@ -165,7 +165,7 @@ JR.cast(jlate(JR.cast(this)))
         let mut lastTrackingEvent: TrackingEvent = JR.nullOf()
         let mut lastTrackingLayerInterface: LayerInterface = JR.nullOf()
         let mut directionCompositeInterface: DirectionCompositeInterface = JR.nullOf()
-        let mut size: Int32 = BasicArrayList.jm_size(this.f_trackingList)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(this.f_trackingList))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -175,23 +175,23 @@ JR.cast(jlate(JR.cast(this)))
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            lastTrackingEvent = JR.cast(BasicArrayList.jm_get(this.f_trackingList, 0l))
-            lastTrackingLayerInterface = JR.cast(TrackingEvent.jm_getLayerInterface(lastTrackingEvent))
-            let mut x: Int32 = LayerInterface.jm_getXP(lastTrackingLayerInterface)
-            let mut y: Int32 = LayerInterface.jm_getYP(lastTrackingLayerInterface)
-            let mut yDistance: Int32 = Int32.(-)(Int32.(-)(AllBinaryLayer.jm_getYP(ownerLayerInterface), y), AllBinaryLayer.jm_getHeight(ownerLayerInterface))
-            let mut xDistance: Int32 = Int32.(-)(Int32.(-)(AllBinaryLayer.jm_getXP(ownerLayerInterface), x), AllBinaryLayer.jm_getWidth(ownerLayerInterface))
-            let mut absXDistance: Int32 = Math.jm_abs(xDistance)
-            let mut absYDistance: Int32 = Math.jm_abs(yDistance)
+            lastTrackingEvent = JR.cast(BasicArrayList.jm_get(JR.cast(this.f_trackingList), 0l))
+            lastTrackingLayerInterface = JR.cast(TrackingEvent.jm_getLayerInterface(JR.cast(lastTrackingEvent)))
+            let mut x: Int32 = LayerInterface.jm_getXP(JR.cast(lastTrackingLayerInterface))
+            let mut y: Int32 = LayerInterface.jm_getYP(JR.cast(lastTrackingLayerInterface))
+            let mut yDistance: Int32 = Int32.(-)(Int32.(-)(AllBinaryLayer.jm_getYP(JR.cast(ownerLayerInterface)), y), AllBinaryLayer.jm_getHeight(JR.cast(ownerLayerInterface)))
+            let mut xDistance: Int32 = Int32.(-)(Int32.(-)(AllBinaryLayer.jm_getXP(JR.cast(ownerLayerInterface)), x), AllBinaryLayer.jm_getWidth(JR.cast(ownerLayerInterface)))
+            let mut absXDistance: Int32 = (if (Int32.(<)(xDistance, 0l)) Int32.(-)(0l, xDistance) else xDistance)
+            let mut absYDistance: Int32 = (if (Int32.(<)(yDistance, 0l)) Int32.(-)(0l, yDistance) else yDistance)
             if (Int32.(<=)(absYDistance, 100l)) {
                 if (Int32.(<)(absXDistance, Int32.(/)(jm_getFiringDistance(this), 2l))) {
                     directionCompositeInterface = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
 JR.cast(jlate(JR.cast(this)))
 })
-                    if ((Int32.(<)(xDistance, 0l) && (DirectionCompositeInterface.jm_getDirection(directionCompositeInterface) == directionFactory.f_RIGHT))) {
+                    if ((Int32.(<)(xDistance, 0l) && (DirectionCompositeInterface.jm_getDirection(JR.cast(directionCompositeInterface)) == directionFactory.f_RIGHT))) {
                         direction = JR.cast(directionFactory.f_RIGHT)
-                    } else if ((Int32.(>)(xDistance, 0l) && (DirectionCompositeInterface.jm_getDirection(directionCompositeInterface) == directionFactory.f_LEFT))) {
+                    } else if ((Int32.(>)(xDistance, 0l) && (DirectionCompositeInterface.jm_getDirection(JR.cast(directionCompositeInterface)) == directionFactory.f_LEFT))) {
                         direction = JR.cast(directionFactory.f_LEFT)
                     }
                 }
@@ -206,12 +206,12 @@ and jm_disable = (this: PacePatrolAI) => {
 }
     
 and jm_onEvent = (this: PacePatrolAI, eventObject: AllBinaryEventObject) => {
-        ignore(ForcedLogUtil.jm_log(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE, JR.cast(this)))
+        ignore(ForcedLogUtil.jm_log(JR.cast(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE), JR.cast(this)))
 }
     
 and jm_onMovement = (this: PacePatrolAI, trackingEvent: TrackingEvent) => {
-        ignore(BasicArrayList.jm_clear(this.f_trackingList))
-        ignore(BasicArrayList.jm_add(this.f_trackingList, JR.cast(trackingEvent)))
+        ignore(BasicArrayList.jm_clear(JR.cast(this.f_trackingList)))
+        ignore(BasicArrayList.jm_add(JR.cast(this.f_trackingList), JR.cast(trackingEvent)))
 }
     
 and jm_getFiringDistance = (this: PacePatrolAI) => {
@@ -222,6 +222,7 @@ and jm_setFiringDistance = (this: PacePatrolAI, firingDistance: Int32) => {
         this.f_firingDistance = firingDistance
 }
 
+JR.registerSuper("PacePatrolAI", "BasePatrolAI")
 JR.registerLateBound("PacePatrolAI.jnew_3", jnew_3)
 JR.registerLateBound("PacePatrolAI.jm_processAI", jm_processAI)
 JR.registerLateBound("PacePatrolAI.jm_setFiringDirectionForTargetIfInRange", jm_setFiringDirectionForTargetIfInRange)

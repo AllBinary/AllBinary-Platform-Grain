@@ -60,7 +60,7 @@ provide let rec jclassName = () => "VectorRotationGenerator"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: VectorRotationGenerator = jnew_0()
+    let value: VectorRotationGenerator = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -75,7 +75,7 @@ and jm_getInstance_0 = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("VectorRotationGenerator"), f_logUtil: JR.jnull, f_vectorAnimationUtil: JR.nullOf(), f_angleFactory: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("VectorRotationGenerator"), f_logUtil: JR.nullOf(), f_vectorAnimationUtil: JR.nullOf(), f_angleFactory: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance_0"))
 JR.cast(jlate())
@@ -87,7 +87,7 @@ JR.cast(jlate())
 }
     
 and jm_getInstance_1 = (this: VectorRotationGenerator, vectorRotationInfo: VectorInfo) => {
-        return jm_getInstanceFrames(this, VectorInfo.jm_getWidth(vectorRotationInfo), VectorInfo.jm_getHeight(vectorRotationInfo), VectorInfo.jm_getPoints(vectorRotationInfo), VectorInfo.jm_getTotalFrames(vectorRotationInfo))
+        return jm_getInstanceFrames(this, VectorInfo.jm_getWidth(JR.cast(vectorRotationInfo)), VectorInfo.jm_getHeight(JR.cast(vectorRotationInfo)), VectorInfo.jm_getPoints(JR.cast(vectorRotationInfo)), VectorInfo.jm_getTotalFrames(JR.cast(vectorRotationInfo)))
 }
     
 and jm_getInstanceFrames = (this: VectorRotationGenerator, width: Int32, height: Int32, points: Array<Array<Int32>>, frames: Int32) => {
@@ -107,27 +107,30 @@ and jm_getInstanceFrames = (this: VectorRotationGenerator, width: Int32, height:
                     }
                     jfirst = false
                     if (!(Int32.(<)(index, size))) break
-                ignore(BasicArrayList.jm_add(pointBasicArrayList, JR.cast(PointFactory.jm_createXY(pointFactory, points[Int32.toNumber(index)][Int32.toNumber(0l)], points[Int32.toNumber(index)][Int32.toNumber(1l)]))))
+                ignore(BasicArrayList.jm_add(JR.cast(pointBasicArrayList), JR.cast(PointFactory.jm_createXY(JR.cast(pointFactory), points[Int32.toNumber(index)][Int32.toNumber(0l)], points[Int32.toNumber(index)][Int32.toNumber(1l)]))))
                 }
             }
             let mut index: Int32 = 0l
             while (Int32.(<)(index, totalAngle)) {
-                ignore(BasicArrayList.jm_add(pointsBasicArrayList, JR.cast(jm_getListAtAngle(this, width, height, pointBasicArrayList, JR.cast(AngleFactory.jm_getAt(this.f_angleFactory, index))))))
+                ignore(BasicArrayList.jm_add(JR.cast(pointsBasicArrayList), JR.cast(jm_getListAtAngle(this, width, height, JR.cast(pointBasicArrayList), JR.cast(AngleFactory.jm_getAt(JR.cast(this.f_angleFactory), index))))))
                 index = Int32.(+)(index, angleIncrement)
             }
-            let mut newPoints: Array<Array<Array<Int32>>> = VectorAnimationUtil.jm_toAnimationArrayFromListOfPointListWithPointsPerFrame(this.f_vectorAnimationUtil, pointsBasicArrayList, BasicArrayList.jm_size(pointBasicArrayList))
+            let mut newPoints: Array<Array<Array<Int32>>> = {
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("VectorAnimationUtil.jm_toAnimationArrayFromListOfPointListWithPointsPerFrame"))
+JR.cast(jlate(JR.cast(this.f_vectorAnimationUtil), JR.cast(pointsBasicArrayList), JR.cast(BasicArrayList.jm_size(JR.cast(pointBasicArrayList)))))
+}
             return newPoints
         }
     return [> ]
 }
     
 and jm_getListAtAngle = (this: VectorRotationGenerator, width: Int32, height: Int32, pointBasicArrayList: BasicArrayList, angle: Angle) => {
-        let mut graphicsPipe: BasicGraphicsPipeline = BasicGraphicsPipeline.jnew_1(pointBasicArrayList)
-        ignore(BasicGraphicsPipeline.jm_createMatrix(graphicsPipe))
-        ignore(BasicGraphicsPipeline.jm_translate(graphicsPipe, Int32.(-)(1l, Int32.(+)((Int32.(>>)(width, 1l)), 1l)), Int32.(-)(1l, Int32.(+)((Int32.(>>)(height, 1l)), 1l))))
-        ignore(BasicGraphicsPipeline.jm_rotateToAngle(graphicsPipe, angle))
-        ignore(BasicGraphicsPipeline.jm_translate(graphicsPipe, (Int32.(>>)(width, 1l)), (Int32.(>>)(height, 1l))))
-        return BasicGraphicsPipeline.jm_getMatrix(graphicsPipe)
+        let mut graphicsPipe: BasicGraphicsPipeline = BasicGraphicsPipeline.jnew_1(JR.cast(pointBasicArrayList))
+        ignore(BasicGraphicsPipeline.jm_createMatrix(JR.cast(graphicsPipe)))
+        ignore(BasicGraphicsPipeline.jm_translate(JR.cast(graphicsPipe), Int32.(-)(1l, Int32.(+)((Int32.(>>)(width, 1l)), 1l)), Int32.(-)(1l, Int32.(+)((Int32.(>>)(height, 1l)), 1l))))
+        ignore(BasicGraphicsPipeline.jm_rotateToAngle(JR.cast(graphicsPipe), JR.cast(angle)))
+        ignore(BasicGraphicsPipeline.jm_translate(JR.cast(graphicsPipe), (Int32.(>>)(width, 1l)), (Int32.(>>)(height, 1l))))
+        return BasicGraphicsPipeline.jm_getMatrix(JR.cast(graphicsPipe))
 }
 
 JR.registerLateBound("VectorRotationGenerator.jnew_0", jnew_0)

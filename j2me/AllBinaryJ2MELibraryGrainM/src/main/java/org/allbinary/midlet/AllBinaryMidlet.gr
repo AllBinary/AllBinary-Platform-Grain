@@ -46,6 +46,7 @@ use NullUtil.{ type NullUtil }
 
 provide record AllBinaryMidlet {
   jobject: JObject,
+  mut f_destroyed: Bool,
   mut f_logUtil: JObject,
   mut f_commonStrings: CommonStrings,
   mut f_SET_DISPLAY: String,
@@ -63,7 +64,7 @@ provide let rec jclassName = () => "AllBinaryMidlet"
 and jstatic_NULL_ALLBINARY_MIDLET = () => match (jcell_NULL_ALLBINARY_MIDLET) {
   Some(value) => value,
   None => {
-    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    let value: JObject = JR.cast(NullUtil.jm_getInstance().f_NULL_OBJECT)
     jcell_NULL_ALLBINARY_MIDLET = Some(value)
     value
   },
@@ -81,7 +82,7 @@ and jm_getNullInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("AllBinaryMidlet"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_SET_DISPLAY: "", f_SETTING_: "", f__DISPLAY_: "", f_SETTING_NO_TITLE: "", f_hashtable: JR.jnull, f_midletDestroyed: false, }
+    let this = { jobject: JR.newJObject("AllBinaryMidlet"), f_destroyed: false, f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_SET_DISPLAY: "", f_SETTING_: "", f__DISPLAY_: "", f_SETTING_NO_TITLE: "", f_hashtable: JR.nullOf(), f_midletDestroyed: false, }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -108,17 +109,17 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_commonStrings.f_CONSTRUCTO
     
 and jm_setDisplay = (this: AllBinaryMidlet, newDisplay: JObject) => {
         let mut title: String = StringUtil.jm_getInstance().f_EMPTY_STRING
-        if ((!JR.isSame(newDisplay, {
+        if (!JR.isSame(newDisplay, {
 let jlate: () => JObject = JR.cast(JR.lateBound("NullCanvas.jstatic_NULL_CANVAS"))
 JR.cast(jlate())
-}))) {
+})) {
             title = {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Displayable.jm_getTitle"))
 JR.cast(jlate(JR.cast(newDisplay)))
 }
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), this.f_SETTING_), title), this.f__DISPLAY_), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(newDisplay))))), JR.cast(this), JR.cast(this.f_SET_DISPLAY)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(this.f_SETTING_))), JR.cast(title))), JR.cast(this.f__DISPLAY_))), JR.cast(StringUtil.jm_toString(JR.cast(StringUtil.jm_getInstance()), JR.cast(newDisplay))))))), JR.cast(this), JR.cast(this.f_SET_DISPLAY)))
 })
         }
         let mut display: JObject = JR.cast(jm_getDisplay(this))
@@ -130,16 +131,19 @@ JR.cast(jlate(JR.cast(display), JR.cast(newDisplay)))
     
 and jm_getDisplay = (this: AllBinaryMidlet) => {
         return {
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Display.jm_getDisplay"))
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Display.jm_getDisplay_1"))
 JR.cast(jlate(JR.cast(this)))
 }
 }
     
 and jm_getCurrentDisplayable = (this: AllBinaryMidlet) => {
-        return JR.className(JR.cast({
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Display.jm_getDisplay"))
+        return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Display.jm_getCurrent"))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Display.jm_getDisplay_1"))
 JR.cast(jlate(JR.cast(this)))
-}))
+})))
+}
 }
     
 and jm_setDestroyed = (this: AllBinaryMidlet, destroyed: Bool) => {
@@ -151,11 +155,11 @@ and jm_isDestroyed = (this: AllBinaryMidlet) => {
 }
     
 and jm_startApp = (this: AllBinaryMidlet) => {
-        ignore(ForcedLogUtil.jm_log(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE, JR.cast(this)))
+        ignore(ForcedLogUtil.jm_log(JR.cast(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE), JR.cast(this)))
 }
     
 and jm_pauseApp = (this: AllBinaryMidlet) => {
-        ignore(ForcedLogUtil.jm_log(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE, JR.cast(this)))
+        ignore(ForcedLogUtil.jm_log(JR.cast(EventStrings.jm_getInstance().f_PERFORMANCE_MESSAGE), JR.cast(this)))
 }
     
 and jm_destroyAppInRunnable = (this: AllBinaryMidlet, unconditional: Bool, isProgress: Bool) => {
@@ -180,7 +184,7 @@ JR.cast(jlate(JR.cast(Memory.jm_getInfo()), JR.cast(this), JR.cast(l_METHOD_NAME
 and jm_setStartStateHashtable = (this: AllBinaryMidlet, hashtable: JObject) => {
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), CommonLabels.jm_getInstance().f_START_LABEL), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(hashtable))))), JR.cast(this), JR.cast("setStartStateHashtable")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(CommonLabels.jm_getInstance().f_START_LABEL))), JR.cast(StringUtil.jm_toString(JR.cast(StringUtil.jm_getInstance()), JR.cast(hashtable))))))), JR.cast(this), JR.cast("setStartStateHashtable")))
 })
         this.f_hashtable = JR.cast(hashtable)
 }
@@ -188,7 +192,7 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMak
 and jm_getStartStateHashtable = (this: AllBinaryMidlet) => {
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), CommonLabels.jm_getInstance().f_START_LABEL), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(this.f_hashtable))))), JR.cast(this), JR.cast("getStartStateHashtable")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(CommonLabels.jm_getInstance().f_START_LABEL))), JR.cast(StringUtil.jm_toString(JR.cast(StringUtil.jm_getInstance()), JR.cast(this.f_hashtable))))))), JR.cast(this), JR.cast("getStartStateHashtable")))
 })
         return this.f_hashtable
 }
@@ -211,6 +215,7 @@ and jm_commandAction = (this: AllBinaryMidlet, command: JObject, displayable: JO
     void
 }
 
+JR.registerSuper("AllBinaryMidlet", "MIDlet")
 JR.registerLateBound("AllBinaryMidlet.jnew_0", jnew_0)
 JR.registerLateBound("AllBinaryMidlet.jm_getNullInstance", jm_getNullInstance)
 JR.registerLateBound("AllBinaryMidlet.jm_setDisplay", jm_setDisplay)

@@ -55,6 +55,10 @@ from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayLis
 use BasicArrayList.{ type BasicArrayList }
 from "../../../../../java/io/File.gr" include File
 use File.{ type File }
+from "../../../../../java/io/DataOutputStream.gr" include DataOutputStream
+use DataOutputStream.{ type DataOutputStream }
+from "../../../../../java/io/FileInputStream.gr" include FileInputStream
+use FileInputStream.{ type FileInputStream }
 from "./FilePathData.gr" include FilePathData
 use FilePathData.{ type FilePathData }
 from "./FileUtil2.gr" include FileUtil2
@@ -80,7 +84,7 @@ provide let rec jclassName = () => "FileUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: FileUtil = jnew_0()
+    let value: FileUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -95,7 +99,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("FileUtil"), f_logUtil: JR.jnull, f_directory: JR.nullOf(), f_logConfigTypeFactory: JR.jnull, f_commonStrings: JR.nullOf(), f_streamUtil: JR.nullOf(), f_WRITE_LABEL: "", f_DATA_LABEL: "", f_WRITE_METHOD: "", }
+    let this = { jobject: JR.newJObject("FileUtil"), f_logUtil: JR.nullOf(), f_directory: JR.nullOf(), f_logConfigTypeFactory: JR.nullOf(), f_commonStrings: JR.nullOf(), f_streamUtil: JR.nullOf(), f_WRITE_LABEL: "", f_DATA_LABEL: "", f_WRITE_METHOD: "", }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -122,40 +126,40 @@ let jlate: () => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getI
 JR.cast(jlate())
 }), JR.cast(file)))
 })
-        ignore(jm_write_2_InputStream_AbFile_(this, inputStream, JR.cast(dataOutputStream)))
+        ignore(jm_write_2_InputStream_AbFile_(this, JR.cast(inputStream), JR.cast(dataOutputStream)))
 }
     
 and jm_write_2_InputStream_AbDataOutputStream_ = (this: FileUtil, inputStream: InputStream, dataOutputStream: AbDataOutputStream) => {
     let mut dataOutputStream = dataOutputStream
         {
-            dataOutputStream = JR.cast(StreamUtil.jm_get(StreamUtil.jm_getInstance(), inputStream, JR.cast(dataOutputStream), Array.make(Int32.toNumber(16384l), 0l)))
-            ignore(AbDataOutputStream.jm_flush(dataOutputStream))
+            dataOutputStream = JR.cast(StreamUtil.jm_get(JR.cast(StreamUtil.jm_getInstance()), JR.cast(inputStream), JR.cast(dataOutputStream), Array.make(Int32.toNumber(16384l), 0l)))
+            ignore(DataOutputStream.jm_flush_0(JR.cast(dataOutputStream)))
         }
         {
-            ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), JR.cast(dataOutputStream)))
+            ignore(StreamUtil.jm_close(JR.cast(StreamUtil.jm_getInstance()), JR.cast(dataOutputStream)))
         }
 }
     
 and jm_write_3 = (this: FileUtil, inputStream: InputStream, dataOutputStream: AbDataOutputStream, buffer: Array<Int32>) => {
     let mut dataOutputStream = dataOutputStream
         {
-            dataOutputStream = JR.cast(StreamUtil.jm_get(StreamUtil.jm_getInstance(), inputStream, JR.cast(dataOutputStream), buffer))
-            ignore(AbDataOutputStream.jm_flush(dataOutputStream))
+            dataOutputStream = JR.cast(StreamUtil.jm_get(JR.cast(StreamUtil.jm_getInstance()), JR.cast(inputStream), JR.cast(dataOutputStream), buffer))
+            ignore(DataOutputStream.jm_flush_0(JR.cast(dataOutputStream)))
         }
         {
-            ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), JR.cast(dataOutputStream)))
+            ignore(StreamUtil.jm_close(JR.cast(StreamUtil.jm_getInstance()), JR.cast(dataOutputStream)))
         }
 }
     
 and jm_copy_2_AbFileInputStream_AbDataOutputStream_ = (this: FileUtil, dataInputStream: JObject, dataOutputStream: AbDataOutputStream) => {
     let mut dataOutputStream = dataOutputStream
         {
-            dataOutputStream = JR.cast(StreamUtil.jm_get(StreamUtil.jm_getInstance(), JR.cast(dataInputStream), JR.cast(dataOutputStream), Array.make(Int32.toNumber(16384l), 0l)))
-            ignore(AbDataOutputStream.jm_flush(dataOutputStream))
+            dataOutputStream = JR.cast(StreamUtil.jm_get(JR.cast(StreamUtil.jm_getInstance()), JR.cast(dataInputStream), JR.cast(dataOutputStream), Array.make(Int32.toNumber(16384l), 0l)))
+            ignore(DataOutputStream.jm_flush_0(JR.cast(dataOutputStream)))
         }
         {
-            ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), JR.cast(dataOutputStream)))
-            ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), JR.cast(dataInputStream)))
+            ignore(StreamUtil.jm_close(JR.cast(StreamUtil.jm_getInstance()), JR.cast(dataOutputStream)))
+            ignore(StreamUtil.jm_close(JR.cast(StreamUtil.jm_getInstance()), JR.cast(dataInputStream)))
         }
 }
     
@@ -171,13 +175,13 @@ JR.cast(jlate(JR.cast(file)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getName"))
 JR.cast(jlate(JR.cast(file)))
 })
-        let mut fixedPathString: String = AbPath.jm_toFileSystemString(realPath) ++ JR.substring({
+        let mut fixedPathString: String = AbPath.jm_toFileSystemString(JR.cast(realPath)) ++ JR.substring({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(file)))
 }, beginIndex, endIndex)
         let mut fixedPath: AbPath = AbPath.jnew_2(fixedPathString, StringUtil.jm_getInstance().f_EMPTY_STRING)
-        ignore(Directory.jm_create_1_AbPath_(this.f_directory, fixedPath))
-        let mut string: String = AbPath.jm_toFileSystemString(fixedPath)
+        ignore(Directory.jm_create_1_AbPath_(JR.cast(this.f_directory), JR.cast(fixedPath)))
+        let mut string: String = AbPath.jm_toFileSystemString(JR.cast(fixedPath))
         if ({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
 JR.cast(jlate(JR.cast({
@@ -201,17 +205,17 @@ JR.cast(jlate(JR.cast(file)))
 }
     
 and jm_copyToCloud_4_AbFile_AbPath_AbPath_String_ = (this: FileUtil, file: JObject, path: AbPath, realPath: AbPath, cloud: String) => {
-        ignore(jm_copyToCloud_6(this, file, path, realPath, cloud, false, false))
+        ignore(jm_copyToCloud_6(this, JR.cast(file), JR.cast(path), JR.cast(realPath), JR.cast(cloud), false, false))
 }
     
 and jm_copyToCloud_6 = (this: FileUtil, file: JObject, path: AbPath, realPath: AbPath, cloud: String, overwriteNewer: Bool, overwriteAll: Bool) => {
         {
-            let mut outPath: AbPath = JR.cast(jm_fixPath(this, file, path, realPath, cloud))
+            let mut outPath: AbPath = JR.cast(jm_fixPath(this, JR.cast(file), JR.cast(path), JR.cast(realPath), JR.cast(cloud)))
             let mut outFile: JObject = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
 JR.cast(jlate(JR.cast(outPath)))
 })
-            if (!jm_copyPrepare(this, file, outFile, overwriteNewer, overwriteAll)) {
+            if (!jm_copyPrepare(this, JR.cast(file), JR.cast(outFile), overwriteNewer, overwriteAll)) {
                 return void
             } else {
                 if ({
@@ -225,20 +229,20 @@ JR.cast(jlate(JR.cast(this.f_logConfigTypeFactory)))
 })))
 }) {
                     let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-                    ignore(StringMaker.jm_append(stringBuffer, "Out File: "))
-                    ignore(StringMaker.jm_append(stringBuffer, {
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Out File: ")))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(outFile)))
-}))
-                    ignore(StringMaker.jm_append(stringBuffer, " In File: "))
-                    ignore(StringMaker.jm_append(stringBuffer, {
+})))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" In File: ")))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(file)))
-}))
-                    ignore(StringMaker.jm_append(stringBuffer, " to cloud."))
+})))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" to cloud.")))
                     ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast("copyToCloud")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(jm_getInstance()), JR.cast("copyToCloud")))
 })
                 }
             }
@@ -249,20 +253,20 @@ let jlate: () => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getI
 JR.cast(jlate())
 }), JR.cast(outFile)))
 })
-            let mut fileInputStream: JObject = JR.cast(AbFileLocalInputStream.jnew_1(file))
-            ignore(jm_copy_2_AbFileInputStream_AbDataOutputStream_(this, fileInputStream, dataOutputStream))
+            let mut fileInputStream: JObject = JR.cast(AbFileLocalInputStream.jnew_1(JR.cast(file)))
+            ignore(jm_copy_2_AbFileInputStream_AbDataOutputStream_(this, JR.cast(fileInputStream), JR.cast(dataOutputStream)))
         }
     return void
 }
     
 and jm_copyToCloud_2 = (this: FileUtil, file: JObject, outFile: JObject) => {
-        ignore(jm_copyToCloud_4_AbFile_AbFile_boolean_boolean_(this, file, JR.cast(outFile), false, false))
+        ignore(jm_copyToCloud_4_AbFile_AbFile_boolean_boolean_(this, JR.cast(file), JR.cast(outFile), false, false))
 }
     
 and jm_copyToCloud_4_AbFile_AbFile_boolean_boolean_ = (this: FileUtil, file: JObject, outFile: JObject, overwriteNewer: Bool, overwriteAll: Bool) => {
         {
             let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-            if (!jm_copyPrepare(this, file, outFile, overwriteNewer, overwriteAll)) {
+            if (!jm_copyPrepare(this, JR.cast(file), JR.cast(outFile), overwriteNewer, overwriteAll)) {
                 return void
             } else {
                 if ({
@@ -275,21 +279,21 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_F
 JR.cast(jlate(JR.cast(this.f_logConfigTypeFactory)))
 })))
 }) {
-                    ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
-                    ignore(StringMaker.jm_append(stringBuffer, "Out File: "))
-                    ignore(StringMaker.jm_append(stringBuffer, {
+                    ignore(StringMaker.jm_delete(JR.cast(stringBuffer), 0l, StringMaker.jm_length(JR.cast(stringBuffer))))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Out File: ")))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(outFile)))
-}))
-                    ignore(StringMaker.jm_append(stringBuffer, " In File: "))
-                    ignore(StringMaker.jm_append(stringBuffer, {
+})))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" In File: ")))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(file)))
-}))
-                    ignore(StringMaker.jm_append(stringBuffer, " to cloud."))
+})))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" to cloud.")))
                     ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast("copyToCloud")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(jm_getInstance()), JR.cast("copyToCloud")))
 })
                 }
             }
@@ -300,8 +304,8 @@ let jlate: () => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getI
 JR.cast(jlate())
 }), JR.cast(outFile)))
 })
-            let mut fileInputStream: JObject = JR.cast(AbFileLocalInputStream.jnew_1(file))
-            ignore(jm_copy_2_AbFileInputStream_AbDataOutputStream_(this, fileInputStream, dataOutputStream))
+            let mut fileInputStream: JObject = JR.cast(AbFileLocalInputStream.jnew_1(JR.cast(file)))
+            ignore(jm_copy_2_AbFileInputStream_AbDataOutputStream_(this, JR.cast(fileInputStream), JR.cast(dataOutputStream)))
         }
     return void
 }
@@ -323,15 +327,15 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_F
 JR.cast(jlate(JR.cast(this.f_logConfigTypeFactory)))
 })))
 }) {
-                    ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
-                    ignore(StringMaker.jm_append(stringBuffer, "Overwriting File: "))
-                    ignore(StringMaker.jm_append(stringBuffer, {
+                    ignore(StringMaker.jm_delete(JR.cast(stringBuffer), 0l, StringMaker.jm_length(JR.cast(stringBuffer))))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Overwriting File: ")))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(toFile)))
-}))
+})))
                     ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast("copyFile")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(jm_getInstance()), JR.cast("copyFile")))
 })
                 }
                 ignore({
@@ -359,24 +363,24 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_F
 JR.cast(jlate(JR.cast(this.f_logConfigTypeFactory)))
 })))
 }) {
-                    ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
-                    ignore(StringMaker.jm_append(stringBuffer, "Newer by: "))
-                    ignore(StringMaker.jm_appendlong(stringBuffer, Int64.(-)({
+                    ignore(StringMaker.jm_delete(JR.cast(stringBuffer), 0l, StringMaker.jm_length(JR.cast(stringBuffer))))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Newer by: ")))
+                    ignore(StringMaker.jm_appendlong(JR.cast(stringBuffer), Int64.(-)({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_lastModified"))
 JR.cast(jlate(JR.cast(fromFile)))
 }, {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_lastModified"))
 JR.cast(jlate(JR.cast(toFile)))
 })))
-                    ignore(StringMaker.jm_append(stringBuffer, "ms "))
-                    ignore(StringMaker.jm_append(stringBuffer, "Copying File: "))
-                    ignore(StringMaker.jm_append(stringBuffer, {
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("ms ")))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Copying File: ")))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(toFile)))
-}))
+})))
                     ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast("copyFile")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(jm_getInstance()), JR.cast("copyFile")))
 })
                 }
                 ignore({
@@ -398,21 +402,21 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LogConfigTypeFactory.f_F
 JR.cast(jlate(JR.cast(this.f_logConfigTypeFactory)))
 })))
 }) {
-                    ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
-                    ignore(StringMaker.jm_append(stringBuffer, "File Already Exists"))
+                    ignore(StringMaker.jm_delete(JR.cast(stringBuffer), 0l, StringMaker.jm_length(JR.cast(stringBuffer))))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("File Already Exists")))
                     if (overwriteNewer) {
-                        ignore(StringMaker.jm_append(stringBuffer, " And Is Not Older"))
+                        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" And Is Not Older")))
                     } else {
-                        ignore(StringMaker.jm_append(stringBuffer, " And Not A In Overwrite Mode"))
+                        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" And Not A In Overwrite Mode")))
                     }
-                    ignore(StringMaker.jm_append(stringBuffer, CommonLabels.jm_getInstance().f_COLON_SEP))
-                    ignore(StringMaker.jm_append(stringBuffer, {
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonLabels.jm_getInstance().f_COLON_SEP)))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(toFile)))
-}))
+})))
                     ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast("copyFile")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(jm_getInstance()), JR.cast("copyFile")))
 })
                 }
                 return false
@@ -427,7 +431,7 @@ JR.cast(jlate(JR.cast(toFile)))
 }
     
 and jm_copyFile_2 = (this: FileUtil, fromFile: JObject, toFile: JObject) => {
-        ignore(jm_copyFile_4(this, fromFile, toFile, false, false))
+        ignore(jm_copyFile_4(this, JR.cast(fromFile), JR.cast(toFile), false, false))
 }
     
 and jm_copyFile_4 = (this: FileUtil, fromFile: JObject, toFile: JObject, overwriteNewer: Bool, overwriteAll: Bool) => {
@@ -443,27 +447,27 @@ JR.cast(jlate(JR.cast(this.f_logConfigTypeFactory)))
 })))
 }) {
                 let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-                ignore(StringMaker.jm_append(stringBuffer, "Copying "))
-                ignore(StringMaker.jm_appendlong(stringBuffer, Int64.fromNumber(Int32.toNumber({
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Copying ")))
+                ignore(StringMaker.jm_appendlong(JR.cast(stringBuffer), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_length"))
 JR.cast(jlate(JR.cast(fromFile)))
-}))))
-                ignore(StringMaker.jm_append(stringBuffer, " bytes from File: "))
-                ignore(StringMaker.jm_append(stringBuffer, {
+}))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" bytes from File: ")))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(fromFile)))
-}))
-                ignore(StringMaker.jm_append(stringBuffer, " to: "))
-                ignore(StringMaker.jm_append(stringBuffer, {
+})))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" to: ")))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(toFile)))
-}))
+})))
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast("copyFile")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(jm_getInstance()), JR.cast("copyFile")))
 })
             }
-            if (!jm_copyPrepare(this, fromFile, toFile, overwriteNewer, overwriteAll)) {
+            if (!jm_copyPrepare(this, JR.cast(fromFile), JR.cast(toFile), overwriteNewer, overwriteAll)) {
                 return void
             }
             let mut dataOutputStream: AbDataOutputStream = JR.cast({
@@ -477,7 +481,7 @@ JR.cast(jlate())
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFileInputStream.jm_createFromAbFile"))
 JR.cast(jlate(JR.cast(fromFile)))
 })
-            ignore(jm_copy_2_AbFileInputStream_AbDataOutputStream_(this, fileInputStream, dataOutputStream))
+            ignore(jm_copy_2_AbFileInputStream_AbDataOutputStream_(this, JR.cast(fileInputStream), JR.cast(dataOutputStream)))
         }
     return void
 }
@@ -487,8 +491,11 @@ and jm_getNewDirectory = (fromFile: JObject) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(fromFile)))
 }
-        let mut separatorChar: String = FilePathData.jm_getInstance().f_PATH_START
-        if (AbIOSystem.jm_isType(AbIOSystem.jm_getInstance(), "com.vobject.appengine.java.io")) {
+        let mut separatorChar: String = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FilePathData.f_PATH_START"))
+JR.cast(jlate(JR.cast(FilePathData.jm_getInstance())))
+}
+        if (AbIOSystem.jm_isType(JR.cast(AbIOSystem.jm_getInstance()), JR.cast("com.vobject.appengine.java.io"))) {
             separatorChar = {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbPathData.f_SEPARATOR"))
 JR.cast(jlate(JR.cast({
@@ -516,26 +523,26 @@ JR.cast(jlate(JR.cast(file)))
 }) {
             fail JR.toStringOf(JR.newJObject("Exception"))
         }
-        let mut fileList: BasicArrayList = JR.cast(Directory.jm_search_2_AbFile_boolean_(this.f_directory, JR.cast(file), true))
-        let mut size: Int32 = BasicArrayList.jm_size(fileList)
+        let mut fileList: BasicArrayList = JR.cast(Directory.jm_search_2_AbFile_boolean_(JR.cast(this.f_directory), JR.cast(file), true))
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(fileList))
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, "Searched: "))
-        ignore(StringMaker.jm_append(stringBuffer, {
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Searched: ")))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(file)))
-}))
-        ignore(StringMaker.jm_append(stringBuffer, " Total: "))
-        ignore(StringMaker.jm_appendint(stringBuffer, size))
+})))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" Total: ")))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), size))
         let mut portion: Int32 = Int32.(+)(Int32.(/)(size, total), 1l)
         let mut start: Int32 = Int32.(*)(portion, current)
         let mut end: Int32 = Int32.(+)(start, portion)
         if (Int32.(>)(end, size)) {
             end = size
         }
-        ignore(StringMaker.jm_append(stringBuffer, " Section: "))
-        ignore(StringMaker.jm_appendint(stringBuffer, start))
-        ignore(StringMaker.jm_append(stringBuffer, " - "))
-        ignore(StringMaker.jm_appendint(stringBuffer, end))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" Section: ")))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), start))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" - ")))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), end))
         if ({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
 JR.cast(jlate(JR.cast({
@@ -548,10 +555,10 @@ JR.cast(jlate(JR.cast(this.f_logConfigTypeFactory)))
 }) {
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast("copySomeFilesToDirectory()")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(jm_getInstance()), JR.cast("copySomeFilesToDirectory()")))
 })
         }
-        let mut nextFile: JObject = JR.jnull
+        let mut nextFile: JObject = JR.nullOf()
         {
             let mut index: Int32 = start
             let mut jfirst = true
@@ -561,27 +568,27 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuf
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, end))) break
-            nextFile = JR.cast(BasicArrayList.jm_get(fileList, index))
+            nextFile = JR.cast(BasicArrayList.jm_get(JR.cast(fileList), index))
             if ({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
 JR.cast(jlate(JR.cast(nextFile)))
 }) {
                 void
             } else {
-                let mut path: String = AbPath.jm_getPath(AbPath.jnew_2({
+                let mut path: String = AbPath.jm_getPath(JR.cast(AbPath.jnew_2({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(nextFile)))
-}, StringUtil.jm_getInstance().f_EMPTY_STRING))
-                let mut beginIndex: Int32 = JR.length(AbPath.jm_getPath(fromDirectoryAbPath))
+}, StringUtil.jm_getInstance().f_EMPTY_STRING)))
+                let mut beginIndex: Int32 = JR.length(AbPath.jm_getPath(JR.cast(fromDirectoryAbPath)))
                 if (Int32.(<)(JR.indexOf(path, URLGLOBALS.jm_getWebappPath()), 0l)) {
-                    beginIndex = Int32.(-)(beginIndex, JR.length(AbPath.jm_getPath(AbPath.jnew_2(URLGLOBALS.jm_getWebappPath(), StringUtil.jm_getInstance().f_EMPTY_STRING))))
+                    beginIndex = Int32.(-)(beginIndex, JR.length(AbPath.jm_getPath(JR.cast(AbPath.jnew_2(URLGLOBALS.jm_getWebappPath(), StringUtil.jm_getInstance().f_EMPTY_STRING)))))
                 }
-                let mut newPath: String = AbPath.jm_toFileSystemString(toDirectoryAbPath) ++ JR.substringFrom(path, beginIndex)
+                let mut newPath: String = AbPath.jm_toFileSystemString(JR.cast(toDirectoryAbPath)) ++ JR.substringFrom(path, beginIndex)
                 let mut toFile: JObject = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
 JR.cast(jlate(JR.cast(AbPath.jnew_2(newPath, StringUtil.jm_getInstance().f_EMPTY_STRING))))
 })
-                ignore(jm_copyFile_4(this, nextFile, toFile, overwriteNewer, overwriteAll))
+                ignore(jm_copyFile_4(this, JR.cast(nextFile), JR.cast(toFile), overwriteNewer, overwriteAll))
             }
             }
         }
@@ -600,22 +607,22 @@ JR.cast(jlate(JR.cast(this.f_logConfigTypeFactory)))
 })))
 }) {
                 let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-                ignore(StringMaker.jm_append(stringBuffer, "Copying Directory from: "))
-                ignore(StringMaker.jm_append(stringBuffer, {
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Copying Directory from: ")))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(fromFile)))
-}))
-                ignore(StringMaker.jm_append(stringBuffer, " to: "))
-                ignore(StringMaker.jm_append(stringBuffer, {
+})))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" to: ")))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(to)))
-}))
+})))
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast("copyDirectory")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(jm_getInstance()), JR.cast("copyDirectory")))
 })
             }
-            let mut newDirectory: String = jm_getNewDirectory(fromFile)
+            let mut newDirectory: String = jm_getNewDirectory(JR.cast(fromFile))
             let mut newDirectoryAbPath: AbPath = AbPath.jnew_2({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(to)))
@@ -626,16 +633,16 @@ let jlate: () => JObject = JR.cast(JR.lateBound("AbPathData.jm_getInstance"))
 JR.cast(jlate())
 })))
 } ++ newDirectory, StringUtil.jm_getInstance().f_EMPTY_STRING)
-            if (!Directory.jm_create_1_AbPath_(this.f_directory, newDirectoryAbPath)) {
+            if (!Directory.jm_create_1_AbPath_(JR.cast(this.f_directory), JR.cast(newDirectoryAbPath))) {
                 fail JR.toStringOf(JR.newJObject("Exception"))
             }
-            let mut fileArray: Array<JObject> = {
+            let mut fileArray: Array<JObject> = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FileWrapperUtil.jm_wrapFiles"))
 JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_listFiles"))
 JR.cast(jlate(JR.cast(fromFile)))
 })))
-}
+})
             let mut size: Int32 = Int32.fromNumber(Array.length(fileArray))
             if ({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
@@ -648,24 +655,24 @@ JR.cast(jlate(JR.cast(this.f_logConfigTypeFactory)))
 })))
 }) {
                 let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-                ignore(StringMaker.jm_append(stringBuffer, "Copying "))
-                ignore(StringMaker.jm_appendint(stringBuffer, size))
-                ignore(StringMaker.jm_append(stringBuffer, " files from: "))
-                ignore(StringMaker.jm_append(stringBuffer, {
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Copying ")))
+                ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), size))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" files from: ")))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(fromFile)))
-}))
-                ignore(StringMaker.jm_append(stringBuffer, " to: "))
-                ignore(StringMaker.jm_append(stringBuffer, {
+})))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" to: ")))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(to)))
-}))
+})))
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast("copyDirectory")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(jm_getInstance()), JR.cast("copyDirectory")))
 })
             }
-            let mut file: JObject = JR.jnull
+            let mut file: JObject = JR.nullOf()
             {
                 let mut index: Int32 = 0l
                 let mut jfirst = true
@@ -680,9 +687,9 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuf
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isFile"))
 JR.cast(jlate(JR.cast(file)))
 }) {
-                    ignore(jm_copyFile_2(this, file, JR.cast({
+                    ignore(jm_copyFile_2(this, JR.cast(file), JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFilePathAndName"))
-JR.cast(jlate(JR.cast(AbPath.jm_toString(newDirectoryAbPath)), JR.cast({
+JR.cast(jlate(JR.cast(AbPath.jm_toString(JR.cast(newDirectoryAbPath))), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getName"))
 JR.cast(jlate(JR.cast(file)))
 })))
@@ -691,7 +698,7 @@ JR.cast(jlate(JR.cast(file)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
 JR.cast(jlate(JR.cast(file)))
 }) {
-                    ignore(jm_copyDirectory(this, file, JR.cast({
+                    ignore(jm_copyDirectory(this, JR.cast(file), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFileFromAbPath"))
 JR.cast(jlate(JR.cast(newDirectoryAbPath)))
 })))
@@ -717,13 +724,13 @@ JR.cast(jlate(JR.cast(this.f_logConfigTypeFactory)))
 })))
 }) {
                 let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-                ignore(StringMaker.jm_append(stringBuffer, "Copying AbPaths from: "))
-                ignore(StringMaker.jm_append(stringBuffer, AbPath.jm_toString(fromAbPath)))
-                ignore(StringMaker.jm_append(stringBuffer, " to: "))
-                ignore(StringMaker.jm_append(stringBuffer, AbPath.jm_toString(to)))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Copying AbPaths from: ")))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(AbPath.jm_toString(JR.cast(fromAbPath)))))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" to: ")))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(AbPath.jm_toString(JR.cast(to)))))
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast(l_COPY)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(jm_getInstance()), JR.cast(l_COPY)))
 })
             }
             if (JR.isNull(fromAbPath)) {
@@ -755,7 +762,7 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getName"))
 JR.cast(jlate(JR.cast(fromLocationFile)))
 })))
 })
-                    ignore(jm_copyFile_2(this, fromLocationFile, file))
+                    ignore(jm_copyFile_2(this, JR.cast(fromLocationFile), JR.cast(file)))
                     if ({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
 JR.cast(jlate(JR.cast({
@@ -767,28 +774,28 @@ JR.cast(jlate(JR.cast(this.f_logConfigTypeFactory)))
 })))
 }) {
                         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-                        ignore(StringMaker.jm_append(stringBuffer, "Copied file="))
-                        ignore(StringMaker.jm_append(stringBuffer, {
+                        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Copied file=")))
+                        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getName"))
 JR.cast(jlate(JR.cast(fromLocationFile)))
-}))
-                        ignore(StringMaker.jm_append(stringBuffer, " from: "))
-                        ignore(StringMaker.jm_append(stringBuffer, {
+})))
+                        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" from: ")))
+                        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(fromLocationFile)))
-}))
-                        ignore(StringMaker.jm_append(stringBuffer, " to: "))
-                        ignore(StringMaker.jm_append(stringBuffer, {
+})))
+                        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" to: ")))
+                        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(toLocationFile)))
-}))
+})))
                         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast(l_COPY)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(jm_getInstance()), JR.cast(l_COPY)))
 })
                     }
                 } else {
-                    ignore(jm_copyFile_2(this, fromLocationFile, toLocationFile))
+                    ignore(jm_copyFile_2(this, JR.cast(fromLocationFile), JR.cast(toLocationFile)))
                     if ({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
 JR.cast(jlate(JR.cast({
@@ -800,20 +807,20 @@ JR.cast(jlate(JR.cast(this.f_logConfigTypeFactory)))
 })))
 }) {
                         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-                        ignore(StringMaker.jm_append(stringBuffer, "Copied file with new name "))
-                        ignore(StringMaker.jm_append(stringBuffer, " from: "))
-                        ignore(StringMaker.jm_append(stringBuffer, {
+                        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Copied file with new name ")))
+                        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" from: ")))
+                        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(fromLocationFile)))
-}))
-                        ignore(StringMaker.jm_append(stringBuffer, " to: "))
-                        ignore(StringMaker.jm_append(stringBuffer, {
+})))
+                        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" to: ")))
+                        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(toLocationFile)))
-}))
+})))
                         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(jm_getInstance()), JR.cast(l_COPY)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(jm_getInstance()), JR.cast(l_COPY)))
 })
                     }
                 }
@@ -824,7 +831,7 @@ JR.cast(jlate(JR.cast(fromLocationFile)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
 JR.cast(jlate(JR.cast(toLocationFile)))
 })) {
-                if ((JR.charAt(AbPath.jm_toFileSystemString(fromAbPath), Int32.(-)(JR.length(AbPath.jm_toFileSystemString(fromAbPath)), 1l)) == File.jstatic_separatorChar())) {
+                if ((JR.charAt(AbPath.jm_toFileSystemString(JR.cast(fromAbPath)), Int32.(-)(JR.length(AbPath.jm_toFileSystemString(JR.cast(fromAbPath))), 1l)) == File.jstatic_separatorChar())) {
                     if ({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
 JR.cast(jlate(JR.cast({
@@ -840,13 +847,13 @@ let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBoun
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Copying subdirectories"), JR.cast(jm_getInstance()), JR.cast(l_COPY)))
 })
                     }
-                    let mut fileArray: Array<JObject> = {
+                    let mut fileArray: Array<JObject> = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FileWrapperUtil.jm_wrapFiles"))
 JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_listFiles"))
 JR.cast(jlate(JR.cast(fromLocationFile)))
 })))
-}
+})
                     {
                         let mut index: Int32 = 0l
                         let mut jfirst = true
@@ -868,12 +875,12 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getName"))
 JR.cast(jlate(JR.cast(file)))
 })))
 })
-                            ignore(jm_copyFile_2(this, file, aFile))
+                            ignore(jm_copyFile_2(this, JR.cast(file), JR.cast(aFile)))
                         } else if ({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
 JR.cast(jlate(JR.cast(file)))
 }) {
-                            ignore(jm_copyDirectory(this, file, toLocationFile))
+                            ignore(jm_copyDirectory(this, JR.cast(file), JR.cast(toLocationFile)))
                         } else {
                             fail JR.toStringOf(JR.newJObject("Exception"))
                         }
@@ -910,7 +917,7 @@ let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBoun
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Copyinhg directory"), JR.cast(jm_getInstance()), JR.cast(l_COPY)))
 })
                     }
-                    ignore(jm_copyDirectory(this, fromLocationFile, toLocationFile))
+                    ignore(jm_copyDirectory(this, JR.cast(fromLocationFile), JR.cast(toLocationFile)))
                     if ({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_contains"))
 JR.cast(jlate(JR.cast({
@@ -962,7 +969,7 @@ and jm_write_2_String_String_ = (this: FileUtil, filePath: String, string: Strin
         {
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), this.f_WRITE_LABEL), filePath), this.f_DATA_LABEL), string))), JR.cast(this), JR.cast(this.f_WRITE_METHOD)))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(this.f_WRITE_LABEL))), JR.cast(filePath))), JR.cast(this.f_DATA_LABEL))), JR.cast(string))))), JR.cast(this), JR.cast(this.f_WRITE_METHOD)))
 })
             let mut fileInputStreamFactory: JObject = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("FileStreamFactory.jm_getInstance"))
@@ -972,17 +979,20 @@ JR.cast(jlate())
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("FileStreamFactory.jm_getFileOutputStreamInstance"))
 JR.cast(jlate(JR.cast(fileInputStreamFactory), JR.cast(StringUtil.jm_getInstance().f_EMPTY_STRING), JR.cast(filePath)))
 })
-            dataOutputStream = JR.cast(AbDataOutputStream.jnew_1(fileOutputStream))
-            ignore(AbDataOutputStream.jm_write(dataOutputStream, JR.getBytes(string), 0l, JR.length(string)))
-            ignore(AbDataOutputStream.jm_flush(dataOutputStream))
+            dataOutputStream = JR.cast(AbDataOutputStream.jnew_1(JR.cast(fileOutputStream)))
+            ignore(DataOutputStream.jm_write_3(JR.cast(dataOutputStream), JR.getBytes(string), 0l, JR.length(string)))
+            ignore(DataOutputStream.jm_flush_0(JR.cast(dataOutputStream)))
         }
         {
-            ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), JR.cast(dataOutputStream)))
+            ignore(StreamUtil.jm_close(JR.cast(StreamUtil.jm_getInstance()), JR.cast(dataOutputStream)))
         }
 }
     
 and jm_loadFileAsList = (this: FileUtil, file: JObject, max: Int32, byteArray1: Array<Int32>) => {
-        return FileUtil2.jm_loadFileAsList(FileUtil2.jm_getInstance(), file, max, byteArray1)
+        return {
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("FileUtil2.jm_loadFileAsList"))
+JR.cast(jlate(JR.cast(FileUtil2.jm_getInstance()), JR.cast(file), JR.cast(max), JR.cast(byteArray1)))
+}
 }
 
 JR.registerLateBound("FileUtil.jnew_0", jnew_0)

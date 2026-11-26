@@ -43,6 +43,10 @@ from "../../../../../../org/allbinary/string/CommonStrings.gr" include CommonStr
 use CommonStrings.{ type CommonStrings }
 from "../../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
 use BasicArrayList.{ type BasicArrayList }
+from "../../../../../../java/io/FileOutputStream.gr" include FileOutputStream
+use FileOutputStream.{ type FileOutputStream }
+from "../../../../../../java/io/FileInputStream.gr" include FileInputStream
+use FileInputStream.{ type FileInputStream }
 
 provide record ZipFileUtil {
   jobject: JObject,
@@ -57,7 +61,7 @@ provide let rec jclassName = () => "ZipFileUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: ZipFileUtil = jnew_0()
+    let value: ZipFileUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -68,7 +72,7 @@ and jset_instance = (value: ZipFileUtil) => {
 }
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("ZipFileUtil"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("ZipFileUtil"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -107,8 +111,8 @@ JR.cast(jlate(JR.cast(zipFile)))
             let mut streamUtil: StreamUtil = JR.cast(StreamUtil.jm_getInstance())
             let mut stringBuffer: StringMaker = StringMaker.jnew_0()
             let mut byteArray: Array<Int32> = Array.make(Int32.toNumber(16384l), 0l)
-            let mut fileInputStream: JObject = JR.jnull
-            let mut size: Int32 = BasicArrayList.jm_size(fileBasicArrayList)
+            let mut fileInputStream: JObject = JR.nullOf()
+            let mut size: Int32 = BasicArrayList.jm_size(JR.cast(fileBasicArrayList))
             let mut current: Int32 = 0l
             {
                 let mut i: Int32 = 0l
@@ -119,7 +123,7 @@ JR.cast(jlate(JR.cast(zipFile)))
                     }
                     jfirst = false
                     if (!(Int32.(<)(i, size))) break
-                let mut file: JObject = JR.cast(BasicArrayList.jm_get(fileBasicArrayList, i))
+                let mut file: JObject = JR.cast(BasicArrayList.jm_get(JR.cast(fileBasicArrayList), i))
                 if ({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
 JR.cast(jlate(JR.cast(file)))
@@ -129,16 +133,16 @@ JR.cast(jlate(JR.cast(file)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isFile"))
 JR.cast(jlate(JR.cast(file)))
 }) {
-                    ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
-                    ignore(StringMaker.jm_appendint(stringBuffer, current))
-                    ignore(StringMaker.jm_append(stringBuffer, " Creating Zip File Entry: "))
-                    ignore(StringMaker.jm_append(stringBuffer, {
+                    ignore(StringMaker.jm_delete(JR.cast(stringBuffer), 0l, StringMaker.jm_length(JR.cast(stringBuffer))))
+                    ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), current))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" Creating Zip File Entry: ")))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(file)))
-}))
+})))
                     ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast("create()")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(this), JR.cast("create()")))
 })
                     {
                         fileInputStream = JR.cast({
@@ -149,15 +153,15 @@ JR.cast(jlate(JR.cast(file)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(file)))
 })))
-                        ignore(StreamUtil.jm_get(streamUtil, JR.cast(fileInputStream), JR.cast(outputStream), byteArray))
+                        ignore(StreamUtil.jm_get(JR.cast(streamUtil), JR.cast(fileInputStream), JR.cast(outputStream), byteArray))
                         ignore(ZipOutputStream.jm_closeEntry_0(outputStream))
-                        ignore(StreamUtil.jm_close(streamUtil, JR.cast(fileInputStream)))
+                        ignore(StreamUtil.jm_close(JR.cast(streamUtil), JR.cast(fileInputStream)))
                     }
                 }
                 current = Int32.(+)(current, 1l)
                 }
             }
-            ignore(StreamUtil.jm_close(streamUtil, JR.cast(outputStream)))
+            ignore(StreamUtil.jm_close(JR.cast(streamUtil), JR.cast(outputStream)))
         }
 }
     
@@ -181,27 +185,27 @@ JR.cast(jlate(JR.cast(zipFile)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_createAbFile"))
 JR.cast(jlate(JR.cast(path ++ entryName)))
 })
-                    ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
-                    ignore(StringMaker.jm_append(stringBuffer, "ZipEntry Name: "))
-                    ignore(StringMaker.jm_append(stringBuffer, entryName))
-                    ignore(StringMaker.jm_append(stringBuffer, " isFile: "))
-                    ignore(StringMaker.jm_appendboolean(stringBuffer, {
+                    ignore(StringMaker.jm_delete(JR.cast(stringBuffer), 0l, StringMaker.jm_length(JR.cast(stringBuffer))))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("ZipEntry Name: ")))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(entryName)))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" isFile: ")))
+                    ignore(StringMaker.jm_appendboolean(JR.cast(stringBuffer), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isFile"))
 JR.cast(jlate(JR.cast(entryFile)))
 }))
-                    ignore(StringMaker.jm_append(stringBuffer, " isDirectory: "))
-                    ignore(StringMaker.jm_appendboolean(stringBuffer, {
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" isDirectory: ")))
+                    ignore(StringMaker.jm_appendboolean(JR.cast(stringBuffer), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
 JR.cast(jlate(JR.cast(entryFile)))
 }))
-                    ignore(StringMaker.jm_append(stringBuffer, " getParent: "))
-                    ignore(StringMaker.jm_append(stringBuffer, {
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" getParent: ")))
+                    ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getParent"))
 JR.cast(jlate(JR.cast(entryFile)))
-}))
+})))
                     ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(this), JR.cast("unzip")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(this), JR.cast("unzip")))
 })
                     let mut dataOutputStream: AbDataOutputStream = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getInstanceForAbFile"))
@@ -210,13 +214,13 @@ let jlate: () => JObject = JR.cast(JR.lateBound("DataOutputStreamFactory.jm_getI
 JR.cast(jlate())
 }), JR.cast(entryFile)))
 })
-                    ignore(FileUtil.jm_write_3(fileUtil, JR.cast(inputStream), dataOutputStream, buffer))
+                    ignore(FileUtil.jm_write_3(JR.cast(fileUtil), JR.cast(inputStream), JR.cast(dataOutputStream), buffer))
                 }
                 ignore(ZipInputStream.jm_closeEntry_0(inputStream))
             }
         }
         {
-            ignore(StreamUtil.jm_close(StreamUtil.jm_getInstance(), JR.cast(inputStream)))
+            ignore(StreamUtil.jm_close(JR.cast(StreamUtil.jm_getInstance()), JR.cast(inputStream)))
         }
 }
 

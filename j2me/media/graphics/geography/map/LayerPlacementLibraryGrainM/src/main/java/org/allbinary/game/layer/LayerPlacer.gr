@@ -41,6 +41,8 @@ from "../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayList
 use BasicArrayList.{ type BasicArrayList }
 from "../../../../org/allbinary/util/EnumerationUtil.gr" include EnumerationUtil
 use EnumerationUtil.{ type EnumerationUtil }
+from "../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 from "./LayerPlacementInterface.gr" include LayerPlacementInterface
 use LayerPlacementInterface.{ type LayerPlacementInterface }
 from "./LayerPlacementType.gr" include LayerPlacementType
@@ -69,7 +71,7 @@ and jnew_2 = (layerInterfaceVisitor: LayerInterfaceVisitor, dimension: GPoint) =
 }
     
 and jm_processList = (this: LayerPlacer, list: BasicArrayList) => {
-        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
         let mut layerPlacementInterface: LayerPlacementInterface = JR.nullOf()
         {
             let mut index: Int32 = 0l
@@ -81,54 +83,78 @@ and jm_processList = (this: LayerPlacer, list: BasicArrayList) => {
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             layerPlacementInterface = JR.cast(list.f_objectArray[Int32.toNumber(index)])
-            ignore(jm_process(this, layerPlacementInterface))
+            ignore(jm_process(this, JR.cast(layerPlacementInterface)))
             }
         }
 }
     
 and jm_process = (this: LayerPlacer, layerPlacementInterface: LayerPlacementInterface) => {
-        let mut relativePoint: GPoint = JR.cast(jm_getPoint(this, layerPlacementInterface))
+        let mut relativePoint: GPoint = JR.cast(jm_getPoint(this, JR.cast(layerPlacementInterface)))
         let mut layerInterfaceFactory: LayerInterfaceFactory = JR.cast(LayerInterfaceFactory.jm_getInstance())
-        let mut hashtable: JObject = JR.cast(LayerPlacementInterface.jm_getInstance(layerPlacementInterface))
+        let mut hashtable: JObject = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LayerPlacementInterface.jm_getInstance"))
+JR.cast(jlate(JR.cast(layerPlacementInterface)))
+})
         let mut enumeration: Enumeration = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_keys"))
 JR.cast(jlate(JR.cast(hashtable)))
 })
         let mut point: GPoint = JR.nullOf()
-        let mut layerHashtable: JObject = JR.jnull
+        let mut layerHashtable: JObject = JR.nullOf()
         let mut x: Int32 = 0l
         let mut y: Int32 = 0l
         let mut z: Int32 = 0l
         let mut layerInterface: AllBinaryLayer = JR.nullOf()
-        while (EnumerationUtil.jm_hasMoreElements(this.f_enumerationUtil, enumeration)) {
-            point = JR.cast(EnumerationUtil.jm_nextElement(this.f_enumerationUtil, enumeration))
+        while (EnumerationUtil.jm_hasMoreElements(JR.cast(this.f_enumerationUtil), JR.cast(enumeration))) {
+            point = JR.cast(EnumerationUtil.jm_nextElement(JR.cast(this.f_enumerationUtil), JR.cast(enumeration)))
             layerHashtable = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
 JR.cast(jlate(JR.cast(hashtable), JR.cast(point)))
 })
-            x = Int32.(+)(GPoint.jm_getX(point), GPoint.jm_getX(relativePoint))
-            y = Int32.(+)(GPoint.jm_getY(point), GPoint.jm_getY(relativePoint))
-            z = Int32.(+)(GPoint.jm_getZ(point), GPoint.jm_getZ(relativePoint))
-            layerInterface = JR.cast(LayerInterfaceFactory.jm_getNexInstance(layerInterfaceFactory, layerHashtable, x, y, z))
-            ignore(LayerInterfaceVisitor.jm_visit(this.f_layerInterfaceVisitor, layerInterface))
+            x = Int32.(+)(GPoint.jm_getX(JR.cast(point)), GPoint.jm_getX(JR.cast(relativePoint)))
+            y = Int32.(+)(GPoint.jm_getY(JR.cast(point)), GPoint.jm_getY(JR.cast(relativePoint)))
+            z = Int32.(+)(GPoint.jm_getZ(JR.cast(point)), GPoint.jm_getZ(JR.cast(relativePoint)))
+            layerInterface = JR.cast(LayerInterfaceFactory.jm_getNexInstance(JR.cast(layerInterfaceFactory), JR.cast(layerHashtable), x, y, z))
+            ignore(LayerInterfaceVisitor.jm_visit(JR.cast(this.f_layerInterfaceVisitor), JR.cast(layerInterface)))
         }
 }
     
 and jm_getPoint = (this: LayerPlacer, layerPlacementInterface: LayerPlacementInterface) => {
         let mut pointFactory: PointFactory = JR.cast(PointFactory.jm_getInstance())
-        let mut layerPlacementType: LayerPlacementType = JR.cast(LayerPlacementInterface.jm_getLayerType(layerPlacementInterface))
-        if (JR.isSame(layerPlacementType, LayerPlacementTypeFactory.jm_getInstance().f_MAP)) {
-            let mut width: Int32 = LayerPlacementInterface.jm_getWidth(layerPlacementInterface)
-            let mut height: Int32 = LayerPlacementInterface.jm_getHeight(layerPlacementInterface)
-            let mut x: Int32 = (Int32.(/)((Int32.(-)(GPoint.jm_getX(this.f_dimension), width)), 2l))
-            let mut y: Int32 = (Int32.(/)((Int32.(-)(GPoint.jm_getY(this.f_dimension), height)), 2l))
-            return PointFactory.jm_createXY(pointFactory, x, y)
-        } else if (JR.isSame(layerPlacementType, LayerPlacementTypeFactory.jm_getInstance().f_UP)) {
-            let mut width: Int32 = LayerPlacementInterface.jm_getWidth(layerPlacementInterface)
-            let mut height: Int32 = LayerPlacementInterface.jm_getHeight(layerPlacementInterface)
-            let mut x: Int32 = (Int32.(/)((Int32.(-)(GPoint.jm_getX(this.f_dimension), width)), 2l))
+        let mut layerPlacementType: LayerPlacementType = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LayerPlacementInterface.jm_getLayerType"))
+JR.cast(jlate(JR.cast(layerPlacementInterface)))
+})
+        if (JR.isSame(layerPlacementType, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LayerPlacementTypeFactory.f_MAP"))
+JR.cast(jlate(JR.cast(LayerPlacementTypeFactory.jm_getInstance())))
+})) {
+            let mut width: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LayerPlacementInterface.jm_getWidth"))
+JR.cast(jlate(JR.cast(layerPlacementInterface)))
+}
+            let mut height: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LayerPlacementInterface.jm_getHeight"))
+JR.cast(jlate(JR.cast(layerPlacementInterface)))
+}
+            let mut x: Int32 = (Int32.(/)((Int32.(-)(GPoint.jm_getX(JR.cast(this.f_dimension)), width)), 2l))
+            let mut y: Int32 = (Int32.(/)((Int32.(-)(GPoint.jm_getY(JR.cast(this.f_dimension)), height)), 2l))
+            return PointFactory.jm_createXY(JR.cast(pointFactory), x, y)
+        } else if (JR.isSame(layerPlacementType, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LayerPlacementTypeFactory.f_UP"))
+JR.cast(jlate(JR.cast(LayerPlacementTypeFactory.jm_getInstance())))
+})) {
+            let mut width: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LayerPlacementInterface.jm_getWidth"))
+JR.cast(jlate(JR.cast(layerPlacementInterface)))
+}
+            let mut height: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LayerPlacementInterface.jm_getHeight"))
+JR.cast(jlate(JR.cast(layerPlacementInterface)))
+}
+            let mut x: Int32 = (Int32.(/)((Int32.(-)(GPoint.jm_getX(JR.cast(this.f_dimension)), width)), 2l))
             let mut y: Int32 = Int32.(-)(1l, Int32.(+)(height, 1l))
-            return PointFactory.jm_createXY(pointFactory, x, y)
+            return PointFactory.jm_createXY(JR.cast(pointFactory), x, y)
         } else {
             fail JR.toStringOf(JR.newJObject("Exception"))
         }

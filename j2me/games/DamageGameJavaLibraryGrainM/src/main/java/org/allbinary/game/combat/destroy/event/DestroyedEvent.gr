@@ -49,12 +49,12 @@ provide record DestroyedEvent {
 provide let rec jclassName = () => "DestroyedEvent"
     
 and jnew_1 = (combatGameCanvas: AllBinaryGameCanvas) => {
-    let this = { jobject: JR.newJObject("DestroyedEvent"), f_source: JR.jnull, f_allBinaryGameCanvas: JR.nullOf(), f_allBinaryLayerInterface: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("DestroyedEvent"), f_source: JR.nullOf(), f_allBinaryGameCanvas: JR.nullOf(), f_allBinaryLayerInterface: JR.nullOf(), }
     this.jobject.toStringFunction = () => jm_toString(this)
     this.f_allBinaryGameCanvas = JR.cast(NullGameCanvas.jm_getInstance())
     this.f_allBinaryLayerInterface = JR.cast(AllBinaryLayer.jstatic_NULL_ALLBINARY_LAYER())
         void
-        ignore(jm_setAllBinaryGameCanvas(this, combatGameCanvas))
+        ignore(jm_setAllBinaryGameCanvas(this, JR.cast(combatGameCanvas)))
     this
 }
     
@@ -76,14 +76,15 @@ and jm_setLayerInterfaceForCircularStaticPool = (this: DestroyedEvent, allBinary
     
 and jm_toString = (this: DestroyedEvent) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, "DestroyedEvent: \n"))
-        ignore(StringMaker.jm_append(stringBuffer, "AllBinaryLayerInterface: "))
-        ignore(StringMaker.jm_append(stringBuffer, AllBinaryLayer.jm_toString(this.f_allBinaryLayerInterface)))
-        ignore(StringMaker.jm_append(stringBuffer, "\nAllBinaryGameCanvas: "))
-        ignore(StringMaker.jm_append(stringBuffer, StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(jm_getAllBinaryGameCanvas(this)))))
-        return StringMaker.jm_toString(stringBuffer)
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("DestroyedEvent: \n")))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("AllBinaryLayerInterface: ")))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(AllBinaryLayer.jm_toString(JR.cast(this.f_allBinaryLayerInterface)))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("\nAllBinaryGameCanvas: ")))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(StringUtil.jm_toString(JR.cast(StringUtil.jm_getInstance()), JR.cast(jm_getAllBinaryGameCanvas(this))))))
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
+JR.registerSuper("DestroyedEvent", "AllBinaryEventObject")
 JR.registerLateBound("DestroyedEvent.jnew_1", jnew_1)
 JR.registerLateBound("DestroyedEvent.jm_getAllBinaryGameCanvas", jm_getAllBinaryGameCanvas)
 JR.registerLateBound("DestroyedEvent.jm_getLayerInterface", jm_getLayerInterface)

@@ -51,7 +51,7 @@ provide record CollidableDestroyableDamageableBehavior {
 provide let rec jclassName = () => "CollidableDestroyableDamageableBehavior"
     
 and jnew_1 = (collidable: Bool) => {
-    let this = { jobject: JR.newJObject("CollidableDestroyableDamageableBehavior"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_layerCollisionUtil: JR.jnull, f_collidable: false, f_damageUtil: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("CollidableDestroyableDamageableBehavior"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_layerCollisionUtil: JR.nullOf(), f_collidable: false, f_damageUtil: JR.nullOf(), }
     this.f_damageUtil = JR.cast(DamageUtil.jm_getInstance())
         void
     this
@@ -73,18 +73,25 @@ JR.cast(jlate(JR.cast(collisionLayer)))
 and jm_collide = (this: CollidableDestroyableDamageableBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableCompositeLayer) => {
         let mut ownerCollidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer = JR.cast(ownerLayer)
         let mut collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer = JR.cast(collidableInterfaceCompositeInterface)
-        ignore(CollidableDestroyableDamageableLayer.jm_damage(ownerCollidableDestroyableDamageableLayer, CollidableDestroyableDamageableLayer.jm_getDamage(collidableDestroyableDamageableLayer, 0l), 0l))
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableDestroyableDamageableLayer.jm_damage"))
+JR.cast(jlate(JR.cast(ownerCollidableDestroyableDamageableLayer), JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableDestroyableDamageableLayer.jm_getDamage"))
+JR.cast(jlate(JR.cast(collidableDestroyableDamageableLayer), JR.cast(0l)))
+}), JR.cast(0l)))
+})
 }
     
 and jm_isCollisionInterface = (this: CollidableDestroyableDamageableBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) => {
-        ignore(ForcedLogUtil.jm_log("No Longer Used", JR.cast(this)))
+        ignore(ForcedLogUtil.jm_log(JR.cast("No Longer Used"), JR.cast(this)))
         return false
 }
     
 and jm_collideInterface = (this: CollidableDestroyableDamageableBehavior, ownerLayer: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableInterfaceCompositeInterface) => {
-        ignore(ForcedLogUtil.jm_log("No Longer Used", JR.cast(this)))
+        ignore(ForcedLogUtil.jm_log(JR.cast("No Longer Used"), JR.cast(this)))
 }
 
+JR.registerSuper("CollidableDestroyableDamageableBehavior", "CollidableBaseBehavior")
 JR.registerLateBound("CollidableDestroyableDamageableBehavior.jnew_1", jnew_1)
 JR.registerLateBound("CollidableDestroyableDamageableBehavior.jm_isCollision", jm_isCollision)
 JR.registerLateBound("CollidableDestroyableDamageableBehavior.jm_collide", jm_collide)

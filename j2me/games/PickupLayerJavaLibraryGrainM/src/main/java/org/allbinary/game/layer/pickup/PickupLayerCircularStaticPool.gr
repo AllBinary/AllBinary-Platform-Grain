@@ -47,7 +47,7 @@ provide let rec jclassName = () => "PickupLayerCircularStaticPool"
 and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
   Some(value) => value,
   None => {
-    let value: PickupLayerCircularStaticPool = jnew_0()
+    let value: PickupLayerCircularStaticPool = JR.cast(jnew_0())
     jcell_SINGLETON = Some(value)
     value
   },
@@ -58,7 +58,7 @@ and jset_SINGLETON = (value: PickupLayerCircularStaticPool) => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("PickupLayerCircularStaticPool"), f_circularIndexUtil: JR.jnull, f_OBJECT_ARRAY: [> ], }
+    let this = { jobject: JR.newJObject("PickupLayerCircularStaticPool"), f_circularIndexUtil: JR.nullOf(), f_OBJECT_ARRAY: [> ], }
         void
     this
 }
@@ -72,11 +72,21 @@ and jm_getInstanceXYZ = (this: PickupLayerCircularStaticPool, pickedUpLayerInter
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseCircularPool.jm_getNextInstance"))
 JR.cast(jlate(JR.cast(this)))
 })
-        ignore(PickupLayer.jm_initXYZ(pickupLayer, x, y, z))
-        ignore(PickupLayer.jm_init(pickupLayer, pickedUpLayerInterfaceFactoryInterface, JR.cast(PickedUpLayerInterfaceFactoryInterface.jm_getAnimationInterface(pickedUpLayerInterfaceFactoryInterface))))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PickupLayer.jm_initXYZ"))
+JR.cast(jlate(JR.cast(pickupLayer), JR.cast(x), JR.cast(y), JR.cast(z)))
+})
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PickupLayer.jm_init"))
+JR.cast(jlate(JR.cast(pickupLayer), JR.cast(pickedUpLayerInterfaceFactoryInterface), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PickedUpLayerInterfaceFactoryInterface.jm_getAnimationInterface"))
+JR.cast(jlate(JR.cast(pickedUpLayerInterfaceFactoryInterface)))
+})))
+})
         return JR.cast(pickupLayer)
 }
 
+JR.registerSuper("PickupLayerCircularStaticPool", "AllBinaryLayerCircularPool")
 JR.registerLateBound("PickupLayerCircularStaticPool.jnew_0", jnew_0)
 JR.registerLateBound("PickupLayerCircularStaticPool.jm_getInstance", jm_getInstance)
 JR.registerLateBound("PickupLayerCircularStaticPool.jm_getInstanceXYZ", jm_getInstanceXYZ)

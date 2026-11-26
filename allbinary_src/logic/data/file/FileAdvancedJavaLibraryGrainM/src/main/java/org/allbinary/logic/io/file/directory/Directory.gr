@@ -45,7 +45,7 @@ provide let rec jclassName = () => "Directory"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: Directory = jnew_0()
+    let value: Directory = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -66,11 +66,11 @@ and jnew_0 = () => {
 }
     
 and jm_create_1_AbPath_ = (this: Directory, directoryAbPath: AbPath) => {
-        return jm_create_1_String_(this, JR.cast(AbPath.jm_toFileSystemString(directoryAbPath)))
+        return jm_create_1_String_(this, JR.cast(AbPath.jm_toFileSystemString(JR.cast(directoryAbPath))))
 }
     
 and jm_remove_1_AbPath_ = (this: Directory, existingDirectoryAbPath: AbPath) => {
-        ignore(jm_remove_1_String_(this, JR.cast(AbPath.jm_toFileSystemString(existingDirectoryAbPath))))
+        ignore(jm_remove_1_String_(this, JR.cast(AbPath.jm_toFileSystemString(JR.cast(existingDirectoryAbPath)))))
 }
     
 and jm_create_1_String_ = (this: Directory, directory: String) => {
@@ -134,7 +134,7 @@ JR.cast(jlate(JR.cast("Successfully Removed: " ++ existingDirectory), JR.cast("D
 }
     
 and jm_search_2_FileFilter_AbFile_ = (this: Directory, fileFilter: FileFilter, file: JObject) => {
-        return jm_search_3_FileFilter_AbFile_boolean_(this, fileFilter, file, false)
+        return jm_search_3_FileFilter_AbFile_boolean_(this, JR.cast(fileFilter), JR.cast(file), false)
 }
     
 and jm_search_3_FileFilter_AbFile_boolean_ = (this: Directory, fileFilter: FileFilter, file: JObject, isRecursiveSearch: Bool) => {
@@ -144,17 +144,17 @@ and jm_search_3_FileFilter_AbFile_boolean_ = (this: Directory, fileFilter: FileF
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
 JR.cast(jlate(JR.cast(file)))
 }) {
-            let mut fileArray: Array<JObject> = {
+            let mut fileArray: Array<JObject> = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_listFilesFileFilter"))
 JR.cast(jlate(JR.cast(file), JR.cast(fileFilter)))
-}
+})
             if (JR.isNull(fileArray)) {
                 return fileList
             }
-            let mut files: Array<JObject> = {
+            let mut files: Array<JObject> = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FileWrapperUtil.jm_wrapFiles"))
 JR.cast(jlate(JR.cast(fileArray)))
-}
+})
             if (JR.isNull(files)) {
                 return fileList
             }
@@ -168,10 +168,10 @@ JR.cast(jlate(JR.cast(fileArray)))
                     }
                     jfirst = false
                     if (!(Int32.(<)(index, size))) break
-                ignore(BasicArrayList.jm_add(fileList, JR.cast(files[Int32.toNumber(index)])))
+                ignore(BasicArrayList.jm_add(JR.cast(fileList), JR.cast(files[Int32.toNumber(index)])))
                 if (isRecursiveSearch) {
-                    recursiveFileList = JR.cast(jm_search_3_FileFilter_AbFile_boolean_(this, fileFilter, files[Int32.toNumber(index)], isRecursiveSearch))
-                    ignore(BasicArrayList.jm_addAllList(fileList, recursiveFileList))
+                    recursiveFileList = JR.cast(jm_search_3_FileFilter_AbFile_boolean_(this, JR.cast(fileFilter), JR.cast(files[Int32.toNumber(index)]), isRecursiveSearch))
+                    ignore(BasicArrayList.jm_addAllList(JR.cast(fileList), JR.cast(recursiveFileList)))
                 }
                 }
             }
@@ -190,17 +190,17 @@ and jm_search_2_AbFile_boolean_ = (this: Directory, file: JObject, isRecursiveSe
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
 JR.cast(jlate(JR.cast(file)))
 }) {
-            let mut fileArray: Array<JObject> = {
+            let mut fileArray: Array<JObject> = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_listFiles"))
 JR.cast(jlate(JR.cast(file)))
-}
+})
             if (JR.isNull(fileArray)) {
                 return fileList
             }
-            let mut files: Array<JObject> = {
+            let mut files: Array<JObject> = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FileWrapperUtil.jm_wrapFiles"))
 JR.cast(jlate(JR.cast(fileArray)))
-}
+})
             if (JR.isNull(files)) {
                 return fileList
             }
@@ -213,10 +213,10 @@ JR.cast(jlate(JR.cast(fileArray)))
                     }
                     jfirst = false
                     if (!(Int32.(<)(index, Int32.fromNumber(Array.length(files))))) break
-                ignore(BasicArrayList.jm_add(fileList, JR.cast(files[Int32.toNumber(index)])))
+                ignore(BasicArrayList.jm_add(JR.cast(fileList), JR.cast(files[Int32.toNumber(index)])))
                 if (isRecursiveSearch) {
                     recursiveFileList = JR.cast(jm_search_2_AbFile_boolean_(this, JR.cast(files[Int32.toNumber(index)]), JR.cast(isRecursiveSearch)))
-                    ignore(BasicArrayList.jm_addAllList(fileList, recursiveFileList))
+                    ignore(BasicArrayList.jm_addAllList(JR.cast(fileList), JR.cast(recursiveFileList)))
                 }
                 }
             }
@@ -225,7 +225,7 @@ JR.cast(jlate(JR.cast(fileArray)))
 }
     
 and jm_search_2_String_AbFile_ = (this: Directory, searchValue: String, file: JObject) => {
-        return jm_search_3_String_AbFile_boolean_(this, JR.cast(searchValue), file, false)
+        return jm_search_3_String_AbFile_boolean_(this, JR.cast(searchValue), JR.cast(file), false)
 }
     
 and jm_search_3_String_AbFile_boolean_ = (this: Directory, searchValue: String, file: JObject, isRecursiveSearch: Bool) => {
@@ -235,17 +235,17 @@ and jm_search_3_String_AbFile_boolean_ = (this: Directory, searchValue: String, 
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
 JR.cast(jlate(JR.cast(file)))
 }) {
-            let mut fileArray: Array<JObject> = {
+            let mut fileArray: Array<JObject> = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_listFiles"))
 JR.cast(jlate(JR.cast(file)))
-}
+})
             if (JR.isNull(fileArray)) {
                 return fileList
             }
-            let mut files: Array<JObject> = {
+            let mut files: Array<JObject> = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FileWrapperUtil.jm_wrapFiles"))
 JR.cast(jlate(JR.cast(fileArray)))
-}
+})
             if (JR.isNull(files)) {
                 return fileList
             }
@@ -262,11 +262,11 @@ JR.cast(jlate(JR.cast(fileArray)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_getPath"))
 JR.cast(jlate(JR.cast(files[Int32.toNumber(index)])))
 }, searchValue), 0l)) {
-                    ignore(BasicArrayList.jm_add(fileList, JR.cast(files[Int32.toNumber(index)])))
+                    ignore(BasicArrayList.jm_add(JR.cast(fileList), JR.cast(files[Int32.toNumber(index)])))
                 }
                 if (isRecursiveSearch) {
-                    recursiveFileList = JR.cast(jm_search_3_String_AbFile_boolean_(this, JR.cast(searchValue), files[Int32.toNumber(index)], isRecursiveSearch))
-                    ignore(BasicArrayList.jm_addAllList(fileList, recursiveFileList))
+                    recursiveFileList = JR.cast(jm_search_3_String_AbFile_boolean_(this, JR.cast(searchValue), JR.cast(files[Int32.toNumber(index)]), isRecursiveSearch))
+                    ignore(BasicArrayList.jm_addAllList(JR.cast(fileList), JR.cast(recursiveFileList)))
                 }
                 }
             }
@@ -275,7 +275,7 @@ JR.cast(jlate(JR.cast(files[Int32.toNumber(index)])))
 }
     
 and jm_search_2_int_AbFile_ = (this: Directory, level: Int32, file: JObject) => {
-        return jm_search_3_int_AbFile_boolean_(this, JR.cast(level), file, false)
+        return jm_search_3_int_AbFile_boolean_(this, JR.cast(level), JR.cast(file), false)
 }
     
 and jm_search_3_int_AbFile_boolean_ = (this: Directory, level: Int32, file: JObject, isRecursiveSearch: Bool) => {
@@ -285,17 +285,17 @@ and jm_search_3_int_AbFile_boolean_ = (this: Directory, level: Int32, file: JObj
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
 JR.cast(jlate(JR.cast(file)))
 }) {
-            let mut fileArray: Array<JObject> = {
+            let mut fileArray: Array<JObject> = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_listFiles"))
 JR.cast(jlate(JR.cast(file)))
-}
+})
             if (JR.isNull(fileArray)) {
                 return fileList
             }
-            let mut files: Array<JObject> = {
+            let mut files: Array<JObject> = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FileWrapperUtil.jm_wrapFiles"))
 JR.cast(jlate(JR.cast(fileArray)))
-}
+})
             if (JR.isNull(files)) {
                 return fileList
             }
@@ -308,12 +308,12 @@ JR.cast(jlate(JR.cast(fileArray)))
                     }
                     jfirst = false
                     if (!(Int32.(<)(index, Int32.fromNumber(Array.length(files))))) break
-                ignore(BasicArrayList.jm_add(fileList, JR.cast(files[Int32.toNumber(index)])))
+                ignore(BasicArrayList.jm_add(JR.cast(fileList), JR.cast(files[Int32.toNumber(index)])))
                 if (Int32.(<=)(level, 0l)) {
                     return fileList
                 }
-                recursiveFileList = JR.cast(jm_search_3_int_AbFile_boolean_(this, Int32.(-)(level, 1l), files[Int32.toNumber(index)], isRecursiveSearch))
-                ignore(BasicArrayList.jm_addAllList(fileList, recursiveFileList))
+                recursiveFileList = JR.cast(jm_search_3_int_AbFile_boolean_(this, Int32.(-)(level, 1l), JR.cast(files[Int32.toNumber(index)]), isRecursiveSearch))
+                ignore(BasicArrayList.jm_addAllList(JR.cast(fileList), JR.cast(recursiveFileList)))
                 }
             }
         }

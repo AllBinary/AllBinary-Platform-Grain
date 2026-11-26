@@ -58,16 +58,31 @@ and jnew_2 = (basicColor: BasicColor, animationBehaviorFactory: AnimationBehavio
     this.f_basicColor = JR.cast(BasicColorFactory.jm_getInstance().f_WHITE)
     
         this.f_animationBehaviorFactory = JR.cast(animationBehaviorFactory)
-        ignore(jm_setBasicColorP(this, basicColor))
+        ignore(jm_setBasicColorP(this, JR.cast(basicColor)))
     this
 }
     
 and jm_getInstanceAnimation = (this: VectorExplosionAnimationFactory, animationInterface: Animation) => {
         let mut vectorRotationAnimationInterface: VectorAnimationInterface = JR.cast(animationInterface)
-        let mut frame: Int32 = VectorAnimationInterface.jm_getFrame(vectorRotationAnimationInterface)
-        let mut framePoints: Array<Array<Int32>> = VectorAnimationInterface.jm_getPoints(vectorRotationAnimationInterface, frame)
-        let mut points: Array<Array<Array<Int32>>> = VectorExplosionGenerator.jm_getInstance_3(this.f_vectorExplosionGenerator, framePoints, 6l, this.f_vectorExplosionGenerator.f_ROTATION)
-        return JR.cast(VectorRotationAnimation.jnew_3(points, jm_getBasicColorP(this), JR.cast(AnimationBehaviorFactory.jm_getOrCreateInstance(this.f_animationBehaviorFactory))))
+        let mut frame: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("VectorAnimationInterface.jm_getFrame"))
+JR.cast(jlate(JR.cast(vectorRotationAnimationInterface)))
+}
+        let mut framePoints: Array<Array<Int32>> = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("VectorAnimationInterface.jm_getPoints"))
+JR.cast(jlate(JR.cast(vectorRotationAnimationInterface), JR.cast(frame)))
+}
+        let mut points: Array<Array<Array<Int32>>> = {
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("VectorExplosionGenerator.jm_getInstance_3"))
+JR.cast(jlate(JR.cast(this.f_vectorExplosionGenerator), JR.cast(framePoints), JR.cast(6l), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("VectorExplosionGenerator.f_ROTATION"))
+JR.cast(jlate(JR.cast(this.f_vectorExplosionGenerator)))
+})))
+}
+        return JR.cast(VectorRotationAnimation.jnew_3(JR.cast(points), JR.cast(jm_getBasicColorP(this)), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationBehaviorFactory.jm_getOrCreateInstance"))
+JR.cast(jlate(JR.cast(this.f_animationBehaviorFactory)))
+})))
 }
     
 and jm_setBasicColorP = (this: VectorExplosionAnimationFactory, basicColor: BasicColor) => {

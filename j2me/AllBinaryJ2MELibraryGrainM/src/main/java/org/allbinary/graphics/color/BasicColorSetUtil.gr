@@ -25,6 +25,14 @@ from "char" include Char
 from "array" include Array
 from "../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
+from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/lang/Long.gr" include Long
+from "../../../../java/lang/Short.gr" include Short
+from "../../../../java/lang/Byte.gr" include Byte
+from "../../../../java/lang/Character.gr" include Character
+from "../../../../java/lang/Float.gr" include Float
+from "../../../../java/lang/Double.gr" include Double
+from "../../../../java/lang/Boolean.gr" include Boolean
 from "./BasicColor.gr" include BasicColor
 use BasicColor.{ type BasicColor }
 
@@ -39,7 +47,7 @@ provide let rec jclassName = () => "BasicColorSetUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: BasicColorSetUtil = jnew_0()
+    let value: BasicColorSetUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -62,7 +70,10 @@ and jnew_0 = () => {
 and jm_setBasicColorP = (this: BasicColorSetUtil, graphics: JObject, basicColor: BasicColor) => {
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_setColor"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(BasicColor.jm_intValue(basicColor))))
+JR.cast(jlate(JR.cast(graphics), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicColor.jm_intValue"))
+JR.cast(jlate(JR.cast(basicColor)))
+})))
 })
 }
     

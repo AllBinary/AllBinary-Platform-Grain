@@ -59,7 +59,7 @@ provide let rec jclassName = () => "WeaponProperties"
 and jstatic_NULL_WEAPON_PROPERTIES = () => match (jcell_NULL_WEAPON_PROPERTIES) {
   Some(value) => value,
   None => {
-    let value: WeaponProperties = jnew_5(0L, 0L, 0L, 0l, JR.i16(0l))
+    let value: WeaponProperties = JR.cast(jnew_5(0L, 0L, 0L, 0l, JR.i16(0l)))
     jcell_NULL_WEAPON_PROPERTIES = Some(value)
     value
   },
@@ -134,7 +134,7 @@ and jnew_5 = (reloadTime: Int64, targetingTime: Int64, speed: Int64, damage: Int
             let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_appendlong(StringMaker.jm_append(StringMaker.jnew_0(), l_MESSAGE), speed))), JR.cast(this), JR.cast(commonStrings.f_CONSTRUCTOR)))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendlong(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(l_MESSAGE))), speed)))), JR.cast(this), JR.cast(commonStrings.f_CONSTRUCTOR)))
 })
             jset_messageSent(true)
         }
@@ -148,10 +148,10 @@ JR.cast(jlate(JR.cast(this), JR.cast(damage)))
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("SimpleWeaponProperties.jm_setDissipation"))
 JR.cast(jlate(JR.cast(this), JR.cast(dissipation)))
 })
-        ignore(jm_setSpeed(this, BasicDecimal.jnew_1(speed)))
+        ignore(jm_setSpeed(this, JR.cast(BasicDecimal.jnew_1(speed))))
         if ((dissipation != this.f_ZERO)) {
-            let mut unscaledDamage: Int64 = Int64.(*)(BasicDecimal.jm_getUnscaled(this.f_speed), Int64.fromNumber(Int32.toNumber(damage)))
-            let mut scaledDissipation: Int32 = Int32.(*)(dissipation, BasicDecimal.jm_getScaledFactorValue(this.f_speed))
+            let mut unscaledDamage: Int64 = Int64.(*)(BasicDecimal.jm_getUnscaled(JR.cast(this.f_speed)), Int64.fromNumber(Int32.toNumber(damage)))
+            let mut scaledDissipation: Int32 = Int32.(*)(dissipation, BasicDecimal.jm_getScaledFactorValue(JR.cast(this.f_speed)))
             let mut value: Int64 = (Int64.(/)(unscaledDamage, Int64.fromNumber(Int32.toNumber(scaledDissipation))))
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("SimpleWeaponProperties.jm_setRange"))
@@ -192,43 +192,44 @@ JR.cast(jlate(JR.cast(this)))
 }, (Int32.(/)((Int32.(*)({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SimpleWeaponProperties.jm_getDissipation"))
 JR.cast(jlate(JR.cast(this)))
-}, range)), BasicDecimal.jm_getScaled(this.f_speed))))
+}, range)), BasicDecimal.jm_getScaled(JR.cast(this.f_speed)))))
 }
     
 and jm_toStringArray = (this: WeaponProperties) => {
         let mut index: Int32 = 0l
         let mut stringArray: Array<String> = Array.make(Int32.toNumber(3l), "")
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        stringArray[Int32.toNumber({ let jold = index; index = Int32.(+)(jold, 1l); jold })] = JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(stringBuffer, jstatic_DAMAGE()), {
+        stringArray[Int32.toNumber({ let jold = index; index = Int32.(+)(jold, 1l); jold })] = JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_DAMAGE()))), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SimpleWeaponProperties.jm_getDamage"))
 JR.cast(jlate(JR.cast(this)))
-})))
-        ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
-        stringArray[Int32.toNumber({ let jold = index; index = Int32.(+)(jold, 1l); jold })] = JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(stringBuffer, jstatic_RANGE()), {
+}))))
+        ignore(StringMaker.jm_delete(JR.cast(stringBuffer), 0l, StringMaker.jm_length(JR.cast(stringBuffer))))
+        stringArray[Int32.toNumber({ let jold = index; index = Int32.(+)(jold, 1l); jold })] = JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_RANGE()))), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SimpleWeaponProperties.jm_getRange"))
 JR.cast(jlate(JR.cast(this)))
-})))
-        ignore(StringMaker.jm_delete(stringBuffer, 0l, StringMaker.jm_length(stringBuffer)))
-        stringArray[Int32.toNumber({ let jold = index; index = Int32.(+)(jold, 1l); jold })] = JR.cast(StringMaker.jm_toString(StringMaker.jm_appendlong(StringMaker.jm_append(stringBuffer, jstatic_RELOAD()), jm_getReloadTime(this))))
+}))))
+        ignore(StringMaker.jm_delete(JR.cast(stringBuffer), 0l, StringMaker.jm_length(JR.cast(stringBuffer))))
+        stringArray[Int32.toNumber({ let jold = index; index = Int32.(+)(jold, 1l); jold })] = JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendlong(JR.cast(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_RELOAD()))), jm_getReloadTime(this)))))
         return stringArray
 }
     
 and jm_toString = (this: WeaponProperties) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_appendint(StringMaker.jm_append(stringBuffer, jstatic_DAMAGE()), {
+        ignore(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_DAMAGE()))), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SimpleWeaponProperties.jm_getDamage"))
 JR.cast(jlate(JR.cast(this)))
 }))
-        ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
-        ignore(StringMaker.jm_appendint(StringMaker.jm_append(stringBuffer, jstatic_RANGE()), {
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonSeps.jm_getInstance().f_SPACE)))
+        ignore(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_RANGE()))), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("SimpleWeaponProperties.jm_getRange"))
 JR.cast(jlate(JR.cast(this)))
 }))
-        ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
-        ignore(StringMaker.jm_appendlong(StringMaker.jm_append(stringBuffer, jstatic_RELOAD()), jm_getReloadTime(this)))
-        return StringMaker.jm_toString(stringBuffer)
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonSeps.jm_getInstance().f_SPACE)))
+        ignore(StringMaker.jm_appendlong(JR.cast(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_RELOAD()))), jm_getReloadTime(this)))
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
+JR.registerSuper("WeaponProperties", "SimpleWeaponProperties")
 JR.registerLateBound("WeaponProperties.jnew_5", jnew_5)
 JR.registerLateBound("WeaponProperties.jm_setReloadTime", jm_setReloadTime)
 JR.registerLateBound("WeaponProperties.jm_getReloadTime", jm_getReloadTime)

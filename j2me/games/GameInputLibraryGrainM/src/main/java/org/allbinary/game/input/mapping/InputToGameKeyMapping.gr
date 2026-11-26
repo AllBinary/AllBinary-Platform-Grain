@@ -69,7 +69,7 @@ provide let rec jclassName = () => "InputToGameKeyMapping"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    let value: JObject = JR.cast(NullUtil.jm_getInstance().f_NULL_OBJECT)
     jcell_instance = Some(value)
     value
   },
@@ -87,9 +87,9 @@ and jm_getNullInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("InputToGameKeyMapping"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_hashtable: JR.jnull, f_mappedList: JR.jnull, f_gameKeyFactory: JR.nullOf(), f_mappedGameKeys: [> ], f_platformToGameKeyMapping: [> ], f_negativePlatformToGameKeyMapping: [> ], }
+    let this = { jobject: JR.newJObject("InputToGameKeyMapping"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_hashtable: JR.nullOf(), f_mappedList: JR.nullOf(), f_gameKeyFactory: JR.nullOf(), f_mappedGameKeys: [> ], f_platformToGameKeyMapping: [> ], f_negativePlatformToGameKeyMapping: [> ], }
     this.f_gameKeyFactory = JR.cast(GameKeyFactory.jm_getInstance())
-    this.f_mappedGameKeys = [> this.f_gameKeyFactory.f_UP, this.f_gameKeyFactory.f_DOWN, this.f_gameKeyFactory.f_LEFT, this.f_gameKeyFactory.f_RIGHT]
+    this.f_mappedGameKeys = [> JR.cast(this.f_gameKeyFactory.f_UP), JR.cast(this.f_gameKeyFactory.f_DOWN), JR.cast(this.f_gameKeyFactory.f_LEFT), JR.cast(this.f_gameKeyFactory.f_RIGHT)]
     this.f_platformToGameKeyMapping = Array.make(Int32.toNumber(InputFactory.jm_getInstance().f_MAX), JR.nullOf())
     this.f_negativePlatformToGameKeyMapping = Array.make(Int32.toNumber(0l), JR.nullOf())
         ignore({
@@ -138,7 +138,10 @@ and jm_addMapping = (this: InputToGameKeyMapping, inputToGameKeyMapping: InputTo
                 if (!(Int32.(>=)(index, 0l))) break
             let mut input: Input = JR.cast(jm_getInstance(inputToGameKeyMapping, index))
             if ((!JR.isSame(input, this.f_gameKeyFactory.f_NONE))) {
-                ignore(jm_addAll(this, input, JR.cast(jm_getMappedInput(inputToGameKeyMapping, input))))
+                ignore(jm_addAll(this, JR.cast(input), JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("InputMapping.jm_getMappedInput"))
+JR.cast(jlate(JR.cast(inputToGameKeyMapping), JR.cast(input)))
+})))
             }
             }
         }
@@ -146,7 +149,7 @@ and jm_addMapping = (this: InputToGameKeyMapping, inputToGameKeyMapping: InputTo
     
 and jm_addAll = (this: InputToGameKeyMapping, input: Input, list: BasicArrayList) => {
         {
-            let mut index: Int32 = Int32.(-)(BasicArrayList.jm_size(list), 1l)
+            let mut index: Int32 = Int32.(-)(BasicArrayList.jm_size(JR.cast(list)), 1l)
             let mut jfirst = true
             while (true) {
                 if (!jfirst) {
@@ -155,27 +158,27 @@ and jm_addAll = (this: InputToGameKeyMapping, input: Input, list: BasicArrayList
                 jfirst = false
                 if (!(Int32.(>=)(index, 0l))) break
             let mut mappedToInput: Input = JR.cast(list.f_objectArray[Int32.toNumber(index)])
-            ignore(jm_add(this, input, mappedToInput))
+            ignore(jm_add(this, JR.cast(input), JR.cast(mappedToInput)))
             }
         }
 }
     
 and jm_add = (this: InputToGameKeyMapping, input: Input, mappedToInput: Input) => {
         ignore(jm_add(this, input, mappedToInput))
-        ignore(jm_set(this, input, mappedToInput))
+        ignore(jm_set(this, JR.cast(input), JR.cast(mappedToInput)))
 }
     
 and jm_remove = (this: InputToGameKeyMapping, input: Input, mappedToInput: Input) => {
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), CommonLabels.jm_getInstance().f_START_LABEL), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(input))), " == "), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(mappedToInput))))), JR.cast(this), JR.cast("InputToGameKeyMapping::remove")))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(CommonLabels.jm_getInstance().f_START_LABEL))), JR.cast(StringUtil.jm_toString(JR.cast(StringUtil.jm_getInstance()), JR.cast(input))))), JR.cast(" == "))), JR.cast(StringUtil.jm_toString(JR.cast(StringUtil.jm_getInstance()), JR.cast(mappedToInput))))))), JR.cast(this), JR.cast("InputToGameKeyMapping::remove")))
 })
         ignore(jm_remove(this, input, mappedToInput))
-        ignore(jm_set(this, input, JR.cast(this.f_gameKeyFactory.f_NONE)))
+        ignore(jm_set(this, JR.cast(input), JR.cast(this.f_gameKeyFactory.f_NONE)))
 }
     
 and jm_set = (this: InputToGameKeyMapping, input: Input, mappedToInput: Input) => {
-        let mut id: Int32 = Input.jm_getId(mappedToInput)
+        let mut id: Int32 = Input.jm_getId(JR.cast(mappedToInput))
         if ((Int32.(>=)(id, 0l) && Int32.(<)(id, Int32.fromNumber(Array.length(this.f_platformToGameKeyMapping))))) {
             this.f_platformToGameKeyMapping[Int32.toNumber(id)] = JR.cast(input)
         }
@@ -201,9 +204,9 @@ and jm_getReverseInstance = (this: InputToGameKeyMapping, id: Int32) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Input.jm_getId"))
 JR.cast(jlate(JR.cast(this.f_platformToGameKeyMapping[Int32.toNumber(index)])))
 } == id)) {
-                let mut input: Input = JR.cast(InputFactory.jm_getInstanceById(inputFactory, index))
+                let mut input: Input = JR.cast(InputFactory.jm_getInstanceById(JR.cast(inputFactory), index))
                 if (!JR.isNull(input)) {
-                    ignore(BasicArrayList.jm_add(list, JR.cast(input)))
+                    ignore(BasicArrayList.jm_add(JR.cast(list), JR.cast(input)))
                 }
             }
             }
@@ -228,7 +231,7 @@ JR.cast(jlate(JR.cast(gameKey)))
         } else {
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_putOE"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), GameKey.jm_toString(gameKey)), CommonSeps.jm_getInstance().f_COLON_SEP), key))), JR.cast(this), JR.cast({
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(GameKey.jm_toString(JR.cast(gameKey))))), JR.cast(CommonSeps.jm_getInstance().f_COLON_SEP))), key)))), JR.cast(this), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CommonStrings.f_INIT"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_commonStrings))))
 }), JR.cast(JR.newJObject("Exception"))))
@@ -263,7 +266,7 @@ JR.cast(jlate(JR.cast(this.f_mappedGameKeys[Int32.toNumber(index)])))
 and jm_init = (this: InputToGameKeyMapping, canvas: JObject) => {
         {
             let mut negativePlatformToGameKeyMapping: Array<GameKey> = Array.make(Int32.toNumber(0l), JR.nullOf())
-            let mut smallestKey: Int32 = jm_getSmallestCanvasGameKeyCode(this, canvas)
+            let mut smallestKey: Int32 = jm_getSmallestCanvasGameKeyCode(this, JR.cast(canvas))
             if (Int32.(<)(smallestKey, 0l)) {
                 smallestKey = Int32.(-)(smallestKey, 1l)
                 if (Int32.(<)(smallestKey, Int32.(-)(1l, Int32.(+)(256l, 1l)))) {
@@ -287,7 +290,7 @@ and jm_init = (this: InputToGameKeyMapping, canvas: JObject) => {
                 while (true) {
                     jfirst = false
                     if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
-                ignore(jm_initGameKey(this, canvas, this.f_mappedGameKeys[Int32.toNumber(index)]))
+                ignore(jm_initGameKey(this, JR.cast(canvas), JR.cast(this.f_mappedGameKeys[Int32.toNumber(index)])))
                 }
             }
         }
@@ -315,6 +318,7 @@ and jm_getInstance = (this: InputToGameKeyMapping, id: Int32) => {
     return JR.nullOf()
 }
 
+JR.registerSuper("InputToGameKeyMapping", "InputMapping")
 JR.registerLateBound("InputToGameKeyMapping.jnew_0", jnew_0)
 JR.registerLateBound("InputToGameKeyMapping.jm_getNullInstance", jm_getNullInstance)
 JR.registerLateBound("InputToGameKeyMapping.jm_clear", jm_clear)

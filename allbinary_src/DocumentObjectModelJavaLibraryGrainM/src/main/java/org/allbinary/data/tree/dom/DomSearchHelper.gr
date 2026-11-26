@@ -48,7 +48,7 @@ and jnew_0 = () => {
 }
     
 and jm_getNodeNoThrow = (nodeName: String, nodeList: NodeList) => {
-        let mut numberOfNodes: Int32 = NodeList.jm_getLength(nodeList)
+        let mut numberOfNodes: Int32 = NodeList.jm_getLength_0(nodeList)
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -58,8 +58,8 @@ and jm_getNodeNoThrow = (nodeName: String, nodeList: NodeList) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, numberOfNodes))) break
-            let mut node: Node = JR.cast(NodeList.jm_item(nodeList, index))
-            if ((JR.className(JR.cast(Node.jm_getNodeName(node))) == 0l)) {
+            let mut node: Node = JR.cast(NodeList.jm_item_1(nodeList, index))
+            if ((JR.compareTo(Node.jm_getNodeName_0(node), nodeName) == 0l)) {
                 return node
             }
             }
@@ -68,7 +68,7 @@ and jm_getNodeNoThrow = (nodeName: String, nodeList: NodeList) => {
 }
     
 and jm_getNode = (nodeName: String, nodeList: NodeList) => {
-        let mut node: Node = JR.cast(jm_getNodeNoThrow(nodeName, nodeList))
+        let mut node: Node = JR.cast(jm_getNodeNoThrow(JR.cast(nodeName), JR.cast(nodeList)))
         if (!JR.isNull(node)) {
             return node
         } else {
@@ -78,12 +78,12 @@ and jm_getNode = (nodeName: String, nodeList: NodeList) => {
 }
     
 and jm_getChildNodeList = (nodeName: String, nodeList: NodeList) => {
-        let mut node: Node = JR.cast(jm_getNode(nodeName, nodeList))
-        return Node.jm_getChildNodes(node)
+        let mut node: Node = JR.cast(jm_getNode(JR.cast(nodeName), JR.cast(nodeList)))
+        return Node.jm_getChildNodes_0(node)
 }
     
 and jm_getAllNodes = (nodeName: String, nodeList: NodeList) => {
-        let mut vector: BasicArrayList = JR.cast(jm_getAllNodesNoThrow(nodeName, nodeList))
+        let mut vector: BasicArrayList = JR.cast(jm_getAllNodesNoThrow(JR.cast(nodeName), JR.cast(nodeList)))
         if (JR.isNull(vector)) {
             fail JR.toStringOf(JR.newJObject("Exception"))
         } else {
@@ -94,7 +94,7 @@ and jm_getAllNodes = (nodeName: String, nodeList: NodeList) => {
     
 and jm_getAllNodesNoThrow = (nodeName: String, nodeList: NodeList) => {
         let mut nodeVector: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
-        let mut numberOfNodes: Int32 = NodeList.jm_getLength(nodeList)
+        let mut numberOfNodes: Int32 = NodeList.jm_getLength_0(nodeList)
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -104,9 +104,9 @@ and jm_getAllNodesNoThrow = (nodeName: String, nodeList: NodeList) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, numberOfNodes))) break
-            let mut node: Node = JR.cast(NodeList.jm_item(nodeList, index))
-            if ((JR.className(JR.cast(Node.jm_getNodeName(node))) == 0l)) {
-                ignore(BasicArrayList.jm_add(nodeVector, JR.cast(node)))
+            let mut node: Node = JR.cast(NodeList.jm_item_1(nodeList, index))
+            if ((JR.compareTo(Node.jm_getNodeName_0(node), nodeName) == 0l)) {
+                ignore(BasicArrayList.jm_add(JR.cast(nodeVector), JR.cast(node)))
             }
             }
         }

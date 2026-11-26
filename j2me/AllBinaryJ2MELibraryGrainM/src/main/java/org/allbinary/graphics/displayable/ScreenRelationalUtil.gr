@@ -25,7 +25,7 @@ provide let rec jclassName = () => "ScreenRelationalUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: ScreenRelationalUtil = jnew_0()
+    let value: ScreenRelationalUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -60,9 +60,18 @@ and jm_getScaleWH = (this: ScreenRelationalUtil, aWidth: Int32, aHeight: Int32) 
     
 and jm_getScaleWHA = (this: ScreenRelationalUtil, aWidth: Int32, aHeight: Int32, add: Int32) => {
         let mut displayInfoSingleton: DisplayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
-        let mut last: Array<Int32> = DisplayInfoSingleton.jm_getLast(displayInfoSingleton)
-        let mut width: Float32 = Float32.fromNumber(Int32.toNumber(last[Int32.toNumber(displayInfoSingleton.f_WIDTH)]))
-        let mut height: Float32 = Float32.fromNumber(Int32.toNumber(last[Int32.toNumber(displayInfoSingleton.f_HEIGHT)]))
+        let mut last: Array<Int32> = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DisplayInfoSingleton.jm_getLast"))
+JR.cast(jlate(JR.cast(displayInfoSingleton)))
+}
+        let mut width: Float32 = Float32.fromNumber(Int32.toNumber(last[Int32.toNumber({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DisplayInfoSingleton.f_WIDTH"))
+JR.cast(jlate(JR.cast(displayInfoSingleton)))
+})]))
+        let mut height: Float32 = Float32.fromNumber(Int32.toNumber(last[Int32.toNumber({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("DisplayInfoSingleton.f_HEIGHT"))
+JR.cast(jlate(JR.cast(displayInfoSingleton)))
+})]))
         let mut largestSize: Float32 = width
         if (Float32.(<)(largestSize, height)) {
             largestSize = height

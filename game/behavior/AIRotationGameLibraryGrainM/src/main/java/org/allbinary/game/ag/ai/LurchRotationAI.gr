@@ -39,6 +39,14 @@ from "../../../../../org/allbinary/layer/AllBinaryLayer.gr" include AllBinaryLay
 use AllBinaryLayer.{ type AllBinaryLayer }
 from "../../../../../org/allbinary/math/AngleIncrementInfo.gr" include AngleIncrementInfo
 use AngleIncrementInfo.{ type AngleIncrementInfo }
+from "../../../../../java/lang/Integer.gr" include Integer
+from "../../../../../java/lang/Long.gr" include Long
+from "../../../../../java/lang/Short.gr" include Short
+from "../../../../../java/lang/Byte.gr" include Byte
+from "../../../../../java/lang/Character.gr" include Character
+from "../../../../../java/lang/Float.gr" include Float
+from "../../../../../java/lang/Double.gr" include Double
+from "../../../../../java/lang/Boolean.gr" include Boolean
 
 provide record LurchRotationAI {
   jobject: JObject,
@@ -57,14 +65,14 @@ provide record LurchRotationAI {
 provide let rec jclassName = () => "LurchRotationAI"
     
 and jnew_2 = (ownerLayerInterface: AllBinaryLayer, gameInput: GameInput) => {
-    let this = { jobject: JR.newJObject("LurchRotationAI"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventFactory: JR.jnull, f_ownerLayerInterface: JR.jnull, f_gameInput: JR.jnull, f_lastKey: 0l, f_currentRelativeAngle: 0l, f_currentSpeed: 0l, f_rotationAnimationInterface: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("LurchRotationAI"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_gameKeyEventFactory: JR.nullOf(), f_ownerLayerInterface: JR.nullOf(), f_gameInput: JR.nullOf(), f_lastKey: 0l, f_currentRelativeAngle: 0l, f_currentSpeed: 0l, f_rotationAnimationInterface: JR.nullOf(), }
     
         void
         let mut rotationAnimationInterfaceCompositeInterface: RotationAnimationInterfaceCompositeInterface = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
 JR.cast(jlate(JR.cast(this)))
 })
-        this.f_rotationAnimationInterface = JR.cast(RotationAnimationInterfaceCompositeInterface.jm_getRotationAnimationInterface(rotationAnimationInterfaceCompositeInterface))
+        this.f_rotationAnimationInterface = JR.cast(RotationAnimationInterfaceCompositeInterface.jm_getRotationAnimationInterface(JR.cast(rotationAnimationInterfaceCompositeInterface)))
         ignore(jm_update(this))
     this
 }
@@ -79,27 +87,28 @@ and jm_update = (this: LurchRotationAI) => {
             let mut rotationAnimationInterface: RotationAnimationInterface = JR.cast(this.f_rotationAnimationInterface)
             let mut angleIncrementInfo: AngleIncrementInfo = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AngleInfo.jm_getAngleIncrementInfo"))
-JR.cast(jlate(JR.cast(RotationAnimationInterface.jm_getAngleInfoP(rotationAnimationInterface))))
+JR.cast(jlate(JR.cast(RotationAnimationInterface.jm_getAngleInfoP(JR.cast(rotationAnimationInterface)))))
 })
             let mut rotationAnimationInterfaceCompositeInterface: RotationAnimationInterfaceCompositeInterface = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
 JR.cast(jlate(JR.cast(this)))
 })
-            ignore(RotationAnimationInterfaceCompositeInterface.jm_setFrame(rotationAnimationInterfaceCompositeInterface, JR.className(JR.cast(angleIncrementInfo.f_RIGHT_FRAME))))
+            ignore(RotationAnimationInterfaceCompositeInterface.jm_setFrame(JR.cast(rotationAnimationInterfaceCompositeInterface), Integer.jm_intValue(JR.cast(angleIncrementInfo.f_RIGHT_FRAME))))
         } else if ((JR.cast(this.f_currentRelativeAngle) == 180l)) {
             let mut rotationAnimationInterface: RotationAnimationInterface = JR.cast(this.f_rotationAnimationInterface)
             let mut angleIncrementInfo: AngleIncrementInfo = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AngleInfo.jm_getAngleIncrementInfo"))
-JR.cast(jlate(JR.cast(RotationAnimationInterface.jm_getAngleInfoP(rotationAnimationInterface))))
+JR.cast(jlate(JR.cast(RotationAnimationInterface.jm_getAngleInfoP(JR.cast(rotationAnimationInterface)))))
 })
             let mut rotationAnimationInterfaceCompositeInterface: RotationAnimationInterfaceCompositeInterface = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicAI.jm_getOwnerLayerInterface"))
 JR.cast(jlate(JR.cast(this)))
 })
-            ignore(RotationAnimationInterfaceCompositeInterface.jm_setFrame(rotationAnimationInterfaceCompositeInterface, JR.className(JR.cast(angleIncrementInfo.f_LEFT_FRAME))))
+            ignore(RotationAnimationInterfaceCompositeInterface.jm_setFrame(JR.cast(rotationAnimationInterfaceCompositeInterface), Integer.jm_intValue(JR.cast(angleIncrementInfo.f_LEFT_FRAME))))
         }
 }
 
+JR.registerSuper("LurchRotationAI", "LurchAI")
 JR.registerLateBound("LurchRotationAI.jnew_2", jnew_2)
 JR.registerLateBound("LurchRotationAI.jm_reverse", jm_reverse)
 JR.registerLateBound("LurchRotationAI.jm_update", jm_update)

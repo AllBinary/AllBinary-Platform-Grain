@@ -41,6 +41,14 @@ from "../../../../org/allbinary/graphics/font/UpdateMyFontProcessor.gr" include 
 use UpdateMyFontProcessor.{ type UpdateMyFontProcessor }
 from "../../../../org/allbinary/graphics/paint/Paintable.gr" include Paintable
 use Paintable.{ type Paintable }
+from "../../../../java/lang/Integer.gr" include Integer
+from "../../../../java/lang/Long.gr" include Long
+from "../../../../java/lang/Short.gr" include Short
+from "../../../../java/lang/Byte.gr" include Byte
+from "../../../../java/lang/Character.gr" include Character
+from "../../../../java/lang/Float.gr" include Float
+from "../../../../java/lang/Double.gr" include Double
+from "../../../../java/lang/Boolean.gr" include Boolean
 
 //J2SEForJ2ME
 provide record OwnershipPaintable {
@@ -64,7 +72,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("OwnershipPaintable"), f_logUtil: JR.jnull, f_displayInfo: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_COPYRIGHT: "", f_basicColor: JR.nullOf(), f_color: 0l, f_anchor: 0l, f_COPYRIGHT_Y: 0l, f_beginWidth: 0l, }
+    let this = { jobject: JR.newJObject("OwnershipPaintable"), f_logUtil: JR.nullOf(), f_displayInfo: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_COPYRIGHT: "", f_basicColor: JR.nullOf(), f_color: 0l, f_anchor: 0l, f_COPYRIGHT_Y: 0l, f_beginWidth: 0l, }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -73,7 +81,7 @@ JR.cast(jlate())
     this.f_myFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(JR.cast(this)))
     this.f_COPYRIGHT = "AllBinary Copyright (c) 2011"
     this.f_basicColor = JR.cast(BasicColorFactory.jm_getInstance().f_WHITE)
-    this.f_color = BasicColor.jm_intValue(this.f_basicColor)
+    this.f_color = BasicColor.jm_intValue(JR.cast(this.f_basicColor))
     this.f_anchor = Anchor.jstatic_TOP_LEFT()
     
     
@@ -99,7 +107,7 @@ JR.cast(jlate(JR.cast(font), JR.cast(this.f_COPYRIGHT)))
     
 and jm_setBasicColorP = (this: OwnershipPaintable, basicColor: BasicColor) => {
         this.f_basicColor = JR.cast(basicColor)
-        this.f_color = BasicColor.jm_intValue(basicColor)
+        this.f_color = BasicColor.jm_intValue(JR.cast(basicColor))
 }
     
 and jm_getBasicColorP = (this: OwnershipPaintable) => {
@@ -107,19 +115,20 @@ and jm_getBasicColorP = (this: OwnershipPaintable) => {
 }
     
 and jm_paint = (this: OwnershipPaintable, graphics: JObject) => {
-        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
+        ignore(MyFontProcessor.jm_process(JR.cast(this.f_myFontProcessor), JR.cast(graphics)))
         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_setColor"))
 JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_color)))
 })
-        let mut halfWidth: Int32 = DisplayInfoSingleton.jm_getLastHalfWidth(this.f_displayInfo)
-        let mut height: Int32 = DisplayInfoSingleton.jm_getLastHeight(this.f_displayInfo)
+        let mut halfWidth: Int32 = DisplayInfoSingleton.jm_getLastHalfWidth(JR.cast(this.f_displayInfo))
+        let mut height: Int32 = DisplayInfoSingleton.jm_getLastHeight(JR.cast(this.f_displayInfo))
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
 JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_COPYRIGHT), JR.cast(Int32.(-)(halfWidth, this.f_beginWidth)), JR.cast(Int32.(-)(height, this.f_COPYRIGHT_Y)), JR.cast(this.f_anchor)))
 })
 }
 
+JR.registerSuper("OwnershipPaintable", "Paintable")
 JR.registerLateBound("OwnershipPaintable.jnew_0", jnew_0)
 JR.registerLateBound("OwnershipPaintable.jm_getInstance", jm_getInstance)
 JR.registerLateBound("OwnershipPaintable.jm_updateMeasurement", jm_updateMeasurement)

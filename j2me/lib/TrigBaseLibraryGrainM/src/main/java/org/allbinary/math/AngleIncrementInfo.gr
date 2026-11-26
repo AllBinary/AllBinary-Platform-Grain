@@ -30,6 +30,13 @@ use SmallIntegerSingletonFactory.{ type SmallIntegerSingletonFactory }
 from "../../../org/allbinary/logic/string/StringMaker.gr" include StringMaker
 use StringMaker.{ type StringMaker }
 from "../../../java/lang/Integer.gr" include Integer
+from "../../../java/lang/Long.gr" include Long
+from "../../../java/lang/Short.gr" include Short
+from "../../../java/lang/Byte.gr" include Byte
+from "../../../java/lang/Character.gr" include Character
+from "../../../java/lang/Float.gr" include Float
+from "../../../java/lang/Double.gr" include Double
+from "../../../java/lang/Boolean.gr" include Boolean
 from "./AngleFactory.gr" include AngleFactory
 use AngleFactory.{ type AngleFactory }
 from "./FrameUtil.gr" include FrameUtil
@@ -74,27 +81,42 @@ and jnew_1 = (angleIncrement: Int32) => {
         this.f_angleIncrement = angleIncrement
         let mut angleFactory: AngleFactory = JR.cast(AngleFactory.jm_getInstance())
         let mut smallIntegerSingletonFactory: SmallIntegerSingletonFactory = JR.cast(SmallIntegerSingletonFactory.jm_getInstance())
-        this.f_DOWN_FRAME = SmallIntegerSingletonFactory.jm_getAt(smallIntegerSingletonFactory, Int32.(/)({
+        this.f_DOWN_FRAME = SmallIntegerSingletonFactory.jm_getAt(JR.cast(smallIntegerSingletonFactory), Int32.(/)({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Angle.jm_getValue"))
-JR.cast(jlate(JR.cast(angleFactory.f_DOWN)))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AngleFactory.f_DOWN"))
+JR.cast(jlate(JR.cast(angleFactory)))
+})))
 }, this.f_angleIncrement))
-        this.f_UP_FRAME = SmallIntegerSingletonFactory.jm_getAt(smallIntegerSingletonFactory, {
+        this.f_UP_FRAME = SmallIntegerSingletonFactory.jm_getAt(JR.cast(smallIntegerSingletonFactory), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Angle.jm_getValue"))
-JR.cast(jlate(JR.cast(angleFactory.f_UP)))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AngleFactory.f_UP"))
+JR.cast(jlate(JR.cast(angleFactory)))
+})))
 })
-        this.f_LEFT_FRAME = SmallIntegerSingletonFactory.jm_getAt(smallIntegerSingletonFactory, Int32.(/)({
+        this.f_LEFT_FRAME = SmallIntegerSingletonFactory.jm_getAt(JR.cast(smallIntegerSingletonFactory), Int32.(/)({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Angle.jm_getValue"))
-JR.cast(jlate(JR.cast(angleFactory.f_LEFT)))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AngleFactory.f_LEFT"))
+JR.cast(jlate(JR.cast(angleFactory)))
+})))
 }, this.f_angleIncrement))
-        this.f_RIGHT_FRAME = SmallIntegerSingletonFactory.jm_getAt(smallIntegerSingletonFactory, Int32.(/)({
+        this.f_RIGHT_FRAME = SmallIntegerSingletonFactory.jm_getAt(JR.cast(smallIntegerSingletonFactory), Int32.(/)({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Angle.jm_getValue"))
-JR.cast(jlate(JR.cast(angleFactory.f_RIGHT)))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AngleFactory.f_RIGHT"))
+JR.cast(jlate(JR.cast(angleFactory)))
+})))
 }, this.f_angleIncrement))
     this
 }
     
 and jm_getFrameAngle = (this: AngleIncrementInfo, frame: Int32) => {
-        return FrameUtil.jm_getFrameAngle(this.f_frameUtil, frame, this.f_angleIncrement)
+        return {
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("FrameUtil.jm_getFrameAngle"))
+JR.cast(jlate(JR.cast(this.f_frameUtil), JR.cast(frame), JR.cast(this.f_angleIncrement)))
+}
 }
     
 and jm_getAngleIncrement = (this: AngleIncrementInfo) => {
@@ -102,24 +124,24 @@ and jm_getAngleIncrement = (this: AngleIncrementInfo) => {
 }
     
 and jm_toString = (this: AngleIncrementInfo) => {
-        return StringMaker.jm_toString(StringMaker.jm_appendshort(StringMaker.jm_append(StringMaker.jnew_0(), jstatic_INCREMENT()), this.f_angleIncrement))
+        return StringMaker.jm_toString(JR.cast(StringMaker.jm_appendshort(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(jstatic_INCREMENT()))), this.f_angleIncrement)))
 }
     
 and jm_getClosestGeneralDirection = (this: AngleIncrementInfo, angle: Int32) => {
-        let mut closestDirection: Int32 = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 360l)
-        if (Int32.(<)(Int32.(-)(Integer.jm_intValue(this.f_UP_FRAME), angle), Int32.(-)(Integer.jm_intValue(closestDirection), angle))) {
+        let mut closestDirection: Int32 = SmallIntegerSingletonFactory.jm_getAt(JR.cast(SmallIntegerSingletonFactory.jm_getInstance()), 360l)
+        if (Int32.(<)(Int32.(-)(Integer.jm_intValue(JR.cast(this.f_UP_FRAME)), angle), Int32.(-)(Integer.jm_intValue(JR.cast(closestDirection)), angle))) {
             closestDirection = this.f_UP_FRAME
         }
-        if (Int32.(<)(Int32.(-)(Integer.jm_intValue(this.f_DOWN_FRAME), angle), Int32.(-)(Integer.jm_intValue(closestDirection), angle))) {
+        if (Int32.(<)(Int32.(-)(Integer.jm_intValue(JR.cast(this.f_DOWN_FRAME)), angle), Int32.(-)(Integer.jm_intValue(JR.cast(closestDirection)), angle))) {
             closestDirection = this.f_DOWN_FRAME
         }
-        if (Int32.(<)(Int32.(-)(Integer.jm_intValue(this.f_LEFT_FRAME), angle), Int32.(-)(Integer.jm_intValue(closestDirection), angle))) {
+        if (Int32.(<)(Int32.(-)(Integer.jm_intValue(JR.cast(this.f_LEFT_FRAME)), angle), Int32.(-)(Integer.jm_intValue(JR.cast(closestDirection)), angle))) {
             closestDirection = this.f_LEFT_FRAME
         }
-        if (Int32.(<)(Int32.(-)(Integer.jm_intValue(this.f_RIGHT_FRAME), angle), Int32.(-)(Integer.jm_intValue(closestDirection), angle))) {
+        if (Int32.(<)(Int32.(-)(Integer.jm_intValue(JR.cast(this.f_RIGHT_FRAME)), angle), Int32.(-)(Integer.jm_intValue(JR.cast(closestDirection)), angle))) {
             closestDirection = this.f_RIGHT_FRAME
         }
-        return Integer.jm_intValue(closestDirection)
+        return Integer.jm_intValue(JR.cast(closestDirection))
 }
 
 JR.registerLateBound("AngleIncrementInfo.jnew_1", jnew_1)

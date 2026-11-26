@@ -42,14 +42,14 @@ provide record AllBinaryLayerCircularPool {
 provide let rec jclassName = () => "AllBinaryLayerCircularPool"
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("AllBinaryLayerCircularPool"), f_circularIndexUtil: JR.jnull, f_OBJECT_ARRAY: [> ], }
+    let this = { jobject: JR.newJObject("AllBinaryLayerCircularPool"), f_circularIndexUtil: JR.nullOf(), f_OBJECT_ARRAY: [> ], }
         void
     this
 }
     
 and jm_initAllBinaryLayerCircularPool = (this: AllBinaryLayerCircularPool, allbinaryLayerFactoryInterface: AllBinaryLayerFactoryInterface, total: Int32) => {
         this.f_circularIndexUtil = JR.cast(CircularIndexUtil.jm_createInstance(total))
-        this.f_OBJECT_ARRAY = JR.cast(Array.make(Int32.toNumber(total), JR.jnull))
+        this.f_OBJECT_ARRAY = JR.cast(Array.make(Int32.toNumber(total), JR.nullOf()))
         {
             let mut localIndex: Int32 = 0l
             let mut jfirst = true
@@ -59,11 +59,15 @@ and jm_initAllBinaryLayerCircularPool = (this: AllBinaryLayerCircularPool, allbi
                 }
                 jfirst = false
                 if (!(Int32.(<)(localIndex, total))) break
-            JR.cast(this.f_OBJECT_ARRAY)[Int32.toNumber(localIndex)] = JR.cast(AllBinaryLayerFactoryInterface.jm_getInstance(allbinaryLayerFactoryInterface))
+            JR.cast(this.f_OBJECT_ARRAY)[Int32.toNumber(localIndex)] = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryLayerFactoryInterface.jm_getInstance"))
+JR.cast(jlate(JR.cast(allbinaryLayerFactoryInterface)))
+})
             }
         }
 }
 
+JR.registerSuper("AllBinaryLayerCircularPool", "BaseCircularPool")
 JR.registerLateBound("AllBinaryLayerCircularPool.jnew_0", jnew_0)
 JR.registerLateBound("AllBinaryLayerCircularPool.jm_initAllBinaryLayerCircularPool", jm_initAllBinaryLayerCircularPool)
 

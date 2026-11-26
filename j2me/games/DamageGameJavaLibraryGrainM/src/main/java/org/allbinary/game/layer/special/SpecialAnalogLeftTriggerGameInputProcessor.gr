@@ -43,15 +43,19 @@ provide record SpecialAnalogLeftTriggerGameInputProcessor {
 provide let rec jclassName = () => "SpecialAnalogLeftTriggerGameInputProcessor"
     
 and jnew_1 = (collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer) => {
-    let this = { jobject: JR.newJObject("SpecialAnalogLeftTriggerGameInputProcessor"), f_collidableDestroyableDamageableLayer: JR.jnull, }
+    let this = { jobject: JR.newJObject("SpecialAnalogLeftTriggerGameInputProcessor"), f_collidableDestroyableDamageableLayer: JR.nullOf(), }
         void
     this
 }
     
 and jm_processAnalog = (this: SpecialAnalogLeftTriggerGameInputProcessor, allbinaryLayerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent, yAnalogValue: Int32) => {
-        ignore(CollidableDestroyableDamageableLayer.jm_leftTrigger(JR.cast(this.f_collidableDestroyableDamageableLayer), allbinaryLayerManager, gameKeyEvent, yAnalogValue))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableDestroyableDamageableLayer.jm_leftTrigger"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_collidableDestroyableDamageableLayer)), JR.cast(allbinaryLayerManager), JR.cast(gameKeyEvent), JR.cast(yAnalogValue)))
+})
 }
 
+JR.registerSuper("SpecialAnalogLeftTriggerGameInputProcessor", "SpecialGameInputProcessor")
 JR.registerLateBound("SpecialAnalogLeftTriggerGameInputProcessor.jnew_1", jnew_1)
 JR.registerLateBound("SpecialAnalogLeftTriggerGameInputProcessor.jm_processAnalog", jm_processAnalog)
 

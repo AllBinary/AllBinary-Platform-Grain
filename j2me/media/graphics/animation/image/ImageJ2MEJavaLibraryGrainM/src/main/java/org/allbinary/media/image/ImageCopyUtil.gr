@@ -54,7 +54,7 @@ provide let rec jclassName = () => "ImageCopyUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: ImageCopyUtil = jnew_0()
+    let value: ImageCopyUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -69,7 +69,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("ImageCopyUtil"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_imageCreationUtil: JR.nullOf(), f_anchor: 0l, f_gameFeatureFactory: JR.nullOf(), f_features: JR.nullOf(), f_NO_COPY: "", }
+    let this = { jobject: JR.newJObject("ImageCopyUtil"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_imageCreationUtil: JR.nullOf(), f_anchor: 0l, f_gameFeatureFactory: JR.nullOf(), f_features: JR.nullOf(), f_NO_COPY: "", }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -85,55 +85,61 @@ JR.cast(jlate())
 }
     
 and jm_createImageForRotation = (this: ImageCopyUtil, originalImage: JObject) => {
-        return jm_createImage(this, originalImage)
+        return jm_createImage(this, JR.cast(originalImage))
 }
     
 and jm_createImage = (this: ImageCopyUtil, originalImage: JObject) => {
-        if (!Features.jm_isFeature(this.f_features, this.f_gameFeatureFactory.f_POST_IMAGE_LOADING_MODIFICATION)) {
+        if (!Features.jm_isFeature(JR.cast(this.f_features), JR.cast(this.f_gameFeatureFactory.f_POST_IMAGE_LOADING_MODIFICATION))) {
             ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_put"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_NO_COPY), JR.cast(this), JR.cast(this.f_commonStrings.f_CONSTRUCTOR), JR.cast(JR.newJObject("Exception"))))
 })
             return originalImage
         }
-        let mut image: JObject = JR.cast(ImageCreationUtil.jm_createImageWH(this.f_imageCreationUtil, {
+        let mut image: JObject = JR.cast({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageCreationUtil.jm_createImageWH"))
+JR.cast(jlate(JR.cast(this.f_imageCreationUtil), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
 JR.cast(jlate(JR.cast(originalImage)))
-}, {
+}), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
 JR.cast(jlate(JR.cast(originalImage)))
-}))
+})))
+})
         if ({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_isMutable"))
 JR.cast(jlate(JR.cast(image)))
 }) {
-            ignore(JR.className(JR.cast({
+            ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawImage"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getGraphics"))
 JR.cast(jlate(JR.cast(image)))
-})))
+}), JR.cast(originalImage), JR.cast(0l), JR.cast(0l), JR.cast(this.f_anchor)))
+})
             return image
         } else {
             fail JR.toStringOf(JR.newJObject("Exception"))
         }
-    return JR.jnull
+    return JR.nullOf()
 }
     
 and jm_createImageScale = (this: ImageCopyUtil, originalImage: JObject, canvasScale: Float32, resize: Bool) => {
-        if (!Features.jm_isFeature(this.f_features, this.f_gameFeatureFactory.f_POST_IMAGE_LOADING_MODIFICATION)) {
+        if (!Features.jm_isFeature(JR.cast(this.f_features), JR.cast(this.f_gameFeatureFactory.f_POST_IMAGE_LOADING_MODIFICATION))) {
             ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_put"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(this.f_NO_COPY), JR.cast(this), JR.cast(this.f_commonStrings.f_CONSTRUCTOR), JR.cast(JR.newJObject("Exception"))))
 })
             return originalImage
         }
-        let mut newWidth: Int32 = (Float32.(*)({
+        let mut newWidth: Int32 = JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
 JR.cast(jlate(JR.cast(originalImage)))
-}, canvasScale))
-        let mut newHeight: Int32 = (Float32.(*)({
+})), canvasScale))))
+        let mut newHeight: Int32 = JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
 JR.cast(jlate(JR.cast(originalImage)))
-}, canvasScale))
+})), canvasScale))))
         if (resize) {
             if (Int32.(<)(newWidth, newHeight)) {
                 newWidth = newHeight
@@ -142,7 +148,10 @@ JR.cast(jlate(JR.cast(originalImage)))
                 newHeight = newWidth
             }
         }
-        let mut image: JObject = JR.cast(ImageCreationUtil.jm_createImageWH(this.f_imageCreationUtil, newWidth, newHeight))
+        let mut image: JObject = JR.cast({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageCreationUtil.jm_createImageWH"))
+JR.cast(jlate(JR.cast(this.f_imageCreationUtil), JR.cast(newWidth), JR.cast(newHeight)))
+})
         if ({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_isMutable"))
 JR.cast(jlate(JR.cast(image)))
@@ -167,7 +176,7 @@ JR.cast(jlate(JR.cast(graphics), JR.cast(originalImage), JR.cast(halfWidthDelta)
         } else {
             fail JR.toStringOf(JR.newJObject("Exception"))
         }
-    return JR.jnull
+    return JR.nullOf()
 }
 
 JR.registerLateBound("ImageCopyUtil.jnew_0", jnew_0)

@@ -66,13 +66,13 @@ provide let rec jclassName = () => "HighScoreUtil"
 and jstatic_SUBMIT_TEXTBOX_COMMAND = () => match (jcell_SUBMIT_TEXTBOX_COMMAND) {
   Some(value) => value,
   None => {
-    let value: JObject = {
+    let value: JObject = JR.cast({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Command.jnew_4"))
 JR.cast(jlate(JR.cast("Submit"), JR.cast(StringUtil.jm_getInstance().f_EMPTY_STRING), JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("Command.jstatic_SCREEN"))
 JR.cast(jlate())
 }), JR.cast(1l)))
-}
+})
     jcell_SUBMIT_TEXTBOX_COMMAND = Some(value)
     value
   },
@@ -83,7 +83,7 @@ and jset_SUBMIT_TEXTBOX_COMMAND = (value: JObject) => {
 }
     
 and jnew_7 = (highScoresFactoryInterface: HighScoresFactoryInterface, highScoresHelper: HighScoresHelperBaseInterface, abeClientInformation: AbeClientInformationInterface, gameInfo: GameInfo, cmdListener: CommandListener, name: String, highScore: JObject) => {
-    let this = { jobject: JR.newJObject("HighScoreUtil"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_highScoresFactoryInterface: JR.nullOf(), f_highScoresArray: [> ], f_highScore: JR.jnull, f_abeClientInformation: JR.nullOf(), f_gameInfo: JR.nullOf(), f_highScoresHelper: JR.nullOf(), f_firstTime: false, }
+    let this = { jobject: JR.newJObject("HighScoreUtil"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_highScoresFactoryInterface: JR.nullOf(), f_highScoresArray: [> ], f_highScore: JR.nullOf(), f_abeClientInformation: JR.nullOf(), f_gameInfo: JR.nullOf(), f_highScoresHelper: JR.nullOf(), f_firstTime: false, }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -98,7 +98,7 @@ JR.cast(jlate())
     this.f_firstTime = true
         this.f_highScoresFactoryInterface = JR.cast(highScoresFactoryInterface)
         this.f_highScoresHelper = JR.cast(highScoresHelper)
-        this.f_highScoresArray = HighScoresHelperBaseInterface.jm_getHighScoresArray(this.f_highScoresHelper)
+        this.f_highScoresArray = JR.cast(HighScoresHelperBaseInterface.jm_getHighScoresArray(JR.cast(this.f_highScoresHelper)))
         this.f_highScore = JR.cast(highScore)
         this.f_abeClientInformation = JR.cast(abeClientInformation)
         this.f_gameInfo = JR.cast(gameInfo)
@@ -128,7 +128,7 @@ JR.cast(jlate(JR.cast(this.f_highScore), JR.cast(name)))
 and jm_saveHighScore = (this: HighScoreUtil) => {
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), this.f_commonStrings.f_START), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(this.f_highScore))))), JR.cast(this), JR.cast("saveHighScore")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(this.f_commonStrings.f_START))), JR.cast(StringUtil.jm_toString(JR.cast(StringUtil.jm_getInstance()), JR.cast(this.f_highScore))))))), JR.cast(this), JR.cast("saveHighScore")))
 })
         let mut size: Int32 = Int32.fromNumber(Array.length(this.f_highScoresArray))
         if ((this.f_firstTime && (size == 0l))) {
@@ -136,10 +136,10 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMak
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Games canvas did not give us any HighScores"), JR.cast(this), JR.cast("saveHighScore")))
 })
-            ignore(HighScoresFactoryInterface.jm_fetchHighScores(this.f_highScoresFactoryInterface, this.f_gameInfo, JR.cast(this)))
+            ignore(HighScoresFactoryInterface.jm_fetchHighScores(JR.cast(this.f_highScoresFactoryInterface), JR.cast(this.f_gameInfo), JR.cast(this)))
             return void
         }
-        let mut highScores: JObject = JR.jnull
+        let mut highScores: JObject = JR.nullOf()
         let mut highScoresAsString: String = ""
         {
             let mut index: Int32 = 0l
@@ -161,17 +161,17 @@ JR.cast(jlate(JR.cast(highScores)))
 }
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Added/Adding Score: "), highScoresAsString))), JR.cast(this), JR.cast("saveHighScore")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("Added/Adding Score: "))), JR.cast(highScoresAsString))))), JR.cast(this), JR.cast("saveHighScore")))
 })
             }
         }
-        ignore(HighScoresHelperBaseInterface.jm_setHighScoresArray(this.f_highScoresHelper, this.f_highScoresArray))
+        ignore(HighScoresHelperBaseInterface.jm_setHighScoresArray(JR.cast(this.f_highScoresHelper), JR.cast(this.f_highScoresArray)))
     return void
 }
     
 and jm_submit = (this: HighScoreUtil, myCanvas: MyCanvas) => {
-        let mut commandListener: CommandListener = JR.cast(MyCanvas.jm_getCustomCommandListener(myCanvas))
-        ignore(CommandListener.jm_commandAction(commandListener, jstatic_SUBMIT_TEXTBOX_COMMAND(), myCanvas))
+        let mut commandListener: CommandListener = JR.cast(MyCanvas.jm_getCustomCommandListener(JR.cast(myCanvas)))
+        ignore(CommandListener.jm_commandAction(JR.cast(commandListener), JR.cast(jstatic_SUBMIT_TEXTBOX_COMMAND()), JR.cast(myCanvas)))
 }
 
 JR.registerLateBound("HighScoreUtil.jnew_7", jnew_7)

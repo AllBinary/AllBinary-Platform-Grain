@@ -53,7 +53,7 @@ provide record AbeClientInformation {
 provide let rec jclassName = () => "AbeClientInformation"
     
 and jnew_4 = (name: String, version: String, specialName: String, shortName: String) => {
-    let this = { jobject: JR.newJObject("AbeClientInformation"), f_operatingSystemInterface: JR.jnull, f_tsUtil: JR.jnull, f_name: "", f_shortName: "", f_version: "", f_specialName: "", f_hardSale: false, f_licenseId: "", f_licenseServers: JR.jnull, f_logUtil: JR.jnull, }
+    let this = { jobject: JR.newJObject("AbeClientInformation"), f_operatingSystemInterface: JR.nullOf(), f_tsUtil: JR.nullOf(), f_name: "", f_shortName: "", f_version: "", f_specialName: "", f_hardSale: false, f_licenseId: "", f_licenseServers: JR.nullOf(), f_logUtil: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -96,7 +96,7 @@ JR.cast(jlate(JR.cast(licenseInitInfo)))
 })))
 })
             let mut stringValidationUtil: StringValidationUtil = JR.cast(StringValidationUtil.jm_getInstance())
-            if (StringValidationUtil.jm_isEmpty(stringValidationUtil, {
+            if (StringValidationUtil.jm_isEmpty(JR.cast(stringValidationUtil), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ClientInformation.jm_getLicenseId"))
 JR.cast(jlate(JR.cast(this)))
 })) {
@@ -109,14 +109,15 @@ JR.cast(jlate(JR.cast(this), JR.cast(l_NONE)))
             let mut commonStrings: CommonStrings = JR.cast(CommonStrings.jm_getInstance())
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Special Name: "), {
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("Special Name: "))), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ClientInformation.jm_getSpecialName"))
 JR.cast(jlate(JR.cast(this)))
-}))), JR.cast(this), JR.cast(commonStrings.f_CONSTRUCTOR)))
+})))), JR.cast(this), JR.cast(commonStrings.f_CONSTRUCTOR)))
 })
         }
 }
 
+JR.registerSuper("AbeClientInformation", "ClientInformation")
 JR.registerLateBound("AbeClientInformation.jnew_4", jnew_4)
 JR.registerLateBound("AbeClientInformation.jm_init", jm_init)
 JR.registerLateBound("AbeClientInformation.f_logUtil", (this: AbeClientInformation) => this.f_logUtil)

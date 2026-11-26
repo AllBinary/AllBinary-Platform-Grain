@@ -59,14 +59,14 @@ and jnew_1 = (objectArray: Array<JObject>) => {
 and jm_addAt = (this: BasicArrayList, index: Int32, element: JObject) => {
         if ((Int32.(>)(index, this.f_currentIndex) || Int32.(<)(index, 0l))) {
             let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-            ignore(StringMaker.jm_append(stringBuffer, CommonLabels.jm_getInstance().f_INDEX_LABEL))
-            ignore(StringMaker.jm_appendint(stringBuffer, index))
-            ignore(StringMaker.jm_append(stringBuffer, jstatic_SIZE()))
-            ignore(StringMaker.jm_appendint(stringBuffer, this.f_currentIndex))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonLabels.jm_getInstance().f_INDEX_LABEL)))
+            ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), index))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_SIZE())))
+            ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), this.f_currentIndex))
             fail JR.toStringOf(JR.newJObject("IndexOutOfBoundsException"))
         }
         ignore(jm_ensureCapacity(this, Int32.(+)(this.f_currentIndex, 1l)))
-        ignore(JR.arraycopy(this.f_objectArray, index, this.f_objectArray, Int32.(+)(index, 1l), Int32.(-)(this.f_currentIndex, index)))
+        ignore(JR.arraycopy(JR.cast(this.f_objectArray), index, JR.cast(this.f_objectArray), Int32.(+)(index, 1l), Int32.(-)(this.f_currentIndex, index)))
         this.f_objectArray[Int32.toNumber(index)] = JR.cast(element)
         this.f_currentIndex = Int32.(+)(this.f_currentIndex, 1l)
 }
@@ -80,16 +80,16 @@ and jm_add = (this: BasicArrayList, anyType: JObject) => {
 and jm_removeAt = (this: BasicArrayList, index: Int32) => {
         if (Int32.(>=)(index, this.f_currentIndex)) {
             let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-            ignore(StringMaker.jm_append(stringBuffer, CommonLabels.jm_getInstance().f_INDEX_LABEL))
-            ignore(StringMaker.jm_appendint(stringBuffer, index))
-            ignore(StringMaker.jm_append(stringBuffer, jstatic_SIZE()))
-            ignore(StringMaker.jm_appendint(stringBuffer, this.f_currentIndex))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonLabels.jm_getInstance().f_INDEX_LABEL)))
+            ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), index))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_SIZE())))
+            ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), this.f_currentIndex))
             fail JR.toStringOf(JR.newJObject("IndexOutOfBoundsException"))
         }
         let mut oldValue: JObject = JR.cast(this.f_objectArray[Int32.toNumber(index)])
         let mut numMoved: Int32 = Int32.(-)(Int32.(-)(this.f_currentIndex, index), 1l)
         if (Int32.(>)(numMoved, 0l)) {
-            ignore(JR.arraycopy(this.f_objectArray, Int32.(+)(index, 1l), this.f_objectArray, index, numMoved))
+            ignore(JR.arraycopy(JR.cast(this.f_objectArray), Int32.(+)(index, 1l), JR.cast(this.f_objectArray), index, numMoved))
         }
         this.f_objectArray[Int32.toNumber({ this.f_currentIndex = Int32.(-)(this.f_currentIndex, 1l); this.f_currentIndex })] = JR.nullOf()
         return oldValue
@@ -109,7 +109,7 @@ and jm_remove = (this: BasicArrayList, anyType: JObject) => {
                 if (JR.isNull(this.f_objectArray[Int32.toNumber(index)])) {
                     let mut numMoved: Int32 = Int32.(-)(Int32.(-)(this.f_currentIndex, index), 1l)
                     if (Int32.(>)(numMoved, 0l)) {
-                        ignore(JR.arraycopy(this.f_objectArray, Int32.(+)(index, 1l), this.f_objectArray, index, numMoved))
+                        ignore(JR.arraycopy(JR.cast(this.f_objectArray), Int32.(+)(index, 1l), JR.cast(this.f_objectArray), index, numMoved))
                     }
                     this.f_objectArray[Int32.toNumber({ this.f_currentIndex = Int32.(-)(this.f_currentIndex, 1l); this.f_currentIndex })] = JR.nullOf()
                     return true
@@ -129,7 +129,7 @@ and jm_remove = (this: BasicArrayList, anyType: JObject) => {
                 if ((JR.isSame(anyType, this.f_objectArray[Int32.toNumber(index)]) || (anyType == JR.cast(this.f_objectArray[Int32.toNumber(index)])))) {
                     let mut numMoved: Int32 = Int32.(-)(Int32.(-)(this.f_currentIndex, index), 1l)
                     if (Int32.(>)(numMoved, 0l)) {
-                        ignore(JR.arraycopy(this.f_objectArray, Int32.(+)(index, 1l), this.f_objectArray, index, numMoved))
+                        ignore(JR.arraycopy(JR.cast(this.f_objectArray), Int32.(+)(index, 1l), JR.cast(this.f_objectArray), index, numMoved))
                     }
                     this.f_objectArray[Int32.toNumber({ this.f_currentIndex = Int32.(-)(this.f_currentIndex, 1l); this.f_currentIndex })] = JR.nullOf()
                     return true
@@ -181,14 +181,14 @@ and jm_addAll2 = (this: BasicArrayList, list: BasicArrayList) => {
 }
     
 and jm_addAllList = (this: BasicArrayList, list: BasicArrayList) => {
-        let mut newObjectArray: Array<JObject> = jm_toArray(list)
-        return jm_addAll(this, newObjectArray)
+        let mut newObjectArray: Array<JObject> = JR.cast(jm_toArray(list))
+        return jm_addAll(this, JR.cast(newObjectArray))
 }
     
 and jm_addAll = (this: BasicArrayList, newObjectArray: Array<JObject>) => {
         let mut numSize: Int32 = Int32.fromNumber(Array.length(newObjectArray))
         ignore(jm_ensureCapacity(this, Int32.(+)(this.f_currentIndex, numSize)))
-        ignore(JR.arraycopy(newObjectArray, 0l, this.f_objectArray, this.f_currentIndex, numSize))
+        ignore(JR.arraycopy(JR.cast(newObjectArray), 0l, JR.cast(this.f_objectArray), this.f_currentIndex, numSize))
         this.f_currentIndex = Int32.(+)(this.f_currentIndex, numSize)
         return (numSize != 0l)
 }
@@ -200,14 +200,20 @@ and jm_ensureCapacity = (this: BasicArrayList, minSize: Int32) => {
             if (Int32.(<)(newCapacity, minSize)) {
                 newCapacity = minSize
             }
-            this.f_objectArray = ArrayUtil.jm_copyOf(this.f_arrayUtil, this.f_objectArray, newCapacity)
+            this.f_objectArray = JR.cast({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ArrayUtil.jm_copyOf"))
+JR.cast(jlate(JR.cast(this.f_arrayUtil), JR.cast(this.f_objectArray), JR.cast(newCapacity)))
+})
         }
 }
     
 and jm_trimToSize = (this: BasicArrayList) => {
         let mut oldCapacity: Int32 = Int32.fromNumber(Array.length(this.f_objectArray))
         if (Int32.(<)(this.f_currentIndex, oldCapacity)) {
-            this.f_objectArray = ArrayUtil.jm_copyOf(this.f_arrayUtil, this.f_objectArray, this.f_currentIndex)
+            this.f_objectArray = JR.cast({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ArrayUtil.jm_copyOf"))
+JR.cast(jlate(JR.cast(this.f_arrayUtil), JR.cast(this.f_objectArray), JR.cast(this.f_currentIndex)))
+})
         }
 }
     
@@ -284,10 +290,10 @@ and jm_lastIndexOf = (this: BasicArrayList, anyType: JObject) => {
 and jm_get = (this: BasicArrayList, index: Int32) => {
         if (Int32.(>=)(index, this.f_currentIndex)) {
             let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-            ignore(StringMaker.jm_append(stringBuffer, CommonLabels.jm_getInstance().f_INDEX_LABEL))
-            ignore(StringMaker.jm_appendint(stringBuffer, index))
-            ignore(StringMaker.jm_append(stringBuffer, jstatic_SIZE()))
-            ignore(StringMaker.jm_appendint(stringBuffer, this.f_currentIndex))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonLabels.jm_getInstance().f_INDEX_LABEL)))
+            ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), index))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_SIZE())))
+            ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), this.f_currentIndex))
             fail JR.toStringOf(JR.newJObject("IndexOutOfBoundsException"))
         }
         return this.f_objectArray[Int32.toNumber(index)]
@@ -296,10 +302,10 @@ and jm_get = (this: BasicArrayList, index: Int32) => {
 and jm_set = (this: BasicArrayList, index: Int32, element: JObject) => {
         if (Int32.(>=)(index, this.f_currentIndex)) {
             let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-            ignore(StringMaker.jm_append(stringBuffer, CommonLabels.jm_getInstance().f_INDEX_LABEL))
-            ignore(StringMaker.jm_appendint(stringBuffer, index))
-            ignore(StringMaker.jm_append(stringBuffer, jstatic_SIZE()))
-            ignore(StringMaker.jm_appendint(stringBuffer, this.f_currentIndex))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonLabels.jm_getInstance().f_INDEX_LABEL)))
+            ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), index))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_SIZE())))
+            ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), this.f_currentIndex))
             fail JR.toStringOf(JR.newJObject("IndexOutOfBoundsException"))
         }
         let mut oldValue: JObject = JR.cast(this.f_objectArray[Int32.toNumber(index)])
@@ -332,18 +338,24 @@ and jm_isEmpty = (this: BasicArrayList) => {
 }
     
 and jm_contains = (this: BasicArrayList, anyType: JObject) => {
-        return Int32.(>=)(jm_indexOf(this, anyType), 0l)
+        return Int32.(>=)(jm_indexOf(this, JR.cast(anyType)), 0l)
 }
     
 and jm_toArray = (this: BasicArrayList) => {
-        return ArrayUtil.jm_copyOf(this.f_arrayUtil, this.f_objectArray, this.f_currentIndex)
+        return {
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ArrayUtil.jm_copyOf"))
+JR.cast(jlate(JR.cast(this.f_arrayUtil), JR.cast(this.f_objectArray), JR.cast(this.f_currentIndex)))
+}
 }
     
 and jm_toArrayType = (this: BasicArrayList, objectArray: Array<JObject>) => {
         if (Int32.(<)(Int32.fromNumber(Array.length(objectArray)), this.f_currentIndex)) {
-            return ArrayUtil.jm_copyOfType(this.f_arrayUtil, this.f_objectArray, this.f_currentIndex, JR.cast("Array"))
+            return {
+let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ArrayUtil.jm_copyOfType"))
+JR.cast(jlate(JR.cast(this.f_arrayUtil), JR.cast(this.f_objectArray), JR.cast(this.f_currentIndex), JR.cast("Array")))
+}
         }
-        ignore(JR.arraycopy(this.f_objectArray, 0l, objectArray, 0l, this.f_currentIndex))
+        ignore(JR.arraycopy(JR.cast(this.f_objectArray), 0l, JR.cast(objectArray), 0l, this.f_currentIndex))
         if (Int32.(>)(Int32.fromNumber(Array.length(objectArray)), this.f_currentIndex)) {
             objectArray[Int32.toNumber(this.f_currentIndex)] = JR.nullOf()
         }
@@ -356,7 +368,7 @@ and jm_clone = (this: BasicArrayList) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayListS.jnew_1"))
 JR.cast(jlate(JR.cast(size)))
 }
-        let mut anyType: JObject = JR.jnull
+        let mut anyType: JObject = JR.nullOf()
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -367,10 +379,10 @@ JR.cast(jlate(JR.cast(size)))
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             anyType = this.f_objectArray[Int32.toNumber(index)]
-            ignore(jm_add(list, anyType))
+            ignore(jm_add(list, JR.cast(anyType)))
             }
         }
-        return JR.cast(list)
+        return list
 }
     
 and jm_toString = (this: BasicArrayList) => {
@@ -385,11 +397,11 @@ and jm_toString = (this: BasicArrayList) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, this.f_currentIndex))) break
-            ignore(StringMaker.jm_append(stringBuffer, JR.toStringOf(JR.cast(this.f_objectArray[Int32.toNumber(index)]))))
-            ignore(StringMaker.jm_append(stringBuffer, l_COMMA_SEP))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(JR.toStringOf(JR.cast(this.f_objectArray[Int32.toNumber(index)])))))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(l_COMMA_SEP)))
             }
         }
-        return StringMaker.jm_toString(stringBuffer)
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
 JR.registerLateBound("BasicArrayList.jnew_1", jnew_1)

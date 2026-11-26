@@ -42,7 +42,7 @@ provide let rec jclassName = () => "BasicUserRoles"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: BasicUserRoles = jnew_0()
+    let value: BasicUserRoles = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -64,7 +64,7 @@ and jm_getInstance = () => {
     
 and jm_getRole = (this: BasicUserRoles, role: String) => {
         let mut roleVector: BasicArrayList = JR.cast(jm_getAll(this))
-        let mut size: Int32 = BasicArrayList.jm_size(roleVector)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(roleVector))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -74,7 +74,7 @@ and jm_getRole = (this: BasicUserRoles, role: String) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            let mut userRole: JObject = JR.cast(BasicArrayList.jm_get(roleVector, index))
+            let mut userRole: JObject = JR.cast(BasicArrayList.jm_get(JR.cast(roleVector), index))
             if ((JR.compareTo(role, {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicUserRole.jm_toString"))
 JR.cast(jlate(JR.cast(userRole)))
@@ -84,7 +84,7 @@ JR.cast(jlate(JR.cast(userRole)))
             }
         }
         fail JR.toStringOf(JR.newJObject("Exception"))
-    return JR.jnull
+    return JR.nullOf()
 }
     
 and jm_getAll = (this: BasicUserRoles) => {

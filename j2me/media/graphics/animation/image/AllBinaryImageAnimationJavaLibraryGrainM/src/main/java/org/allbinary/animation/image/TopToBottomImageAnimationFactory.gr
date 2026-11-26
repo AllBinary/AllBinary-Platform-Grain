@@ -48,7 +48,7 @@ provide record TopToBottomImageAnimationFactory {
 provide let rec jclassName = () => "TopToBottomImageAnimationFactory"
     
 and jnew_3 = (image: JObject, sequenceArray: Array<Int32>, animationBehaviorFactory: AnimationBehaviorFactory) => {
-    let this = { jobject: JR.newJObject("TopToBottomImageAnimationFactory"), f_animationFactoryImageScaleUtil: JR.jnull, f_image: JR.jnull, f_animationBehaviorFactory: JR.jnull, f_sequenceArray: [> ], f_animationFactoryInitializationVisitor: JR.jnull, f_scaleProperties: JR.jnull, }
+    let this = { jobject: JR.newJObject("TopToBottomImageAnimationFactory"), f_animationFactoryImageScaleUtil: JR.nullOf(), f_image: JR.nullOf(), f_animationBehaviorFactory: JR.nullOf(), f_sequenceArray: [> ], f_animationFactoryInitializationVisitor: JR.nullOf(), f_scaleProperties: JR.nullOf(), }
         void
     this
 }
@@ -73,12 +73,16 @@ let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ScaleProperties.f_scaleH
 JR.cast(jlate(JR.cast(JR.cast(this.f_scaleProperties))))
 })))
 })
-        return JR.cast(TopToBottomImageAnimation.jnew_3(scaledImage, {
+        return JR.cast(TopToBottomImageAnimation.jnew_3(JR.cast(scaledImage), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BaseImageAnimationFactory.jm_getSequenceArray"))
 JR.cast(jlate(JR.cast(this)))
-}, JR.cast(AnimationBehaviorFactory.jm_getOrCreateInstance(JR.cast(this.f_animationBehaviorFactory)))))
+}, JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationBehaviorFactory.jm_getOrCreateInstance"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationBehaviorFactory))))
+})))
 }
 
+JR.registerSuper("TopToBottomImageAnimationFactory", "BaseImageAnimationFactory")
 JR.registerLateBound("TopToBottomImageAnimationFactory.jnew_3", jnew_3)
 JR.registerLateBound("TopToBottomImageAnimationFactory.jm_getInstance", jm_getInstance)
 

@@ -49,7 +49,7 @@ provide record TextFieldItemValidator {
 provide let rec jclassName = () => "TextFieldItemValidator"
     
 and jnew_4 = (textFieldItem: JObject, min: Int32, max: Int32, allowOnEmpty: Bool) => {
-    let this = { jobject: JR.newJObject("TextFieldItemValidator"), f_textFieldItem: JR.jnull, f_min: 0l, f_max: 0l, f_allowOnEmpty: false, }
+    let this = { jobject: JR.newJObject("TextFieldItemValidator"), f_textFieldItem: JR.nullOf(), f_min: 0l, f_max: 0l, f_allowOnEmpty: false, }
     
     
     
@@ -97,14 +97,15 @@ JR.cast(jlate(JR.cast(this.f_textFieldItem)))
 }
             let mut name: String = JR.substring(label, 0l, Int32.(-)(JR.length(label), 2l))
             if (Int32.(<)(textLength, this.f_min)) {
-                ignore(BasicArrayList.jm_add(list, JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), name), " is to short")))))
+                ignore(BasicArrayList.jm_add(JR.cast(list), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(name))), JR.cast(" is to short")))))))
             } else if (Int32.(>)(textLength, this.f_max)) {
-                ignore(BasicArrayList.jm_add(list, JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), name), " is to long")))))
+                ignore(BasicArrayList.jm_add(JR.cast(list), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(name))), JR.cast(" is to long")))))))
             }
         }
         return list
 }
 
+JR.registerSuper("TextFieldItemValidator", "ValidatorBase")
 JR.registerLateBound("TextFieldItemValidator.jnew_4", jnew_4)
 JR.registerLateBound("TextFieldItemValidator.jm_isValid", jm_isValid)
 JR.registerLateBound("TextFieldItemValidator.jm_toList", jm_toList)

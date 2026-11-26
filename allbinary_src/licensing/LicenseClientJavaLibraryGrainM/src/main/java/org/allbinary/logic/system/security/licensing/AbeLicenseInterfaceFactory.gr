@@ -61,7 +61,7 @@ provide let rec jclassName = () => "AbeLicenseInterfaceFactory"
 and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
   Some(value) => value,
   None => {
-    let value: AbeLicenseInterfaceFactory = jnew_0()
+    let value: AbeLicenseInterfaceFactory = JR.cast(jnew_0())
     jcell_SINGLETON = Some(value)
     value
   },
@@ -76,7 +76,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("AbeLicenseInterfaceFactory"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_time: 0L, f_check: false, f_checkPeriod: 0l, f_abeLicenseInterface: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("AbeLicenseInterfaceFactory"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_time: 0L, f_check: false, f_checkPeriod: 0l, f_abeLicenseInterface: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -92,7 +92,7 @@ JR.cast(jlate())
     
 and jm_getLicenseInstance = (this: AbeLicenseInterfaceFactory, abeClientInformation: AbeClientInformationInterface) => {
         if (jm_isTimeToGetKey(this)) {
-            return jm_get(this, abeClientInformation)
+            return jm_get(this, JR.cast(abeClientInformation))
         } else {
             return this.f_abeLicenseInterface
         }
@@ -106,11 +106,17 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Getting Keys"), JR.cast(this), J
 })
             this.f_abeLicenseInterface = JR.cast(AbeNoLicense.jm_getInstance())
             let mut licenseClient: AbeLicenseClient = AbeLicenseClient.jnew_0()
-            this.f_abeLicenseInterface = JR.cast(AbeLicenseClient.jm_get(licenseClient, abeClientInformation))
+            this.f_abeLicenseInterface = JR.cast(AbeLicenseClient.jm_get(JR.cast(licenseClient), JR.cast(abeClientInformation)))
             if (!JR.isNull(this.f_abeLicenseInterface)) {
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Default Key: " ++ AbeLicenseInterface.jm_getKey(this.f_abeLicenseInterface, AbeClientInformationData.jm_getInstance().f_KEY)), JR.cast(this), JR.cast(this.f_commonStrings.f_GET)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Default Key: " ++ {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AbeLicenseInterface.jm_getKey"))
+JR.cast(jlate(JR.cast(this.f_abeLicenseInterface), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeClientInformationData.f_KEY"))
+JR.cast(jlate(JR.cast(AbeClientInformationData.jm_getInstance())))
+})))
+}), JR.cast(this), JR.cast(this.f_commonStrings.f_GET)))
 })
             }
             return this.f_abeLicenseInterface
@@ -121,7 +127,10 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast("Default Key: " ++ AbeLicenseInte
 and jm_isTimeToGetKey = (this: AbeLicenseInterfaceFactory) => {
         let mut calendar: Calendar = JR.cast(Calendar.jm_getInstance())
         let mut currentTime: Int64 = Calendar.jm_getTimeInMillis_0(calendar)
-        if (((((JR.isNull(this.f_abeLicenseInterface) || JR.isSame(this.f_abeLicenseInterface, AbeNoLicense.jm_getInstance())) || !AbeLicenseInterface.jm_hasKey(this.f_abeLicenseInterface)) || jm_isCheck(this)) || Int64.(>)(Int64.(-)(currentTime, Int64.fromNumber(Int32.toNumber(this.f_checkPeriod))), this.f_time))) {
+        if (((((JR.isNull(this.f_abeLicenseInterface) || JR.isSame(this.f_abeLicenseInterface, AbeNoLicense.jm_getInstance())) || !{
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbeLicenseInterface.jm_hasKey"))
+JR.cast(jlate(JR.cast(this.f_abeLicenseInterface)))
+}) || jm_isCheck(this)) || Int64.(>)(Int64.(-)(currentTime, Int64.fromNumber(Int32.toNumber(this.f_checkPeriod))), this.f_time))) {
             this.f_abeLicenseInterface = JR.nullOf()
             this.f_time = currentTime
             return true

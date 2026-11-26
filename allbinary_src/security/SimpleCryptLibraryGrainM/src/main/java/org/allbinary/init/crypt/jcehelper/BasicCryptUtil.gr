@@ -48,7 +48,7 @@ provide let rec jclassName = () => "BasicCryptUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: BasicCryptUtil = jnew_0()
+    let value: BasicCryptUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -59,7 +59,7 @@ and jset_instance = (value: BasicCryptUtil) => {
 }
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("BasicCryptUtil"), f_logUtil: JR.jnull, f_tsUtil: JR.jnull, f_XML_START: "", }
+    let this = { jobject: JR.newJObject("BasicCryptUtil"), f_logUtil: JR.nullOf(), f_tsUtil: JR.nullOf(), f_XML_START: "", }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -86,7 +86,10 @@ and jm_getDecryptedInputStream = (this: BasicCryptUtil, inputStream: InputStream
             }
             ignore(ByteArrayOutputStream.jm_write_1(buffer, ch))
         }
-        let mut decrypted: Array<Int32> = CryptInterface.jm_decrypt(cryptInterface, ByteArrayOutputStream.jm_toByteArray_0(buffer))
+        let mut decrypted: Array<Int32> = {
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CryptInterface.jm_decrypt"))
+JR.cast(jlate(JR.cast(cryptInterface), JR.cast(ByteArrayOutputStream.jm_toByteArray_0(buffer))))
+}
         let mut decryptedString: String = JR.fromBytes(decrypted)
         let mut index: Int32 = JR.indexOf(decryptedString, this.f_XML_START)
         if (Int32.(>)(index, 0l)) {

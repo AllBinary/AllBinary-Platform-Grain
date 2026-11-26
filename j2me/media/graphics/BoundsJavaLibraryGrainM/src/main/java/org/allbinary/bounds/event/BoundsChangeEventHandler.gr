@@ -60,7 +60,7 @@ and jset_SINGLETON = (value: JObject) => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("BoundsChangeEventHandler"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_eventStrings: JR.jnull, f_eventListenerInterfaceList: JR.jnull, }
+    let this = { jobject: JR.newJObject("BoundsChangeEventHandler"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_eventStrings: JR.nullOf(), f_eventListenerInterfaceList: JR.nullOf(), }
         void
     this
 }
@@ -71,9 +71,13 @@ and jm_getInstance = () => {
     
 and jm_process = (this: BoundsChangeEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) => {
         let mut boundsChangeEventListener: BoundsChangeEventListener = JR.cast(eventListenerInterface)
-        ignore(BoundsChangeEventListener.jm_onBoundsChangeEvent(boundsChangeEventListener, JR.cast(eventObject)))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BoundsChangeEventListener.jm_onBoundsChangeEvent"))
+JR.cast(jlate(JR.cast(boundsChangeEventListener), JR.cast(JR.cast(eventObject))))
+})
 }
 
+JR.registerSuper("BoundsChangeEventHandler", "BasicEventHandler")
 JR.registerLateBound("BoundsChangeEventHandler.jnew_0", jnew_0)
 JR.registerLateBound("BoundsChangeEventHandler.jm_getInstance", jm_getInstance)
 JR.registerLateBound("BoundsChangeEventHandler.jm_process", jm_process)

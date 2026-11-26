@@ -47,7 +47,7 @@ provide let rec jclassName = () => "OrderedObjectArrayPermutationUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: OrderedObjectArrayPermutationUtil = jnew_0()
+    let value: OrderedObjectArrayPermutationUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -95,11 +95,11 @@ JR.cast(jlate(JR.cast(tsUtil), JR.cast(data[Int32.toNumber(Int32.(-)(i, 1l))])))
 })) {
             j = Int32.(-)(j, 1l)
         }
-        ignore(jm_swap(this, data, Int32.(-)(i, 1l), Int32.(-)(j, 1l)))
+        ignore(jm_swap(this, JR.cast(data), Int32.(-)(i, 1l), Int32.(-)(j, 1l)))
         i = Int32.(+)(i, 1l)
         j = length
         while (Int32.(<)(i, j)) {
-            ignore(jm_swap(this, data, Int32.(-)(i, 1l), Int32.(-)(j, 1l)))
+            ignore(jm_swap(this, JR.cast(data), Int32.(-)(i, 1l), Int32.(-)(j, 1l)))
             i = Int32.(+)(i, 1l)
             j = Int32.(-)(j, 1l)
         }
@@ -143,8 +143,8 @@ and jm_generate = (this: OrderedObjectArrayPermutationUtil, data: Array<JObject>
                 }
                 jfirst = false
                 if (!(Int64.(<)(count, Int64.(-)(iterations, 1L)))) break
-            ignore(jm_getNext(this, data))
-            ignore(Visitor.jm_visit(visitor, JR.cast(this)))
+            ignore(jm_getNext(this, JR.cast(data)))
+            ignore(Visitor.jm_visit(JR.cast(visitor), JR.cast(this)))
             }
         }
         ignore(print(this.f_FINISHED))
@@ -152,7 +152,7 @@ and jm_generate = (this: OrderedObjectArrayPermutationUtil, data: Array<JObject>
     
 and jm_main = (args: Array<String>) => {
         let mut l_TOTAL: Int32 = 7l
-        let mut data: Array<JObject> = Array.make(Int32.toNumber(l_TOTAL), JR.jnull)
+        let mut data: Array<JObject> = Array.make(Int32.toNumber(l_TOTAL), JR.nullOf())
         {
             let mut i: Int32 = 0l
             let mut jfirst = true
@@ -165,12 +165,15 @@ and jm_main = (args: Array<String>) => {
             data[Int32.toNumber(i)] = JR.cast(ComparableObject.jnew_0())
             }
         }
-        ignore(Arrays.jm_sort(data))
-        let mut permutationVisitor: ObjectPermutationVisitor = ObjectPermutationVisitor.jnew_1(data)
+        ignore(Arrays.jm_sort(JR.cast(data)))
+        let mut permutationVisitor: ObjectPermutationVisitor = ObjectPermutationVisitor.jnew_1(JR.cast(data))
         let mut l_ORIGINAL_DATA_LABEL: String = "Original Data: "
         ignore(print(l_ORIGINAL_DATA_LABEL))
-        ignore(ObjectPermutationVisitor.jm_visit(permutationVisitor, JR.cast(data)))
-        ignore(jm_generate(jm_getInstance(), data, JR.cast(permutationVisitor)))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ObjectPermutationVisitor.jm_visit"))
+JR.cast(jlate(JR.cast(permutationVisitor), JR.cast(data)))
+})
+        ignore(jm_generate(jm_getInstance(), JR.cast(data), JR.cast(permutationVisitor)))
 }
 
 JR.registerLateBound("OrderedObjectArrayPermutationUtil.jnew_0", jnew_0)

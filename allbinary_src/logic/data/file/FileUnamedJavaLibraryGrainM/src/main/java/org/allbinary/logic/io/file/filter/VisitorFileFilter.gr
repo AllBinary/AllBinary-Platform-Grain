@@ -31,6 +31,13 @@ from "../../../../../../java/io/FileFilter.gr" include FileFilter
 use FileFilter.{ type FileFilter }
 from "../../../../../../org/allbinary/logic/util/visitor/VisitorInterface.gr" include VisitorInterface
 use VisitorInterface.{ type VisitorInterface }
+from "../../../../../../java/lang/Integer.gr" include Integer
+from "../../../../../../java/lang/Long.gr" include Long
+from "../../../../../../java/lang/Short.gr" include Short
+from "../../../../../../java/lang/Byte.gr" include Byte
+from "../../../../../../java/lang/Character.gr" include Character
+from "../../../../../../java/lang/Float.gr" include Float
+from "../../../../../../java/lang/Double.gr" include Double
 from "../../../../../../java/lang/Boolean.gr" include Boolean
 
 provide record VisitorFileFilter {
@@ -53,12 +60,12 @@ and jm_accept_1_File_ = (this: VisitorFileFilter, file: File) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("FileWrapperUtil.jm_wrapFile"))
 JR.cast(jlate(JR.cast(file)))
 })
-        let mut isFileAcceptable: Bool = Boolean.jm_booleanValue((JR.cast(VisitorInterface.jm_visit(this.f_booleanVisitorInterface, JR.cast(abFile)))))
+        let mut isFileAcceptable: Bool = Boolean.jm_booleanValue(JR.cast((JR.cast(VisitorInterface.jm_visit(JR.cast(this.f_booleanVisitorInterface), JR.cast(abFile))))))
         return (isFileAcceptable || File.jm_isDirectory_0(file))
 }
     
 and jm_accept_1_AbFile_ = (this: VisitorFileFilter, file: JObject) => {
-        let mut isFileAcceptable: Bool = Boolean.jm_booleanValue((JR.cast(VisitorInterface.jm_visit(this.f_booleanVisitorInterface, JR.cast(file)))))
+        let mut isFileAcceptable: Bool = Boolean.jm_booleanValue(JR.cast((JR.cast(VisitorInterface.jm_visit(JR.cast(this.f_booleanVisitorInterface), JR.cast(file))))))
         return (isFileAcceptable || {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AbFile.jm_isDirectory"))
 JR.cast(jlate(JR.cast(file)))

@@ -51,7 +51,7 @@ and jnew_2 = (teamName: String, teamId: Int32) => {
     
     this.f_string = StringUtil.jm_getInstance().f_EMPTY_STRING
         this.f_teamId = teamId
-        ignore(jm_setName(this, teamName))
+        ignore(jm_setName(this, JR.cast(teamName)))
     this
 }
     
@@ -63,11 +63,17 @@ and jm_setName = (this: Group, name: String) => {
         this.f_name = name
         let mut groupCommonFactory: GroupCommonFactory = JR.cast(GroupCommonFactory.jm_getInstance())
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, groupCommonFactory.f_GROUP_NAME_LABEL))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_name))
-        ignore(StringMaker.jm_append(stringBuffer, groupCommonFactory.f_ID_LABEL))
-        ignore(StringMaker.jm_appendshort(stringBuffer, this.f_teamId))
-        this.f_string = StringMaker.jm_toString(stringBuffer)
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GroupCommonFactory.f_GROUP_NAME_LABEL"))
+JR.cast(jlate(JR.cast(groupCommonFactory)))
+})))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(this.f_name)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GroupCommonFactory.f_ID_LABEL"))
+JR.cast(jlate(JR.cast(groupCommonFactory)))
+})))
+        ignore(StringMaker.jm_appendshort(JR.cast(stringBuffer), this.f_teamId))
+        this.f_string = StringMaker.jm_toString(JR.cast(stringBuffer))
 }
     
 and jm_getGroupId = (this: Group) => {

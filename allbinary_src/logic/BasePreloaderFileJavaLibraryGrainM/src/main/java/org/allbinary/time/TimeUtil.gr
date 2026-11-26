@@ -28,6 +28,13 @@ use JR.{ type JObject }
 from "../../../java/util/Calendar.gr" include Calendar
 use Calendar.{ type Calendar }
 from "../../../java/lang/Integer.gr" include Integer
+from "../../../java/lang/Long.gr" include Long
+from "../../../java/lang/Short.gr" include Short
+from "../../../java/lang/Byte.gr" include Byte
+from "../../../java/lang/Character.gr" include Character
+from "../../../java/lang/Float.gr" include Float
+from "../../../java/lang/Double.gr" include Double
+from "../../../java/lang/Boolean.gr" include Boolean
 
 provide record TimeUtil {
   jobject: JObject,
@@ -41,7 +48,7 @@ provide let rec jclassName = () => "TimeUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: TimeUtil = jnew_0()
+    let value: TimeUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -54,7 +61,7 @@ and jset_instance = (value: TimeUtil) => {
 and jstatic_calendar = () => match (jcell_calendar) {
   Some(value) => value,
   None => {
-    let value: Calendar = Calendar.jm_getInstance()
+    let value: Calendar = JR.cast(Calendar.jm_getInstance())
     jcell_calendar = Some(value)
     value
   },
@@ -74,36 +81,36 @@ and jm_getInstance = () => {
 }
     
 and jm_setCalendar = (this: TimeUtil, calendar: Calendar, yearString: String, monthString: String, dayString: String, hourString: String) => {
-        let mut year: Int32 = Integer.jm_intValue(yearString)
-        let mut month: Int32 = Integer.jm_intValue(monthString)
-        let mut day: Int32 = Integer.jm_intValue(dayString)
-        let mut hour: Int32 = Integer.jm_intValue(hourString)
+        let mut year: Int32 = Integer.jm_intValue(JR.cast(yearString))
+        let mut month: Int32 = Integer.jm_intValue(JR.cast(monthString))
+        let mut day: Int32 = Integer.jm_intValue(JR.cast(dayString))
+        let mut hour: Int32 = Integer.jm_intValue(JR.cast(hourString))
         ignore(Calendar.jm_set_5(calendar, year, month, day, hour, 0l))
 }
     
 and jm_setCalendarWithTime = (this: TimeUtil, calendar: Calendar, yearString: String, monthString: String, dayString: String, hourString: String, minuteString: String, secondString: String) => {
-        let mut year: Int32 = Integer.jm_intValue(yearString)
-        let mut month: Int32 = Integer.jm_intValue(monthString)
-        let mut day: Int32 = Integer.jm_intValue(dayString)
-        let mut hour: Int32 = Integer.jm_intValue(hourString)
-        let mut minute: Int32 = Integer.jm_intValue(minuteString)
-        let mut second: Int32 = Integer.jm_intValue(secondString)
+        let mut year: Int32 = Integer.jm_intValue(JR.cast(yearString))
+        let mut month: Int32 = Integer.jm_intValue(JR.cast(monthString))
+        let mut day: Int32 = Integer.jm_intValue(JR.cast(dayString))
+        let mut hour: Int32 = Integer.jm_intValue(JR.cast(hourString))
+        let mut minute: Int32 = Integer.jm_intValue(JR.cast(minuteString))
+        let mut second: Int32 = Integer.jm_intValue(JR.cast(secondString))
         ignore(Calendar.jm_set_6(calendar, year, month, day, hour, minute, second))
 }
     
 and jm_setExpirationCalendar = (this: TimeUtil, calendar: Calendar, yearsString: String, monthsString: String, daysString: String, hoursString: String, minutesString: String, secondsString: String) => {
-        let mut year: Int32 = Int32.(+)(Calendar.jm_get_1(calendar, Calendar.jstatic_YEAR()), Integer.jm_intValue(yearsString))
-        let mut month: Int32 = Int32.(+)(Calendar.jm_get_1(calendar, Calendar.jstatic_MONTH()), Integer.jm_intValue(monthsString))
-        let mut day: Int32 = Int32.(+)(Calendar.jm_get_1(calendar, Calendar.jstatic_DAY_OF_MONTH()), Integer.jm_intValue(daysString))
-        let mut hour: Int32 = Int32.(+)(Calendar.jm_get_1(calendar, Calendar.jstatic_HOUR()), Integer.jm_intValue(hoursString))
-        let mut minute: Int32 = Int32.(+)(Calendar.jm_get_1(calendar, Calendar.jstatic_MINUTE()), Integer.jm_intValue(minutesString))
-        let mut second: Int32 = Int32.(+)(Calendar.jm_get_1(calendar, Calendar.jstatic_SECOND()), Integer.jm_intValue(secondsString))
+        let mut year: Int32 = Int32.(+)(Calendar.jm_get_1(calendar, Calendar.jstatic_YEAR()), Integer.jm_intValue(JR.cast(yearsString)))
+        let mut month: Int32 = Int32.(+)(Calendar.jm_get_1(calendar, Calendar.jstatic_MONTH()), Integer.jm_intValue(JR.cast(monthsString)))
+        let mut day: Int32 = Int32.(+)(Calendar.jm_get_1(calendar, Calendar.jstatic_DAY_OF_MONTH()), Integer.jm_intValue(JR.cast(daysString)))
+        let mut hour: Int32 = Int32.(+)(Calendar.jm_get_1(calendar, Calendar.jstatic_HOUR()), Integer.jm_intValue(JR.cast(hoursString)))
+        let mut minute: Int32 = Int32.(+)(Calendar.jm_get_1(calendar, Calendar.jstatic_MINUTE()), Integer.jm_intValue(JR.cast(minutesString)))
+        let mut second: Int32 = Int32.(+)(Calendar.jm_get_1(calendar, Calendar.jstatic_SECOND()), Integer.jm_intValue(JR.cast(secondsString)))
         ignore(Calendar.jm_set_6(calendar, year, month, day, hour, minute, second))
 }
     
 and jm_getTotalTime = (this: TimeUtil, yearString: String, monthString: String, dayString: String, hourString: String, minuteString: String, secondString: String) => {
         let mut time: Int64 = Calendar.jm_getTimeInMillis_0(jstatic_calendar())
-        ignore(jm_setExpirationCalendar(this, jstatic_calendar(), yearString, monthString, dayString, hourString, minuteString, secondString))
+        ignore(jm_setExpirationCalendar(this, JR.cast(jstatic_calendar()), JR.cast(yearString), JR.cast(monthString), JR.cast(dayString), JR.cast(hourString), JR.cast(minuteString), JR.cast(secondString)))
         let mut timeDelta: Int64 = Calendar.jm_getTimeInMillis_0(jstatic_calendar())
         return Int64.(-)(timeDelta, time)
 }

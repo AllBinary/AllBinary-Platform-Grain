@@ -82,16 +82,17 @@ and jm_vibrate = (this: AllBinaryVisualDebugVibration, duration: Int32, type_: I
 }
     
 and jm_paint = (this: AllBinaryVisualDebugVibration, graphics: JObject) => {
-        if (TimeDelayHelper.jm_isTimeTNT(this.f_timeDelayHelper)) {
+        if (TimeDelayHelper.jm_isTimeTNT(JR.cast(this.f_timeDelayHelper))) {
             this.f_timeDelayHelper.f_delay = Integer.jstatic_MAX_VALUE()
-            ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
+            ignore(MyFontProcessor.jm_process(JR.cast(this.f_myFontProcessor), JR.cast(graphics)))
             ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_VIBRATING), JR.cast(Int32.(-)(DisplayInfoSingleton.jm_getLastHalfWidth(this.f_displayInfoSingleton), (Int32.(>>)(this.f_width, 1l)))), JR.cast(0l), JR.cast(this.f_anchor)))
+JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_VIBRATING), JR.cast(Int32.(-)(DisplayInfoSingleton.jm_getLastHalfWidth(JR.cast(this.f_displayInfoSingleton)), (Int32.(>>)(this.f_width, 1l)))), JR.cast(0l), JR.cast(this.f_anchor)))
 })
         }
 }
 
+JR.registerSuper("AllBinaryVisualDebugVibration", "AllBinaryVibrationME")
 JR.registerLateBound("AllBinaryVisualDebugVibration.jnew_0", jnew_0)
 JR.registerLateBound("AllBinaryVisualDebugVibration.jm_updateMeasurement", jm_updateMeasurement)
 JR.registerLateBound("AllBinaryVisualDebugVibration.jm_vibrate", jm_vibrate)

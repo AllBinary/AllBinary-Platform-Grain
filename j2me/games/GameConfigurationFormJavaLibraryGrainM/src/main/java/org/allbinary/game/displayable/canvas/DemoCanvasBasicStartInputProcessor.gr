@@ -59,7 +59,7 @@ provide record DemoCanvasBasicStartInputProcessor {
 provide let rec jclassName = () => "DemoCanvasBasicStartInputProcessor"
     
 and jnew_2 = (gameKeyEventList: BasicArrayList, gameCanvas: RunnableCanvas) => {
-    let this = { jobject: JR.newJObject("DemoCanvasBasicStartInputProcessor"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventList: JR.jnull, f_removalGameKeyEventList: JR.jnull, f_isRemoveDuplicateKeyPresses: false, f_gameInputStrings: JR.jnull, f_playerInputId: 0l, f_motionGestureEventList: JR.jnull, f_canvas: JR.jnull, }
+    let this = { jobject: JR.newJObject("DemoCanvasBasicStartInputProcessor"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_gameKeyEventList: JR.nullOf(), f_removalGameKeyEventList: JR.nullOf(), f_isRemoveDuplicateKeyPresses: false, f_gameInputStrings: JR.nullOf(), f_playerInputId: 0l, f_motionGestureEventList: JR.nullOf(), f_canvas: JR.nullOf(), }
         void
     this
 }
@@ -69,7 +69,7 @@ and jm_processInputList = (this: DemoCanvasBasicStartInputProcessor) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInput.jm_getGameKeyEventList"))
 JR.cast(jlate(JR.cast(this)))
 })
-        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
         let mut gameKeyEvent: GameKeyEvent = JR.nullOf()
         {
             let mut index: Int32 = 0l
@@ -83,20 +83,27 @@ JR.cast(jlate(JR.cast(this)))
             gameKeyEvent = JR.cast(list.f_objectArray[Int32.toNumber(index)])
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Start GameKey: "), StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(gameKeyEvent))))), JR.cast(this), JR.cast(GameInputStrings.jm_getInstance().f_PROCESS_INPUT)))
+JR.cast(jlate(JR.cast(JR.cast(this.f_logUtil)), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("Start GameKey: "))), JR.cast(StringUtil.jm_toString(JR.cast(StringUtil.jm_getInstance()), JR.cast(gameKeyEvent))))))), JR.cast(this), JR.cast(GameInputStrings.jm_getInstance().f_PROCESS_INPUT)))
 })
             }
         }
-        ignore(JR.className(JR.cast({
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("CommandListener.jm_commandAction"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MyCanvas.jm_getCustomCommandListener"))
 JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicMenuInputProcessor.jm_getCanvas"))
 JR.cast(jlate(JR.cast(this)))
 })))
+}), JR.cast(GameCommandsFactory.jm_getInstance().f_START_COMMAND), JR.cast({
+let jlate: () => JObject = JR.cast(JR.lateBound("NullCanvas.jstatic_NULL_CANVAS"))
+JR.cast(jlate())
 })))
+})
         return size
 }
 
+JR.registerSuper("DemoCanvasBasicStartInputProcessor", "BasicMenuInputProcessor")
 JR.registerLateBound("DemoCanvasBasicStartInputProcessor.jnew_2", jnew_2)
 JR.registerLateBound("DemoCanvasBasicStartInputProcessor.jm_processInputList", jm_processInputList)
 

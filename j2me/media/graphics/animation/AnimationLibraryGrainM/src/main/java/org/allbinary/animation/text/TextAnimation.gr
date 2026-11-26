@@ -70,7 +70,7 @@ provide record TextAnimation {
 provide let rec jclassName = () => "TextAnimation"
     
 and jnew_2 = (text: String, animationBehavior: AnimationBehavior) => {
-    let this = { jobject: JR.newJObject("TextAnimation"), f_basicSetColorUtil: JR.jnull, f_basicColor: JR.jnull, f_colorP: 0l, f_changeBasicColorP: JR.jnull, f_changeColorP: 0l, f_alphaP: 0l, f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_animationBehaviorP: JR.jnull, f_updateMyFontProcessor: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_textArrayP: [> ], f_anchor: 0l, f_fontHeight: 0l, f_offsetY: 0l, f_textChangeListener: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("TextAnimation"), f_basicSetColorUtil: JR.nullOf(), f_basicColor: JR.nullOf(), f_colorP: 0l, f_changeBasicColorP: JR.nullOf(), f_changeColorP: 0l, f_alphaP: 0l, f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_animationBehaviorP: JR.nullOf(), f_updateMyFontProcessor: JR.nullOf(), f_myFontProcessor: JR.nullOf(), f_textArrayP: [> ], f_anchor: 0l, f_fontHeight: 0l, f_offsetY: 0l, f_textChangeListener: JR.nullOf(), }
     this.f_updateMyFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(JR.cast(this)))
     this.f_myFontProcessor = JR.cast(this.f_updateMyFontProcessor)
     this.f_textArrayP = StringUtil.jm_getInstance().f_ONE_EMPTY_STRING_ARRAY
@@ -79,7 +79,7 @@ and jnew_2 = (text: String, animationBehavior: AnimationBehavior) => {
     this.f_offsetY = 0l
     this.f_textChangeListener = JR.cast(TextChangeListener.jm_getInstance())
         void
-        ignore(jm_setText(this, text))
+        ignore(jm_setText(this, JR.cast(text)))
     this
 }
     
@@ -100,7 +100,10 @@ let jlate: () => JObject = JR.cast(JR.lateBound("SWTJOGLProcessor.jm_getInstance
 JR.cast(jlate())
 })))
 }) adjustedFontHeight else 0l)
-        ignore(TextChangeListener.jm_onMeasure(this.f_textChangeListener))
+        ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TextChangeListener.jm_onMeasure"))
+JR.cast(jlate(JR.cast(this.f_textChangeListener)))
+})
         this.f_textChangeListener = JR.cast(TextChangeListener.jm_getInstance())
         this.f_myFontProcessor = JR.cast(MyFontProcessor.jm_getInstance())
 }
@@ -110,8 +113,8 @@ and jm_nextFrame = (this: TextAnimation) => {
 }
     
 and jm_paintXY = (this: TextAnimation, graphics: JObject, x: Int32, y: Int32) => {
-        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
-        ignore(jm_paintXYNoUpdate(this, graphics, x, y))
+        ignore(MyFontProcessor.jm_process(JR.cast(this.f_myFontProcessor), JR.cast(graphics)))
+        ignore(jm_paintXYNoUpdate(this, JR.cast(graphics), x, y))
 }
     
 and jm_paintXYNoUpdate = (this: TextAnimation, graphics: JObject, x: Int32, y: Int32) => {
@@ -144,7 +147,7 @@ JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_textArrayP[Int32.toNumber(index)
 }
     
 and jm_setTextWithOnMeasure = (this: TextAnimation, text: String, textChangeListener: TextChangeListener) => {
-        ignore(jm_setText(this, text))
+        ignore(jm_setText(this, JR.cast(text)))
         this.f_textChangeListener = JR.cast(textChangeListener)
 }
     
@@ -161,16 +164,16 @@ and jm_setText = (this: TextAnimation, text: String) => {
                 if (Int32.(<)(index, 0l)) {
                     endIndex = JR.length(text)
                 }
-                ignore(BasicArrayList.jm_add(list, JR.cast(JR.substring(text, startIndex, endIndex))))
+                ignore(BasicArrayList.jm_add(JR.cast(list), JR.cast(JR.substring(text, startIndex, endIndex))))
                 if (Int32.(<)(index, 0l)) {
                     break
                 }
                 index = Int32.(+)(index, 1l)
             }
         }
-        if (Int32.(>)(BasicArrayList.jm_size(list), 0l)) {
-            let mut textArray: Array<String> = Array.make(Int32.toNumber(BasicArrayList.jm_size(list)), "")
-            let mut size: Int32 = BasicArrayList.jm_size(list)
+        if (Int32.(>)(BasicArrayList.jm_size(JR.cast(list)), 0l)) {
+            let mut textArray: Array<String> = Array.make(Int32.toNumber(BasicArrayList.jm_size(JR.cast(list))), "")
+            let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
             {
                 let mut index: Int32 = 0l
                 let mut jfirst = true
@@ -180,7 +183,7 @@ and jm_setText = (this: TextAnimation, text: String) => {
                     }
                     jfirst = false
                     if (!(Int32.(<)(index, size))) break
-                textArray[Int32.toNumber(index)] = JR.cast(BasicArrayList.jm_get(list, index))
+                textArray[Int32.toNumber(index)] = JR.cast(BasicArrayList.jm_get(JR.cast(list), index))
                 }
             }
             this.f_textArrayP = textArray
@@ -198,6 +201,7 @@ and jm_getFontHeight = (this: TextAnimation) => {
         return this.f_fontHeight
 }
 
+JR.registerSuper("TextAnimation", "IndexedAnimation")
 JR.registerLateBound("TextAnimation.jnew_2", jnew_2)
 JR.registerLateBound("TextAnimation.jm_updateMeasurement", jm_updateMeasurement)
 JR.registerLateBound("TextAnimation.jm_nextFrame", jm_nextFrame)

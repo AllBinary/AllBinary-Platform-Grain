@@ -66,12 +66,12 @@ and jset_MAX_IMAGES = (value: Int32) => {
 }
     
 and jnew_1 = (gameCanvas: AllBinaryGameCanvas) => {
-    let this = { jobject: JR.newJObject("BufferedGameCanvasPaintHelper"), f_gameCanvas: JR.jnull, f_offScreenImage: [> ], f_previousImage: JR.jnull, f_circularIndexUtil: JR.nullOf(), f_drawCircularIndexUtil: JR.nullOf(), f_anchor: 0l, }
+    let this = { jobject: JR.newJObject("BufferedGameCanvasPaintHelper"), f_gameCanvas: JR.nullOf(), f_offScreenImage: [> ], f_previousImage: JR.nullOf(), f_circularIndexUtil: JR.nullOf(), f_drawCircularIndexUtil: JR.nullOf(), f_anchor: 0l, }
     this.f_gameCanvas = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("NullCanvas.jstatic_NULL_CANVAS"))
 JR.cast(jlate())
 })
-    this.f_offScreenImage = Array.make(Int32.toNumber(jstatic_MAX_IMAGES()), JR.jnull)
+    this.f_offScreenImage = Array.make(Int32.toNumber(jstatic_MAX_IMAGES()), JR.nullOf())
     this.f_previousImage = JR.cast(NullImage.jstatic_NULL_IMAGE())
     this.f_circularIndexUtil = JR.cast(CircularIndexUtil.jm_createInstance(jstatic_MAX_IMAGES()))
     this.f_drawCircularIndexUtil = JR.cast(CircularIndexUtil.jm_createInstanceAt(Int32.(-)(jstatic_MAX_IMAGES(), 1l), jstatic_MAX_IMAGES()))
@@ -82,19 +82,23 @@ JR.cast(jlate())
     
 and jm_process = (this: BufferedGameCanvasPaintHelper) => {
         let mut myCanvas: MyCanvas = (JR.cast(this.f_gameCanvas))
-        ignore(MyCanvas.jm_draw(myCanvas, JR.cast(JR.className(JR.cast(this.f_offScreenImage[Int32.toNumber(CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil))])))))
-        ignore(CircularIndexUtil.jm_next(this.f_circularIndexUtil))
-        ignore(CircularIndexUtil.jm_next(this.f_drawCircularIndexUtil))
+        ignore(MyCanvas.jm_draw(JR.cast(myCanvas), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getGraphics"))
+JR.cast(jlate(JR.cast(this.f_offScreenImage[Int32.toNumber(CircularIndexUtil.jm_getIndex(JR.cast(this.f_circularIndexUtil)))])))
+})))
+        ignore(CircularIndexUtil.jm_next(JR.cast(this.f_circularIndexUtil)))
+        ignore(CircularIndexUtil.jm_next(JR.cast(this.f_drawCircularIndexUtil)))
 }
     
 and jm_paint = (this: BufferedGameCanvasPaintHelper, graphics: JObject) => {
-        this.f_previousImage = this.f_offScreenImage[Int32.toNumber(CircularIndexUtil.jm_getIndex(this.f_drawCircularIndexUtil))]
+        this.f_previousImage = this.f_offScreenImage[Int32.toNumber(CircularIndexUtil.jm_getIndex(JR.cast(this.f_drawCircularIndexUtil)))]
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawImage"))
 JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_previousImage), JR.cast(0l), JR.cast(0l), JR.cast(this.f_anchor)))
 })
 }
 
+JR.registerSuper("BufferedGameCanvasPaintHelper", "ProcessPaintable")
 JR.registerLateBound("BufferedGameCanvasPaintHelper.jnew_1", jnew_1)
 JR.registerLateBound("BufferedGameCanvasPaintHelper.jm_process", jm_process)
 JR.registerLateBound("BufferedGameCanvasPaintHelper.jm_paint", jm_paint)

@@ -50,7 +50,7 @@ provide let rec jclassName = () => "CanvasDrawLineString"
 and jstatic_NULL_CANVAS_DRAW_LINE_STRING = () => match (jcell_NULL_CANVAS_DRAW_LINE_STRING) {
   Some(value) => value,
   None => {
-    let value: CanvasDrawLineString = jnew_2(0l, 0l)
+    let value: CanvasDrawLineString = JR.cast(jnew_2(0l, 0l))
     jcell_NULL_CANVAS_DRAW_LINE_STRING = Some(value)
     value
   },
@@ -85,8 +85,11 @@ JR.cast(jlate(JR.cast(font)))
 }
     
 and jm_paint = (this: CanvasDrawLineString, graphics: JObject, string: String, line: Int32) => {
-        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
-        ignore(DrawStringUtil.jm_drawCenterString(this.f_drawStringUtil, graphics, string, 0l, JR.length(string), this.f_x, Int32.(+)(this.f_y, (Int32.(*)(line, this.f_fontHeight)))))
+        ignore(MyFontProcessor.jm_process(JR.cast(this.f_myFontProcessor), JR.cast(graphics)))
+        ignore({
+let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("DrawStringUtil.jm_drawCenterString"))
+JR.cast(jlate(JR.cast(this.f_drawStringUtil), JR.cast(graphics), JR.cast(string), JR.cast(0l), JR.cast(JR.length(string)), JR.cast(this.f_x), JR.cast(Int32.(+)(this.f_y, (Int32.(*)(line, this.f_fontHeight))))))
+})
 }
 
 JR.registerLateBound("CanvasDrawLineString.jnew_2", jnew_2)

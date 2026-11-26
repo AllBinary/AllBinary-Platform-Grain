@@ -52,7 +52,7 @@ provide record ImageAnimationFactory {
 provide let rec jclassName = () => "ImageAnimationFactory"
     
 and jm_createFactory = (image: JObject) => {
-        return jnew_6(image, {
+        return jnew_6(JR.cast(image), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
 JR.cast(jlate(JR.cast(image)))
 }, {
@@ -62,7 +62,7 @@ JR.cast(jlate(JR.cast(image)))
 }
     
 and jnew_6 = (image: JObject, width: Int32, height: Int32, dx: Int32, dy: Int32, animationBehaviorFactory: AnimationBehaviorFactory) => {
-    let this = { jobject: JR.newJObject("ImageAnimationFactory"), f_animationFactoryImageScaleUtil: JR.jnull, f_image: JR.jnull, f_animationBehaviorFactory: JR.jnull, f_sequenceArray: [> ], f_animationFactoryInitializationVisitor: JR.jnull, f_scaleProperties: JR.jnull, }
+    let this = { jobject: JR.newJObject("ImageAnimationFactory"), f_animationFactoryImageScaleUtil: JR.nullOf(), f_image: JR.nullOf(), f_animationBehaviorFactory: JR.nullOf(), f_sequenceArray: [> ], f_animationFactoryInitializationVisitor: JR.nullOf(), f_scaleProperties: JR.nullOf(), }
         void
     this
 }
@@ -88,7 +88,7 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_scaleProperties))))
 })))
 })
         let mut openGLUtil: JObject = JR.cast({
-let jlate: () => JObject = JR.cast(JR.lateBound("OpenGLUtil.jm_getInstance"))
+let jlate: () => JObject = JR.cast(JR.lateBound("OpenGLUtil.jm_getInstance_0"))
 JR.cast(jlate())
 })
         scaledImage = JR.cast({
@@ -106,18 +106,25 @@ JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryImageScaleUtil.jm_processAdjust"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryImageScaleUtil)), JR.cast(this)))
 })
-            return JR.cast(AdjustedImageAnimation.jnew_4(scaledImage, {
+            return JR.cast(AdjustedImageAnimation.jnew_4(JR.cast(scaledImage), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_dx"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
 }, {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_dy"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_animationFactoryInitializationVisitor))))
-}, JR.cast(AnimationBehaviorFactory.jm_getOrCreateInstance(JR.cast(this.f_animationBehaviorFactory)))))
+}, JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationBehaviorFactory.jm_getOrCreateInstance"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationBehaviorFactory))))
+})))
         } else {
-            return JR.cast(ImageAnimation.jnew_2(scaledImage, JR.cast(AnimationBehaviorFactory.jm_getOrCreateInstance(JR.cast(this.f_animationBehaviorFactory)))))
+            return JR.cast(ImageAnimation.jnew_2(JR.cast(scaledImage), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationBehaviorFactory.jm_getOrCreateInstance"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_animationBehaviorFactory))))
+})))
         }
 }
 
+JR.registerSuper("ImageAnimationFactory", "BaseImageAnimationFactory")
 JR.registerLateBound("ImageAnimationFactory.jnew_6", jnew_6)
 JR.registerLateBound("ImageAnimationFactory.jm_createFactory", jm_createFactory)
 JR.registerLateBound("ImageAnimationFactory.jm_getInstance", jm_getInstance)

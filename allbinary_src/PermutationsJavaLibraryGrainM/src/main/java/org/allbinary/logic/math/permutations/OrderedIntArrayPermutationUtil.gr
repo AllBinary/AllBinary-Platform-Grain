@@ -46,7 +46,7 @@ provide let rec jclassName = () => "OrderedIntArrayPermutationUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: OrderedIntArrayPermutationUtil = jnew_0()
+    let value: OrderedIntArrayPermutationUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -127,7 +127,7 @@ and jm_generate = (this: OrderedIntArrayPermutationUtil, data: Array<Int32>, vis
                 jfirst = false
                 if (!(Int64.(<)(count, Int64.(-)(iterations, 1L)))) break
             ignore(jm_getNext(this, data))
-            ignore(Visitor.jm_visit(visitor, JR.cast(this)))
+            ignore(Visitor.jm_visit(JR.cast(visitor), JR.cast(this)))
             }
         }
         ignore(print(this.f_FINISHED))
@@ -151,7 +151,10 @@ and jm_main = (args: Array<String>) => {
         let mut permutationVisitor: IntPermutationVisitor = IntPermutationVisitor.jnew_1(data)
         let mut l_ORIGINAL_DATA_LABEL: String = "Original Data: "
         ignore(print(l_ORIGINAL_DATA_LABEL))
-        ignore(IntPermutationVisitor.jm_print_2(permutationVisitor, data, StringMaker.jnew_0()))
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("IntPermutationVisitor.jm_print_2"))
+JR.cast(jlate(JR.cast(permutationVisitor), JR.cast(data), JR.cast(StringMaker.jnew_0())))
+})
         ignore(jm_generate(jm_getInstance(), data, JR.cast(permutationVisitor)))
 }
 

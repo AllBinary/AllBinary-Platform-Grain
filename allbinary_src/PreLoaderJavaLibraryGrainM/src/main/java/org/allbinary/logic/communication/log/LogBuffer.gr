@@ -42,7 +42,7 @@ provide record LogBuffer {
 provide let rec jclassName = () => "LogBuffer"
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("LogBuffer"), f_logUtil: JR.jnull, f_logEntryVector: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("LogBuffer"), f_logUtil: JR.nullOf(), f_logEntryVector: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -53,11 +53,11 @@ JR.cast(jlate())
 }
     
 and jm_add = (this: LogBuffer, log: Log) => {
-        ignore(BasicArrayList.jm_add(this.f_logEntryVector, JR.cast(log)))
+        ignore(BasicArrayList.jm_add(JR.cast(this.f_logEntryVector), JR.cast(log)))
 }
     
 and jm_logAll = (this: LogBuffer) => {
-        let mut size: Int32 = BasicArrayList.jm_size(this.f_logEntryVector)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(this.f_logEntryVector))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -67,7 +67,7 @@ and jm_logAll = (this: LogBuffer) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
-            let mut log: Log = JR.cast(BasicArrayList.jm_get(this.f_logEntryVector, index))
+            let mut log: Log = JR.cast(BasicArrayList.jm_get(JR.cast(this.f_logEntryVector), index))
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putL"))
 JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(log)))

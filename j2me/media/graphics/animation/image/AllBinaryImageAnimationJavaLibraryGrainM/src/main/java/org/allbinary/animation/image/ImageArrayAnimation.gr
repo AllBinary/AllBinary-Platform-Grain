@@ -59,13 +59,13 @@ provide record ImageArrayAnimation {
 provide let rec jclassName = () => "ImageArrayAnimation"
     
 and jnew_2 = (imageArray: Array<JObject>, animationBehavior: AnimationBehavior) => {
-    let this = { jobject: JR.newJObject("ImageArrayAnimation"), f_basicSetColorUtil: JR.jnull, f_basicColor: JR.jnull, f_colorP: 0l, f_changeBasicColorP: JR.jnull, f_changeColorP: 0l, f_alphaP: 0l, f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_animationBehaviorP: JR.jnull, f_imageArray: [> ], f_totalFrames: 0l, f_circularIndexUtil: JR.nullOf(), f_anchor: 0l, }
-    this.f_imageArray = NullImage.jstatic_NULL_IMAGE_ARRAY()
+    let this = { jobject: JR.newJObject("ImageArrayAnimation"), f_basicSetColorUtil: JR.nullOf(), f_basicColor: JR.nullOf(), f_colorP: 0l, f_changeBasicColorP: JR.nullOf(), f_changeColorP: 0l, f_alphaP: 0l, f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_animationBehaviorP: JR.nullOf(), f_imageArray: [> ], f_totalFrames: 0l, f_circularIndexUtil: JR.nullOf(), f_anchor: 0l, }
+    this.f_imageArray = JR.cast(NullImage.jstatic_NULL_IMAGE_ARRAY())
     
     this.f_circularIndexUtil = JR.cast(CircularIndexUtil.jstatic_NULL_CIRCULAR_INDEX_UTIL())
     this.f_anchor = Anchor.jstatic_TOP_LEFT()
         void
-        ignore(jm_setImageArray(this, imageArray))
+        ignore(jm_setImageArray(this, JR.cast(imageArray)))
     this
 }
     
@@ -74,19 +74,19 @@ and jm_getAnimationSize = (this: ImageArrayAnimation) => {
 }
     
 and jm_nextFrame = (this: ImageArrayAnimation) => {
-        ignore(CircularIndexUtil.jm_next(this.f_circularIndexUtil))
+        ignore(CircularIndexUtil.jm_next(JR.cast(this.f_circularIndexUtil)))
 }
     
 and jm_previousFrame = (this: ImageArrayAnimation) => {
-        ignore(CircularIndexUtil.jm_previous(this.f_circularIndexUtil))
+        ignore(CircularIndexUtil.jm_previous(JR.cast(this.f_circularIndexUtil)))
 }
     
 and jm_setFrame = (this: ImageArrayAnimation, index: Int32) => {
-        ignore(CircularIndexUtil.jm_setIndex(this.f_circularIndexUtil, index))
+        ignore(CircularIndexUtil.jm_setIndex(JR.cast(this.f_circularIndexUtil), index))
 }
     
 and jm_getFrame = (this: ImageArrayAnimation) => {
-        return CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil)
+        return CircularIndexUtil.jm_getIndex(JR.cast(this.f_circularIndexUtil))
 }
     
 and jm_getSize = (this: ImageArrayAnimation) => {
@@ -118,10 +118,11 @@ and jm_setImageArray = (this: ImageArrayAnimation, imageArray: Array<JObject>) =
 and jm_paintXY = (this: ImageArrayAnimation, graphics: JObject, x: Int32, y: Int32) => {
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawImage"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_imageArray[Int32.toNumber(CircularIndexUtil.jm_getIndex(this.f_circularIndexUtil))]), JR.cast(x), JR.cast(y), JR.cast(this.f_anchor)))
+JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_imageArray[Int32.toNumber(CircularIndexUtil.jm_getIndex(JR.cast(this.f_circularIndexUtil)))]), JR.cast(x), JR.cast(y), JR.cast(this.f_anchor)))
 })
 }
 
+JR.registerSuper("ImageArrayAnimation", "IndexedAnimation")
 JR.registerLateBound("ImageArrayAnimation.jnew_2", jnew_2)
 JR.registerLateBound("ImageArrayAnimation.jm_getAnimationSize", jm_getAnimationSize)
 JR.registerLateBound("ImageArrayAnimation.jm_nextFrame", jm_nextFrame)

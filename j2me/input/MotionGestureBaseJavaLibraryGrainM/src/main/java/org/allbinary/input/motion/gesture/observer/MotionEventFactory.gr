@@ -62,7 +62,7 @@ and jset_index = (value: Int32) => {
 }
     
 and jnew_2 = (source: JObject, id: Int32) => {
-    let this = { jobject: JR.newJObject("MotionEventFactory"), f_source: JR.jnull, f_id: 0l, }
+    let this = { jobject: JR.newJObject("MotionEventFactory"), f_source: JR.nullOf(), f_id: 0l, }
     
     
         this.f_source = JR.cast(source)
@@ -82,17 +82,17 @@ JR.cast(jlate())
     
 and jm_getInstance = (this: MotionEventFactory) => {
         let mut inputFactory: InputFactory = JR.cast(InputFactory.jm_getInstance())
-        let mut input: Input = JR.cast(InputFactory.jm_getInstanceById(inputFactory, { let jold = jstatic_index(); jstatic_index() = Int32.(+)(jold, 1l); jold }))
+        let mut input: Input = JR.cast(InputFactory.jm_getInstanceById(JR.cast(inputFactory), { let jold = jstatic_index(); jset_index(Int32.(+)(jold, 1l)); jold }))
         if (JR.isSame(input, inputFactory.f_NO_INPUT)) {
-            return JR.cast(MotionGestureEvent.jnew_3(this.f_source, this.f_id, JR.cast({
+            return JR.cast(MotionGestureEvent.jnew_3(JR.cast(this.f_source), this.f_id, JR.cast(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.f_NO_MOTION"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("TouchMotionGestureFactory.jm_getInstance"))
 JR.cast(jlate())
 })))
-})))
+}))))
         } else {
-            return JR.cast(MotionGestureEvent.jnew_3(this.f_source, this.f_id, JR.cast(input)))
+            return JR.cast(MotionGestureEvent.jnew_3(JR.cast(this.f_source), this.f_id, JR.cast(JR.cast(input))))
         }
 }
 

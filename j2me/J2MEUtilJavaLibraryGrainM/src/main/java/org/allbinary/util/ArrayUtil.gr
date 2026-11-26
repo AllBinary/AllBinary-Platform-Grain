@@ -33,7 +33,7 @@ provide let rec jclassName = () => "ArrayUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: ArrayUtil = jnew_0()
+    let value: ArrayUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -54,60 +54,60 @@ and jm_getInstance = () => {
 }
     
 and jm_copyOf = (this: ArrayUtil, original: Array<JObject>, newLength: Int32) => {
-        return jm_copyOfType(this, original, newLength, JR.cast("Array"))
+        return jm_copyOfType(this, JR.cast(original), newLength, JR.cast("Array"))
 }
     
 and jm_copyOfType = (this: ArrayUtil, original: Array<JObject>, newLength: Int32, newType: String) => {
-        let mut copy: Array<JObject> = Array.make(Int32.toNumber(newLength), JR.jnull)
-        ignore(JR.arraycopy(original, 0l, copy, 0l, MathUtil.jm_min(this.f_mathUtil, Int32.fromNumber(Array.length(original)), newLength)))
+        let mut copy: Array<JObject> = Array.make(Int32.toNumber(newLength), JR.nullOf())
+        ignore(JR.arraycopy(JR.cast(original), 0l, JR.cast(copy), 0l, MathUtil.jm_min(JR.cast(this.f_mathUtil), Int32.fromNumber(Array.length(original)), newLength)))
         return copy
 }
     
 and jm_copyOfbyte = (this: ArrayUtil, original: Array<Int32>, newLength: Int32) => {
         let mut copy: Array<Int32> = Array.make(Int32.toNumber(newLength), 0l)
-        ignore(JR.arraycopy(original, 0l, copy, 0l, MathUtil.jm_min(this.f_mathUtil, Int32.fromNumber(Array.length(original)), newLength)))
+        ignore(JR.arraycopy(original, 0l, copy, 0l, MathUtil.jm_min(JR.cast(this.f_mathUtil), Int32.fromNumber(Array.length(original)), newLength)))
         return copy
 }
     
 and jm_copyOfshort = (this: ArrayUtil, original: Array<Int32>, newLength: Int32) => {
         let mut copy: Array<Int32> = Array.make(Int32.toNumber(newLength), 0l)
-        ignore(JR.arraycopy(original, 0l, copy, 0l, MathUtil.jm_min(this.f_mathUtil, Int32.fromNumber(Array.length(original)), newLength)))
+        ignore(JR.arraycopy(original, 0l, copy, 0l, MathUtil.jm_min(JR.cast(this.f_mathUtil), Int32.fromNumber(Array.length(original)), newLength)))
         return copy
 }
     
 and jm_copyOfint = (this: ArrayUtil, original: Array<Int32>, newLength: Int32) => {
         let mut copy: Array<Int32> = Array.make(Int32.toNumber(newLength), 0l)
-        ignore(JR.arraycopy(original, 0l, copy, 0l, MathUtil.jm_min(this.f_mathUtil, Int32.fromNumber(Array.length(original)), newLength)))
+        ignore(JR.arraycopy(original, 0l, copy, 0l, MathUtil.jm_min(JR.cast(this.f_mathUtil), Int32.fromNumber(Array.length(original)), newLength)))
         return copy
 }
     
 and jm_copyOflong = (this: ArrayUtil, original: Array<Int64>, newLength: Int32) => {
         let mut copy: Array<Int64> = Array.make(Int32.toNumber(newLength), 0L)
-        ignore(JR.arraycopy(original, 0l, copy, 0l, MathUtil.jm_min(this.f_mathUtil, Int32.fromNumber(Array.length(original)), newLength)))
+        ignore(JR.arraycopy(original, 0l, copy, 0l, MathUtil.jm_min(JR.cast(this.f_mathUtil), Int32.fromNumber(Array.length(original)), newLength)))
         return copy
 }
     
 and jm_copyOfchar = (this: ArrayUtil, original: Array<Int32>, newLength: Int32) => {
         let mut copy: Array<Int32> = Array.make(Int32.toNumber(newLength), 0l)
-        ignore(JR.arraycopy(original, 0l, copy, 0l, MathUtil.jm_min(this.f_mathUtil, Int32.fromNumber(Array.length(original)), newLength)))
+        ignore(JR.arraycopy(original, 0l, copy, 0l, MathUtil.jm_min(JR.cast(this.f_mathUtil), Int32.fromNumber(Array.length(original)), newLength)))
         return copy
 }
     
 and jm_copyOffloat = (this: ArrayUtil, original: Array<Float32>, newLength: Int32) => {
         let mut copy: Array<Float32> = Array.make(Int32.toNumber(newLength), 0.0f)
-        ignore(JR.arraycopy(original, 0l, copy, 0l, MathUtil.jm_min(this.f_mathUtil, Int32.fromNumber(Array.length(original)), newLength)))
+        ignore(JR.arraycopy(original, 0l, copy, 0l, MathUtil.jm_min(JR.cast(this.f_mathUtil), Int32.fromNumber(Array.length(original)), newLength)))
         return copy
 }
     
 and jm_copyOfdouble = (this: ArrayUtil, original: Array<Float64>, newLength: Int32) => {
         let mut copy: Array<Float64> = Array.make(Int32.toNumber(newLength), 0.0d)
-        ignore(JR.arraycopy(original, 0l, copy, 0l, MathUtil.jm_min(this.f_mathUtil, Int32.fromNumber(Array.length(original)), newLength)))
+        ignore(JR.arraycopy(original, 0l, copy, 0l, MathUtil.jm_min(JR.cast(this.f_mathUtil), Int32.fromNumber(Array.length(original)), newLength)))
         return copy
 }
     
 and jm_copyOfboolean = (this: ArrayUtil, original: Array<Bool>, newLength: Int32) => {
         let mut copy: Array<Bool> = Array.make(Int32.toNumber(newLength), false)
-        ignore(JR.arraycopy(original, 0l, copy, 0l, MathUtil.jm_min(this.f_mathUtil, Int32.fromNumber(Array.length(original)), newLength)))
+        ignore(JR.arraycopy(original, 0l, copy, 0l, MathUtil.jm_min(JR.cast(this.f_mathUtil), Int32.fromNumber(Array.length(original)), newLength)))
         return copy
 }
     
@@ -179,7 +179,7 @@ and jm_toStringFromTwoDimensionaArray = (this: ArrayUtil, twoDimensionalIntArray
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, endIndex))) break
-            ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_BRACE_OPEN))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(commonSeps.f_BRACE_OPEN)))
             {
                 let mut index2: Int32 = 0l
                 let mut jfirst = true
@@ -189,15 +189,15 @@ and jm_toStringFromTwoDimensionaArray = (this: ArrayUtil, twoDimensionalIntArray
                     }
                     jfirst = false
                     if (!(Int32.(<)(index2, endIndex2))) break
-                ignore(StringMaker.jm_appendint(stringBuffer, twoDimensionalIntArray[Int32.toNumber(index)][Int32.toNumber(index2)]))
-                ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_COMMA_SEP))
+                ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), twoDimensionalIntArray[Int32.toNumber(index)][Int32.toNumber(index2)]))
+                ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(commonSeps.f_COMMA_SEP)))
                 }
             }
-            ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_BRACE_CLOSE))
-            ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_NEW_LINE))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(commonSeps.f_BRACE_CLOSE)))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(commonSeps.f_NEW_LINE)))
             }
         }
-        return StringMaker.jm_toString(stringBuffer)
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
     
 and jm_toStringFromObjectArray = (this: ArrayUtil, objectArray: Array<JObject>) => {
@@ -212,11 +212,11 @@ and jm_toStringFromObjectArray = (this: ArrayUtil, objectArray: Array<JObject>) 
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, Int32.fromNumber(Array.length(objectArray))))) break
-            ignore(StringMaker.jm_append(stringBuffer, StringUtil.jm_toString(StringUtil.jm_getInstance(), objectArray[Int32.toNumber(index)])))
-            ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_COMMA_SEP))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(StringUtil.jm_toString(JR.cast(StringUtil.jm_getInstance()), JR.cast(objectArray[Int32.toNumber(index)])))))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(commonSeps.f_COMMA_SEP)))
             }
         }
-        return StringMaker.jm_toString(stringBuffer)
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
     
 and jm_toStringFromByteArray = (this: ArrayUtil, byteArray: Array<Int32>) => {
@@ -231,11 +231,11 @@ and jm_toStringFromByteArray = (this: ArrayUtil, byteArray: Array<Int32>) => {
                 }
                 jfirst = false
                 if (!(Int32.(<)(index, Int32.fromNumber(Array.length(byteArray))))) break
-            ignore(StringMaker.jm_appendbyte(stringBuffer, byteArray[Int32.toNumber(index)]))
-            ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_COMMA_SEP))
+            ignore(StringMaker.jm_appendbyte(JR.cast(stringBuffer), byteArray[Int32.toNumber(index)]))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(commonSeps.f_COMMA_SEP)))
             }
         }
-        return StringMaker.jm_toString(stringBuffer)
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
 JR.registerLateBound("ArrayUtil.jnew_0", jnew_0)

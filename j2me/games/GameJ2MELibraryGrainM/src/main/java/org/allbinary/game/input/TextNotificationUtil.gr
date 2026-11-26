@@ -58,7 +58,7 @@ provide let rec jclassName = () => "TextNotificationUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: TextNotificationUtil = jnew_0()
+    let value: TextNotificationUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -70,7 +70,7 @@ and jset_instance = (value: TextNotificationUtil) => {
 
 and jnew_0 = () => {
     let this = { jobject: JR.newJObject("TextNotificationUtil"), f_TWO: 0l, f_FALSE: false, f_gameNotificationEventHandler: JR.nullOf(), }
-    this.f_TWO = SmallIntegerSingletonFactory.jm_getAt(SmallIntegerSingletonFactory.jm_getInstance(), 2l)
+    this.f_TWO = SmallIntegerSingletonFactory.jm_getAt(JR.cast(SmallIntegerSingletonFactory.jm_getInstance()), 2l)
     this.f_FALSE = BooleanFactory.jm_getInstance().f_FALSE
     this.f_gameNotificationEventHandler = JR.cast(GameNotificationEventHandler.jm_getInstance())
     this
@@ -81,18 +81,27 @@ and jm_getInstance = () => {
 }
     
 and jm_fireError = (this: TextNotificationUtil, message: String) => {
-        ignore(PrimaryPlayerQueueFactory.jm_add(PrimaryPlayerQueueFactory.jm_getInstance(), ErrorSound.jm_getInstance()))
-        ignore(jm_fire(this, message))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("PlayerQueue.jm_add"))
+JR.cast(jlate(JR.cast(PrimaryPlayerQueueFactory.jm_getInstance()), JR.cast(ErrorSound.jm_getInstance())))
+})
+        ignore(jm_fire(this, JR.cast(message)))
 }
     
 and jm_fireNew = (this: TextNotificationUtil, message: String) => {
-        ignore(PrimaryPlayerQueueFactory.jm_add(PrimaryPlayerQueueFactory.jm_getInstance(), SelectSound.jm_getInstance()))
-        ignore(jm_fire(this, message))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("PlayerQueue.jm_add"))
+JR.cast(jlate(JR.cast(PrimaryPlayerQueueFactory.jm_getInstance()), JR.cast(SelectSound.jm_getInstance())))
+})
+        ignore(jm_fire(this, JR.cast(message)))
 }
     
 and jm_fireSuccess = (this: TextNotificationUtil, message: String) => {
-        ignore(PrimaryPlayerQueueFactory.jm_add(PrimaryPlayerQueueFactory.jm_getInstance(), SelectSound.jm_getInstance()))
-        ignore(jm_fire(this, message))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("PlayerQueue.jm_add"))
+JR.cast(jlate(JR.cast(PrimaryPlayerQueueFactory.jm_getInstance()), JR.cast(SelectSound.jm_getInstance())))
+})
+        ignore(jm_fire(this, JR.cast(message)))
 }
     
 and jm_fire = (this: TextNotificationUtil, message: String) => {

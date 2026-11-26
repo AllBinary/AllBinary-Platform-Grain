@@ -49,7 +49,7 @@ provide let rec jclassName = () => "DisplayChangeEventHandler"
 and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
   Some(value) => value,
   None => {
-    let value: DisplayChangeEventHandler = jnew_0()
+    let value: DisplayChangeEventHandler = JR.cast(jnew_0())
     jcell_SINGLETON = Some(value)
     value
   },
@@ -64,16 +64,20 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("DisplayChangeEventHandler"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_eventStrings: JR.jnull, f_eventListenerInterfaceList: JR.jnull, }
+    let this = { jobject: JR.newJObject("DisplayChangeEventHandler"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_eventStrings: JR.nullOf(), f_eventListenerInterfaceList: JR.nullOf(), }
         void
     this
 }
     
 and jm_process = (this: DisplayChangeEventHandler, eventObject: AllBinaryEventObject, eventListenerInterface: EventListenerInterface) => {
         let mut displayChangeEventListener: DisplayChangeEventListener = (JR.cast(eventListenerInterface))
-        ignore(DisplayChangeEventListener.jm_onDisplayChangeEvent(displayChangeEventListener, JR.cast(eventObject)))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DisplayChangeEventListener.jm_onDisplayChangeEvent"))
+JR.cast(jlate(JR.cast(displayChangeEventListener), JR.cast(JR.cast(eventObject))))
+})
 }
 
+JR.registerSuper("DisplayChangeEventHandler", "BasicEventHandler")
 JR.registerLateBound("DisplayChangeEventHandler.jnew_0", jnew_0)
 JR.registerLateBound("DisplayChangeEventHandler.jm_getInstance", jm_getInstance)
 JR.registerLateBound("DisplayChangeEventHandler.jm_process", jm_process)

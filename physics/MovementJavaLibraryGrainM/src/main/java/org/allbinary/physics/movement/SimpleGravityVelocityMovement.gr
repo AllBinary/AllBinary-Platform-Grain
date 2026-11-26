@@ -48,20 +48,21 @@ provide record SimpleGravityVelocityMovement {
 provide let rec jclassName = () => "SimpleGravityVelocityMovement"
     
 and jnew_1 = (speedBasicDecimal: BasicDecimal) => {
-    let this = { jobject: JR.newJObject("SimpleGravityVelocityMovement"), f_velocityProperties: JR.jnull, f_speedBasicDecimal: JR.jnull, f_axisMathVectorUtil: JR.jnull, f_gravityUtil: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("SimpleGravityVelocityMovement"), f_velocityProperties: JR.nullOf(), f_speedBasicDecimal: JR.nullOf(), f_axisMathVectorUtil: JR.nullOf(), f_gravityUtil: JR.nullOf(), }
     this.f_gravityUtil = JR.cast(GravityUtil.jm_getInstance())
         void
     this
 }
     
 and jm_process = (this: SimpleGravityVelocityMovement, layer: AllBinaryGameLayer) => {
-        ignore(GravityUtil.jm_process(this.f_gravityUtil, {
+        ignore(GravityUtil.jm_process(JR.cast(this.f_gravityUtil), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicConstantVelocityMovement.jm_getVelocityProperties"))
 JR.cast(jlate(JR.cast(this)))
 }, this.f_gravityUtil.f_GAME_GRAVITY_VELOCITY))
         ignore(jm_process(this, layer))
 }
 
+JR.registerSuper("SimpleGravityVelocityMovement", "BasicConstantVelocityMovement")
 JR.registerLateBound("SimpleGravityVelocityMovement.jnew_1", jnew_1)
 JR.registerLateBound("SimpleGravityVelocityMovement.jm_process", jm_process)
 JR.registerLateBound("SimpleGravityVelocityMovement.f_gravityUtil", (this: SimpleGravityVelocityMovement) => this.f_gravityUtil)

@@ -42,7 +42,7 @@ provide record ImmutableBasicArrayList {
 provide let rec jclassName = () => "ImmutableBasicArrayList"
     
 and jnew_2 = (name: String, size: Int32) => {
-    let this = { jobject: JR.newJObject("ImmutableBasicArrayList"), f_arrayUtil: JR.jnull, f_objectArray: [> ], f_currentIndex: 0l, f_name: "", }
+    let this = { jobject: JR.newJObject("ImmutableBasicArrayList"), f_arrayUtil: JR.nullOf(), f_objectArray: [> ], f_currentIndex: 0l, f_name: "", }
     this.jobject.toStringFunction = () => jm_toString(this)
     
         void
@@ -51,18 +51,19 @@ and jnew_2 = (name: String, size: Int32) => {
 }
     
 and jm_add = (this: ImmutableBasicArrayList, e: JObject) => {
-        ignore(ForcedLogUtil.jm_log(this.f_name, JR.cast(this)))
+        ignore(ForcedLogUtil.jm_log(JR.cast(this.f_name), JR.cast(this)))
         return true
 }
     
 and jm_addAt = (this: ImmutableBasicArrayList, index: Int32, element: JObject) => {
-        ignore(ForcedLogUtil.jm_log(this.f_name, JR.cast(this)))
+        ignore(ForcedLogUtil.jm_log(JR.cast(this.f_name), JR.cast(this)))
 }
     
 and jm_toString = (this: ImmutableBasicArrayList) => {
         return this.f_name
 }
 
+JR.registerSuper("ImmutableBasicArrayList", "BasicArrayListS")
 JR.registerLateBound("ImmutableBasicArrayList.jnew_2", jnew_2)
 JR.registerLateBound("ImmutableBasicArrayList.jm_add", jm_add)
 JR.registerLateBound("ImmutableBasicArrayList.jm_addAt", jm_addAt)

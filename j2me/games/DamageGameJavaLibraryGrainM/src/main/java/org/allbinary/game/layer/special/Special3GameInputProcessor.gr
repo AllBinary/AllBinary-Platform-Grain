@@ -43,15 +43,19 @@ provide record Special3GameInputProcessor {
 provide let rec jclassName = () => "Special3GameInputProcessor"
     
 and jnew_1 = (collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer) => {
-    let this = { jobject: JR.newJObject("Special3GameInputProcessor"), f_collidableDestroyableDamageableLayer: JR.jnull, }
+    let this = { jobject: JR.newJObject("Special3GameInputProcessor"), f_collidableDestroyableDamageableLayer: JR.nullOf(), }
         void
     this
 }
     
 and jm_processEvent = (this: Special3GameInputProcessor, allbinaryLayerManager: AllBinaryLayerManager, gameKeyEvent: GameKeyEvent) => {
-        ignore(CollidableDestroyableDamageableLayer.jm_special3(JR.cast(this.f_collidableDestroyableDamageableLayer), allbinaryLayerManager, gameKeyEvent))
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("CollidableDestroyableDamageableLayer.jm_special3"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_collidableDestroyableDamageableLayer)), JR.cast(allbinaryLayerManager), JR.cast(gameKeyEvent)))
+})
 }
 
+JR.registerSuper("Special3GameInputProcessor", "SpecialGameInputProcessor")
 JR.registerLateBound("Special3GameInputProcessor.jnew_1", jnew_1)
 JR.registerLateBound("Special3GameInputProcessor.jm_processEvent", jm_processEvent)
 

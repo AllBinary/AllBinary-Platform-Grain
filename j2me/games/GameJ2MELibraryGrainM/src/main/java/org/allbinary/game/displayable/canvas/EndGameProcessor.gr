@@ -47,7 +47,7 @@ provide record EndGameProcessor {
 provide let rec jclassName = () => "EndGameProcessor"
     
 and jnew_1 = (gameCanvas: JObject) => {
-    let this = { jobject: JR.newJObject("EndGameProcessor"), f_gameStateFactory: JR.nullOf(), f_gameCanvas: JR.jnull, f_WAIT: 0L, }
+    let this = { jobject: JR.newJObject("EndGameProcessor"), f_gameStateFactory: JR.nullOf(), f_gameCanvas: JR.nullOf(), f_WAIT: 0L, }
     this.f_gameStateFactory = JR.cast(GameStateFactory.jm_getInstance())
     
     this.f_WAIT = 5000L
@@ -75,9 +75,9 @@ JR.cast(jlate(JR.cast(this.f_gameCanvas)))
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AllBinaryGameCanvas.f_highScoresHelper"))
 JR.cast(jlate(JR.cast(this.f_gameCanvas)))
 })
-                    let mut highScores: JObject = JR.cast(HighScoresHelperBase.jm_getSelectedHighScores(highScoresBase))
+                    let mut highScores: JObject = JR.cast(HighScoresHelperBase.jm_getSelectedHighScores(JR.cast(highScoresBase)))
                     if ((!JR.isSame(highScores, NullHighScoresSingletonFactory.jm_getInstance()))) {
-                        ignore(HighScoresHelperBase.jm_selectHighScores(highScoresBase))
+                        ignore(HighScoresHelperBase.jm_selectHighScores(JR.cast(highScoresBase)))
                         ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("HighScoresPaintable.jm_setHighScores"))
 JR.cast(jlate(JR.cast({
@@ -114,6 +114,7 @@ JR.cast(jlate(JR.cast(this.f_gameCanvas), JR.cast(NullPaintable.jm_getInstance()
         }
 }
 
+JR.registerSuper("EndGameProcessor", "Processor")
 JR.registerLateBound("EndGameProcessor.jnew_1", jnew_1)
 JR.registerLateBound("EndGameProcessor.jm_process", jm_process)
 JR.registerLateBound("EndGameProcessor.f_gameStateFactory", (this: EndGameProcessor) => this.f_gameStateFactory)

@@ -52,7 +52,7 @@ provide let rec jclassName = () => "TouchScreenFactory"
 and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
   Some(value) => value,
   None => {
-    let value: TouchScreenFactory = jnew_0()
+    let value: TouchScreenFactory = JR.cast(jnew_0())
     jcell_SINGLETON = Some(value)
     value
   },
@@ -63,7 +63,7 @@ and jset_SINGLETON = (value: TouchScreenFactory) => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("TouchScreenFactory"), f_logUtil: JR.jnull, f_touch: false, f_multiTouch: false, f_multiTouchDistinct: false, f_touchScreenType: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("TouchScreenFactory"), f_logUtil: JR.nullOf(), f_touch: false, f_multiTouch: false, f_multiTouchDistinct: false, f_touchScreenType: JR.nullOf(), }
     this.jobject.toStringFunction = () => jm_toString(this)
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
@@ -72,7 +72,10 @@ JR.cast(jlate())
     
     
     
-    this.f_touchScreenType = JR.cast(TouchScreenTypesFactory.jm_getInstance().f_NOTOUCH)
+    this.f_touchScreenType = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("TouchScreenTypesFactory.f_NOTOUCH"))
+JR.cast(jlate(JR.cast(TouchScreenTypesFactory.jm_getInstance())))
+})
         {
             ignore(jm_setTouch(this, true))
             ignore(jm_setMultiTouch(this, false))
@@ -118,15 +121,15 @@ and jm_getTouchScreenType = (this: TouchScreenFactory) => {
     
 and jm_toString = (this: TouchScreenFactory) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, "TouchScreen: "))
-        ignore(StringMaker.jm_appendboolean(stringBuffer, jm_isTouch(this)))
-        ignore(StringMaker.jm_append(stringBuffer, " MultiTouch: "))
-        ignore(StringMaker.jm_appendboolean(stringBuffer, jm_isMultiTouch(this)))
-        ignore(StringMaker.jm_append(stringBuffer, " Distinct MultiTouch: "))
-        ignore(StringMaker.jm_appendboolean(stringBuffer, jm_isMultiTouchDistinct(this)))
-        ignore(StringMaker.jm_append(stringBuffer, " TouchScreenType: "))
-        ignore(StringMaker.jm_append(stringBuffer, StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(jm_getTouchScreenType(this)))))
-        return StringMaker.jm_toString(stringBuffer)
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("TouchScreen: ")))
+        ignore(StringMaker.jm_appendboolean(JR.cast(stringBuffer), jm_isTouch(this)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" MultiTouch: ")))
+        ignore(StringMaker.jm_appendboolean(JR.cast(stringBuffer), jm_isMultiTouch(this)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" Distinct MultiTouch: ")))
+        ignore(StringMaker.jm_appendboolean(JR.cast(stringBuffer), jm_isMultiTouchDistinct(this)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" TouchScreenType: ")))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(StringUtil.jm_toString(JR.cast(StringUtil.jm_getInstance()), JR.cast(jm_getTouchScreenType(this))))))
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
 JR.registerLateBound("TouchScreenFactory.jnew_0", jnew_0)

@@ -49,7 +49,7 @@ provide let rec jclassName = () => "RepaintBehavior"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: RepaintBehavior = jnew_0()
+    let value: RepaintBehavior = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -60,7 +60,7 @@ and jset_instance = (value: RepaintBehavior) => {
 }
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("RepaintBehavior"), f_logUtil: JR.jnull, f_NAME: "", }
+    let this = { jobject: JR.newJObject("RepaintBehavior"), f_logUtil: JR.nullOf(), f_NAME: "", }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -80,10 +80,10 @@ and jm_repaint = (this: RepaintBehavior, canvas: JObject) => {
 and jm_onChangeRepaint = (this: RepaintBehavior, canvas: JObject) => {
         let mut features: Features = JR.cast(Features.jm_getInstance())
         let mut openGLFeatureFactory: OpenGLFeatureFactory = JR.cast(OpenGLFeatureFactory.jm_getInstance())
-        if (Features.jm_isFeature(features, JR.cast(openGLFeatureFactory.f_OPENGL))) {
-            ignore(DisplayInfoSingleton.jm_process(DisplayInfoSingleton.jm_getInstance()))
+        if (Features.jm_isFeature(JR.cast(features), JR.cast(openGLFeatureFactory.f_OPENGL))) {
+            ignore(DisplayInfoSingleton.jm_process(JR.cast(DisplayInfoSingleton.jm_getInstance())))
         } else {
-            let mut thread: Thread = Thread.jnew_2(RepaintRunnable.jnew_1(canvas), this.f_NAME)
+            let mut thread: Thread = Thread.jnew_2(RepaintRunnable.jnew_1(JR.cast(canvas)), this.f_NAME)
             ignore(Thread.jm_start_0(thread))
         }
 }

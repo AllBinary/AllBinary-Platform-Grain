@@ -55,7 +55,7 @@ provide let rec jclassName = () => "Health"
 and jstatic_NULL_HEALTH = () => match (jcell_NULL_HEALTH) {
   Some(value) => value,
   None => {
-    let value: Health = jnew_1(0l)
+    let value: Health = JR.cast(jnew_1(0l))
     jcell_NULL_HEALTH = Some(value)
     value
   },
@@ -139,11 +139,11 @@ and jm_isDamaged = (this: Health) => {
 and jm_damage = (this: Health, ahealth: Int32) => {
         if (Int32.(<)(ahealth, 0l)) {
             let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-            ignore(StringMaker.jm_append(stringBuffer, "******* Trying to heal when damaging. Damage: "))
-            ignore(StringMaker.jm_appendint(stringBuffer, ahealth))
-            ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
-            ignore(StringMaker.jm_append(stringBuffer, jm_toString(this)))
-            ignore(ForcedLogUtil.jm_log(StringMaker.jm_toString(stringBuffer), JR.cast(this)))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("******* Trying to heal when damaging. Damage: ")))
+            ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), ahealth))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonSeps.jm_getInstance().f_SPACE)))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jm_toString(this))))
+            ignore(ForcedLogUtil.jm_log(JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(this)))
             return void
         }
         let mut health: Int32 = Int32.(-)(jm_getHealth(this), ahealth)
@@ -176,7 +176,10 @@ and jm_setHealth = (this: Health, health: Int32) => {
             this.f_health = health
         }
         if (!JR.isNull(this.f_healthListenerInterface)) {
-            ignore(HealthListenerInterface.jm_onHealthChange(this.f_healthListenerInterface))
+            ignore({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("HealthListenerInterface.jm_onHealthChange"))
+JR.cast(jlate(JR.cast(this.f_healthListenerInterface)))
+})
         }
 }
     
@@ -190,11 +193,11 @@ and jm_addListener = (this: Health, healthGraphic: HealthListenerInterface) => {
     
 and jm_toString = (this: Health) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, jstatic_HEALTH_LABEL()))
-        ignore(StringMaker.jm_appendint(stringBuffer, this.f_health))
-        ignore(StringMaker.jm_append(stringBuffer, jstatic_MAX_HEALTH_LABEL()))
-        ignore(StringMaker.jm_appendint(stringBuffer, this.f_maxHealth))
-        return StringMaker.jm_toString(stringBuffer)
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_HEALTH_LABEL())))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), this.f_health))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jstatic_MAX_HEALTH_LABEL())))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), this.f_maxHealth))
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
 JR.registerLateBound("Health.jnew_1", jnew_1)

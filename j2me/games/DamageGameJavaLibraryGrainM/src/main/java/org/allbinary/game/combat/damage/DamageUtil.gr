@@ -47,7 +47,7 @@ provide let rec jclassName = () => "DamageUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: DamageUtil = jnew_0()
+    let value: DamageUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -62,7 +62,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("DamageUtil"), f_logUtil: JR.jnull, f_COLLIDE: "", }
+    let this = { jobject: JR.newJObject("DamageUtil"), f_logUtil: JR.nullOf(), f_COLLIDE: "", }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -73,23 +73,29 @@ JR.cast(jlate())
 }
     
 and jm_process = (this: DamageUtil, damageableInterface: DamageableInterface, damageableInterface2: DamageableInterface) => {
-        ignore(DamageableInterface.jm_damage(damageableInterface, DamageableInterface.jm_getDamage(damageableInterface2, 0l), 0l))
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("DamageableInterface.jm_damage"))
+JR.cast(jlate(JR.cast(damageableInterface), JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("DamageableInterface.jm_getDamage"))
+JR.cast(jlate(JR.cast(damageableInterface2), JR.cast(0l)))
+}), JR.cast(0l)))
+})
 }
     
 and jm_debugDamage = (this: DamageUtil, collidableInterfaceCompositeInterface1: CollidableCompositeLayer, collidableInterfaceCompositeInterface: CollidableCompositeLayer) => {
         let mut collidableDestroyableDamageableLayer: CollidableDestroyableDamageableLayer = JR.cast(collidableInterfaceCompositeInterface)
-        let mut damage: Int32 = CollidableDestroyableDamageableLayer.jm_getDamage(collidableDestroyableDamageableLayer, 0l)
+        let mut damage: Int32 = CollidableDestroyableDamageableLayer.jm_getDamage(JR.cast(collidableDestroyableDamageableLayer), 0l)
         if (Int32.(>)(damage, 20000l)) {
             let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-            ignore(StringMaker.jm_append(stringBuffer, "Collision "))
-            ignore(StringMaker.jm_append(stringBuffer, CollidableCompositeLayer.jm_toString(collidableInterfaceCompositeInterface1)))
-            ignore(StringMaker.jm_append(stringBuffer, " with: "))
-            ignore(StringMaker.jm_append(stringBuffer, CollidableCompositeLayer.jm_toString(collidableInterfaceCompositeInterface)))
-            ignore(StringMaker.jm_append(stringBuffer, " damage: "))
-            ignore(StringMaker.jm_appendint(stringBuffer, damage))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Collision ")))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CollidableCompositeLayer.jm_toString(JR.cast(collidableInterfaceCompositeInterface1)))))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" with: ")))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CollidableCompositeLayer.jm_toString(JR.cast(collidableInterfaceCompositeInterface)))))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" damage: ")))
+            ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), damage))
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(stringBuffer)), JR.cast(collidableInterfaceCompositeInterface1), JR.cast(this.f_COLLIDE)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(stringBuffer))), JR.cast(collidableInterfaceCompositeInterface1), JR.cast(this.f_COLLIDE)))
 })
         }
 }

@@ -27,6 +27,14 @@ from "../../../../../allbinary_java.gr" include JR
 use JR.{ type JObject }
 from "../../../../../org/allbinary/graphics/color/BasicColor.gr" include BasicColor
 use BasicColor.{ type BasicColor }
+from "../../../../../java/lang/Integer.gr" include Integer
+from "../../../../../java/lang/Long.gr" include Long
+from "../../../../../java/lang/Short.gr" include Short
+from "../../../../../java/lang/Byte.gr" include Byte
+from "../../../../../java/lang/Character.gr" include Character
+from "../../../../../java/lang/Float.gr" include Float
+from "../../../../../java/lang/Double.gr" include Double
+from "../../../../../java/lang/Boolean.gr" include Boolean
 
 provide record SelectableTextItem {
   jobject: JObject,
@@ -38,7 +46,7 @@ provide record SelectableTextItem {
 provide let rec jclassName = () => "SelectableTextItem"
     
 and jnew_5 = (label: String, layout: Int32, altText: String, backgroundBasicColor: BasicColor, foregroundBasicColor: BasicColor) => {
-    let this = { jobject: JR.newJObject("SelectableTextItem"), f_updateMyFontProcessor: JR.jnull, f_myFontProcessor: JR.jnull, }
+    let this = { jobject: JR.newJObject("SelectableTextItem"), f_updateMyFontProcessor: JR.nullOf(), f_myFontProcessor: JR.nullOf(), }
         void
     this
 }
@@ -59,13 +67,10 @@ JR.cast(jlate(JR.cast(this)))
         if (!JR.isNull(stringComponent)) {
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_setColor"))
-JR.cast(jlate(JR.cast(graphics), JR.cast({
-let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicColor.jm_intValue"))
-JR.cast(jlate(JR.cast({
+JR.cast(jlate(JR.cast(graphics), JR.cast(BasicColor.jm_intValue(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABStringComponent.jm_getForegroundBasicColor"))
 JR.cast(jlate(JR.cast(stringComponent)))
-})))
-})))
+})))))
 })
         }
         ignore({
@@ -77,6 +82,7 @@ JR.cast(jlate(JR.cast(this)))
 })
 }
 
+JR.registerSuper("SelectableTextItem", "ABTextItem")
 JR.registerLateBound("SelectableTextItem.jnew_5", jnew_5)
 JR.registerLateBound("SelectableTextItem.jm_isFocusable", jm_isFocusable)
 JR.registerLateBound("SelectableTextItem.jm_paintXY", jm_paintXY)

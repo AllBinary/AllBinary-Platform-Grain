@@ -55,7 +55,7 @@ provide let rec jclassName = () => "BasicArrayListUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: BasicArrayListUtil = jnew_0()
+    let value: BasicArrayListUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -78,17 +78,26 @@ and jm_getInstance = () => {
 }
     
 and jm_getRandom = (this: BasicArrayListUtil, list: BasicArrayList) => {
-        let mut i_random: Int32 = jm_getRandomIndex(this, list)
-        return list.f_objectArray[Int32.toNumber(i_random)]
+        let mut i_random: Int32 = jm_getRandomIndex(this, JR.cast(list))
+        return {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.f_objectArray"))
+JR.cast(jlate(JR.cast(list)))
+}[Int32.toNumber(i_random)]
 }
     
 and jm_getRandomIndex = (this: BasicArrayListUtil, list: BasicArrayList) => {
-        return MyRandomFactory.jm_getAbsoluteNextInt(this.f_myRandomFactory, BasicArrayList.jm_size(list))
+        return MyRandomFactory.jm_getAbsoluteNextInt(JR.cast(this.f_myRandomFactory), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
+JR.cast(jlate(JR.cast(list)))
+})
 }
     
 and jm_reverse = (this: BasicArrayListUtil, list: BasicArrayList) => {
-        let mut lastMinusOneIndex: Int32 = Int32.(-)(BasicArrayList.jm_size(list), 2l)
-        let mut temp: JObject = JR.jnull
+        let mut lastMinusOneIndex: Int32 = Int32.(-)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
+JR.cast(jlate(JR.cast(list)))
+}, 2l)
+        let mut temp: JObject = JR.nullOf()
         let mut size: Int32 = Int32.(/)(lastMinusOneIndex, 2l)
         let mut secondSwapIndex: Int32 = 0l
         {
@@ -101,19 +110,34 @@ and jm_reverse = (this: BasicArrayListUtil, list: BasicArrayList) => {
                 jfirst = false
                 if (!(Int32.(<=)(index, size))) break
             secondSwapIndex = Int32.(-)(lastMinusOneIndex, index)
-            temp = JR.cast(BasicArrayList.jm_removeAt(list, index))
-            ignore(BasicArrayList.jm_addAt(list, index, JR.cast(BasicArrayList.jm_removeAt(list, secondSwapIndex))))
-            ignore(BasicArrayList.jm_addAt(list, Int32.(+)(secondSwapIndex, 1l), temp))
+            temp = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_removeAt"))
+JR.cast(jlate(JR.cast(list), JR.cast(index)))
+})
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_addAt"))
+JR.cast(jlate(JR.cast(list), JR.cast(index), JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_removeAt"))
+JR.cast(jlate(JR.cast(list), JR.cast(secondSwapIndex)))
+})))
+})
+            ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_addAt"))
+JR.cast(jlate(JR.cast(list), JR.cast(Int32.(+)(secondSwapIndex, 1l)), JR.cast(temp)))
+})
             }
         }
 }
     
 and jm_log = (this: BasicArrayListUtil, list: BasicArrayList) => {
         let mut l_S_LABEL: String = " s: "
-        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut size: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
+JR.cast(jlate(JR.cast(list)))
+}
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, CommonLabels.jm_getInstance().f_TOTAL_LABEL))
-        ignore(StringMaker.jm_appendint(stringBuffer, size))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonLabels.jm_getInstance().f_TOTAL_LABEL)))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), size))
         {
             let mut index: Int32 = Int32.(-)(size, 1l)
             let mut jfirst = true
@@ -123,12 +147,18 @@ and jm_log = (this: BasicArrayListUtil, list: BasicArrayList) => {
                 }
                 jfirst = false
                 if (!(Int32.(>=)(index, 0l))) break
-            let mut usedList: BasicArrayList = JR.cast(list.f_objectArray[Int32.toNumber(index)])
-            ignore(StringMaker.jm_append(stringBuffer, l_S_LABEL))
-            ignore(StringMaker.jm_appendint(stringBuffer, BasicArrayList.jm_size(usedList)))
+            let mut usedList: BasicArrayList = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.f_objectArray"))
+JR.cast(jlate(JR.cast(list)))
+}[Int32.toNumber(index)])
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(l_S_LABEL)))
+            ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
+JR.cast(jlate(JR.cast(usedList)))
+}))
             }
         }
-        return StringMaker.jm_toString(stringBuffer)
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
     
 and jm_getImmutableInstance = (this: BasicArrayListUtil) => {
@@ -138,17 +168,47 @@ and jm_getImmutableInstance = (this: BasicArrayListUtil) => {
 and jm_main = (args: Array<String>) => {
         let mut commonPhoneStrings: CommonPhoneStrings = JR.cast(CommonPhoneStrings.jm_getInstance())
         let mut list: BasicArrayList = JR.cast(BasicArrayListD.jnew_0())
-        ignore(BasicArrayList.jm_add(list, JR.cast(commonPhoneStrings.f_ONE)))
-        ignore(BasicArrayList.jm_add(list, JR.cast(commonPhoneStrings.f_TWO)))
-        ignore(BasicArrayList.jm_add(list, JR.cast(commonPhoneStrings.f_THREE)))
-        ignore(BasicArrayList.jm_add(list, JR.cast(commonPhoneStrings.f_FOUR)))
-        ignore(BasicArrayList.jm_add(list, JR.cast(commonPhoneStrings.f_FIVE)))
-        ignore(BasicArrayList.jm_add(list, JR.cast(commonPhoneStrings.f_SIX)))
-        ignore(BasicArrayList.jm_add(list, JR.cast(commonPhoneStrings.f_SEVEN)))
-        ignore(BasicArrayList.jm_add(list, JR.cast(commonPhoneStrings.f_EIGHT)))
-        ignore(BasicArrayList.jm_add(list, JR.cast(commonPhoneStrings.f_NINE)))
-        ignore(jm_reverse(jm_getInstance(), list))
-        ignore(print(BasicArrayList.jm_toString(list)))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_add"))
+JR.cast(jlate(JR.cast(list), JR.cast(commonPhoneStrings.f_ONE)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_add"))
+JR.cast(jlate(JR.cast(list), JR.cast(commonPhoneStrings.f_TWO)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_add"))
+JR.cast(jlate(JR.cast(list), JR.cast(commonPhoneStrings.f_THREE)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_add"))
+JR.cast(jlate(JR.cast(list), JR.cast(commonPhoneStrings.f_FOUR)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_add"))
+JR.cast(jlate(JR.cast(list), JR.cast(commonPhoneStrings.f_FIVE)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_add"))
+JR.cast(jlate(JR.cast(list), JR.cast(commonPhoneStrings.f_SIX)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_add"))
+JR.cast(jlate(JR.cast(list), JR.cast(commonPhoneStrings.f_SEVEN)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_add"))
+JR.cast(jlate(JR.cast(list), JR.cast(commonPhoneStrings.f_EIGHT)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_add"))
+JR.cast(jlate(JR.cast(list), JR.cast(commonPhoneStrings.f_NINE)))
+})
+        ignore(jm_reverse(jm_getInstance(), JR.cast(list)))
+        ignore(print({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_toString"))
+JR.cast(jlate(JR.cast(list)))
+}))
 }
 
 JR.registerLateBound("BasicArrayListUtil.jnew_0", jnew_0)

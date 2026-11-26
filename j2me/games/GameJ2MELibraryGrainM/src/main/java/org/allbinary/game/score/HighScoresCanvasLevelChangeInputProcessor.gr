@@ -67,7 +67,7 @@ provide record HighScoresCanvasLevelChangeInputProcessor {
 provide let rec jclassName = () => "HighScoresCanvasLevelChangeInputProcessor"
     
 and jnew_1 = (highScoresCanvas: HighScoresCanvas) => {
-    let this = { jobject: JR.newJObject("HighScoresCanvasLevelChangeInputProcessor"), f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_gameKeyEventList: JR.jnull, f_removalGameKeyEventList: JR.jnull, f_isRemoveDuplicateKeyPresses: false, f_gameInputStrings: JR.jnull, f_playerInputId: 0l, f_highScoresCanvas: JR.jnull, f_displayInfoSingleton: JR.nullOf(), f_INSTRUCTIONS: "", f_myFontProcessor: JR.nullOf(), f_anchor: 0l, f_fontHeight: 0l, }
+    let this = { jobject: JR.newJObject("HighScoresCanvasLevelChangeInputProcessor"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_gameKeyEventList: JR.nullOf(), f_removalGameKeyEventList: JR.nullOf(), f_isRemoveDuplicateKeyPresses: false, f_gameInputStrings: JR.nullOf(), f_playerInputId: 0l, f_highScoresCanvas: JR.nullOf(), f_displayInfoSingleton: JR.nullOf(), f_INSTRUCTIONS: "", f_myFontProcessor: JR.nullOf(), f_anchor: 0l, f_fontHeight: 0l, }
     this.f_displayInfoSingleton = JR.cast(DisplayInfoSingleton.jm_getInstance())
     this.f_INSTRUCTIONS = "(Right = Next Track, Left = Previous Track)"
     this.f_myFontProcessor = JR.cast(UpdateMyFontProcessor.jnew_1(JR.cast(this)))
@@ -90,11 +90,11 @@ JR.cast(jlate(JR.cast(font)))
 }
     
 and jm_open = (this: HighScoresCanvasLevelChangeInputProcessor) => {
-        ignore(GameKeyEventHandler.jm_addListener(GameKeyEventHandler.jm_getInstance(), JR.cast(this)))
+        ignore(GameKeyEventHandler.jm_addListener(JR.cast(GameKeyEventHandler.jm_getInstance()), JR.cast(this)))
 }
     
 and jm_close = (this: HighScoresCanvasLevelChangeInputProcessor) => {
-        ignore(GameKeyEventHandler.jm_removeListener(GameKeyEventHandler.jm_getInstance(), JR.cast(this)))
+        ignore(GameKeyEventHandler.jm_removeListener(JR.cast(GameKeyEventHandler.jm_getInstance()), JR.cast(this)))
 }
     
 and jm_update = (this: HighScoresCanvasLevelChangeInputProcessor) => {
@@ -102,7 +102,7 @@ and jm_update = (this: HighScoresCanvasLevelChangeInputProcessor) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInput.jm_getGameKeyEventList"))
 JR.cast(jlate(JR.cast(this)))
 })
-        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -113,7 +113,7 @@ JR.cast(jlate(JR.cast(this)))
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             let mut anyType: JObject = JR.cast(list.f_objectArray[Int32.toNumber(index)])
-            let mut key: Int32 = GameKeyEventUtil.jm_getKey(anyType)
+            let mut key: Int32 = GameKeyEventUtil.jm_getKey(JR.cast(anyType))
             if ((key == {
 let jlate: () => JObject = JR.cast(JR.lateBound("Canvas.jstatic_RIGHT"))
 JR.cast(jlate())
@@ -152,22 +152,26 @@ JR.cast(jlate(JR.cast(this)))
 })
             }
         }
-        ignore(BasicArrayList.jm_clear(list))
+        ignore(BasicArrayList.jm_clear(JR.cast(list)))
 }
     
 and jm_paint = (this: HighScoresCanvasLevelChangeInputProcessor, graphics: JObject) => {
-        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
-        let mut width: Int32 = DisplayInfoSingleton.jm_getLastWidth(this.f_displayInfoSingleton)
-        let mut topScoresWidth: Int32 = (Int32.(>>)(JR.className(JR.cast({
+        ignore(MyFontProcessor.jm_process(JR.cast(this.f_myFontProcessor), JR.cast(graphics)))
+        let mut width: Int32 = DisplayInfoSingleton.jm_getLastWidth(JR.cast(this.f_displayInfoSingleton))
+        let mut topScoresWidth: Int32 = (Int32.(>>)({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Font.jm_stringWidth"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_getFont"))
 JR.cast(jlate(JR.cast(graphics)))
-})), 1l))
+}), JR.cast(this.f_INSTRUCTIONS)))
+}, 1l))
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
 JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_INSTRUCTIONS), JR.cast(Int32.(-)((Int32.(>>)(width, 1l)), topScoresWidth)), JR.cast(Int32.(*)(this.f_fontHeight, 2l)), JR.cast(this.f_anchor)))
 })
 }
 
+JR.registerSuper("HighScoresCanvasLevelChangeInputProcessor", "HighScoresCanvasInputProcessor")
 JR.registerLateBound("HighScoresCanvasLevelChangeInputProcessor.jnew_1", jnew_1)
 JR.registerLateBound("HighScoresCanvasLevelChangeInputProcessor.jm_updateMeasurement", jm_updateMeasurement)
 JR.registerLateBound("HighScoresCanvasLevelChangeInputProcessor.jm_open", jm_open)

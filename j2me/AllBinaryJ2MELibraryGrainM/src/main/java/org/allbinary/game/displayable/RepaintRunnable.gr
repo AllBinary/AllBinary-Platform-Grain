@@ -41,7 +41,7 @@ provide record RepaintRunnable {
 provide let rec jclassName = () => "RepaintRunnable"
     
 and jnew_1 = (canvas: JObject) => {
-    let this = { jobject: JR.newJObject("RepaintRunnable"), f_canvas: JR.jnull, }
+    let this = { jobject: JR.newJObject("RepaintRunnable"), f_canvas: JR.nullOf(), }
     
         this.f_canvas = JR.cast(canvas)
     this
@@ -53,10 +53,11 @@ and jm_run = (this: RepaintRunnable) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Canvas.jm_repaint"))
 JR.cast(jlate(JR.cast(this.f_canvas)))
 })
-            ignore(DisplayInfoSingleton.jm_process(DisplayInfoSingleton.jm_getInstance()))
+            ignore(DisplayInfoSingleton.jm_process(JR.cast(DisplayInfoSingleton.jm_getInstance())))
         }
 }
 
+JR.registerSuper("RepaintRunnable", "ARunnable")
 JR.registerLateBound("RepaintRunnable.jnew_1", jnew_1)
 JR.registerLateBound("RepaintRunnable.jm_run", jm_run)
 JR.registerLateBound("RepaintRunnable.f_canvas", (this: RepaintRunnable) => this.f_canvas)

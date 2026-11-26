@@ -58,14 +58,14 @@ provide record BaseImageAnimationFactory {
 provide let rec jclassName = () => "BaseImageAnimationFactory"
     
 and jm_createFactoryBase = (image: JObject, sequenceArray: Array<Int32>, width: Int32, height: Int32, animationBehaviorFactory: AnimationBehaviorFactory) => {
-        return jnew_7(image, sequenceArray, width, height, 0l, 0l, animationBehaviorFactory)
+        return jnew_7(JR.cast(image), sequenceArray, width, height, 0l, 0l, JR.cast(animationBehaviorFactory))
 }
     
 and jnew_7 = (image: JObject, sequenceArray: Array<Int32>, width: Int32, height: Int32, dx: Int32, dy: Int32, animationBehaviorFactory: AnimationBehaviorFactory) => {
-    let this = { jobject: JR.newJObject("BaseImageAnimationFactory"), f_animationFactoryImageScaleUtil: JR.jnull, f_image: JR.jnull, f_animationBehaviorFactory: JR.nullOf(), f_sequenceArray: [> ], f_animationFactoryInitializationVisitor: JR.nullOf(), f_scaleProperties: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("BaseImageAnimationFactory"), f_animationFactoryImageScaleUtil: JR.nullOf(), f_image: JR.nullOf(), f_animationBehaviorFactory: JR.nullOf(), f_sequenceArray: [> ], f_animationFactoryInitializationVisitor: JR.nullOf(), f_scaleProperties: JR.nullOf(), }
     this.jobject.toStringFunction = () => jm_toString(this)
     this.f_animationFactoryImageScaleUtil = JR.cast({
-let jlate: () => JObject = JR.cast(JR.lateBound("AnimationFactoryImageScaleUtil.jm_getInstance"))
+let jlate: () => JObject = JR.cast(JR.lateBound("AnimationFactoryImageScaleUtil.jm_getInstance_0"))
 JR.cast(jlate())
 })
     
@@ -75,20 +75,29 @@ JR.cast(jlate())
     this.f_scaleProperties = JR.cast(ScaleProperties.jstatic_instance())
         this.f_animationFactoryInitializationVisitor = JR.cast(AnimationFactoryInitializationVisitor.jnew_0())
         this.f_image = JR.cast(image)
-        this.f_animationFactoryInitializationVisitor.f_width = width
-        this.f_animationFactoryInitializationVisitor.f_height = height
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.set_f_width"))
+JR.cast(jlate(JR.cast(this.f_animationFactoryInitializationVisitor), JR.cast(width)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.set_f_height"))
+JR.cast(jlate(JR.cast(this.f_animationFactoryInitializationVisitor), JR.cast(height)))
+})
         this.f_animationBehaviorFactory = JR.cast(animationBehaviorFactory)
         this.f_sequenceArray = sequenceArray
-        this.f_animationFactoryInitializationVisitor.f_dx = dx
-        this.f_animationFactoryInitializationVisitor.f_dy = dy
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.set_f_dx"))
+JR.cast(jlate(JR.cast(this.f_animationFactoryInitializationVisitor), JR.cast(dx)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.set_f_dy"))
+JR.cast(jlate(JR.cast(this.f_animationFactoryInitializationVisitor), JR.cast(dy)))
+})
     this
 }
     
 and jm_getInstance = (this: BaseImageAnimationFactory, instanceId: Int32) => {
-        return {
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("NullAnimationFactory.jm_getInstance"))
-JR.cast(jlate(JR.cast(NullAnimationFactory.jm_getFactoryInstance()), JR.cast(instanceId)))
-}
+        return NullAnimationFactory.jm_getInstance(JR.cast(NullAnimationFactory.jm_getFactoryInstance()), instanceId)
 }
     
 and jm_getImage = (this: BaseImageAnimationFactory) => {
@@ -102,8 +111,14 @@ and jm_getSequenceArray = (this: BaseImageAnimationFactory) => {
 and jm_setInitialScale = (this: BaseImageAnimationFactory, scaleProperties: ScaleProperties) => {
         this.f_scaleProperties = JR.cast(scaleProperties)
         if (this.f_scaleProperties.f_shouldScale) {
-            this.f_scaleProperties.f_scaleWidth = JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(this.f_animationFactoryInitializationVisitor.f_width)), this.f_scaleProperties.f_scaleX))))
-            this.f_scaleProperties.f_scaleHeight = JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber(this.f_animationFactoryInitializationVisitor.f_height)), this.f_scaleProperties.f_scaleY))))
+            this.f_scaleProperties.f_scaleWidth = JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_width"))
+JR.cast(jlate(JR.cast(this.f_animationFactoryInitializationVisitor)))
+})), this.f_scaleProperties.f_scaleX))))
+            this.f_scaleProperties.f_scaleHeight = JR.d2i(Float32.toNumber((Float32.(*)(Float32.fromNumber(Int32.toNumber({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.f_height"))
+JR.cast(jlate(JR.cast(this.f_animationFactoryInitializationVisitor)))
+})), this.f_scaleProperties.f_scaleY))))
         } else {
             void
         }
@@ -121,15 +136,18 @@ and jm_toString = (this: BaseImageAnimationFactory) => {
         let mut commonSeps: CommonSeps = JR.cast(CommonSeps.jm_getInstance())
         let mut commonLabels: CommonLabels = JR.cast(CommonLabels.jm_getInstance())
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, jm_toString(this)))
-        ignore(StringMaker.jm_append(stringBuffer, commonLabels.f_HEIGHT_LABEL))
-        ignore(StringMaker.jm_appendint(stringBuffer, {
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(jm_toString(this))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(commonLabels.f_HEIGHT_LABEL)))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getHeight"))
 JR.cast(jlate(JR.cast(this.f_image)))
 }))
-        ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_SPACE))
-        ignore(StringMaker.jm_append(stringBuffer, AnimationFactoryInitializationVisitor.jm_toString(this.f_animationFactoryInitializationVisitor)))
-        return StringMaker.jm_toString(stringBuffer)
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(commonSeps.f_SPACE)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AnimationFactoryInitializationVisitor.jm_toString"))
+JR.cast(jlate(JR.cast(this.f_animationFactoryInitializationVisitor)))
+})))
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
 JR.registerLateBound("BaseImageAnimationFactory.jnew_7", jnew_7)

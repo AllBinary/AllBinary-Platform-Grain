@@ -50,7 +50,7 @@ provide let rec jclassName = () => "LayerCollisionUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: LayerCollisionUtil = jnew_0()
+    let value: LayerCollisionUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -75,7 +75,7 @@ JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("OpenGLFeatureUtil.jm_getInstance"))
 JR.cast(jlate())
 })))
-} && !Features.jm_isFeature(features, JR.cast(gameFeatureFactory.f_COLLISIONS_FORCED_TWO_DIMENSIONAL)))) {
+} && !Features.jm_isFeature(JR.cast(features), JR.cast(gameFeatureFactory.f_COLLISIONS_FORCED_TWO_DIMENSIONAL)))) {
             this.f_collisionProcessor = JR.cast(JR.cast(CollisionThreedProcessor.jnew_0()))
         } else {
             this.f_collisionProcessor = JR.cast(JR.cast(Collision2DProcessor.jnew_0()))
@@ -84,7 +84,10 @@ JR.cast(jlate())
 }
     
 and jm_isCollision = (this: LayerCollisionUtil, myLayer: AllBinaryLayer, myLayer2: AllBinaryLayer) => {
-        return CollisionProcessor.jm_isCollision(this.f_collisionProcessor, myLayer, myLayer2)
+        return {
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("CollisionProcessor.jm_isCollision"))
+JR.cast(jlate(JR.cast(this.f_collisionProcessor), JR.cast(myLayer), JR.cast(myLayer2)))
+}
 }
 
 JR.registerLateBound("LayerCollisionUtil.jnew_0", jnew_0)

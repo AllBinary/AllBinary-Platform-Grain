@@ -43,6 +43,10 @@ from "../../../../org/allbinary/logic/system/security/crypt/WeakCrypt.gr" includ
 use WeakCrypt.{ type WeakCrypt }
 from "../../../../org/allbinary/string/CommonLabels.gr" include CommonLabels
 use CommonLabels.{ type CommonLabels }
+from "../../../../java/io/DataOutputStream.gr" include DataOutputStream
+use DataOutputStream.{ type DataOutputStream }
+from "../../../../java/io/DataInputStream.gr" include DataInputStream
+use DataInputStream.{ type DataInputStream }
 
 provide record LicenseInitInfoUtil {
   jobject: JObject,
@@ -61,7 +65,7 @@ provide let rec jclassName = () => "LicenseInitInfoUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: LicenseInitInfoUtil = jnew_0()
+    let value: LicenseInitInfoUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -72,7 +76,7 @@ and jset_instance = (value: LicenseInitInfoUtil) => {
 }
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("LicenseInitInfoUtil"), f_logUtil: JR.jnull, f_stringUtil: JR.nullOf(), f_INITFILENAME: "", f_ABOUT: "", f_PRIVACY_POLICY: "", f_filePath: "", }
+    let this = { jobject: JR.newJObject("LicenseInitInfoUtil"), f_logUtil: JR.nullOf(), f_stringUtil: JR.nullOf(), f_INITFILENAME: "", f_ABOUT: "", f_PRIVACY_POLICY: "", f_filePath: "", }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -111,17 +115,17 @@ JR.cast(jlate())
 })
             let mut licenseIdCrypted: Array<Int32> = {
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_getByteArray"))
-JR.cast(jlate(JR.cast(tsUtil), JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(1l), {
+JR.cast(jlate(JR.cast(tsUtil), JR.cast(WeakCrypt.jm_encrypt(JR.cast(WeakCrypt.jnew_1(1l)), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LicenseInitInfo.jm_getLicenseId"))
 JR.cast(jlate(JR.cast(initData)))
-}))))
+})))))
 }
-            ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(licenseIdCrypted)))
+            ignore(DataOutputStream.jm_writeUTF_1(JR.cast(dataOutputStream), DatabaseEncoder.jm_encode(licenseIdCrypted)))
             let mut numberOfLicenseServers: Int32 = {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("LicenseInitInfo.jm_getNumberOfServers"))
 JR.cast(jlate(JR.cast(initData)))
 }
-            ignore(AbDataOutputStream.jm_writeInt(dataOutputStream, numberOfLicenseServers))
+            ignore(DataOutputStream.jm_writeInt_1(JR.cast(dataOutputStream), numberOfLicenseServers))
             let mut licenseServerCrypted: Array<Int32> = [> ]
             {
                 let mut index: Int32 = 0l
@@ -134,12 +138,12 @@ JR.cast(jlate(JR.cast(initData)))
                     if (!(Int32.(<)(index, numberOfLicenseServers))) break
                 licenseServerCrypted = {
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_getByteArray"))
-JR.cast(jlate(JR.cast(tsUtil), JR.cast(WeakCrypt.jm_encrypt(WeakCrypt.jnew_1(3l), {
+JR.cast(jlate(JR.cast(tsUtil), JR.cast(WeakCrypt.jm_encrypt(JR.cast(WeakCrypt.jnew_1(3l)), JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("LicenseInitInfo.jm_getServer"))
 JR.cast(jlate(JR.cast(initData), JR.cast(index)))
-}))))
+})))))
 }
-                ignore(AbDataOutputStream.jm_writeUTF(dataOutputStream, DatabaseEncoder.jm_encode(licenseServerCrypted)))
+                ignore(DataOutputStream.jm_writeUTF_1(JR.cast(dataOutputStream), DatabaseEncoder.jm_encode(licenseServerCrypted)))
                 }
             }
         }
@@ -168,19 +172,19 @@ let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("FileSt
 JR.cast(jlate(JR.cast(fileStreamFactory), JR.cast(this.f_filePath), JR.cast(this.f_INITFILENAME)))
 })
             if (!JR.isNull(iFile)) {
-                let mut iData: AbDataInputStream = AbDataInputStream.jnew_1(iFile)
+                let mut iData: AbDataInputStream = AbDataInputStream.jnew_1(JR.cast(iFile))
                 let mut initInfo: JObject = {
 let jlate: () => JObject = JR.cast(JR.lateBound("LicenseInitInfo.jnew_0"))
 JR.cast(jlate())
 }
-                let mut decodedByteArray: Array<Int32> = DatabaseEncoder.jm_decode(JR.cast(AbDataInputStream.jm_readUTF(iData)))
+                let mut decodedByteArray: Array<Int32> = DatabaseEncoder.jm_decode(JR.cast(DataInputStream.jm_readUTF_0(JR.cast(iData))))
                 let mut licenseIdDecoded: String = JR.fromBytes(decodedByteArray)
                 ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("LicenseInitInfo.jm_setLicenseId"))
-JR.cast(jlate(JR.cast(initInfo), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(1l), licenseIdDecoded))))
+JR.cast(jlate(JR.cast(initInfo), JR.cast(WeakCrypt.jm_decrypt(JR.cast(WeakCrypt.jnew_1(1l)), JR.cast(licenseIdDecoded)))))
 })
-                let mut numberOfLicenseServers: Int32 = AbDataInputStream.jm_readInt(iData)
-                let mut l_NEXT_FILE: String = StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), CommonLabels.jm_getInstance().f_NEXT), " License Server From File: "))
+                let mut numberOfLicenseServers: Int32 = DataInputStream.jm_readInt_0(JR.cast(iData))
+                let mut l_NEXT_FILE: String = StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(CommonLabels.jm_getInstance().f_NEXT))), JR.cast(" License Server From File: "))))
                 let mut licenseServerDecoded: String = ""
                 {
                     let mut index: Int32 = 0l
@@ -191,11 +195,11 @@ JR.cast(jlate(JR.cast(initInfo), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(1
                         }
                         jfirst = false
                         if (!(Int32.(<)(index, numberOfLicenseServers))) break
-                    decodedByteArray = DatabaseEncoder.jm_decode(JR.cast(AbDataInputStream.jm_readUTF(iData)))
+                    decodedByteArray = DatabaseEncoder.jm_decode(JR.cast(DataInputStream.jm_readUTF_0(JR.cast(iData))))
                     licenseServerDecoded = JR.fromBytes(decodedByteArray)
                     ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LicenseInitInfo.jm_setServer"))
-JR.cast(jlate(JR.cast(initInfo), JR.cast(WeakCrypt.jm_decrypt(WeakCrypt.jnew_1(3l), licenseServerDecoded)), JR.cast(index)))
+JR.cast(jlate(JR.cast(initInfo), JR.cast(WeakCrypt.jm_decrypt(JR.cast(WeakCrypt.jnew_1(3l)), JR.cast(licenseServerDecoded))), JR.cast(index)))
 })
                     ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
@@ -211,7 +215,7 @@ JR.cast(jlate(JR.cast(initInfo), JR.cast(index)))
                 fail JR.toStringOf(JR.newJObject("Exception"))
             }
         }
-    return JR.jnull
+    return JR.nullOf()
 }
     
 and jm_getFilePath = (this: LicenseInitInfoUtil) => {

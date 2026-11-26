@@ -39,16 +39,17 @@ provide record ScreenRepaintProcessor {
 provide let rec jclassName = () => "ScreenRepaintProcessor"
     
 and jnew_1 = (displayable: JObject) => {
-    let this = { jobject: JR.newJObject("ScreenRepaintProcessor"), f_displayable: JR.jnull, }
+    let this = { jobject: JR.newJObject("ScreenRepaintProcessor"), f_displayable: JR.nullOf(), }
     
         this.f_displayable = JR.cast(displayable)
     this
 }
     
 and jm_process = (this: ScreenRepaintProcessor) => {
-        ignore(ScreenRepaintUtil.jm_repaint(this.f_displayable))
+        ignore(ScreenRepaintUtil.jm_repaint(JR.cast(this.f_displayable)))
 }
 
+JR.registerSuper("ScreenRepaintProcessor", "Processor")
 JR.registerLateBound("ScreenRepaintProcessor.jnew_1", jnew_1)
 JR.registerLateBound("ScreenRepaintProcessor.jm_process", jm_process)
 JR.registerLateBound("ScreenRepaintProcessor.f_displayable", (this: ScreenRepaintProcessor) => this.f_displayable)

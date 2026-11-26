@@ -57,7 +57,7 @@ provide let rec jclassName = () => "NoDecimalTrigTable"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: NoDecimalTrigTable = jnew_0()
+    let value: NoDecimalTrigTable = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -78,7 +78,10 @@ and jnew_0 = () => {
     
     
     this.f_SCALE = 10000l
-        let mut l_TOTAL_ANGLE: Int32 = AngleFactory.jm_getInstance().f_TOTAL_ANGLE
+        let mut l_TOTAL_ANGLE: Int32 = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("AngleFactory.f_TOTAL_ANGLE"))
+JR.cast(jlate(JR.cast(AngleFactory.jm_getInstance())))
+}
         let mut l_MAX_VALUE: Int64 = (Int64.fromNumber(Int32.toNumber(Integer.jstatic_MAX_VALUE())))
         ignore((() => {
         this.f_noDecimalSin = Array.make(Int32.toNumber(l_TOTAL_ANGLE), 0L)
@@ -1209,7 +1212,7 @@ and jm_antiTan = (this: NoDecimalTrigTable, dx: Int32, dy: Int32) => {
             let mut dxl: Int64 = (Int64.fromNumber(Int32.toNumber(dx)))
             ratio = Int64.(/)(Int64.(*)(Int64.fromNumber(Int32.toNumber(this.f_SCALE)), dxl), Int64.fromNumber(Int32.toNumber(dy)))
             if ((Int32.(<=)(dx, 0l) && Int32.(<)(dy, 0l))) {
-                ratio = MathUtil.jm_abslong(this.f_mathUtil, ratio)
+                ratio = MathUtil.jm_abslong(JR.cast(this.f_mathUtil), ratio)
             }
         }
         if (((Int32.(>=)(dx, 0l) && Int32.(<)(dy, 0l)))) {
@@ -1282,14 +1285,20 @@ and jm_antiTan = (this: NoDecimalTrigTable, dx: Int32, dy: Int32) => {
             }
         }
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, "Invalid Ratio: "))
-        ignore(StringMaker.jm_appendlong(stringBuffer, ratio))
-        ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
-        ignore(StringMaker.jm_append(stringBuffer, PositionStrings.jm_getInstance().f_DX_LABEL))
-        ignore(StringMaker.jm_appendint(stringBuffer, dx))
-        ignore(StringMaker.jm_append(stringBuffer, CommonSeps.jm_getInstance().f_SPACE))
-        ignore(StringMaker.jm_append(stringBuffer, PositionStrings.jm_getInstance().f_DX_LABEL))
-        ignore(StringMaker.jm_appendint(stringBuffer, dy))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Invalid Ratio: ")))
+        ignore(StringMaker.jm_appendlong(JR.cast(stringBuffer), ratio))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonSeps.jm_getInstance().f_SPACE)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PositionStrings.f_DX_LABEL"))
+JR.cast(jlate(JR.cast(PositionStrings.jm_getInstance())))
+})))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), dx))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(CommonSeps.jm_getInstance().f_SPACE)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PositionStrings.f_DX_LABEL"))
+JR.cast(jlate(JR.cast(PositionStrings.jm_getInstance())))
+})))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), dy))
         fail JR.toStringOf(JR.newJObject("Exception"))
     return 0l
 }
@@ -1300,7 +1309,7 @@ and jm_antiTanDebug = (this: NoDecimalTrigTable, screenX: Int32, screenY: Int32,
         let mut stringMaker: StringMaker = StringMaker.jnew_0()
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_appendint(StringMaker.jm_append(stringMaker, "screenX: "), screenX), " screenY: "), screenY), " targetX: "), targetX), " targetY: "), targetY))), JR.cast(this), JR.cast(l_METHOD_NAME)))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast("screenX: "))), screenX)), JR.cast(" screenY: "))), screenY)), JR.cast(" targetX: "))), targetX)), JR.cast(" targetY: "))), targetY)))), JR.cast(this), JR.cast(l_METHOD_NAME)))
 })
         let mut targetX2: Int32 = Int32.(-)(1l, Int32.(+)(targetX, 1l))
         let mut targetY2: Int32 = Int32.(-)(1l, Int32.(+)(targetY, 1l))
@@ -1338,11 +1347,23 @@ JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMak
                     jfirst = false
                     if (!(Int32.(<)(index2, Int32.fromNumber(Array.length(dy))))) break
                 angleOfTarget = jm_antiTan(this, dx[Int32.toNumber(index)], dy[Int32.toNumber(index2)])
-                angle = JR.cast(AngleFactory.jm_getAt(angleFactory, angleOfTarget))
-                ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
+                angle = JR.cast({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("AngleFactory.jm_getAt"))
+JR.cast(jlate(JR.cast(angleFactory), JR.cast(angleOfTarget)))
+})
+                ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
                 ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(StringMaker.jm_toString(StringMaker.jm_appendshort(StringMaker.jm_append(StringMaker.jm_appendshort(StringMaker.jm_append(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_appendint(StringMaker.jm_append(stringMaker, CommonLabels.jm_getInstance().f_INDEX_LABEL), index), " index2: "), index2), PositionStrings.jm_getInstance().f_DX_LABEL), dx[Int32.toNumber(index)]), PositionStrings.jm_getInstance().f_DY_LABEL), dy[Int32.toNumber(index2)]), l_TARGET_ANGLE), angleOfTarget), CommonSeps.jm_getInstance().f_EQUALS), Angle.jm_getValue(angle)))), JR.cast(this), JR.cast(l_METHOD_NAME)))
+JR.cast(jlate(JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendshort(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_appendshort(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast(CommonLabels.jm_getInstance().f_INDEX_LABEL))), index)), JR.cast(" index2: "))), index2)), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PositionStrings.f_DX_LABEL"))
+JR.cast(jlate(JR.cast(PositionStrings.jm_getInstance())))
+}))), dx[Int32.toNumber(index)])), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PositionStrings.f_DY_LABEL"))
+JR.cast(jlate(JR.cast(PositionStrings.jm_getInstance())))
+}))), dy[Int32.toNumber(index2)])), JR.cast(l_TARGET_ANGLE))), angleOfTarget)), JR.cast(CommonSeps.jm_getInstance().f_EQUALS))), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Angle.jm_getValue"))
+JR.cast(jlate(JR.cast(angle)))
+})))), JR.cast(this), JR.cast(l_METHOD_NAME)))
 })
                 }
             }

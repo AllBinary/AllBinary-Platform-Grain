@@ -37,7 +37,7 @@ provide let rec jclassName = () => "ImageJ2MEScaleUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: ImageJ2MEScaleUtil = jnew_0()
+    let value: ImageJ2MEScaleUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -58,14 +58,14 @@ and jnew_0 = () => {
 }
     
 and jm_scaleArray = (this: ImageJ2MEScaleUtil, images: Array<JObject>, width: Int32, height: Int32) => {
-        let mut scaledImages: Array<JObject> = Array.make(Int32.toNumber(Int32.fromNumber(Array.length(images))), JR.jnull)
+        let mut scaledImages: Array<JObject> = Array.make(Int32.toNumber(Int32.fromNumber(Array.length(images))), JR.nullOf())
         {
             let mut index: Int32 = Int32.fromNumber(Array.length(images))
             let mut jfirst = true
             while (true) {
                 jfirst = false
                 if (!(Int32.(>=)({ index = Int32.(-)(index, 1l); index }, 0l))) break
-            scaledImages[Int32.toNumber(index)] = JR.cast(jm_scale(this, images[Int32.toNumber(index)], width, height))
+            scaledImages[Int32.toNumber(index)] = JR.cast(jm_scale(this, JR.cast(images[Int32.toNumber(index)]), width, height))
             }
         }
         return scaledImages

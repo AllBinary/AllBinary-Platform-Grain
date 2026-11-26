@@ -45,7 +45,7 @@ provide let rec jclassName = () => "CustomGPoint"
 and jstatic_NULL_CUSTOM_POINT = () => match (jcell_NULL_CUSTOM_POINT) {
   Some(value) => value,
   None => {
-    let value: CustomGPoint = jnew_3(0l, 0l, 0l)
+    let value: CustomGPoint = JR.cast(jnew_3(0l, 0l, 0l))
     jcell_NULL_CUSTOM_POINT = Some(value)
     value
   },
@@ -56,7 +56,16 @@ and jset_NULL_CUSTOM_POINT = (value: CustomGPoint) => {
 }
     
 and jm_getInstance = (point: GPoint) => {
-        return jnew_3(GPoint.jm_getX(point), GPoint.jm_getY(point), GPoint.jm_getZ(point))
+        return jnew_3({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getX"))
+JR.cast(jlate(JR.cast(point)))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getY"))
+JR.cast(jlate(JR.cast(point)))
+}, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GPoint.jm_getZ"))
+JR.cast(jlate(JR.cast(point)))
+})
 }
     
 and jm_getInstance3 = (x: Int32, y: Int32) => {
@@ -96,6 +105,7 @@ and jm_getZ = (this: CustomGPoint) => {
         return this.f_cz
 }
 
+JR.registerSuper("CustomGPoint", "GPoint")
 JR.registerLateBound("CustomGPoint.jnew_3", jnew_3)
 JR.registerLateBound("CustomGPoint.jm_getInstance", jm_getInstance)
 JR.registerLateBound("CustomGPoint.jm_getInstance3", jm_getInstance3)

@@ -34,6 +34,8 @@ use CommonSeps.{ type CommonSeps }
 from "../../../org/allbinary/string/CommonLabels.gr" include CommonLabels
 use CommonLabels.{ type CommonLabels }
 from "../../../java/lang/Integer.gr" include Integer
+from "../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 from "./GameTypeFactory.gr" include GameTypeFactory
 use GameTypeFactory.{ type GameTypeFactory }
 from "./GameMode.gr" include GameMode
@@ -69,7 +71,13 @@ provide let rec jclassName = () => "GameInfo"
 and jstatic_NONE = () => match (jcell_NONE) {
   Some(value) => value,
   None => {
-    let value: GameInfo = jnew_5(JR.cast(GameTypeFactory.jm_getInstance().f_NONE), JR.cast(GameMode.jstatic_NONE()), JR.cast(PlayerTypesFactory.jm_getInstance().f_PLAYER_TYPE_ONE), Int32.(-)(1l, Int32.(+)(1l, 1l)), Int32.(-)(1l, Int32.(+)(1l, 1l)))
+    let value: GameInfo = JR.cast(jnew_5(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameTypeFactory.f_NONE"))
+JR.cast(jlate(JR.cast(GameTypeFactory.jm_getInstance())))
+}), JR.cast(GameMode.jstatic_NONE()), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PlayerTypesFactory.f_PLAYER_TYPE_ONE"))
+JR.cast(jlate(JR.cast(PlayerTypesFactory.jm_getInstance())))
+}), Int32.(-)(1l, Int32.(+)(1l, 1l)), Int32.(-)(1l, Int32.(+)(1l, 1l))))
     jcell_NONE = Some(value)
     value
   },
@@ -93,7 +101,7 @@ and jset_LEVEL_NAME = (value: String) => {
 }
     
 and jnew_5 = (gameType: GameType, gameMode: GameMode, playerType: PlayerType, highestLevel: Int32, currentLevel: Int32) => {
-    let this = { jobject: JR.newJObject("GameInfo"), f_logUtil: JR.jnull, f_gameInfoData: JR.nullOf(), f_gameType: JR.nullOf(), f_gameMode: JR.nullOf(), f_playerType: JR.nullOf(), f_highestLevel: 0l, f_currentLevel: 0l, f_NEW_LEVEL: "", f_SET_CURRENT_LEVEL: "", f_NEXT_GAME_LEVEL: "", }
+    let this = { jobject: JR.newJObject("GameInfo"), f_logUtil: JR.nullOf(), f_gameInfoData: JR.nullOf(), f_gameType: JR.nullOf(), f_gameMode: JR.nullOf(), f_playerType: JR.nullOf(), f_highestLevel: 0l, f_currentLevel: 0l, f_NEW_LEVEL: "", f_SET_CURRENT_LEVEL: "", f_NEXT_GAME_LEVEL: "", }
     this.jobject.toStringFunction = () => jm_toString(this)
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
@@ -144,7 +152,7 @@ and jm_setCurrentLevel = (this: GameInfo, currentLevel: Int32) => {
         this.f_currentLevel = currentLevel
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), this.f_NEW_LEVEL), jm_getCurrentLevel(this)))), JR.cast(this), JR.cast(this.f_SET_CURRENT_LEVEL)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(this.f_NEW_LEVEL))), jm_getCurrentLevel(this))))), JR.cast(this), JR.cast(this.f_SET_CURRENT_LEVEL)))
 })
 }
     
@@ -154,7 +162,7 @@ and jm_nextGameLevel = (this: GameInfo) => {
         }
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), CommonLabels.jm_getInstance().f_NEXT), CommonSeps.jm_getInstance().f_SPACE), this.f_NEW_LEVEL), jm_getCurrentLevel(this)))), JR.cast(this), JR.cast(this.f_NEXT_GAME_LEVEL)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast(CommonLabels.jm_getInstance().f_NEXT))), JR.cast(CommonSeps.jm_getInstance().f_SPACE))), JR.cast(this.f_NEW_LEVEL))), jm_getCurrentLevel(this))))), JR.cast(this), JR.cast(this.f_NEXT_GAME_LEVEL)))
 })
 }
     
@@ -182,23 +190,47 @@ JR.cast(jlate())
 })
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(hashtable), JR.cast(this.f_gameInfoData.f_GAME_TYPE), JR.cast(GameType.jm_toString(jm_getGameType(this)))))
+JR.cast(jlate(JR.cast(hashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInfoData.f_GAME_TYPE"))
+JR.cast(jlate(JR.cast(this.f_gameInfoData)))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameType.jm_toString"))
+JR.cast(jlate(JR.cast(jm_getGameType(this))))
+})))
 })
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(hashtable), JR.cast(this.f_gameInfoData.f_GAME_MODE), JR.cast(GameMode.jm_toString(this.f_gameMode))))
+JR.cast(jlate(JR.cast(hashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInfoData.f_GAME_MODE"))
+JR.cast(jlate(JR.cast(this.f_gameInfoData)))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameMode.jm_toString"))
+JR.cast(jlate(JR.cast(this.f_gameMode)))
+})))
 })
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(hashtable), JR.cast(this.f_gameInfoData.f_PLAYER_TYPE), JR.cast(PlayerType.jm_toString(this.f_playerType))))
+JR.cast(jlate(JR.cast(hashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInfoData.f_PLAYER_TYPE"))
+JR.cast(jlate(JR.cast(this.f_gameInfoData)))
+}), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PlayerType.jm_toString"))
+JR.cast(jlate(JR.cast(this.f_playerType)))
+})))
 })
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(hashtable), JR.cast(this.f_gameInfoData.f_HIGHEST_LEVEL), JR.cast(toString(jm_getHighestLevel(this)))))
+JR.cast(jlate(JR.cast(hashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInfoData.f_HIGHEST_LEVEL"))
+JR.cast(jlate(JR.cast(this.f_gameInfoData)))
+}), JR.cast(toString(jm_getHighestLevel(this)))))
 })
         ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_put"))
-JR.cast(jlate(JR.cast(hashtable), JR.cast(this.f_gameInfoData.f_CURRENT_LEVEL), JR.cast(toString(this.f_currentLevel))))
+JR.cast(jlate(JR.cast(hashtable), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInfoData.f_CURRENT_LEVEL"))
+JR.cast(jlate(JR.cast(this.f_gameInfoData)))
+}), JR.cast(toString(this.f_currentLevel))))
 })
         return hashtable
 }
@@ -206,26 +238,47 @@ JR.cast(jlate(JR.cast(hashtable), JR.cast(this.f_gameInfoData.f_CURRENT_LEVEL), 
 and jm_toString = (this: GameInfo) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
         let mut commonSeps: CommonSeps = JR.cast(CommonSeps.jm_getInstance())
-        ignore(StringMaker.jm_append(stringBuffer, this.f_gameInfoData.f_GAME_TYPE))
-        ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_EQUALS))
-        ignore(StringMaker.jm_append(stringBuffer, GameType.jm_toString(jm_getGameType(this))))
-        ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_COMMA_SEP))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_gameInfoData.f_GAME_MODE))
-        ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_EQUALS))
-        ignore(StringMaker.jm_append(stringBuffer, GameMode.jm_toString(this.f_gameMode)))
-        ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_COMMA_SEP))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_gameInfoData.f_PLAYER_TYPE))
-        ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_EQUALS))
-        ignore(StringMaker.jm_append(stringBuffer, StringUtil.jm_toString(StringUtil.jm_getInstance(), JR.cast(this.f_playerType))))
-        ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_COMMA_SEP))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_gameInfoData.f_HIGHEST_LEVEL))
-        ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_EQUALS))
-        ignore(StringMaker.jm_appendint(stringBuffer, jm_getHighestLevel(this)))
-        ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_COMMA_SEP))
-        ignore(StringMaker.jm_append(stringBuffer, this.f_gameInfoData.f_CURRENT_LEVEL))
-        ignore(StringMaker.jm_append(stringBuffer, commonSeps.f_EQUALS))
-        ignore(StringMaker.jm_appendint(stringBuffer, this.f_currentLevel))
-        return StringMaker.jm_toString(stringBuffer)
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInfoData.f_GAME_TYPE"))
+JR.cast(jlate(JR.cast(this.f_gameInfoData)))
+})))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(commonSeps.f_EQUALS)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameType.jm_toString"))
+JR.cast(jlate(JR.cast(jm_getGameType(this))))
+})))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(commonSeps.f_COMMA_SEP)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInfoData.f_GAME_MODE"))
+JR.cast(jlate(JR.cast(this.f_gameInfoData)))
+})))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(commonSeps.f_EQUALS)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameMode.jm_toString"))
+JR.cast(jlate(JR.cast(this.f_gameMode)))
+})))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(commonSeps.f_COMMA_SEP)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInfoData.f_PLAYER_TYPE"))
+JR.cast(jlate(JR.cast(this.f_gameInfoData)))
+})))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(commonSeps.f_EQUALS)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(StringUtil.jm_toString(JR.cast(StringUtil.jm_getInstance()), JR.cast(this.f_playerType)))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(commonSeps.f_COMMA_SEP)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInfoData.f_HIGHEST_LEVEL"))
+JR.cast(jlate(JR.cast(this.f_gameInfoData)))
+})))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(commonSeps.f_EQUALS)))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), jm_getHighestLevel(this)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(commonSeps.f_COMMA_SEP)))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameInfoData.f_CURRENT_LEVEL"))
+JR.cast(jlate(JR.cast(this.f_gameInfoData)))
+})))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(commonSeps.f_EQUALS)))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), this.f_currentLevel))
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
 JR.registerLateBound("GameInfo.jnew_5", jnew_5)

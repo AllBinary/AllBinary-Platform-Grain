@@ -37,12 +37,12 @@ provide record NativeLibraryClassLoader {
 provide let rec jclassName = () => "NativeLibraryClassLoader"
     
 and jnew_1 = (parent: ClassLoader) => {
-    let this = { jobject: JR.newJObject("NativeLibraryClassLoader"), f_message: "", }
-    this.f_message = "This Class Loader Does Not Load Classes - Only For Loading and Unloading of Native Libraries"
+    let this: NativeLibraryClassLoader = JR.cast(ClassLoader.jnew_1(parent))
         void
     this
 }
 
+JR.registerSuper("NativeLibraryClassLoader", "ClassLoader")
 JR.registerLateBound("NativeLibraryClassLoader.jnew_1", jnew_1)
 JR.registerLateBound("NativeLibraryClassLoader.f_message", (this: NativeLibraryClassLoader) => this.f_message)
 JR.registerLateBound("NativeLibraryClassLoader.set_f_message", (this: NativeLibraryClassLoader, jvalue) => { this.f_message = jvalue; jvalue })

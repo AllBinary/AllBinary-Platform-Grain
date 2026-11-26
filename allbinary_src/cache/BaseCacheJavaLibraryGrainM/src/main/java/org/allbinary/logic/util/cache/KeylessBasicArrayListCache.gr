@@ -48,7 +48,7 @@ provide record KeylessBasicArrayListCache {
 provide let rec jclassName = () => "KeylessBasicArrayListCache"
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("KeylessBasicArrayListCache"), f_list: JR.jnull, f_commonStrings: JR.jnull, f_size: 0l, f_index: 0l, f_logUtil: JR.jnull, f_basicArrayListUtil: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("KeylessBasicArrayListCache"), f_list: JR.nullOf(), f_commonStrings: JR.nullOf(), f_size: 0l, f_index: 0l, f_logUtil: JR.nullOf(), f_basicArrayListUtil: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -60,7 +60,10 @@ JR.cast(jlate())
     
 and jm_get = (this: KeylessBasicArrayListCache) => {
         {
-            if (Int32.(>=)(JR.cast(this.f_index), BasicArrayList.jm_size(JR.cast(this.f_list)))) {
+            if (Int32.(>=)(JR.cast(this.f_index), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_list))))
+})) {
                 ignore({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("IndexedBasicArrayListCache.jm_addDefault"))
 JR.cast(jlate(JR.cast(this)))
@@ -79,7 +82,10 @@ and jm_clear = (this: KeylessBasicArrayListCache) => {
         ignore(jm_clear(this))
         let mut basicArrayList: BasicArrayList = JR.nullOf()
         {
-            let mut index: Int32 = Int32.(-)(BasicArrayList.jm_size(JR.cast(this.f_list)), 1l)
+            let mut index: Int32 = Int32.(-)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_list))))
+}, 1l)
             let mut jfirst = true
             while (true) {
                 if (!jfirst) {
@@ -91,19 +97,25 @@ and jm_clear = (this: KeylessBasicArrayListCache) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.f_objectArray"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_list))))
 }[Int32.toNumber(index)]))
-            ignore(BasicArrayList.jm_clear(basicArrayList))
+            ignore(BasicArrayList.jm_clear(JR.cast(basicArrayList)))
             }
         }
 }
     
 and jm_log = (this: KeylessBasicArrayListCache) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, "S: "))
-        ignore(StringMaker.jm_appendint(stringBuffer, BasicArrayList.jm_size(JR.cast(this.f_list))))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("S: ")))
+        ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_list))))
+}))
         let mut l_S_LABEL: String = " s: "
         let mut basicArrayList: BasicArrayList = JR.nullOf()
         {
-            let mut index: Int32 = Int32.(-)(BasicArrayList.jm_size(JR.cast(this.f_list)), 1l)
+            let mut index: Int32 = Int32.(-)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.jm_size"))
+JR.cast(jlate(JR.cast(JR.cast(this.f_list))))
+}, 1l)
             let mut jfirst = true
             while (true) {
                 if (!jfirst) {
@@ -111,17 +123,18 @@ and jm_log = (this: KeylessBasicArrayListCache) => {
                 }
                 jfirst = false
                 if (!(Int32.(>=)(index, 0l))) break
-            ignore(StringMaker.jm_append(stringBuffer, l_S_LABEL))
+            ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(l_S_LABEL)))
             basicArrayList = (JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicArrayList.f_objectArray"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_list))))
 }[Int32.toNumber(index)]))
-            ignore(StringMaker.jm_appendint(stringBuffer, BasicArrayList.jm_size(basicArrayList)))
+            ignore(StringMaker.jm_appendint(JR.cast(stringBuffer), BasicArrayList.jm_size(JR.cast(basicArrayList))))
             }
         }
-        return StringMaker.jm_toString(stringBuffer)
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
+JR.registerSuper("KeylessBasicArrayListCache", "IndexedBasicArrayListCache")
 JR.registerLateBound("KeylessBasicArrayListCache.jnew_0", jnew_0)
 JR.registerLateBound("KeylessBasicArrayListCache.jm_get", jm_get)
 JR.registerLateBound("KeylessBasicArrayListCache.jm_clear", jm_clear)

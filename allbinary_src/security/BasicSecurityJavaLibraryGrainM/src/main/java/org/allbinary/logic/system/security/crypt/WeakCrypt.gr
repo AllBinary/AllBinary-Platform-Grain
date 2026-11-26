@@ -74,21 +74,21 @@ and jset_KEYMAX = (value: Int32) => {
 }
     
 and jnew_1 = (key: Int32) => {
-    let this = { jobject: JR.newJObject("WeakCrypt"), f_tsUtil: JR.jnull, f_abCrypt: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("WeakCrypt"), f_tsUtil: JR.nullOf(), f_abCrypt: JR.nullOf(), }
     this.f_tsUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("TsUtil.jm_getInstance"))
 JR.cast(jlate())
 })
     this.f_abCrypt = AbCrypt.jnew_1(KeySpecFactory.jm_getInstance_0().f_DES)
         {
-            ignore(AbCrypt.jm_init(this.f_abCrypt, jstatic_keys()[Int32.toNumber(key)]))
+            ignore(AbCrypt.jm_init(JR.cast(this.f_abCrypt), JR.cast(jstatic_keys()[Int32.toNumber(key)])))
         }
     this
 }
     
 and jm_encrypt = (this: WeakCrypt, value: String) => {
         {
-            let mut crypted: Array<Int32> = AbCrypt.jm_encrypt(this.f_abCrypt, {
+            let mut crypted: Array<Int32> = AbCrypt.jm_encrypt(JR.cast(this.f_abCrypt), {
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("TsUtil.jm_getByteArray"))
 JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(value)))
 })
@@ -99,7 +99,7 @@ JR.cast(jlate(JR.cast(this.f_tsUtil), JR.cast(value)))
     
 and jm_decrypt = (this: WeakCrypt, value: String) => {
         {
-            let mut decrypted: Array<Int32> = AbCrypt.jm_decrypt(this.f_abCrypt, DatabaseEncoder.jm_decode(value))
+            let mut decrypted: Array<Int32> = AbCrypt.jm_decrypt(JR.cast(this.f_abCrypt), DatabaseEncoder.jm_decode(JR.cast(value)))
             return JR.fromBytes(decrypted)
         }
     return ""

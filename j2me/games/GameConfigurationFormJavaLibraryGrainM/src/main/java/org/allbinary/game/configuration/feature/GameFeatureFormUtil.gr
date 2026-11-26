@@ -39,6 +39,8 @@ from "../../../../../org/allbinary/util/BasicArrayList.gr" include BasicArrayLis
 use BasicArrayList.{ type BasicArrayList }
 from "../../../../../org/allbinary/util/HashtableUtil.gr" include HashtableUtil
 use HashtableUtil.{ type HashtableUtil }
+from "../../../../../java/util/Hashtable.gr" include Hashtable
+use Hashtable.{ type Hashtable }
 from "./Features.gr" include Features
 use Features.{ type Features }
 from "./Feature.gr" include Feature
@@ -59,7 +61,7 @@ provide let rec jclassName = () => "GameFeatureFormUtil"
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: GameFeatureFormUtil = jnew_0()
+    let value: GameFeatureFormUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -70,7 +72,7 @@ and jset_instance = (value: GameFeatureFormUtil) => {
 }
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("GameFeatureFormUtil"), f_logUtil: JR.jnull, f_meUtil: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("GameFeatureFormUtil"), f_logUtil: JR.nullOf(), f_meUtil: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -87,7 +89,7 @@ and jm_getChoiceGroup = (this: GameFeatureFormUtil, hashtable: JObject, name: St
         let mut stringMaker: StringMaker = StringMaker.jnew_0()
         let mut choiceGroup: JObject = {
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ChoiceGroup.jnew_4"))
-JR.cast(jlate(JR.cast(name), JR.cast(option), JR.cast(StringUtil.jm_getArrayInstance(StringUtil.jm_getInstance())), JR.cast(NullImage.jstatic_NULL_IMAGE_ARRAY())))
+JR.cast(jlate(JR.cast(name), JR.cast(option), JR.cast(StringUtil.jm_getArrayInstance(JR.cast(StringUtil.jm_getInstance()))), JR.cast(NullImage.jstatic_NULL_IMAGE_ARRAY())))
 }
         let mut list: BasicArrayList = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_get"))
@@ -96,7 +98,7 @@ JR.cast(jlate(JR.cast(hashtable), JR.cast(JR.cast(name))))
         let mut features: Features = JR.cast(Features.jm_getInstance())
         let mut l_ADD_CHOICE: String = ": Adding Choice: "
         let mut l_GET_CHOICE_GROUP: String = "getChoiceGroup"
-        let mut size: Int32 = BasicArrayList.jm_size(list)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(list))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -107,16 +109,25 @@ JR.cast(jlate(JR.cast(hashtable), JR.cast(JR.cast(name))))
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             let mut gameFeature: Feature = JR.cast(list.f_objectArray[Int32.toNumber(index)])
-            ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
+            ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jm_append(stringMaker, name), l_ADD_CHOICE), Feature.jm_toString(gameFeature)))), JR.cast(this), JR.cast(l_GET_CHOICE_GROUP)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast(name))), JR.cast(l_ADD_CHOICE))), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Feature.jm_toString"))
+JR.cast(jlate(JR.cast(gameFeature)))
+}))))), JR.cast(this), JR.cast(l_GET_CHOICE_GROUP)))
 })
             ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ChoiceGroup.jm_append"))
-JR.cast(jlate(JR.cast(choiceGroup), JR.cast(Feature.jm_toString(gameFeature)), JR.cast(NullImage.jstatic_NULL_IMAGE())))
+JR.cast(jlate(JR.cast(choiceGroup), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Feature.jm_toString"))
+JR.cast(jlate(JR.cast(gameFeature)))
+}), JR.cast(NullImage.jstatic_NULL_IMAGE())))
 })
-            if (Features.jm_isFeature(features, gameFeature)) {
+            if ({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Features.jm_isFeature"))
+JR.cast(jlate(JR.cast(features), JR.cast(gameFeature)))
+}) {
                 ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("ChoiceGroup.jm_setSelectedIndex"))
 JR.cast(jlate(JR.cast(choiceGroup), JR.cast(index), JR.cast(true)))
@@ -135,7 +146,7 @@ and jm_addChoiceGroup = (this: GameFeatureFormUtil, form: JObject, hashtable: JO
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ABHashtable.jm_size"))
 JR.cast(jlate(JR.cast(hashtable)))
 }
-        let mut objectArray: Array<JObject> = HashtableUtil.jm_getKeysAsArray(HashtableUtil.jm_getInstance(), hashtable)
+        let mut objectArray: Array<JObject> = JR.cast(HashtableUtil.jm_getKeysAsArray(JR.cast(HashtableUtil.jm_getInstance()), JR.cast(hashtable)))
         let mut name: String = ""
         {
             let mut index: Int32 = 0l
@@ -147,12 +158,12 @@ JR.cast(jlate(JR.cast(hashtable)))
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             name = JR.cast(objectArray[Int32.toNumber(index)])
-            ignore(StringMaker.jm_delete(stringMaker, 0l, StringMaker.jm_length(stringMaker)))
+            ignore(StringMaker.jm_delete(JR.cast(stringMaker), 0l, StringMaker.jm_length(JR.cast(stringMaker))))
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(stringMaker, l_ADDING_CHOICE_GROUP), name))), JR.cast(this), JR.cast(l_ADD_CHOICE_GROUP)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(stringMaker), JR.cast(l_ADDING_CHOICE_GROUP))), JR.cast(name))))), JR.cast(this), JR.cast(l_ADD_CHOICE_GROUP)))
 })
-            ignore(MIDPUtil.jm_appendItem(this.f_meUtil, JR.cast(form), JR.cast(jm_getChoiceGroup(this, hashtable, name, option))))
+            ignore(MIDPUtil.jm_appendItem(JR.cast(this.f_meUtil), JR.cast(form), JR.cast(jm_getChoiceGroup(this, JR.cast(hashtable), JR.cast(name), option))))
             }
         }
 }
@@ -184,7 +195,10 @@ JR.cast(jlate())
 }), JR.cast(JR.cast(item))))
 })
             } else if ((JR.className(item) == "ChoiceGroup")) {
-                ignore(GameFeatureUtil.jm_setDefault(GameFeatureUtil.jm_getInstance(), JR.cast(item)))
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("GameFeatureUtil.jm_setDefault"))
+JR.cast(jlate(JR.cast(GameFeatureUtil.jm_getInstance()), JR.cast(JR.cast(item))))
+})
             }
             }
         }

@@ -62,7 +62,7 @@ provide record ImageArraySpecialAnimation {
 provide let rec jclassName = () => "ImageArraySpecialAnimation"
     
 and jnew_2 = (imageArray: Array<JObject>, animationBehavior: AnimationBehavior) => {
-    let this = { jobject: JR.newJObject("ImageArraySpecialAnimation"), f_basicSetColorUtil: JR.jnull, f_basicColor: JR.jnull, f_colorP: 0l, f_changeBasicColorP: JR.jnull, f_changeColorP: 0l, f_alphaP: 0l, f_logUtil: JR.jnull, f_commonStrings: JR.jnull, f_animationBehaviorP: JR.jnull, f_imageArray: [> ], f_totalFrames: 0l, f_circularIndexUtil: JR.jnull, f_anchor: 0l, f_timeDelayHelper: JR.nullOf(), f_loopCount: 0l, f_loopCountTotal: 0l, }
+    let this = { jobject: JR.newJObject("ImageArraySpecialAnimation"), f_basicSetColorUtil: JR.nullOf(), f_basicColor: JR.nullOf(), f_colorP: 0l, f_changeBasicColorP: JR.nullOf(), f_changeColorP: 0l, f_alphaP: 0l, f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_animationBehaviorP: JR.nullOf(), f_imageArray: [> ], f_totalFrames: 0l, f_circularIndexUtil: JR.nullOf(), f_anchor: 0l, f_timeDelayHelper: JR.nullOf(), f_loopCount: 0l, f_loopCountTotal: 0l, }
     this.f_timeDelayHelper = TimeDelayHelper.jnew_1(270l)
     this.f_loopCount = 0l
     this.f_loopCountTotal = 1l
@@ -101,7 +101,10 @@ and jm_nextFrame = (this: ImageArraySpecialAnimation) => {
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ImageArrayAnimation.jm_getFrame"))
 JR.cast(jlate(JR.cast(this)))
 }, 0l)) {
-            if (TimeDelayHelper.jm_isTime(this.f_timeDelayHelper, GameTickTimeDelayHelperFactory.jm_getInstance().f_startTime)) {
+            if (TimeDelayHelper.jm_isTime(JR.cast(this.f_timeDelayHelper), {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("GameTickTimeDelayHelperFactory.f_startTime"))
+JR.cast(jlate(JR.cast(GameTickTimeDelayHelperFactory.jm_getInstance())))
+})) {
                 ignore({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("ImageArrayAnimation.jm_previousFrame"))
 JR.cast(jlate(JR.cast(this)))
@@ -130,17 +133,21 @@ JR.cast(jlate(JR.cast(this)))
 and jm_paintXY = (this: ImageArraySpecialAnimation, graphics: JObject, x: Int32, y: Int32) => {
     let mut x = x
     let mut y = y
-        x = Int32.(-)(DisplayInfoSingleton.jm_getLastHalfWidth(DisplayInfoSingleton.jm_getInstance()), (Int32.(>>)(JR.className(JR.cast({
+        x = Int32.(-)(DisplayInfoSingleton.jm_getLastHalfWidth(JR.cast(DisplayInfoSingleton.jm_getInstance())), (Int32.(>>)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Image.jm_getWidth"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("ImageArrayAnimation.jm_getImage"))
 JR.cast(jlate(JR.cast(this), JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CircularIndexUtil.jm_getIndex"))
 JR.cast(jlate(JR.cast(JR.cast(this.f_circularIndexUtil))))
 })))
-})), 1l)))
+})))
+}, 1l)))
         y = 5l
         ignore(jm_paintXY(this, graphics, x, y))
 }
 
+JR.registerSuper("ImageArraySpecialAnimation", "ImageArrayAnimation")
 JR.registerLateBound("ImageArraySpecialAnimation.jnew_2", jnew_2)
 JR.registerLateBound("ImageArraySpecialAnimation.jm_getLoopCount", jm_getLoopCount)
 JR.registerLateBound("ImageArraySpecialAnimation.jm_setLastFrame", jm_setLastFrame)

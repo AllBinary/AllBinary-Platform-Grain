@@ -38,6 +38,13 @@ use BasicArrayList.{ type BasicArrayList }
 from "../../../../../org/allbinary/util/BasicArrayListD.gr" include BasicArrayListD
 use BasicArrayListD.{ type BasicArrayListD }
 from "../../../../../java/lang/Integer.gr" include Integer
+from "../../../../../java/lang/Long.gr" include Long
+from "../../../../../java/lang/Short.gr" include Short
+from "../../../../../java/lang/Byte.gr" include Byte
+from "../../../../../java/lang/Character.gr" include Character
+from "../../../../../java/lang/Float.gr" include Float
+from "../../../../../java/lang/Double.gr" include Double
+from "../../../../../java/lang/Boolean.gr" include Boolean
 from "./PersistanceStrings.gr" include PersistanceStrings
 use PersistanceStrings.{ type PersistanceStrings }
 from "./NullRecordStore.gr" include NullRecordStore
@@ -58,7 +65,7 @@ provide record BasicPersitance {
 provide let rec jclassName = () => "BasicPersitance"
     
 and jnew_1 = (recordId: String) => {
-    let this = { jobject: JR.newJObject("BasicPersitance"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_persistanceStrings: JR.nullOf(), f_platformRecordIdUtil: JR.nullOf(), f_recordId: "", f_valueList: JR.nullOf(), f_idList: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("BasicPersitance"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_persistanceStrings: JR.nullOf(), f_platformRecordIdUtil: JR.nullOf(), f_recordId: "", f_valueList: JR.nullOf(), f_idList: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -76,12 +83,12 @@ JR.cast(jlate())
 and jm_deleteRecoreStore = (this: BasicPersitance, abeClientInformation: AbeClientInformationInterface) => {
         ignore({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_deleteRecordStore"))
-JR.cast(jlate(JR.cast(jm_getRecordId(this, abeClientInformation))))
+JR.cast(jlate(JR.cast(jm_getRecordId(this, JR.cast(abeClientInformation)))))
 })
 }
     
 and jm_deleteAll = (this: BasicPersitance, abeClientInformation: AbeClientInformationInterface) => {
-        let mut size: Int32 = BasicArrayList.jm_size(this.f_idList)
+        let mut size: Int32 = BasicArrayList.jm_size(JR.cast(this.f_idList))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -92,7 +99,7 @@ and jm_deleteAll = (this: BasicPersitance, abeClientInformation: AbeClientInform
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             let mut integer: Int32 = JR.cast(this.f_idList.f_objectArray[Int32.toNumber(index)])
-            ignore(jm_delete(this, abeClientInformation, Integer.jm_intValue(integer)))
+            ignore(jm_delete(this, JR.cast(abeClientInformation), Integer.jm_intValue(JR.cast(integer))))
             }
         }
         ignore(jm_clear(this))
@@ -103,11 +110,14 @@ and jm_delete = (this: BasicPersitance, abeClientInformation: AbeClientInformati
         {
             ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_appendint(StringMaker.jm_append(StringMaker.jnew_0(), this.f_persistanceStrings.f_DELETING_WITH_ID), deleteId))), JR.cast(this), JR.cast(this.f_commonStrings.f_delete)))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_appendint(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PersistanceStrings.f_DELETING_WITH_ID"))
+JR.cast(jlate(JR.cast(this.f_persistanceStrings)))
+}))), deleteId)))), JR.cast(this), JR.cast(this.f_commonStrings.f_delete)))
 })
             recordStore = JR.cast({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_openRecordStore"))
-JR.cast(jlate(JR.cast(jm_getRecordId(this, abeClientInformation)), JR.cast(true)))
+JR.cast(jlate(JR.cast(jm_getRecordId(this, JR.cast(abeClientInformation))), JR.cast(true)))
 })
             ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_deleteRecord"))
@@ -118,7 +128,10 @@ JR.cast(jlate(JR.cast(recordStore), JR.cast(deleteId)))
             if (!JR.isNull(recordStore)) {
                 ignore({
 let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("PreLogUtil.jm_put"))
-JR.cast(jlate(JR.cast(this.f_persistanceStrings.f_CLOSING_RECORDSTORE), JR.cast(this), JR.cast(this.f_commonStrings.f_delete)))
+JR.cast(jlate(JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("PersistanceStrings.f_CLOSING_RECORDSTORE"))
+JR.cast(jlate(JR.cast(this.f_persistanceStrings)))
+}), JR.cast(this), JR.cast(this.f_commonStrings.f_delete)))
 })
                 ignore({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("RecordStore.jm_closeRecordStore"))
@@ -129,7 +142,7 @@ JR.cast(jlate(JR.cast(recordStore)))
 }
     
 and jm_getRecordId = (this: BasicPersitance, abeClientInformation: AbeClientInformationInterface) => {
-        return PlatformRecordIdUtil.jm_getRecordId(this.f_platformRecordIdUtil, abeClientInformation, this.f_recordId)
+        return PlatformRecordIdUtil.jm_getRecordId(JR.cast(this.f_platformRecordIdUtil), JR.cast(abeClientInformation), JR.cast(this.f_recordId))
 }
     
 and jm_getList = (this: BasicPersitance) => {
@@ -141,8 +154,8 @@ and jm_getIds = (this: BasicPersitance) => {
 }
     
 and jm_clear = (this: BasicPersitance) => {
-        ignore(BasicArrayList.jm_clear(this.f_valueList))
-        ignore(BasicArrayList.jm_clear(this.f_idList))
+        ignore(BasicArrayList.jm_clear(JR.cast(this.f_valueList)))
+        ignore(BasicArrayList.jm_clear(JR.cast(this.f_idList)))
 }
 
 JR.registerLateBound("BasicPersitance.jnew_1", jnew_1)

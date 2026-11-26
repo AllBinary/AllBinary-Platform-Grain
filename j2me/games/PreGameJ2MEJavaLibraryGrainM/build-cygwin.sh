@@ -51,15 +51,27 @@ local_repository="$(sed -n 's:.*<localRepository>\([^<]*\)</localRepository>.*:\
 local_repository="$(cygpath -u "$local_repository")"
 jar_index="$object_dir/grain-jar-index.txt"
 for pass in 1 2 3 4 5; do
-    missing="$(find . -type f -name '*.gr' | while IFS= read -r file; do
-        directory="$(dirname "$file")"
-        sed -n 's/^from "\([^"]*\.gr\)" include .*/\1/p' "$file" | while IFS= read -r include; do
-            case "$include" in
-                ./*|../*) target="$(realpath -m --relative-to=. "$directory/$include")"
-                          [ -f "$target" ] || echo "$target" ;;
-            esac
-        done
-    done | sort -u)"
+    # One awk resolves the relative include of every .gr (a process per include took most of a module's build time on
+    # Windows); the targets without a file are missing
+    find . -type f -name '*.gr' | sed 's#^\./##' | LC_ALL=C sort > "$object_dir/grain-files.txt"
+    missing="$(tr '\n' '\0' < "$object_dir/grain-files.txt" | xargs -0 awk '
+        /^from "\.\.?\/[^"]*\.gr" include / {
+            include = $0
+            sub(/^from "/, "", include)
+            sub(/" include .*/, "", include)
+            directory = FILENAME
+            if (directory ~ /\//) sub(/\/[^\/]*$/, "", directory); else directory = ""
+            count = split((directory == "" ? "" : directory "/") include, parts, "/")
+            depth = 0
+            for (index_ = 1; index_ <= count; index_++) {
+                if (parts[index_] == "" || parts[index_] == ".") continue
+                if (parts[index_] == "..") { if (depth > 0) depth--; continue }
+                stack[++depth] = parts[index_]
+            }
+            path = ""
+            for (index_ = 1; index_ <= depth; index_++) path = path (index_ > 1 ? "/" : "") stack[index_]
+            print path
+        }' | LC_ALL=C sort -u | LC_ALL=C comm -23 - "$object_dir/grain-files.txt")"
     [ -z "$missing" ] && break
     if [ ! -f "$jar_index" ]; then
         find "$local_repository/org/allbinary" -name '*Grain-*.jar' ! -name '*-sources.jar' 2>/dev/null | while IFS= read -r jar; do
@@ -79,6 +91,36 @@ for pass in 1 2 3 4 5; do
     [ "$found" = "0" ] && break
 done
 
+# Compiled objects of earlier builds are reused so a module does not compile its whole dependency tree again. grain
+# trusts a .gro that is newer than its .gr without comparing the source, so an object is only put in the tree when the
+# sources it was built from are the same here:
+# - the runtime's objects from a cache folder named by the md5 of the runtime sources;
+# - each dependency's own objects (META-INF/grain/obj/<artifactId>/ of its jar) when every line of its
+#   obj/<artifactId>.md5 (the md5 of each .gr of the tree it was compiled in) matches this tree.
+runtime_hash="$(cd "$runtime_dir" && find . -type f -name '*.gr' | sort | xargs md5sum | md5sum | cut -c1-32)"
+runtime_cache="/tmp/grain-runtime-cache/$runtime_hash"
+reused=""
+if [ -d "$runtime_cache" ]; then
+    cp -R "$runtime_cache/." ./
+    # allbinary_java.gr is compiled each time: it includes the stdlib regex, whose object grain only has when it compiles
+    # a module that includes it (a reused allbinary_java.gro gives "Interface file not found .../stdlib/regex.gro")
+    rm -f ./allbinary_java.gro ./allbinary_java.wasm
+    reused="runtime"
+fi
+if [ -d "$dependency_dir/obj" ]; then
+    for manifest in "$dependency_dir"/obj/*.md5; do
+        [ -f "$manifest" ] || continue
+        dependency="$(basename "$manifest" .md5)"
+        if [ -d "$dependency_dir/obj/$dependency" ] && md5sum --quiet -c "$manifest" > /dev/null 2>&1; then
+            cp -R "$dependency_dir/obj/$dependency/." ./
+            reused="$reused $dependency"
+        fi
+    done
+fi
+# The copied objects are newer than the sources copied before them; touch makes sure grain sees them as up to date
+find . -type f \( -name '*.gro' -o -name '*.wasm' \) -exec touch {} +
+[ -n "$reused" ] && echo "Grain objects reused:$( echo " $reused" | wc -w) sets"
+
 # One fixed check file name: grain 0.7.2 (binaryen getRecGroup assertion) crashed linking TimeJavaLibraryGrain when
 # the file was jcheck_TimeJavaLibraryGrain.gr but not when it was jcheck.gr, with the same contents
 check="jcheck.gr"
@@ -92,13 +134,67 @@ while IFS= read -r file; do
 done < <(find "$source_dir" -type f -name '*.gr' | sort)
 echo "print(\"Grain compiled: $artifact\")" >> "$check"
 echo "Grain modules: $count"
+# A project with sources whose list came back empty (a find that failed while the machine was short of memory: the tree
+# had TouchJ2ME.gr but the check included nothing) is a failed build, not an empty project
+if [ "$count" = "0" ] && [ -n "$(cd "$source_dir" && find . -name '*.gr' -print -quit 2>/dev/null)" ]; then
+    echo "Grain build failed: $artifact (the source list was empty although $source_dir has .gr files)" >&2
+    exit 1
+fi
+# A compile or run that hangs (no grain process left doing work) ends after 30 minutes as a failure
+compile_timeout=1800
 
-output="$("$compiler" "${compiler_flags[@]}" "$check" 2>&1)"
+output="$(timeout "$compile_timeout" "$compiler" "${compiler_flags[@]}" "$check" 2>&1)"
 status=$?
+# grain 0.7.2 can abort in binaryen (Assertion failed: !isBasic() in getRecGroup, isSignature() in getSignature) for a
+# program that compiles from another folder: the same tree failed every time under /tmp/grainXXXXXX and passed under a
+# longer path, so the abort depends on the module paths, not the code. It is retried from folders of other path lengths.
+retry_trees=""
+attempt=1
+while [ "$attempt" -le 4 ] && echo "$output" | grep -q "Aborted(Assertion failed"; do
+    padding="$(printf '%*s' "$((attempt * 7))" '' | tr ' ' 'r')"
+    retry_tree="$(mktemp -d "/tmp/grain${padding}XXXXXX")"
+    retry_trees="$retry_trees $retry_tree"
+    cp -R "$short_tree/." "$retry_tree/"
+    find "$retry_tree" -type f \( -name '*.gro' -o -name '*.wasm' \) -delete
+    cd "$retry_tree" || exit 1
+    echo "Grain compiler aborted in binaryen; retry $attempt from $retry_tree"
+    output="$(timeout "$compile_timeout" "$compiler" "${compiler_flags[@]}" "$check" 2>&1)"
+    status=$?
+    attempt=$((attempt + 1))
+done
+compiled_dir="$PWD"
 echo "$output"
-if [ "$status" = "0" ] && ! echo "$output" | grep -q -E "Error|error:"; then
+# Only a compiler error line fails the build: "Error" in the file name of a warning (BasicErrorNodeUtil.gr) does not
+if [ "$status" = "0" ] && ! echo "$output" | grep -q -E "^Error|^[^ ]*: error:|uncaught exception"; then
+    # This project's objects for the modules that depend on it (META-INF/grain/obj/<artifactId>/ in the jar) with the
+    # md5 of every .gr of the tree they were compiled in, and the runtime's objects for the runtime cache
+    objects="$output_dir/obj/$artifact"
+    mkdir -p "$objects"
+    (cd "$source_dir" && find . -type f -name '*.gr') | while IFS= read -r file; do
+        base="${file%.gr}"
+        for extension in gro wasm; do
+            if [ -f "$compiled_dir/$base.$extension" ]; then
+                mkdir -p "$objects/$(dirname "$file")"
+                cp "$compiled_dir/$base.$extension" "$objects/$base.$extension"
+            fi
+        done
+    done
+    (cd "$compiled_dir" && find . -type f -name '*.gr' ! -name "$check" | sort | xargs md5sum) > "$output_dir/obj/$artifact.md5"
+    # The runtime cache gets the runtime objects of this compile that it does not have yet (a module compiles only the
+    # runtime modules it includes, so the cache fills up over the reactor)
+    (cd "$runtime_dir" && find . -type f -name '*.gr') | while IFS= read -r file; do
+        base="${file%.gr}"
+        for extension in gro wasm; do
+            if [ -f "$compiled_dir/$base.$extension" ] && [ ! -f "$runtime_cache/$base.$extension" ]; then
+                mkdir -p "$runtime_cache/$(dirname "$file")"
+                cp "$compiled_dir/$base.$extension" "$runtime_cache/$base.$extension"
+            fi
+        done
+    done
+    [ -n "$retry_trees" ] && cd / && rm -rf $retry_trees
     exit 0
 fi
+[ -n "$retry_trees" ] && cd / && rm -rf $retry_trees
 echo "Grain build failed: $artifact" >&2
 if [ "$fail_on_error" = "true" ]; then
     exit 1

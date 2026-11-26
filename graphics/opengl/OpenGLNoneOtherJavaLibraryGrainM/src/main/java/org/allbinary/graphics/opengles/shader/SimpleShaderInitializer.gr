@@ -40,7 +40,7 @@ provide let rec jclassName = () => "SimpleShaderInitializer"
 and jstatic_instanceC = () => match (jcell_instanceC) {
   Some(value) => value,
   None => {
-    let value: SimpleShaderInitializer = jnew_0()
+    let value: SimpleShaderInitializer = JR.cast(jnew_0())
     jcell_instanceC = Some(value)
     value
   },
@@ -51,7 +51,7 @@ and jset_instanceC = (value: SimpleShaderInitializer) => {
 }
 
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("SimpleShaderInitializer"), f_commonStrings: JR.jnull, }
+    let this = { jobject: JR.newJObject("SimpleShaderInitializer"), f_commonStrings: JR.nullOf(), }
     this
 }
     
@@ -59,6 +59,7 @@ and jm_getInstance = () => {
         return jstatic_instanceC()
 }
 
+JR.registerSuper("SimpleShaderInitializer", "ShaderInitializer")
 JR.registerLateBound("SimpleShaderInitializer.jnew_0", jnew_0)
 JR.registerLateBound("SimpleShaderInitializer.jm_getInstance", jm_getInstance)
 JR.registerLateBound("SimpleShaderInitializer.jstatic_instanceC", jstatic_instanceC)

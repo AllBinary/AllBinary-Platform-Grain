@@ -52,7 +52,7 @@ provide record PlayerComposite {
 provide let rec jclassName = () => "PlayerComposite"
     
 and jnew_2 = (player: JObject, repeatTime: Int32) => {
-    let this = { jobject: JR.newJObject("PlayerComposite"), f_logUtil: JR.jnull, f_commonStrings: JR.nullOf(), f_player: JR.jnull, f_timeElapsedHelper: JR.nullOf(), f_gameTickTimeDelayHelper: JR.nullOf(), }
+    let this = { jobject: JR.newJObject("PlayerComposite"), f_logUtil: JR.nullOf(), f_commonStrings: JR.nullOf(), f_player: JR.nullOf(), f_timeElapsedHelper: JR.nullOf(), f_gameTickTimeDelayHelper: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -159,7 +159,7 @@ JR.cast(jlate(JR.cast(this.f_player), JR.cast(now)))
     
 and jm_start = (this: PlayerComposite) => {
         {
-            if (TimeDelayHelper.jm_isTime(this.f_timeElapsedHelper, this.f_gameTickTimeDelayHelper.f_startTime)) {
+            if (TimeDelayHelper.jm_isTime(JR.cast(this.f_timeElapsedHelper), this.f_gameTickTimeDelayHelper.f_startTime)) {
                 ignore({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Player.jm_start"))
 JR.cast(jlate(JR.cast(this.f_player)))
@@ -190,7 +190,10 @@ and jm_getControls = (this: PlayerComposite) => {
     
 and jm_setVolume = (this: PlayerComposite, leftVolume: Int32, rightVolume: Int32) => {
         let mut controllable2: Controllable2 = (JR.cast(this.f_player))
-        ignore(Controllable2.jm_setVolume(controllable2, leftVolume, rightVolume))
+        ignore({
+let jlate: (JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Controllable2.jm_setVolume"))
+JR.cast(jlate(JR.cast(controllable2), JR.cast(leftVolume), JR.cast(rightVolume)))
+})
 }
     
 and jm_getPlayerP = (this: PlayerComposite) => {

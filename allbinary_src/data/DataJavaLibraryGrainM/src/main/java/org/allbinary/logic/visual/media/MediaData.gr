@@ -44,13 +44,13 @@ provide let rec jclassName = () => "MediaData"
 and jstatic_hashMap = () => match (jcell_hashMap) {
   Some(value) => value,
   None => {
-    let value: HashMap = {
+    let value: HashMap = JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("StdUtil.jm_createHashMap"))
 JR.cast(jlate(JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("StdUtil.jm_getInstance"))
 JR.cast(jlate())
 })))
-}
+})
     jcell_hashMap = Some(value)
     value
   },
@@ -68,7 +68,10 @@ and jnew_1 = (a_Name: String) => {
     
         this.f_name = a_Name
         this.f_extension = "." ++ this.f_name
-        this.f_type = MediaTypeData.jm_getInstance().f_NOT_RESIZABLE_MEDIA
+        this.f_type = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("MediaTypeData.f_NOT_RESIZABLE_MEDIA"))
+JR.cast(jlate(JR.cast(MediaTypeData.jm_getInstance())))
+}
         ignore(HashMap.jm_put_2(jstatic_hashMap(), a_Name, this))
     this
 }

@@ -51,13 +51,13 @@ provide record CircleAnimation {
 provide let rec jclassName = () => "CircleAnimation"
     
 and jnew_3 = (width: Int32, height: Int32, basicColor: BasicColor) => {
-    let this = { jobject: JR.newJObject("CircleAnimation"), f_basicSetColorUtil: JR.jnull, f_basicColor: JR.jnull, f_colorP: 0l, f_changeBasicColorP: JR.jnull, f_changeColorP: 0l, f_alphaP: 0l, f_TOTAL_ANGLE: 0l, f_width: 0l, f_height: 0l, }
+    let this = { jobject: JR.newJObject("CircleAnimation"), f_basicSetColorUtil: JR.nullOf(), f_basicColor: JR.nullOf(), f_colorP: 0l, f_changeBasicColorP: JR.nullOf(), f_changeColorP: 0l, f_alphaP: 0l, f_TOTAL_ANGLE: 0l, f_width: 0l, f_height: 0l, }
     this.f_TOTAL_ANGLE = AngleFactory.jm_getInstance().f_TOTAL_ANGLE
     
     
         this.f_width = width
         this.f_height = height
-        ignore(jm_setBasicColorP(this, basicColor))
+        ignore(jm_setBasicColorP(this, JR.cast(basicColor)))
     this
 }
     
@@ -87,6 +87,7 @@ and jm_setBasicColorP = (this: CircleAnimation, basicColor: BasicColor) => {
         ignore(jm_setBasicColorP(this, basicColor))
 }
 
+JR.registerSuper("CircleAnimation", "Animation")
 JR.registerLateBound("CircleAnimation.jnew_3", jnew_3)
 JR.registerLateBound("CircleAnimation.jm_nextFrame", jm_nextFrame)
 JR.registerLateBound("CircleAnimation.jm_paintXY", jm_paintXY)

@@ -56,7 +56,7 @@ and jnew_2 = (basicAnimationInterfaceFactoryInterfaceArray: Array<AnimationInter
     
 and jm_getInstance = (this: CompoundAnimationInterfaceFactory, instanceId: Int32) => {
         let mut size: Int32 = Int32.fromNumber(Array.length(this.f_basicAnimationInterfaceFactoryInterfaceArrayP))
-        let mut animationInterfaceArray: Array<Animation> = jm_createArray(this, size)
+        let mut animationInterfaceArray: Array<Animation> = JR.cast(jm_createArray(this, size))
         {
             let mut index: Int32 = 0l
             let mut jfirst = true
@@ -72,7 +72,7 @@ JR.cast(jlate(JR.cast(this.f_basicAnimationInterfaceFactoryInterfaceArrayP[Int32
 })
             }
         }
-        return jm_createAnimation(this, animationInterfaceArray)
+        return jm_createAnimation(this, JR.cast(animationInterfaceArray))
 }
     
 and jm_createArray = (this: CompoundAnimationInterfaceFactory, size: Int32) => {
@@ -80,10 +80,7 @@ and jm_createArray = (this: CompoundAnimationInterfaceFactory, size: Int32) => {
 }
     
 and jm_createAnimation = (this: CompoundAnimationInterfaceFactory, animationInterfaceArray: Array<Animation>) => {
-        return {
-let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("NullAnimationFactory.jm_getInstance"))
-JR.cast(jlate(JR.cast(NullAnimationFactory.jm_getFactoryInstance()), JR.cast(0l)))
-}
+        return NullAnimationFactory.jm_getInstance(JR.cast(NullAnimationFactory.jm_getFactoryInstance()), 0l)
 }
     
 and jm_getBasicAnimationInterfaceFactoryInterfaceArray = (this: CompoundAnimationInterfaceFactory) => {

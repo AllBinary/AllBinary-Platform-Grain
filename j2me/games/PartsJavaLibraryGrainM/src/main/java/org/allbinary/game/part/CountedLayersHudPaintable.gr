@@ -117,8 +117,8 @@ JR.cast(jlate(JR.cast(font), JR.cast(l_XXString)))
 }
     
 and jm_paint = (this: CountedLayersHudPaintable, graphics: JObject) => {
-        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
-        let mut lastWidth: Int32 = DisplayInfoSingleton.jm_getLastWidth(this.f_displayInfoSingleton)
+        ignore(MyFontProcessor.jm_process(JR.cast(this.f_myFontProcessor), JR.cast(graphics)))
+        let mut lastWidth: Int32 = DisplayInfoSingleton.jm_getLastWidth(JR.cast(this.f_displayInfoSingleton))
         let mut widthEdge: Int32 = Int32.(-)(lastWidth, this.f_dropSize)
         let mut size: Int32 = Int32.fromNumber(Array.length(this.f_partInterfaceArray))
         let mut count: Int32 = 0l
@@ -137,21 +137,36 @@ and jm_paint = (this: CountedLayersHudPaintable, graphics: JObject) => {
                 jfirst = false
                 if (!(Int32.(<)(index, size))) break
             countedLayerInterfaceFactory = JR.cast(this.f_partInterfaceArray[Int32.toNumber(index)])
-            if (Int32.(>)(CountedLayerInterfaceFactoryPart.jm_getTotal(countedLayerInterfaceFactory), 0l)) {
-                pickedUpLayerInterfaceFactoryInterface = JR.cast(CountedLayerInterfaceFactoryPart.jm_getCountedPickedUpLayerInterfaceFactory(countedLayerInterfaceFactory))
-                layerInterface = JR.cast(PickedUpLayerInterfaceFactoryInterface.jm_getIconLayer(pickedUpLayerInterfaceFactoryInterface))
+            if (Int32.(>)({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CountedLayerInterfaceFactoryPart.jm_getTotal"))
+JR.cast(jlate(JR.cast(countedLayerInterfaceFactory)))
+}, 0l)) {
+                pickedUpLayerInterfaceFactoryInterface = JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CountedLayerInterfaceFactoryPart.jm_getCountedPickedUpLayerInterfaceFactory"))
+JR.cast(jlate(JR.cast(countedLayerInterfaceFactory)))
+})
+                layerInterface = JR.cast(PickedUpLayerInterfaceFactoryInterface.jm_getIconLayer(JR.cast(pickedUpLayerInterfaceFactoryInterface)))
                 y = Int32.(+)(40l, (Int32.(*)(count, this.f_height)))
-                ignore(AllBinaryLayer.jm_setPosition(layerInterface, widthEdge, y, AllBinaryLayer.jm_getZP(layerInterface)))
-                ignore(AllBinaryLayer.jm_paint(layerInterface, graphics))
+                ignore(AllBinaryLayer.jm_setPosition(JR.cast(layerInterface), widthEdge, y, AllBinaryLayer.jm_getZP(JR.cast(layerInterface))))
+                ignore(AllBinaryLayer.jm_paint(JR.cast(layerInterface), JR.cast(graphics)))
                 ignore({
 let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_setColor"))
 JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_countedTotalStringColor)))
 })
-                ignore(CountedLayerInterfaceFactoryPart.jm_paint(countedLayerInterfaceFactory, graphics))
-                charArray = CountedLayerInterfaceFactoryPart.jm_getTotalString(countedLayerInterfaceFactory)
+                ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("CountedLayerInterfaceFactoryPart.jm_paint"))
+JR.cast(jlate(JR.cast(countedLayerInterfaceFactory), JR.cast(graphics)))
+})
+                charArray = {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CountedLayerInterfaceFactoryPart.jm_getTotalString"))
+JR.cast(jlate(JR.cast(countedLayerInterfaceFactory)))
+}
                 ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawChars"))
-JR.cast(jlate(JR.cast(graphics), JR.cast(charArray), JR.cast(0l), JR.cast(Int32.fromNumber(Array.length(charArray))), JR.cast(Int32.(-)(widthEdge, CountedLayerInterfaceFactoryPart.jm_getXOffset(countedLayerInterfaceFactory))), JR.cast(y), JR.cast(0l)))
+JR.cast(jlate(JR.cast(graphics), JR.cast(charArray), JR.cast(0l), JR.cast(Int32.fromNumber(Array.length(charArray))), JR.cast(Int32.(-)(widthEdge, {
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("CountedLayerInterfaceFactoryPart.jm_getXOffset"))
+JR.cast(jlate(JR.cast(countedLayerInterfaceFactory)))
+})), JR.cast(y), JR.cast(0l)))
 })
                 count = Int32.(+)(count, 1l)
             }

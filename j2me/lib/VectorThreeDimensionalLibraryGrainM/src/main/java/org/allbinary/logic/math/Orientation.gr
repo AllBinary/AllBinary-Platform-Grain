@@ -45,7 +45,7 @@ provide let rec jclassName = () => "Orientation"
 and jstatic_NONE = () => match (jcell_NONE) {
   Some(value) => value,
   None => {
-    let value: Orientation = jnew_3(0l, 0l, 0l)
+    let value: Orientation = JR.cast(jnew_3(0l, 0l, 0l))
     jcell_NONE = Some(value)
     value
   },
@@ -58,7 +58,7 @@ and jset_NONE = (value: Orientation) => {
 and jstatic_SINGLETON = () => match (jcell_SINGLETON) {
   Some(value) => value,
   None => {
-    let value: Orientation = jnew_3(0l, 0l, 0l)
+    let value: Orientation = JR.cast(jnew_3(0l, 0l, 0l))
     jcell_SINGLETON = Some(value)
     value
   },
@@ -90,21 +90,39 @@ and jnew_3 = (yaw: Int32, pitch: Int32, roll: Int32) => {
     this.f_yaw = BasicDecimal.jnew_1(0L)
     this.f_pitch = BasicDecimal.jnew_1(0L)
     this.f_roll = BasicDecimal.jnew_1(0L)
-        ignore(BasicDecimal.jm_setint(this.f_yaw, yaw))
-        ignore(BasicDecimal.jm_setint(this.f_pitch, pitch))
-        ignore(BasicDecimal.jm_setint(this.f_roll, roll))
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_setint"))
+JR.cast(jlate(JR.cast(this.f_yaw), JR.cast(yaw)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_setint"))
+JR.cast(jlate(JR.cast(this.f_pitch), JR.cast(pitch)))
+})
+        ignore({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_setint"))
+JR.cast(jlate(JR.cast(this.f_roll), JR.cast(roll)))
+})
     this
 }
     
 and jm_toString = (this: Orientation) => {
         let mut stringBuffer: StringMaker = StringMaker.jnew_0()
-        ignore(StringMaker.jm_append(stringBuffer, "Y: "))
-        ignore(StringMaker.jm_append(stringBuffer, BasicDecimal.jm_toString(this.f_yaw)))
-        ignore(StringMaker.jm_append(stringBuffer, " P: "))
-        ignore(StringMaker.jm_append(stringBuffer, BasicDecimal.jm_toString(this.f_pitch)))
-        ignore(StringMaker.jm_append(stringBuffer, " R: "))
-        ignore(StringMaker.jm_append(stringBuffer, BasicDecimal.jm_toString(this.f_roll)))
-        return StringMaker.jm_toString(stringBuffer)
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast("Y: ")))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_toString"))
+JR.cast(jlate(JR.cast(this.f_yaw)))
+})))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" P: ")))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_toString"))
+JR.cast(jlate(JR.cast(this.f_pitch)))
+})))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast(" R: ")))
+        ignore(StringMaker.jm_append(JR.cast(stringBuffer), JR.cast({
+let jlate: (JObject) => JObject = JR.cast(JR.lateBound("BasicDecimal.jm_toString"))
+JR.cast(jlate(JR.cast(this.f_roll)))
+})))
+        return StringMaker.jm_toString(JR.cast(stringBuffer))
 }
 
 JR.registerLateBound("Orientation.jnew_3", jnew_3)

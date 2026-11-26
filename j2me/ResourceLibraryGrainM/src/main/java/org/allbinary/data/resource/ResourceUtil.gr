@@ -55,7 +55,7 @@ provide let rec jclassName = () => "ResourceUtil"
 and jstatic_classLoader = () => match (jcell_classLoader) {
   Some(value) => value,
   None => {
-    let value: JObject = NullUtil.jm_getInstance().f_NULL_OBJECT
+    let value: JObject = JR.cast(NullUtil.jm_getInstance().f_NULL_OBJECT)
     jcell_classLoader = Some(value)
     value
   },
@@ -68,7 +68,7 @@ and jset_classLoader = (value: JObject) => {
 and jstatic_instance = () => match (jcell_instance) {
   Some(value) => value,
   None => {
-    let value: ResourceUtil = jnew_0()
+    let value: ResourceUtil = JR.cast(jnew_0())
     jcell_instance = Some(value)
     value
   },
@@ -83,7 +83,7 @@ and jm_getInstance = () => {
 }
     
 and jnew_0 = () => {
-    let this = { jobject: JR.newJObject("ResourceUtil"), f_logUtil: JR.jnull, }
+    let this = { jobject: JR.newJObject("ResourceUtil"), f_logUtil: JR.nullOf(), }
     this.f_logUtil = JR.cast({
 let jlate: () => JObject = JR.cast(JR.lateBound("LogUtil.jm_getInstance"))
 JR.cast(jlate())
@@ -102,15 +102,15 @@ JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(CommonStrings.jm_getInstance().f_
 and jm_setClassLoader = (this: ResourceUtil, classLoader: ClassLoader) => {
         ignore({
 let jlate: (JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("LogUtil.jm_putF"))
-JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(StringMaker.jm_append(StringMaker.jm_append(StringMaker.jnew_0(), "Resource Loader: "), JR.className(classLoader)))), JR.cast(this), JR.cast("setClassLoader")))
+JR.cast(jlate(JR.cast(this.f_logUtil), JR.cast(StringMaker.jm_toString(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jm_append(JR.cast(StringMaker.jnew_0()), JR.cast("Resource Loader: "))), JR.cast(JR.className(classLoader)))))), JR.cast(this), JR.cast("setClassLoader")))
 })
         jset_classLoader(JR.cast(classLoader))
 }
     
 and jm_getResourceAsStream = (this: ResourceUtil, resource: String) => {
-        let mut inputStream: InputStream = JR.cast(jm_getResourceAsStreamAtStart(this, resource, 2l))
+        let mut inputStream: InputStream = JR.cast(jm_getResourceAsStreamAtStart(this, JR.cast(resource), 2l))
         if (JR.isNull(inputStream)) {
-            inputStream = JR.cast(jm_getResourceAsStreamAtStart(this, resource, 1l))
+            inputStream = JR.cast(jm_getResourceAsStreamAtStart(this, JR.cast(resource), 1l))
             if (JR.isNull(inputStream)) {
                 fail JR.toStringOf(JR.newJObject("Exception"))
             }
@@ -131,7 +131,7 @@ and jm_getResourceAsStreamAtStart = (this: ResourceUtil, resource: String, start
         if (!JR.isNull(inputStream)) {
             return inputStream
         }
-        inputStream = JR.cast(JR.className(JR.cast(JR.className(JR.cast(Thread.jm_currentThread())))))
+        inputStream = JR.cast(ClassLoader.jm_getResourceAsStream_1(JR.cast(Thread.jm_getContextClassLoader_0(Thread.jm_currentThread())), resourcePath))
         if (!JR.isNull(inputStream)) {
             return inputStream
         }

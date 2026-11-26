@@ -53,7 +53,7 @@ and jnew_2 = (label: String, x: Int32) => {
     
     
     
-    this.f_value = CharArrayFactory.jm_getZeroCharArray(CharArrayFactory.jm_getInstance())
+    this.f_value = CharArrayFactory.jm_getZeroCharArray(JR.cast(CharArrayFactory.jm_getInstance()))
     
         this.f_LABEL = label
         this.f_labelX = x
@@ -61,16 +61,19 @@ and jnew_2 = (label: String, x: Int32) => {
 }
     
 and jm_updateMeasurement = (this: KeyValueDrawCharArray, graphics: JObject) => {
-        let mut labelWidth: Int32 = Int32.(-)(JR.className(JR.cast({
+        let mut labelWidth: Int32 = Int32.(-)({
+let jlate: (JObject, JObject) => JObject = JR.cast(JR.lateBound("Font.jm_stringWidth"))
+JR.cast(jlate(JR.cast({
 let jlate: (JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_getFont"))
 JR.cast(jlate(JR.cast(graphics)))
-})), JR.length(this.f_LABEL))
+}), JR.cast(this.f_LABEL)))
+}, JR.length(this.f_LABEL))
         this.f_valueX = Int32.(+)(labelWidth, this.f_labelX)
         this.f_myFontProcessor = JR.cast(MyFontProcessor.jm_getInstance())
 }
     
 and jm_paint = (this: KeyValueDrawCharArray, graphics: JObject, y: Int32) => {
-        ignore(MyFontProcessor.jm_process(this.f_myFontProcessor, graphics))
+        ignore(MyFontProcessor.jm_process(JR.cast(this.f_myFontProcessor), JR.cast(graphics)))
         ignore({
 let jlate: (JObject, JObject, JObject, JObject, JObject) => JObject = JR.cast(JR.lateBound("Graphics.jm_drawString"))
 JR.cast(jlate(JR.cast(graphics), JR.cast(this.f_LABEL), JR.cast(this.f_labelX), JR.cast(y), JR.cast(0l)))
